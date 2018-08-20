@@ -7,5 +7,7 @@ use App\Http\Controllers\Controller;
 
 class RepartidoresController extends Controller
 {
-    //
+    public function index(){
+		return view('Registro.Repartidores.index');
+	}
 }

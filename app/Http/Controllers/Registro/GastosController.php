@@ -7,5 +7,7 @@ use App\Http\Controllers\Controller;
 
 class GastosController extends Controller
 {
-    //
+    public function index(){
+		return view('Registro.Gastos.index');
+	}
 }

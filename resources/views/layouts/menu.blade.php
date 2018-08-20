@@ -14,16 +14,16 @@
           </ul>
         </li>
 
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Registro</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview {{ Request::is('registro/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Registro</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
 
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Clientes</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Proveedores</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Productos</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Repartidores</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Inventario</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Gastos</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Faltantes</a></li>
+            <li><a class="treeview-item {{ Request::is('registro/clientes*') ? 'active' : '' }}" href="{{ route('clientes.index') }}"><i class="icon fa fa-circle-o"></i>Clientes</a></li>
+            <li><a class="treeview-item {{ Request::is('registro/proveedores*') ? 'active' : '' }}" href="{{ route('proveedores.index') }}"><i class="icon fa fa-circle-o"></i>Proveedores</a></li>
+            <li><a class="treeview-item {{ Request::is('registro/productos*') ? 'active' : '' }}" href="{{ route('productos.index') }}"><i class="icon fa fa-circle-o"></i>Productos</a></li>
+            <li><a class="treeview-item {{ Request::is('registro/repartidores*') ? 'active' : '' }}" href="{{ route('repartidores') }}"><i class="icon fa fa-circle-o"></i>Repartidores</a></li>
+            <li><a class="treeview-item {{ Request::is('registro/inventario*') ? 'active' : '' }}" href="{{ route('inventario') }}"><i class="icon fa fa-circle-o"></i>Inventario</a></li>
+            <li><a class="treeview-item {{ Request::is('registro/gastos*') ? 'active' : '' }}" href="{{ route('gastos') }}"><i class="icon fa fa-circle-o"></i>Gastos</a></li>
+            <li><a class="treeview-item {{ Request::is('registro/faltantes*') ? 'active' : '' }}" href="{{ route('faltantes') }}"><i class="icon fa fa-circle-o"></i>Faltantes</a></li>
           </ul>
         </li>
 

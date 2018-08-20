@@ -81,6 +81,16 @@
     </aside>
     <main class="app-content">
       <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb">
+
+          {{-- ACCIONES  --}}
+          <div class="btn-group">
+            <a class="btn btn-primary @yield('display_back')" href="@yield('link_back')"><i class="m-0 fa fa-lg fa-arrow-left"></i></a>
+          </div>
+          {{-- \\\\\\\\\ --}}
+
+        </ul>
+
         <div>
           {{-- TITULO DE CABECERA DE SECCION --}}
           <h1><i class="fa @yield('icono_titulo')"></i> @yield('titulo')</h1>
@@ -92,9 +102,9 @@
 
           {{-- ACCIONES  --}}
           <div class="btn-group">
-            <a class="btn btn-primary @yield('display_new')" href="@yield('link_new')"><i class="fa fa-lg fa-plus"></i></a>
-            <a class="btn btn-primary @yield('display_edit')" href="@yield('link_edit')"><i class="fa fa-lg fa-edit"></i></a>
-            <a class="btn btn-primary @yield('display_trash')" href="@yield('link_trash')"><i class="fa fa-lg fa-trash"></i></a>
+            <a class="btn btn-primary @yield('display_new')" href="@yield('link_new')"><i class="m-0 fa fa-lg fa-plus"></i></a>
+            <a class="btn btn-primary @yield('display_edit')" href="@yield('link_edit')"><i class="m-0 fa fa-lg fa-edit"></i></a>
+            <a class="btn btn-primary @yield('display_trash')" href="@yield('link_trash')"><i class="m-0 fa fa-lg fa-trash"></i></a>
           </div>
           {{-- \\\\\\\\\ --}}
 
