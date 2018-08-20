@@ -1,0 +1,40 @@
+# Vim 7.4 generó este archivo "viminfo".
+# Puede editarlo, ¡sólo si tiene cuidado!
+
+# Valor de 'encoding' cuando se escribió este archivo
+*encoding=utf-8
+
+
+# hlsearch on (H) or off (h):
+~h
+# Historia de Línea de órdenes (de lo más nuevo a lo más antiguo):
+:wq
+
+# Historia de Cadena de búsqueda (de lo más nuevo a lo más antiguo):
+
+# Historia de Expresión (de lo más nuevo a lo más antiguo):
+
+# Historia de Línea de entrada (de lo más nuevo a lo más antiguo):
+
+# Historia de Línea de entrada (de lo más nuevo a lo más antiguo):
+
+# Registros:
+
+# Marcas en el archivo:
+'0  1  0  /var/www/dbeneficiot/resources/views/valoracion/show.blade.php
+'1  2  0  /var/www/dbeneficiot/resources/views/valoracion/edit.blade.php
+
+# Lista de saltos (el más reciente va primero):
+-'  1  0  /var/www/dbeneficiot/resources/views/valoracion/show.blade.php
+-'  2  0  /var/www/dbeneficiot/resources/views/valoracion/edit.blade.php
+-'  1  0  /var/www/dbeneficiot/resources/views/valoracion/edit.blade.php
+-'  2  0  /var/www/dbeneficiot/resources/views/valoracion/edit.blade.php
+-'  1  0  /var/www/dbeneficiot/resources/views/valoracion/edit.blade.php
+
+# Historia de las marcas en los archivos (de la más reciente a la más antigua):
+
+> /var/www/dbeneficiot/resources/views/valoracion/show.blade.php
+	"	1	0
+
+> /var/www/dbeneficiot/resources/views/valoracion/edit.blade.php
+	"	2	0
