@@ -6,11 +6,11 @@ pipelines:
           - composer
         script:
         - apt-get update && apt-get install -y git
-        - touch ~/.ssh/ccbb_rsa.b64
-        - chmod 600 ~/.ssh/ccbb_rsa.b64
-        - echo $CodeCommitKey >> ~/.ssh/ccbb_rsa.b64
-        - cat ~/.ssh/ccbb_rsa.b64|/usr/bin/base64 -d > ~/.ssh/ccbb_rsa
-        - chmod 400 ~/.ssh/ccbb_rsa
+        - touch ~/.ssh/idbbccconexpar.b64
+        - chmod 600 ~/.ssh/idbbccconexpar.b64
+        - echo $CodeCommitKey >> ~/.ssh/idbbccconexpar.b64
+        - cat ~/.ssh/idbbccconexpar.b64|/usr/bin/base64 -d > ~/.ssh/idbbccconexpar
+        - chmod 400 ~/.ssh/idbbccconexpar
         - echo $CodeCommitConfig  > ~/.ssh/config.b64
         - cat ~/.ssh/config.b64
         - cat ~/.ssh/config.b64 |/usr/bin/base64 -d > ~/.ssh/config
