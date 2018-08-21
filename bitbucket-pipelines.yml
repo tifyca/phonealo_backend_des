@@ -2,8 +2,8 @@ image: php:7.1.1
 pipelines:
   default:
     - step:
-        caches:
-          - composer
+        #caches:
+        #  - composer
         script:
         - apt-get update && apt-get install -y git
         - touch ~/.ssh/idbbccconexpar.b64
@@ -19,3 +19,4 @@ pipelines:
         - set -e
         - git remote add codecommit ssh://$CodeCommitRepo
         - git push codecommit $BITBUCKET_BRANCH
+
