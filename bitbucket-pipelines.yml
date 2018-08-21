@@ -5,13 +5,7 @@ pipelines:
         caches:
           - composer
         script:
-        - apt-get update && apt-get install -y unzip git 
-        - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-        - rm composer.lock
-        - composer install
-        - vendor/bin/phplint ./
-        - vendor/bin/parallel-lint --exclude vendor .
-        - echo "Enviamos el codigo limpio"
+        - apt-get update && apt-get install -y git
         - touch ~/.ssh/ccbb_rsa.b64
         - chmod 600 ~/.ssh/ccbb_rsa.b64
         - echo $CodeCommitKey >> ~/.ssh/ccbb_rsa.b64
@@ -24,4 +18,4 @@ pipelines:
         - ssh -t -t -o StrictHostKeyChecking=no $CodeCommitHost
         - set -e
         - git remote add codecommit ssh://$CodeCommitRepo
-        - git push codecommit $BITBUCKET_BRANCH       
+        - git push codecommit $BITBUCKET_BRANCH
