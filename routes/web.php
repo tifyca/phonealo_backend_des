@@ -10,12 +10,28 @@ Route::group(['middleware' => 'auth'], function () {
 
     // CONFIGURAR
 
-    Route::get('configurar/cargos', 'Configurar\CargosController@index')->name('cargos');
-    Route::get('configurar/categorias', 'Configurar\CategoriasController@index')->name('categorias');
-    Route::get('configurar/divisas', 'Configurar\DivisasController@index')->name('divisas');
+    Route::resource('configurar/cargos', 'Configurar\CargosController');
+
+    Route::get('configurar/cargos/update/{valor}', [
+            'uses' => 'Configurar\CargosController@update',
+            'as'   => 'cargos.update'
+        ]);
+
+    Route::resource('configurar/categorias', 'Configurar\CategoriasController');
+
+    Route::get('configurar/categorias/update/{valor}', [
+            'uses' => 'Configurar\CategoriasController@update',
+            'as'   => 'categorias.update'
+        ]);
+
     Route::get('configurar/estados', 'Configurar\EstadosController@index')->name('estados');
-    Route::get('configurar/gastos', 'Configurar\GastosController@index')->name('gastos');
-    Route::get('configurar/tipocliente', 'Configurar\TipoClienteController@index')->name('tipocliente');
+
+    Route::resource('configurar/subcategorias', 'Configurar\SubcategoriasController');
+    
+    Route::get('configurar/subcategorias/update/{valor}', [
+            'uses' => 'Configurar\SubcategoriasController@update',
+            'as'   => 'subcategorias.update'
+        ]);
     
     // ///////////
     // REGISTRO

@@ -10,4 +10,7 @@ class CategoriasController extends Controller
     public function index(){
     	return view('Configurar.Categorias.index');
     }
+    public function update(){
+    	return view('Configurar.Categorias.edit');
+    }
 }
