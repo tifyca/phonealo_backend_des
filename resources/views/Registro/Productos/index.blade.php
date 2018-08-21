@@ -22,57 +22,54 @@
               <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
+                    <th>#</th>
+                    <th>Código</th>
                     <th>Producto</th>
-                    <th>Telefono</th>
-                    <th>Dirección</th>
-                    <th>País</th>
-                    <th>Email</th>
-                    <th>Ruc</th>
+                    <th>Categoría</th>
+                    <th>Tienda</th>
+                    <th>Descompuesto</th>
+                    <th>Stock</th>
+                    <th>Precio Ideal</th>
+                    <th>Image</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Tiger Nixon</td>
-                    <td>08989898009890</td>
+                    <td>00</td>
+                    <td>0898</td>
                     <td>System Architect</td>
                     <td>Lorem</td>
                     <td>Lorem</td>
                     <td>lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
                     <td class="text-center">
                       <div class="btn-group">
                         <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-eye"></i></a>
+                        <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-plus-circle"></i></a>
+                        <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
                       </div>
                     </td>
-                    
                   </tr>
                   <tr>
-                    <td>Tager Nixon</td>
-                    <td>08989898009890</td>
+                    <td>00</td>
+                    <td>0898</td>
                     <td>System Architect</td>
                     <td>Lorem</td>
                     <td>Lorem</td>
                     <td>lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
                     <td class="text-center">
                       <div class="btn-group">
                         <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-eye"></i></a>
+                        <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-plus-circle"></i></a>
+                        <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
                       </div>
                     </td>
-                    
-                  </tr>
-                  <tr>
-                    <td>Teger Nixon</td>
-                    <td>08989898009890</td>
-                    <td>System Architect</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td>lorem</td>
-                    <td class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                      </div>
-                    </td>
-                   
                   </tr>
                 </tbody>
               </table>
