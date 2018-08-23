@@ -19,19 +19,8 @@
         <div class="tile-body ">
           <form>
             <div class="row">
-              <div class="form-group col-12  col-md-4">
-                <label for="exampleSelect1">Cargo</label>
-                <select class="form-control" id="exampleSelect1">
-                  <option value="">Seleccione</option>}
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-              <div class="form-group col-12  col-md-4">
-                <label class="control-label">Nombre</label>
+              <div class="form-group col-12  col-md-6">
+                <label class="control-label">Cargo</label>
                 <input class="form-control" type="text" placeholder="...">
               </div>
               <div class="form-group row col-12 col-md-2">
@@ -68,7 +57,6 @@
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Cargo</th>
                     <th>Status</th>
                     <th>Acciones</th>
                   </tr>
@@ -76,7 +64,6 @@
                 <tbody>
                   <tr>
                     <td>Tiger Nixon</td>
-                    <td>System Architect</td>
                     <td>Activo</td>
                     <td width="10%" class="text-right">
                       <div class="btn-group">
@@ -87,7 +74,6 @@
                   </tr>
                   <tr>
                     <td>Garrett Winters</td>
-                    <td>Accountant</td>
                     <td>Activo</td>
                     <td>
                       <div class="btn-group">
@@ -98,7 +84,6 @@
                   </tr>
                   <tr>
                     <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
                     <td>Activo</td>
                     <td>
                       <div class="btn-group">
@@ -109,7 +94,6 @@
                   </tr>
                   <tr>
                     <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
                     <td>Activo</td>
                     <td>
                       <div class="btn-group">
@@ -120,7 +104,6 @@
                   </tr>
                   <tr>
                     <td>Airi Satou</td>
-                    <td>Accountant</td>
                     <td>Activo</td>
                     <td>
                       <div class="btn-group">
@@ -131,7 +114,6 @@
                   </tr>
                   <tr>
                     <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
                     <td>Activo</td>
                     <td>
                       <div class="btn-group">
@@ -142,7 +124,6 @@
                   </tr>
                   <tr>
                     <td>Herrod Chandler</td>
-                    <td>Sales Assistant</td>
                     <td>Activo</td>
                     <td>
                       <div class="btn-group">
