@@ -5,6 +5,7 @@
 @section('descripcion', 'Descripcion Opcional')
 
 {{-- ACCIONES --}}
+@section('display_back', 'd-none') @section('link_back', '')
 @section('display_new','d-none')  @section('link_edit', '') 
 @section('display_edit', 'd-none')    @section('link_new', '')
 @section('display_trash','d-none')    @section('link_trash')
