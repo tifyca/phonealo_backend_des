@@ -2,7 +2,7 @@
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
 @section('titulo', 'Productos')
-@section('descripcion', 'Descripcion Opcional')
+@section('descripcion', '')
 
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
@@ -44,12 +44,14 @@
                     <td>lorem</td>
                     <td>Lorem</td>
                     <td>Lorem</td>
-                    <td>Lorem</td>
+                    <td class="text-center">
+                      <img src="{{ asset('img/img-default.png') }}" class="w-50" alt="">
+                    </td>
                     <td class="text-center">
                       <div class="btn-group">
                         <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-plus-circle"></i></a>
-                        <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
+                        <a class="btn btn-primary" href="{{ route('productos.carga',2) }}"><i class="m-0 fa fa-lg fa-plus-circle"></i></a>
+                        {{-- <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-info"></i></a> --}}
                       </div>
                     </td>
                   </tr>
@@ -62,12 +64,14 @@
                     <td>lorem</td>
                     <td>Lorem</td>
                     <td>Lorem</td>
-                    <td>Lorem</td>
+                    <td class="text-center">
+                      <img src="{{ asset('img/img-default.png') }}" class="w-50" alt="">
+                    </td>
                     <td class="text-center">
                       <div class="btn-group">
                         <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-plus-circle"></i></a>
-                        <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
+                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-plus-circle"></i></a>
+                        {{-- <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-info"></i></a> --}}
                       </div>
                     </td>
                   </tr>

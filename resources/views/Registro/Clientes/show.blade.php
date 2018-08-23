@@ -36,7 +36,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="direccion_cliente">Direccion</label>
+                <label for="direccion_cliente">Dirección</label>
                 <input class="form-control" type="text" id="direccion_cliente" name="direccion_cliente" placeholder="...">
               </div>
               <div class="form-group">
@@ -57,7 +57,7 @@
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group">
-                <label for="telefono_cliente">Telefono</label>
+                <label for="telefono_cliente">Teléfono</label>
                 <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="...">
               </div>
               <div class="form-group">

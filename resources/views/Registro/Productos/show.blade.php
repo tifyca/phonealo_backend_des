@@ -21,30 +21,42 @@
           <div class="row">
             <div class="col-12 col-md-6">
               <div class="form-group">
-                <label for="nombre_producto">Nombres</label>
-                <input class="form-control" type="text" id="nombre_producto" name="nombre_producto" placeholder="...">
+                <label for="codigo_producto">Código Producto</label>
+                <input class="form-control" type="text" id="codigo_producto" name="codigo_producto" placeholder="...">
               </div>
               <div class="form-group">
-                <label for="direccion_producto">Direccion</label>
-                <input class="form-control" type="text" id="direccion_producto" name="direccion_producto" placeholder="...">
+                <label for="categoria_producto">Categoría</label>
+                <select class="form-control" id="categoria_producto" name="categoria_producto">
+                  <option value="">Seleccione</option>}
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
               </div>
               <div class="form-group">
-                <label for="email_producto">Email</label>
-                <input class="form-control" id="email_producto" name="email_producto" type="email" aria-describedby="emailHelp" placeholder="...">
+                <label for="stock_minimo_producto">Stock Mínimo</label>
+                <input class="form-control" type="text" id="stock_minimo_producto" name="stock_minimo_producto" placeholder="...">
               </div>
+              <div class="form-group">
+                <label for="precio_minimo_producto">Precio Mínimo</label>
+                <input class="form-control" id="precio_minimo_producto" name="precio_minimo_producto" type="text" placeholder="...">
+              </div>
+              <div class="form-group">
+                <label for="cantidad_mayorista_producto">Cantidad Mayorista</label>
+                <input class="form-control" id="cantidad_mayorista_producto" name="cantidad_mayorista_producto" type="text" placeholder="...">
+              </div>
+              
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group">
-                <label for="telefono_producto">Telefono</label>
-                <input class="form-control" type="text" id="telefono_producto" name="telefono_producto" placeholder="...">
+                <label for="nombre_producto">Nombre Producto</label>
+                <input class="form-control" type="text" id="nombre_producto" name="nombre_producto" placeholder="...">
               </div>
               <div class="form-group">
-                <label for="ruc_producto">RUC</label>
-                <input class="form-control" type="text" id="ruc_producto" name="ruc_producto" placeholder="...">
-              </div>
-              <div class="form-group">
-                <label for="ciudad_producto">Pais</label>
-                <select class="form-control" id="ciudad_producto" name="ciudad_producto">
+                <label for="tienda_producto">Tienda</label>
+                <select class="form-control" id="tienda_producto" name="tienda_producto">
                   <option value="">Seleccione</option>
                   <option>1</option>
                   <option>2</option>
@@ -53,10 +65,24 @@
                   <option>5</option>
                 </select>
               </div>
-
-
+              <div class="form-group">
+                <label for="stock_activo_producto">Stock Activo</label>
+                <input class="form-control" type="text" id="stock_activo_producto" name="stock_activo_producto" placeholder="...">
+              </div>
+              <div class="form-group">
+                <label for="precio_ideal_producto">Precio Ideal</label>
+                <input class="form-control" type="text" id="precio_ideal_producto" name="precio_ideal_producto" placeholder="...">
+              </div>
+              <div class="form-group">
+                <label for="precio_compra_producto">Precio Compra</label>
+                <input class="form-control" type="text" id="precio_compra_producto" name="precio_compra_producto" placeholder="...">
+              </div>
             </div>
             <div class="col-12">
+              <div class="form-group">
+                <label for="descripcion_producto">Descripción</label>
+                <textarea class="form-control" id="descripcion_producto" name="descripcion_producto" rows="3"></textarea>
+              </div>
               <div class="tile-footer">
                 <button class="btn btn-primary" type="submit">Guardar</button>
               </div>

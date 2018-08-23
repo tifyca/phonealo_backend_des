@@ -2,7 +2,7 @@
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
 @section('titulo', 'Clientes')
-@section('descripcion', 'Descripcion Opcional')
+@section('descripcion', '')
 
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
@@ -23,7 +23,7 @@
                 <thead>
                   <tr>
                     <th>Cliente</th>
-                    <th>Telefono</th>
+                    <th>Teléfono</th>
                     <th>Dirección</th>
                     <th>Barrio</th>
                     <th>Ciudad</th>

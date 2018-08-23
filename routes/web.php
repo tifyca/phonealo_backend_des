@@ -57,9 +57,37 @@ Route::group(['middleware' => 'auth'], function () {
             'as'   => 'productos.update'
         ]);
 
-    Route::get('registro/repartidores', 'Registro\RepartidoresController@index')->name('repartidores');
+    Route::get('registro/productos/carga/{valor}', [
+            'uses' => 'Registro\ProductosController@carga',
+            'as'   => 'productos.carga'
+        ]);
+
+    Route::resource('registro/repartidores', 'Registro\RepartidoresController');
+
+    Route::get('registro/repartidores/update/{valor}', [
+            'uses' => 'Registro\RepartidoresController@update',
+            'as'   => 'repartidores.update'
+        ]);
+
+     Route::get('registro/repartidores/pagos/{valor}', [
+            'uses' => 'Registro\RepartidoresController@pagos',
+            'as'   => 'repartidores.pagos'
+        ]);
+
+     Route::get('registro/repartidores/gastos/{valor}', [
+            'uses' => 'Registro\RepartidoresController@gastos',
+            'as'   => 'repartidores.gastos'
+        ]);
+
     Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
-    Route::get('registro/gastos', 'Registro\GastosController@index')->name('gastos');
+
+    Route::resource('registro/gastos', 'Registro\GastosController');
+
+    Route::get('registro/gastos/update/{valor}', [
+            'uses' => 'Registro\gastosController@update',
+            'as'   => 'gastos.update'
+        ]);
+
     Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
     
     

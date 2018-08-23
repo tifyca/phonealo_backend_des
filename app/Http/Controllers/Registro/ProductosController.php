@@ -19,7 +19,11 @@ class ProductosController extends Controller
 	public function update(){
 		return view('Registro.Productos.edit');
 	}
+	public function carga(){
+		return view('Registro.Productos.carga');
+	}
 	public function edit(){
 		
 	}
+
 }

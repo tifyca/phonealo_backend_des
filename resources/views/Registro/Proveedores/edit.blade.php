@@ -25,7 +25,7 @@
                 <input class="form-control read" type="text" id="nombre_proveedor" name="nombre_proveedor" placeholder="..." readonly>
               </div>
               <div class="form-group">
-                <label for="direccion_proveedor">Direccion</label>
+                <label for="direccion_proveedor">Dirección</label>
                 <input class="form-control read" type="text" id="direccion_proveedor" name="direccion_proveedor" placeholder="..." readonly>
               </div>
               <div class="form-group">
@@ -35,7 +35,7 @@
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group">
-                <label for="telefono_proveedor">Telefono</label>
+                <label for="telefono_proveedor">Teléfono</label>
                 <input class="form-control read" type="text" id="telefono_proveedor" name="telefono_proveedor" placeholder="..." readonly>
               </div>
               <div class="form-group">
@@ -43,7 +43,7 @@
                 <input class="form-control read" type="text" id="ruc_proveedor" name="ruc_proveedor" placeholder="..." readonly>
               </div>
               <div class="form-group">
-                <label for="ciudad_proveedor">Pais</label>
+                <label for="ciudad_proveedor">País</label>
                 <select class="form-control read" id="ciudad_proveedor" name="ciudad_proveedor" disabled>
                   <option value="">Seleccione</option>
                   <option>1</option>

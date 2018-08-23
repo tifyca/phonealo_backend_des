@@ -1,77 +1,65 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Clientes')
-@section('descripcion', 'Descripcion Opcional')
+@section('titulo', 'Faltantes')
+@section('descripcion', '')
 
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
-@section('display_new','')  @section('link_new', url('registro/proveedores/show') ) 
+@section('display_new','d-none')  @section('link_new', '') 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
 
 <div class="row">
+  
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado de Proveedores</h3>
+        <h3 class="tile-title">Listado de Faltantes</h3>
         <div class="tile-body ">
-          <div class="tile-body">
-              <table class="table table-hover table-bordered table-responsive" id="sampleTable">
+          <div class="table-responsive">
+              <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Cliente</th>
-                    <th>Telefono</th>
-                    <th>Dirección</th>
-                    <th>Barrio</th>
-                    <th>Ciudad</th>
-                    <th>Acciones</th>
+                    <th>Teléfono</th>
+                    <th>Nombres</th>
+                    <th>Código</th>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Stock Antes</th>
+                    <th>Stock Actual</th>
+                    <th>Cantidad</th>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Tiger Nixon</td>
-                    <td>08989898009890</td>
                     <td>System Architect</td>
                     <td>Lorem</td>
                     <td>Lorem</td>
-                    <td width="10%" class="text-right">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('clientes.update',2) }}"><i class="fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-shopping-cart"></i></a>
-                      </div>
-                    </td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
                   </tr>
-                  <tr>
+                   <tr>
                     <td>Tiger Nixon</td>
-                    <td>08989898009890</td>
                     <td>System Architect</td>
                     <td>Lorem</td>
                     <td>Lorem</td>
-                    <td width="10%" class="text-right">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-shopping-cart"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Tiger Nixon</td>
-                    <td>08989898009890</td>
-                    <td>System Architect</td>
                     <td>Lorem</td>
                     <td>Lorem</td>
-                    <td width="10%" class="text-right">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-shopping-cart"></i></a>
-                      </div>
-                    </td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
                   </tr>
+                 
                 </tbody>
               </table>
             </div>
