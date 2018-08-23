@@ -21,40 +21,31 @@
               <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Cargo</th>
+                    <th>Nombre</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>Tiger Nixon</td>
-                    <td>System Architect</td>
                   </tr>
                   <tr>
                     <td>Garrett Winters</td>
-                    <td>Accountant</td>
                   </tr>
                   <tr>
                     <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
                   </tr>
                   <tr>
                     <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
                   </tr>
                   <tr>
                     <td>Airi Satou</td>
-                    <td>Accountant</td>
                   </tr>
                   <tr>
                     <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
                   </tr>
                   <tr>
                     <td>Herrod Chandler</td>
-                    <td>Sales Assistant</td>
                   </tr>
-
                 </tbody>
               </table>
             </div>

@@ -61,7 +61,7 @@
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Listado de Subcategorias</h3>
-        <div class="tile-body ">
+        <div class="tile-body">
           <div class="tile-body table-responsive">
               <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>

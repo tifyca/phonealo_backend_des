@@ -78,8 +78,8 @@
              <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Cargo</th>
+                    <th>Nombre</th>
+                    <th>Categoria</th>
                     <th>Tipo</th>
                     <th>Status</th>
                     <th>Acciones</th>

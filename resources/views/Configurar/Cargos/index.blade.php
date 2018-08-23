@@ -56,7 +56,7 @@
             <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Name</th>
+                    <th>Nombre</th>
                     <th>Status</th>
                     <th>Acciones</th>
                   </tr>
