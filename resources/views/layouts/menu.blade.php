@@ -4,12 +4,10 @@
         <li class="treeview {{ Request::is('configurar/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">Configurar</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu ">
            @if ($perfil==1 || $perfil==2)  
-            <li><a class="treeview-item {{ Request::is('configurar/cargos*') ? 'active' : '' }}" href="{{ route('cargos') }}"><i class="icon fa fa-circle-o"></i>Cargos</a></li>
-            <li><a class="treeview-item  {{ Request::is('configurar/categorias*') ? 'active' : '' }}" href="{{ route('categorias') }}"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
-            <li><a class="treeview-item {{ Request::is('configurar/divisas*') ? 'active' : '' }}" href="{{ route('divisas') }}"><i class="icon fa fa-circle-o"></i>Divisas</a></li>
+            <li><a class="treeview-item {{ Request::is('configurar/cargos*') ? 'active' : '' }}" href="{{ route('cargos.index') }}"><i class="icon fa fa-circle-o"></i>Cargos</a></li>
+            <li><a class="treeview-item  {{ Request::is('configurar/categorias*') ? 'active' : '' }}" href="{{ route('categorias.index') }}"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
             <li><a class="treeview-item {{ Request::is('configurar/estados*') ? 'active' : '' }}" href="{{ route('estados') }}"><i class="icon fa fa-circle-o"></i>Estados</a></li>
-            <li><a class="treeview-item {{ Request::is('configurar/gastos*') ? 'active' : '' }}" href="{{ route('gastos') }}"><i class="icon fa fa-circle-o"></i>Categorías de Gastos</a></li>
-            <li><a class="treeview-item {{ Request::is('configurar/tipocliente*') ? 'active' : '' }}" href="{{ route('tipocliente') }}"><i class="icon fa fa-circle-o"></i>Tipo Clientes</a></li>
+            <li><a class="treeview-item {{ Request::is('configurar/subcategorias*') ? 'active' : '' }}" href="{{ route('subcategorias.index') }}"><i class="icon fa fa-circle-o"></i>Subcategorias</a></li>
           @endif
           </ul>
         </li>

@@ -38,7 +38,7 @@ return [
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
         ],
-
+/*
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
@@ -51,6 +51,20 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'strict' => true,
+            'engine' => null,
+        ],
+*/
+        'mysql' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', defined('DB_HOST') ? $_SERVER['DB_HOST'] : '127.0.0.1'),
+            'port' => env('DB_PORT', defined('DB_PORT') ? $_SERVER['DB_PORT'] : '3306'),
+            'database' => env('DB_DATABASE', defined('DB_NAME') ? $_SERVER['DB_NAME'] : ''),
+            'username' => env('DB_USERNAME', defined('DB_NAME') ? $_SERVER['DB_USERNAME'] : ''),
+            'password' => env('DB_PASSWORD', defined('DB_NAME') ? $_SERVER['DB_PASSWORD'] : ''),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
             'engine' => null,
         ],
       'dcomun' => [

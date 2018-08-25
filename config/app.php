@@ -229,5 +229,20 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
-
+    's3'=>[
+        'region' => env('S3_REGION'),
+        'version' => 'latest',
+        'credentials' => array(
+            'key' => env('S3_KEY'),
+            'secret' => env('S3_SECRET')
+        )
+    ],
+    's3_bucket'=>env('S3_BUCKET'),
+    /******  ESCONDIENDO TODAS LAS VARIABLES DE ENTORNO EN MODO DEBUG *******/
+    /******  MEDIDAS DE SEGURIDAD 25 AGOSTO 2018 CPALACIOS              *******/
+    'debug_blacklist' => [
+        '_COOKIE' => array_keys($_COOKIE),
+        '_SERVER' => array_keys($_SERVER),
+        '_ENV' => array_keys($_ENV),
+    ],
 ];
