@@ -32,7 +32,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Tiger Nixon</td>
+                    <td>flfijn</td>
                     <td>08989898009890</td>
                     <td>System Architect</td>
                     <td>Lorem</td>
@@ -41,7 +41,6 @@
                       <div class="btn-group">
                         <a class="btn btn-primary" href="{{ route('clientes.update',2) }}"><i class="fa fa-lg fa-eye"></i></a>
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-shopping-cart"></i></a>
                       </div>
                     </td>
                   </tr>
@@ -55,7 +54,6 @@
                       <div class="btn-group">
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-eye"></i></a>
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-shopping-cart"></i></a>
                       </div>
                     </td>
                   </tr>
@@ -69,7 +67,6 @@
                       <div class="btn-group">
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-eye"></i></a>
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-shopping-cart"></i></a>
                       </div>
                     </td>
                   </tr>

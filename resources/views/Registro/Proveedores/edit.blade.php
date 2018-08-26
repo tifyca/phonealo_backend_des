@@ -18,31 +18,30 @@
     <div class="tile">
       <div class="tile-body ">
         <form>
+          <div class="col-12">
           <div class="row">
-            <div class="col-12 col-md-6">
-              <div class="form-group">
+            
+              <div class="form-group col-md-6">
                 <label for="nombre_proveedor">Nombres</label>
                 <input class="form-control read" type="text" id="nombre_proveedor" name="nombre_proveedor" placeholder="..." readonly>
               </div>
-              <div class="form-group">
-                <label for="direccion_proveedor">Dirección</label>
-                <input class="form-control read" type="text" id="direccion_proveedor" name="direccion_proveedor" placeholder="..." readonly>
-              </div>
-              <div class="form-group">
+               <div class="form-group col-md-6">
                 <label for="email_proveedor">Email</label>
                 <input class="form-control read" id="email_proveedor" name="email_proveedor" type="email" aria-describedby="emailHelp" placeholder="..." readonly>
               </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <div class="form-group">
+              <div class="form-group col-md-6">
+                <label for="direccion_proveedor">Dirección</label>
+                <input class="form-control read" type="text" id="direccion_proveedor" name="direccion_proveedor" placeholder="..." readonly>
+              </div>
+              <div class="form-group col-md-6">
                 <label for="telefono_proveedor">Teléfono</label>
                 <input class="form-control read" type="text" id="telefono_proveedor" name="telefono_proveedor" placeholder="..." readonly>
               </div>
-              <div class="form-group">
+              <div class="form-group col-md-6">
                 <label for="ruc_proveedor">RUC</label>
                 <input class="form-control read" type="text" id="ruc_proveedor" name="ruc_proveedor" placeholder="..." readonly>
               </div>
-              <div class="form-group">
+              <div class="form-group col-md-6">
                 <label for="ciudad_proveedor">País</label>
                 <select class="form-control read" id="ciudad_proveedor" name="ciudad_proveedor" disabled>
                   <option value="">Seleccione</option>
@@ -53,8 +52,6 @@
                   <option>5</option>
                 </select>
               </div>
-
-
             </div>
             <div class="col-12">
               <div class="tile-footer d-flex align-items-center">

@@ -119,5 +119,12 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
-
+    /*Agregado por CPalacios el 25/08/2018 */
+    /* Configuracion de SMTP para usar AWS SES */
+    'ses' => [
+    'key' => env('MAIL_USERNAME'),
+    'secret' => env('MAIL_PASSWORD'),
+    'region' => 'us-east-1',  // e.g. us-east-1
+    ],
+    /* Fin Conf. SES AWS */
 ];

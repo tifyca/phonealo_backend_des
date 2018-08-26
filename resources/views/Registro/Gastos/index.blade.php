@@ -16,7 +16,39 @@
   
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado de Gastos</h3>
+      <div class="col mb-3 text-center">
+          <div class="row">
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado de Gastos</h3>
+            </div>
+            <div class="form-group col-md-2">
+              <select class="form-control" id="" name="">
+                <option value="">Categoría</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <select class="form-control" id="" name="">
+                <option value="">Usuario</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <input type="date" class="form-control" name="fecha_inicio">
+            </div>
+            <div class="form-group col-md-2">
+              <input type="date" class="form-control" name="fecha_fin">
+            </div>
+          </div>
+        </div>
         <div class="tile-body ">
           <div class="table-responsive">
               <table class="table table-hover table-bordered" id="sampleTable">
@@ -25,10 +57,10 @@
                     <th>Descripción</th>
                     <th>Comprobante</th>
                     <th>Categoría</th>
-                    <th>Proveedor</th>
-                    <th>Usuario</th>
+                    <th>Fuente</th>
                     <th>Importe</th>
                     <th>Divisa</th>
+                    <th>Usuario</th>
                     <th>Fecha de Comprobante</th>
                     <th>Fecha de Carga</th>
                     <th>Acciones</th>
@@ -47,7 +79,7 @@
                     <td>Lorem</td>
                     <td width="10%" class="text-right">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('gastos.update',1) }}"><i class="fa fa-lg fa-edit"></i></a>
+                        <a class="btn btn-primary" href="{{ route('gastos.update',1) }}"><i class="fa fa-lg fa-eye"></i></a>
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
                       </div>
                     </td>
@@ -64,7 +96,7 @@
                     <td>Lorem</td>
                     <td width="10%" class="text-right">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('gastos.update',1) }}"><i class="fa fa-lg fa-edit"></i></a>
+                        <a class="btn btn-primary" href="{{ route('gastos.update',1) }}"><i class="fa fa-lg fa-eye"></i></a>
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
                       </div>
                     </td>

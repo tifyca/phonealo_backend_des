@@ -55,14 +55,11 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
-                      <label for="proveedor_gasto">Proveedor</label>
+                      <label for="proveedor_gasto">Fuente</label>
                       <select class="form-control" id="proveedor_gasto" name="proveedor_gasto">
                         <option value="">Seleccione</option>}
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        <option>Caja Principal</option>
+                        <option>Caja Chica</option>
                       </select>
                     </div>
                     <div class="form-group">
