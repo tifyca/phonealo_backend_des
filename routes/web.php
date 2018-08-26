@@ -1,7 +1,7 @@
 <?php
-
+use Illuminate\Http\Request; 
 Auth::routes();
-
+ 
 Route::group(['middleware' => 'auth'], function () {
 
 
@@ -12,10 +12,15 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('configurar/cargos', 'Configurar\CargosController');
 
-    Route::get('configurar/cargos/update/{valor}', [
-            'uses' => 'Configurar\CargosController@update',
-            'as'   => 'cargos.update'
-        ]);
+    Route::get('configurar/cargos/edit/{cargo_id?}','Configurar\CargosController@editar');
+  
+    Route::post('configurar/cargos','Configurar\CargosController@agregar');
+
+    Route::put('configurar/cargos/mod/{cargo_id?}','Configurar\CargosController@update');
+
+    Route::delete('configurar/cargos/{cargo_id?}','Configurar\CargosController@destroy');
+
+
 
     Route::resource('configurar/categorias', 'Configurar\CategoriasController');
 
