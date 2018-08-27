@@ -22,7 +22,8 @@
     <meta http-equiv="cache-control" content="must-revalidate" />
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-    <meta http-equiv="pragma" content="no-cache" />    
+    <meta http-equiv="pragma" content="no-cache" /> 
+    <meta name="csrf-token" content="{{ csrf_token() }}">   
     <!-- Open Graph Meta-->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Vali Admin">

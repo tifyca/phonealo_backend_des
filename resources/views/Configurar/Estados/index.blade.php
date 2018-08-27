@@ -2,7 +2,7 @@
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
 @section('titulo', 'Estados')
-@section('descripcion', 'Descripcion Opcional')
+@section('descripcion', '')
 
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
@@ -59,7 +59,5 @@
 @endsection
 
 @push('scripts')
-  <script type="text/javascript" src="{{ asset('js/plugins/jquery.dataTables.min.js') }} "></script>
-    <script type="text/javascript" src="{{ asset('js/plugins/dataTables.bootstrap.min.js') }}"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable();</script>
+ 
 @endpush

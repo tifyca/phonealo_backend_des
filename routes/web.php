@@ -4,6 +4,12 @@ Auth::routes();
  
 Route::group(['middleware' => 'auth'], function () {
 
+    // AJAX
+    Route::get('departamentos', 'Ajax\Direcciones@Departamentos')->name('departamentos');
+    Route::get('ciudades', 'Ajax\Direcciones@Ciudades')->name('ciudades');
+
+    /////////////
+
 
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('home');
@@ -37,6 +43,8 @@ Route::group(['middleware' => 'auth'], function () {
             'uses' => 'Configurar\SubcategoriasController@update',
             'as'   => 'subcategorias.update'
         ]);
+
+    Route::resource('configurar/direcciones', 'Configurar\DireccionesController');
     
     // ///////////
     // REGISTRO

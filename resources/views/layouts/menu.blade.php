@@ -8,6 +8,7 @@
             <li><a class="treeview-item  {{ Request::is('configurar/categorias*') ? 'active' : '' }}" href="{{ route('categorias.index') }}"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
             <li><a class="treeview-item {{ Request::is('configurar/estados*') ? 'active' : '' }}" href="{{ route('estados') }}"><i class="icon fa fa-circle-o"></i>Estados</a></li>
             <li><a class="treeview-item {{ Request::is('configurar/subcategorias*') ? 'active' : '' }}" href="{{ route('subcategorias.index') }}"><i class="icon fa fa-circle-o"></i>Subcategorias</a></li>
+            <li><a class="treeview-item {{ Request::is('configurar/direcciones*') ? 'active' : '' }}" href="{{ route('direcciones.index') }}"><i class="icon fa fa-circle-o"></i>Direcciones</a></li>
           @endif
           </ul>
         </li>

@@ -2,7 +2,7 @@
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
 @section('titulo', 'Subcategorias')
-@section('descripcion', 'Descripcion Opcional')
+@section('descripcion', '')
 
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
@@ -35,16 +35,16 @@
                 <input class="form-control" type="text" placeholder="...">
               </div>
               <div class="form-group row col-12 col-md-2">
-                  <label class="control-label col-md-12">Status</label>
+                  <label class="control-label col-md-12">Estatus</label>
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="status">Activo
+                        <input class="form-check-input" type="radio" name="Estatus">Activo
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="status">Inactivo
+                        <input class="form-check-input" type="radio" name="Estatus">Inactivo
                       </label>
                     </div>
                   </div>
@@ -68,7 +68,7 @@
                   <tr>
                     <th>Nombre</th>
                     <th>Categoria</th>
-                    <th>Status</th>
+                    <th>Estatus</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -164,7 +164,5 @@
 @endsection
 
 @push('scripts')
-  <script type="text/javascript" src="{{ asset('js/plugins/jquery.dataTables.min.js') }} "></script>
-    <script type="text/javascript" src="{{ asset('js/plugins/dataTables.bootstrap.min.js') }}"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable();</script>
+
 @endpush

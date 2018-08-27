@@ -32,7 +32,7 @@
                     <td>Tiger Nixon</td>
                     <td>000000000</td>    
                     <td>example@example.com</td>
-                    <td width="10%" class="text-right">
+                    <td width="10%" class="text-center">
                     	<div class="btn-group">
                     		<a class="btn btn-primary" href="{{ route('empleados.update',2) }}"><i class="fa fa-lg fa-eye"></i></a>
                     		<a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
@@ -52,7 +52,5 @@
 @endsection
 
 @push('scripts')
-  <script type="text/javascript" src="{{ asset('js/plugins/jquery.dataTables.min.js') }} "></script>
-    <script type="text/javascript" src="{{ asset('js/plugins/dataTables.bootstrap.min.js') }}"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable();</script>
+  
 @endpush
