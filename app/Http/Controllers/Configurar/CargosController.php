@@ -42,10 +42,4 @@ class CargosController extends Controller
       return response()->json($cargo);
     }
 
-
-   
-		 
-		  
-
-
 }

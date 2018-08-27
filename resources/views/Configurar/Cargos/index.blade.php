@@ -2,7 +2,7 @@
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
 @section('titulo', 'Cargos')
-@section('descripcion', 'Descripcion Opcional')
+@section('descripcion', '')
 
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
@@ -11,36 +11,29 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
-
-<meta name="csrf-token" content="{{ csrf_token() }}">
-              
-            
 <div class="row">
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Nuevo Cargo</h3>
         <div class="tile-body ">
-         
-            
-          
           <form id="frmc" name="frmc"  novalidate="">
             {{ csrf_field() }} 
             <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombreCargo" name="nombreCargo">
+                <input class="form-control" type="text" placeholder="Ej: Repartidor" id="nombreCargo" name="nombreCargo">
               </div>
               <div class="form-group row col-12 col-md-2">
-                  <label class="control-label col-md-12">Status</label>
+                  <label class="control-label col-md-12">Estatus</label>
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="1" type="radio" id="statusCargo" name="statusCargo">Activo
+                        <input class="form-check-input" value="1" type="radio" id="EstatusCargo" name="EstatusCargo">Activo
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                         <input class="form-check-input" value="0" type="radio" id="statusCargo2" name="statusCargo">Inactivo
+                         <input class="form-check-input" value="0" type="radio" id="EstatusCargo2" name="EstatusCargo">Inactivo
                       </label>
                     </div>
                   </div>
@@ -50,8 +43,7 @@
               </div>
             </div>
           </form>
-        </div>
-        
+        </div>  
     </div>
   </div>
   <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
@@ -65,7 +57,7 @@
                 <thead>
                   <tr>
                     <th>Nombre</th>
-                    <th>Status</th>
+                    <th>Estatus</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -73,7 +65,7 @@
                   @foreach($cargos as $cargo)           
                      <tr id="cargo{{$cargo->id}}">
                       <td>{{$cargo->cargo}}</td>
-                <?php if ($cargo->status==1){ ?>
+                <?php if ($cargo->Estatus==1){ ?>
                       <td><?=  'Activo' ?></td>
                 <?php }else{ ?> 
                       <td><?='Inactivo' ?></td>
@@ -86,7 +78,6 @@
                       </td>
                     </tr>
                     @endforeach
-
                 </tbody>
               </table>
               </div>
@@ -111,16 +102,16 @@
                 <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre">
               </div>
               <div class="form-group row col-12 col-md-2">
-                  <label class="control-label col-md-12">Status</label>
+                  <label class="control-label col-md-12">Estatus</label>
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="1" type="radio" id="status" name="status">Activo
+                        <input class="form-check-input" value="1" type="radio" id="Estatus" name="Estatus">Activo
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                         <input class="form-check-input" value="0" type="radio" id="status2" name="status">Inactivo
+                         <input class="form-check-input" value="0" type="radio" id="Estatus2" name="Estatus">Inactivo
                       </label>
                     </div>
                   </div>
@@ -170,10 +161,9 @@
 @push('scripts')
  <meta name="_token" content="{!! csrf_token() !!}" />
  <script src="{{asset('js/crud_cargos.js')}}"></script>
-  <script type="text/javascript" src="{{ asset('js/plugins/jquery.dataTables.min.js') }} "></script>
-    <script type="text/javascript" src="{{ asset('js/plugins/dataTables.bootstrap.min.js') }}"></script>
+
     <script type="text/javascript">
-    $('#sampleTable').DataTable();
+  
 
    /*$( "div.alert" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );*/
 
