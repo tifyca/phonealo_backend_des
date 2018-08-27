@@ -47,7 +47,11 @@
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
         <li class="app-search">
-          
+          <p class="app-sidebar__user-name">
+            @isset ($_SERVER['APP_NAME'])
+                {{ $_SERVER['APP_NAME'] }}
+            @endisset
+          </p>
         </li>
         <!--Notification Menu-->
         <!-- User Menu-->
@@ -72,6 +76,7 @@
             <img class="app-sidebar__user-avatar avatar img-fluid"  src="{{ asset('img/logo2.png') }}" alt="User Image">
           </div>
           <div class="col-12 text-center mt-3">
+
             <p class="app-sidebar__user-name">{{ $nombre }}</p>
             <i class="app-sidebar__user-name">Perfil</i>
           </div>

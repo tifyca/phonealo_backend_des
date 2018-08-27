@@ -50,6 +50,27 @@
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Estadístico</a></li>
           </ul>
         </li>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Cajas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i></a></li>
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i></a></li>
+          </ul>
+        </li>
+         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Inventario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i></a></li>
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i></a></li>
+          </ul>
+        </li>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Compras</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Faltantes</a></li>
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i></a></li>
+          </ul>
+        </li>
 
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Seguridad</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
