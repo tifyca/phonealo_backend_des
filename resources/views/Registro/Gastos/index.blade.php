@@ -1,57 +1,68 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Categorías de Gastos')
-@section('descripcion', 'Descripcion Opcional')
+@section('titulo', ' Gastos')
+@section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_new','d-none')  @section('link_edit', '') 
-@section('display_edit', 'd-none')    @section('link_new', '')
+@section('display_back', 'd-none') @section('link_back', '')
+@section('display_new','')  @section('link_new', url('registro/gastos/show')) 
+@section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
 
 <div class="row">
+  
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Nuevo Categoría de Gastos</h3>
-        <div class="tile-body ">
-          <form>
-            <div class="row">
-              <div class="form-group col-12  col-md-5">
-                <label for="exampleSelect1">Categoría de Gastos</label>
-                <select class="form-control" id="exampleSelect1">
-                  <option value="">Seleccione</option>}
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-              <div class="form-group col-12  col-md-5">
-                <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="...">
-              </div>
-              <div class="tile-footer col-12 col-md-2 text-center border-0" >
-                <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;{{-- <a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a> --}}
-              </div>
+      <div class="col mb-3 text-center">
+          <div class="row">
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado de Gastos</h3>
             </div>
-          </form>
+            <div class="form-group col-md-2">
+              <select class="form-control" id="" name="">
+                <option value="">Categoría</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <select class="form-control" id="" name="">
+                <option value="">Usuario</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <input type="date" class="form-control" name="fecha_inicio">
+            </div>
+            <div class="form-group col-md-2">
+              <input type="date" class="form-control" name="fecha_fin">
+            </div>
+          </div>
         </div>
-        
-    </div>
-  </div>
-  <div class="col-12">
-    <div class="tile">
-        <h3 class="tile-title">Listado de Categorías de Gastos</h3>
         <div class="tile-body ">
-          <div class="tile-body">
+          <div class="table-responsive">
               <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Cargo</th>
+                    <th>Descripción</th>
+                    <th>Comprobante</th>
+                    <th>Categoría</th>
+                    <th>Fuente</th>
+                    <th>Importe</th>
+                    <th>Divisa</th>
+                    <th>Usuario</th>
+                    <th>Fecha de Comprobante</th>
+                    <th>Fecha de Carga</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -59,74 +70,37 @@
                   <tr>
                     <td>Tiger Nixon</td>
                     <td>System Architect</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
                     <td width="10%" class="text-right">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a>
+                        <a class="btn btn-primary" href="{{ route('gastos.update',1) }}"><i class="fa fa-lg fa-eye"></i></a>
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
                       </div>
                     </td>
                   </tr>
                   <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>
+                    <td>Tiger Nixon</td>
+                    <td>System Architect</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td>Lorem</td>
+                    <td width="10%" class="text-right">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a>
+                        <a class="btn btn-primary" href="{{ route('gastos.update',1) }}"><i class="fa fa-lg fa-eye"></i></a>
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
                       </div>
                     </td>
                   </tr>
-                  <tr>
-                    <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Airi Satou</td>
-                    <td>Accountant</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Herrod Chandler</td>
-                    <td>Sales Assistant</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-
                 </tbody>
               </table>
             </div>
