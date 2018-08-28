@@ -8,7 +8,14 @@
             <li><a class="treeview-item  {{ Request::is('configurar/categorias*') ? 'active' : '' }}" href="{{ route('categorias.index') }}"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
             <li><a class="treeview-item {{ Request::is('configurar/estados*') ? 'active' : '' }}" href="{{ route('estados') }}"><i class="icon fa fa-circle-o"></i>Estados</a></li>
             <li><a class="treeview-item {{ Request::is('configurar/subcategorias*') ? 'active' : '' }}" href="{{ route('subcategorias.index') }}"><i class="icon fa fa-circle-o"></i>Subcategorias</a></li>
-            <li><a class="treeview-item {{ Request::is('configurar/direcciones*') ? 'active' : '' }}" href="{{ route('direcciones.index') }}"><i class="icon fa fa-circle-o"></i>Direcciones</a></li>
+            <li><a class="treeview-item {{ Request::is('configurar/fuente*') ? 'active' : '' }}" href="{{ route('fuente.index') }}"><i class="icon fa fa-circle-o"></i>Fuentes</a></li>
+
+            <li><a class="treeview-item {{ Request::is('configurar/direcciones/paises*') ? 'active' : '' }}" href="{{ route('paises') }}"><i class="icon fa fa-circle-o"></i>Paises</a></li>
+            <li><a class="treeview-item {{ Request::is('configurar/direcciones/departamentos*') ? 'active' : '' }}" href="{{ route('departamentos') }}"><i class="icon fa fa-circle-o"></i>Departamentos</a></li>
+            <li><a class="treeview-item {{ Request::is('configurar/direcciones/ciudades*') ? 'active' : '' }}" href="{{ route('ciudades') }}"><i class="icon fa fa-circle-o"></i>Ciudades</a></li>
+            <li><a class="treeview-item {{ Request::is('configurar/direcciones/barrios*') ? 'active' : '' }}" href="{{ route('barrios') }}"> <i class="icon fa fa-circle-o"></i>Barrios</a></li>
+              
+             
           @endif
           </ul>
         </li>
@@ -24,18 +31,24 @@
           </ul>
         </li>
 
-        
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Inventario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o">Entrada</i></a></li>
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o">Salidas</i></a></li>
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o">Consolidados</i></a></li>
+          </ul>
+        </li>
         @if ($perfil==1 || $perfil==2) 
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Procesar</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Ventas</a></li>
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Pedidos</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Cargas</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Provisorio</a></li>
+            {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Cargas</a></li> --}}
+            {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Provisorio</a></li> --}}
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Remitos</a></li>            
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Descompuestos</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Consignación</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Confirmación</a></li>
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Consignación</a></li> {{-- Aclarar --}}
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Confirmación</a></li> 
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Logística</a></li>
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Monitoreo</a></li>
           </ul>
@@ -43,13 +56,7 @@
 
 
         @endif
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Generar</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
-
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Inventario</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Estadístico</a></li>
-          </ul>
-        </li>
+        
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Cajas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
 
@@ -57,13 +64,7 @@
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i></a></li>
           </ul>
         </li>
-         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Inventario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-          <ul class="treeview-menu">
-
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i></a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i></a></li>
-          </ul>
-        </li>
+         
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Compras</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
 
@@ -71,7 +72,13 @@
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i></a></li>
           </ul>
         </li>
+<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Generar</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
 
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Inventario</a></li>
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Estadístico</a></li>
+          </ul>
+        </li>
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Seguridad</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Usuarios</a></li>
