@@ -11,8 +11,11 @@ Route::group(['middleware' => 'auth'], function () {
     // AJAX
     Route::get('paises', 'Ajax\Direcciones@paises')->name('paises_ajax');
     Route::get('departamentos', 'Ajax\Direcciones@Departamentos')->name('departamentos_ajax');
+    Route::get('ciudadesCombo', 'Ajax\Direcciones@CiudadesCombo')->name('ciudadesCombo');
     Route::get('ciudades', 'Ajax\Direcciones@Ciudades')->name('ciudades_ajax');
+    Route::get('barriosCombo', 'Ajax\Direcciones@BarriosCombo')->name('barriosCombo');
     Route::get('barrios', 'Ajax\Direcciones@barrios')->name('barrios_ajax');
+
 
     /////////////
 

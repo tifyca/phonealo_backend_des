@@ -40,7 +40,7 @@
   </div>
     <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado Paises</h3>
+        <h3 class="tile-title">Listado Ciudades</h3>
         <div class="tile-body ">
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Seleccione Departamento</label>
@@ -53,21 +53,11 @@
               <thead>
                 <tr>
                   <th>Nombre</th>
-                  <th>Acciones</th>
+                  <th width="10%">Acciones</th>
                 </tr>
               </thead>
-              <tbody id="paises-list" name="paises-list">
-                
-                 <tr>
-                  <td>hjklj</td>
-                  <td width="10%">
-                    <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                  </td>
-                </tr>
-              
+              <tbody id="ciudades-list" name="ciudades-list">
+                {{-- ESTE LISTADO SE LLENA CON AJAX --}}
               </tbody>
               </table>
              
@@ -98,22 +88,22 @@
           }
 
       });
+      // AL SELECCIONAR EL DEPARTAMENTO TRAE LAS CIUDADES ASOCIADAS
       $('#departamento-select').change(function(){
         var id_departamento = $(this).val();
 
-
-          $(".ciudades").html('');
+          $("#ciudades-list").html('');
 
            $.ajax({
               type: "get",
-              url: '{{ route('ciudades') }}',
+              url: '{{ route('ciudadesCombo') }}',
               dataType: "json",
               data: {id_departamento: id_departamento},
-              success: function (data){
+              success: function (data1){
 
-                 $.each(data, function(l, item1) {
+                 $.each(data1, function(l, item1) {
 
-                    $(".ciudades").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
+                    $("#ciudades-list").append('<tr><td>'+item1.ciudad+'</td><td width="10%"><div class="btn-group"><a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a><a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a></div></td></tr>');
                   });
               }
           });
