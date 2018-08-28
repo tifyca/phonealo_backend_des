@@ -73,6 +73,7 @@
                     <div class="btn-group">
                       <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
                       <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
+                      <a class="btn btn-primary" href="{{ route('galeria.index',2) }}"><i class="m-0 fa fa-lg fa-image"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -88,6 +89,7 @@
                     <div class="btn-group">
                       <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
                       <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
+                      <a class="btn btn-primary" href="{{ route('galeria.index',2) }}"><i class="m-0 fa fa-lg fa-image"></i></a>
                     </div>
                   </td>
                 </tr>

@@ -4,9 +4,15 @@ Auth::routes();
  
 Route::group(['middleware' => 'auth'], function () {
 
+    // Route::get('webview', function(){
+    //     return view('webview');
+    // });
+
     // AJAX
-    Route::get('departamentos', 'Ajax\Direcciones@Departamentos')->name('departamentos');
-    Route::get('ciudades', 'Ajax\Direcciones@Ciudades')->name('ciudades');
+    Route::get('paises', 'Ajax\Direcciones@paises')->name('paises_ajax');
+    Route::get('departamentos', 'Ajax\Direcciones@Departamentos')->name('departamentos_ajax');
+    Route::get('ciudades', 'Ajax\Direcciones@Ciudades')->name('ciudades_ajax');
+    Route::get('barrios', 'Ajax\Direcciones@barrios')->name('barrios_ajax');
 
     /////////////
 
@@ -44,7 +50,16 @@ Route::group(['middleware' => 'auth'], function () {
             'as'   => 'subcategorias.update'
         ]);
 
-    Route::resource('configurar/direcciones', 'Configurar\DireccionesController');
+    Route::get('configurar/direcciones/paises', 'Configurar\DireccionesController@paises')->name('paises');
+    Route::get('configurar/direcciones/departamentos', 'Configurar\DireccionesController@departamentos')->name('departamentos');
+    Route::get('configurar/direcciones/ciudades', 'Configurar\DireccionesController@ciudades')->name('ciudades');
+    Route::get('configurar/direcciones/barrios', 'Configurar\DireccionesController@barrios')->name('barrios');
+    
+
+
+
+     Route::resource('configurar/fuente', 'Configurar\FuenteController');
+
     
     // ///////////
     // REGISTRO
@@ -75,7 +90,25 @@ Route::group(['middleware' => 'auth'], function () {
             'as'   => 'productos.detalle'
         ]);
 
+   
 
+    //GAERIA
+
+     Route::get('galeria/{valor}', [
+            'uses' => 'GaleriaController@index',
+            'as'   => 'galeria.index'
+        ]);
+
+     Route::get('galeria/new/{valor}', [
+            'uses' => 'GaleriaController@new',
+            'as'   => 'galeria.new'
+        ]);
+     Route::get('galeria/update/{valor}', [
+            'uses' => 'GaleriaController@update',
+            'as'   => 'galeria.update'
+        ]);
+
+     ////////
 
     Route::resource('registro/empleados', 'Registro\EmpleadosController');
 

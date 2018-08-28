@@ -35,10 +35,21 @@
 							<label for="email_empleado">Email</label>
 							<input class="form-control" type="text" id="email_empleado" name="email_empleado" placeholder="...">
 						</div>
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-4">
 							<label for="direccion_empleado">Dirección</label>
 							<input class="form-control" type="text" id="direccion_empleado" name="direccion_empleado" placeholder="...">
 						</div>
+						<div class="form-group col-md-4">
+			              <label for="cargo_empleado">Cargo</label>
+			              <select class="form-control" id="cargo_empleado" name="cargo_empleado">
+			                <option value="">Seleccione</option>
+			                <option>1</option>
+			                <option>2</option>
+			                <option>3</option>
+			                <option>4</option>
+			                <option>5</option>
+			              </select>
+			            </div>
 		            	<div class="form-group col-md-12">
 		                	<label for="referencia_empleado">Referencias</label>
 		                	<textarea class="form-control" id="referencia_empleado" name="referencia_empleado" rows="3"></textarea>

@@ -22,6 +22,7 @@ class ProductosController extends Controller
 	public function detalle(){
 		return view('Registro.Productos.detalle');
 	}
+	
 	public function edit(){
 		
 	}
