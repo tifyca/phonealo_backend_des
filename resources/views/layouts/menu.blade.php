@@ -31,11 +31,11 @@
           </ul>
         </li>
 
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Inventario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview {{ Request::is('inventario/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Inventario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o">Entrada</i></a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o">Salidas</i></a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o">Consolidados</i></a></li>
+            <li><a class="treeview-item {{ Request::is('inventario/entradas*') ? 'active' : '' }}" href="{{ route('entradas.index') }}"><i class="icon fa fa-circle-o"></i>Entrada</a></li>
+            <li><a class="treeview-item {{ Request::is('inventario/salidas*') ? 'active' : '' }}" href="{{ route('salidas.index') }}"><i class="icon fa fa-circle-o"></i>Salidas</a></li>
+            <li><a class="treeview-item {{ Request::is('inventario/consolidado*') ? 'active' : '' }}" href="{{ route('consolidado.index') }}"><i class="icon fa fa-circle-o"></i>Consolidados</a></li>
           </ul>
         </li>
         @if ($perfil==1 || $perfil==2) 

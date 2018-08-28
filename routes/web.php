@@ -95,7 +95,7 @@ Route::group(['middleware' => 'auth'], function () {
 
    
 
-    //GAERIA
+    //GALERIA
 
      Route::get('galeria/{valor}', [
             'uses' => 'GaleriaController@index',
@@ -112,6 +112,19 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
 
      ////////
+
+
+     // INVENTARIO
+     Route::resource('inventario/entradas', 'Inventario\EntradasController');
+
+     // Route::get('inventario/entradas/show', [
+     //        'uses' => 'GaleriaController@index',
+     //        'as'   => 'galeria.index'
+     //    ]);
+
+     Route::resource('inventario/salidas', 'Inventario\SalidasController');
+     Route::resource('inventario/consolidado', 'Inventario\ConsolidadoController');
+     // //////////
 
     Route::resource('registro/empleados', 'Registro\EmpleadosController');
 
