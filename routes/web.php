@@ -93,6 +93,23 @@ Route::group(['middleware' => 'auth'], function () {
             'as'   => 'productos.detalle'
         ]);
 
+    Route::resource('registro/empleados', 'Registro\EmpleadosController');
+
+    Route::get('registro/empleados/update/{valor}', [
+            'uses' => 'Registro\EmpleadosController@update',
+            'as'   => 'empleados.update'
+        ]);
+
+    Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
+
+    Route::resource('registro/gastos', 'Registro\GastosController');
+
+    Route::get('registro/gastos/update/{valor}', [
+            'uses' => 'Registro\gastosController@update',
+            'as'   => 'gastos.update'
+        ]);
+
+    Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
    
 
     //GALERIA
@@ -117,42 +134,17 @@ Route::group(['middleware' => 'auth'], function () {
      // INVENTARIO
      Route::resource('inventario/entradas', 'Inventario\EntradasController');
 
-     // Route::get('inventario/entradas/show', [
-     //        'uses' => 'GaleriaController@index',
-     //        'as'   => 'galeria.index'
-     //    ]);
-
      Route::resource('inventario/salidas', 'Inventario\SalidasController');
      Route::resource('inventario/consolidado', 'Inventario\ConsolidadoController');
      // //////////
 
-    Route::resource('registro/empleados', 'Registro\EmpleadosController');
 
-    Route::get('registro/empleados/update/{valor}', [
-            'uses' => 'Registro\EmpleadosController@update',
-            'as'   => 'empleados.update'
-        ]);
+    // PROCESAR
+    Route::resource('procesar/ventas', 'Procesar\VentasController');
+    Route::resource('procesar/remitos', 'Procesar\RemitosController');
+    Route::resource('procesar/descompuestos', 'Procesar\DescompuestoController');
 
-    Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
-
-    Route::resource('registro/gastos', 'Registro\GastosController');
-
-    Route::get('registro/gastos/update/{valor}', [
-            'uses' => 'Registro\gastosController@update',
-            'as'   => 'gastos.update'
-        ]);
-
-    Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
-    
-    
-   
-    
-    
-
-    ///////////
-
-
-
+    ////////////
    
     
     

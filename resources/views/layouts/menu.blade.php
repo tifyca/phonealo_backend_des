@@ -39,14 +39,15 @@
           </ul>
         </li>
         @if ($perfil==1 || $perfil==2) 
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Procesar</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+
+        <li class="treeview {{ Request::is('procesar/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Procesar</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Ventas</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Pedidos</a></li>
+            <li><a class="treeview-item {{ Request::is('procesar/ventas*') ? 'active' : '' }}" href="{{ route('ventas.index') }}"><i class="icon fa fa-circle-o"></i>Ventas</a></li>
+            {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Pedidos</a></li> --}}
             {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Cargas</a></li> --}}
             {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Provisorio</a></li> --}}
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Remitos</a></li>            
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Descompuestos</a></li>
+            <li><a class="treeview-item {{ Request::is('procesar/remitos*') ? 'active' : '' }}" href="{{ route('remitos.index') }}"><i class="icon fa fa-circle-o"></i>Remitos</a></li>            
+            <li><a class="treeview-item {{ Request::is('procesar/descompuestos*') ? 'active' : '' }}" href="{{ route('descompuestos.index') }}"><i class="icon fa fa-circle-o"></i>Descompuestos</a></li>
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Consignación</a></li> {{-- Aclarar --}}
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Confirmación</a></li> 
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Logística</a></li>
