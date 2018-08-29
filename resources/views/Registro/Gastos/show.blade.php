@@ -37,13 +37,14 @@
                       <input class="form-control" type="text" id="descripcion_gasto" name="descripcion_gasto" placeholder="...">
                     </div>
                     
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="comprobante_gasto">Comprobante</label>
                       <input class="form-control" type="text" id="comprobante_gasto" name="comprobante_gasto" placeholder="...">
                     </div>
                 
-               
-                    <div class="form-group col-md-6">
+                    
+
+                    <div class="form-group col-md-4">
                       <label for="proveedor_gasto">Fuente</label>
                       <select class="form-control" id="proveedor_gasto" name="proveedor_gasto">
                         <option value="">Seleccione</option>}
@@ -58,6 +59,14 @@
                     <div class="form-group col-md-4">
                       <label for="fecha_comprobante_gasto">Fecha Comprobante</label>
                       <input class="form-control" type="date" id="fecha_comprobante_gasto" name="fecha_comprobante_gasto">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="divisa_gasto">Divisa</label>
+                      <select class="form-control" id="divisa_gasto" name="divisa_gasto">
+                        <option value="">Seleccione</option>}
+                        <option>Guaranies</option>
+                        <option>Dólares</option>
+                      </select>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="cambio_gasto">Cambio</label>

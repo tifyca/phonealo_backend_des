@@ -18,9 +18,10 @@
     <div class="tile">
       <div class="tile-body ">
          <form>
+          <div class="col-12">
                 <div class="row">
-                  <div class="col-12 col-md-6">
-                    <div class="form-group">
+                  
+                    <div class="form-group col-md-6">
                       <label for="categoria_gasto">Categoría de Gastos</label>
                       <select class="form-control read" id="categoria_gasto" name="categoria_gasto" disabled>
                         <option value="">Seleccione</option>}
@@ -31,17 +32,35 @@
                         <option>5</option>
                       </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                       <label for="descripcion_gasto">Descripción</label>
                       <input class="form-control read" type="text" id="descripcion_gasto" name="descripcion_gasto" readonly>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group col-md-4">
                       <label for="comprobante_gasto">Comprobante</label>
                       <input class="form-control read" type="text" id="comprobante_gasto" name="comprobante_gasto" readonly>
                     </div>
                     
-                    <div class="form-group">
+                    
+                  
+                    <div class="form-group col-md-4">
+                      <label for="proveedor_gasto">Fuente</label>
+                      <select class="form-control read" id="proveedor_gasto" name="proveedor_gasto" disabled>
+                        <option value="">Seleccione</option>}
+                        <option>Caja Principal</option>
+                        <option>Caja Chica</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="importe_gasto">Imnporte</label>
+                      <input class="form-control read" type="text" id="importe_gasto" name="importe_gasto" readonly>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="fecha_comprobante_gasto">Fecha Comprobante</label>
+                      <input class="form-control read" type="date" id="fecha_comprobante_gasto" name="fecha_comprobante_gasto" readonly>
+                    </div>
+                    <div class="form-group col-md-4">
                       <label for="divisa_gasto">Divisa</label>
                       <select class="form-control read" id="divisa_gasto" name="divisa_gasto" disabled>
                         <option value="">Seleccione</option>}
@@ -52,36 +71,17 @@
                         <option>5</option>
                       </select>
                     </div>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <div class="form-group">
-                      <label for="proveedor_gasto">Fuente</label>
-                      <select class="form-control read" id="proveedor_gasto" name="proveedor_gasto" disabled>
-                        <option value="">Seleccione</option>}
-                        <option>Caja Principal</option>
-                        <option>Caja Chica</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="importe_gasto">Imnporte</label>
-                      <input class="form-control read" type="text" id="importe_gasto" name="importe_gasto" readonly>
-                    </div>
-                    <div class="form-group">
-                      <label for="fecha_comprobante_gasto">Fecha Comprobante</label>
-                      <input class="form-control read" type="date" id="fecha_comprobante_gasto" name="fecha_comprobante_gasto" readonly>
-                    </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-4">
                       <label for="cambio_gasto">Cambio</label>
                       <input class="form-control read" type="text" id="cambio_gasto" name="cambio_gasto" readonly>
                     </div>
                    
-                  </div>
-                  <div class="col-12">
-                    <div class="form-group">
+                  
+                    <div class="form-group col-md-12">
                       <label for="observaciones_gastos">Observaciones</label>
                       <textarea class="form-control read" id="observaciones_gastos" name="observaciones_gastos" rows="3" disabled></textarea>
                     </div>
-                    <div class="tile-footer d-flex align-items-center">
+                    <div class="tile-footer col-12 d-flex align-items-center">
                          <div class="form-check mr-3">
                           <label class="form-check-label">
                             <input class="form-check-input" id="editar" type="checkbox">Editar
