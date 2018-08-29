@@ -53,6 +53,8 @@
                     <th>Tipo</th>
                     <th>Fecha</th>
                     <th>Proveedor</th>
+                    <th>Estatus</th>
+                    <th>Monto</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -61,11 +63,12 @@
                     <td>009809</td>
                     <td>Tipo</td>
                     <td>00-00-0000</td>
-                    <td>Prveedor</td>
-                  
+                    <td>Proveedor</td>
+                    <td>Estatus</td>
+                    <td>123456</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-eye"></i></a>
+                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
                         {{-- <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a> --}}
                       </div>
                     </td>
@@ -74,11 +77,12 @@
                     <td>009809</td>
                     <td>Tipo</td>
                     <td>00-00-0000</td>
-                    <td>Prveedor</td>
-                    
+                    <td>Proveedor</td>
+                    <td>Estatus</td>
+                    <td>123456</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-eye"></i></a>
+                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
                         {{-- <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a> --}}
                       </div>
                     </td>
@@ -87,14 +91,19 @@
                     <td>009809</td>
                     <td>Tipo</td>
                     <td>00-00-0000</td>
-                    <td>Prveedor</td>
-                  
+                    <td>Proveedor</td>
+                    <td>Estatus</td>
+                    <td>123456</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-eye"></i></a>
+                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
                         {{-- <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a> --}}
                       </div>
                     </td>
+                  </tr>
+                  <tr class="table-secondary">
+                    <td colspan="5" class="text-right"><b>Total Importe</b></td>
+                    <td colspan="2"><b>987654</b></td>
                   </tr>
                 </tbody>
               </table>

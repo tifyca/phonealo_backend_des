@@ -57,7 +57,7 @@
                   <th>Descompuesto</th>
                   <th>Stock</th>
                   <th>Precio Ideal</th>
-                  {{-- <th>Acciones</th> --}}
+                  <th>Precio Compra </th>
                 </tr>
               </thead>
               <tbody>
@@ -69,6 +69,7 @@
                   <td>Lorem</td>
                   <td>Lorem</td>
                   <td>Lorem</td>
+                  <td>0987654</td>
                   {{-- <td class="text-center">
                     <div class="btn-group">
                       <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
@@ -85,6 +86,7 @@
                   <td>Lorem</td>
                   <td>Lorem</td>
                   <td>Lorem</td>
+                  <td>0987654</td>
                   {{-- <td class="text-center">
                     <div class="btn-group">
                       <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
