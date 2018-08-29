@@ -43,6 +43,7 @@
                     <th>Tipo</th>
                     <th>Fecha Entrada</th>
                     <th>Fecha Salida</th>
+                    <th>Tipo</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -52,7 +53,7 @@
                     <td>Tipo</td>
                     <td>00-00-0000</td>
                     <td>00-00-0000</td>
-                   
+                    <td>Venta</td>
                   
                     <td width="10%" class="text-center">
                       <div class="btn-group">
@@ -66,7 +67,7 @@
                     <td>Tipo</td>
                     <td>00-00-0000</td>
                     <td>00-00-0000</td>
-                    
+                    <td>Descompuesto</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-eye"></i></a>
@@ -79,7 +80,7 @@
                     <td>Tipo</td>
                     <td>00-00-0000</td>
                     <td>00-00-0000</td>
-                  
+                  <td>Venta</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-eye"></i></a>
