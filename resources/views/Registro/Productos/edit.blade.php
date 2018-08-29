@@ -30,6 +30,10 @@
                   <input class="form-control read" type="text" id="nombre_producto" name="nombre_producto" readonly>
                 </div>
                 <div class="form-group col-md-3">
+                  <label for="cod_barra_producto">Código de Barras</label>
+                  <input class="form-control read" type="text" id="cod_barra_producto" name="cod_barra_producto" readonly>
+                </div>
+                <div class="form-group col-md-3">
                   <label for="categoria_producto">Categoría</label>
                   <select class="form-control read" id="categoria_producto" name="categoria_producto" disabled>
                     <option value="">Seleccione</option>
@@ -40,7 +44,7 @@
                     <option>5</option>
                   </select>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                   <label for="categoria_producto">Subcategoría</label>
                   <select class="form-control read" id="categoria_producto" name="categoria_producto" disabled>
                     <option value="">Seleccione</option>
@@ -51,11 +55,11 @@
                     <option>5</option>
                   </select>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                   <label for="precio_minimo_producto">Precio Mínimo</label>
                   <input class="form-control read" id="precio_minimo_producto" name="precio_minimo_producto" type="text" readonly>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                   <label for="precio_ideal_producto">Precio Ideal</label>
                   <input class="form-control read" type="text" id="precio_ideal_producto" name="precio_ideal_producto" readonly>
                 </div>

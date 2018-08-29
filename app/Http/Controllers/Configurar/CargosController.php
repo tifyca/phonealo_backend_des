@@ -10,10 +10,10 @@ use Redirect;
 
 class CargosController extends Controller
 {
-    public function index(){
+
+  public function index(){
     	$cargos= Cargos::all();
     	return view('Configurar.Cargos.index')->with('cargos',$cargos);
-
     }
 
   public function agregar(Request $request){   
@@ -25,8 +25,8 @@ class CargosController extends Controller
     }
 
   public function editar($cargo_id){
-    $cargo = Cargos::find($cargo_id);
-    return response()->json($cargo);
+        $cargo = Cargos::find($cargo_id);
+        return response()->json($cargo);
     }
 
   public function update (Request $request,$cargo_id){
@@ -38,8 +38,8 @@ class CargosController extends Controller
     }
 
   public function destroy($cargo_id){
-      $cargo = Cargos::destroy($cargo_id);
-      return response()->json($cargo);
+        $cargo = Cargos::destroy($cargo_id);
+        return response()->json($cargo);
     }
 
 }

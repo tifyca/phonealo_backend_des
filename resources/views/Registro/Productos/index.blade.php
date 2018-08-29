@@ -57,6 +57,7 @@
                   <th>Descompuesto</th>
                   <th>Stock</th>
                   <th>Precio Ideal</th>
+                  <th>Imagen</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -69,6 +70,7 @@
                   <td>Lorem</td>
                   <td>Lorem</td>
                   <td>Lorem</td>
+                  <td class="text-center"><img src="{{ asset('img/img-default.png') }}" class="img-fluid " width="60%" alt=""></td>
                   <td class="text-center">
                     <div class="btn-group">
                       <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
@@ -85,6 +87,7 @@
                   <td>Lorem</td>
                   <td>Lorem</td>
                   <td>Lorem</td>
+                  <td class="text-center"><img src="{{ asset('img/img-default.png') }}" class="img-fluid " width="60%" alt=""></td>
                   <td class="text-center">
                     <div class="btn-group">
                       <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>

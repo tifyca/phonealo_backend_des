@@ -19,7 +19,7 @@
       <div class="tile-body ">
         <form>
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
               <div class="row">
                 <div class="form-group col-md-3">
                   <label for="codigo_producto">Código Producto</label>
@@ -28,6 +28,10 @@
                 <div class="form-group col-md-6">
                   <label for="nombre_producto">Nombre Producto</label>
                   <input class="form-control" type="text" id="nombre_producto" name="nombre_producto" placeholder="...">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="cod_barra_producto">Código de Barras</label>
+                  <input class="form-control" type="text" id="cod_barra_producto" name="cod_barra_producto" placeholder="...">
                 </div>
                 <div class="form-group col-md-3">
                   <label for="categoria_producto">Categoría</label>
@@ -40,7 +44,7 @@
                     <option>5</option>
                   </select>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                   <label for="categoria_producto">Subcategoría</label>
                   <select class="form-control" id="categoria_producto" name="categoria_producto">
                     <option value="">Seleccione</option>
@@ -51,11 +55,11 @@
                     <option>5</option>
                   </select>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                   <label for="precio_minimo_producto">Precio Mínimo</label>
                   <input class="form-control" id="precio_minimo_producto" name="precio_minimo_producto" type="text" placeholder="...">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                   <label for="precio_ideal_producto">Precio Ideal</label>
                   <input class="form-control" type="text" id="precio_ideal_producto" name="precio_ideal_producto" placeholder="...">
                 </div>
@@ -65,15 +69,15 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <div class="row">
                 <label for="imagen_producto">Imagen del Producto</label>
-                <div class="form-group col-12 text-center mt-3">
+                <div class="form-group  text-center mt-3">
                   
                   <img src="{{ asset('img/img-default.png') }}" class="img-fluid " alt="">
                     
                     <div class="form-group mt-4">
-                      <input type="file" class="form-control-file" id="imagen_producto" name="imagen_producto">
+                      <input type="file" class="form-control-file" id="imagen_producto" name="imagen_producto" >
                     </div>
                 </div>
                 <div class="tile-footer col-12 text-center mt-3">
