@@ -4,16 +4,68 @@ namespace App\Http\Controllers\Configurar;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Fuente;
+use Redirect;
+use Illuminate\Support\Facades\Validator;
+
+
+
 
 class FuenteController extends Controller
 {
     public function index(){
-    	return view('Configurar.Fuente.index');
+    	$fuentes= Fuente::all();
+    	return view('Configurar.Fuente.index')->with('fuentes',$fuentes);
+    	
     }
-    public function show(){
-    	return view('Configurar.Fuente.show');
+
+    public function store(Request $request){
+
+    $data=$request->all();
+
+   $rules = array( 'nombre'=>'required|unique:fuente_financiamiento,fuente', 
+                   'status'=>'required'); 
+   $messages = array( 'nombre.required'=>'Nombre de la fuente de financiamiento es requerido', 
+                      'nombre.unique' => 'La fuente de financiamiento ya existe', 
+                      'status.required'=>'El estatus es requerido' );
+
+    $validator = Validator::make($data, $rules, $messages);
+
+
+   if($validator->fails()){ 
+
+      $errors = $validator->errors(); 
+      return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
+      
+     }elseif ($validator->passes()){ 
+      $fuente= new Fuente; 
+      $fuente->fuente = $request->nombre; 
+      $fuente->status =$request->status; 
+      $fuente->save(); 
+
+
+      return response()->json($fuente);
+
+      }  
+        
     }
-    public function update(){
-    	return view('Configurar.Fuente.edit');
+
+  public function editar($fuente_id){
+    $fuente = Fuente::find($fuente_id);
+    return response()->json($fuente);
     }
+
+  public function update (Request $request,$fuente_id){
+        $fuente = Fuente::find($fuente_id);
+        $fuente->fuente = $request->nombre;
+        $fuente->status = $request->status;
+        $fuente->save();
+        return response()->json($fuente);
+    }
+
+  public function destroy($fuente_id){
+      $fuente = Fuente::destroy($fuente_id);
+      return response()->json($fuente);
+    }
+
 }

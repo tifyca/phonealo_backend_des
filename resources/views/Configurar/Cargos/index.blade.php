@@ -11,6 +11,7 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
+
 <div class="row">
   <div class="col-12">
     <div class="tile">
@@ -28,25 +29,29 @@
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="1" type="radio" id="EstatusCargo" name="EstatusCargo">Activo
+                        <input class="form-check-input" value="1" type="radio" id="statusCargo" name="statusCargo">Activo
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                         <input class="form-check-input" value="0" type="radio" id="EstatusCargo2" name="EstatusCargo">Inactivo
+                         <input class="form-check-input" value="0" type="radio" id="statusCargo2" name="statusCargo">Inactivo
                       </label>
                     </div>
                   </div>
                 </div>
               <div class="tile-footer col-12 col-md-2 text-center border-0" >
-                <button class="btn btn-primary"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;{{-- <a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a> --}}
+                <button class="btn btn-primary"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
               </div>
             </div>
           </form>
         </div>  
     </div>
   </div>
+
   <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
+
+     <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
+   </div>
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Listado de Cargos</h3>
@@ -65,7 +70,7 @@
                   @foreach($cargos as $cargo)           
                      <tr id="cargo{{$cargo->id}}">
                       <td>{{$cargo->cargo}}</td>
-                <?php if ($cargo->Estatus==1){ ?>
+                <?php if ($cargo->status==1){ ?>
                       <td><?=  'Activo' ?></td>
                 <?php }else{ ?> 
                       <td><?='Inactivo' ?></td>
@@ -106,12 +111,12 @@
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="1" type="radio" id="Estatus" name="Estatus">Activo
+                        <input class="form-check-input" value="1" type="radio" id="status" name="status">Activo
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                         <input class="form-check-input" value="0" type="radio" id="Estatus2" name="Estatus">Inactivo
+                         <input class="form-check-input" value="0" type="radio" id="status2" name="status">Inactivo
                       </label>
                     </div>
                   </div>
