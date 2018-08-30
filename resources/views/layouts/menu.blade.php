@@ -6,8 +6,9 @@
            @if ($perfil==1 || $perfil==2)  
             <li><a class="treeview-item {{ Request::is('configurar/cargos*') ? 'active' : '' }}" href="{{ route('cargos.index') }}"><i class="icon fa fa-circle-o"></i>Cargos</a></li>
             <li><a class="treeview-item  {{ Request::is('configurar/categorias*') ? 'active' : '' }}" href="{{ route('categorias.index') }}"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
+             <li><a class="treeview-item {{ Request::is('configurar/subcategorias*') ? 'active' : '' }}" href="{{ route('subcategorias.index') }}"><i class="icon fa fa-circle-o"></i>Subcategorias</a></li>
             <li><a class="treeview-item {{ Request::is('configurar/estados*') ? 'active' : '' }}" href="{{ route('estados') }}"><i class="icon fa fa-circle-o"></i>Estados</a></li>
-            <li><a class="treeview-item {{ Request::is('configurar/subcategorias*') ? 'active' : '' }}" href="{{ route('subcategorias.index') }}"><i class="icon fa fa-circle-o"></i>Subcategorias</a></li>
+           
             <li><a class="treeview-item {{ Request::is('configurar/fuente*') ? 'active' : '' }}" href="{{ route('fuente.index') }}"><i class="icon fa fa-circle-o"></i>Fuentes</a></li>
 
             <li><a class="treeview-item {{ Request::is('configurar/direcciones/paises*') ? 'active' : '' }}" href="{{ route('paises') }}"><i class="icon fa fa-circle-o"></i>Paises</a></li>
@@ -47,10 +48,16 @@
             {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Cargas</a></li> --}}
             {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Provisorio</a></li> --}}
             <li><a class="treeview-item {{ Request::is('procesar/remitos*') ? 'active' : '' }}" href="{{ route('remitos.index') }}"><i class="icon fa fa-circle-o"></i>Remitos</a></li>            
-            <li><a class="treeview-item {{ Request::is('procesar/descompuestos*') ? 'active' : '' }}" href="{{ route('descompuestos.index') }}"><i class="icon fa fa-circle-o"></i>Descompuestos</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Consignación</a></li> {{-- Aclarar --}}
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Confirmación</a></li> 
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Logística</a></li>
+            <li>
+              <a class="treeview-item {{ Request::is('procesar/descompuestos') ? 'active' : '' }}" href="{{ route('descompuestos') }}">  <i class="icon fa fa-circle-o"></i>
+                Descompuestos
+              </a>
+              <ul class="treeview-menu pl-3" >
+                <li><a class="treeview-item {{ Request::is('procesar/descompuestos/soporte') ? 'active' : '' }}" href="{{ route('descompuestos.soporte') }}"><i class="icon fa fa-circle-o"></i>Soporte</a></li>
+              </ul>
+            </li>
+            <li><a class="treeview-item {{ Request::is('procesar/aconfirmar*') ? 'active' : '' }}" href="{{ route('aconfirmar.index') }}"><i class="icon fa fa-circle-o"></i>A confirmar</a></li> 
+            <li><a class="treeview-item {{ Request::is('procesar/logistica*') ? 'active' : '' }}" href="{{ route('logistica') }}"><i class="icon fa fa-circle-o"></i>Logística</a></li>
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Monitoreo</a></li>
           </ul>
         </li>
@@ -61,8 +68,10 @@
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Cajas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
 
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i></a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i></a></li>
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Prueba</a>
+              
+            </li>
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Otro</a></li>
           </ul>
         </li>
          
