@@ -159,7 +159,31 @@ Route::group(['middleware' => 'auth'], function () {
 
     ///////////
 
+ // PROCESAR
+    Route::resource('procesar/ventas', 'Procesar\VentasController');
+    Route::resource('procesar/remitos', 'Procesar\RemitosController');
 
+    Route::get('procesar/descompuestos', 'Procesar\DescompuestoController@index')->name('descompuestos');
+  
+     Route::get('procesar/descompuestos/soporte', [
+            'uses' => 'Procesar\DescompuestoController@soporte',
+            'as'   => 'descompuestos.soporte'
+        ]);
+
+     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
+
+     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
+
+     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
+
+     Route::resource('procesar/monitoreo', 'Procesar\MonitoreoController');
+
+      Route::get('procesar/monitoreo/cargar/{valor}', [
+            'uses' => 'Procesar\MonitoreoController@cargar',
+            'as'   => 'monitoreo.cargar'
+        ]);
+
+    ////////////
 
    
     
