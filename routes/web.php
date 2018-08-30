@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Http\Request; 
 Auth::routes();
- 
+
 Route::group(['middleware' => 'auth'], function () {
 
     // Route::get('webview', function(){
@@ -27,7 +27,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('configurar/cargos', 'Configurar\CargosController');
     Route::get('configurar/cargos/edit/{cargo_id?}','Configurar\CargosController@editar');
+
     Route::post('configurar/cargos','Configurar\CargosController@store');
+
     Route::put('configurar/cargos/mod/{cargo_id?}','Configurar\CargosController@update');
     Route::delete('configurar/cargos/{cargo_id?}','Configurar\CargosController@destroy');
 
@@ -52,14 +54,19 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+    Route::get('configurar/categorias/update/{valor}', [
+        'uses' => 'Configurar\CategoriasController@update',
+        'as'   => 'categorias.update'
+    ]);
+
     Route::get('configurar/estados', 'Configurar\EstadosController@index')->name('estados');
 
     Route::resource('configurar/subcategorias', 'Configurar\SubcategoriasController');
     
     Route::get('configurar/subcategorias/update/{valor}', [
-            'uses' => 'Configurar\SubcategoriasController@update',
-            'as'   => 'subcategorias.update'
-        ]);
+        'uses' => 'Configurar\SubcategoriasController@update',
+        'as'   => 'subcategorias.update'
+    ]);
 
     Route::get('configurar/direcciones/paises', 'Configurar\DireccionesController@paises')->name('paises');
     Route::get('configurar/direcciones/departamentos', 'Configurar\DireccionesController@departamentos')->name('departamentos');
@@ -69,7 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-     Route::resource('configurar/fuente', 'Configurar\FuenteController');
+    Route::resource('configurar/fuente', 'Configurar\FuenteController');
 
     
     // ///////////
@@ -78,60 +85,76 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('registro/clientes', 'Registro\ClientesController');
 
     Route::get('registro/clientes/update/{valor}', [
-            'uses' => 'Registro\ClientesController@update',
-            'as'   => 'clientes.update'
-        ]);
+        'uses' => 'Registro\ClientesController@update',
+        'as'   => 'clientes.update'
+    ]);
 
     Route::resource('registro/proveedores', 'Registro\ProveedoresController');
 
     Route::get('registro/proveedores/update/{valor}', [
-            'uses' => 'Registro\ProveedoresController@update',
-            'as'   => 'proveedores.update'
-        ]);
+        'uses' => 'Registro\ProveedoresController@update',
+        'as'   => 'proveedores.update'
+    ]);
 
     Route::resource('registro/productos', 'Registro\ProductosController');
 
     Route::get('registro/productos/update/{valor}', [
-            'uses' => 'Registro\ProductosController@update',
-            'as'   => 'productos.update'
-        ]);
+        'uses' => 'Registro\ProductosController@update',
+        'as'   => 'productos.update'
+    ]);
 
     Route::get('registro/productos/detalle/{valor}', [
-            'uses' => 'Registro\ProductosController@detalle',
-            'as'   => 'productos.detalle'
-        ]);
+        'uses' => 'Registro\ProductosController@detalle',
+        'as'   => 'productos.detalle'
+    ]);
 
-   
+
+    Route::resource('registro/empleados', 'Registro\EmpleadosController');
+
+    Route::get('registro/empleados/update/{valor}', [
+        'uses' => 'Registro\EmpleadosController@update',
+        'as'   => 'empleados.update'
+    ]);
+
+    Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
+
+    Route::resource('registro/gastos', 'Registro\GastosController');
+
+    Route::get('registro/gastos/update/{valor}', [
+        'uses' => 'Registro\gastosController@update',
+        'as'   => 'gastos.update'
+    ]);
+
+    Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
+
+
 
     //GALERIA
 
-     Route::get('galeria/{valor}', [
-            'uses' => 'GaleriaController@index',
-            'as'   => 'galeria.index'
-        ]);
+    Route::get('galeria/{valor}', [
+        'uses' => 'GaleriaController@index',
+        'as'   => 'galeria.index'
+    ]);
 
-     Route::get('galeria/new/{valor}', [
-            'uses' => 'GaleriaController@new',
-            'as'   => 'galeria.new'
-        ]);
-     Route::get('galeria/update/{valor}', [
-            'uses' => 'GaleriaController@update',
-            'as'   => 'galeria.update'
-        ]);
+    Route::get('galeria/new/{valor}', [
+        'uses' => 'GaleriaController@new',
+        'as'   => 'galeria.new'
+    ]);
+    Route::get('galeria/update/{valor}', [
+        'uses' => 'GaleriaController@update',
+        'as'   => 'galeria.update'
+    ]);
 
      ////////
 
 
      // INVENTARIO
-     Route::resource('inventario/entradas', 'Inventario\EntradasController');
+    Route::resource('inventario/entradas', 'Inventario\EntradasController');
 
-     // Route::get('inventario/entradas/show', [
-     //        'uses' => 'GaleriaController@index',
-     //        'as'   => 'galeria.index'
-     //    ]);
 
      Route::resource('inventario/salidas', 'Inventario\SalidasController');
      Route::resource('inventario/consolidado', 'Inventario\ConsolidadoController');
+
      // //////////
 
     Route::resource('registro/empleados', 'Registro\EmpleadosController');
@@ -185,9 +208,33 @@ Route::group(['middleware' => 'auth'], function () {
 
     ////////////
 
-   
+
+
+   /////////////////////////////////////////////////////////////////////////////////////////
+   // Módulo Seguridad
+    Route::resource('seguridad/usuarios', 'Seguridad\UsuariosController');
+    Route::get('seguridad/usuarios/{id}/destroy', [
+        'uses' => 'Seguridad\UsuariosController@destroy',
+        'as'   => 'usuarios.destroy'
+    ]);
+
+    Route::get('seguridad/usuarios/cambiar/{valor}', [
+        'uses' => 'Seguridad\UsuariosController@cambiar',
+        'as'   => 'usuarios.cambiar'
+    ]);
+    Route::put('seguridad/usuarios/update_password/{valor}', [
+        'uses' => 'Seguridad\UsuariosController@update_password',
+        'as'   => 'usuarios.update_password'
+    ]);
+
+    Route::resource('seguridad/roles', 'Seguridad\RolesController');
+    Route::get('seguridad/roles/{id}/destroy', [
+        'uses' => 'Seguridad\RolesController@destroy',
+        'as'   => 'roles.destroy'
+    ]);
+    ///////////
+
     
-    
-  
-  
+
+
 });
