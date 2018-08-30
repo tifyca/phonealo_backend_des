@@ -156,6 +156,13 @@ Route::group(['middleware' => 'auth'], function () {
 
      Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
 
+     Route::resource('procesar/monitoreo', 'Procesar\MonitoreoController');
+
+      Route::get('procesar/monitoreo/cargar/{valor}', [
+            'uses' => 'Procesar\MonitoreoController@cargar',
+            'as'   => 'monitoreo.cargar'
+        ]);
+
     ////////////
    
     

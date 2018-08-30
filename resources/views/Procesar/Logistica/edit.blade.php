@@ -175,7 +175,6 @@
               <label for="">Vendedor</label>
               <input class="form-control" type="text" id="" name="" readonly>
             </div>
-            <div class="col"></div>
             <div class="form-check col-md-1 ">
                 <label class="form-check-label mt-4">
                   <input class="form-check-input" id="delivery" type="checkbox">Gratis
