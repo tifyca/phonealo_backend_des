@@ -142,7 +142,19 @@ Route::group(['middleware' => 'auth'], function () {
     // PROCESAR
     Route::resource('procesar/ventas', 'Procesar\VentasController');
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
-    Route::resource('procesar/descompuestos', 'Procesar\DescompuestoController');
+
+    Route::get('procesar/descompuestos', 'Procesar\DescompuestoController@index')->name('descompuestos');
+  
+     Route::get('procesar/descompuestos/soporte', [
+            'uses' => 'Procesar\DescompuestoController@soporte',
+            'as'   => 'descompuestos.soporte'
+        ]);
+
+     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
+
+     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
+
+     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
 
     ////////////
    

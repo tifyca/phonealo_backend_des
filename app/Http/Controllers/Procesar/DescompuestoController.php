@@ -10,4 +10,7 @@ class DescompuestoController extends Controller
     public function index(){
     	return view('Procesar.Descompuesto.index');
     }
+    public function soporte(){
+    	return view('Procesar.Descompuesto.soporte');
+    }
 }
