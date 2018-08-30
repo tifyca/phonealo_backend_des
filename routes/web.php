@@ -17,7 +17,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('barrios', 'Ajax\Direcciones@barrios')->name('barrios_ajax');
 
 
-    /////////////
+    ///////////
 
 
     Route::get('/', 'HomeController@index')->name('home');
@@ -26,23 +26,31 @@ Route::group(['middleware' => 'auth'], function () {
     // CONFIGURAR
 
     Route::resource('configurar/cargos', 'Configurar\CargosController');
-
     Route::get('configurar/cargos/edit/{cargo_id?}','Configurar\CargosController@editar');
-  
-    Route::post('configurar/cargos','Configurar\CargosController@agregar');
-
+    Route::post('configurar/cargos','Configurar\CargosController@store');
     Route::put('configurar/cargos/mod/{cargo_id?}','Configurar\CargosController@update');
-
     Route::delete('configurar/cargos/{cargo_id?}','Configurar\CargosController@destroy');
 
-
-
     Route::resource('configurar/categorias', 'Configurar\CategoriasController');
+    Route::get('configurar/categorias/edit/{categoria_id?}','Configurar\CategoriasController@editar');
+    Route::post('configurar/categorias','Configurar\CategoriasController@store');
+    Route::put('configurar/categorias/mod/{categoria_id?}','Configurar\CategoriasController@update');
+    Route::delete('configurar/categorias/{categoria_id?}','Configurar\CategoriasController@destroy');
 
-    Route::get('configurar/categorias/update/{valor}', [
-            'uses' => 'Configurar\CategoriasController@update',
-            'as'   => 'categorias.update'
-        ]);
+    Route::resource('configurar/subcategorias', 'Configurar\SubcategoriasController');
+    Route::get('configurar/subcategorias/edit/{subcategoria_id?}','Configurar\SubcategoriasController@editar');
+    Route::post('configurar/subcategorias','Configurar\SubcategoriasController@store');
+    Route::get('configurar/subcategorias/cat/{cat?}','Configurar\SubcategoriasController@tipocat');
+    Route::put('configurar/subcategorias/mod/{subcategoria_id?}','Configurar\SubcategoriasController@update');
+    Route::delete('configurar/subcategorias/{subcategoria_id?}','Configurar\SubcategoriasController@destroy');
+
+    Route::resource('configurar/fuentes', 'Configurar\FuenteController');
+    Route::get('configurar/fuentes/edit/{fuente_id?}','Configurar\FuenteController@editar');
+    Route::post('configurar/fuentes','Configurar\FuenteController@store');
+    Route::put('configurar/fuentes/mod/{fuente_id?}','Configurar\FuenteController@update');
+    Route::delete('configurar/fuentes/{fuente_id?}','Configurar\FuenteController@destroy');
+
+
 
     Route::get('configurar/estados', 'Configurar\EstadosController@index')->name('estados');
 
@@ -93,23 +101,6 @@ Route::group(['middleware' => 'auth'], function () {
             'as'   => 'productos.detalle'
         ]);
 
-    Route::resource('registro/empleados', 'Registro\EmpleadosController');
-
-    Route::get('registro/empleados/update/{valor}', [
-            'uses' => 'Registro\EmpleadosController@update',
-            'as'   => 'empleados.update'
-        ]);
-
-    Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
-
-    Route::resource('registro/gastos', 'Registro\GastosController');
-
-    Route::get('registro/gastos/update/{valor}', [
-            'uses' => 'Registro\gastosController@update',
-            'as'   => 'gastos.update'
-        ]);
-
-    Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
    
 
     //GALERIA
@@ -134,36 +125,42 @@ Route::group(['middleware' => 'auth'], function () {
      // INVENTARIO
      Route::resource('inventario/entradas', 'Inventario\EntradasController');
 
+     // Route::get('inventario/entradas/show', [
+     //        'uses' => 'GaleriaController@index',
+     //        'as'   => 'galeria.index'
+     //    ]);
+
      Route::resource('inventario/salidas', 'Inventario\SalidasController');
      Route::resource('inventario/consolidado', 'Inventario\ConsolidadoController');
      // //////////
 
+    Route::resource('registro/empleados', 'Registro\EmpleadosController');
 
-    // PROCESAR
-    Route::resource('procesar/ventas', 'Procesar\VentasController');
-    Route::resource('procesar/remitos', 'Procesar\RemitosController');
-
-    Route::get('procesar/descompuestos', 'Procesar\DescompuestoController@index')->name('descompuestos');
-  
-     Route::get('procesar/descompuestos/soporte', [
-            'uses' => 'Procesar\DescompuestoController@soporte',
-            'as'   => 'descompuestos.soporte'
+    Route::get('registro/empleados/update/{valor}', [
+            'uses' => 'Registro\EmpleadosController@update',
+            'as'   => 'empleados.update'
         ]);
 
-     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
+    Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
 
-     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
+    Route::resource('registro/gastos', 'Registro\GastosController');
 
-     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
-
-     Route::resource('procesar/monitoreo', 'Procesar\MonitoreoController');
-
-      Route::get('procesar/monitoreo/cargar/{valor}', [
-            'uses' => 'Procesar\MonitoreoController@cargar',
-            'as'   => 'monitoreo.cargar'
+    Route::get('registro/gastos/update/{valor}', [
+            'uses' => 'Registro\gastosController@update',
+            'as'   => 'gastos.update'
         ]);
 
-    ////////////
+    Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
+    
+    
+   
+    
+    
+
+    ///////////
+
+
+
    
     
     
