@@ -41,6 +41,7 @@ class CargosController extends Controller
       $cargo= new Cargos; 
       $cargo->cargo = $request->nombre; 
       $cargo->status =$request->status; 
+      $cargo->id_usuario=$request->id_usuario;
       $cargo->save(); 
       return response()->json($cargo);
 
@@ -57,6 +58,7 @@ class CargosController extends Controller
         $cargo = Cargos::find($cargo_id);
         $cargo->cargo = $request->nombre;
         $cargo->status = $request->status;
+        $cargo->id_usuario=$request->id_usuario;
         $cargo->save();
         return response()->json($cargo);
     }

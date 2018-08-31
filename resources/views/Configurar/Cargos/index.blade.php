@@ -151,7 +151,7 @@
                 </div>
             <form id="frmdel" name="frmdel" class="form-horizontal" novalidate="">
                 <div class="modal-body">
-                    <p>EstÃ¡ seguro que desea Eliminar este Cargo?</p>
+                    <p>Está seguro que desea Eliminar este Cargo?</p>
                     <p class="debug-url"></p>
                 </div>
               </form> 
@@ -179,3 +179,4 @@
     
   </script>
 @endpush
+

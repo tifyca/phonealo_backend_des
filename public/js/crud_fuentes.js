@@ -76,6 +76,7 @@ $("#btn-save").click(function (e) {
     var formData = {
         nombre: $('#nombreFuente').val(),
         status: $('input:radio[name=statusFuente]:checked').val(),
+        id_usuario: $('#id_usuario').val(),
     }
     
     console.log(formData);
@@ -130,7 +131,7 @@ $("#btn-save-edit").click(function (e) {
 
     e.preventDefault();
         var fuente_id = $('#fuente_id').val();
-        var formData = {nombre: $('#nombre').val(), status: $('input:radio[name=status]:checked').val(), }
+        var formData = {nombre: $('#nombre').val(), status: $('input:radio[name=status]:checked').val(), id_usuario: $('#id_usuario').val(),}
         var my_url = url;
         my_url += '/mod/'+ fuente_id;
    
