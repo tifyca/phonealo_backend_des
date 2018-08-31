@@ -1,3 +1,8 @@
+<?php
+ @session_start();
+ $id_usuario= $_SESSION["user"];
+?>
+
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
@@ -18,32 +23,45 @@
     <div class="tile">
         <h3 class="tile-title">Nuevo Barrio</h3>
         <div class="tile-body ">
-          <form>
+          <form id="frmc" name="frmc"  novalidate="">
+              <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+              {{ csrf_field() }} 
             <div class="row">
               <div class="form-group col-12 col-md-3">
                 <label for="departamento-select">Departamento</label>
                 <select class="form-control departamento" id="departamento-select">
-                  <option value="">Seleccione</option>
+                  <option value="0">Seleccione</option>
                 </select>
               </div>
               <div class="form-group col-12 col-md-3">
                 <label for="">Ciudad</label>
-                <select class="form-control ciudades" id="">
-                  <option value="">Seleccione</option>
+                <select class="form-control ciudades" id="ciudad">
+                  <option value="0">Seleccione</option>
                 </select>
               </div>
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Barrio</label>
-                <input class="form-control" type="text" placeholder="Nombre Barrio">
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio">
+              </div>
+              <div class="form-group col-12  col-md-4">
+                <label class="control-label">Latitud</label>
+                <input class="form-control" type="text"  id="lat" name="lat">
+              </div>
+              <div class="form-group col-12  col-md-4">
+                <label class="control-label">Logitud</label>
+                <input class="form-control" type="text"  id="lon" name="lon">
               </div>
               <div class="tile-footer text-center border-0" >
-                <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
+                <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
               </div>
             </div>
           </form>
         </div>
     </div>
   </div>
+  <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
+
+     <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Listado Barrios</h3>
@@ -83,11 +101,70 @@
  
 </div>
 
-  
+ <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+    <div class="modal-content">
+     <div class="modal-header">
+     
+      <h4 class="modal-title" id="myModalLabel">Editar Barrio</h4>
+     </div>
+     <div class="modal-body">
+      <form id="frmciudades" name="frmciudades" class="form-horizontal" novalidate="">
+        
+       <div class="row">
+              <div class="form-group col-12  col-md-8">
+                <label class="control-label">Nombre</label>
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre">
+              </div>
+          
+            </div>
+        </div>
+      </form>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="btn-save-edit" value="update">Guardar</button>
+      <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+      <input type="hidden" id="barrio_id" name="barrio_id" value="0">
+      <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+     </div>
+     
+     
+    </div>
+   </div>
+  </div>
+
+ </div>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+            
+                <div class="modal-header">
+                    
+                    <h4 class="modal-title" id="myModalLabel">Eliminar Ciudad</h4>
+                </div>
+            <form id="frmdel" name="frmdel" class="form-horizontal" novalidate="">
+                <div class="modal-body">
+                    <p>Está seguro que desea eliminar este Ciudad?</p>
+                    <p class="debug-url"></p>
+                </div>
+              </form> 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"></span>No</button>
+                     <button type="button" class="btn btn-danger delete-barrio" >Si</button>
+                    <input type="hidden" id="barrio-id" name="barrio-id" value="0">
+                </div>
+            </div>
+        </div>
+   </div>
+ 
+
 
 @endsection
 
 @push('scripts')
+<meta name="_token" content="{!! csrf_token() !!}" />
+ <script src="{{asset('js/crud_barrios.js')}}"></script>
+
 <script  type="text/javascript" charset="utf-8">
   $(document).ready(function(){
     {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
@@ -162,7 +239,7 @@
 
                  $.each(data2, function(l, item2) {
 
-                    $("#barrios-list").append('<tr><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a><a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a></div></td></tr>');
+                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value='+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button class="btn btn-primary confirm-delete" value='+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
               }
           });

@@ -1,4 +1,4 @@
-var url = "categorias";
+var url = "departamentos";
 
   $.ajaxSetup({
         headers: {
@@ -6,10 +6,10 @@ var url = "categorias";
         }
     });
 
-// muestra el formulario modal para la edición del categoria
+// muestra el formulario modal para la edición del dpto
 $(document).on('click', '.open_modal', function () {
-    var categoria_id = $(this).val();
-    $.get(url + '/edit/' + categoria_id, function(data){
+    var dpto_id = $(this).val();
+    $.get(url + '/edit/' + dpto_id, function(data){
           $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -17,32 +17,26 @@ $(document).on('click', '.open_modal', function () {
     });
         //success data
         console.log(data);
-        $('#categoria_id').val(data.id);
-        $('#nombre').val(data.categoria);
-        $('#tipo').val(data.tipo);
-        if (data.status==1){
-        $('input:radio[id=status]').prop("checked", true);
-        }
-        if (data.status==0){
-        $('input:radio[id=status2]').prop("checked", true);
-        }
+        $('#dpto_id').val(data.id);
+        $('#nombre').val(data.nombre);
+        
         $('#myModal').modal('show');
     });
     
 });
 
-// muestra modal para la confirmar eliminar   categoria
+// muestra modal para la confirmar eliminar   dpto
 $(document).on('click', '.confirm-delete', function () {
-    var categoria_id = $(this).val();
+    var dpto_id = $(this).val();
     $('#confirm-delete').modal('show');
-    $('#categoria-id').val(categoria_id);
+    $('#dpto-id').val(dpto_id);
 });
 
 
-// eliminar el categoria y eliminarlo de la lista
-$(document).on('click', '.delete-categoria', function () {
+// eliminar el dpto y eliminarlo de la lista
+$(document).on('click', '.delete-dpto', function () {
 
-    var categoria_id = $('#categoria-id').val();
+    var dpto_id = $('#dpto-id').val();
 
     $.ajaxSetup({
         headers: {
@@ -51,12 +45,12 @@ $(document).on('click', '.delete-categoria', function () {
     });
     $.ajax({
         type: "DELETE",
-        url: url + '/' + categoria_id,
+        url: url + '/' + dpto_id,
         success: function (data) {
             console.log(data);
-            $("#categoria" + categoria_id).remove();
+            $("#dpto" + dpto_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Categoria Eliminado con Éxito");
+            $("#res").html("Departamento Eliminado con Exito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -65,7 +59,7 @@ $(document).on('click', '.delete-categoria', function () {
         }
     });
 });
-// crear nuevo categoria
+// crear nuevo dpto
 $("#btn-save").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -75,9 +69,7 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
-        nombre: $('#nombreCategoria').val(),
-        tipo: $('#tipoCategoria').val(),
-        status: $('input:radio[name=statusCategoria]:checked').val(),
+        nombre: $('#nombreDpto').val(),
         id_usuario: $('#id_usuario').val(),
     }
     
@@ -90,26 +82,25 @@ $("#btn-save").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
-            var act='Activo';
-            var ina='Inactivo';
-            var categoria = '<tr id="categoria' + data.id + '"><td>' + data.categoria + '</td><td>' + data.tipo + '</td>'+(data.status==1 ? '<td>' + act + '</td>':'<td>' + ina + '</td>');
-            categoria += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            categoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            var dpto = '<tr id="dpto' + data.id + '"><td>' + data.nombre + '</td>';
+            dpto += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            dpto += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
-            $('#categorias-list').append(categoria);
+            $('#dpto-list').append(dpto);
             $('#frmc').trigger("reset");
-            $("#res").html("Categoria Registrado con Éxito");
+            $("#res").html("Departamento Registrado con Exito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
-         error: function (data,estado,error) { 
+       
+          error: function (data,estado,error) { 
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
                 if(error.message.hasOwnProperty(k)){ 
                     error.message[k].forEach(function(val){
-                       
+
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
                         $("#rese").html(errorsHtml).show().fadeOut(4000);
@@ -122,7 +113,7 @@ $("#btn-save").click(function (e) {
 });
 
 
-////actualiza categoria
+////actualiza dpto
 $("#btn-save-edit").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -131,10 +122,10 @@ $("#btn-save-edit").click(function (e) {
     });
 
     e.preventDefault();
-        var categoria_id = $('#categoria_id').val();
-        var formData = {nombre: $('#nombre').val(),  tipo: $('#tipo').val(), status: $('input:radio[name=status]:checked').val(), id_usuario: $('#id_usuario').val(), }
+        var dpto_id = $('#dpto_id').val();
+        var formData = {nombre: $('#nombre').val(), id_usuario: $('#id_usuario').val(), }
         var my_url = url;
-        my_url += '/mod/'+ categoria_id;
+        my_url += '/mod/'+ dpto_id;
    
     console.log(formData);
     $.ajax({
@@ -144,15 +135,14 @@ $("#btn-save-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            var act='Activo';
-            var ina='Inactivo';
-            var categoria = '<tr id="categoria' + data.id + '"><td>' + data.categoria + '</td><td>' + data.tipo + '</td>'+(data.status==1 ? '<td>' + act + '</td>': '<td>' + ina + '</td>');
-            categoria += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            categoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-            $("#categoria" + categoria_id).replaceWith(categoria);
+            console.log(data.nombre);
+             var dpto = '<tr id="dpto' + data.id + '"><td>' + data.nombre + '</td>';
+            dpto += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            dpto += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            $("#dpto" + dpto_id).replaceWith(dpto);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Categoria Modificado con Exito");
+            $("#res").html("Departamento Modificado con Exito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },

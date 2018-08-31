@@ -40,7 +40,8 @@ class FuenteController extends Controller
      }elseif ($validator->passes()){ 
       $fuente= new Fuente; 
       $fuente->fuente = $request->nombre; 
-      $fuente->status =$request->status; 
+      $fuente->status =$request->status;
+      $fuente->id_usuario=$request->id_usuario; 
       $fuente->save(); 
 
 
@@ -59,6 +60,7 @@ class FuenteController extends Controller
         $fuente = Fuente::find($fuente_id);
         $fuente->fuente = $request->nombre;
         $fuente->status = $request->status;
+        $fuente->id_usuario=$request->id_usuario;
         $fuente->save();
         return response()->json($fuente);
     }

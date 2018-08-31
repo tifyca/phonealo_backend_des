@@ -45,6 +45,7 @@ class CategoriasController extends Controller
         $categoria->categoria= $request->nombre;
         $categoria->tipo     = $request->tipo;
         $categoria->status   = $request->status;
+        $categoria->id_usuario=$request->id_usuario;
         $categoria->save();
         return response()->json($categoria);
     }  
@@ -61,6 +62,7 @@ class CategoriasController extends Controller
         $categoria->categoria = $request->nombre;
         $categoria->tipo     = $request->tipo;
         $categoria->status = $request->status;
+        $categoria->id_usuario=$request->id_usuario;
         $categoria->save();
         return response()->json($categoria);
     }

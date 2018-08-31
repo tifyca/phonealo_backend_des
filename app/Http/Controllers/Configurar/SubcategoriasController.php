@@ -46,7 +46,7 @@ class SubcategoriasController extends Controller
         $subcategoria->id_categoria = $request->categoria;
         $subcategoria->sub_categoria= $request->nombre;  
         $subcategoria->status   = $request->status;
-        $subcategoria->categorias_id= $request->categoria;
+        $subcategoria->id_usuario=$request->id_usuario;
         $subcategoria->save();
         return response()->json($subcategoria);
       }  
@@ -64,7 +64,7 @@ class SubcategoriasController extends Controller
         $subcategoria->sub_categoria = $request->nombre;
         $subcategoria->id_categoria = $request->categoria;
         $subcategoria->status = $request->status;
-        $subcategoria->categorias_id= $request->categoria;
+        $subcategoria->id_usuario=$request->id_usuario;
         $subcategoria->save();
         return response()->json($subcategoria);
     }

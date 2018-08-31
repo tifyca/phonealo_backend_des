@@ -1,3 +1,8 @@
+<?php
+ @session_start();
+ $id_usuario= $_SESSION["user"];
+?>
+
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
@@ -18,6 +23,7 @@
         <h3 class="tile-title">Nuevo Cargo</h3>
         <div class="tile-body ">
           <form id="frmc" name="frmc"  novalidate="">
+             <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             {{ csrf_field() }} 
             <div class="row">
               <div class="form-group col-12  col-md-8">
@@ -86,6 +92,10 @@
                 </tbody>
               </table>
               </div>
+               <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+
+                    <?php echo $cargos->render(); ?>
+                </div>
             </div>
         </div>
     </div>
@@ -129,6 +139,7 @@
       <button type="button" class="btn btn-primary" id="btn-save-edit" value="update">Guardar</button>
       <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
       <input type="hidden" id="cargo_id" name="cargo_id" value="0">
+      <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
      </div>
      
      

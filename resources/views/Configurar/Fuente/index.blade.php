@@ -1,3 +1,8 @@
+<?php
+ @session_start();
+ $id_usuario= $_SESSION["user"];
+?>
+
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
@@ -18,7 +23,8 @@
     <div class="tile">
         <h3 class="tile-title">Nueva Fuente</h3>
         <div class="tile-body ">
-          <form>
+          <form id="frmc" name="frmc"  novalidate="">
+             <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
@@ -50,7 +56,7 @@
   </div>
   <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
 
-     <div style="display: none;" class="alert alert-danger" id="rese"> </div>
+     <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Listado de Fuentes</h3>
@@ -128,6 +134,7 @@
       <button type="button" class="btn btn-primary" id="btn-save-edit" value="update">Guardar</button>
       <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
       <input type="hidden" id="fuente_id" name="fuente_id" value="0">
+      <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
      </div>
      
      

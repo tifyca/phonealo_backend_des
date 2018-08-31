@@ -27,9 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('configurar/cargos', 'Configurar\CargosController');
     Route::get('configurar/cargos/edit/{cargo_id?}','Configurar\CargosController@editar');
-
     Route::post('configurar/cargos','Configurar\CargosController@store');
-
     Route::put('configurar/cargos/mod/{cargo_id?}','Configurar\CargosController@update');
     Route::delete('configurar/cargos/{cargo_id?}','Configurar\CargosController@destroy');
 
@@ -53,26 +51,42 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('configurar/fuentes/{fuente_id?}','Configurar\FuenteController@destroy');
 
 
-
-    Route::get('configurar/categorias/update/{valor}', [
-        'uses' => 'Configurar\CategoriasController@update',
-        'as'   => 'categorias.update'
-    ]);
-
-    Route::get('configurar/estados', 'Configurar\EstadosController@index')->name('estados');
-
-    Route::resource('configurar/subcategorias', 'Configurar\SubcategoriasController');
-    
-    Route::get('configurar/subcategorias/update/{valor}', [
-        'uses' => 'Configurar\SubcategoriasController@update',
-        'as'   => 'subcategorias.update'
-    ]);
-
     Route::get('configurar/direcciones/paises', 'Configurar\DireccionesController@paises')->name('paises');
+    Route::get('configurar/direcciones/paises/edit/{pais_id?}','Configurar\DireccionesController@editar_paises');
+    Route::post('configurar/direcciones/paises','Configurar\DireccionesController@store_paises');
+    Route::put('configurar/direcciones/paises/mod/{pais_id?}','Configurar\DireccionesController@update_paises');
+    Route::delete('configurar/direcciones/paises/{pais_id?}','Configurar\DireccionesController@destroy_paises');
+
+
+
     Route::get('configurar/direcciones/departamentos', 'Configurar\DireccionesController@departamentos')->name('departamentos');
+    Route::get('configurar/direcciones/departamentos/edit/{dpto_id?}','Configurar\DireccionesController@editar_departamentos');
+    Route::post('configurar/direcciones/departamentos','Configurar\DireccionesController@store_departamentos');
+    Route::put('configurar/direcciones/departamentos/mod/{dpto_id?}','Configurar\DireccionesController@update_departamentos');
+    Route::delete('configurar/direcciones/departamentos/{dpto_id?}','Configurar\DireccionesController@destroy_departamentos');
+
     Route::get('configurar/direcciones/ciudades', 'Configurar\DireccionesController@ciudades')->name('ciudades');
+    Route::get('configurar/direcciones/ciudades/edit/{ciudad_id?}','Configurar\DireccionesController@editar_ciudades');
+    Route::post('configurar/direcciones/ciudades','Configurar\DireccionesController@store_ciudades');
+    Route::put('configurar/direcciones/ciudades/mod/{ciudad_id?}','Configurar\DireccionesController@update_ciudades');
+    Route::delete('configurar/direcciones/ciudades/{ciudad_id?}','Configurar\DireccionesController@destroy_ciudades');
+
     Route::get('configurar/direcciones/barrios', 'Configurar\DireccionesController@barrios')->name('barrios');
+    Route::get('configurar/direcciones/barrios/edit/{barrio_id?}','Configurar\DireccionesController@editar_barrios');
+    Route::post('configurar/direcciones/barrios','Configurar\DireccionesController@store_barrios');
+    Route::put('configurar/direcciones/barrios/mod/{barrio_id?}','Configurar\DireccionesController@update_barrios');
+    Route::delete('configurar/direcciones/barrios/{barrio_id?}','Configurar\DireccionesController@destroy_barrios');
+
     
+    Route::get('configurar/estados', 'Configurar\EstadosController@index')->name('estados');
+    Route::get('configurar/estados/edit/{estado_id?}','Configurar\EstadosController@editar');
+    Route::put('configurar/estados/mod/{estado_id?}','Configurar\EstadosController@update');
+    
+
+     
+   
+   
+
 
 
 
