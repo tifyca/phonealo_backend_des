@@ -91,7 +91,7 @@
                 <?php }else{ ?> 
                       <td><?='Inactivo' ?></td>
                 <?php } ?> 
-                      <td width="10%" class="text-right">
+                      <td width="10%" class="text-center">
                       <div class="btn-group">
                       <button class="btn btn-primary open_modal" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
                       <button class="btn btn-primary confirm-delete" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
