@@ -78,6 +78,7 @@ $("#btn-save").click(function (e) {
         nombre: $('#nombreSubcategoria').val(),
         categoria: $('#categoria').val(),
         status: $('input:radio[name=statusSubcategoria]:checked').val(),
+        id_usuario: $('#id_usuario').val(),
     }
     
     console.log(formData);
@@ -137,7 +138,7 @@ $("#btn-save-edit").click(function (e) {
 
     e.preventDefault();
         var subcategoria_id = $('#subcategoria_id').val();
-        var formData = {nombre: $('#nombre').val(),  categoria: $('#categoria').val(), status: $('input:radio[name=status]:checked').val(), }
+        var formData = {nombre: $('#nombre').val(),  categoria: $('#categoria').val(), status: $('input:radio[name=status]:checked').val(), id_usuario: $('#id_usuario').val(),}
         var my_url = url;
         my_url += '/mod/'+ subcategoria_id;
    

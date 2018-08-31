@@ -1,3 +1,8 @@
+<?php
+ @session_start();
+ $id_usuario= $_SESSION["user"];
+?>
+
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
@@ -19,6 +24,7 @@
         <h3 class="tile-title">Nueva Subcategoria</h3>
         <div class="tile-body ">
           <form id="frmc" name="frmc"  novalidate="">
+            <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
               <div class="form-group col-12  col-md-4">
                 <label for="exampleSelect1">Categoría</label>
@@ -59,7 +65,7 @@
   </div>
 
   <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
-   <div style="display: none;" class="alert alert-danger" id="rese"> </div>
+   <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Listado de Subcategorias</h3>
@@ -149,6 +155,7 @@
       <button type="button" class="btn btn-primary" id="btn-save-edit" value="update">Guardar</button>
       <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
       <input type="hidden" id="subcategoria_id" name="subcategoria_id" value="0">
+      <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
      </div>
      
      
