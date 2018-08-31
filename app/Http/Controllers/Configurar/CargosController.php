@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class CargosController extends Controller
 {
     public function index(){
-    	$cargos= Cargos::all();
+    	$cargos= Cargos::paginate(3);
     	return view('Configurar.Cargos.index')->with('cargos',$cargos);
 
     }

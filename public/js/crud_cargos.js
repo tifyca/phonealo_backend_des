@@ -91,7 +91,7 @@ $("#btn-save").click(function (e) {
             var act='Activo';
             var ina='Inactivo';
             var cargo = '<tr id="cargo' + data.id + '"><td>' + data.cargo + '</td>'+(data.status==1 ? '<td>' + act + '</td>':'<td>' + ina + '</td>');
-            cargo += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            cargo += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             cargo += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
             $('#cargos-list').append(cargo);
@@ -147,7 +147,7 @@ $("#btn-save-edit").click(function (e) {
             var act='Activo';
             var ina='Inactivo';
             var cargo = '<tr id="cargo' + data.id + '"><td>' + data.cargo + '</td>'+(data.status==1 ? '<td>' + act + '</td>': '<td>' + ina + '</td>');
-            cargo += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            cargo += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             cargo += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
             $("#cargo" + cargo_id).replaceWith(cargo);
             $('#frmc').trigger("reset");

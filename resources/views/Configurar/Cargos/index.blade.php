@@ -1,3 +1,8 @@
+<?php
+ @session_start();
+ $id_usuario= $_SESSION["user"];
+?>
+
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
@@ -19,6 +24,7 @@
         <div class="tile-body ">
           <form id="frmc" name="frmc"  novalidate="">
             {{ csrf_field() }} 
+		<input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
@@ -132,6 +138,8 @@
       <button type="button" class="btn btn-primary" id="btn-save-edit" value="update">Guardar</button>
       <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
       <input type="hidden" id="cargo_id" name="cargo_id" value="0">
+	<input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+
      </div>
      
      
