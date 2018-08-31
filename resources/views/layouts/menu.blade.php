@@ -78,7 +78,7 @@
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="{{url('seguridad/usuarios')}}"><i class="icon fa fa-circle-o"></i>Usuarios</a></li>
             <li><a class="treeview-item" href="{{url('seguridad/roles')}}"><i class="icon fa fa-circle-o"></i>Perfiles</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Auditoria</a></li>
+            <li><a class="treeview-item" href="{{url('seguridad/auditoria')}}"><i class="icon fa fa-circle-o"></i>Auditoria</a></li>
           </ul>
         </li>
 

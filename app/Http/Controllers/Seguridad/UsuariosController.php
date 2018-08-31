@@ -35,11 +35,6 @@ class UsuariosController extends Controller
 			$usuario->email        = $request["email"];
 			$usuario->password     = $request["password"];
             $usuario->rol_id       = $request["rol_id"];
-			$usuario->alto_nivel   = $request["altonivel"];
-			$usuario->contratados  = $request["contratados"];	
-			$usuario->empleados    = $request["empleados"];	
-            $usuario->obreros      = $request["obreros"];
-            $usuario->jubilados    = $request["jubilados"];		
             $usuario->save();
 			return redirect()->route('usuarios.edit', $usuario->id)->with("notificacion","Se ha guardado correctamente su información");
 		} catch (Exception $e) {

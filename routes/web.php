@@ -169,6 +169,12 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'Seguridad\RolesController@destroy',
         'as'   => 'roles.destroy'
     ]);
+
+    Route::resource('seguridad/auditoria', 'Seguridad\AuditoriaController');
+
+
+
+
     ///////////
 
     
