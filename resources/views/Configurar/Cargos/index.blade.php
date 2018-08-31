@@ -94,7 +94,7 @@
               </div>
                <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
 
-                    <?php echo $cargos->render(); ?>
+                    <!--?php echo $cargos->render(); ?-->
                 </div>
             </div>
         </div>
