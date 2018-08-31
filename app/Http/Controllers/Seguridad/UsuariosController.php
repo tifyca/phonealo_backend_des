@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Roles;
+
 class UsuariosController extends Controller
 {
     public function index()
@@ -35,11 +36,6 @@ class UsuariosController extends Controller
 			$usuario->email        = $request["email"];
 			$usuario->password     = $request["password"];
             $usuario->rol_id       = $request["rol_id"];
-			$usuario->alto_nivel   = $request["altonivel"];
-			$usuario->contratados  = $request["contratados"];	
-			$usuario->empleados    = $request["empleados"];	
-            $usuario->obreros      = $request["obreros"];
-            $usuario->jubilados    = $request["jubilados"];		
             $usuario->save();
 			return redirect()->route('usuarios.edit', $usuario->id)->with("notificacion","Se ha guardado correctamente su información");
 		} catch (Exception $e) {
