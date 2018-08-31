@@ -54,10 +54,10 @@
     </div>
   </div>
 
-  <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
+  <div style="display: none ;" class="col-12 text-center alert alert-success" id="res"></div>
 
-     <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
-   </div>
+  <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
+  
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Listado de Cargos</h3>
