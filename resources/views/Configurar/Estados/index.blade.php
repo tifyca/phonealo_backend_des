@@ -27,6 +27,7 @@
                 <thead>
                   <tr>
                     <th>Nombre</th>
+		    <th>Acción</th>
                   </tr>
                 </thead>
                 <tbody id="estados-list" name="estados-list">
