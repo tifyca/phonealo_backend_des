@@ -37,7 +37,7 @@ class UsuariosController extends Controller
 			$usuario->password     = $request["password"];
             $usuario->rol_id       = $request["rol_id"];
             $usuario->save();
-			return redirect()->route('usuarios.edit', $usuario->id)->with("notificacion","Se ha guardado correctamente su informaciÃ³n");
+			return redirect()->route('usuarios.edit', $usuario->id)->with("notificacion","Se ha guardado correctamente su información");
 		} catch (Exception $e) {
 			\Log::info('Error creating item: '.$e);
 			return \Response::json(['created' => false], 500);
@@ -67,13 +67,8 @@ class UsuariosController extends Controller
 			$usuarios = User::find($id);
             $usuarios->name        = $request->name;
             $usuarios->rol_id      = $request->rol_id;
-            $usuarios->alto_nivel  = $alto_nivel;
-            $usuarios->contratados = $request->contratados;
-            $usuarios->empleados   = $request->empleados;
-            $usuarios->obreros     = $request->obreros;
-            $usuarios->jubilados   = $request->jubilados;
             $usuarios->save();
-			return redirect()->route('usuarios.edit', $id)->with("notificacion","Se ha guardado correctamente su informaciÃ³n");
+			return redirect()->route('usuarios.edit', $id)->with("notificacion","Se ha guardado correctamente su información");
 		} catch (Exception $e) {
 			\Log::info('Error creating item: '.$e);
 			return \Response::json(['created' => false], 500);
@@ -104,6 +99,6 @@ class UsuariosController extends Controller
             $usuarios->password = $password;
 
             $usuarios->save();
-            return redirect()->route('usuarios.index')->with("notificacion","Se ha guardado correctamente su informaciÃ³n");            
+            return redirect()->route('usuarios.index')->with("notificacion","Se ha guardado correctamente su información");            
 	}
 }
