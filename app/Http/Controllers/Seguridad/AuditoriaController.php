@@ -13,4 +13,5 @@ class AuditoriaController extends Controller
     	$auditoria= auditoria::orderby('fecha','desc')->paginate(20);
     	return view('Seguridad.auditoria.index')->with('auditoria',$auditoria);
     }
+    
 }
