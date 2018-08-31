@@ -89,6 +89,6 @@
             <li><a class="treeview-item {{ Request::is('seguridad/roles*') ? 'active' : '' }}" href="{{url('seguridad/roles')}}"><i class="icon fa fa-circle-o"></i>Perfiles</a></li>
             <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Auditoria</a></li>
           </ul>
-        </li>
+        </li> 
 
       </ul>
