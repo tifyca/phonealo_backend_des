@@ -66,27 +66,7 @@
       </div>
     </div>
     
-    <div class="col-md-3">
-      <div class="widget-small primary coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
-        <div class="info">
-          <div class="row">
-            <div class="col">
-              <h4>Consignación: </h4>
-              <p><b>714.000 Gs.</b></p>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="widget-small info coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
-        <div class="info">
-              <p>Con: 0 productos con precio de compra = 0. </p>
-           
-        </div>
-      </div>
-    </div>
+    
     <div class="col-md-3">
       <div class="widget-small danger coloured-icon"><i class="icon fa fa-area-chart fa-3x"></i>
         <div class="info">
