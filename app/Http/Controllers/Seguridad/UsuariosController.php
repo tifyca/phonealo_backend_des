@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Roles;
+
 class UsuariosController extends Controller
 {
     public function index()
@@ -35,13 +36,8 @@ class UsuariosController extends Controller
 			$usuario->email        = $request["email"];
 			$usuario->password     = $request["password"];
             $usuario->rol_id       = $request["rol_id"];
-			$usuario->alto_nivel   = $request["altonivel"];
-			$usuario->contratados  = $request["contratados"];	
-			$usuario->empleados    = $request["empleados"];	
-            $usuario->obreros      = $request["obreros"];
-            $usuario->jubilados    = $request["jubilados"];		
             $usuario->save();
-			return redirect()->route('usuarios.edit', $usuario->id)->with("notificacion","Se ha guardado correctamente su informaciÃ³n");
+			return redirect()->route('usuarios.edit', $usuario->id)->with("notificacion","Se ha guardado correctamente su información");
 		} catch (Exception $e) {
 			\Log::info('Error creating item: '.$e);
 			return \Response::json(['created' => false], 500);
@@ -71,13 +67,8 @@ class UsuariosController extends Controller
 			$usuarios = User::find($id);
             $usuarios->name        = $request->name;
             $usuarios->rol_id      = $request->rol_id;
-            $usuarios->alto_nivel  = $alto_nivel;
-            $usuarios->contratados = $request->contratados;
-            $usuarios->empleados   = $request->empleados;
-            $usuarios->obreros     = $request->obreros;
-            $usuarios->jubilados   = $request->jubilados;
             $usuarios->save();
-			return redirect()->route('usuarios.edit', $id)->with("notificacion","Se ha guardado correctamente su informaciÃ³n");
+			return redirect()->route('usuarios.edit', $id)->with("notificacion","Se ha guardado correctamente su información");
 		} catch (Exception $e) {
 			\Log::info('Error creating item: '.$e);
 			return \Response::json(['created' => false], 500);
@@ -108,6 +99,6 @@ class UsuariosController extends Controller
             $usuarios->password = $password;
 
             $usuarios->save();
-            return redirect()->route('usuarios.index')->with("notificacion","Se ha guardado correctamente su informaciÃ³n");            
+            return redirect()->route('usuarios.index')->with("notificacion","Se ha guardado correctamente su información");            
 	}
 }
