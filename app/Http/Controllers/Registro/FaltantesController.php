@@ -7,7 +7,5 @@ use App\Http\Controllers\Controller;
 
 class FaltantesController extends Controller
 {
-    public function index(){
-		return view('Registro.Faltantes.index');
-	}
+    //
 }

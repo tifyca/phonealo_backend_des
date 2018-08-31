@@ -1,22 +1,22 @@
 image: php:7.1.1
 pipelines:
-  default:
-    - step:
-        #caches:
-        #  - composer
-        script:
-        - apt-get update && apt-get install -y git
-        - touch ~/.ssh/idbbccconexpar.b64
-        - chmod 600 ~/.ssh/idbbccconexpar.b64
-        - echo $CodeCommitKey >> ~/.ssh/idbbccconexpar.b64
-        - cat ~/.ssh/idbbccconexpar.b64|/usr/bin/base64 -d > ~/.ssh/idbbccconexpar
-        - chmod 400 ~/.ssh/idbbccconexpar
-        - echo $CodeCommitConfig  > ~/.ssh/config.b64
-        - cat ~/.ssh/config.b64
-        - cat ~/.ssh/config.b64 |/usr/bin/base64 -d > ~/.ssh/config
-        - set +e
-        - ssh -t -t -o StrictHostKeyChecking=no $CodeCommitHost
-        - set -e
-        - git remote add codecommit ssh://$CodeCommitRepo
-        - git push codecommit $BITBUCKET_BRANCH
+ default:
+   - step:
+       #caches:
+       #  - composer
+       script:
+       - apt-get update && apt-get install -y git
+       - touch ~/.ssh/idbbccconexpar.b64
+       - chmod 600 ~/.ssh/idbbccconexpar.b64
+       - echo $CodeCommitKey >> ~/.ssh/idbbccconexpar.b64
+       - cat ~/.ssh/idbbccconexpar.b64|/usr/bin/base64 -d > ~/.ssh/idbbccconexpar
+       - chmod 400 ~/.ssh/idbbccconexpar
+       - echo $CodeCommitConfig  > ~/.ssh/config.b64
+       - cat ~/.ssh/config.b64
+       - cat ~/.ssh/config.b64 |/usr/bin/base64 -d > ~/.ssh/config
+       - set +e
+       - ssh -t -t -o StrictHostKeyChecking=no $CodeCommitHost
+       - set -e
+       - git remote add codecommit ssh://$CodeCommitRepo
+       - git push codecommit $BITBUCKET_BRANCH
 

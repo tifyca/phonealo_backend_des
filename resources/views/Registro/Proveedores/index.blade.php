@@ -2,7 +2,7 @@
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
 @section('titulo', 'Proveedores')
-@section('descripcion', 'Descripcion Opcional')
+@section('descripcion', '')
 
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
@@ -23,11 +23,11 @@
                 <thead>
                   <tr>
                     <th>Proveedor</th>
-                    <th>Telefono</th>
+                    <th>Teléfono</th>
                     <th>Dirección</th>
                     <th>País</th>
                     <th>Email</th>
-                    <th>Ruc</th>
+                    <th>RUC</th>
                     <th>Acciones</th>
                     
                   </tr>
@@ -89,7 +89,5 @@
 @endsection
 
 @push('scripts')
-  <script type="text/javascript" src="{{ asset('js/plugins/jquery.dataTables.min.js') }} "></script>
-    <script type="text/javascript" src="{{ asset('js/plugins/dataTables.bootstrap.min.js') }}"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable();</script>
+
 @endpush
