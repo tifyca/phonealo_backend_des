@@ -91,7 +91,7 @@ $("#btn-save").click(function (e) {
             var act='Activo';
             var ina='Inactivo';
             var fuente = '<tr id="fuente' + data.id + '"><td>' + data.fuente + '</td>'+(data.status==1 ? '<td>' + act + '</td>':'<td>' + ina + '</td>');
-            fuente += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            fuente += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             fuente += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
             $('#fuentes-list').append(fuente);
@@ -147,7 +147,7 @@ $("#btn-save-edit").click(function (e) {
             var act='Activo';
             var ina='Inactivo';
             var fuente = '<tr id="fuente' + data.id + '"><td>' + data.fuente + '</td>'+(data.status==1 ? '<td>' + act + '</td>': '<td>' + ina + '</td>');
-            fuente += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            fuente += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             fuente += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
             $("#fuente" + fuente_id).replaceWith(fuente);
             $('#frmc').trigger("reset");

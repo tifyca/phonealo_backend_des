@@ -97,7 +97,7 @@ $("#btn-save").click(function (e) {
             var act='Activo';
             var ina='Inactivo';
             var subcategoria = '<tr id="subcategoria' + data.id + '"><td>' + data.sub_categoria + '</td><td>' + cate.categoria + '</td>'+(data.status==1 ? '<td>' + act + '</td>':'<td>' + ina + '</td>');
-            subcategoria += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            subcategoria += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             subcategoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
             $('#subcategorias-list').append(subcategoria);
@@ -158,7 +158,7 @@ $("#btn-save-edit").click(function (e) {
             var act='Activo';
             var ina='Inactivo';
             var subcategoria = '<tr id="subcategoria' + data.id + '"><td>' + data.sub_categoria + '</td><td>' + cate.categoria  + '</td>'+(data.status==1 ? '<td>' + act + '</td>': '<td>' + ina + '</td>');
-            subcategoria += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            subcategoria += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             subcategoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
             $("#subcategoria" + subcategoria_id).replaceWith(subcategoria);
             $('#frmc').trigger("reset");
