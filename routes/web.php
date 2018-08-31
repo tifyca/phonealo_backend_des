@@ -4,9 +4,9 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 
-    // Route::get('webview', function(){
-    //     return view('webview');
-    // });
+    Route::get('webview', function(){
+        return view('webview');
+    });
 
     // AJAX
     Route::get('paises', 'Ajax\Direcciones@paises')->name('paises_ajax');
