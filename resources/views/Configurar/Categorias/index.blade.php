@@ -24,16 +24,17 @@
         <h3 class="tile-title">Nueva Categoria</h3>
         <div class="tile-body ">
           <form id="frmc" name="frmc"  novalidate="">
+            {{ csrf_field() }} 
              <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombreCategoria" name="nombreCategoria">
+                <input class="form-control" type="text" placeholder="..." id="nombreCategoria" name="nombreCategoria" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Tipo de Categoría</label>
                 <select class="form-control" id="tipoCategoria" name="tipoCategoria">
-                  <option value="">Seleccione</option>}
+                  <option value="">Seleccione</option>
                   <option value="Productos">Productos</option>
                   <option value="Gastos">Gastos</option>
                 </select>
@@ -43,7 +44,7 @@
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="radio" value="1"  id="statusCategoria" name="statusCategoria">Activo
+                        <input class="form-check-input" type="radio" value="1"  id="statusCategoria" name="statusCategoria" checked>Activo
                       </label>
                     </div>
                     <div class="form-check">
@@ -102,6 +103,9 @@
                 </tbody>
               </table>       
             </div>
+            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    <?php echo $categorias->render(); ?>
+              </div>
             </div>
         </div>
     </div>

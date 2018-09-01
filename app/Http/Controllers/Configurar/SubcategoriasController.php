@@ -18,7 +18,7 @@ class SubcategoriasController extends Controller
                 ->select('categoria','id')->get();
 
         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
-        				->select('categorias.id', 'categoria','sub_categoria','sub_categorias.status')->get();
+        				->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')->paginate(3);
     	return view('Configurar.Subcategorias.index',compact('categorias', 'subcategorias'));
     }
     
