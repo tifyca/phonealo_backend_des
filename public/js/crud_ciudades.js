@@ -46,16 +46,21 @@ $(document).on('click', '.delete-ciudad', function () {
     $.ajax({
         type: "DELETE",
         url: url + '/' + ciudad_id,
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            console.log(data);
+            //console.log(data);
             $("#ciudades" + ciudad_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Ciudad Eliminada con Exito");
+            $("#res").html("Ciudad Eliminada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
-            console.log('Error:', data);
+           // console.log('Error:', data);
+            $('#confirm-delete').modal('hide');
+            $("#rese").html("No se pudo eliminar la ciudad, por que está asociada a un Barrio");
+            $("#rese").css("display","block");
+            $("#rese").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
@@ -89,7 +94,7 @@ $("#btn-save").click(function (e) {
           
             $('#ciudades-list').append(ciudad);
             $('#frmc').trigger("reset");
-            $("#res").html("Ciudad Registrada con Exito");
+            $("#res").html("Ciudad Registrada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -124,11 +129,14 @@ $("#btn-save-edit").click(function (e) {
 
     e.preventDefault();
         var ciudad_id = $('#ciudad_id').val();
-        var formData = {nombre: $('#nombre').val(), id_usuario: $('#id_usuario').val(), id_dpto:$('.departamento').val(), }
+        var formData = { nombre: $('#nombre').val(), 
+                         id_usuario: $('#id_usuario').val(), 
+                         id_dpto:$('.departamento').val(), 
+                       }
         var my_url = url;
         my_url += '/mod/'+ ciudad_id;
    
-    console.log(formData);
+   // console.log(formData);
     $.ajax({
         type:"PUT",
         url: my_url,
@@ -143,12 +151,34 @@ $("#btn-save-edit").click(function (e) {
             $("#ciudades" + ciudad_id).replaceWith(ciudad);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Ciudad Modificada con Exito");
+            $("#res").html("Ciudad Modificada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
-            console.log('Error:', data);
+            //console.log('Error:', data);
+            $('#myModal').modal('hide');
+            $("#rese").html("No se pudo modificar la ciudad, por que está asociada a un Barrio");
+            $("#rese").css("display","block");
+            $("#rese").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
+
+function soloLetras(e) {
+    key = e.keyCode || e.which;
+    tecla = String.fromCharCode(key).toLowerCase();
+    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+    especiales = [8, 39];
+
+    tecla_especial = false
+    for(var i in especiales) {
+        if(key == especiales[i]) {
+            tecla_especial = true;
+            break;
+        }
+    }
+
+    if(letras.indexOf(tecla) == -1 && !tecla_especial)
+        return false;
+}

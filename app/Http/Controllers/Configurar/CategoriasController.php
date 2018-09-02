@@ -26,8 +26,10 @@ class CategoriasController extends Controller
        $data=$request->all();
 
        $rules = array( 'nombre'=>'required|unique:categorias,categoria', 
+                       'tipo'=>'required',
                        'status'=>'required'); 
-       $messages = array( 'nombre.required'=>'Nombre de la Categoria es requerido', 
+       $messages = array( 'nombre.required'=>'Nombre de la Categoria es requerido',
+                          'tipo.required'=>'El tipo de la Categoria es requerido', 
                           'nombre.unique' => 'La Categoria ya existe', 
                           'status.required'=>'El estatus es requerido' );
 

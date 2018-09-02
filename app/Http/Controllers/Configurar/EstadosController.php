@@ -11,7 +11,7 @@ use App\Estados;
 class EstadosController extends Controller
 {
     public function index(){
-    	$estados= Estados::all();
+    	$estados= Estados::paginate(3);
     	return view('Configurar.Estados.index')->with('estados',$estados);
     }
 
