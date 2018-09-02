@@ -35,7 +35,7 @@
                 <label for="exampleSelect1">Tipo de Categoría</label>
                 <select class="form-control" id="tipoCategoria" name="tipoCategoria">
                   <option value="">Seleccione</option>
-                  <option value="Productos">Productos</option>
+                  <option value="Productos" selected>Productos</option>
                   <option value="Gastos">Gastos</option>
                 </select>
               </div>
@@ -125,7 +125,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Tipo de Categoría</label>

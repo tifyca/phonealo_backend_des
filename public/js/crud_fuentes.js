@@ -55,7 +55,7 @@ $(document).on('click', '.delete-fuente', function () {
             console.log(data);
             $("#fuente" + fuente_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Fuente Eliminado con Exito");
+            $("#res").html("Fuente Eliminado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -96,7 +96,7 @@ $("#btn-save").click(function (e) {
           
             $('#fuentes-list').append(fuente);
             $('#frmc').trigger("reset");
-            $("#res").html("Fuente Registrada con Exito");
+            $("#res").html("Fuente Registrada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -152,7 +152,7 @@ $("#btn-save-edit").click(function (e) {
             $("#fuente" + fuente_id).replaceWith(fuente);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Fuente Modificado con Exito");
+            $("#res").html("Fuente Modificado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -161,3 +161,21 @@ $("#btn-save-edit").click(function (e) {
         }
     });
 });
+
+function soloLetras(e) {
+    key = e.keyCode || e.which;
+    tecla = String.fromCharCode(key).toLowerCase();
+    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+    especiales = [8, 39];
+
+    tecla_especial = false
+    for(var i in especiales) {
+        if(key == especiales[i]) {
+            tecla_especial = true;
+            break;
+        }
+    }
+
+    if(letras.indexOf(tecla) == -1 && !tecla_especial)
+        return false;
+}

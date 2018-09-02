@@ -14,7 +14,7 @@ use App\Barrios;
 class DireccionesController extends Controller
 {
     public function paises(){
-    	$paises = Paises::paginate(10);
+    	$paises = Paises::paginate(6);
     	return view('Configurar.Direcciones.paises')->with('paises', $paises);
     }
    
@@ -67,7 +67,7 @@ class DireccionesController extends Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public function departamentos(){
-    	$departamentos = Departamentos::paginate(10);
+    	$departamentos = Departamentos::paginate(6);
     	return view('Configurar.Direcciones.departamentos')->with('departamentos', $departamentos);
     }
 
@@ -112,8 +112,25 @@ class DireccionesController extends Controller
     }
 
   public function destroy_departamentos($dpto_id){
-      $dpto = Departamentos::destroy($dpto_id);
-      return response()->json($dpto);
+
+    try
+            {
+
+               $dpto = Departamentos::destroy($dpto_id);
+                return response()->json($dpto);
+              
+          }catch(\Illuminate\Database\QueryException $e)
+          {
+           
+              if($e->getCode() === '23000') {
+
+                   
+                    return response()->json([ 'success' => false ], 400);
+        
+              } 
+
+          }
+     
     }
 
 
@@ -161,17 +178,51 @@ class DireccionesController extends Controller
     }
 
   public function update_ciudades (Request $request,$ciudad_id){
-        $ciudad = Ciudades::find($ciudad_id);
-        $ciudad->ciudad = $request->nombre;
-        $ciudad->id_departamento = $request->id_dpto; 
-        $ciudad->id_usuario=$request->id_usuario;
-        $ciudad->save();
-        return response()->json($ciudad);
+
+       try
+            {
+
+                $ciudad = Ciudades::find($ciudad_id);
+                $ciudad->ciudad = $request->nombre;
+                $ciudad->id_departamento = $request->id_dpto; 
+                $ciudad->id_usuario=$request->id_usuario;
+                $ciudad->save();
+                return response()->json($ciudad);
+              
+          }catch(\Illuminate\Database\QueryException $e)
+          {
+           
+              if($e->getCode() === '23000') {
+
+                   
+                    return response()->json([ 'success' => false ], 400);
+        
+              } 
+
+          }
+        
     }
 
   public function destroy_ciudades($ciudad_id){
-      $ciudad = Ciudades::destroy($ciudad_id);
-      return response()->json($ciudad);
+
+    try
+            {
+
+               $ciudad = Ciudades::destroy($ciudad_id);
+               return response()->json($ciudad);
+              
+          }catch(\Illuminate\Database\QueryException $e)
+          {
+           
+              if($e->getCode() === '23000') {
+
+                   
+                    return response()->json([ 'success' => false ], 400);
+        
+              } 
+
+          }
+      
     }
 
 
