@@ -19,9 +19,9 @@ $(document).on('click', '.open_modal', function () {
         console.log(data);
         $('#barrio_id').val(data.id);
         $('#nombre').val(data.barrio);
-        $('#lat').val(data.lat);
-        $('#lon').val(data.lon);
-        $('select[name=ciudades-select-list]').val(data.id_ciudad);
+        $('#latedit').val(data.lat);
+        $('#lonedit').val(data.lon);
+       // $('select[name=ciudades-select-edit]').val(data.id_ciudad);
         $('#myModal').modal('show');
     });
     
@@ -52,7 +52,7 @@ $(document).on('click', '.delete-barrio', function () {
             console.log(data);
             $("#barrios" + barrio_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Barrio Eliminado con Exito");
+            $("#res").html("Barrio Eliminado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -70,6 +70,8 @@ $("#btn-save").click(function (e) {
     });
 
     e.preventDefault();
+    var id_dptos=$('.departamento').val();
+    var id_ciudads=$('.ciudades').val();
     var formData = {
         nombre: $('#nombreBarrio').val(),
         id_dpto:$('.departamento').val(),
@@ -87,14 +89,36 @@ $("#btn-save").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            console.log(data);
-            var barrio = '<tr id="barrios' + data.id + '"><td>' + data.barrio + '</td>';
-            barrio += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            barrio += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+           // console.log(data);
+            //var barrio = '<tr id="barrios' + data.id + '"><td>' + data.barrio + '</td>';
+            //barrio += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            //barrio += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+          
+            //$('#barrios-list').append(barrio);
+           // $('#frmc').trigger("reset");
+            $('#nombreBarrio').val("");
+            $('#lon').val("");
+            $('#lat').val("");
+           // $(".departamento option:eq(1)").prop("selected", true);
+            $(".departamento ").val("");
+            $(".ciudades ").val("");
+            $('select[name=departamento-select-list]').val(id_dptos);
+            $('select[name=ciudades-select-list]').val(id_ciudads);
+
+           $.get(url + '/ciud/' + data.id_ciudad, function(ciud){
+               $.each(ciud, function(l, item1) {
+
+                var barrio = '<tr id="barrios' + item1.id + '"><td>' + item1.barrio + '</td>';
+                    barrio += '<td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                    barrio += ' <button class="btn btn-primary confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
             $('#barrios-list').append(barrio);
-            $('#frmc').trigger("reset");
-            $("#res").html("Barrio Registrada con Exito");
+
+                 });
+            
+                 }),
+
+            $("#res").html("Barrio Registrada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -129,8 +153,13 @@ $("#btn-save-edit").click(function (e) {
 
     e.preventDefault();
         var barrio_id = $('#barrio_id').val();
-        var formData = {nombre: $('#nombre').val(), id_usuario: $('#id_usuario').val(), id_dpto:$('.departamento').val(), id_ciudad:$('.ciudades').val(),  lat:$('#lat').val(),
-        lon:$('#lon').val(), }
+        var formData = { nombre: $('#nombre').val(),
+                         id_usuario: $('#id_usuario').val(),
+                         barrio_id:$('#barrio_id').val(),
+                        // id_dpto:$('.departamento').val(),
+                         //id_ciudad:$('.ciudades').val(), 
+                         lat:$('#latedit').val(),
+                         lon:$('#lonedit').val(), }
         var my_url = url;
         my_url += '/mod/'+ barrio_id;
    
@@ -149,7 +178,7 @@ $("#btn-save-edit").click(function (e) {
             $("#barrios" + barrio_id).replaceWith(barrio);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Barrio Modificado con Exito");
+            $("#res").html("Barrio Modificado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -158,3 +187,29 @@ $("#btn-save-edit").click(function (e) {
         }
     });
 });
+
+function soloLetras(e) {
+    key = e.keyCode || e.which;
+    tecla = String.fromCharCode(key).toLowerCase();
+    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+    especiales = [8, 39];
+
+    tecla_especial = false
+    for(var i in especiales) {
+        if(key == especiales[i]) {
+            tecla_especial = true;
+            break;
+        }
+    }
+
+    if(letras.indexOf(tecla) == -1 && !tecla_especial)
+        return false;
+}
+
+function soloNumeros(e)
+{
+var keynum = window.event ? window.event.keyCode : e.which;
+if ((keynum == 8) || (keynum == 46) || (keynum == 45))
+return true;
+return /\d/.test(String.fromCharCode(keynum));
+}

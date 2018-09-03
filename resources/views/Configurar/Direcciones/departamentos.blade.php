@@ -28,7 +28,7 @@
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Departamento</label>
-                <input class="form-control" type="text" placeholder="Nombre Departamento"  id="nombreDpto" name="nombreDpto">
+                <input class="form-control" type="text" placeholder="Nombre Departamento"  id="nombreDpto" name="nombreDpto" onkeypress="return soloLetras(event)">
               </div>
               <div class="tile-footer text-center border-0" >
                 <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
@@ -66,9 +66,11 @@
                 </tr>
                 @endforeach
               </tbody>
-              </table>
-              
+              </table>    
           </div>
+          <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    <?php echo $departamentos->render(); ?>
+              </div>
         </div>
     </div>
   </div>
@@ -88,7 +90,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
               </div>
           
             </div>

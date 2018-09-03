@@ -41,15 +41,15 @@
               </div>
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Barrio</label>
-                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio">
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Latitud</label>
-                <input class="form-control" type="text"  id="lat" name="lat">
+                <input class="form-control" type="text"  id="lat" name="lat" onkeypress="return soloNumeros(event);">
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Logitud</label>
-                <input class="form-control" type="text"  id="lon" name="lon">
+                <input class="form-control" type="text"  id="lon" name="lon" onkeypress="return soloNumeros(event);">
               </div>
               <div class="tile-footer text-center border-0" >
                 <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
@@ -69,13 +69,13 @@
           <div class="row">
             <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Seleccione Departamento</label>
-                <select class="form-control departamento" id="departamento-select-list">
+                <select class="form-control departamento" id="departamento-select-list" name="departamento-select-list">
                  <option value="">Seleccione</option>
                 </select>
               </div>
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Seleccione Ciudad</label>
-                <select class="form-control" id="ciudades-select-list">
+                <select class="form-control ciudades" id="ciudades-select-list" name="ciudades-select-list">
                  <option value="">Seleccione</option>
                 </select>
               </div>
@@ -102,22 +102,29 @@
 </div>
 
  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
+   <div class="modal-dialog  modal-lg">
     <div class="modal-content">
      <div class="modal-header">
      
       <h4 class="modal-title" id="myModalLabel">Editar Barrio</h4>
      </div>
-     <div class="modal-body">
+     <div class="modal-body ">
       <form id="frmciudades" name="frmciudades" class="form-horizontal" novalidate="">
         
        <div class="row">
-              <div class="form-group col-12  col-md-8">
-                <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre">
+              <div class="form-group col-12  col-md-4">
+                <label class="control-label">Barrio</label>
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombre" name="nombre" onkeypress="return soloLetras(event)">
               </div>
-          
-            </div>
+              <div class="form-group col-12  col-md-4">
+                <label class="control-label">Latitud</label>
+                <input class="form-control" type="text"  id="latedit" name="latedit" onkeypress="return soloNumeros(event);">
+              </div>
+              <div class="form-group col-12  col-md-4">
+                <label class="control-label">Logitud</label>
+                <input class="form-control" type="text"  id="lonedit" name="lonedit" onkeypress="return soloNumeros(event);">
+              </div>
+              
         </div>
       </form>
       <div class="modal-footer">
@@ -176,7 +183,8 @@
 
              $.each(data, function(i, item) {
 
-                $(".departamento").append('<option value='+item.id+'>'+item.nombre+'</option>');
+              //$(".departamento option:eq(1)").prop("selected", true);
+              $(".departamento").append('<option value='+item.id+'>'+item.nombre+'</option>');
               });
           }
 
@@ -197,7 +205,8 @@
 
                  $.each(data, function(l, item1) {
 
-                    $(".ciudades").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
+                   //$(".ciudades option:eq(1)").prop("selected", true);
+                   $(".ciudades").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
                   });
               }
           });
@@ -236,10 +245,11 @@
               dataType: "json",
               data: {id_ciudad: id_ciudad},
               success: function (data2){
+                console.log(data2);
 
                  $.each(data2, function(l, item2) {
 
-                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value='+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button class="btn btn-primary confirm-delete" value='+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value="'+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button class="btn btn-primary confirm-delete" value="'+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
               }
           });

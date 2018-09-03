@@ -13,87 +13,91 @@
 @section('content')
 
 <div class="row">
+  {{-- DATOS DEL CLIENTE // AL MARCAR EL CELULAR SI EL CLIENTE EXISTE TRAE LOS DATOS, SI NO LO REGISTRA --}}
   <div class="col-12">
     <div class="tile">
-    	<h3 class="tile-title text-center text-md-left">Detalles del Cliente</h3>
-        <div class="tile-body ">
-          <form>
-          <div class="row">
-          	<div class="form-group col-md-4">
-              <label for="telefono_cliente">Teléfono</label>
-              <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="...">
-            </div>
-          	<div class="form-group col-md-4">
-              <label for="nombre_cliente">Nombres</label>
-              <input class="form-control" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="...">
-            </div>
-            <div class="form-group col-md-4">
-              <label for="email_cliente">Email</label>
-              <input class="form-control" id="email_cliente" name="email_cliente" type="email" aria-describedby="emailHelp" placeholder="...">
-            </div>
-            <div class="form-group col-md-4">
-              <label for="ruc_cliente">RUC</label>
-              <input class="form-control" type="text" id="ruc_cliente" name="ruc_cliente" placeholder="...">
-            </div>
-            <div class="form-group col-12 col-md-4">
-              <label for="tipo_cliente">Tipo de Cliente</label>
-              <select class="form-control" id="tipo_cliente" name="tipo_cliente">
-                <option value="">Seleccione</option>
-                <option selected value="N">Natural</option>
-                <option value="J">Jurídico</option>
-              </select>
-            </div>
-            <div class="form-group col-12 col-md-4">
-              <label for="departamento_cliente">Departamento</label>
-              <select class="form-control" id="departamento_cliente" name="departamento_cliente">
-                <option value="">Seleccione</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </div>
-            <div class="form-group col-md-4">
-              <label for="ciudad_cliente">Ciudad</label>
-              <select class="form-control" id="ciudad_cliente" name="ciudad_cliente">
-                <option value="">Seleccione</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </div>
-            <div class="form-group col-md-4">
-              <label for="barrio_cliente">Barrio</label>
-              <select class="form-control" id="barrio_cliente" name="barrio_cliente">
-                <option value="">Seleccione</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </div>
-            <div class="form-group col-md-4">
-              <label for="ubicacion_cliente">Ubicación</label>
-              <input class="form-control" type="text" id="ubicacion_cliente" name="ubicacion_cliente" placeholder="...">
-            </div>
-            <div class="form-group col-md-12">
-              <label for="direccion_cliente">Dirección</label>
-              <input class="form-control" type="text" id="direccion_cliente" name="direccion_cliente" placeholder="...">
-            </div>
+    <h3 class="tile-title text-center text-md-left">Detalles del Cliente</h3>
+      <div class="tile-body ">
+        <div class="row">
+          <div class="form-group col-md-4">
+            <label for="telefono_cliente">Teléfono</label>
+            <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="...">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="nombre_cliente">Nombres</label>
+            <input class="form-control" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="...">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="email_cliente">Email</label>
+            <input class="form-control" id="email_cliente" name="email_cliente" type="email" aria-describedby="emailHelp" placeholder="...">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="ruc_cliente">RUC</label>
+            <input class="form-control" type="text" id="ruc_cliente" name="ruc_cliente" placeholder="...">
+          </div>
+          <div class="form-group col-12 col-md-4">
+            <label for="tipo_cliente">Tipo de Cliente</label>
+            <select class="form-control" id="tipo_cliente" name="tipo_cliente">
+              <option value="">Seleccione</option>
+              <option selected value="N">Natural</option>
+              <option value="J">Jurídico</option>
+            </select>
+          </div>
+          <div class="form-group col-12 col-md-4">
+            <label for="departamento_cliente">Departamento</label>
+            <select class="form-control" id="departamento_cliente" name="departamento_cliente">
+              <option value="">Seleccione</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="ciudad_cliente">Ciudad</label>
+            <select class="form-control" id="ciudad_cliente" name="ciudad_cliente">
+              <option value="">Seleccione</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="barrio_cliente">Barrio</label>
+            <select class="form-control" id="barrio_cliente" name="barrio_cliente">
+              <option value="">Seleccione</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="ubicacion_cliente">Ubicación</label>
+            <input class="form-control" type="text" id="ubicacion_cliente" name="ubicacion_cliente" placeholder="...">
+          </div>
+          <div class="form-group col-md-12">
+            <label for="direccion_cliente">Dirección</label>
+            <input class="form-control" type="text" id="direccion_cliente" name="direccion_cliente" placeholder="...">
           </div>
         </div>
+      </div>
     </div>
   </div>
-  <div class="col-7">
-    <div class="tile">
+  {{-- FIN DATOS CLIENTES --}}
+</div>
+<div class="row">
+    {{-- DATOS DE LA VENTA --}}
+  <div class="col-7 d-flex">
+    <div class="tile flex-fill">
       <h3 class="tile-title text-center text-md-left">Detalles de la Venta</h3>
         <div class="tile-body ">
           <div class="row">
-          	<div class="form-group col-md-4">
+            <div class="form-group col-md-4">
               <label for="">Fecha de Venta</label>
               <input class="form-control" type="date" id="" name="" >
             </div>
@@ -112,38 +116,6 @@
                 <option>5</option>
               </select>
             </div>
-            <div class="form-group col-md-3">
-              <label for="">Cod. Producto</label>
-              <input class="form-control" type="text" id="" name="" >
-            </div>
-            <div class="form-group col-md-9">
-              <label for="descripcion">Descripción</label>
-              <div class="row col-12 pr-0">
-              	<input class="form-control col-md-3 mr-4" type="text" id="descripcion" name="descripcion" >
-
-              	<select class="form-control col" id="" name="">
-	                <option value="">Seleccione</option>
-	                <option>1</option>
-	                <option>2</option>
-	                <option>3</option>
-	                <option>4</option>
-	                <option>5</option>
-	              </select>
-
-              </div>
-            </div>
-            <div class="form-group col-md-2">
-              <label for="">Cantidad</label>
-              <input class="form-control" type="text" id="" name="" >
-            </div>
-            <div class="form-group col-md-3">
-              <label for="">Precio</label>
-              <input class="form-control" type="text" id="" name="" >
-            </div>
-            <div class="form-group col-md-3">
-              <label for="">Stock</label>
-              <input class="form-control" type="text" id="" name=""  >
-            </div>
             <div class="form-group col-md-4">
               <label for="">Forma de Pago</label>
               <select class="form-control" id="" name="">
@@ -155,149 +127,188 @@
             </div>
             <div class="form-group col-md-4">
               <label for="">Factura</label>
-              <select class="form-control" id="" name="">
+              <select id="factura" class="form-control" id="" name="">
                 <option value="">Seleccione</option>
-                <option>No</option>
-                <option>Si</option>
-                <option>Sin Nombre</option>
+                <option value="1" selected>No</option>
+                <option value="2">Si</option>
+                <option value="3">Sin Nombre</option>
               </select>
             </div>
-            <div class="form-group col-md-2">
-              <label for="">Stock Activo</label>
+            <div class="form-group col-md-4">
+              <label for="">Vendedor</label>
+              <select class="form-control" id="" name="">
+                <option value="">Seleccione</option>
+                <option value="">Item1</option>
+                <option value="" selected>Item2</option>
+                <option value="">Item3</option>
+              </select>
+            </div>
+            {{-- ESTOS CAMPOS APARECEN CUANDO SE SELECCIONA FACTURA : SI / SIN NOMBRE   --}}
+            <div id="nombres_factura" class=" d-none form-group col-md-4">
+              <label for="">Nombres</label>
               <input class="form-control" type="text" id="" name="" >
             </div>
-            <div class="col-sm-1">
-              <a class="btn btn-primary mt-4" href="#"><i class=" fa fa-lg fa-plus"></i>Añadir</a>
+            <div id="direccion_factura" class=" d-none form-group col-md-8">
+              <label for="">Direccion</label>
+              <input class="form-control" type="text" id="" name="" >
             </div>
-            <span style="border-top: solid silver 1px" class="my-3 col-12"></span>
-            <div class="form-group col-md-6">
-              <label for="">Vendedor</label>
-              <input class="form-control" type="text" id="" name="" readonly>
+            <div id="ruc_factura" class=" d-none form-group col-md-4">
+              <label for="">RUC</label>
+              <input class="form-control" type="text" id="" name="" >
             </div>
-            <div class="col"></div>
-            <div class="form-check col-md-1 ">
-                <label class="form-check-label mt-4">
-                  <input class="form-check-input" id="delivery" type="checkbox">Gratis
-                </label>
-              </div>
-            <div class="form-group col-md-4">
+            {{-- //// --}}
+            
+            <div class="form-group col-md-8">
               <label for="">Delivery</label>
-              <input class="form-control" type="text" id="monto" name="" placeholder="Monto" >
+              <div class="row">
+                <div class="col-3 text-right">
+                  <label class="form-check-label mt-2">
+                    <input class="form-check-input" id="delivery" type="checkbox">Gratis
+                  </label>
+                </div>
+                <div class="col-9">
+                  <input class="form-control" type="text" id="monto" name="" placeholder="Monto" >
+                </div>
+              </div>
             </div>
             <div class="form-group col-md-12">
               <label for="">Nota</label>
               <textarea name="" class="form-control" cols="5"></textarea>
             </div>
-
           </div>
         </div>
-         
     </div>
   </div>
-   <div class="col-5">
-	    <div class="tile">
-	      <h3 class="tile-title text-center text-md-left">Productos en la Cesta</h3>
-	        <div class="tile-body ">
-	        	<div class="table-responsive">
-	        		<table class="table">
-	        			<tbody style="border-bottom: solid black 2px">
-	        				<tr>
-	        					<th>Cod.:</th>
-	        					<td>087609</td>
-	        					<th>Producto:</th>
-	        					<td>Barbeador Recargable Resistente al agua - 4x1</td>
-	        				</tr>
-	        				<tr>
-	        					<th>Cantidad:</th>
-								<td>9</td>
-								<th>Precio:</th>
-								<td>9987</td>
-							</tr>
-							<tr>
-								<th>Importe:</th>
-								<td colspan="2">23459</td>
-								<td>
-									<div class="btn-group">
-										<a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a>
-										<a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
-									</div>
-								</td>
-							</tr>
-	        			</tbody>
-	        			<tbody style="border-bottom: solid black 2px">
-	        				<tr>
-	        					<th>Cod.:</th>
-	        					<td>087609</td>
-	        					<th>Producto:</th>
-	        					<td>Barbeador Recargable Resistente al agua - 4x1</td>
-	        				</tr>
-	        				<tr>
-	        					<th>Cantidad:</th>
-								<td>9</td>
-								<th>Precio:</th>
-								<td>9987</td>
-							</tr>
-							<tr>
-								<th>Importe:</th>
-								<td colspan="2">23459</td>
-								<td>
-									<div class="btn-group">
-										<a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a>
-										<a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
-									</div>
-								</td>
-							</tr>
-	        			</tbody>
-	        			<tbody style="border-bottom: solid black 2px">
-	        				<tr>
-	        					<th>Cod.:</th>
-	        					<td>087609</td>
-	        					<th>Producto:</th>
-	        					<td>Barbeador Recargable Resistente al agua - 4x1</td>
-	        				</tr>
-	        				<tr>
-	        					<th>Cantidad:</th>
-								<td>9</td>
-								<th>Precio:</th>
-								<td>9987</td>
-							</tr>
-							<tr>
-								<th>Importe:</th>
-								<td colspan="2">23459</td>
-								<td>
-									<div class="btn-group">
-										<a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a>
-										<a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
-									</div>
-								</td>
-							</tr>
-	        			</tbody>
+  {{-- FIN DATOS DE LA VENTA --}}
+  {{-- /// --}}
+  {{-- SELECCION DE PRODUCTOS --}}
+  <div class="col-md-5 d-flex">
+    <div class="tile flex-fill">
+    <h3 class="tile-title text-center text-md-left">Selección de Productos</h3>
+      <div class="tile-body">
+        <div class="row">
+          <div class="form-group col-md-12">
+            <div class="row">
+              <div class="col-12">
+                <label for="descripcion">Descripción</label>
+                <input class="form-control" autocomplete="off" type="text" id="descripcion" name="descripcion" >
 
-	        		</table>
-	        	</div>
-	        	
-	        	<div class="row tile-footer">
-	        		<div class="col-md-8">
-	        			<h4>Total: 0000000</h4>
-	        		</div>
-	        		<div class=" col-12 col-md-4">
-		              <button class="btn btn-primary" type="submit">Guardar</button>
-		            </div>
-	        	</div>
-	        	
-	        </div>
-	    </div>
-   </div>
-  
-   </form>
+                {{-- ESTE SE LLENA CON EL ID DEL PRODUCTO --}}
+                <input type="hidden" id="id_producto"  name="id_producto">
+                {{-- //// --}}
+
+              </div>
+             
+ {{--              <div class="" style="background: black; width: 300px; position: absolute; margin-left: -300px">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. 
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus deleniti, vitae molestias delectus nihil natus, voluptatum rerum non, minima aliquid accusantium facilis voluptatibus doloremque, magnam adipisci pariatur. Debitis, aut est.
+              </div> --}}
+              <div class="selec_productos col-12 d-none">
+                <ul class="list-group" id="list-productos">
+                   {{-- ESTE ESPACIO APARECE Y SE LLENA CON AJAX, SE ACATUALIZA CADA QUE SUELTAS LA TECLA --}}
+                </ul>
+              </div>
+              {{-- //// --}}
+            </div>
+          </div>
+          
+          
+          <div class="form-group col-md-6 opacity-p">
+            <label for="">Cod. Producto</label>
+            <input class="form-control" type="text" id="cod_producto" name="" readonly>
+          </div>
+          <div class="form-group col-md-6 opacity-p">
+            <label for="">Stock</label>
+            <input class="form-control" type="text" id="stock" name=""  readonly>
+          </div>
+          <div class="form-group col-md-6 opacity-p">
+            <label for="">Cantidad</label>
+            <input class="form-control" type="text" id="" name="" >
+          </div>
+          <div class="form-group col-md-6 opacity-p">
+            <label for="">Precio</label>
+            <input class="form-control" type="text" id="precio" name="" >
+          </div>
+          <div class="col-sm-12 opacity-p d-flex justify-content-between mt-4">
+            <a id="añadir" class="btn btn-primary " ><i class=" fa fa-lg fa-plus"></i>Añadir</a>
+            <a id="refrescar" class="btn btn-secondary " ><i class=" fa fa-lg fa-refresh"></i>Refrescar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{-- FIN SELECCION DE PRODUCTOS --}}
 </div>
-
+<div class="alert alert-danger bg-danger text-white" role="alert">
+  Se agregó un producto faltante: <b>Nombre del Producto</b>.
+</div>
+<div class="row">
+     <div class="col-md-12">
+    {{-- CESTA DE COMPRA --}}
+      <div class="tile">
+        <h3 class="tile-title text-center text-md-left">Productos en la Cesta</h3>
+          <div class="tile-body ">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td>Cod.</td>
+                    <td>Producto</td>
+                    <td>Cantidad</td>
+                    <td>Precio</td>
+                    <td>Importe</td>
+                    <td>Acciones</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>087609</td>
+                    <td>Barbeador Recargable Resistente al agua - 4x1</td>
+                    <td>9</td>
+                    <td>9987</td>
+                    <td>23459</td>
+                    <td>
+                      <div class="btn-group">
+                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a>
+                        <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="table-danger">
+                    <td>087609</td>
+                    <td>Barbeador Recargable Resistente al agua - 4x1</td>
+                    <td>9</td>
+                    <td>9987</td>
+                    <td>23459</td>
+                    <td>
+                      <div class="btn-group">
+                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a>
+                        <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr>
+                    <td colspan="5" class="text-right"><h4>Total: 0000000</h4></td>
+                    <td><button class="btn btn-primary" type="submit">Guardar</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+      {{-- FIN CESTA DE COMPRA --}}
+   </div>
+</div>
   
 
 @endsection
 
 @push('scripts')
 <script type="text/javascript" charset="utf-8" async defer>
+  //ACTIVA Y DESACTIVA EL MONTO DEL DELIVERY
     $('#delivery').change(function(){
       if ($('#delivery').prop('checked')){
         
@@ -308,6 +319,127 @@
        $('#monto').prop('disabled', false);
       }
     });
+
+    // APARECEN MAS CUAMPOS CUANDO SELECCIONO FACTURA
+    
+    $('#factura').change(function(){
+
+     var seleccion = $(this).val();
+
+     if (seleccion == 1) {
+        $('#nombres_factura').addClass('d-none');
+        $('#direccion_factura').addClass('d-none');
+        $('#ruc_factura').addClass('d-none');
+     }
+     if (seleccion == 2) {
+        $('#nombres_factura').removeClass('d-none');
+        $('#direccion_factura').removeClass('d-none').removeClass('col-md-12').addClass('col-md-8');
+        $('#ruc_factura').removeClass('d-none'); 
+     }
+     if (seleccion == 3) {
+        $('#nombres_factura').addClass('d-none');
+        $('#direccion_factura').removeClass('d-none').removeClass('col-md-8').addClass('col-md-12');
+        $('#ruc_factura').addClass('d-none');  
+     }
+    });
+    
+
+    // REFRESCA LOS CAMPOS DE SELCCION DE PRODUCTO
+
+    $('#refrescar').click(function(){
+      $('#descripcion').val('');
+      $('#cod_producto').val('');
+      $('#stock').val('');
+      $('#precio').val('');
+      $('#id_producto').val('');
+    });
+
+    //CAPTURA AL SOLTAR EL TECLADO Y DESATA EL EVENTO Y BUSCA EL PRODUCTO.
+    $('#descripcion').keyup(function(event) {
+      
+      var descripcion = $(this).val();
+      if (descripcion.length > 0) {
+        $.ajax({
+          type: "get",
+          url: '{{ route('productos_ajax') }}',
+          dataType: "json",
+          cache: false,
+          data: { producto: descripcion },
+          success: function (data){
+
+            if (data.length == 0) {
+
+              $('.selec_productos').addClass('d-none');
+              $('.opacity-p').css('opacity','1');
+
+            }else{
+
+              $('.selec_productos').removeClass('d-none');
+              $('.opacity-p').css('opacity','0.3');
+              $('#list-productos').html('');
+
+              $.each(data, function(l, item) {
+                $('#list-productos').append('<li onclick="captura(this)" data-value='+item.id_producto+' class="list-group-item list-group-item-action cursor-pointer"><div class="row no-gutters d-flex align-items-center"><div class="col mr-1">'+item.descripcion+'</div><div class="col-1 ml-1"><span class="badge badge-primary badge-pill ">'+item.stock_activo+'</span></div></div></li>');
+              });
+            }
+
+                
+          }
+
+        });
+      }else{
+        $('.selec_productos').addClass('d-none');
+        $('.opacity-p').css('opacity','1');
+      }
+
+    });
+
+    function captura(elemento){
+
+      var value = $(elemento).data('value');
+
+      $('.selec_productos').addClass('d-none');
+      $('.opacity-p').css('opacity','1');
+
+      $.ajax({
+          type: "get",
+          url: '{{ route('producto_click') }}',
+          dataType: "json",
+          cache: false,
+          data: { id_producto: value },
+          success: function (data){
+
+            $('#descripcion').val(data.descripcion);
+            $('#cod_producto').val(data.codigo_producto);
+            $('#stock').val(data.stock_activo);
+            $('#precio').val(data.precio_ideal);
+            $('#id_producto').val(data.id_producto);
+                
+          }
+
+        });
+
+
+    }
+
+
+
+
+
   </script>
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @endpush

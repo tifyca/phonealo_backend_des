@@ -51,11 +51,12 @@ $(document).on('click', '.delete-cargo', function () {
     $.ajax({
         type: "DELETE",
         url: url + '/' + cargo_id,
+         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
             $("#cargo" + cargo_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Cargo Eliminado con Exito");
+            $("#res").html("Cargo Eliminado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -96,7 +97,7 @@ $("#btn-save").click(function (e) {
           
             $('#cargos-list').append(cargo);
             $('#frmc').trigger("reset");
-            $("#res").html("Cargo Registrado con Exito");
+            $("#res").html("Cargo Registrado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -131,7 +132,10 @@ $("#btn-save-edit").click(function (e) {
 
     e.preventDefault();
         var cargo_id = $('#cargo_id').val();
-        var formData = {nombre: $('#nombre').val(), status: $('input:radio[name=status]:checked').val(), id_usuario: $('#id_usuario').val(), }
+        var formData = { nombre: $('#nombre').val(), 
+                         status: $('input:radio[name=status]:checked').val(), 
+                         id_usuario: $('#id_usuario').val(), 
+                        }
         var my_url = url;
         my_url += '/mod/'+ cargo_id;
    
@@ -152,7 +156,7 @@ $("#btn-save-edit").click(function (e) {
             $("#cargo" + cargo_id).replaceWith(cargo);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Cargo Modificado con Exito");
+            $("#res").html("Cargo Modificado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -161,3 +165,21 @@ $("#btn-save-edit").click(function (e) {
         }
     });
 });
+
+function soloLetras(e) {
+    key = e.keyCode || e.which;
+    tecla = String.fromCharCode(key).toLowerCase();
+    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+    especiales = [8, 39];
+
+    tecla_especial = false
+    for(var i in especiales) {
+        if(key == especiales[i]) {
+            tecla_especial = true;
+            break;
+        }
+    }
+
+    if(letras.indexOf(tecla) == -1 && !tecla_especial)
+        return false;
+}

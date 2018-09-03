@@ -9,6 +9,7 @@ var url = "subcategorias";
 // muestra el formulario modal para la edición del categoria
 $(document).on('click', '.open_modal', function () {
     var subcategoria_id = $(this).val();
+
     $.get(url + '/edit/' + subcategoria_id, function(data){
           $.ajaxSetup({
         headers: {
@@ -19,7 +20,7 @@ $(document).on('click', '.open_modal', function () {
         console.log(data);
         $('#subcategoria_id').val(data.id);
         $('#nombre').val(data.sub_categoria);
-        $('select[name=categoria]').val(data.id_categoria);
+        $('select[name=cat]').val(data.id_categoria);
         if (data.status==1){
         $('input:radio[id=status]').prop("checked", true);
         }
@@ -52,6 +53,7 @@ $(document).on('click', '.delete-subcategoria', function () {
     $.ajax({
         type: "DELETE",
         url: url + '/' + subcategoria_id,
+         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
             $("#subcategoria" + subcategoria_id).remove();
@@ -138,7 +140,11 @@ $("#btn-save-edit").click(function (e) {
 
     e.preventDefault();
         var subcategoria_id = $('#subcategoria_id').val();
-        var formData = {nombre: $('#nombre').val(),  categoria: $('#categoria').val(), status: $('input:radio[name=status]:checked').val(), id_usuario: $('#id_usuario').val(),}
+        var formData = { nombre: $('#nombre').val(),  
+                         categoria: $('#cat').val(), 
+                         status: $('input:radio[name=status]:checked').val(), 
+                         id_usuario: $('#id_usuario').val(),
+                       }
         var my_url = url;
         my_url += '/mod/'+ subcategoria_id;
    
@@ -163,7 +169,7 @@ $("#btn-save-edit").click(function (e) {
             $("#subcategoria" + subcategoria_id).replaceWith(subcategoria);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Subcategoria Modificado con Exito");
+            $("#res").html("Subcategoria Modificado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
@@ -185,3 +191,21 @@ $("#btn-save-edit").click(function (e) {
         },
     });
 });
+
+function soloLetras(e) {
+    key = e.keyCode || e.which;
+    tecla = String.fromCharCode(key).toLowerCase();
+    letras = "áéíóúabcdefghijklmnñopqrstuvwxyz";
+    especiales = [8, 39];
+
+    tecla_especial = false
+    for(var i in especiales) {
+        if(key == especiales[i]) {
+            tecla_especial = true;
+            break;
+        }
+    }
+
+    if(letras.indexOf(tecla) == -1 && !tecla_especial)
+        return false;
+}

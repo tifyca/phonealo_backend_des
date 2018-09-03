@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class FuenteController extends Controller
 {
     public function index(){
-    	$fuentes= Fuente::all();
+    	$fuentes= Fuente::paginate(3);
     	return view('Configurar.Fuente.index')->with('fuentes',$fuentes);
     	
     }

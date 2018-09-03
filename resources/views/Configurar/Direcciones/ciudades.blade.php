@@ -35,7 +35,7 @@
               </div>
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Ciudad</label>
-                <input class="form-control" type="text" placeholder="Nombre Ciudad"  id="nombreCiudad" name="nombreCiudad">
+                <input class="form-control" type="text" placeholder="Nombre Ciudad"  id="nombreCiudad" name="nombreCiudad" onkeypress="return soloLetras(event)">
               </div>
               <div class="tile-footer text-center border-0" >
                 <button class="btn btn-primary" type="submit" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
@@ -55,7 +55,7 @@
         <div class="tile-body ">
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Seleccione Departamento</label>
-                <select class="form-control departamento" id="departamento-select">
+                <select class="form-control departamento" id="departamento-select" name="departamento-select">
                  <option value="">Seleccione</option>
                 </select>
               </div>
@@ -71,8 +71,10 @@
                 {{-- ESTE LISTADO SE LLENA CON AJAX --}}
               </tbody>
               </table>
-             
           </div>
+           <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    <!--?php echo $ciudades->render(); ?-->
+              </div>
         </div>
     </div>
   </div>
@@ -91,7 +93,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
               </div>
           
             </div>
@@ -149,10 +151,11 @@
           url: '{{ route('departamentos_ajax') }}',
           dataType: "json",
           success: function (data){
-
+     
+           
              $.each(data, function(i, item) {
-
-                $(".departamento").append('<option value='+item.id+'>'+item.nombre+'</option>');
+               $(".departamento option:eq(1)").prop("selected", true);
+                $(".departamento").append('<option value='+item.id+' >'+item.nombre+'</option>');
               });
           }
 
@@ -172,7 +175,7 @@
 
                  $.each(data1, function(l, item1) {
 
-                    $("#ciudades-list").append('<tr id="ciudades'+ item1.id +'"><td>'+item1.ciudad+'</td><td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value='+ item1.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button class="btn btn-primary confirm-delete" value='+ item1.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#ciudades-list").append('<tr id="ciudades'+ item1.id +'"><td>'+item1.ciudad+'</td><td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value="'+ item1.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button class="btn btn-primary confirm-delete" value="'+ item1.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
               }
           });

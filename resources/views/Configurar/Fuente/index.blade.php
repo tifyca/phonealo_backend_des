@@ -28,7 +28,7 @@
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="Nombre Fuente" id="nombreFuente" name="nombreFuente">
+                <input class="form-control" type="text" placeholder="Nombre Fuente" id="nombreFuente" name="nombreFuente" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
@@ -90,6 +90,9 @@
                     @endforeach
               </table>       
             </div>
+            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    <?php echo $fuentes->render(); ?>
+              </div>
             </div>
         </div>
     </div>
@@ -109,7 +112,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>

@@ -24,6 +24,7 @@
         <h3 class="tile-title">Nueva Subcategoria</h3>
         <div class="tile-body ">
           <form id="frmc" name="frmc"  novalidate="">
+            {{ csrf_field() }} 
             <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
               <div class="form-group col-12  col-md-4">
@@ -37,14 +38,14 @@
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombreSubcategoria" name="nombreSubcategoria">
+                <input class="form-control" type="text" placeholder="..." id="nombreSubcategoria" name="nombreSubcategoria" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="radio" value="1"  id="statusSubcategoria" name="statusSubcategoria">Activo
+                        <input class="form-check-input" type="radio" value="1"  id="statusSubcategoria" name="statusSubcategoria" checked>Activo
                       </label>
                     </div>
                     <div class="form-check">
@@ -91,7 +92,7 @@
                 <?php }else{ ?> 
                       <td><?='Inactivo' ?></td>
                 <?php } ?> 
-                      <td width="10%" class="text-right">
+                      <td width="10%" class="text-center">
                       <div class="btn-group">
                       <button class="btn btn-primary open_modal" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
                       <button class="btn btn-primary confirm-delete" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
@@ -103,6 +104,9 @@
                 </tbody>
               </table>
             </div>
+            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    <?php echo $subcategorias->render(); ?>
+              </div>
         </div>
     </div>
   </div>
@@ -121,7 +125,7 @@
        <div class="row">
         <div class="form-group col-12  col-md-4">
                 <label for="exampleSelect1">Categoría</label>
-                <select class="form-control" id="categoria" name="categoria">
+                <select class="form-control" id="cat" name="cat">
                   <option value="">Seleccione</option>       
                 @foreach($categorias as $categoria)   
                 <option value="{{$categoria->id}}"> {{ $categoria->categoria }} </option>
@@ -130,7 +134,7 @@
               </div>
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
               </div>
              <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>

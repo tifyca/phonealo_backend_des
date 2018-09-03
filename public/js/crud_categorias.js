@@ -52,6 +52,7 @@ $(document).on('click', '.delete-categoria', function () {
     $.ajax({
         type: "DELETE",
         url: url + '/' + categoria_id,
+         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
             $("#categoria" + categoria_id).remove();
@@ -62,6 +63,10 @@ $(document).on('click', '.delete-categoria', function () {
         },
         error: function (data) {
             console.log('Error:', data);
+            $('#confirm-delete').modal('hide');
+            $("#rese").html("No se pudo eliminar la categoría, por que está asociada a una Subcategoria");
+            $("#rese").css("display","block");
+            $("#rese").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
@@ -132,7 +137,11 @@ $("#btn-save-edit").click(function (e) {
 
     e.preventDefault();
         var categoria_id = $('#categoria_id').val();
-        var formData = {nombre: $('#nombre').val(),  tipo: $('#tipo').val(), status: $('input:radio[name=status]:checked').val(), id_usuario: $('#id_usuario').val(), }
+        var formData = { nombre: $('#nombre').val(),  
+                         tipo: $('#tipo').val(), 
+                         status: $('input:radio[name=status]:checked').val(), 
+                         id_usuario: $('#id_usuario').val(), 
+                       }
         var my_url = url;
         my_url += '/mod/'+ categoria_id;
    
@@ -152,7 +161,7 @@ $("#btn-save-edit").click(function (e) {
             $("#categoria" + categoria_id).replaceWith(categoria);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Categoria Modificado con Exito");
+            $("#res").html("Categoria Modificado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -161,3 +170,22 @@ $("#btn-save-edit").click(function (e) {
         }
     });
 });
+
+
+function soloLetras(e) {
+    key = e.keyCode || e.which;
+    tecla = String.fromCharCode(key).toLowerCase();
+    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+    especiales = [8, 39];
+
+    tecla_especial = false
+    for(var i in especiales) {
+        if(key == especiales[i]) {
+            tecla_especial = true;
+            break;
+        }
+    }
+
+    if(letras.indexOf(tecla) == -1 && !tecla_especial)
+        return false;
+}

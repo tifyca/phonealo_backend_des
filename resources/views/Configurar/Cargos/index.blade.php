@@ -28,14 +28,14 @@
             <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="Ej: Repartidor" id="nombreCargo" name="nombreCargo">
+                <input class="form-control"  type="text" placeholder="Ej: Repartidor" id="nombreCargo" name="nombreCargo" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="1" type="radio" id="statusCargo" name="statusCargo">Activo
+                        <input class="form-check-input" value="1" type="radio" id="statusCargo" name="statusCargo" checked>Activo
                       </label>
                     </div>
                     <div class="form-check">
@@ -94,7 +94,7 @@
               </div>
               <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
                     <?php echo $cargos->render(); ?>
-                </div>
+              </div>
             </div>
         </div>
     </div>
@@ -113,7 +113,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
@@ -159,7 +159,7 @@
                 </div>
             <form id="frmdel" name="frmdel" class="form-horizontal" novalidate="">
                 <div class="modal-body">
-                    <p>Está seguro que desea Eliminar este Cargo?</p>
+                    <p>EstÃ¡ seguro que desea Eliminar este Cargo?</p>
                     <p class="debug-url"></p>
                 </div>
               </form> 

@@ -37,7 +37,7 @@ class Direcciones extends Controller
     }
     public function BarriosCombo(Request $request){
     	$id_ciudad = $request['id_ciudad'];
-    	$barrios = Barrios::where('id_ciudad',$id_ciudad)->get();
+       	$barrios = Barrios::where('id_ciudad',$id_ciudad)->get();
     	return $barrios;
     }
     // /////////////////////////

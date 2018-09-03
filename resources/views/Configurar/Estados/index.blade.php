@@ -27,7 +27,7 @@
                 <thead>
                   <tr>
                     <th>Nombre</th>
-		    <th>Acción</th>
+		                <th>Acción</th>
                   </tr>
                 </thead>
                 <tbody id="estados-list" name="estados-list">
@@ -46,6 +46,9 @@
                 </tbody>
               </table>
             </div>
+            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    <?php echo $estados->render(); ?>
+              </div>
         </div>
     </div>
   </div>
@@ -65,7 +68,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
               </div>
               
             </div>
