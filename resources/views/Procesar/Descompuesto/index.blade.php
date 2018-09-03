@@ -22,7 +22,7 @@
             </div>
 
             <div class="col-md-2 mr-md-3">
-              <button class="btn btn-primary" type=""><i class="m-0 fa fa-lg fa-eye"></i>Enviar Seleccionados</button>
+              <button class="btn btn-primary" data-toggle="modal" data-target="#ModalDescompuesto" type=""><i class="fa fa-lg fa-eye"></i>Enviar Seleccionados</button>
             </div>
           </div>
         </div>
@@ -37,8 +37,9 @@
                     <th>Fecha Cambio</th>
                     <th>Fecha Pedido</th>
                     <th>Producto</th>
-                    <th>Valor</th>
                     <th>Nota</th>
+                    <th>Valor</th>
+                    
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -53,7 +54,7 @@
                     <td>123456787654</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-wrench"></i></a>
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalDescompuesto" href="#"><i class="m-0 fa fa-lg fa-wrench"></i></a>
                         
                       </div>
                     </td>
@@ -67,7 +68,23 @@
     </div>
   </div>
 </div>
-{{-- <iframe width=“300” scrolling=“no” height=“250” frameborder=“0" src=“https://ads2.contentabc.com/ads?spot_id=5483648&rand=765716860” allowtransparency=“true” marginheight=“0” marginwidth=“0" name=“spot_id_5483648”> </iframe> --}}
+<!-- Modal -->
+<div class="modal fade" id="ModalDescompuesto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reporte de Descompuestos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <iframe width="100%" height="500px" src="{{ asset('archivos/pdf.pdf') }}"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+{{--  --}}
 
   
 

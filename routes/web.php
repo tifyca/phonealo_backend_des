@@ -14,6 +14,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('barriosCombo', 'Ajax\Direcciones@BarriosCombo')->name('barriosCombo');
     Route::get('barrios', 'Ajax\Direcciones@barrios')->name('barrios_ajax');
 
+    Route::get('productos', 'Ajax\ProductosAjax@productos_list')->name('productos_ajax');
+    Route::get('producto_click', 'Ajax\ProductosAjax@producto')->name('producto_click');
+
+    
+
 
     ///////////
 

@@ -58,7 +58,7 @@
     </li>
     <li><a class="treeview-item {{ Request::is('procesar/aconfirmar*') ? 'active' : '' }}" href="{{ route('aconfirmar.index') }}"><i class="icon fa fa-circle-o"></i>A confirmar</a></li> 
     <li><a class="treeview-item {{ Request::is('procesar/logistica*') ? 'active' : '' }}" href="{{ route('logistica') }}"><i class="icon fa fa-circle-o"></i>Logística</a></li>
-    <li><a class="treeview-item {{ Request::is('procesar/monitoreo*') ? 'active' : '' }}" href="{{ route('monitoreo.index') }}"><i class="icon fa fa-circle-o"></i>Monitoreo</a></li>
+    {{-- <li><a class="treeview-item {{ Request::is('procesar/monitoreo*') ? 'active' : '' }}" href="{{ route('monitoreo.index') }}"><i class="icon fa fa-circle-o"></i>Monitoreo</a></li> --}}
   </ul>
 </li>
 
