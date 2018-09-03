@@ -76,8 +76,8 @@ $("#btn-save").click(function (e) {
         nombre: $('#nombreBarrio').val(),
         id_dpto:$('.departamento').val(),
         id_ciudad:$('.ciudades').val(), 
-        lat:$('#latedit').val(),
-        lon:$('#lonedit').val(),
+        lat:$('#lat').val(),
+        lon:$('#lon').val(),
         id_usuario: $('#id_usuario').val(),
     }
    
