@@ -75,9 +75,11 @@ class DireccionesController extends Controller
 
     $data=$request->all();
 
-   $rules = array( 'nombre'=>'required|unique:departamentos,nombre'); 
+   $rules = array( 'nombre'=>'required|unique:departamentos,nombre',
+                    'dpto'=>'required|not_in:0'); 
    $messages = array( 'nombre.required'=>'Nombre del departamento es requerido', 
-                      'nombre.unique' => 'El departamento ya existe');
+                      'nombre.unique' => 'El departamento ya existe',
+                      'dpto.required'=>'El departamento es requerido');
 
     $validator = Validator::make($data, $rules, $messages);
 
@@ -147,11 +149,11 @@ class DireccionesController extends Controller
     $data=$request->all();
 
     $rules = array( 'nombre'=>'required|unique:ciudades,ciudad',
-                    'deparatamento'=>'not_in:0'); 
+                    'id_dpto'=>'required|not_in:0'); 
     $messages = array( 'nombre.required'=>'Nombre de la ciudad es requerido', 
-                      'nombre.unique' => 'La ciudad ya existe',
-                    'deparatamento.required'=>'El departamento es requerido'); 
-
+                       'nombre.unique' => 'La ciudad ya existe',
+                       'id_dpto.required'=>'El departamento es requerido',
+                       'id_dpto.not_in'=>'El departamento es requerido');
     $validator = Validator::make($data, $rules, $messages);
 
 
@@ -225,6 +227,14 @@ class DireccionesController extends Controller
       
     }
 
+     public function tablaCiudades($id_departamento ){
+    
+      $ciudades = Ciudades::where('id_departamento',$id_departamento)->get();
+     
+      return response()->json($ciudades);
+ 
+   
+    }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -239,10 +249,18 @@ class DireccionesController extends Controller
     $data=$request->all();
 
     $rules = array( 'nombre'=>'required|unique:barrios,barrio',
-                    'deparatamento'=>'not_in:0'); 
+                    'id_dpto'=>'required|not_in:0', 
+                    'id_ciudad'=>'required|not_in:0',
+                    'lat'=>'required',
+                    'lon'=>'required'); 
     $messages = array( 'nombre.required'=>'Nombre del barrio es requerido', 
-                      'nombre.unique' => 'El barrio ya existe',
-                    'deparatamento.required'=>'El barrio es requerido'); 
+                       'nombre.unique' => 'El barrio ya existe',
+                       'id_dpto.required'=>'El barrio es requerido',
+                       'id_ciudad.required'=>'La ciudad es requerida',
+                       'id_dpto.not_in'=>'El barrio es requerido',
+                       'id_ciudad.not_in'=>'La ciudad es requerida',
+                       'lat.required'=>'La latitud es requerida',
+                       'lon.required'=>'La longitud es requerida'); 
 
     $validator = Validator::make($data, $rules, $messages);
 
@@ -272,6 +290,9 @@ class DireccionesController extends Controller
     }
 
   public function update_barrios (Request $request,$barrio_id){
+
+ 
+
         $barrio = Barrios::find($barrio_id);
         $barrio->barrio = $request->nombre;
         $barrio->id_ciudad = $request->id_ciudad; 
@@ -280,11 +301,40 @@ class DireccionesController extends Controller
         $barrio->id_usuario=$request->id_usuario;
         $barrio->save();
         return response()->json($barrio);
+
+      
     }
 
   public function destroy_barrios($barrio_id){
-      $barrio = Barrios::destroy($barrio_id);
-      return response()->json($barrio);
+     
+
+    try
+       {
+
+          $barrio = Barrios::destroy($barrio_id);
+          return response()->json($barrio);
+              
+        }catch(\Illuminate\Database\QueryException $e)
+        {
+           
+            if($e->getCode() === '23000') {
+
+               return response()->json([ 'success' => false ], 400);
+        
+              } 
+
+        }
+      
+    }
+
+
+  public function tablaBarrios($id_ciudad ){
+    
+      $barrios = Barrios::where('id_ciudad',$id_ciudad)->get();
+     
+      return response()->json($barrios);
+ 
+   
     }
 
 

@@ -88,12 +88,28 @@ $("#btn-save").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
-            var ciudad = '<tr id="ciudades' + data.id + '"><td>' + data.ciudad + '</td>';
-            ciudad += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            ciudad += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+           // var ciudad = '<tr id="ciudades' + data.id + '"><td>' + data.ciudad + '</td>';
+           // ciudad += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+           // ciudad += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
-            $('#ciudades-list').append(ciudad);
-            $('#frmc').trigger("reset");
+           // $('#ciudades-list').append(ciudad);
+            $('#nombreCiudad').val("");
+            $(".departamento option:eq(1)").prop("selected", true);
+            $('select[name=departamento-select]').val(data.id_departamento);
+       
+            $.get(url + '/dpto/' + data.id_departamento, function(dpto){
+               $.each(dpto, function(l, item1) {
+
+                var ciudad = '<tr id="ciudades' + item1.id + '"><td>' + item1.ciudad + '</td>';
+                    ciudad += '<td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                    ciudad += ' <button class="btn btn-primary confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+          
+           $('#ciudades-list').append(ciudad);
+
+                 });
+            
+                 }),
+   
             $("#res").html("Ciudad Registrada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
@@ -151,6 +167,7 @@ $("#btn-save-edit").click(function (e) {
             $("#ciudades" + ciudad_id).replaceWith(ciudad);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
+            $(".departamento option:eq(1)").prop("selected", true);
             $("#res").html("Ciudad Modificada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );

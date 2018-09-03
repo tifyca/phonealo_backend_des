@@ -68,12 +68,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('configurar/direcciones/ciudades','Configurar\DireccionesController@store_ciudades');
     Route::put('configurar/direcciones/ciudades/mod/{ciudad_id?}','Configurar\DireccionesController@update_ciudades');
     Route::delete('configurar/direcciones/ciudades/{ciudad_id?}','Configurar\DireccionesController@destroy_ciudades');
+    Route::get('configurar/direcciones/ciudades/dpto/{ciudad_id?}', 'Configurar\DireccionesController@tablaCiudades');
+
+
 
     Route::get('configurar/direcciones/barrios', 'Configurar\DireccionesController@barrios')->name('barrios');
     Route::get('configurar/direcciones/barrios/edit/{barrio_id?}','Configurar\DireccionesController@editar_barrios');
     Route::post('configurar/direcciones/barrios','Configurar\DireccionesController@store_barrios');
     Route::put('configurar/direcciones/barrios/mod/{barrio_id?}','Configurar\DireccionesController@update_barrios');
     Route::delete('configurar/direcciones/barrios/{barrio_id?}','Configurar\DireccionesController@destroy_barrios');
+    Route::get('configurar/direcciones/barrios/ciud/{barrio_id?}', 'Configurar\DireccionesController@tablaBarrios');
 
     
     Route::get('configurar/estados', 'Configurar\EstadosController@index')->name('estados');
