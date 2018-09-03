@@ -41,15 +41,15 @@
               </div>
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Barrio</label>
-                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio">
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Latitud</label>
-                <input class="form-control" type="text"  id="lat" name="lat">
+                <input class="form-control" type="text"  id="lat" name="lat" onkeypress="return soloNumeros(event);">
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Logitud</label>
-                <input class="form-control" type="text"  id="lon" name="lon">
+                <input class="form-control" type="text"  id="lon" name="lon" onkeypress="return soloNumeros(event);">
               </div>
               <div class="tile-footer text-center border-0" >
                 <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
@@ -69,13 +69,13 @@
           <div class="row">
             <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Seleccione Departamento</label>
-                <select class="form-control departamento" id="departamento-select-list">
+                <select class="form-control departamento" id="departamento-select-list" name="departamento-select-list">
                  <option value="">Seleccione</option>
                 </select>
               </div>
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Seleccione Ciudad</label>
-                <select class="form-control" id="ciudades-select-list">
+                <select class="form-control ciudades" id="ciudades-select-list" name="ciudades-select-list">
                  <option value="">Seleccione</option>
                 </select>
               </div>
@@ -176,7 +176,8 @@
 
              $.each(data, function(i, item) {
 
-                $(".departamento").append('<option value='+item.id+'>'+item.nombre+'</option>');
+              //$(".departamento option:eq(1)").prop("selected", true);
+              $(".departamento").append('<option value='+item.id+'>'+item.nombre+'</option>');
               });
           }
 
@@ -197,7 +198,8 @@
 
                  $.each(data, function(l, item1) {
 
-                    $(".ciudades").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
+                   //$(".ciudades option:eq(1)").prop("selected", true);
+                   $(".ciudades").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
                   });
               }
           });
