@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\Validator;
 
 class CargosController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
     	$cargos= Cargos::paginate(3);
+      if($request->ajax()){
+            return response()->json(view('Configurar.Cargos.table',compact('cargos'))->render());
+        }
+       
     	return view('Configurar.Cargos.index')->with('cargos',$cargos);
 
     }
