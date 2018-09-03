@@ -1,8 +1,13 @@
+<?php
+ @session_start();
+ $id_usuario= $_SESSION["user"];
+?>
+
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
 @section('titulo', 'Categorias')
-@section('descripcion', 'Descripcion Opcional')
+@section('descripcion', '')
 
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
@@ -12,56 +17,45 @@
 
 @section('content')
 
+
 <div class="row">
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Nueva Categoria</h3>
         <div class="tile-body ">
-          <form>
+          <form id="frmc" name="frmc"  novalidate="">
+            {{ csrf_field() }} 
+             <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
-              <div class="form-group col-12  col-md-3">
-                <label for="exampleSelect1">Categoría</label>
-                <select class="form-control" id="exampleSelect1">
-                  <option value="">Seleccione</option>}
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
+               <div class="form-group col-12  col-md-4">
+                <label class="control-label">Nombre</label>
+                <input class="form-control" type="text" placeholder="..." id="nombreCategoria" name="nombreCategoria" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Tipo de Categoría</label>
-                <select class="form-control" id="exampleSelect1">
-                  <option value="">Seleccione</option>}
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                <select class="form-control" id="tipoCategoria" name="tipoCategoria">
+                  <option value="">Seleccione</option>
+                  <option value="Productos" selected>Productos</option>
+                  <option value="Gastos">Gastos</option>
                 </select>
               </div>
-              <div class="form-group col-12  col-md-4">
-                <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="...">
-              </div>
               <div class="form-group row col-12 col-md-2">
-                  <label class="control-label col-md-12">Status</label>
+                  <label class="control-label col-md-12">Estatus</label>
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="status">Activo
+                        <input class="form-check-input" type="radio" value="1"  id="statusCategoria" name="statusCategoria" checked>Activo
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="status">Inactivo
+                        <input class="form-check-input" type="radio" value="0" id="statusCategoria2" name="statusCategoria">Inactivo
                       </label>
                     </div>
                   </div>
                 </div>
-              <div class="tile-footer col-12 col-md-12 text-center border-0" >
-                <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;{{-- <a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a> --}}
+              <div class="tile-footer text-center border-0" >
+                <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
               </div>
             </div>
           </form>
@@ -69,6 +63,9 @@
         
     </div>
   </div>
+
+  <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
+   <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Listado de Categorias</h3>
@@ -78,113 +75,126 @@
              <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Cargo</th>
+                    <th>Nombre</th>
                     <th>Tipo</th>
-                    <th>Status</th>
+                    <th>Estatus</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>lorem</td>
-                    <td>Activo</td>
-                    <td width="10%" class="text-right">
+                <tbody id="categorias-list" name="categorias-list"> 
+                  @foreach($categorias as $categoria)           
+                     <tr id="categoria{{$categoria->id}}">
+                      <td>{{$categoria->categoria}}</td>
+                      <td>{{$categoria->tipo}}</td>
+                <?php if ($categoria->status==1){ ?>
+                      <td><?=  'Activo' ?></td>
+                <?php }else{ ?> 
+                      <td><?='Inactivo' ?></td>
+                <?php } ?> 
+                      <td width="10%" class="text-right">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('categorias.update',1) }}"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
+                      <button class="btn btn-primary open_modal" value="{{$categoria->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
+                      <button class="btn btn-primary confirm-delete" value="{{$categoria->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
                       </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>lorem</td>
-                    <td>Activo</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('categorias.update',1) }}"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
-                    <td>lorem</td>
-                    <td>Activo</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('categorias.update',1) }}"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
-                    <td>lorem</td>
-                    <td>Activo</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('categorias.update',1) }}"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Airi Satou</td>
-                    <td>Accountant</td>
-                    <td>lorem</td>
-                    <td>Activo</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('categorias.update',1) }}"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
-                    <td>lorem</td>
-                    <td>Activo</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('categorias.update',1) }}"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Herrod Chandler</td>
-                    <td>Sales Assistant</td>
-                    <td>lorem</td>
-                    <td>Activo</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('categorias.update',1) }}"><i class="fa fa-lg fa-edit"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
+                      </td>
+                    </tr>
+                    @endforeach
+                                 
                 </tbody>
               </table>       
             </div>
+            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    <?php echo $categorias->render(); ?>
+              </div>
             </div>
         </div>
     </div>
   </div>
 </div>
 
-  
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+     <div class="modal-header">
+     
+      <h4 class="modal-title" id="myModalLabel">Editar Categoria</h4>
+     </div>
+     <div class="modal-body">
+      <form id="frmcategorias" name="frmcategorias" class="form-horizontal" novalidate="">
+        
+       <div class="row">
+              <div class="form-group col-12  col-md-8">
+                <label class="control-label">Nombre</label>
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+              </div>
+              <div class="form-group col-12 col-md-3">
+                <label for="exampleSelect1">Tipo de Categoría</label>
+                <select class="form-control" id="tipo" name="tipo">
+                  <option value="">Seleccione</option>
+                  <option value="Productos">Productos</option>
+                  <option value="Gastos">Gastos</option>
+                </select>
+              </div>
+              <div class="form-group row col-12 col-md-2">
+                  <label class="control-label col-md-12">Estatus</label>
+                  <div class="col-md-12 ">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" value="1" type="radio" id="status" name="status">Activo
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                         <input class="form-check-input" value="0" type="radio" id="status2" name="status">Inactivo
+                      </label>
+                    </div>
+                  </div>
+                </div>
+          
+            </div>
+        </div>
+      </form>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="btn-save-edit" value="update">Guardar</button>
+      <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+      <input type="hidden" id="categoria_id" name="Categoria_id" value="0">
+      <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+     </div>
+     
+     
+    </div>
+   </div>
+  </div>
+
+ </div>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+            
+                <div class="modal-header">
+                    
+                    <h4 class="modal-title" id="myModalLabel">Eliminar Categoria</h4>
+                </div>
+            <form id="frmdel" name="frmdel" class="form-horizontal" novalidate="">
+                <div class="modal-body">
+                    <p>Está seguro que desea Eliminar este Categoria?</p>
+                    <p class="debug-url"></p>
+                </div>
+              </form> 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"></span>No</button>
+                     <button type="button" class="btn btn-danger delete-categoria" >Si</button>
+                    <input type="hidden" id="categoria-id" name="categoria-id" value="0">
+                </div>
+            </div>
+        </div>
+   </div>
+
 
 @endsection
 
 @push('scripts')
-  <script type="text/javascript" src="{{ asset('js/plugins/jquery.dataTables.min.js') }} "></script>
-    <script type="text/javascript" src="{{ asset('js/plugins/dataTables.bootstrap.min.js') }}"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable();</script>
+ <meta name="_token" content="{!! csrf_token() !!}" />
+ <script src="{{asset('js/crud_categorias.js')}}"></script>
 @endpush
