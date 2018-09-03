@@ -19,9 +19,9 @@ $(document).on('click', '.open_modal', function () {
         console.log(data);
         $('#barrio_id').val(data.id);
         $('#nombre').val(data.barrio);
-        $('#lat').val(data.lat);
-        $('#lon').val(data.lon);
-        $('select[name=ciudades-select-list]').val(data.id_ciudad);
+        $('#latedit').val(data.lat);
+        $('#lonedit').val(data.lon);
+       // $('select[name=ciudades-select-edit]').val(data.id_ciudad);
         $('#myModal').modal('show');
     });
     
@@ -76,8 +76,8 @@ $("#btn-save").click(function (e) {
         nombre: $('#nombreBarrio').val(),
         id_dpto:$('.departamento').val(),
         id_ciudad:$('.ciudades').val(), 
-        lat:$('#lat').val(),
-        lon:$('#lon').val(),
+        lat:$('#latedit').val(),
+        lon:$('#lonedit').val(),
         id_usuario: $('#id_usuario').val(),
     }
    
@@ -153,8 +153,13 @@ $("#btn-save-edit").click(function (e) {
 
     e.preventDefault();
         var barrio_id = $('#barrio_id').val();
-        var formData = {nombre: $('#nombre').val(), id_usuario: $('#id_usuario').val(), id_dpto:$('.departamento').val(), id_ciudad:$('.ciudades').val(),  lat:$('#lat').val(),
-        lon:$('#lon').val(), }
+        var formData = { nombre: $('#nombre').val(),
+                         id_usuario: $('#id_usuario').val(),
+                         barrio_id:$('#barrio_id').val(),
+                        // id_dpto:$('.departamento').val(),
+                         //id_ciudad:$('.ciudades').val(), 
+                         lat:$('#latedit').val(),
+                         lon:$('#lonedit').val(), }
         var my_url = url;
         my_url += '/mod/'+ barrio_id;
    
@@ -204,7 +209,7 @@ function soloLetras(e) {
 function soloNumeros(e)
 {
 var keynum = window.event ? window.event.keyCode : e.which;
-if ((keynum == 8) || (keynum == 46))
+if ((keynum == 8) || (keynum == 46) || (keynum == 45))
 return true;
 return /\d/.test(String.fromCharCode(keynum));
 }

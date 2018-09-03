@@ -75,11 +75,9 @@ class DireccionesController extends Controller
 
     $data=$request->all();
 
-   $rules = array( 'nombre'=>'required|unique:departamentos,nombre',
-                    'dpto'=>'required|not_in:0'); 
+   $rules = array( 'nombre'=>'required|unique:departamentos,nombre'); 
    $messages = array( 'nombre.required'=>'Nombre del departamento es requerido', 
-                      'nombre.unique' => 'El departamento ya existe',
-                      'dpto.required'=>'El departamento es requerido');
+                      'nombre.unique' => 'El departamento ya existe');
 
     $validator = Validator::make($data, $rules, $messages);
 
@@ -295,7 +293,7 @@ class DireccionesController extends Controller
 
         $barrio = Barrios::find($barrio_id);
         $barrio->barrio = $request->nombre;
-        $barrio->id_ciudad = $request->id_ciudad; 
+       // $barrio->id_ciudad = $request->id_ciudad; 
         $barrio->lat = $request->lat;
         $barrio->lon = $request->lon;
         $barrio->id_usuario=$request->id_usuario;
@@ -307,23 +305,8 @@ class DireccionesController extends Controller
 
   public function destroy_barrios($barrio_id){
      
-
-    try
-       {
-
           $barrio = Barrios::destroy($barrio_id);
-          return response()->json($barrio);
-              
-        }catch(\Illuminate\Database\QueryException $e)
-        {
-           
-            if($e->getCode() === '23000') {
-
-               return response()->json([ 'success' => false ], 400);
-        
-              } 
-
-        }
+          return response()->json($barrio); 
       
     }
 
@@ -331,7 +314,6 @@ class DireccionesController extends Controller
   public function tablaBarrios($id_ciudad ){
     
       $barrios = Barrios::where('id_ciudad',$id_ciudad)->get();
-     
       return response()->json($barrios);
  
    

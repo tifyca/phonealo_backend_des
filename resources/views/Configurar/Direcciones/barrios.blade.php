@@ -102,22 +102,29 @@
 </div>
 
  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
+   <div class="modal-dialog  modal-lg">
     <div class="modal-content">
      <div class="modal-header">
      
       <h4 class="modal-title" id="myModalLabel">Editar Barrio</h4>
      </div>
-     <div class="modal-body">
+     <div class="modal-body ">
       <form id="frmciudades" name="frmciudades" class="form-horizontal" novalidate="">
         
        <div class="row">
-              <div class="form-group col-12  col-md-8">
-                <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre">
+              <div class="form-group col-12  col-md-4">
+                <label class="control-label">Barrio</label>
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombre" name="nombre" onkeypress="return soloLetras(event)">
               </div>
-          
-            </div>
+              <div class="form-group col-12  col-md-4">
+                <label class="control-label">Latitud</label>
+                <input class="form-control" type="text"  id="latedit" name="latedit" onkeypress="return soloNumeros(event);">
+              </div>
+              <div class="form-group col-12  col-md-4">
+                <label class="control-label">Logitud</label>
+                <input class="form-control" type="text"  id="lonedit" name="lonedit" onkeypress="return soloNumeros(event);">
+              </div>
+              
         </div>
       </form>
       <div class="modal-footer">
@@ -238,10 +245,11 @@
               dataType: "json",
               data: {id_ciudad: id_ciudad},
               success: function (data2){
+                console.log(data2);
 
                  $.each(data2, function(l, item2) {
 
-                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value='+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button class="btn btn-primary confirm-delete" value='+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value="'+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button class="btn btn-primary confirm-delete" value="'+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
               }
           });
