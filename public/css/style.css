@@ -2,3 +2,22 @@
 	width: 130px;
 
 }
+
+.cursor-pointer{
+	cursor: pointer;
+}
+.list-group-item-action:hover{
+	background: silver !important;
+}
+
+.selec_productos{
+	position: absolute;
+	z-index: 9999;
+	margin-top: 70px;
+	height: 250px;
+	overflow: scroll;
+}
+
+/*.opacity-p{
+	opacity: .3;
+}*/
