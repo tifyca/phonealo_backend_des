@@ -46,6 +46,7 @@
         <h3 class="tile-title">Listado de Departamentos</h3>
         <div class="tile-body ">
           <div class="table-responsive">
+            <div class="departamentos">
             <table class="table table-hover table-bordered" id="sampleTable">
               <thead>
                 <tr>
@@ -56,9 +57,9 @@
               <tbody id="dpto-list" name="dpto-list">
                 @foreach ($departamentos as $item)
                  <tr id="dpto{{$item->id}}">
-                  <td>{{ $item->nombre }}</td>
-                  <td width="10%">
-                    <div class="btn-group">
+                  <td width="90%">{{ $item->nombre }}</td>
+                  <td width="10%" class="text-center">
+                    <div  class="btn-group">
                         <button class="btn btn-primary open_modal" value="{{$item->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
                       <button class="btn btn-primary confirm-delete" value="{{$item->id}}"><i class="fa fa-lg fa-trash"></i></button> 
                       </div>
@@ -67,9 +68,10 @@
                 @endforeach
               </tbody>
               </table>    
-          </div>
-          <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+              <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
                     <?php echo $departamentos->render(); ?>
+              </div>
+              </div>
               </div>
         </div>
     </div>
@@ -137,5 +139,5 @@
 
 @push('scripts')
 <meta name="_token" content="{!! csrf_token() !!}" />
- <script src="{{asset('js/crud_dptos.js')}}"></script>
+ <script src="{{asset('js/Configurar/crud_dptos.js')}}"></script>
 @endpush

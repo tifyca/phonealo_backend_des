@@ -1,4 +1,4 @@
-var url = "fuentes";
+var url = "categorias";
 
   $.ajaxSetup({
         headers: {
@@ -6,10 +6,10 @@ var url = "fuentes";
         }
     });
 
-// muestra el formulario modal para la edición del fuente
+// muestra el formulario modal para la edición del categoria
 $(document).on('click', '.open_modal', function () {
-    var fuente_id = $(this).val();
-    $.get(url + '/edit/' + fuente_id, function(data){
+    var categoria_id = $(this).val();
+    $.get(url + '/edit/' + categoria_id, function(data){
           $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -17,8 +17,9 @@ $(document).on('click', '.open_modal', function () {
     });
         //success data
         console.log(data);
-        $('#fuente_id').val(data.id);
-        $('#nombre').val(data.fuente);
+        $('#categoria_id').val(data.id);
+        $('#nombre').val(data.categoria);
+        $('#tipo').val(data.tipo);
         if (data.status==1){
         $('input:radio[id=status]').prop("checked", true);
         }
@@ -30,18 +31,18 @@ $(document).on('click', '.open_modal', function () {
     
 });
 
-// muestra modal para la confirmar eliminar   fuente
+// muestra modal para la confirmar eliminar   categoria
 $(document).on('click', '.confirm-delete', function () {
-    var fuente_id = $(this).val();
+    var categoria_id = $(this).val();
     $('#confirm-delete').modal('show');
-    $('#fuente-id').val(fuente_id);
+    $('#categoria-id').val(categoria_id);
 });
 
 
-// eliminar el fuente y eliminarlo de la lista
-$(document).on('click', '.delete-fuente', function () {
+// eliminar el categoria y eliminarlo de la lista
+$(document).on('click', '.delete-categoria', function () {
 
-    var fuente_id = $('#fuente-id').val();
+    var categoria_id = $('#categoria-id').val();
 
     $.ajaxSetup({
         headers: {
@@ -50,21 +51,26 @@ $(document).on('click', '.delete-fuente', function () {
     });
     $.ajax({
         type: "DELETE",
-        url: url + '/' + fuente_id,
+        url: url + '/' + categoria_id,
+         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
-            $("#fuente" + fuente_id).remove();
+            $("#categoria" + categoria_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Fuente Eliminado con Éxito");
+            $("#res").html("Categoría Eliminada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);
+            $('#confirm-delete').modal('hide');
+            $("#rese").html("No se pudo eliminar la categoría, por que está asociada a una Subcategoria");
+            $("#rese").css("display","block");
+            $("#rese").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
-// crear nuevo fuente
+// crear nuevo categoria
 $("#btn-save").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -74,8 +80,9 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
-        nombre: $('#nombreFuente').val(),
-        status: $('input:radio[name=statusFuente]:checked').val(),
+        nombre: $('#nombreCategoria').val(),
+        tipo: $('#tipoCategoria').val(),
+        status: $('input:radio[name=statusCategoria]:checked').val(),
         id_usuario: $('#id_usuario').val(),
     }
     
@@ -90,17 +97,16 @@ $("#btn-save").click(function (e) {
             console.log(data);
             var act='Activo';
             var ina='Inactivo';
-            var fuente = '<tr id="fuente' + data.id + '"><td>' + data.fuente + '</td>'+(data.status==1 ? '<td>' + act + '</td>':'<td>' + ina + '</td>');
-            fuente += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            fuente += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            var categoria = '<tr id="categoria' + data.id + '"><td width="30%">' + data.categoria + '</td><td width="30%">' + data.tipo + '</td>'+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
+            categoria += '<td width="15%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            categoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
-            $('#fuentes-list').append(fuente);
+            $('#categorias-list').append(categoria);
             $('#frmc').trigger("reset");
-            $("#res").html("Fuente Registrada con Éxito");
+            $("#res").html("Categoría Registrada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
-       
          error: function (data,estado,error) { 
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
@@ -121,7 +127,7 @@ $("#btn-save").click(function (e) {
 });
 
 
-////actualiza fuente
+////actualiza categoria
 $("#btn-save-edit").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -130,10 +136,14 @@ $("#btn-save-edit").click(function (e) {
     });
 
     e.preventDefault();
-        var fuente_id = $('#fuente_id').val();
-        var formData = {nombre: $('#nombre').val(), status: $('input:radio[name=status]:checked').val(), id_usuario: $('#id_usuario').val(),}
+        var categoria_id = $('#categoria_id').val();
+        var formData = { nombre: $('#nombre').val(),  
+                         tipo: $('#tipo').val(), 
+                         status: $('input:radio[name=status]:checked').val(), 
+                         id_usuario: $('#id_usuario').val(), 
+                       }
         var my_url = url;
-        my_url += '/mod/'+ fuente_id;
+        my_url += '/mod/'+ categoria_id;
    
     console.log(formData);
     $.ajax({
@@ -143,16 +153,15 @@ $("#btn-save-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            console.log(data.status);
             var act='Activo';
             var ina='Inactivo';
-            var fuente = '<tr id="fuente' + data.id + '"><td>' + data.fuente + '</td>'+(data.status==1 ? '<td>' + act + '</td>': '<td>' + ina + '</td>');
-            fuente += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            fuente += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-            $("#fuente" + fuente_id).replaceWith(fuente);
+            var categoria = '<tr id="categoria' + data.id + '"><td width="30%">' + data.categoria + '</td><td width="30%">' + data.tipo + '</td>'+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
+            categoria += '<td width="15%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            categoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+           $("#categoria" + categoria_id).replaceWith(categoria);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Fuente Modificado con Éxito");
+            $("#res").html("Categoría Modificada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -161,6 +170,7 @@ $("#btn-save-edit").click(function (e) {
         }
     });
 });
+
 
 function soloLetras(e) {
     key = e.keyCode || e.which;
@@ -179,3 +189,19 @@ function soloLetras(e) {
     if(letras.indexOf(tecla) == -1 && !tecla_especial)
         return false;
 }
+
+$(document).on('click','.pagination a',function(e){
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+//console.log(page);
+    var route ="categorias";
+    $.ajax({
+        url: route,
+        data: {page: page},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".categorias").html(data);
+        }
+    });
+});

@@ -1,4 +1,4 @@
-var url = "cargos";
+var url = "fuentes";
 
   $.ajaxSetup({
         headers: {
@@ -6,10 +6,10 @@ var url = "cargos";
         }
     });
 
-// muestra el formulario modal para la edición del cargo
+// muestra el formulario modal para la edición del fuente
 $(document).on('click', '.open_modal', function () {
-    var cargo_id = $(this).val();
-    $.get(url + '/edit/' + cargo_id, function(data){
+    var fuente_id = $(this).val();
+    $.get(url + '/edit/' + fuente_id, function(data){
           $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -17,8 +17,8 @@ $(document).on('click', '.open_modal', function () {
     });
         //success data
         console.log(data);
-        $('#cargo_id').val(data.id);
-        $('#nombre').val(data.cargo);
+        $('#fuente_id').val(data.id);
+        $('#nombre').val(data.fuente);
         if (data.status==1){
         $('input:radio[id=status]').prop("checked", true);
         }
@@ -30,18 +30,18 @@ $(document).on('click', '.open_modal', function () {
     
 });
 
-// muestra modal para la confirmar eliminar   cargo
+// muestra modal para la confirmar eliminar   fuente
 $(document).on('click', '.confirm-delete', function () {
-    var cargo_id = $(this).val();
+    var fuente_id = $(this).val();
     $('#confirm-delete').modal('show');
-    $('#cargo-id').val(cargo_id);
+    $('#fuente-id').val(fuente_id);
 });
 
 
-// eliminar el cargo y eliminarlo de la lista
-$(document).on('click', '.delete-cargo', function () {
+// eliminar el fuente y eliminarlo de la lista
+$(document).on('click', '.delete-fuente', function () {
 
-    var cargo_id = $('#cargo-id').val();
+    var fuente_id = $('#fuente-id').val();
 
     $.ajaxSetup({
         headers: {
@@ -50,13 +50,12 @@ $(document).on('click', '.delete-cargo', function () {
     });
     $.ajax({
         type: "DELETE",
-        url: url + '/' + cargo_id,
-         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: url + '/' + fuente_id,
         success: function (data) {
             console.log(data);
-            $("#cargo" + cargo_id).remove();
+            $("#fuente" + fuente_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Cargo Eliminado con Éxito");
+            $("#res").html("Fuente Eliminada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -65,7 +64,7 @@ $(document).on('click', '.delete-cargo', function () {
         }
     });
 });
-// crear nuevo cargo
+// crear nuevo fuente
 $("#btn-save").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -75,8 +74,8 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
-        nombre: $('#nombreCargo').val(),
-        status: $('input:radio[name=statusCargo]:checked').val(),
+        nombre: $('#nombreFuente').val(),
+        status: $('input:radio[name=statusFuente]:checked').val(),
         id_usuario: $('#id_usuario').val(),
     }
     
@@ -91,25 +90,25 @@ $("#btn-save").click(function (e) {
             console.log(data);
             var act='Activo';
             var ina='Inactivo';
-            var cargo = '<tr id="cargo' + data.id + '"><td width="45%">' + data.cargo + '</td>'+(data.status==1 ? '<td width="45%">' + act + '</td>':'<td width="45%">' + ina + '</td>');
-            cargo += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            cargo += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            var fuente = '<tr id="fuente' + data.id + '"><td width="45%">' + data.fuente + '</td>'+(data.status==1 ? '<td  width="45%">' + act + '</td>':'<td  width="45%">' + ina + '</td>');
+            fuente += '<td width="10%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            fuente += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
-            $('#cargos-list').append(cargo);
+            $('#fuentes-list').append(fuente);
             $('#frmc').trigger("reset");
-            $("#res").html("Cargo Registrado con Éxito");
+            $("#res").html("Fuente Registrada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
        
-          error: function (data,estado,error) { 
+         error: function (data,estado,error) { 
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
                 if(error.message.hasOwnProperty(k)){ 
                     error.message[k].forEach(function(val){
-
+                       
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
                         $("#rese").html(errorsHtml).show().fadeOut(4000);
@@ -122,7 +121,7 @@ $("#btn-save").click(function (e) {
 });
 
 
-////actualiza cargo
+////actualiza fuente
 $("#btn-save-edit").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -131,13 +130,10 @@ $("#btn-save-edit").click(function (e) {
     });
 
     e.preventDefault();
-        var cargo_id = $('#cargo_id').val();
-        var formData = { nombre: $('#nombre').val(), 
-                         status: $('input:radio[name=status]:checked').val(), 
-                         id_usuario: $('#id_usuario').val(), 
-                        }
+        var fuente_id = $('#fuente_id').val();
+        var formData = {nombre: $('#nombre').val(), status: $('input:radio[name=status]:checked').val(), id_usuario: $('#id_usuario').val(),}
         var my_url = url;
-        my_url += '/mod/'+ cargo_id;
+        my_url += '/mod/'+ fuente_id;
    
     console.log(formData);
     $.ajax({
@@ -150,13 +146,13 @@ $("#btn-save-edit").click(function (e) {
             console.log(data.status);
             var act='Activo';
             var ina='Inactivo';
-            var cargo = '<tr id="cargo' + data.id + '"><td width="45%" >' + data.cargo + '</td>'+(data.status==1 ? '<td width="45%">' + act + '</td>': '<td width="45%">' + ina + '</td>');
-            cargo += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            cargo += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-            $("#cargo" + cargo_id).replaceWith(cargo);
+            var fuente = '<tr id="fuente' + data.id + '"><td width="45%">' + data.fuente + '</td>'+(data.status==1 ? '<td  width="45%">' + act + '</td>':'<td  width="45%">' + ina + '</td>');
+            fuente += '<td width="10%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            fuente += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            $("#fuente" + fuente_id).replaceWith(fuente);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Cargo Modificado con Éxito");
+            $("#res").html("Fuente Modificada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -183,18 +179,20 @@ function soloLetras(e) {
     if(letras.indexOf(tecla) == -1 && !tecla_especial)
         return false;
 }
+
+
 $(document).on('click','.pagination a',function(e){
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
 //console.log(page);
-    var route ="cargos";
+    var route ="fuentes";
     $.ajax({
         url: route,
         data: {page: page},
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            $(".cargos").html(data);
+            $(".fuentes").html(data);
         }
     });
 });

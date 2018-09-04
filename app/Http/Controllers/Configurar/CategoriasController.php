@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Validator;
 class CategoriasController extends Controller
 {
     
-    public function index(){
+    public function index(Request $request){
     	
       $categorias= Categorias::paginate(3);
+      if($request->ajax()){
+            return response()->json(view('Configurar.Categorias.lista',compact('categorias'))->render());
+        }
     
       return view('Configurar.Categorias.index')->with('categorias',$categorias);
 
@@ -28,9 +31,9 @@ class CategoriasController extends Controller
        $rules = array( 'nombre'=>'required|unique:categorias,categoria', 
                        'tipo'=>'required',
                        'status'=>'required'); 
-       $messages = array( 'nombre.required'=>'Nombre de la Categoria es requerido',
-                          'tipo.required'=>'El tipo de la Categoria es requerido', 
-                          'nombre.unique' => 'La Categoria ya existe', 
+       $messages = array( 'nombre.required'=>'Nombre de la Categoría es requerido',
+                          'tipo.required'=>'El tipo de la Categoría es requerido', 
+                          'nombre.unique' => 'La Categoría ya existe', 
                           'status.required'=>'El estatus es requerido' );
 
        $validator = Validator::make($data, $rules, $messages);

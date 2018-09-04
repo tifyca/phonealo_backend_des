@@ -10,8 +10,12 @@ use App\Estados;
 
 class EstadosController extends Controller
 {
-    public function index(){
-    	$estados= Estados::paginate(3);
+    public function index(Request $request){
+    	$estados= Estados::paginate(6);
+        if($request->ajax()){
+            return response()->json(view('Configurar.Estados.lista',compact('estados'))->render());
+        }
+
     	return view('Configurar.Estados.index')->with('estados',$estados);
     }
 

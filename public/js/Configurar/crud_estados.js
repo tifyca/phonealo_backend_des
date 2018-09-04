@@ -53,8 +53,8 @@ $("#btn-save-edit").click(function (e) {
             console.log(data.status);
             var act='Activo';
             var ina='Inactivo';
-            var estado = '<tr id="estado' + data.id + '"><td>' + data.estado + '</td>';
-            estado += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button></div></td></tr>';
+            var estado = '<tr id="estado' + data.id + '"><td width="90%">' + data.estado + '</td>';
+            estado += '<td width="10%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button></div></td></tr>';
             $("#estado" + estado_id).replaceWith(estado);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
@@ -85,3 +85,19 @@ function soloLetras(e) {
     if(letras.indexOf(tecla) == -1 && !tecla_especial)
         return false;
 }
+
+$(document).on('click','.pagination a',function(e){
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+//console.log(page);
+    var route ="estados";
+    $.ajax({
+        url: route,
+        data: {page: page},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".estados").html(data);
+        }
+    });
+});
