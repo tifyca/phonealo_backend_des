@@ -16,6 +16,14 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
+                      @if(Session::has('message'))
+                         <div class="alert alert-success">
+
+                           {{ Session::get('message') }} 
+                          </div>
+                      @endif    
+    <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
+   <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>                  
 
 <div class="row">
   <div class="col-12">
@@ -25,6 +33,7 @@
           <div class="tile-body">
             <div class="table-responsive">
               <div class="clientes">
+                <form>
               <table class="table table-hover table-bordered " id="sampleTable">
                 <thead>
                   <tr>
@@ -46,8 +55,8 @@
                       <td width="15%" >{{$Item->ciudad}}</td>
                       <td width="10%" class="text-center">
                       <div class="btn-group">
-                      <button class="btn btn-primary open_modal" value="{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></button>
-                      <button class="btn btn-primary confirm-delete" value="{{$Item->id}}"><i class="fa fa-lg fa-globe"></i></button>                   
+                      <a class="btn btn-primary" href="clientes/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
+                      <button class="btn btn-primary" value="{{$Item->id}}"><i class="fa fa-lg fa-globe"></i></button>                   
                       </div>
                       </td>
                     </tr>
@@ -57,6 +66,7 @@
               <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
                     <?php echo $clientes->render(); ?>
               </div>
+              </form>
             </div>
               </div>
             </div>

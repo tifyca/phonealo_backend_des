@@ -17,18 +17,26 @@
 @section('display_trash','d-none')    @section('link_trash', url(''))
 
 @section('content')
+      @if(Session::has('message'))
+                         <div class="alert alert-success">
+
+                           {{ Session::get('message') }} 
+                          /div>
+                      @endif    
+
 
 <div class="row">
   <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-        <form>
+        <form id="formcliente" name="formcliente" method="POST" action="create">
           <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+          <input type="hidden" id="id_estado" name="id_estado" value="1">
               {{ csrf_field() }} 
           <div class="row">
             <div class="form-group col-md-6">
               <label for="nombre_cliente">Nombres</label>
-              <input class="form-control" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="...">
+              <input class="form-control" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="..." onkeypress="return soloLetras(event);">
             </div>
             <div class="form-group col-md-6">
               <label for="email_cliente">Email</label>
@@ -36,18 +44,18 @@
             </div>
             <div class="form-group col-md-6">
               <label for="telefono_cliente">Teléfono</label>
-              <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="...">
+              <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="..." onkeypress="return soloNumeros(event);">
             </div>
             <div class="form-group col-md-6">
               <label for="ruc_cliente">RUC</label>
-              <input class="form-control" type="text" id="ruc_cliente" name="ruc_cliente" placeholder="...">
+              <input class="form-control" type="text" id="ruc_cliente" name="ruc_cliente" placeholder="..." onkeypress="return soloNumeros(event);">
             </div>
             <div class="form-group col-12 col-md-3">
               <label for="tipo_cliente">Tipo de Cliente</label>
               <select class="form-control" id="tipo_cliente" name="tipo_cliente">
                 <option value="">Seleccione</option>
-                <option selected value="N">Natural</option>
-                <option value="J">Jurídico</option>
+                <option selected value="1">Natural</option>
+                <option value="2">Jurídico</option>
               </select>
             </div>
             <div class="form-group col-12 col-md-3">
@@ -77,14 +85,14 @@
             </div>
             <div class="form-group col-md-6">
               <label for="ubicacion_cliente">Ubicación</label>
-              <input class="form-control" type="text" id="ubicacion_cliente" name="ubicacion_cliente" placeholder="...">
+              <input class="form-control" type="text" id="ubicacion_cliente" name="ubicacion_cliente" placeholder="..." onkeypress="return soloNumeros(event);">
             </div>
             <div class="form-group col-12">
               <label for="nota_cliente">Nota</label>
               <textarea class="form-control" id="nota_cliente" name="nota_cliente" rows="3"></textarea>
             </div>
             <div class="tile-footer col-12 pl-3">
-              <button class="btn btn-primary" type="submit">Guardar</button>
+              <button class="btn btn-primary" type="submit"  >Guardar</button>
             </div>
           </div>
         </form>
@@ -165,5 +173,7 @@
 
   
   });
+
+   $( "div.alert" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 </script>
 @endpush
