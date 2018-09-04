@@ -41,7 +41,8 @@ class CargosController extends Controller
       $errors = $validator->errors(); 
       return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
       
-     }elseif ($validator->passes()){ 
+     }elseif ($validator->passes()){      
+      
       $cargo= new Cargos; 
       $cargo->cargo = $request->nombre; 
       $cargo->status =$request->status; 

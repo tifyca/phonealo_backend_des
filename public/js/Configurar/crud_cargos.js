@@ -1,4 +1,4 @@
-var url = "categorias";
+var url = "cargos";
 
   $.ajaxSetup({
         headers: {
@@ -6,10 +6,10 @@ var url = "categorias";
         }
     });
 
-// muestra el formulario modal para la edición del categoria
+// muestra el formulario modal para la edición del cargo
 $(document).on('click', '.open_modal', function () {
-    var categoria_id = $(this).val();
-    $.get(url + '/edit/' + categoria_id, function(data){
+    var cargo_id = $(this).val();
+    $.get(url + '/edit/' + cargo_id, function(data){
           $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -17,9 +17,8 @@ $(document).on('click', '.open_modal', function () {
     });
         //success data
         console.log(data);
-        $('#categoria_id').val(data.id);
-        $('#nombre').val(data.categoria);
-        $('#tipo').val(data.tipo);
+        $('#cargo_id').val(data.id);
+        $('#nombre').val(data.cargo);
         if (data.status==1){
         $('input:radio[id=status]').prop("checked", true);
         }
@@ -31,18 +30,18 @@ $(document).on('click', '.open_modal', function () {
     
 });
 
-// muestra modal para la confirmar eliminar   categoria
+// muestra modal para la confirmar eliminar   cargo
 $(document).on('click', '.confirm-delete', function () {
-    var categoria_id = $(this).val();
+    var cargo_id = $(this).val();
     $('#confirm-delete').modal('show');
-    $('#categoria-id').val(categoria_id);
+    $('#cargo-id').val(cargo_id);
 });
 
 
-// eliminar el categoria y eliminarlo de la lista
-$(document).on('click', '.delete-categoria', function () {
+// eliminar el cargo y eliminarlo de la lista
+$(document).on('click', '.delete-cargo', function () {
 
-    var categoria_id = $('#categoria-id').val();
+    var cargo_id = $('#cargo-id').val();
 
     $.ajaxSetup({
         headers: {
@@ -51,26 +50,22 @@ $(document).on('click', '.delete-categoria', function () {
     });
     $.ajax({
         type: "DELETE",
-        url: url + '/' + categoria_id,
+        url: url + '/' + cargo_id,
          headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
-            $("#categoria" + categoria_id).remove();
+            $("#cargo" + cargo_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Categoria Eliminado con Éxito");
+            $("#res").html("Cargo Eliminado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);
-            $('#confirm-delete').modal('hide');
-            $("#rese").html("No se pudo eliminar la categoría, por que está asociada a una Subcategoria");
-            $("#rese").css("display","block");
-            $("#rese").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
-// crear nuevo categoria
+// crear nuevo cargo
 $("#btn-save").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -80,9 +75,8 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
-        nombre: $('#nombreCategoria').val(),
-        tipo: $('#tipoCategoria').val(),
-        status: $('input:radio[name=statusCategoria]:checked').val(),
+        nombre: $('#nombreCargo').val(),
+        status: $('input:radio[name=statusCargo]:checked').val(),
         id_usuario: $('#id_usuario').val(),
     }
     
@@ -97,24 +91,25 @@ $("#btn-save").click(function (e) {
             console.log(data);
             var act='Activo';
             var ina='Inactivo';
-            var categoria = '<tr id="categoria' + data.id + '"><td>' + data.categoria + '</td><td>' + data.tipo + '</td>'+(data.status==1 ? '<td>' + act + '</td>':'<td>' + ina + '</td>');
-            categoria += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            categoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            var cargo = '<tr id="cargo' + data.id + '"><td width="45%">' + data.cargo + '</td>'+(data.status==1 ? '<td width="45%">' + act + '</td>':'<td width="45%">' + ina + '</td>');
+            cargo += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            cargo += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
-            $('#categorias-list').append(categoria);
+            $('#cargos-list').append(cargo);
             $('#frmc').trigger("reset");
-            $("#res").html("Categoria Registrado con Éxito");
+            $("#res").html("Cargo Registrado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
-         error: function (data,estado,error) { 
+       
+          error: function (data,estado,error) { 
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
                 if(error.message.hasOwnProperty(k)){ 
                     error.message[k].forEach(function(val){
-                       
+
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
                         $("#rese").html(errorsHtml).show().fadeOut(4000);
@@ -127,7 +122,7 @@ $("#btn-save").click(function (e) {
 });
 
 
-////actualiza categoria
+////actualiza cargo
 $("#btn-save-edit").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -136,14 +131,13 @@ $("#btn-save-edit").click(function (e) {
     });
 
     e.preventDefault();
-        var categoria_id = $('#categoria_id').val();
-        var formData = { nombre: $('#nombre').val(),  
-                         tipo: $('#tipo').val(), 
+        var cargo_id = $('#cargo_id').val();
+        var formData = { nombre: $('#nombre').val(), 
                          status: $('input:radio[name=status]:checked').val(), 
                          id_usuario: $('#id_usuario').val(), 
-                       }
+                        }
         var my_url = url;
-        my_url += '/mod/'+ categoria_id;
+        my_url += '/mod/'+ cargo_id;
    
     console.log(formData);
     $.ajax({
@@ -153,15 +147,16 @@ $("#btn-save-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
+            console.log(data.status);
             var act='Activo';
             var ina='Inactivo';
-            var categoria = '<tr id="categoria' + data.id + '"><td>' + data.categoria + '</td><td>' + data.tipo + '</td>'+(data.status==1 ? '<td>' + act + '</td>': '<td>' + ina + '</td>');
-            categoria += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            categoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-            $("#categoria" + categoria_id).replaceWith(categoria);
+            var cargo = '<tr id="cargo' + data.id + '"><td width="45%" >' + data.cargo + '</td>'+(data.status==1 ? '<td width="45%">' + act + '</td>': '<td width="45%">' + ina + '</td>');
+            cargo += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            cargo += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            $("#cargo" + cargo_id).replaceWith(cargo);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Categoria Modificado con Éxito");
+            $("#res").html("Cargo Modificado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -170,7 +165,6 @@ $("#btn-save-edit").click(function (e) {
         }
     });
 });
-
 
 function soloLetras(e) {
     key = e.keyCode || e.which;
@@ -189,3 +183,18 @@ function soloLetras(e) {
     if(letras.indexOf(tecla) == -1 && !tecla_especial)
         return false;
 }
+$(document).on('click','.pagination a',function(e){
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+//console.log(page);
+    var route ="cargos";
+    $.ajax({
+        url: route,
+        data: {page: page},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".cargos").html(data);
+        }
+    });
+});

@@ -58,7 +58,7 @@ $(document).on('click', '.delete-subcategoria', function () {
             console.log(data);
             $("#subcategoria" + subcategoria_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Subcategoria Eliminado con Éxito");
+            $("#res").html("Subcategoría Eliminada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -98,13 +98,13 @@ $("#btn-save").click(function (e) {
        
             var act='Activo';
             var ina='Inactivo';
-            var subcategoria = '<tr id="subcategoria' + data.id + '"><td>' + data.sub_categoria + '</td><td>' + cate.categoria + '</td>'+(data.status==1 ? '<td>' + act + '</td>':'<td>' + ina + '</td>');
-            subcategoria += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            var subcategoria = '<tr id="subcategoria' + data.id + '"><td width="30%">' + data.sub_categoria + '</td><td width="30%">' + cate.categoria + '</td>'+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
+            subcategoria += '<td width="15%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             subcategoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
             $('#subcategorias-list').append(subcategoria);
             $('#frmc').trigger("reset");
-            $("#res").html("Subcategoria Registrado con Éxito");
+            $("#res").html("Subcategoría Registrada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
@@ -163,13 +163,13 @@ $("#btn-save-edit").click(function (e) {
        
             var act='Activo';
             var ina='Inactivo';
-            var subcategoria = '<tr id="subcategoria' + data.id + '"><td>' + data.sub_categoria + '</td><td>' + cate.categoria  + '</td>'+(data.status==1 ? '<td>' + act + '</td>': '<td>' + ina + '</td>');
-            subcategoria += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                 var subcategoria = '<tr id="subcategoria' + data.id + '"><td width="30%">' + data.sub_categoria + '</td><td width="30%">' + cate.categoria + '</td>'+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
+            subcategoria += '<td width="15%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             subcategoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
             $("#subcategoria" + subcategoria_id).replaceWith(subcategoria);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Subcategoria Modificado con Éxito");
+            $("#res").html("Subcategoría Modificada con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
@@ -209,3 +209,19 @@ function soloLetras(e) {
     if(letras.indexOf(tecla) == -1 && !tecla_especial)
         return false;
 }
+
+$(document).on('click','.pagination a',function(e){
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+//console.log(page);
+    var route ="subcategorias";
+    $.ajax({
+        url: route,
+        data: {page: page},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".subcategorias").html(data);
+        }
+    });
+});

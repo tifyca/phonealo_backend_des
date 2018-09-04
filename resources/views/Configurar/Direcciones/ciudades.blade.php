@@ -141,7 +141,7 @@
 
 @push('scripts')
 <meta name="_token" content="{!! csrf_token() !!}" />
- <script src="{{asset('js/crud_ciudades.js')}}"></script>
+ <script src="{{asset('js/Configurar/crud_ciudades.js')}}"></script>
 
 <script  type="text/javascript" charset="utf-8">
   $(document).ready(function(){

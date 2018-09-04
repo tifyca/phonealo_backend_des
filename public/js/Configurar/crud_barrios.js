@@ -213,3 +213,19 @@ if ((keynum == 8) || (keynum == 46) || (keynum == 45))
 return true;
 return /\d/.test(String.fromCharCode(keynum));
 }
+
+$(document).on('click','.pagination a',function(e){
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+//console.log(page);
+    var route ="barrios";
+    $.ajax({
+        url: route,
+        data: {page: page},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".barrios").html(data);
+        }
+    });
+});

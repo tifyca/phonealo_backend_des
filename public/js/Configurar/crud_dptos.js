@@ -1,4 +1,4 @@
-var url = "paises";
+var url = "departamentos";
 
   $.ajaxSetup({
         headers: {
@@ -6,10 +6,10 @@ var url = "paises";
         }
     });
 
-// muestra el formulario modal para la edición del pais
+// muestra el formulario modal para la edición del dpto
 $(document).on('click', '.open_modal', function () {
-    var pais_id = $(this).val();
-    $.get(url + '/edit/' + pais_id, function(data){
+    var dpto_id = $(this).val();
+    $.get(url + '/edit/' + dpto_id, function(data){
           $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -17,7 +17,7 @@ $(document).on('click', '.open_modal', function () {
     });
         //success data
         console.log(data);
-        $('#pais_id').val(data.id);
+        $('#dpto_id').val(data.id);
         $('#nombre').val(data.nombre);
         
         $('#myModal').modal('show');
@@ -25,18 +25,18 @@ $(document).on('click', '.open_modal', function () {
     
 });
 
-// muestra modal para la confirmar eliminar   pais
+// muestra modal para la confirmar eliminar   dpto
 $(document).on('click', '.confirm-delete', function () {
-    var pais_id = $(this).val();
+    var dpto_id = $(this).val();
     $('#confirm-delete').modal('show');
-    $('#pais-id').val(pais_id);
+    $('#dpto-id').val(dpto_id);
 });
 
 
-// eliminar el pais y eliminarlo de la lista
-$(document).on('click', '.delete-pais', function () {
+// eliminar el dpto y eliminarlo de la lista
+$(document).on('click', '.delete-dpto', function () {
 
-    var pais_id = $('#pais-id').val();
+    var dpto_id = $('#dpto-id').val();
 
     $.ajaxSetup({
         headers: {
@@ -45,21 +45,26 @@ $(document).on('click', '.delete-pais', function () {
     });
     $.ajax({
         type: "DELETE",
-        url: url + '/' + pais_id,
+        url: url + '/' + dpto_id,
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
-            $("#paises" + pais_id).remove();
+            $("#dpto" + dpto_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Pais Eliminado con Éxito");
+            $("#res").html("Departamento Eliminado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);
+            $('#confirm-delete').modal('hide');
+            $("#rese").html("No se pudo eliminar el departamento, por que está asociado a una Ciudad");
+            $("#rese").css("display","block");
+            $("#rese").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
-// crear nuevo pais
+// crear nuevo dpto
 $("#btn-save").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -69,7 +74,7 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
-        nombre: $('#nombrePais').val(),
+        nombre: $('#nombreDpto').val(),
         id_usuario: $('#id_usuario').val(),
     }
     
@@ -82,13 +87,13 @@ $("#btn-save").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
-            var pais = '<tr id="paises' + data.id + '"><td>' + data.nombre + '</td>';
-            pais += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            pais += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            var dpto = '<tr id="dpto' + data.id + '"><td width="90%">' + data.nombre + '</td>';
+            dpto += '<td width="10%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            dpto += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
-            $('#paises-list').append(pais);
+            $('#dpto-list').append(dpto);
             $('#frmc').trigger("reset");
-            $("#res").html("Pais Registrado con Éxito");
+            $("#res").html("Departamento Registrado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -113,7 +118,7 @@ $("#btn-save").click(function (e) {
 });
 
 
-////actualiza pais
+////actualiza dpto
 $("#btn-save-edit").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -122,10 +127,10 @@ $("#btn-save-edit").click(function (e) {
     });
 
     e.preventDefault();
-        var pais_id = $('#pais_id').val();
+        var dpto_id = $('#dpto_id').val();
         var formData = {nombre: $('#nombre').val(), id_usuario: $('#id_usuario').val(), }
         var my_url = url;
-        my_url += '/mod/'+ pais_id;
+        my_url += '/mod/'+ dpto_id;
    
     console.log(formData);
     $.ajax({
@@ -136,13 +141,13 @@ $("#btn-save-edit").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data.nombre);
-             var pais = '<tr id="paises' + data.id + '"><td>' + data.nombre + '</td>';
-            pais += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            pais += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-            $("#paises" + pais_id).replaceWith(pais);
+             var dpto = '<tr id="dpto' + data.id + '"><td width="90%">' + data.nombre + '</td>';
+            dpto += '<td  width="10%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            dpto += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            $("#dpto" + dpto_id).replaceWith(dpto);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Pais Modificado con Éxito");
+            $("#res").html("Departamento Modificado con Éxito");
             $("#res").css("display","block");
             $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -169,3 +174,19 @@ function soloLetras(e) {
     if(letras.indexOf(tecla) == -1 && !tecla_especial)
         return false;
 }
+
+$(document).on('click','.pagination a',function(e){
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+//console.log(page);
+    var route ="departamentos";
+    $.ajax({
+        url: route,
+        data: {page: page},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".departamentos").html(data);
+        }
+    });
+});

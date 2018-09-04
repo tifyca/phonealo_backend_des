@@ -63,6 +63,7 @@
         <div class="tile-body ">
           <div class="tile-body">
             <div class="table-responsive">
+              <div class="fuentes">
              <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
@@ -74,13 +75,13 @@
                 <tbody id="fuentes-list" name="fuentes-list">
                    @foreach($fuentes as $fuente)           
                      <tr id="fuente{{$fuente->id}}">
-                      <td>{{$fuente->fuente}}</td>
+                      <td width="45%">{{$fuente->fuente}}</td>
                 <?php if ($fuente->status==1){ ?>
-                      <td><?=  'Activo' ?></td>
+                      <td width="45%"><?=  'Activo' ?></td>
                 <?php }else{ ?> 
-                      <td><?='Inactivo' ?></td>
+                      <td width="45%"><?='Inactivo' ?></td>
                 <?php } ?> 
-                      <td width="10%" class="text-right">
+                      <td width="10%" class="text-center">
                       <div class="btn-group">
                       <button class="btn btn-primary open_modal" value="{{$fuente->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
                       <button class="btn btn-primary confirm-delete" value="{{$fuente->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
@@ -89,9 +90,10 @@
                     </tr>
                     @endforeach
               </table>       
-            </div>
-            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+               <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
                     <?php echo $fuentes->render(); ?>
+              </div>
+              </div>
               </div>
             </div>
         </div>
@@ -176,5 +178,5 @@
 
 @push('scripts')
  <meta name="_token" content="{!! csrf_token() !!}" />
- <script src="{{asset('js/crud_fuentes.js')}}"></script>
+ <script src="{{asset('js/Configurar/crud_fuentes.js')}}"></script>
 @endpush

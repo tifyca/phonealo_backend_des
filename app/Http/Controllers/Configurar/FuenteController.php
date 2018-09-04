@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\Validator;
 
 class FuenteController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
     	$fuentes= Fuente::paginate(3);
+      if($request->ajax()){
+            return response()->json(view('Configurar.Fuente.lista',compact('fuentes'))->render());
+        }
+
     	return view('Configurar.Fuente.index')->with('fuentes',$fuentes);
     	
     }

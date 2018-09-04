@@ -72,6 +72,7 @@
         <h3 class="tile-title">Listado de Subcategorias</h3>
         <div class="tile-body">
           <div class="tile-body table-responsive">
+            <div class="subcategorias">
               <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
@@ -85,14 +86,14 @@
                   <tbody id="subcategorias-list" name="subcategorias-list"> 
                   @foreach($subcategorias as $subcategoria)           
                      <tr id="subcategoria{{$subcategoria->id}}">
-                      <td>{{$subcategoria->sub_categoria}}</td>
-                      <td>{{$subcategoria->categoria}}</td>
+                      <td width="30%">{{$subcategoria->sub_categoria}}</td>
+                      <td width="30%">{{$subcategoria->categoria}}</td>
                 <?php if ($subcategoria->status==1){ ?>
-                      <td><?=  'Activo' ?></td>
+                      <td width="25%"><?=  'Activo' ?></td>
                 <?php }else{ ?> 
-                      <td><?='Inactivo' ?></td>
+                      <td width="25%"><?='Inactivo' ?></td>
                 <?php } ?> 
-                      <td width="10%" class="text-center">
+                      <td width="15%" class="text-center">
                       <div class="btn-group">
                       <button class="btn btn-primary open_modal" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
                       <button class="btn btn-primary confirm-delete" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
@@ -103,10 +104,11 @@
                                  
                 </tbody>
               </table>
-            </div>
             <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
                     <?php echo $subcategorias->render(); ?>
               </div>
+            </div>
+          </div>
         </div>
     </div>
   </div>
@@ -196,5 +198,5 @@
 
 @push('scripts')
 <meta name="csrf-token" content="{{ csrf_token() }}"> 
- <script src="{{asset('js/crud_subcategorias.js')}}"></script>
+ <script src="{{asset('js/Configurar/crud_subcategorias.js')}}"></script>
 @endpush
