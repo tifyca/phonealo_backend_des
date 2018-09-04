@@ -91,7 +91,7 @@ $("#btn-save").click(function (e) {
             console.log(data);
             var act='Activo';
             var ina='Inactivo';
-            var cargo = '<tr id="cargo' + data.id + '"><td>' + data.cargo + '</td>'+(data.status==1 ? '<td>' + act + '</td>':'<td>' + ina + '</td>');
+            var cargo = '<tr id="cargo' + data.id + '"><td width="45%">' + data.cargo + '</td>'+(data.status==1 ? '<td width="45%">' + act + '</td>':'<td width="45%">' + ina + '</td>');
             cargo += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             cargo += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
@@ -150,7 +150,7 @@ $("#btn-save-edit").click(function (e) {
             console.log(data.status);
             var act='Activo';
             var ina='Inactivo';
-            var cargo = '<tr id="cargo' + data.id + '"><td>' + data.cargo + '</td>'+(data.status==1 ? '<td>' + act + '</td>': '<td>' + ina + '</td>');
+            var cargo = '<tr id="cargo' + data.id + '"><td width="45%" >' + data.cargo + '</td>'+(data.status==1 ? '<td width="45%">' + act + '</td>': '<td width="45%">' + ina + '</td>');
             cargo += '<td width="10%" class="text-right"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             cargo += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
             $("#cargo" + cargo_id).replaceWith(cargo);
@@ -186,7 +186,7 @@ function soloLetras(e) {
 $(document).on('click','.pagination a',function(e){
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
-
+//console.log(page);
     var route ="cargos";
     $.ajax({
         url: route,
@@ -194,7 +194,7 @@ $(document).on('click','.pagination a',function(e){
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            $(".users").html(data);
+            $(".cargos").html(data);
         }
     });
 });

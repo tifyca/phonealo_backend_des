@@ -16,7 +16,7 @@ class CargosController extends Controller
     public function index(Request $request){
     	$cargos= Cargos::paginate(3);
       if($request->ajax()){
-            return response()->json(view('Configurar.Cargos.table',compact('cargos'))->render());
+            return response()->json(view('Configurar.Cargos.lista',compact('cargos'))->render());
         }
        
     	return view('Configurar.Cargos.index')->with('cargos',$cargos);

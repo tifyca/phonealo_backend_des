@@ -64,6 +64,7 @@
         <div class="tile-body ">
           <div class="tile-body">
             <div class="table-responsive">
+              <div class="cargos">
             <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>
                   <tr>
@@ -75,11 +76,11 @@
                 <tbody id="cargos-list" name="cargos-list">
                   @foreach($cargos as $cargo)           
                      <tr id="cargo{{$cargo->id}}">
-                      <td>{{$cargo->cargo}}</td>
+                      <td width="45%" >{{$cargo->cargo}}</td>
                 <?php if ($cargo->status==1){ ?>
-                      <td><?=  'Activo' ?></td>
+                      <td width="45%"><?=  'Activo' ?></td>
                 <?php }else{ ?> 
-                      <td><?='Inactivo' ?></td>
+                      <td width="45%"><?='Inactivo' ?></td>
                 <?php } ?> 
                       <td width="10%" class="text-right">
                       <div class="btn-group">
@@ -91,10 +92,11 @@
                     @endforeach
                 </tbody>
               </table>
-              </div>
               <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
                     <?php echo $cargos->render(); ?>
               </div>
+              </div>
+            </div>
             </div>
         </div>
     </div>
