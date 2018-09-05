@@ -1,7 +1,7 @@
 
 
 
-/*$("#btn-save").click(function (e) {
+/*$(".maps").click(function (e) {
      $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -58,7 +58,7 @@
           errorsHtml +="</ul>"; 
         },
     });
-});*/
+});
 
 function soloLetras(e) {
     key = e.keyCode || e.which;
@@ -84,7 +84,7 @@ var keynum = window.event ? window.event.keyCode : e.which;
 if ((keynum == 8) || (keynum == 46) || (keynum == 45))
 return true;
 return /\d/.test(String.fromCharCode(keynum));
-}
+}*/
 
 
 

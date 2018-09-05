@@ -7,12 +7,13 @@ use App\Http\Controllers\Controller;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
 use App\Clientes;
+use Mapper;
 
 class ClientesController extends Controller
 {
 	public function index(Request $request){
 		$clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-        				->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad')->paginate(10);
+        				->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->paginate(10);
       if($request->ajax()){
             return response()->json(view('Registro.Clientes.lista',compact('clientes'))->render());
         }
@@ -91,7 +92,7 @@ class ClientesController extends Controller
         
     }
 
-     public function editar($id_cliente){
+  public function editar($id_cliente){
     $cliente = Clientes::find($id_cliente);
    return view('Registro.Clientes.edit', compact('cliente'));
     }
@@ -102,5 +103,28 @@ class ClientesController extends Controller
 		return view('Registro.Clientes.edit');
 	}
 
+  public function gmaps($ubicacion)
+  {
+
+$data = explode(",", $ubicacion);      
+
+   
+        $lat=$data[0];
+        $lon=$data[1];
+
+        Mapper::map($lat,$lon, [
+                   "zoom"           => 16,
+                   "draggable"               =>  true,
+                   "marker"            => true,
+                   "eventAfterLoad"      => 'circleListener(maps[0].shapes[0].circle_0);'
+                 ]
+
+);
+
+
+
     
+
+        return view('Registro.Clientes.gmaps');
+  }
 }
