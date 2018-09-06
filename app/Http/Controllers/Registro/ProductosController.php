@@ -103,15 +103,33 @@ class ProductosController extends Controller
         if($request["file-input"]){
         $file = $request->file('file-input');
         $filename_old = $productos->img;
-          $name_file2 = 'producto_'.time().'.'.$file->getClientOriginalExtension();
-          $path = public_path().'/img/productos/';
+        $this->deleteFile($productos->img, "productos/");
+        $data['foto'] = $this->saveFile($request["file-input"], "productos/");
 
-        if(!empty($file_temp)){
-          unlink($path.$file_temp);  
-        }            
-        File::delete($path . $filename_old); 
-        $file->move($path, $name_file2);
-        $productos->img = $name_file2;
+
+          //$name_file2 = 'producto_'.time().'.'.$file->getClientOriginalExtension();
+          //$path = public_path().'/img/productos/';
+          $foto = json_decode($request["file-input"]);
+                $extensio = $foto->output->type == 'image/png' ? '.png' : '.jpg';
+                $fileName = (string)(date("YmdHis")) . (string)(rand(1, 9)) . $extensio;
+                $picture = $foto->output->image;
+                $filepath = 'productos/' . $fileName;
+           $s3 = S3Client::factory(config('app.s3'));
+                $result = $s3->putObject(array(
+                    'Bucket' => config('app.s3_bucket'),
+                    'Key' => $filepath,
+                    'SourceFile' => $picture,
+                    'ContentType' => 'image',
+                    'ACL' => 'public-read',
+                ));
+
+
+        //if(!empty($file_temp)){
+          //unlink($path.$file_temp);  
+        //}            
+        //File::delete($path . $filename_old); 
+        //$file->move($path, $name_file2);
+        $productos->img = $fileName;
       }
         $productos->descripcion          = $request["descripcion"];
         $productos->descripcion_producto = $request["descripcion_producto"];
@@ -132,6 +150,7 @@ class ProductosController extends Controller
          $auditoria->accion     = "Editando Producto";
          $auditoria->id_producto = $productos->id;
          $auditoria->save(); 
+
         return redirect()->route('productos.index')->with("notificacion","Se ha guardado correctamente su información");
       } catch (Exception $e) {
         \Log::info('Error creating item: '.$e);
