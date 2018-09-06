@@ -57,7 +57,8 @@
                       <td width="10%" class="text-center">
                       <div class="btn-group">
                       <a class="btn btn-primary" href="clientes/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
-                     @if($Item->ubicacion==0) 
+                   
+                     @if(empty($Item->ubicacion)) 
                      <a class="btn btn-primary"  style="pointer-events: none; cursor: default; opacity: .6"  ><i class="fa fa-lg fa-globe"></i></a>
                      @else
                      <a class="btn btn-primary"  href="clientes/gmaps/{{$Item->ubicacion}}" ><i class="fa fa-lg fa-globe"></i></a>
