@@ -14,7 +14,7 @@ use App\Barrios;
 class DireccionesController extends Controller
 {
     public function paises(Request $request){
-    	$paises = Paises::paginate(6);
+    	$paises = Paises::paginate(10);
 
        if($request->ajax()){
             return response()->json(view('Configurar.Direcciones.lista_paises',compact('paises'))->render());

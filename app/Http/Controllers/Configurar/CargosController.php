@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class CargosController extends Controller
 {
     public function index(Request $request){
-    	$cargos= Cargos::paginate(3);
+    	$cargos= Cargos::paginate(10);
       if($request->ajax()){
             return response()->json(view('Configurar.Cargos.lista',compact('cargos'))->render());
         }
