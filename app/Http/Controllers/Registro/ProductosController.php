@@ -53,15 +53,9 @@ class ProductosController extends Controller
        }
        $productos = new productos($request->all());
      if($request["file-input"]){
-        $file = $request->file('file-input');
-         $name_file2 = 'producto_'.time().'.'.$file->getClientOriginalExtension();
-        $path = public_path().'/img/productos/';
-        if(!empty($file_temp)){
-        unlink($path.$file_temp);  
-        }            
-
-         $file->move($path, $name_file2);
-         $productos->img        = $name_file2;
+      
+          $fileName = $this->saveFile($request["file-input"], "productos/");
+          $productos->img        = $fileName;
       }
         
         $productos->descripcion          = $request["descripcion"];
@@ -101,35 +95,12 @@ class ProductosController extends Controller
         $productos = productos::find($id);
         $productos->fill($request->all());
         if($request["file-input"]){
-        $file = $request->file('file-input');
-        $filename_old = $productos->img;
-        $this->deleteFile($productos->img, "productos/");
-        $data['foto'] = $this->saveFile($request["file-input"], "productos/");
+        	$fileName = $this->saveFile($request["file-input"], "productos/");
 
+                $this->deleteFile($productos->img, "productos/");
+                $fileName = $this->saveFile($request["file-input"], "productos/");
 
-          //$name_file2 = 'producto_'.time().'.'.$file->getClientOriginalExtension();
-          //$path = public_path().'/img/productos/';
-          $foto = json_decode($request["file-input"]);
-                $extensio = $foto->output->type == 'image/png' ? '.png' : '.jpg';
-                $fileName = (string)(date("YmdHis")) . (string)(rand(1, 9)) . $extensio;
-                $picture = $foto->output->image;
-                $filepath = 'productos/' . $fileName;
-           $s3 = S3Client::factory(config('app.s3'));
-                $result = $s3->putObject(array(
-                    'Bucket' => config('app.s3_bucket'),
-                    'Key' => $filepath,
-                    'SourceFile' => $picture,
-                    'ContentType' => 'image',
-                    'ACL' => 'public-read',
-                ));
-
-
-        //if(!empty($file_temp)){
-          //unlink($path.$file_temp);  
-        //}            
-        //File::delete($path . $filename_old); 
-        //$file->move($path, $name_file2);
-        $productos->img = $fileName;
+               $productos->img = $fileName;
       }
         $productos->descripcion          = $request["descripcion"];
         $productos->descripcion_producto = $request["descripcion_producto"];
