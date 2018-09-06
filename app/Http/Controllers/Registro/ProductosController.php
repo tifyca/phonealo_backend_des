@@ -8,11 +8,26 @@ use App\Productos;
 use App\Categorias;
 use App\Subcategorias;
 use App\auditoria;
+use DB;
+use File;
  @session_start();
+
 class ProductosController extends Controller
 {
     public function index(Request $request){
-    	$productos=productos::orderby('id','asc')->paginate(10);
+
+    	$categoria = $request["id_categoria"];
+    	$subcategoria = $request["id_subcategoria"];
+    	if($categoria!=""){
+    	 $productos=productos::where('id_categoria',$categoria)->paginate(10);	
+    	}else{
+    	  if($subcategoria!="")	$productos=productos::where('id_subcategoria',$categoria)->paginate(10);	
+    	  else{
+    	  	$productos=productos::orderby('id','asc')->paginate(10);
+    	  }
+    	}	    
+    	
+    	
     	$categorias=categorias::where('tipo','Productos')->get();
 
 		return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos);
@@ -21,11 +36,14 @@ class ProductosController extends Controller
     public function edit($id){
     	$categorias = categorias::where('tipo','Productos')->get();
 		$productos = productos::find($id);
-		return view('Registro.Productos.edit')->with('productos',$productos)->with('categorias',$categorias);
+
+		$subcategorias = subcategorias::where('id',$productos->id_subcategoria);
+		return view('Registro.Productos.edit')->with('productos',$productos)->with('categorias',$categorias)->with('subcategoria',$subcategorias);
 	}
 
 
 	public function store(Request $request){
+		//dd($request);
 		try{
                 $nombre          = $request->descripcion;
                 $id_categoria    = $request->id_categoria;
@@ -33,28 +51,30 @@ class ProductosController extends Controller
                 if(productos::where('descripcion',$nombre)->where('id_categoria',$id_categoria)->where('id_subcategoria',$id_subcategoria)->first()){
          return redirect()->route('productos.index')->with("notificacion_error","Ya se encuentra Registrado");
        }
+       $productos = new productos($request->all());
      if($request["file-input"]){
         $file = $request->file('file-input');
-        $name_file2 = 'producto_'.time().'.'.$file->getClientOriginalExtension();
+         $name_file2 = 'producto_'.time().'.'.$file->getClientOriginalExtension();
         $path = public_path().'/img/productos/';
         if(!empty($file_temp)){
         unlink($path.$file_temp);  
-      }            
+        }            
 
          $file->move($path, $name_file2);
          $productos->img        = $name_file2;
       }
-        $productos = new productos($request->all());
+        
         $productos->descripcion          = $request["descripcion"];
         $productos->descripcion_producto = $request["descripcion_producto"];
         $productos->precio_ideal         = $request["precio_ideal"];
         $productos->id_categoria         = $request["id_categoria"];
         $productos->id_subcategoria      = $request["id_subcategoria"];
-        $productos->codigo_barra         = $request["codigo_barra"];
+        $productos->cod_barra_producto          = $request["cod_barra_producto"];
         $productos->codigo_producto      = $request["codigo_producto"];
-        $productos->nombre_producto      = $request["nombre_producto"];
-        $productos->updated_at           = date('Y-m-d');
-        $productos->user_id              = $_SESSION["user"];
+        $productos->descripcion          = $request["descripcion"];
+        $productos->created_at           = date('Y-m-d');
+        $productos->updated_at            = date('Y-m-d');
+        $productos->id_usuario              = $_SESSION["user"];
         $productos->save();
 
         //crear registro de auditoria
@@ -72,8 +92,9 @@ class ProductosController extends Controller
      }
 	}
 	public function show($id){
+        $categorias = categorias::where('tipo','Productos')->get();		
 
-		return view('Registro.Productos.show');
+		return view('Registro.Productos.show')->with('categorias',$categorias);
 	}
 	public function update(Request $request,$id){
 		try {
@@ -83,7 +104,7 @@ class ProductosController extends Controller
         $file = $request->file('file-input');
         $filename_old = $productos->img;
           $name_file2 = 'producto_'.time().'.'.$file->getClientOriginalExtension();
-          $path = public_path().'/img/producto/';
+          $path = public_path().'/img/productos/';
 
         if(!empty($file_temp)){
           unlink($path.$file_temp);  
@@ -97,11 +118,11 @@ class ProductosController extends Controller
         $productos->precio_ideal         = $request["precio_ideal"];
         $productos->id_categoria         = $request["id_categoria"];
         $productos->id_subcategoria      = $request["id_subcategoria"];
-        $productos->codigo_barra         = $request["codigo_barra"];
+        $productos->cod_barra_producto   = $request["cod_barra_producto"];
         $productos->codigo_producto      = $request["codigo_producto"];
-        $productos->nombre_producto      = $request["nombre_producto"];
-        $productos->updated_at           = date('Y-m-d');
-        $productos->user_id              = $_SESSION["user"];
+        $productos->descripcion          = $request["descripcion"];
+        $productos->updated_at            = date('Y-m-d');
+        $productos->id_usuario             = $_SESSION["user"];
         $productos->save();
 
           //crear registro de auditoria
@@ -119,7 +140,21 @@ class ProductosController extends Controller
    }
    
    public function detalle($id){
-		return view('Registro.Productos.detalle');
+   	    $productos=productos::find($id);
+   	    $categorias=Categorias::where('id',$productos->id_categoria)->first();
+   	    if($categorias)
+   	    	$categoria = $categorias->categoria;
+   	    else 
+   	    	$categoria="";
+   	    $subcategorias=Subcategorias::where('id',$productos->id_subcategoria)->first();
+   	    if($subcategorias)
+   	    $subcategoria = $subcategorias->sub_categoria;
+   	   else
+   	   	$subcategoria="";
+   	   $imagenes=db::table('producto_imagenes as a')
+   	                ->select('a.id_producto','a.imagen')
+   	                ->where('id_producto',$id)->get();
+		return view('Registro.Productos.detalle')->with('productos',$productos)->with('categoria',$categoria)->with('subcategoria',$subcategoria)->with('imagenes',$imagenes);
 	}
 	
 	

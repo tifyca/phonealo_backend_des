@@ -123,11 +123,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('registro/productos', 'Registro\ProductosController');
 
-    Route::get('registro/productos/update/{valor}', [
-        'uses' => 'Registro\ProductosController@update',
-        'as'   => 'productos.update'
-    ]);
-
+   
     Route::get('registro/productos/detalle/{valor}', [
         'uses' => 'Registro\ProductosController@detalle',
         'as'   => 'productos.detalle'
