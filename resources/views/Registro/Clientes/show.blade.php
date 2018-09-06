@@ -24,12 +24,12 @@
                           /div>
                       @endif    
 
-
+<div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div> 
 <div class="row">
   <div class="col-12">
     <div class="tile">
-      <div class="tile-body ">
-        <form id="formcliente" name="formcliente" method="POST" action="create">
+      <div class="tile-body ">                
+        <form id="formcliente" name="formcliente"  novalidate="">
           <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
           <input type="hidden" id="id_estado" name="id_estado" value="1">
               {{ csrf_field() }} 
@@ -92,7 +92,7 @@
               <textarea class="form-control" id="nota_cliente" name="nota_cliente" rows="3"></textarea>
             </div>
             <div class="tile-footer col-12 pl-3">
-              <button class="btn btn-primary" type="submit"  >Guardar</button>
+              <button class="btn btn-primary" id="btn-save" >Guardar</button>
             </div>
           </div>
         </form>
@@ -138,7 +138,7 @@
               dataType: "json",
               data: {id_departamento: id_departamento},
               success: function (data){
-
+                    $(".ciudades").append('<option value=0> Seleccione </option>');
                  $.each(data, function(l, item1) {
 
                    //$(".ciudades option:eq(1)").prop("selected", true);
@@ -164,8 +164,9 @@
 
                  $.each(data, function(l, item2) {
 
+                    $(".ciudades").append('<option value=0> Seleccione </option>');
                    //$(".ciudades option:eq(1)").prop("selected", true);
-                   $(".barrios").append('<option value='+item2.id+'>'+item2.barrio+'</option>');
+                   $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
                   });
               }
           });
@@ -174,6 +175,6 @@
   
   });
 
-   $( "div.alert" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+//   $( "div.alert" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 </script>
 @endpush

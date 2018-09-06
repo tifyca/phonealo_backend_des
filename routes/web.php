@@ -106,8 +106,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('registro/clientes', 'Registro\ClientesController');
     Route::post('registro/clientes/create', 'Registro\ClientesController@create_cliente');
-    Route::get('registro/clientes/editar/{id_cliente}','Registro\ClientesController@editar');
-    Route::get('registro/clientes/gmaps/{ubicacion}',  'Registro\ClientesController@gmaps');
+    Route::get('registro/clientes/editar/{id_cliente?}','Registro\ClientesController@editar');
+     Route::put('registro/clientes/mod/{id_cliente?}','Registro\ClientesController@update');
+    Route::get('registro/clientes/gmaps/{ubicacion?}',  'Registro\ClientesController@gmaps');
 
     Route::get('registro/clientes/update/{valor}', [
         'uses' => 'Registro\ClientesController@update',
