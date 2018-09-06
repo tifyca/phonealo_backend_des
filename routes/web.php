@@ -151,6 +151,7 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'Registro\gastosController@update',
         'as'   => 'gastos.update'
     ]);
+    Route::get('registro/gastos/show', 'Registro\GastosController@show')->name('registro.gastos.show');
 
     Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
 
@@ -262,11 +263,24 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('seguridad/auditoria', 'Seguridad\AuditoriaController');
 
-
-
-
-
     ///////////
+
+    Route::get('caja/index', 'Caja\AbrirController@index')->name('caja.index');
+    Route::get('caja/abrir', 'Caja\AbrirController@abrir')->name('caja.abrir');
+    Route::get('caja/remitos', 'Caja\AbrirController@remitos')->name('caja.remitos');
+    Route::get('caja/cobro_remito', 'Caja\AbrirController@cobro_remito')->name('caja.cobro_remito');
+    Route::get('caja/salida', 'Caja\AbrirController@salida')->name('caja.salida');
+    Route::get('caja/cerrar', 'Caja\AbrirController@cerrar')->name('caja.cerrar');
+
+    Route::get('caja/cierres', 'Caja\CierresController@index')->name('caja.cierres');
+    Route::get('caja/cierres/resumen', 'Caja\CierresController@resumen')->name('caja.cierre.resumen');
+    Route::get('caja/cierres/informe', 'Caja\CierresController@informe')->name('caja.cierre.informe');
+    Route::get('caja/cierres/informe/modificado', 'Caja\CierresController@modificado')->name('caja.cierre.informe.modificado');
+
+    Route::get('caja/historial', 'Caja\historialController@index')->name('caja.historial');
+    
+
+
 
     
 
