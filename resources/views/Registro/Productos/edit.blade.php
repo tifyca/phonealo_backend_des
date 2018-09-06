@@ -17,9 +17,9 @@
   <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-        <form name="form1" action="{{route('productos.update',$productos->id)}}" accept-charset="UTF-8" method="post">
-          <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}">
-          {{ method_field('PUT') }}     
+        <form name="form1" action="{{ route('productos.update', ($productos->id)) }}"  accept-charset="UTF-8" method="post"  enctype="multipart/form-data">
+        {{ csrf_field() }}
+               {{ method_field('PUT') }}  
           <div class="row">
             <div class="col-md-8">
               <div class="row">
@@ -35,15 +35,15 @@
                 </div>
                 <div class="form-group col-md-7">
                   <label for="nombre_producto">Nombre Producto</label>
-                  <input class="form-control read" type="text" id="nombre_producto" name="nombre_producto" value="{{$productos->descripcion}}" readonly >
+                  <input class="form-control read" type="text" id="descripcion" name="descripcion" value="{{$productos->descripcion}}" readonly >
                 </div>
                 <div class="form-group col-md-4">
                   <label for="cod_barra_producto">Código de Barras</label>
-                  <input class="form-control read" type="text" id="cod_barra_producto" name="cod_barra_producto" {{$productos->cod_barra_producto}} readonly>
+                  <input class="form-control read" type="text" id="cod_barra_producto" name="cod_barra_producto" value="{{$productos->cod_barra_producto}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label for="categoria_producto">Categoría</label>
-                  <select class="form-control read" id="categoria_producto" name="categoria_producto" disabled>
+                  <select class="form-control read" id="id_categoria" name="id_categoria" disabled>
                     <option value="">Seleccione</option>
                     @foreach($categorias as $cate)
                     <option value="{{$cate->id}}" @if($cate->id==$productos->id_categoria) selected="" @endif>{{$cate->categoria}}</option>
@@ -51,23 +51,19 @@
                   </select>
                 </div>
                 <div class="form-group col-md-4">
-                  <label for="categoria_producto">Subcategoría</label>
-                  <select class="form-control read" id="categoria_producto" name="categoria_producto" disabled>
+                  <label for="subcategoria_producto">Subcategoría</label>
+                  <select class="form-control read" id="" name="id_subcategoria" id="id_subcategoria" disabled>
                     <option value="">Seleccione</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                      
                   </select>
                 </div>
                 <div class="form-group col-md-4">
                   <label for="precio_minimo_producto">Precio Mínimo</label>
-                  <input class="form-control read" id="precio_minimo_producto" name="precio_minimo_producto" type="text" value="{{$productos->precio_minimo}}" readonly>
+                  <input class="form-control read" id="precio_minimo" name="precio_minimo" type="text" value="{{$productos->precio_minimo}}" readonly>
                 </div>
                 <div class="form-group col-md-4">
                   <label for="precio_ideal_producto">Precio Ideal</label>
-                  <input class="form-control read" type="text" id="precio_ideal_producto" name="precio_ideal_producto" value="{{$productos->precio_ideal}}" readonly>
+                  <input class="form-control read" type="text" id="precio_ideal" name="precio_ideal" value="{{$productos->precio_ideal}}" readonly>
                 </div>
                 <div class="form-group col-12">
                   <label for="descripcion_producto">Descripción</label>
@@ -79,8 +75,15 @@
               <div class="row">
                 <label for="imagen_producto">Imagen del Producto</label>
                 <div class="form-group col-12 text-center mt-3">
+                  <?php $url=$productos->img;
+                       if($url)
+                        $zurl="img/productos/".$url;
 
-                  <img id="imgSalida" src="{{ asset('img/img-default.png') }}" class="img-fluid " alt="">
+                      else
+                        $zurl = 'img/img-default.png';
+                      //echo $zurl;
+                  ?>
+                  <img id="imgSalida" src="{{ asset($zurl) }}" class="img-fluid " alt="">
 
                   <div class="form-group mt-4">
                     <input type="file" class=" read-file read" id="file-input" name="file-input" accept="image/*"disabled>
@@ -112,8 +115,11 @@
 @endsection
 
 @push('scripts')
+
+
 <script type="text/javascript" charset="utf-8" async defer>
-  $('#editar').change(function(){
+
+   $('#editar').change(function(){
     if ($('#editar').prop('checked')){
 
       $('.read').prop('readonly', false);
@@ -128,8 +134,64 @@
     
     
   });
+</script>
+  
+ 
+     
+  
 
-    $(function() {
+
+  <script type="text/javascript" language="javascript">
+    $ = jQuery;
+    jQuery(document).ready(function () {
+      $("input#codigo_producto").bind('change', function (event) {
+        var valor = $(this).val();
+        document.form1.codigo_producto.value=valor.toUpperCase();
+      });
+
+
+      $("input#cod_barra_producto").bind('change', function (event) {
+        var valor = $(this).val();
+        document.form1.cod_barra_producto.value=valor.toUpperCase();
+      });
+
+
+
+      $("select#id_categoria").bind('change', function (event) {
+        var valor = $(this).val();
+        $("#id_subcategoria").html('');
+        $("#id_subcategoria").append('<option value='+'>Subcategoria</option>');
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+          }
+
+        });
+
+        $.ajax({
+          type: "GET",
+          url: '{{ url('mostrar_subcategorias') }}',
+          dataType: "json",
+          data: { idc: valor ,  _token: '{{csrf_token()}}' },
+          success: function (data){
+            console.log(data);
+            $.each(data, function(l, item1) {
+             $("#id_subcategoria").append('<option value='+item1.id+'>'+item1.sub_categoria+'</option>');
+           });
+          }    
+
+
+        });
+
+
+      });
+
+
+
+    });
+
+$(function() {
     $('#file-input').change(function(e) {
       addImage(e); 
     });
@@ -151,7 +213,8 @@
   }
 }); 
 
-</script>
+  </script>
+
 
 <script>
   var editor_config = {

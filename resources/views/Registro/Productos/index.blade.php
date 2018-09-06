@@ -21,8 +21,9 @@
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Productos</h3>
             </div>
+            <form action="{{route('productos.index')}}" method="get"></form>
             <div class="form-group col-md-2">
-              <select class="form-control" id="id_categoria" name="id_categoria">
+              <select class="form-control" id="id_categoria" name="id_categoria" ">
                 <option value="">Categoría</option>
                 @foreach($categorias as $cate)
                 <option value="{{$cate->id}}">{{$cate->categoria}}</option>
@@ -35,10 +36,12 @@
               </select>
             </div>
             <div class="col-md-1 mr-md-3">
-              <button class="btn btn-primary" type="">Ver Todo</button>
+              <input type="submit" class="btn btn-primary" value="Filtrar">
+              
             </div>
           </div>
         </div>
+      </form>
           <div class="table-responsive">
             <table class="table table-hover table-bordered" id="sampleTable">
               <thead>
@@ -64,14 +67,17 @@
                   <td>{{$ficha->descompuesto}}</td>
                   <td>{{$ficha->stock_minimo}}</td>
                   <td>{{$ficha->precio_ideal}}</td>
-                  @php
-                    $img = $ficha->img;
-                    if($img=="")
-                      $url = 'img/img-default.png'; 
-                    else 
-                      $url = 'img/'.$img;
-                  @endphp
-                  <td class="text-center"><img src="{{ asset($url) }}" class="img-fluid " width="60%" alt=""></td>
+                 <?php 
+                      $url=$ficha->img;
+                       if($url)
+                        $zurl="img/productos/".$url;
+
+                      else
+                        $zurl = 'img/img-default.png';
+                      //echo $zurl;
+                  ?>
+
+                  <td class="text-center"><img src="{{ asset($zurl) }}" class="img-fluid " width="60%" alt=""></td>
                   <td class="text-center">
                     <div class="btn-group">
                       <a class="btn btn-primary" href="{{ route('productos.edit',$ficha->id) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
@@ -128,12 +134,12 @@
 
 
      });
+    
+     
 
 
     });
-
-
-
+    
  });
 
 

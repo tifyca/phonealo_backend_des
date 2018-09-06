@@ -17,55 +17,49 @@
   <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-        <form>
+        <form name="form1" action="{{route('productos.store')}}" accept-charset="UTF-8"  method="post"  enctype="multipart/form-data">
+          {{ csrf_field() }}
           <div class="row">
             <div class="col-md-9">
               <div class="row">
                 <div class="form-group col-md-3">
-                  <label for="codigo_producto">Código Producto</label>
+                  <label for="codigoproducto">Código Producto</label>
                   <input class="form-control" type="text" id="codigo_producto" name="codigo_producto" placeholder="...">
                 </div>
                 <div class="form-group col-md-6">
                   <label for="nombre_producto">Nombre Producto</label>
-                  <input class="form-control" type="text" id="nombre_producto" name="nombre_producto" placeholder="...">
+                  <input class="form-control" type="text" id="descripcion" name="descripcion" placeholder="...">
                 </div>
                 <div class="form-group col-md-3">
                   <label for="cod_barra_producto">Código de Barras</label>
-                  <input class="form-control" type="text" id="cod_barra_producto" name="cod_barra_producto" placeholder="...">
+                  <input class="form-control" type="text"  name="cod_barra_producto" id="cod_barra_producto" placeholder="...">
                 </div>
                 <div class="form-group col-md-3">
                   <label for="categoria_producto">Categoría</label>
-                  <select class="form-control" id="categoria_producto" name="categoria_producto">
+                  <select class="form-control" id="id_categoria" name="id_categoria">
                     <option value="">Seleccione</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    @foreach($categorias as $cate)
+                    <option value="{{$cate->id}}">{{$cate->categoria}}</option>
+                    @endforeach
                   </select>
                 </div>
                 <div class="form-group col-md-3">
                   <label for="categoria_producto">Subcategoría</label>
-                  <select class="form-control" id="categoria_producto" name="categoria_producto">
+                  <select class="form-control" id="id_subcategoria" name="id_subcategoria">
                     <option value="">Seleccione</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
                   </select>
                 </div>
                 <div class="form-group col-md-3">
                   <label for="precio_minimo_producto">Precio Mínimo</label>
-                  <input class="form-control" id="precio_minimo_producto" name="precio_minimo_producto" type="text" placeholder="...">
+                  <input class="form-control" id="precio_minimo" name="precio_minimo" type="text" placeholder="...">
                 </div>
                 <div class="form-group col-md-3">
                   <label for="precio_ideal_producto">Precio Ideal</label>
-                  <input class="form-control" type="text" id="precio_ideal_producto" name="precio_ideal_producto" placeholder="...">
+                  <input class="form-control" type="text" id="precio_ideal" name="precio_ideal" placeholder="...">
                 </div>
                 <div class="form-group col-12">
                   <label for="descripcion_producto">Descripción</label>
-                  <textarea class="form-control" id="descripcion_producto" name="descripcion_producto" rows="8">TINY</textarea>
+                  <textarea class="form-control" id="descripcion_producto" name="descripcion_producto" rows="8"></textarea>
                 </div>
               </div>
             </div>
@@ -73,30 +67,137 @@
               <div class="row">
                 <label for="imagen_producto">Imagen del Producto</label>
                 <div class="form-group  text-center mt-3">
-                  
-                  <img src="{{ asset('img/img-default.png') }}" class="img-fluid " alt="">
-                    
-                    <div class="form-group mt-4">
-                      <input type="file" class="form-control-file" id="imagen_producto" name="imagen_producto" >
-                    </div>
+
+                  <img id="imgSalida" src="{{ asset('img/img-default.png') }}" class="img-fluid " alt="">
+
+                  <div class="form-group mt-4">
+                    <input type="file" class=" read-file read" id="file-input" name="file-input" accept="image/*">                    </div>
+                  </div>
+                  <div class="tile-footer col-12 text-center mt-3">
+                    <button class="btn btn-primary" type="submit">Guardar</button>
+                  </div>
                 </div>
-                <div class="tile-footer col-12 text-center mt-3">
-                  <button class="btn btn-primary" type="submit">Guardar</button>
-                </div>
+
               </div>
-             
+
             </div>
-           
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   
 
-@endsection
+  @endsection
 
-@push('scripts')
-@endpush
+  @push('scripts')
+  <script type="text/javascript" language="javascript">
+    $ = jQuery;
+    jQuery(document).ready(function () {
+      $("input#codigo_producto").bind('change', function (event) {
+        var valor = $(this).val();
+        document.form1.codigo_producto.value=valor.toUpperCase();
+      });
+
+
+      $("input#cod_barra_producto").bind('change', function (event) {
+        var valor = $(this).val();
+        document.form1.cod_barra_producto.value=valor.toUpperCase();
+      });
+
+
+
+      $("select#id_categoria").bind('change', function (event) {
+        var valor = $(this).val();
+        $("#id_subcategoria").html('');
+        $("#id_subcategoria").append('<option value='+'>Subcategoria</option>');
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+          }
+
+        });
+
+        $.ajax({
+          type: "GET",
+          url: '{{ url('mostrar_subcategorias') }}',
+          dataType: "json",
+          data: { idc: valor ,  _token: '{{csrf_token()}}' },
+          success: function (data){
+            console.log(data);
+            $.each(data, function(l, item1) {
+             $("#id_subcategoria").append('<option value='+item1.id+'>'+item1.sub_categoria+'</option>');
+           });
+          }    
+
+
+        });
+
+
+      });
+
+
+
+    });
+
+$(function() {
+    $('#file-input').change(function(e) {
+      addImage(e); 
+    });
+
+    function addImage(e){
+      var file = e.target.files[0],
+      imageType = /image.*/;
+      if (!file.type.match(imageType))
+       return;
+
+     var reader = new FileReader();
+     reader.onload = fileOnload;
+     reader.readAsDataURL(file);
+   }
+
+   function fileOnload(e) {
+    var result=e.target.result;
+    $('#imgSalida').attr("src",result);
+  }
+}); 
+
+  </script>
+
+  <script>
+    var editor_config = {
+      path_absolute : "{{ URL::to('/') }}/",
+      selector: "textarea",
+      plugins: [
+      "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+      "searchreplace wordcount visualblocks visualchars code fullscreen",
+      "insertdatetime media nonbreaking save table contextmenu directionality",
+      "emoticons template paste textcolor colorpicker textpattern"
+      ],
+      toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+      relative_urls: false,
+      file_browser_callback : function(field_name, url, type, win) {
+        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+        var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+        if (type == 'image') {
+          cmsURL = cmsURL + "&type=Images";
+        } else {
+          cmsURL = cmsURL + "&type=Files";
+        }
+        tinyMCE.activeEditor.windowManager.open({
+          file : cmsURL,
+          title : 'Filemanager',
+          width : x * 0.8,
+          height : y * 0.8,
+          resizable : "yes",
+          close_previous : "no"
+        });
+      }
+    };
+    tinymce.init(editor_config);
+  </script>
+
+  @endpush
