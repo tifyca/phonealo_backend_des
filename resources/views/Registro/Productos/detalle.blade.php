@@ -67,7 +67,8 @@
             {{-- Imagenes de galiria de producto --}}
             @foreach($imagenes as $img)
               <?php 
-                 $url = 'img/productos/'.$img->imagen;
+                 //$url = 'img/productos/'.$img->imagen;
+                 $url = config('app.url') . 'productos/' . $url ;
                  if(!$url) $dir ='img/2.jpg';
                  else      $dir=$url; 
               ?>
