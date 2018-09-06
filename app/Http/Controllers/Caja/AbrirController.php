@@ -26,3 +26,4 @@ class AbrirController extends Controller
     	return view('Caja.Abrir.salida');
     }
 }
+

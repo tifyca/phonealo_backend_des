@@ -1,4 +1,4 @@
-@extends ('layouts.header')
+ @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
 @section('titulo', 'Cierres')

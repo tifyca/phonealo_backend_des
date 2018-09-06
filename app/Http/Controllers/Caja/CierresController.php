@@ -19,4 +19,4 @@ class CierresController extends Controller
     public function modificado(){
     	return view('Caja.Cierres.modificado');
     }
-}
+} 
