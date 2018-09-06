@@ -202,7 +202,7 @@
               dataType: "json",
               data: {id_departamento: id_departamento},
               success: function (data){
-
+             
                  $.each(data, function(l, item1) {
 
                    //$(".ciudades option:eq(1)").prop("selected", true);

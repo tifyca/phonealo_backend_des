@@ -2,11 +2,6 @@
    @session_start();
    $_SESSION["user"]        = Auth::user()->id;
    $_SESSION["perfil"]      = Auth::user()->perfil;
-   $_SESSION["altonivel"]   = Auth::user()->alto_nivel;
-   $_SESSION["empleados"]   = Auth::user()->empleados;
-   $_SESSION["contratados"] = Auth::user()->contratados;
-   $_SESSION["obreros"]     = Auth::user()->obreros;
-   $_SESSION["jubilados"]   = Auth::user()->jubilados;
    $nombre = Auth::user()->name;
    $perfil = Auth::user()->rol_id;
 ?>

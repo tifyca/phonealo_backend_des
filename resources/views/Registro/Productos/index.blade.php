@@ -22,23 +22,16 @@
               <h3 class="tile-title text-center text-md-left">Listado de Productos</h3>
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="id_categoria" name="id_categoria">
                 <option value="">Categoría</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                @foreach($categorias as $cate)
+                <option value="{{$cate->id}}">{{$cate->categoria}}</option>
+                @endforeach
               </select>
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="id_subcategoria" name="id_subcategoria">
                 <option value="">Subcategoria</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
               </select>
             </div>
             <div class="col-md-1 mr-md-3">
@@ -62,43 +55,38 @@
                 </tr>
               </thead>
               <tbody>
+                @foreach($productos as $ficha)
                 <tr>
-                  <td>00</td>
-                  <td>0898</td>
-                  <td>System Architect</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td class="text-center"><img src="{{ asset('img/img-default.png') }}" class="img-fluid " width="60%" alt=""></td>
+                  <td>{{$ficha->id}}</td>
+                  <td>{{$ficha->codigo_producto}}</td>
+                  <td>{{$ficha->descripcion}}</td>
+                  <td>{{$ficha->id_categoria}}</td>
+                  <td>{{$ficha->descompuesto}}</td>
+                  <td>{{$ficha->stock_minimo}}</td>
+                  <td>{{$ficha->precio_ideal}}</td>
+                  @php
+                    $img = $ficha->img;
+                    if($img=="")
+                      $url = 'img/img-default.png'; 
+                    else 
+                      $url = 'img/'.$img;
+                  @endphp
+                  <td class="text-center"><img src="{{ asset($url) }}" class="img-fluid " width="60%" alt=""></td>
                   <td class="text-center">
                     <div class="btn-group">
-                      <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                      <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
-                      <a class="btn btn-primary" href="{{ route('galeria.index',2) }}"><i class="m-0 fa fa-lg fa-image"></i></a>
+                      <a class="btn btn-primary" href="{{ route('productos.edit',$ficha->id) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                      <a class="btn btn-primary" href="{{ route('productos.detalle',$ficha->id) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
+                      <a class="btn btn-primary" href="{{ route('galeria.index',$ficha->id) }}"><i class="m-0 fa fa-lg fa-image"></i></a>
                     </div>
                   </td>
                 </tr>
-                <tr>
-                  <td>00</td>
-                  <td>0898</td>
-                  <td>System Architect</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td class="text-center"><img src="{{ asset('img/img-default.png') }}" class="img-fluid " width="60%" alt=""></td>
-                  <td class="text-center">
-                    <div class="btn-group">
-                      <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                      <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
-                      <a class="btn btn-primary" href="{{ route('galeria.index',2) }}"><i class="m-0 fa fa-lg fa-image"></i></a>
-                    </div>
-                  </td>
-                </tr>
+              @endforeach
               </tbody>
             </table>
           </div>
+           <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    <?php echo $productos->render(); ?>
+              </div>
         </div>
     </div>
   </div>
@@ -110,4 +98,45 @@
 
 @push('scripts')
 
+<script type="text/javascript" language="javascript">
+  $ = jQuery;
+  jQuery(document).ready(function () {
+
+    $("select#id_categoria").bind('change', function (event) {
+      var valor = $(this).val();
+    $("#id_subcategoria").html('');
+    $("#id_subcategoria").append('<option value='+'>Subcategoria</option>');
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        }
+
+      });
+
+      $.ajax({
+        type: "GET",
+        url: '{{ url('mostrar_subcategorias') }}',
+        dataType: "json",
+        data: { idc: valor ,  _token: '{{csrf_token()}}' },
+        success: function (data){
+          console.log(data);
+         $.each(data, function(l, item1) {
+                     $("#id_subcategoria").append('<option value='+item1.id+'>'+item1.sub_categoria+'</option>');
+               });
+       }    
+
+
+     });
+
+
+    });
+
+
+
+ });
+
+
+
+</script>
 @endpush

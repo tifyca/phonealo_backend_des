@@ -15,6 +15,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('barrios', 'Ajax\Direcciones@barrios')->name('barrios_ajax');
 
     Route::get('productos', 'Ajax\ProductosAjax@productos_list')->name('productos_ajax');
+    Route::get('mostrar_subcategorias', 'Ajax\ProductosAjax@subcategorias_list')->name('mostrar_subcategorias');
     Route::get('producto_click', 'Ajax\ProductosAjax@producto')->name('producto_click');
 
     

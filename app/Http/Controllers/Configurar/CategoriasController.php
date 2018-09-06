@@ -15,7 +15,7 @@ class CategoriasController extends Controller
     
     public function index(Request $request){
     	
-      $categorias= Categorias::paginate(3);
+      $categorias= Categorias::paginate(10);
       if($request->ajax()){
             return response()->json(view('Configurar.Categorias.lista',compact('categorias'))->render());
         }
