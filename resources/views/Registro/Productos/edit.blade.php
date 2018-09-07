@@ -132,35 +132,26 @@
       $('.read').prop('disabled', true);
     }
     document.form1.idp.disabled=true; 
+     });
+
+
+
+    $('#codigo_producto').change(function(){
+       var valor = document.form1.codigo_producto.value;
+       var convertido = valor.toUpperCase();
+       document.form1.codigo_producto.value = convertido;
+    });
     
+ $('#cod_barra_producto').change(function(){
+       var valor = document.form1.cod_barra_producto.value;
+       var convertido = valor.toUpperCase();
+       document.form1.cod_barra_producto.value = convertido;
+    });
+
+ $('#id_categoria').change(function(){
     
-  });
-</script>
-  
- 
-     
-  
-
-
-  <script type="text/javascript" language="javascript">
-    $ = jQuery;
-    jQuery(document).ready(function () {
-      $("input#codigo_producto").bind('change', function (event) {
         var valor = $(this).val();
-        document.form1.codigo_producto.value=valor.toUpperCase();
-      });
-
-
-      $("input#cod_barra_producto").bind('change', function (event) {
-        var valor = $(this).val();
-        document.form1.cod_barra_producto.value=valor.toUpperCase();
-      });
-
-
-
-      $("select#id_categoria").bind('change', function (event) {
-        var valor = $(this).val();
-        $("#id_subcategoria").html('');
+        $("#id_subcategoria").empty();   
         $("#id_subcategoria").append('<option value='+'>Subcategoria</option>');
         $.ajaxSetup({
           headers: {
@@ -178,7 +169,7 @@
           success: function (data){
             console.log(data);
             $.each(data, function(l, item1) {
-             $("#id_subcategoria").append('<option value='+item1.id+'>'+item1.sub_categoria+'</option>');
+               $("#id_subcategoria").append('<option value='+item1.id+'>'+item1.sub_categoria+'</option>');
            });
           }    
 
@@ -186,10 +177,23 @@
         });
 
 
-      });
+ });
 
 
+ 
+</script>
+  
+ 
+     
+  
 
+
+  <script type="text/javascript" language="javascript">
+    $ = jQuery;
+    jQuery(document).ready(function () {
+
+
+     
     });
 
 $(function() {
