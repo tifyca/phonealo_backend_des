@@ -61,6 +61,19 @@ class GaleriaController extends Controller
 		$galeria=galeria::find($id);
 		return view('Galeria.edit')->with('galeria',$galeria);
 	}
+  public function show($id){
+
+  
+      //dd($id);
+      $productos = productos::find($id);
+      $nombre = $productos->descripcion;
+      $codigo = $productos->codigo_producto;
+       $galeria=db::table('producto_imagenes as a')
+                    ->select('a.id_producto','a.id','a.imagen as img','a.titulo','a.estatus')
+                    ->where('id_producto',$id)->paginate(10);
+    return view('Galeria.index')->with('galeria',$galeria)->with('nombre',$nombre)->with('codigo',$codigo)->with("id",$id);
+
+  }
 	public function updated(Request $request,$id){
 		
 try {
