@@ -61,7 +61,7 @@ class GaleriaController extends Controller
 		$galeria=galeria::find($id);
 		return view('Galeria.edit')->with('galeria',$galeria);
 	}
-	public function updated(Request as request,$id){
+	public function updated(Request $request,$id){
 		
 try {
        $galeria=galeria::find($id);

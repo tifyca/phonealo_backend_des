@@ -48,7 +48,7 @@
                       $url=$galeria->imagen;
                        if($url)
                         //$zurl="img/productos/".$url;
-                        $zurl = config('app.url') . 'productos/' . $url ;
+                        $zurl = config('app.url') . '/productos/' . $url ;
                       else
                         $zurl = 'img/img-default.png';
                       //echo $zurl;
