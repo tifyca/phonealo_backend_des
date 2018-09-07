@@ -59,8 +59,8 @@ $("#btn-save-edit").click(function (e) {
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
             $("#res").html("Estado Modificado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);

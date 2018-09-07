@@ -54,9 +54,7 @@
         
     </div>
   </div>
-  <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
-
-     <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
+ 
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Listado de Fuentes</h3>
@@ -83,8 +81,8 @@
                 <?php } ?> 
                       <td width="10%" class="text-center">
                       <div class="btn-group">
-                      <button class="btn btn-primary open_modal" value="{{$fuente->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button class="btn btn-primary confirm-delete" value="{{$fuente->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
+                      <button class="btn btn-primary btn-sm open_modal" value="{{$fuente->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
+                      <button class="btn btn-primary btn-sm confirm-delete" value="{{$fuente->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
                       </div>
                       </td>
                     </tr>

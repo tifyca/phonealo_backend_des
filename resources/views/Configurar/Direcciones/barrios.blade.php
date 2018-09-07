@@ -43,11 +43,11 @@
                 <label class="control-label">Barrio</label>
                 <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" onkeypress="return soloLetras(event)">
               </div>
-              <div class="form-group col-12  col-md-4">
+              <div class="form-group col-12  col-md-3">
                 <label class="control-label">Latitud</label>
                 <input class="form-control" type="text"  id="lat" name="lat" onkeypress="return soloNumeros(event);">
               </div>
-              <div class="form-group col-12  col-md-4">
+              <div class="form-group col-12  col-md-3">
                 <label class="control-label">Logitud</label>
                 <input class="form-control" type="text"  id="lon" name="lon" onkeypress="return soloNumeros(event);">
               </div>
@@ -59,9 +59,6 @@
         </div>
     </div>
   </div>
-  <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
-
-     <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Listado Barrios</h3>

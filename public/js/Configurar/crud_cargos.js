@@ -57,8 +57,8 @@ $(document).on('click', '.delete-cargo', function () {
             $("#cargo" + cargo_id).remove();
             $('#confirm-delete').modal('hide');
             $("#res").html("Cargo Eliminado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);
@@ -98,8 +98,8 @@ $("#btn-save").click(function (e) {
             $('#cargos-list').append(cargo);
             $('#frmc').trigger("reset");
             $("#res").html("Cargo Registrado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
        
           error: function (data,estado,error) { 
@@ -157,8 +157,8 @@ $("#btn-save-edit").click(function (e) {
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
             $("#res").html("Cargo Modificado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);

@@ -59,8 +59,8 @@ $(document).on('click', '.delete-subcategoria', function () {
             $("#subcategoria" + subcategoria_id).remove();
             $('#confirm-delete').modal('hide');
             $("#res").html("Subcategoría Eliminada con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);
@@ -105,8 +105,8 @@ $("#btn-save").click(function (e) {
             $('#subcategorias-list').append(subcategoria);
             $('#frmc').trigger("reset");
             $("#res").html("Subcategoría Registrada con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
          });
         },
@@ -170,8 +170,8 @@ $("#btn-save-edit").click(function (e) {
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
             $("#res").html("Subcategoría Modificada con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
          });
         },

@@ -1,4 +1,4 @@
-var url = "ciudades";
+, #res-content, #res-contentvar url = "ciudades";
 
   $.ajaxSetup({
         headers: {
@@ -52,15 +52,15 @@ $(document).on('click', '.delete-ciudad', function () {
             $("#ciudades" + ciudad_id).remove();
             $('#confirm-delete').modal('hide');
             $("#res").html("Ciudad Eliminada con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content, #res-content").css("display","block");
+            $("#res, #res-content, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
            // console.log('Error:', data);
             $('#confirm-delete').modal('hide');
             $("#rese").html("No se pudo eliminar la ciudad, por que está asociada a un Barrio");
-            $("#rese").css("display","block");
-            $("#rese").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#rese, #res-content, #res-content").css("display","block");
+            $("#rese, #res-content, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
@@ -101,8 +101,8 @@ $("#btn-save").click(function (e) {
                $.each(dpto, function(l, item1) {
 
                 var ciudad = '<tr id="ciudades' + item1.id + '"><td>' + item1.ciudad + '</td>';
-                    ciudad += '<td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-                    ciudad += ' <button class="btn btn-primary confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+                    ciudad += '<td width="10%"><div class="btn-group"><button class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                    ciudad += ' <button class="btn btn-primary btn-sm confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
            $('#ciudades-list').append(ciudad);
 
@@ -111,8 +111,8 @@ $("#btn-save").click(function (e) {
                  }),
    
             $("#res").html("Ciudad Registrada con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
        
           error: function (data,estado,error) { 
@@ -162,22 +162,22 @@ $("#btn-save-edit").click(function (e) {
         success: function (data) {
             console.log(data.ciudad);
              var ciudad = '<tr id="ciudades' + data.id + '"><td>' + data.ciudad + '</td>';
-            ciudad += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            ciudad += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            ciudad += '<td><div class="btn-group"><button class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            ciudad += ' <button class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
             $("#ciudades" + ciudad_id).replaceWith(ciudad);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
             $(".departamento option:eq(1)").prop("selected", true);
             $("#res").html("Ciudad Modificada con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             //console.log('Error:', data);
             $('#myModal').modal('hide');
             $("#rese").html("No se pudo modificar la ciudad, por que está asociada a un Barrio");
-            $("#rese").css("display","block");
-            $("#rese").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
