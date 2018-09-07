@@ -16,9 +16,8 @@
                       <td width="25%" >{{$Item->email}}</td>
                       <td width="10%" class="text-center">
                       <div class="btn-group">
-                      <a class="btn btn-primary" href="empleados/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
-                 
-                     <a class="btn btn-primary"  href="empleados/delete/{{$Item->id}}" ><i class="fa fa-lg fa-trash"></i></a>
+                       <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm" href="empleados/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
+                         <button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$Item->id}}"  type="button"><i class="fa fa-lg fa-trash"></i></button>   
                            
                       </div>
                       </td>

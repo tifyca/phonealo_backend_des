@@ -7,10 +7,9 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
-                    nombre_empleado :   $('#nombre_empleado').val(), 
+                    nombre_empleado :  $('#nombre_empleado').val(), 
                     ci_empleado:       $('#ci_empleado').val(),
                     telefono_empleado: $('#telefono_empleado').val(),
-                    cargo_empleado:    $('#telefono_empleado').val(),
                     email_empleado:    $('#email_empleado').val(),
                     direccion_empleado:$('#direccion_empleado').val(),
                     cargo_empleado:    $('#cargo_empleado').val(),
@@ -31,7 +30,7 @@ $("#btn-save").click(function (e) {
           //  $("#res").css("display","block");
            // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
             
-            alert("El Cliente fue  Registrado con Éxito");
+            alert("El Empleado fue  Registrado con Éxito");
             location.href="/registro/empleados";
         
        },
@@ -64,23 +63,22 @@ $("#btn-edit").click(function (e) {
     });
 
     e.preventDefault();
-     var cliente_id =$('#empleado_id').val();
+     var empleado_id =$('#empleado_id').val();
     var formData = {
-                    nombre_empleado :   $('#nombre_empleado').val(), 
+                    nombre_empleado :  $('#nombre_empleado').val(), 
                     ci_empleado:       $('#ci_empleado').val(),
                     telefono_empleado: $('#telefono_empleado').val(),
-                    cargo_empleado:    $('#telefono_empleado').val(),
+                    cargo_empleado:    $('#cargo_empleado').val(),
                     email_empleado:    $('#email_empleado').val(),
                     direccion_empleado:$('#direccion_empleado').val(),
-                    cargo_empleado:    $('#cargo_empleado').val(),
                     ref_empleado:      $('#referencia_empleado').val(),
                     id_estado :        $('#id_estado').val(),
                     id_usuario :       $('#id_usuario').val(),
                     }
 
     console.log(formData);
-   
-       var  my_url = '../mod/'+ cliente_id;
+ 
+   var  my_url = '../mod/'+ empleado_id;
     $.ajax({
         type: "PUT",
         url:  my_url, 
@@ -92,7 +90,7 @@ $("#btn-edit").click(function (e) {
           //  $("#res").css("display","block");
            // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
             
-            alert("El Cliente fue  Modificado con Éxito");
+            alert("El Empleado fue  Modificado con Éxito");
             location.href="/registro/empleados";
         
        },
@@ -130,14 +128,16 @@ $(document).on('click', '.delete-empleado', function () {
 
     var id_empleado = $('#empleado-id').val();
 
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
         }
     });
+    var  my_url = 'empleados/'+ id_empleado;
     $.ajax({
         type: "DELETE",
-        url: url + '/' + id,
+        url: my_url,
          headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);

@@ -68,6 +68,7 @@ class EmpleadosController extends Controller
       $empleado->telefono  = $request->telefono_empleado; 
       $empleado->direccion = $request->direccion_empleado;
       $empleado->email     = $request->email_empleado; 
+      $empleado->id_cargo  = $request->cargo_empleado;
       $empleado->ci        = $request->ci_empleado;
       $empleado->id_estado = $request->id_estado;
       $empleado->id_usuario= $request->id_usuario;
@@ -144,7 +145,7 @@ class EmpleadosController extends Controller
 
      public function destroy($id_empleado){
       $empleado = Empleados::destroy($id_empleado);
-      return response()->json($id_empleado);
+      return response()->json($empleado);
     }
 
 

@@ -172,7 +172,7 @@
 
                  $.each(data1, function(l, item1) {
 
-                    $("#ciudades-list").append('<tr id="ciudades'+ item1.id +'"><td>'+item1.ciudad+'</td><td width="10%"><div class="btn-group"><button class="btn btn-primary btn-sm open_modal" value="'+ item1.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button class="btn btn-primary confirm-delete" value="'+ item1.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#ciudades-list").append('<tr id="ciudades'+ item1.id +'"><td>'+item1.ciudad+'</td><td width="10%"><div class="btn-group"><buttondata-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item1.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item1.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
               }
           });
