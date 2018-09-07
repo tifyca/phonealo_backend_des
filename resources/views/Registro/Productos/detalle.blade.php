@@ -55,10 +55,12 @@
             <div class="carousel-item active">
                 <?php $url=$productos->img;
                        if($url)
-                        $zurl="img/productos/".$url;
+                        $zurl = config('app.url') . '/productos/' . $url ;
+                        //$zurl="img/productos/".$url;
 
                       else
                         $zurl = 'img/img-default.png';
+                      //echo $zurl;
                       
                   ?>              
                   <img class="d-block w-100" src="{{ asset($zurl) }}" alt="First slide">
