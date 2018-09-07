@@ -33,8 +33,9 @@ $("#btn-save").click(function (e) {
            // $("#res").html("El Cliente fue  Registrado con Éxito").show();
           //  $("#res").css("display","block");
            // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-            location.href="/registro/clientes";
+            
             alert("El Cliente fue  Registrado con Éxito");
+            location.href="/registro/clientes";
         
        },
        
@@ -96,8 +97,9 @@ $("#btn-edit").click(function (e) {
            // $("#res").html("El Cliente fue  Registrado con Éxito").show();
           //  $("#res").css("display","block");
            // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-            location.href="/registro/clientes";
+            
             alert("El Cliente fue  Modificado con Éxito");
+            location.href="/registro/clientes";
         
        },
        

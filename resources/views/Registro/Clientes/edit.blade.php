@@ -133,8 +133,7 @@
           success: function (data){
 
              $.each(data, function(i, item) {
-
-             // $(".departamento option:eq(1)").prop("selected", true);
+            
               $(".departamento").append('<option value='+item.id+'>'+item.nombre+'</option>');
               });
           }

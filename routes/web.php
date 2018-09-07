@@ -17,6 +17,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('productos', 'Ajax\ProductosAjax@productos_list')->name('productos_ajax');
     Route::get('mostrar_subcategorias', 'Ajax\ProductosAjax@subcategorias_list')->name('mostrar_subcategorias');
     Route::get('producto_click', 'Ajax\ProductosAjax@producto')->name('producto_click');
+    Route::get('cargos', 'Ajax\Configurar@cargos')->name('cargos_ajax');
 
     
 
@@ -107,20 +108,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('registro/clientes', 'Registro\ClientesController');
     Route::post('registro/clientes/create', 'Registro\ClientesController@create_cliente');
     Route::get('registro/clientes/editar/{id_cliente?}','Registro\ClientesController@editar');
-     Route::put('registro/clientes/mod/{id_cliente?}','Registro\ClientesController@update');
+    Route::put('registro/clientes/mod/{id_cliente?}','Registro\ClientesController@update');
     Route::get('registro/clientes/gmaps/{ubicacion?}',  'Registro\ClientesController@gmaps');
 
-    Route::get('registro/clientes/update/{valor}', [
-        'uses' => 'Registro\ClientesController@update',
-        'as'   => 'clientes.update'
-    ]);
-
     Route::resource('registro/proveedores', 'Registro\ProveedoresController');
+    Route::post('registro/proveedores/create', 'Registro\ProveedoresController@create');
+    Route::get('registro/proveedores/editar/{id_proveedor?}','Registro\ProveedoresController@editar');
+    Route::put('registro/proveedores/mod/{id_proveedor?}','Registro\ProveedoresController@update');
+   
 
-    Route::get('registro/proveedores/update/{valor}', [
-        'uses' => 'Registro\ProveedoresController@update',
-        'as'   => 'proveedores.update'
-    ]);
+
+
 
     Route::resource('registro/productos', 'Registro\ProductosController');
 
@@ -139,11 +137,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::resource('registro/empleados', 'Registro\EmpleadosController');
-
-    Route::get('registro/empleados/update/{valor}', [
-        'uses' => 'Registro\EmpleadosController@update',
-        'as'   => 'empleados.update'
-    ]);
+    Route::post('registro/empleados/create', 'Registro\EmpleadosController@create');
+    Route::get('registro/empleados/editar/{id_empleado?}','Registro\EmpleadosController@editar');
+    Route::put('registro/empleados/mod/{id_empleado?}','Registro\EmpleadosController@update');
+    Route::delete('registro/empleados/{id_empleado?}','Registro\EmpleadosController@destroy');
 
     Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
 
