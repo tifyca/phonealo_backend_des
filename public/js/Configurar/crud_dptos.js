@@ -88,8 +88,8 @@ $("#btn-save").click(function (e) {
         success: function (data) {
             console.log(data);
             var dpto = '<tr id="dpto' + data.id + '"><td width="90%">' + data.nombre + '</td>';
-            dpto += '<td width="10%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            dpto += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            dpto += '<td width="10%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            dpto += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
             $('#dpto-list').append(dpto);
             $('#frmc').trigger("reset");
@@ -142,8 +142,8 @@ $("#btn-save-edit").click(function (e) {
         success: function (data) {
             console.log(data.nombre);
              var dpto = '<tr id="dpto' + data.id + '"><td width="90%">' + data.nombre + '</td>';
-            dpto += '<td  width="10%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            dpto += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            dpto += '<td  width="10%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            dpto += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
             $("#dpto" + dpto_id).replaceWith(dpto);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
