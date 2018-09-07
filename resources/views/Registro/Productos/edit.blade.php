@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group col-md-4">
                   <label for="subcategoria_producto">Subcategoría</label>
-                  <select class="form-control read" id="" name="id_subcategoria" id="id_subcategoria" disabled>
+                  <select class="form-control read" name="id_subcategoria" id="id_subcategoria" disabled>
                     <option value="">Seleccione</option>
                       
                   </select>
@@ -87,7 +87,9 @@
                   <img id="imgSalida" src="{{ asset($zurl) }}" class="img-fluid " alt="">
 
                   <div class="form-group mt-4">
-                    <input type="file" class=" read-file read" id="file-input" name="file-input" accept="image/*"disabled>
+                    <input type="file" class="read-file read" id="archivo" name="archivo" accept="image/*"disabled>
+
+
                   </div>
                 </div>
                 <div class="tile-footer d-flex align-items-center col-12">
@@ -197,7 +199,7 @@
     });
 
 $(function() {
-    $('#file-input').change(function(e) {
+    $('#archivo').change(function(e) {
       addImage(e); 
     });
 
