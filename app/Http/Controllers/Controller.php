@@ -39,10 +39,10 @@ class Controller extends BaseController
              $fileName = 'producto_'.time().'.'.$foto->getClientOriginalExtension();
              //$fileName = (string)(date("YmdHis")) . (string)(rand(1, 9)) . (string)(rand(1, 9)) . $extension;
             
-              $picture = $foto->getClientOriginalName();
+              $picture = $foto->getPathname();
               
               $filepath = $path . $fileName;
-
+              
             //if ($foto->input->type == 'image/gif') {
               //  $path = $foto->input->name;
               //  $extension = pathinfo($path, PATHINFO_EXTENSION);
