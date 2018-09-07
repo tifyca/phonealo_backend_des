@@ -7,19 +7,14 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
-                    nombre_cliente : $('#nombre_cliente').val(), 
-                    telefono_cliente: $('#telefono_cliente').val(),
-                    direccion_cliente: $('#direccion_cliente').val(),
-                    barrio_cliente: $('#barrio_cliente').val(),
-                    ciudad_cliente: $('#ciudad_cliente').val(),
-                    departamento_cliente: $('#departamento_cliente').val(),
-                    ruc_cliente:  $('#ruc_cliente').val(),
-                    email_cliente: $('#email_cliente').val(),
-                    ubicacion_cliente: $('#ubicacion_cliente').val(),
-                    tipo_cliente: $('#tipo_cliente').val(),
-                    nota_cliente: $('#nota_cliente').val(),
-                    id_estado : $('#id_estado').val(),
-                    id_usuario : $('#id_usuario').val(),
+                    nombre_proveedor :   $('#nombre_proveedor').val(), 
+                    email_proveedor:     $('#email_proveedor').val(),
+                    direccion_proveedor: $('#direccion_proveedor').val(),
+                    telefono_proveedor:  $('#telefono_proveedor').val(),                  
+                    ruc_proveedor:       $('#ruc_proveedor').val(),
+                    pais_proveedor:      $('#pais_proveedor').val(),
+                    id_estado:           $('#id_estado').val(),
+                    id_usuario:          $('#id_usuario').val(),
                     }
 
     console.log(formData);
@@ -30,12 +25,9 @@ $("#btn-save").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           // $("#res").html("El Cliente fue  Registrado con Éxito").show();
-          //  $("#res").css("display","block");
-           // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-            
-            alert("El Cliente fue  Registrado con Éxito");
-            location.href="/registro/clientes";
+
+            alert("El Proveedor fue  Registrado con Éxito");
+            location.href="/registro/proveedores";
         
        },
        
@@ -67,26 +59,21 @@ $("#btn-edit").click(function (e) {
     });
 
     e.preventDefault();
-     var cliente_id =$('#cliente_id').val();
+     var proveedor_id =$('#proveedor_id').val();
     var formData = {
-                    nombre_cliente : $('#nombre_cliente').val(), 
-                    telefono_cliente: $('#telefono_cliente').val(),
-                    direccion_cliente: $('#direccion_cliente').val(),
-                    barrio_cliente: $('#barrio_cliente').val(),
-                    ciudad_cliente: $('#ciudad_cliente').val(),
-                    departamento_cliente: $('#departamento_cliente').val(),
-                    ruc_cliente:  $('#ruc_cliente').val(),
-                    email_cliente: $('#email_cliente').val(),
-                    ubicacion_cliente: $('#ubicacion_cliente').val(),
-                    tipo_cliente: $('#tipo_cliente').val(),
-                    nota_cliente: $('#nota_cliente').val(),
-                    id_estado : $('#id_estado').val(),
-                    id_usuario : $('#id_usuario').val(),
+                    nombre_proveedor :   $('#nombre_proveedor').val(), 
+                    email_proveedor:     $('#email_proveedor').val(),
+                    direccion_proveedor: $('#direccion_proveedor').val(),
+                    telefono_proveedor:  $('#telefono_proveedor').val(),                  
+                    ruc_proveedor:       $('#ruc_proveedor').val(),
+                    pais_proveedor:      $('#pais_proveedor').val(),
+                    id_estado:           $('#id_estado').val(),
+                    id_usuario:          $('#id_usuario').val(),
                     }
 
     console.log(formData);
    
-       var  my_url = '../mod/'+ cliente_id;
+       var  my_url = '../mod/'+ proveedor_id;
     $.ajax({
         type: "PUT",
         url:  my_url, 
@@ -94,12 +81,9 @@ $("#btn-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           // $("#res").html("El Cliente fue  Registrado con Éxito").show();
-          //  $("#res").css("display","block");
-           // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-            
-            alert("El Cliente fue  Modificado con Éxito");
-            location.href="/registro/clientes";
+           
+            alert("El Proveedor fue  Modificado con Éxito");
+            location.href="/registro/proveedores";
         
        },
        
@@ -122,6 +106,7 @@ $("#btn-edit").click(function (e) {
         },
     });
 });
+
 function soloLetras(e) {
     key = e.keyCode || e.which;
     tecla = String.fromCharCode(key).toLowerCase();
@@ -150,12 +135,11 @@ return /\d/.test(String.fromCharCode(keynum));
 
 
 
-
 $(document).on('click','.pagination a',function(e){
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
 console.log(page);
-    var route ="clientes";
+    var route ="proveedores";
     $.ajax({
         url: route,
         data: {page: page},
@@ -163,7 +147,7 @@ console.log(page);
         dataType: 'json',
         success: function(data){
     
-            $(".clientes").html(data);
+            $(".proveedores").html(data);
         }
     });
 });

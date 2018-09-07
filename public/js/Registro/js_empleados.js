@@ -7,19 +7,16 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
-                    nombre_cliente : $('#nombre_cliente').val(), 
-                    telefono_cliente: $('#telefono_cliente').val(),
-                    direccion_cliente: $('#direccion_cliente').val(),
-                    barrio_cliente: $('#barrio_cliente').val(),
-                    ciudad_cliente: $('#ciudad_cliente').val(),
-                    departamento_cliente: $('#departamento_cliente').val(),
-                    ruc_cliente:  $('#ruc_cliente').val(),
-                    email_cliente: $('#email_cliente').val(),
-                    ubicacion_cliente: $('#ubicacion_cliente').val(),
-                    tipo_cliente: $('#tipo_cliente').val(),
-                    nota_cliente: $('#nota_cliente').val(),
-                    id_estado : $('#id_estado').val(),
-                    id_usuario : $('#id_usuario').val(),
+                    nombre_empleado :   $('#nombre_empleado').val(), 
+                    ci_empleado:       $('#ci_empleado').val(),
+                    telefono_empleado: $('#telefono_empleado').val(),
+                    cargo_empleado:    $('#telefono_empleado').val(),
+                    email_empleado:    $('#email_empleado').val(),
+                    direccion_empleado:$('#direccion_empleado').val(),
+                    cargo_empleado:    $('#cargo_empleado').val(),
+                    ref_empleado:      $('#referencia_empleado').val(),
+                    id_estado :        $('#id_estado').val(),
+                    id_usuario :       $('#id_usuario').val(),
                     }
 
     console.log(formData);
@@ -35,7 +32,7 @@ $("#btn-save").click(function (e) {
            // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
             
             alert("El Cliente fue  Registrado con Éxito");
-            location.href="/registro/clientes";
+            location.href="/registro/empleados";
         
        },
        
@@ -67,21 +64,18 @@ $("#btn-edit").click(function (e) {
     });
 
     e.preventDefault();
-     var cliente_id =$('#cliente_id').val();
+     var cliente_id =$('#empleado_id').val();
     var formData = {
-                    nombre_cliente : $('#nombre_cliente').val(), 
-                    telefono_cliente: $('#telefono_cliente').val(),
-                    direccion_cliente: $('#direccion_cliente').val(),
-                    barrio_cliente: $('#barrio_cliente').val(),
-                    ciudad_cliente: $('#ciudad_cliente').val(),
-                    departamento_cliente: $('#departamento_cliente').val(),
-                    ruc_cliente:  $('#ruc_cliente').val(),
-                    email_cliente: $('#email_cliente').val(),
-                    ubicacion_cliente: $('#ubicacion_cliente').val(),
-                    tipo_cliente: $('#tipo_cliente').val(),
-                    nota_cliente: $('#nota_cliente').val(),
-                    id_estado : $('#id_estado').val(),
-                    id_usuario : $('#id_usuario').val(),
+                    nombre_empleado :   $('#nombre_empleado').val(), 
+                    ci_empleado:       $('#ci_empleado').val(),
+                    telefono_empleado: $('#telefono_empleado').val(),
+                    cargo_empleado:    $('#telefono_empleado').val(),
+                    email_empleado:    $('#email_empleado').val(),
+                    direccion_empleado:$('#direccion_empleado').val(),
+                    cargo_empleado:    $('#cargo_empleado').val(),
+                    ref_empleado:      $('#referencia_empleado').val(),
+                    id_estado :        $('#id_estado').val(),
+                    id_usuario :       $('#id_usuario').val(),
                     }
 
     console.log(formData);
@@ -99,7 +93,7 @@ $("#btn-edit").click(function (e) {
            // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
             
             alert("El Cliente fue  Modificado con Éxito");
-            location.href="/registro/clientes";
+            location.href="/registro/empleados";
         
        },
        
@@ -122,6 +116,44 @@ $("#btn-edit").click(function (e) {
         },
     });
 });
+
+
+$(document).on('click', '.confirm-delete', function () {
+    var id_empleado = $(this).val();
+    $('#confirm-delete').modal('show');
+    $('#empleado-id').val(id_empleado);
+});
+
+
+// eliminar el empleado y eliminarlo de la lista
+$(document).on('click', '.delete-empleado', function () {
+
+    var id_empleado = $('#empleado-id').val();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        }
+    });
+    $.ajax({
+        type: "DELETE",
+        url: url + '/' + id,
+         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        success: function (data) {
+            console.log(data);
+            $("#empleado" + id_empleado).remove();
+            $('#confirm-delete').modal('hide');
+            $("#res").html("Empleado Eliminado con Éxito");
+            $("#res").css("display","block");
+            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+        },
+        error: function (data) {
+            console.log('Error:', data);
+        }
+    });
+});
+
+
 function soloLetras(e) {
     key = e.keyCode || e.which;
     tecla = String.fromCharCode(key).toLowerCase();
@@ -155,7 +187,7 @@ $(document).on('click','.pagination a',function(e){
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
 console.log(page);
-    var route ="clientes";
+    var route ="empleados";
     $.ajax({
         url: route,
         data: {page: page},
@@ -163,7 +195,7 @@ console.log(page);
         dataType: 'json',
         success: function(data){
     
-            $(".clientes").html(data);
+            $(".empleados").html(data);
         }
     });
 });

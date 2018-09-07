@@ -85,7 +85,7 @@ class ClientesController extends Controller
  //return response()->json(view('Registro.Clientes.index')->with('message', 'El Cliente fue Creado Exitosamente!!'));
      
       //return Redirect::to('registro/clientes')->with('message', 'El Cliente fue Creado Exitosamente!!');
-$trues="El Cliente fue Creado Exitosamente!!";
+      $trues="El Cliente fue Creado Exitosamente!!";
       return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
 
       }  
@@ -98,7 +98,7 @@ $trues="El Cliente fue Creado Exitosamente!!";
                       ->join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id' )
                       ->select('clientes.id','nombres', 'departamentos.nombre as departamento', 'ciudades.ciudad as ciudad','telefono', 'direccion', 'barrio', 'clientes.id_ciudad as id_ciudad', 'clientes.id_departamento as id_departamento', 'ruc_ci', 'email', 'ubicacion', 'id_tipo', 'notas', 'id_estado', 'clientes.id_usuario')->first();
 
-   return view('Registro.Clientes.edit', compact('cliente'));
+        return view('Registro.Clientes.edit', compact('cliente'));
     }
 
 

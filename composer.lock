@@ -64,16 +64,16 @@
         },
         {
             "name": "cornford/googlmapper",
-            "version": "v2.32.0",
+            "version": "v2.33.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bradcornford/Googlmapper.git",
-                "reference": "16873c05c4d5f5ef7d0e493428fb75b517e9633f"
+                "reference": "06428532c50d86cc3807c4c6e9fa042f2cd278b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bradcornford/Googlmapper/zipball/16873c05c4d5f5ef7d0e493428fb75b517e9633f",
-                "reference": "16873c05c4d5f5ef7d0e493428fb75b517e9633f",
+                "url": "https://api.github.com/repos/bradcornford/Googlmapper/zipball/06428532c50d86cc3807c4c6e9fa042f2cd278b8",
+                "reference": "06428532c50d86cc3807c4c6e9fa042f2cd278b8",
                 "shasum": ""
             },
             "require": {
@@ -120,7 +120,7 @@
                 "maps",
                 "streetview"
             ],
-            "time": "2018-07-30T07:29:35+00:00"
+            "time": "2018-09-06T08:49:31+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
