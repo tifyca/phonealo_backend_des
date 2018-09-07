@@ -20,7 +20,7 @@ class ProductosAjax extends Controller
     public function producto(Request $request){
     	$id_producto = $request['id_producto'];
 
-    	$productos = Productos::where('id_producto', $id_producto)->first();
+    	$productos = Productos::where('id', $id_producto)->first();
 
     	return $productos;
     }

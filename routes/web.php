@@ -178,24 +178,18 @@ Route::group(['middleware' => 'auth'], function () {
 
      // INVENTARIO
     Route::resource('inventario/entradas', 'Inventario\EntradasController');
-
-
-     Route::resource('inventario/salidas', 'Inventario\SalidasController');
-     Route::resource('inventario/consolidado', 'Inventario\ConsolidadoController');
+    Route::resource('inventario/salidas', 'Inventario\SalidasController');
+    Route::resource('inventario/consolidado', 'Inventario\ConsolidadoController');
 
      // //////////
 
     Route::resource('registro/empleados', 'Registro\EmpleadosController');
-
     Route::get('registro/empleados/update/{valor}', [
             'uses' => 'Registro\EmpleadosController@update',
             'as'   => 'empleados.update'
         ]);
-
     Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
-
     Route::resource('registro/gastos', 'Registro\GastosController');
-
     Route::get('registro/gastos/update/{valor}', [
             'uses' => 'Registro\gastosController@update',
             'as'   => 'gastos.update'
@@ -203,36 +197,29 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
     
-    
-   
-    
-    
-
     ///////////
 
- // PROCESAR
+    // PROCESAR
+    
     Route::resource('procesar/ventas', 'Procesar\VentasController');
+
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
 
     Route::get('procesar/descompuestos', 'Procesar\DescompuestoController@index')->name('descompuestos');
-  
-     Route::get('procesar/descompuestos/soporte', [
+
+    Route::get('procesar/descompuestos/soporte', [
             'uses' => 'Procesar\DescompuestoController@soporte',
             'as'   => 'descompuestos.soporte'
         ]);
 
-     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
+    Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
 
-     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
+    Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
+    Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
 
-     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
-
-     Route::resource('procesar/monitoreo', 'Procesar\MonitoreoController');
-
-      Route::get('procesar/monitoreo/cargar/{valor}', [
-            'uses' => 'Procesar\MonitoreoController@cargar',
-            'as'   => 'monitoreo.cargar'
-        ]);
+    Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
+    Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');
+    Route::get('procesar/conversiones/show', 'Procesar\ConversionesController@show')->name('procesar.conversiones.show');
 
     ////////////
 
@@ -263,7 +250,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('seguridad/auditoria', 'Seguridad\AuditoriaController');
 
-    ///////////
+    /////////////////////////////////////////////
+    ///CAJA
 
     Route::get('caja/index', 'Caja\AbrirController@index')->name('caja.index');
     Route::get('caja/abrir', 'Caja\AbrirController@abrir')->name('caja.abrir');
