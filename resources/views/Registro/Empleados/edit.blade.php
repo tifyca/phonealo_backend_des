@@ -16,8 +16,6 @@
 @section('display_trash','d-none')		@section('link_trash')
 
 @section('content')
-   <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
-   <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>      
 
 <div class="row">
   <div class="col-12">

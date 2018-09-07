@@ -51,7 +51,7 @@
                 
                       <td width="10%" class="text-center">
                       <div class="btn-group">
-                      <button class="btn btn-primary btn-sm open_modal" value="{{$item->id}}"><i class="m-0 fa fa-lg fa-edit"  ></i></button>               
+                      <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$item->id}}"><i class="m-0 fa fa-lg fa-edit"  ></i></button>               
                       </div>
                       </td>
                     </tr>

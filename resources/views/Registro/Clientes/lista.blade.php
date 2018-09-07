@@ -21,9 +21,9 @@
                       <div class="btn-group">
                         <a class="btn btn-primary" href="clientes/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
                       @if(empty($Item->ubicacion)) 
-                      <a class="btn btn-primary"  style="pointer-events: none; cursor: default; opacity: .6"  ><i class="fa fa-lg fa-globe"></i></a>
+                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm"  style="pointer-events: none; cursor: default; opacity: .6"  ><i class="fa fa-lg fa-globe"></i></a>
                       @else
-                      <a class="btn btn-primary"  href="clientes/gmaps/{{$Item->ubicacion}}" ><i class="fa fa-lg fa-globe"></i></a>
+                      <a data-toggle="tooltip" data-placement="top" title="Mapa" class="btn btn-primary btn-sm"  href="clientes/gmaps/{{$Item->ubicacion}}" ><i class="fa fa-lg fa-globe"></i></a>
                       @endif                     
                       </div>
                       </td>

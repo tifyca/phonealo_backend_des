@@ -76,9 +76,7 @@
           </div>
         </div>
         {{-- FIN FILTRO --}}
-  
-        <div class="tile-body ">
-          <div class="tile-body">
+            <div class="tile-body">
             <div class="table-responsive">
               <div class="cargos">
             <table class="table table-hover table-bordered" id="sampleTable">
@@ -100,8 +98,8 @@
                 <?php } ?> 
                       <td width="10%" class="text-right">
                       <div class="btn-group">
-                      <button class="btn btn-primary btn-sm open_modal" value="{{$cargo->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button class="btn btn-primary btn-sm confirm-delete" value="{{$cargo->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
+                      <button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$cargo->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
+                      <button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$cargo->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
                       </div>
                       </td>
                     </tr>

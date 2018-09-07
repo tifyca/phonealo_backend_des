@@ -28,8 +28,30 @@
 <div class="row">
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado de Clientes</h3>
-        <div class="tile-body ">
+       {{-- FILTRO --}}
+      <div class="col mb-3 text-center">
+          <div class="row">
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado de Clientes</h3>
+            </div>
+             <div class="form-group col-md-2">
+              <input type="text" class="form-control" name="" placeholder="Buscar Cliente">
+            </div>
+           <div class="form-group col-md-2">
+              <input type="text" class="form-control" name="" placeholder="Buscar Email">
+            </div>
+           
+            <div class="form-group col-md-2">
+              <select class="form-control" id="" name="">
+                <option value="">Estatus</option>
+                <option>Activo</option>
+                <option>Inactivo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        {{-- FIN FILTRO --}}
+
           <div class="tile-body">
             <div class="table-responsive">
               <div class="clientes">
@@ -59,9 +81,9 @@
                       <a class="btn btn-primary" href="clientes/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
                    
                      @if(empty($Item->ubicacion)) 
-                     <a class="btn btn-primary"  style="pointer-events: none; cursor: default; opacity: .6"  ><i class="fa fa-lg fa-globe"></i></a>
+                     <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm"  style="pointer-events: none; cursor: default; opacity: .6"  ><i class="fa fa-lg fa-globe"></i></a>
                      @else
-                     <a class="btn btn-primary"  href="clientes/gmaps/{{$Item->ubicacion}}" ><i class="fa fa-lg fa-globe"></i></a>
+                     <a data-toggle="tooltip" data-placement="top" title="Mapa" class="btn btn-primary btn-sm"  href="clientes/gmaps/{{$Item->ubicacion}}" ><i class="fa fa-lg fa-globe"></i></a>
                      @endif                
                       </div>
                       </td>

@@ -22,14 +22,34 @@
                            {{ Session::get('message') }} 
                           </div>
                       @endif    
-    <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
-   <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>              
 
 <div class="row">
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado de Proveedores</h3>
-        <div class="tile-body ">
+      {{-- FILTRO --}}
+      <div class="col mb-3 text-center">
+          <div class="row">
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado de Proveedores</h3>
+            </div>
+             <div class="form-group col-md-2">
+              <input type="text" class="form-control" name="" placeholder="Buscar Proveedor">
+            </div>
+           <div class="form-group col-md-2">
+              <input type="text" class="form-control" name="" placeholder="Buscar Email">
+            </div>
+           
+            <div class="form-group col-md-2">
+              <select class="form-control" id="" name="">
+                <option value="">Estatus</option>
+                <option>Activo</option>
+                <option>Inactivo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        {{-- FIN FILTRO --}}
+
           <div class="tile-body">
             <div class="table-responsive">
                 <div class="proveedores">
@@ -43,8 +63,7 @@
                     <th>País</th>
                     <th>Email</th>
                     <th>RUC</th>
-                    <th>Acciones</th>
-                    
+                    <th>Acciones</th>     
                   </tr>
                 </thead>
                 <tbody>
@@ -59,7 +78,7 @@
                       <td width="15%" >{{$Item->ruc}}</td>
                       <td width="10%" class="text-center">
                       <div class="btn-group">
-                      <a class="btn btn-primary" href="proveedores/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
+                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm " href="proveedores/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
                       </div>
                       </td>
                     </tr>
