@@ -86,7 +86,7 @@ class EmpleadosController extends Controller
     public function editar($id_empleado){
         $empleado = Empleados::where('empleados.id','=', $id_empleado)
                       ->join('cargos', 'empleados.id_cargo', '=', 'cargos.id')
-                      ->select( 'empleados.id','nombres', 'cargos.cargo', 'usuario','telefono', 'direccion', 'ci', 'email', 'empleados.id_estado', 'empleados.id_usuario')->first();
+                      ->select( 'empleados.id', 'id_cargo', 'nombres', 'cargos.cargo', 'usuario','telefono', 'direccion', 'ci', 'email', 'empleados.id_estado', 'empleados.id_usuario')->first();
         return view('Registro.Empleados.edit', compact('empleado'));
     }
 
