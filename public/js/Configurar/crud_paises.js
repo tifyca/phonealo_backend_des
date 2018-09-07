@@ -51,8 +51,8 @@ $(document).on('click', '.delete-pais', function () {
             $("#paises" + pais_id).remove();
             $('#confirm-delete').modal('hide');
             $("#res").html("Pais Eliminado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);
@@ -89,8 +89,8 @@ $("#btn-save").click(function (e) {
             $('#paises-list').append(pais);
             $('#frmc').trigger("reset");
             $("#res").html("Pais Registrado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
        
           error: function (data,estado,error) { 
@@ -143,8 +143,8 @@ $("#btn-save-edit").click(function (e) {
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
             $("#res").html("Pais Modificado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);

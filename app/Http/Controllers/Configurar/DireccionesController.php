@@ -14,7 +14,7 @@ use App\Barrios;
 class DireccionesController extends Controller
 {
     public function paises(Request $request){
-    	$paises = Paises::paginate(10);
+    	$paises = Paises::orderBy('nombre', 'ASC')->paginate(10);
 
        if($request->ajax()){
             return response()->json(view('Configurar.Direcciones.lista_paises',compact('paises'))->render());
@@ -72,7 +72,7 @@ class DireccionesController extends Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public function departamentos(Request $request){
-    	$departamentos = Departamentos::paginate(6);
+    	$departamentos = Departamentos::orderBy('nombre', 'ASC')->paginate(10);
        if($request->ajax()){
             return response()->json(view('Configurar.Direcciones.lista_departamentos',compact('departamentos'))->render());
         }

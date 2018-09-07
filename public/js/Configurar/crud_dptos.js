@@ -52,15 +52,15 @@ $(document).on('click', '.delete-dpto', function () {
             $("#dpto" + dpto_id).remove();
             $('#confirm-delete').modal('hide');
             $("#res").html("Departamento Eliminado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);
             $('#confirm-delete').modal('hide');
             $("#rese").html("No se pudo eliminar el departamento, por que está asociado a una Ciudad");
-            $("#rese").css("display","block");
-            $("#rese").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
@@ -94,8 +94,8 @@ $("#btn-save").click(function (e) {
             $('#dpto-list').append(dpto);
             $('#frmc').trigger("reset");
             $("#res").html("Departamento Registrado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content, #res-content").css("display","block");
+            $("#res, #res-content, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
        
           error: function (data,estado,error) { 
@@ -148,8 +148,8 @@ $("#btn-save-edit").click(function (e) {
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
             $("#res").html("Departamento Modificado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);

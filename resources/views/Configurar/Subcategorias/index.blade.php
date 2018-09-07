@@ -65,11 +65,36 @@
     </div>
   </div>
 
-  <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
-   <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
+  
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado de Subcategorias</h3>
+      {{-- FILTRO --}}
+      <div class="col mb-3 text-center">
+          <div class="row">
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado de Subcategorias</h3>
+            </div>
+             <div class="form-group col-md-2">
+              <input type="text" class="form-control" name="" placeholder="Buscar">
+            </div>
+            <div class="form-group col-md-2">
+              <select class="form-control" id="" name="">
+                <option value="">Categoría</option>
+                <option>Lorem</option>
+                <option>Lorem</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <select class="form-control" id="" name="">
+                <option value="">Estatus</option>
+                <option>Activo</option>
+                <option>Inactivo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        {{-- FIN FILTRO --}}
+      
         <div class="tile-body">
           <div class="tile-body table-responsive">
             <div class="subcategorias">
@@ -77,7 +102,7 @@
                 <thead>
                   <tr>
                     <th>Nombre</th>
-                    <th>Categoria</th>
+                    <th>Categoría</th>
                     <th>Estatus</th>
                     <th>Acciones</th>
                   </tr>
@@ -95,8 +120,8 @@
                 <?php } ?> 
                       <td width="15%" class="text-center">
                       <div class="btn-group">
-                      <button class="btn btn-primary open_modal" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button class="btn btn-primary confirm-delete" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
+                      <button class="btn btn-primary btn-sm open_modal" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
+                      <button class="btn btn-primary btn-sm confirm-delete" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
                       </div>
                       </td>
                     </tr>

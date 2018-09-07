@@ -58,15 +58,15 @@ $(document).on('click', '.delete-categoria', function () {
             $("#categoria" + categoria_id).remove();
             $('#confirm-delete').modal('hide');
             $("#res").html("Categoría Eliminada con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);
             $('#confirm-delete').modal('hide');
             $("#rese").html("No se pudo eliminar la categoría, por que está asociada a una Subcategoria");
-            $("#rese").css("display","block");
-            $("#rese").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
@@ -104,8 +104,8 @@ $("#btn-save").click(function (e) {
             $('#categorias-list').append(categoria);
             $('#frmc').trigger("reset");
             $("#res").html("Categoría Registrada con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
          error: function (data,estado,error) { 
              var errorsHtml = '';
@@ -117,7 +117,7 @@ $("#btn-save").click(function (e) {
                        
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
+                        $("#rese, #res-content, #res-content").html(errorsHtml).show().fadeOut(4000);
                          }); 
                 }
             }
@@ -162,8 +162,8 @@ $("#btn-save-edit").click(function (e) {
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
             $("#res").html("Categoría Modificada con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);
