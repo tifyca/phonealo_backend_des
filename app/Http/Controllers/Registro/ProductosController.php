@@ -52,9 +52,9 @@ class ProductosController extends Controller
          return redirect()->route('productos.index')->with("notificacion_error","Ya se encuentra Registrado");
        }
        $productos = new productos($request->all());
-     if($request["file-input"]){
-      
-          $fileName = $this->saveFile($request["file-input"], "productos/");
+     if($request["archivo"]){
+          //dd($request->archivo);
+          $fileName = $this->saveFile($request["archivo"], "productos/");
           $productos->img        = $fileName;
       }
         
@@ -94,14 +94,16 @@ class ProductosController extends Controller
 		try {
         $productos = productos::find($id);
         $productos->fill($request->all());
-        if($request["file-input"]){
-        	$fileName = $this->saveFile($request["file-input"], "productos/");
+        if($request["archivo"]){
+          $zfile = $request["archivo"];
+          
+        $fileName = $this->saveFile($request->archivo, "productos/");
 
                 $this->deleteFile($productos->img, "productos/");
-                $fileName = $this->saveFile($request["file-input"], "productos/");
+                $fileName = $this->saveFile($request["archivo"], "productos/");
 
                $productos->img = $fileName;
-      }
+        }
         $productos->descripcion          = $request["descripcion"];
         $productos->descripcion_producto = $request["descripcion_producto"];
         $productos->precio_ideal         = $request["precio_ideal"];

@@ -156,19 +156,15 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     //GALERIA
-
-    Route::get('galeria/{valor}', [
+    Route::resource('galeria','GaleriaController');
+    Route::get('galeria/{id}', [
         'uses' => 'GaleriaController@index',
         'as'   => 'galeria.index'
     ]);
 
-    Route::get('galeria/new/{valor}', [
+    Route::get('galeria/new/{id}', [
         'uses' => 'GaleriaController@new',
         'as'   => 'galeria.new'
-    ]);
-    Route::get('galeria/update/{valor}', [
-        'uses' => 'GaleriaController@update',
-        'as'   => 'galeria.update'
     ]);
 
      ////////

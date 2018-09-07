@@ -71,7 +71,7 @@
                   <img id="imgSalida" src="{{ asset('img/img-default.png') }}" class="img-fluid " alt="">
 
                   <div class="form-group mt-4">
-                    <input type="file" class=" read-file read" id="file-input" name="file-input" accept="image/*">                    </div>
+                    <input type="file" class=" read-file read" id="archivo" name="archivo" accept="image/*">                    </div>
                   </div>
                   <div class="tile-footer col-12 text-center mt-3">
                     <button class="btn btn-primary" type="submit">Guardar</button>
@@ -143,7 +143,7 @@
     });
 
 $(function() {
-    $('#file-input').change(function(e) {
+    $('#archivo').change(function(e) {
       addImage(e); 
     });
 
