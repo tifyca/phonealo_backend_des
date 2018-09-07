@@ -192,18 +192,10 @@
               <div class="col-12">
                 <label for="descripcion">Descripción</label>
                 <input class="form-control" autocomplete="off" type="text" id="descripcion" name="descripcion" >
-
                 {{-- ESTE SE LLENA CON EL ID DEL PRODUCTO --}}
                 <input type="hidden" id="id_producto"  name="id_producto">
                 {{-- //// --}}
-
               </div>
-             
- {{--              <div class="" style="background: black; width: 300px; position: absolute; margin-left: -300px">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. 
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus deleniti, vitae molestias delectus nihil natus, voluptatum rerum non, minima aliquid accusantium facilis voluptatibus doloremque, magnam adipisci pariatur. Debitis, aut est.
-              </div> --}}
               <div class="selec_productos col-12 d-none">
                 <ul class="list-group" id="list-productos">
                    {{-- ESTE ESPACIO APARECE Y SE LLENA CON AJAX, SE ACATUALIZA CADA QUE SUELTAS LA TECLA --}}
@@ -379,7 +371,7 @@
               $('#list-productos').html('');
 
               $.each(data, function(l, item) {
-                $('#list-productos').append('<li onclick="captura(this)" data-value='+item.id_producto+' class="list-group-item list-group-item-action cursor-pointer"><div class="row no-gutters d-flex align-items-center"><div class="col mr-1">'+item.descripcion+'</div><div class="col-1 ml-1"><span class="badge badge-primary badge-pill ">'+item.stock_activo+'</span></div></div></li>');
+                $('#list-productos').append('<li onclick="captura(this)" data-value='+item.id+' class="list-group-item list-group-item-action cursor-pointer"><div class="row no-gutters d-flex align-items-center"><div class="col mr-1">'+item.descripcion+'</div><div class="col-1 ml-1"><span class="badge badge-primary badge-pill ">'+item.stock_activo+'</span></div></div></li>');
               });
             }
 
@@ -413,7 +405,7 @@
             $('#cod_producto').val(data.codigo_producto);
             $('#stock').val(data.stock_activo);
             $('#precio').val(data.precio_ideal);
-            $('#id_producto').val(data.id_producto);
+            $('#id_producto').val(data.id);
                 
           }
 

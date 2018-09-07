@@ -5,7 +5,7 @@
     <ul class="treeview-menu ">
      @if ($perfil==1 || $perfil==2)  
      <li><a class="treeview-item {{ Request::is('configurar/cargos*') ? 'active' : '' }}" href="{{ route('cargos.index') }}"><i class="icon fa fa-circle-o"></i>Cargos</a></li>
-     <li><a class="treeview-item  {{ Request::is('configurar/categorias*') ? 'active' : '' }}" href="{{ route('categorias.index') }}"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
+     <li><a class="treeview-item  {{ Request::is('configurar/categorias*') ? 'active' : '' }}" href="{{ route('categorias.index') }}"><i class="icon fa fa-circle-o"></i>Categorías</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/subcategorias*') ? 'active' : '' }}" href="{{ route('subcategorias.index') }}"><i class="icon fa fa-circle-o"></i>Subcategorias</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/estados*') ? 'active' : '' }}" href="{{ route('estados') }}"><i class="icon fa fa-circle-o"></i>Estados</a></li>
      
@@ -58,20 +58,19 @@
     </li>
     <li><a class="treeview-item {{ Request::is('procesar/aconfirmar*') ? 'active' : '' }}" href="{{ route('aconfirmar.index') }}"><i class="icon fa fa-circle-o"></i>A confirmar</a></li> 
     <li><a class="treeview-item {{ Request::is('procesar/logistica*') ? 'active' : '' }}" href="{{ route('logistica') }}"><i class="icon fa fa-circle-o"></i>Logística</a></li>
-    {{-- <li><a class="treeview-item {{ Request::is('procesar/monitoreo*') ? 'active' : '' }}" href="{{ route('monitoreo.index') }}"><i class="icon fa fa-circle-o"></i>Monitoreo</a></li> --}}
+    <li><a class="treeview-item {{ Request::is('procesar/conversiones*') ? 'active' : '' }}" href="{{ route('procesar.conversiones') }}"><i class="icon fa fa-circle-o"></i>Conversiones</a></li>
   </ul>
 </li>
 
 
 @endif
 
-<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file"></i><span class="app-menu__label">Cajas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+<li class="treeview {{ Request::is('caja*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file"></i><span class="app-menu__label">Caja</span><i class="treeview-indicator fa fa-angle-right"></i></a>
   <ul class="treeview-menu">
 
-    <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Prueba</a>
-      
-    </li>
-    <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Otro</a></li>
+    <li><a class="treeview-item {{ Request::is('caja/index*') ? 'active' : '' }}" href="{{ route('caja.index') }}"><i class="icon fa fa-circle-o"></i>Abrir Caja</a></li>
+    <li><a class="treeview-item {{ Request::is('caja/cierres*') ? 'active' : '' }}" href="{{ route('caja.cierres') }}"><i class="icon fa fa-circle-o"></i>Cierres</a></li>
+    <li><a class="treeview-item {{ Request::is('caja/historial*') ? 'active' : '' }}" href="{{ route('caja.historial') }}"><i class="icon fa fa-circle-o"></i>Historial de POS/otros ingresos</a></li>
   </ul>
 </li>
 

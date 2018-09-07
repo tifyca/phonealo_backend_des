@@ -6,7 +6,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Categorias')
+@section('titulo', 'Categorías')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -21,7 +21,7 @@
 <div class="row">
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Nueva Categoria</h3>
+        <h3 class="tile-title">Nueva Categoría</h3>
         <div class="tile-body ">
           <form id="frmc" name="frmc"  novalidate="">
             {{ csrf_field() }} 
@@ -63,16 +63,39 @@
         
     </div>
   </div>
-
-  <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
-   <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
+  
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado de Categorias</h3>
+      {{-- FILTRO --}}
+      <div class="col mb-3 text-center">
+          <div class="row">
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado de Categorías</h3>
+            </div>
+             <div class="form-group col-md-2">
+              <input type="text" class="form-control" name="" placeholder="Buscar">
+            </div>
+            <div class="form-group col-md-2">
+              <select class="form-control" id="" name="">
+                <option value="">Tipo</option>
+                <option>Producto</option>
+                <option>Gastos</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <select class="form-control" id="" name="">
+                <option value="">Estatus</option>
+                <option>Activo</option>
+                <option>Inactivo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        {{-- FIN FILTRO --}}
         <div class="tile-body ">
-          <div class="tile-body">
             <div class="table-responsive">
-             <table class="table table-hover table-bordered" id="sampleTable">
+              <div class="categorias">
+             <table class="table  table-bordered" id="sampleTable">
                 <thead>
                   <tr>
                     <th>Nombre</th>
@@ -84,17 +107,17 @@
                 <tbody id="categorias-list" name="categorias-list"> 
                   @foreach($categorias as $categoria)           
                      <tr id="categoria{{$categoria->id}}">
-                      <td>{{$categoria->categoria}}</td>
-                      <td>{{$categoria->tipo}}</td>
+                      <td width="30%">{{$categoria->categoria}}</td>
+                      <td width="30%">{{$categoria->tipo}}</td>
                 <?php if ($categoria->status==1){ ?>
-                      <td><?=  'Activo' ?></td>
+                      <td width="25%"><?=  'Activo' ?></td>
                 <?php }else{ ?> 
-                      <td><?='Inactivo' ?></td>
+                      <td width="25%"><?='Inactivo' ?></td>
                 <?php } ?> 
-                      <td width="10%" class="text-right">
+                      <td width="15%" class="text-center">
                       <div class="btn-group">
-                      <button class="btn btn-primary open_modal" value="{{$categoria->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button class="btn btn-primary confirm-delete" value="{{$categoria->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
+                      <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$categoria->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
+                      <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$categoria->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
                       </div>
                       </td>
                     </tr>
@@ -102,11 +125,13 @@
                                  
                 </tbody>
               </table>       
-            </div>
+            
             <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
                     <?php echo $categorias->render(); ?>
               </div>
-            </div>
+              </div>
+              </div>
+           
         </div>
     </div>
   </div>
@@ -117,7 +142,7 @@
     <div class="modal-content">
      <div class="modal-header">
      
-      <h4 class="modal-title" id="myModalLabel">Editar Categoria</h4>
+      <h4 class="modal-title" id="myModalLabel">Editar Categoría</h4>
      </div>
      <div class="modal-body">
       <form id="frmcategorias" name="frmcategorias" class="form-horizontal" novalidate="">
@@ -178,7 +203,7 @@
                 </div>
             <form id="frmdel" name="frmdel" class="form-horizontal" novalidate="">
                 <div class="modal-body">
-                    <p>Está seguro que desea Eliminar este Categoria?</p>
+                    <p>Está seguro que desea Eliminar esta Categoría?</p>
                     <p class="debug-url"></p>
                 </div>
               </form> 
@@ -196,5 +221,5 @@
 
 @push('scripts')
  <meta name="_token" content="{!! csrf_token() !!}" />
- <script src="{{asset('js/crud_categorias.js')}}"></script>
+ <script src="{{asset('js/Configurar/crud_categorias.js')}}"></script>
 @endpush

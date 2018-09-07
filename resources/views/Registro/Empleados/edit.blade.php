@@ -1,3 +1,8 @@
+<?php
+ @session_start();
+ $id_usuario= $_SESSION["user"];
+?>
+
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', '')
@@ -17,43 +22,40 @@
     <div class="tile">
         <div class="tile-body">
         	<form>
+        		<input type="hidden" name="empleado_id" id="empleado_id" value="{{$empleado->id}}">
+           <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
         		<div class="col-12">
 	          <div class="row">
 	            
 	              <div class="form-group col-md-4">
 	                <label for="nombre_empleado">Nombres</label>
-	                <input class="form-control read" type="text" id="nombre_empleado" name="nombre_empleado" placeholder="..." readonly>
+	                <input class="form-control read" type="text" id="nombre_empleado" name="nombre_empleado" placeholder="..."   value="{{$empleado->nombres}}" onkeypress="return soloLetras(event);" readonly>
 	              </div>
 	              <div class="form-group col-md-4">
-	                <label for="ruc_empleado">CI</label>
-	                <input class="form-control read" type="text" id="ruc_empleado" name="ruc_empleado" placeholder="..." readonly>
+	                <label for="ci_empleado">CI</label>
+	                <input class="form-control read" type="text" id="ci_empleado" name="ci_empleado" placeholder="..."  value="{{$empleado->ci}}" onkeypress="return soloNumeros(event);" readonly>
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="telefono_empleado">Teléfono</label>
-	                <input class="form-control read" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="..." readonly>
+	                <input class="form-control read" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="..." value="{{$empleado->telefono}}" onkeypress="return soloNumeros(event);" readonly>
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="email_empleado">Email</label>
-	                <input class="form-control read" type="text" id="email_empleado" name="email_empleado" placeholder="..." readonly>
+	                <input class="form-control read" type="text" id="email_empleado" name="email_empleado" placeholder="..." value="{{$empleado->email}}" readonly>
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="direccion_empleado">Dirección</label>
-	                <input class="form-control read" type="text" id="direccion_empleado" name="direccion_empleado" placeholder="..." readonly>
+	                <input class="form-control read" type="text" id="direccion_empleado" name="direccion_empleado" placeholder="..." value="{{$empleado->direccion}}" readonly>
 	              </div>
 	              <div class="form-group col-md-4">
 			              <label for="cargo_empleado">Cargo</label>
-			              <select class="form-control" id="cargo_empleado" name="cargo_empleado">
-			                <option value="">Seleccione</option>
-			                <option>1</option>
-			                <option>2</option>
-			                <option>3</option>
-			                <option>4</option>
-			                <option>5</option>
+			              <select class="form-control cargos read" id="cargo_empleado" name="cargo_empleado" disabled>
+			                <option value="{{$empleado->id_cargo}}">{{$empleado->cargo}}</option>
 			              </select>
 			            </div>
 	            	<div class="form-group col-12">
 	                	<label for="referencia_empleado">Referencias</label>
-	                	<textarea class="form-control read" disabled id="referencia_empleado" name="referencia_empleado" rows="3"></textarea>
+	                	<textarea class="form-control read" disabled id="referencia_empleado" name="referencia_empleado" rows="3">{{$empleado->ci}}</textarea>
 	              	</div>
 
 	              	<div class="tile-footer col-12 d-flex align-items-center">
@@ -63,7 +65,7 @@
 	                    </label>
 	                  </div>
 	                  <div class="">
-	                    <button class="btn btn-primary read" type="submit" disabled>Guardar</button>
+	                    <button class="btn btn-primary read" type="submit" id="btn-edit" disabled>Guardar</button>
 	                  </div>
 	              </div>
 	            </div>
@@ -79,6 +81,8 @@
 @endsection
 
 @push('scripts')
+ <meta name="_token" content="{!! csrf_token() !!}" />
+ <script src="{{asset('js/Registro/js_empleados.js')}}"></script>
 <script type="text/javascript" charset="utf-8" async defer>
   $('#editar').change(function(){
     if ($('#editar').prop('checked')){
@@ -92,6 +96,25 @@
       $('.read').prop('disabled', true);
     }
   });
+
+  $(document).ready(function(){
+  
+      $.ajax({
+          type: "get",
+          url: '{{ route('cargos_ajax') }}',
+          dataType: "json",
+          success: function (data){
+
+             $.each(data, function(i, item) {
+
+             
+              $(".cargos").append('<option value='+item.id+'>'+item.cargo+'</option>');
+              });
+          }
+
+      });
+
+    });
 </script>
 
 @endpush

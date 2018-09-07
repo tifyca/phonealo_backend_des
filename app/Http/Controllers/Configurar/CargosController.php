@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\Validator;
 
 class CargosController extends Controller
 {
-    public function index(){
-    	$cargos= Cargos::paginate(3);
+    public function index(Request $request){
+    	$cargos= Cargos::orderBy('cargo','ASC')->paginate(10);
+      if($request->ajax()){
+            return response()->json(view('Configurar.Cargos.lista',compact('cargos'))->render());
+        }
+       
     	return view('Configurar.Cargos.index')->with('cargos',$cargos);
 
     }
@@ -37,7 +41,8 @@ class CargosController extends Controller
       $errors = $validator->errors(); 
       return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
       
-     }elseif ($validator->passes()){ 
+     }elseif ($validator->passes()){      
+      
       $cargo= new Cargos; 
       $cargo->cargo = $request->nombre; 
       $cargo->status =$request->status; 

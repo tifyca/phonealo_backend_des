@@ -43,11 +43,11 @@
                 <label class="control-label">Barrio</label>
                 <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" onkeypress="return soloLetras(event)">
               </div>
-              <div class="form-group col-12  col-md-4">
+              <div class="form-group col-12  col-md-3">
                 <label class="control-label">Latitud</label>
                 <input class="form-control" type="text"  id="lat" name="lat" onkeypress="return soloNumeros(event);">
               </div>
-              <div class="form-group col-12  col-md-4">
+              <div class="form-group col-12  col-md-3">
                 <label class="control-label">Logitud</label>
                 <input class="form-control" type="text"  id="lon" name="lon" onkeypress="return soloNumeros(event);">
               </div>
@@ -59,9 +59,6 @@
         </div>
     </div>
   </div>
-  <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
-
-     <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Listado Barrios</h3>
@@ -170,7 +167,7 @@
 
 @push('scripts')
 <meta name="_token" content="{!! csrf_token() !!}" />
- <script src="{{asset('js/crud_barrios.js')}}"></script>
+ <script src="{{asset('js/Configurar/crud_barrios.js')}}"></script>
 
 <script  type="text/javascript" charset="utf-8">
   $(document).ready(function(){
@@ -202,7 +199,7 @@
               dataType: "json",
               data: {id_departamento: id_departamento},
               success: function (data){
-
+             
                  $.each(data, function(l, item1) {
 
                    //$(".ciudades option:eq(1)").prop("selected", true);
@@ -249,7 +246,7 @@
 
                  $.each(data2, function(l, item2) {
 
-                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value="'+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button class="btn btn-primary confirm-delete" value="'+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><buttondata-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><buttondata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
               }
           });

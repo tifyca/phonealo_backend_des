@@ -17,25 +17,27 @@
   <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-        <form>
+           <form name="form1" action="{{route('galeria.store')}}" accept-charset="UTF-8"  method="post"  enctype="multipart/form-data">
+          {{ csrf_field() }}
           <div class="row">
             <div class="col-md-6">
               <div class="row">
                 <div class="form-group col-md-8">
                   <label for="titulo_galeria">Título</label>
-                  <input class="form-control" type="text" id="titulo_galeria" name="titulo_galeria" placeholder="Título de imagen">
+                  <input type="hidden" name="id_producto" id="id_producto" value="{{$id}}">
+                  <input class="form-control" type="text" id="titulo" name="titulo" placeholder="Título de imagen">
                 </div>
                 <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="1" type="radio" id="EstatusCargo" name="EstatusCargo">Activo
+                        <input class="form-check-input" value="1" type="radio" id="estatus" name="estatus">Activo
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                         <input class="form-check-input" value="0" type="radio" id="EstatusCargo2" name="EstatusCargo">Inactivo
+                         <input class="form-check-input" value="0" type="radio" id="estatus2" name="estatus2">Inactivo
                       </label>
                     </div>
                   </div>
@@ -44,9 +46,9 @@
             </div>
             
            <div class="form-group col-md-4 text-center mt-3">
-              <img src="{{ asset('img/img-default.png') }}" class="img-fluid " alt="">  
+              <img id="imgSalida" src="{{ asset('img/img-default.png') }}" class="img-fluid " alt="">  
               <div class="form-group mt-4">
-                <input type="file" class="form-control-file" id="imagen_galeria" name="imagen_galeria">
+                <input type="file" class="form-control-file" id="archivo" name="archivo" accept="image/*">
               </div>
             </div>
 
@@ -66,4 +68,27 @@
 @endsection
 
 @push('scripts')
+
+  <script type="text/javascript" language="javascript">
+    $(function() {
+    $('#archivo').change(function(e) {
+      addImage(e); 
+    });
+
+    function addImage(e){
+      var file = e.target.files[0],
+      imageType = /image.*/;
+      if (!file.type.match(imageType))
+       return;
+
+     var reader = new FileReader();
+     reader.onload = fileOnload;
+     reader.readAsDataURL(file);
+   }
+
+   function fileOnload(e) {
+    var result=e.target.result;
+    $('#imgSalida').attr("src",result);
+  }
+  </script>
 @endpush
