@@ -29,15 +29,15 @@
 	          		<div class="row">
 						<div class="form-group col-md-4">
 							<label for="nombre_empleado">Nombres</label>
-							<input class="form-control" type="text" id="nombre_empleado" name="nombre_empleado" placeholder="...">
+							<input class="form-control" type="text" id="nombre_empleado" name="nombre_empleado" placeholder="..." onkeypress="return soloLetras(event);">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="ci_empleado">CI</label>
-							<input class="form-control" type="text" id="ci_empleado" name="ci_empleado" placeholder="...">
+							<input class="form-control" type="text" id="ci_empleado" name="ci_empleado" placeholder="..." onkeypress="return soloNumeros(event);">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="telefono_empleado">Teléfono</label>
-							<input class="form-control" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="...">
+							<input class="form-control" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="..." onkeypress="return soloNumeros(event);">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="email_empleado">Email</label>

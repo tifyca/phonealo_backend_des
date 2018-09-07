@@ -33,11 +33,11 @@
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="ci_empleado">CI</label>
-	                <input class="form-control read" type="text" id="ci_empleado" name="ci_empleado" placeholder="..."  value="{{$empleado->ci}}" readonly>
+	                <input class="form-control read" type="text" id="ci_empleado" name="ci_empleado" placeholder="..."  value="{{$empleado->ci}}" onkeypress="return soloNumeros(event);" readonly>
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="telefono_empleado">Teléfono</label>
-	                <input class="form-control read" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="..." value="{{$empleado->telefono}}" readonly>
+	                <input class="form-control read" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="..." value="{{$empleado->telefono}}" onkeypress="return soloNumeros(event);" readonly>
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="email_empleado">Email</label>
