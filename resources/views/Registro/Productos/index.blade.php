@@ -21,8 +21,8 @@
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Productos</h3>
             </div>
-            <form action="{{route('productos.index')}}" method="get"></form>
-            <div class="form-group col-md-2">
+            <form class="row" action="{{route('productos.index')}}" method="get"> 
+            <div class="form-group col-md-5">
               <select class="form-control" id="id_categoria" name="id_categoria" ">
                 <option value="">Categoría</option>
                 @foreach($categorias as $cate)
@@ -30,18 +30,20 @@
                 @endforeach
               </select>
             </div>
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-4">
               <select class="form-control" id="id_subcategoria" name="id_subcategoria">
                 <option value="">Subcategoria</option>
               </select>
             </div>
             <div class="col-md-1 mr-md-3">
-              <input type="submit" class="btn btn-primary" value="Filtrar">
+              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
               
             </div>
+            </form>
+
           </div>
         </div>
-      </form>
+     
           <div class="table-responsive">
             <table class="table table-hover table-bordered" id="sampleTable">
               <thead>
@@ -138,6 +140,10 @@
      
 
 
+    });
+
+    $("input#boton").bind('click', function (event) {
+      $("form").submit();
     });
     
  });
