@@ -101,8 +101,8 @@ $("#btn-save").click(function (e) {
                $.each(dpto, function(l, item1) {
 
                 var ciudad = '<tr id="ciudades' + item1.id + '"><td>' + item1.ciudad + '</td>';
-                    ciudad += '<td width="10%"><div class="btn-group"><button class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-                    ciudad += ' <button class="btn btn-primary btn-sm confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+                    ciudad += '<td width="10%"><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                    ciudad += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
            $('#ciudades-list').append(ciudad);
 
@@ -162,8 +162,8 @@ $("#btn-save-edit").click(function (e) {
         success: function (data) {
             console.log(data.ciudad);
              var ciudad = '<tr id="ciudades' + data.id + '"><td>' + data.ciudad + '</td>';
-            ciudad += '<td><div class="btn-group"><button class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            ciudad += ' <button class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            ciudad += '<td><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            ciudad += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
             $("#ciudades" + ciudad_id).replaceWith(ciudad);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');

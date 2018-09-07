@@ -98,8 +98,8 @@ $("#btn-save").click(function (e) {
             var act='Activo';
             var ina='Inactivo';
             var categoria = '<tr id="categoria' + data.id + '"><td width="30%">' + data.categoria + '</td><td width="30%">' + data.tipo + '</td>'+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
-            categoria += '<td width="15%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            categoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            categoria += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            categoria += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
             $('#categorias-list').append(categoria);
             $('#frmc').trigger("reset");
@@ -156,8 +156,8 @@ $("#btn-save-edit").click(function (e) {
             var act='Activo';
             var ina='Inactivo';
             var categoria = '<tr id="categoria' + data.id + '"><td width="30%">' + data.categoria + '</td><td width="30%">' + data.tipo + '</td>'+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
-            categoria += '<td width="15%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            categoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            categoria += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            categoria += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
            $("#categoria" + categoria_id).replaceWith(categoria);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');

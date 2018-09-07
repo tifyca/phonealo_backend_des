@@ -54,7 +54,7 @@ $("#btn-save-edit").click(function (e) {
             var act='Activo';
             var ina='Inactivo';
             var estado = '<tr id="estado' + data.id + '"><td width="90%">' + data.estado + '</td>';
-            estado += '<td width="10%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button></div></td></tr>';
+            estado += '<td width="10%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button></div></td></tr>';
             $("#estado" + estado_id).replaceWith(estado);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');

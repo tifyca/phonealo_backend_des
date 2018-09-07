@@ -99,8 +99,8 @@ $("#btn-save").click(function (e) {
             var act='Activo';
             var ina='Inactivo';
             var subcategoria = '<tr id="subcategoria' + data.id + '"><td width="30%">' + data.sub_categoria + '</td><td width="30%">' + cate.categoria + '</td>'+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
-            subcategoria += '<td width="15%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            subcategoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            subcategoria += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            subcategoria += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
             $('#subcategorias-list').append(subcategoria);
             $('#frmc').trigger("reset");
@@ -164,8 +164,8 @@ $("#btn-save-edit").click(function (e) {
             var act='Activo';
             var ina='Inactivo';
                  var subcategoria = '<tr id="subcategoria' + data.id + '"><td width="30%">' + data.sub_categoria + '</td><td width="30%">' + cate.categoria + '</td>'+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
-            subcategoria += '<td width="15%" class="text-center"><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            subcategoria += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            subcategoria += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            subcategoria += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
             $("#subcategoria" + subcategoria_id).replaceWith(subcategoria);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
