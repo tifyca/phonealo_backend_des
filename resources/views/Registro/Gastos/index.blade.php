@@ -90,7 +90,7 @@
                     <td>{{$gast->fecha}}</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('gastos.update',$gast->id) }}"><i class="fa fa-lg fa-eye"></i></a>
+                        <a class="btn btn-primary" href="{{ route('gastos.edit',$gast->id) }}"><i class="fa fa-lg fa-eye"></i></a>
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
                       </div>
                     </td>
