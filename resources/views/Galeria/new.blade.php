@@ -32,12 +32,12 @@
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="1" type="radio" id="estatus" name="estatus">Activo
+                        <input class="form-check-input" value="1" type="radio" id="estatus1" name="estatus">Activo
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                         <input class="form-check-input" value="0" type="radio" id="estatus2" name="estatus2">Inactivo
+                         <input class="form-check-input" value="0" type="radio" id="estatus2" name="estatus">Inactivo
                       </label>
                     </div>
                   </div>
@@ -90,5 +90,6 @@
     var result=e.target.result;
     $('#imgSalida').attr("src",result);
   }
+});
   </script>
 @endpush
