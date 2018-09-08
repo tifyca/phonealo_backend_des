@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Clientes;
 use Mapper;
 
+
 class ClientesController extends Controller
 {
 	public function index(Request $request){
