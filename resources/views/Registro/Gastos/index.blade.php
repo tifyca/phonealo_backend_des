@@ -16,37 +16,41 @@
   
   <div class="col-12">
     <div class="tile">
-      <div class="col mb-3 text-center">
+      <div class="col mb-2 text-center">
           <div class="row">
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Gastos</h3>
             </div>
-            <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+
+             <form class="row" action="{{route('productos.index')}}" method="get"> 
+              <div class="form-group col-md-3">
+              <select class="form-control" id="id_categoria" name="id_categoria" ">
                 <option value="">Categoría</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                @foreach($categorias as $cate)
+                <option value="{{$cate->id}}">{{$cate->categoria}}</option>
+                @endforeach
               </select>
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="id_subcategoria" name="id_subcategoria">
                 <option value="">Usuario</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                @foreach($usuarios as $us)
+                <option value="{{$us->id}}">{{$us->name}}</option>
+                @endforeach                
               </select>
             </div>
-            <div class="form-group col-md-2">
+          <div class="form-group col-md-3">
               <input type="date" class="form-control" name="fecha_inicio">
             </div>
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-3">
               <input type="date" class="form-control" name="fecha_fin">
+            </div>            
+            <div class="form-group col-md-2">
+              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
+              
             </div>
+            </form>
+     
           </div>
         </div>
         <div class="tile-body ">
@@ -67,43 +71,37 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($gastos as $gast)
                   <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
+                    <td>{{$gast->descripcion}}</td>
+                    <td>{{$gast->comprobante}}</td>
+                    <td>
+                       @foreach($categorias as $categoria)
+                      @if($categoria->id==$gast->id_categoria)
+                         {{$categoria->categoria}}
+                      @endif
+                     @endforeach
+                    </td>
+                    <td>{{$gast->id_fuente}}</td>
+                    <td>{{$gast->importe}}</td>
+                    <td>{{$gast->id_divisa}}</td>
+                    <td>{{$gast->id_usuario}}</td>
+                    <td>{{$gast->fecha_comprobante}}</td>
+                    <td>{{$gast->fecha}}</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('gastos.update',1) }}"><i class="fa fa-lg fa-eye"></i></a>
+                        <a class="btn btn-primary" href="{{ route('gastos.update',$gast->id) }}"><i class="fa fa-lg fa-eye"></i></a>
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
                       </div>
                     </td>
                   </tr>
-                  <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td>Lorem</td>
-                    <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('gastos.update',1) }}"><i class="fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
-                      </div>
-                    </td>
-                  </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
+             <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    <?php echo $gastos->render(); ?>
+              </div>
         </div>
     </div>
   </div>

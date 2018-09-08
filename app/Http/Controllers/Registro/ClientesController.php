@@ -12,11 +12,38 @@ use Mapper;
 class ClientesController extends Controller
 {
 	public function index(Request $request){
-		$clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-        				->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->paginate(10);
-      if($request->ajax()){
-            return response()->json(view('Registro.Clientes.lista',compact('clientes'))->render());
-        }
+    $cliente = $request["cliente"];
+    $email   = $request["email"];
+    $estatus = $request["estatus"];
+    if($cliente!="" && $email=="" && $estatus=="")
+    {
+      $cliente = $cliente."%"; 
+      $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('nombres','like',$cliente)->orderby('nombres','asc')->paginate(10);
+    }
+    if($cliente=="" && $email!="" && $estatus=="")
+    {
+         $email = $email."%";
+         $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+    }
+    if($cliente=="" && $email!="" && $estatus!="")
+    {
+         $email = $email."%";
+         $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('id_estado',$estatus)->orderby('nombres','asc')->paginate(10);
+    }
+
+    if($cliente=="" && $email=="" && $estatus=="")
+    {
+         $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->orderby('nombres','asc')->paginate(10);
+    }
+
+    if($request->ajax())
+    {
+       return response()->json(view('Registro.Clientes.lista',compact('clientes'))->render());
+    }
        
     	return view('Registro.Clientes.index')->with('clientes',$clientes);
 	
