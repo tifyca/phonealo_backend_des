@@ -42,10 +42,6 @@
               <input type="email" class="form-control" name="email" placeholder="Email">
             </div>
            
-
-            <div class="col-md-1 ">
-
-           
             <div class="col-md-1 mr-md-3">
 
               <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
