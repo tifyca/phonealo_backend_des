@@ -60,7 +60,7 @@
             <div class="table-responsive">
                 <div class="proveedores">
                 <form>
-              <table class="table table-hover table-bordered" id="sampleTable">
+              <table class="table table-hover" id="sampleTable">
                 <thead>
                   <tr>
                     <th>Proveedor</th>
