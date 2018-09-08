@@ -42,13 +42,6 @@
               <input type="email" class="form-control" name="email" placeholder="Email">
             </div>
            
-            <div class="form-group col-md-2">
-              <select class="form-control" id="estatus" name="txtestatus">
-                <option value="">Estatus</option>
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
-              </select>
-            </div>
             <div class="col-md-1 ">
               <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
               
