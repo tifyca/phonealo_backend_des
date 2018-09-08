@@ -28,8 +28,8 @@
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-          <div class="row">
-            <form class="row" action="{{route('proveedores.index')}}" method="get">  
+        
+            <form class="row d-flex justify-content-end" action="{{route('proveedores.index')}}" method="get">  
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Proveedores</h3>
             </div>
@@ -47,12 +47,12 @@
                 <option value="0">Inactivo</option>
               </select>
             </div>
-            <div class="col-md-1 mr-md-3">
+            <div class="col-md-1">
               <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
               
             </div>
           </form>
-          </div>
+         
         </div>
         {{-- FIN FILTRO --}}
 
