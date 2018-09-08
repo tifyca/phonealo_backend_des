@@ -142,11 +142,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('registro/gastos', 'Registro\GastosController');
 
-    Route::get('registro/gastos/update/{valor}', [
-        'uses' => 'Registro\gastosController@update',
-        'as'   => 'gastos.update'
-    ]);
-    Route::get('registro/gastos/show', 'Registro\GastosController@show')->name('registro.gastos.show');
 
     Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
 

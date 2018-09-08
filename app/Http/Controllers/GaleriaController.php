@@ -7,7 +7,7 @@ use App\Productos;
 use App\Categorias;
 use App\Subcategorias;
 use DB;
-use Galeria;
+use App\imagenes;
 class GaleriaController extends Controller
 {
     public function index(Request $request){
@@ -30,10 +30,10 @@ class GaleriaController extends Controller
                 $titulo          = $request->titulo;
                 $id_producto    = $request->id;
 
-                if(galeria::where('titulo',$titulo)->where('id_producto',$id)->first()){
+                if(imagenes::where('titulo',$titulo)->where('id_producto',$id_producto)->first()){
                   return redirect()->route('productos.index')->with("notificacion_error","Ya se encuentra Registrado");
                 }
-       $galeria = new glaeria($request->all());
+       $galeria = new imagenes($request->all());
      if($request["archivo"]){
           //dd($request->archivo);
           $fileName = $this->saveFile($request["archivo"], "productos/");
@@ -58,22 +58,37 @@ class GaleriaController extends Controller
     }
 
 	public function edit($id){
-		$galeria=galeria::find($id);
-		return view('Galeria.edit')->with('galeria',$galeria);
+		$galeria=imagenes::find($id);
+    $id_producto = $galeria->id_producto;
+		return view('Galeria.edit')->with('galeria',$galeria)->with('id',$id_producto);
 	}
-	public function updated(Request as request,$id){
+  public function show($id){
+
+  
+      //dd($id);
+      $productos = productos::find($id);
+      $nombre = $productos->descripcion;
+      $codigo = $productos->codigo_producto;
+       $galeria=db::table('producto_imagenes as a')
+                    ->select('a.id_producto','a.id','a.imagen as img','a.titulo','a.estatus')
+                    ->where('id_producto',$id)->paginate(10);
+    return view('Galeria.index')->with('galeria',$galeria)->with('nombre',$nombre)->with('codigo',$codigo)->with("id",$id);
+
+  }
+	public function updated(Request $request,$id){
 		
 try {
-       $galeria=galeria::find($id);
+       $galeria=imagenes::find($id);
        $galeria->fill($request->all());
         if($request["archivo"]){
           $zfile = $request["archivo"];
        
         $fileName = $this->saveFile($request->archivo, "productos/");
-                $this->deleteFile($productos->img, "productos/");
+                $this->deleteFile($galeria->imagen, "productos/");
                 $fileName = $this->saveFile($request["archivo"], "productos/");
                $galeria->imagen = $fileName;
         }
+        $id_producto              = $galeria->id_producto;
         $galeria->titulo          = $request["titulo"];
         $galeria->estatus         = $request["estatus"];
         $galeria->updated_at      = date('Y-m-d');
@@ -81,7 +96,7 @@ try {
         $galeria->save();
 
 
-        return redirect()->route('productos.index')->with("notificacion","Se ha guardado correctamente su información");
+        return redirect()->route('galeria.index',$id_producto)->with("notificacion","Se ha guardado correctamente su información");
       } catch (Exception $e) {
         \Log::info('Error creating item: '.$e);
        return \Response::json(['created' => false], 500);

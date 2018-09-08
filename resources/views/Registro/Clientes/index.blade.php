@@ -30,25 +30,29 @@
     <div class="tile">
        {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-          <div class="row">
+         
+          <form class="row d-flex justify-content-end" action="{{route('clientes.index')}}" method="get">   
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Clientes</h3>
             </div>
-             <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="" placeholder="Buscar Cliente">
+             <div class="form-group col-md-3">
+              <input type="text" class="form-control" name="cliente" placeholder="Cliente">
             </div>
-           <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="" placeholder="Buscar Email">
+
+           <div class="form-group col-md-3">
+              <input type="text" class="form-control" name="email" placeholder="Email">
+
             </div>
            
-            <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
-                <option value="">Estatus</option>
-                <option>Activo</option>
-                <option>Inactivo</option>
-              </select>
+
+           
+            <div class="col-md-1 mr-md-3">
+
+              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
+              
             </div>
-          </div>
+          </form>
+        
         </div>
         {{-- FIN FILTRO --}}
 
@@ -56,12 +60,13 @@
             <div class="table-responsive">
               <div class="clientes">
                 <form>
-              <table class="table table-hover table-bordered " id="sampleTable">
+              <table class="table table-hover " id="sampleTable">
                 <thead>
                   <tr>
                     <th>Cliente</th>
-                    <th>Teléfono</th>
-                    <th>Dirección</th>
+                    <th>Tel&eacute;fono</th>
+                    <th>Email</th>
+                    <th>Direcci&oacute;n</th>
                     <th>Barrio</th>
                     <th>Ciudad</th>
                     <th>Acciones</th>
@@ -73,17 +78,18 @@
                      <tr id="cliente{{$Item->id}}">
                       <td width="20%" >{{$Item->nombres}}</td>
                       <td width="15%" >{{$Item->telefono}}</td>
+                      <td width="15%" >{{$Item->email}}</td>
                       <td width="25%" >{{$Item->direccion}}</td>
                       <td width="15%" >{{$Item->barrio}}</td>
                       <td width="15%" >{{$Item->ciudad}}</td>
                       <td width="10%" class="text-center">
                       <div class="btn-group">
-                      <a class="btn btn-primary" href="clientes/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
+                      <a class="btn btn-primary btn-sm m-0" href="clientes/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
                    
                      @if(empty($Item->ubicacion)) 
-                     <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm"  style="pointer-events: none; cursor: default; opacity: .6"  ><i class="fa fa-lg fa-globe"></i></a>
+                     <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm m-0"  style="pointer-events: none; cursor: default; opacity: .6"  ><i class="fa fa-lg fa-globe"></i></a>
                      @else
-                     <a data-toggle="tooltip" data-placement="top" title="Mapa" class="btn btn-primary btn-sm"  href="clientes/gmaps/{{$Item->ubicacion}}" ><i class="fa fa-lg fa-globe"></i></a>
+                     <a data-toggle="tooltip" data-placement="top" title="Mapa" class="btn btn-primary btn-sm m-0"  href="clientes/gmaps/{{$Item->ubicacion}}" ><i class="fa fa-lg fa-globe"></i></a>
                      @endif                
                       </div>
                       </td>

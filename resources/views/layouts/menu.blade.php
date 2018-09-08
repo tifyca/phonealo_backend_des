@@ -28,7 +28,6 @@
     <li><a class="treeview-item {{ Request::is('registro/proveedores*') ? 'active' : '' }}" href="{{ route('proveedores.index') }}"><i class="icon fa fa-circle-o"></i>Proveedores</a></li>
     <li><a class="treeview-item {{ Request::is('registro/productos*') ? 'active' : '' }}" href="{{ route('productos.index') }}"><i class="icon fa fa-circle-o"></i>Productos</a></li>
     <li><a class="treeview-item {{ Request::is('registro/empleados*') ? 'active' : '' }}" href="{{ route('empleados.index') }}"><i class="icon fa fa-circle-o"></i>Empleados</a></li>
-    <li><a class="treeview-item {{ Request::is('registro/gastos*') ? 'active' : '' }}" href="{{ route('gastos.index') }}"><i class="icon fa fa-circle-o"></i>Gastos</a></li>
   </ul>
 </li>
 
@@ -36,6 +35,7 @@
   <ul class="treeview-menu">
     <li><a class="treeview-item {{ Request::is('inventario/entradas*') ? 'active' : '' }}" href="{{ route('entradas.index') }}"><i class="icon fa fa-circle-o"></i>Entrada</a></li>
     <li><a class="treeview-item {{ Request::is('inventario/salidas*') ? 'active' : '' }}" href="{{ route('salidas.index') }}"><i class="icon fa fa-circle-o"></i>Salidas</a></li>
+
     <li><a class="treeview-item {{ Request::is('inventario/consolidado*') ? 'active' : '' }}" href="{{ route('consolidado.index') }}"><i class="icon fa fa-circle-o"></i>Consolidados</a></li>
   </ul>
 </li>
@@ -43,6 +43,8 @@
 
 <li class="treeview {{ Request::is('procesar/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-check"></i><span class="app-menu__label">Procesar</span><i class="treeview-indicator fa fa-angle-right"></i></a>
   <ul class="treeview-menu">
+    <li><a class="treeview-item {{ Request::is('registro/gastos*') ? 'active' : '' }}" href="{{ route('gastos.index') }}"><i class="icon fa fa-circle-o"></i>Gastos</a></li>
+
     <li><a class="treeview-item {{ Request::is('procesar/ventas*') ? 'active' : '' }}" href="{{ route('ventas.index') }}"><i class="icon fa fa-circle-o"></i>Ventas</a></li>
     {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Pedidos</a></li> --}}
     {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Cargas</a></li> --}}

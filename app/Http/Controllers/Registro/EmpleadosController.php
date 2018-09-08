@@ -12,7 +12,29 @@ class EmpleadosController extends Controller
 {
      public function index(Request $request){
 
-		$empleados= Empleados::paginate(10);
+    $empleado = $request["empleado"];
+    $email   = $request["email"];
+    $estatus = $request["estatus"];
+    if($empleado!="" && $email=="" && $estatus=="")
+    {
+      $empleado = $empleado."%"; 
+      $empleados= Empleados::where('nombres','like',$empleado)->orderby('nombres','asc')->paginate(10);
+    }
+    if($empleado=="" && $email!="" && $estatus=="")
+    {
+         $email = $email."%";
+         $empleados= Empleados::where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+     }
+    if($empleado=="" && $email=="" && $estatus!="")
+    {
+         $email = $email."%";
+         $empleados= empleados::where('id_estado',$estatus)->orderby('nombres','asc')->paginate(10);
+    }
+
+    if($empleado=="" && $email=="" && $estatus=="")
+    {
+         $empleados= Empleados::orderby('nombres','asc')->paginate(10);
+    }
 
        if($request->ajax()){
             return response()->json(view('Registro.Empleados.lista',compact('empleados'))->render());
