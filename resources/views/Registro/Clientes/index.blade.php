@@ -35,12 +35,16 @@
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Clientes</h3>
             </div>
-             <div class="form-group col-md-2">
+             <div class="form-group col-md-3">
               <input type="text" class="form-control" name="cliente" placeholder="Cliente">
             </div>
-           <div class="form-group col-md-2">
-              <input type="email" class="form-control" name="email" placeholder="Email">
+
+           <div class="form-group col-md-3">
+              <input type="text" class="form-control" name="email" placeholder="Email">
+
             </div>
+           
+
            
             <div class="col-md-1 mr-md-3">
 
