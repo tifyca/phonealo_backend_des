@@ -20,11 +20,11 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCyHv2UsAyv6nkFSUKFMrI-tJzNrvHdEyE"></script>
 <div class="row" align="center">
   <div class="col-12">
-    <div class="tile">
+    <div class="">
       <div class="tile-body ">
-      	  <div style="width: 500px; height: 500px;" >
-	{!! Mapper::render() !!}
-</div>
+      	  <div style="width: 100%; height: 650px;" >
+				{!! Mapper::render() !!}
+			</div>
 
         
       </div>
