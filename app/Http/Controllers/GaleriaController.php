@@ -83,10 +83,11 @@ try {
           $zfile = $request["archivo"];
        
         $fileName = $this->saveFile($request->archivo, "productos/");
-                $this->deleteFile($productos->img, "productos/");
+                $this->deleteFile($galeria->imagen, "productos/");
                 $fileName = $this->saveFile($request["archivo"], "productos/");
                $galeria->imagen = $fileName;
         }
+        $id_producto              = $galeria->id_producto;
         $galeria->titulo          = $request["titulo"];
         $galeria->estatus         = $request["estatus"];
         $galeria->updated_at      = date('Y-m-d');
@@ -94,7 +95,7 @@ try {
         $galeria->save();
 
 
-        return redirect()->route('productos.index')->with("notificacion","Se ha guardado correctamente su información");
+        return redirect()->route('galeria.index',$id_producto)->with("notificacion","Se ha guardado correctamente su información");
       } catch (Exception $e) {
         \Log::info('Error creating item: '.$e);
        return \Response::json(['created' => false], 500);
