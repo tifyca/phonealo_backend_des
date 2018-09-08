@@ -14,27 +14,22 @@ class ClientesController extends Controller
 	public function index(Request $request){
     $cliente = $request["cliente"];
     $email   = $request["email"];
-    $estatus = $request["estatus"];
-    if($cliente!="" && $email=="" && $estatus=="")
+   
+    if($cliente!="" && $email=="" )
     {
       $cliente = $cliente."%"; 
       $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
                 ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('nombres','like',$cliente)->orderby('nombres','asc')->paginate(10);
     }
-    if($cliente=="" && $email!="" && $estatus=="")
+    if($cliente=="" && $email!="")
     {
          $email = $email."%";
          $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
                 ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
     }
-    if($cliente=="" && $email=="" && $estatus!="")
-    {
-         $email = $email."%";
-         $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('id_estado',$estatus)->orderby('nombres','asc')->paginate(10);
-    }
+  
 
-    if($cliente=="" && $email=="" && $estatus=="")
+    if($cliente=="" && $email=="")
     {
          $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
                 ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->orderby('nombres','asc')->paginate(10);
