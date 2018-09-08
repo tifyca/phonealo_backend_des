@@ -27,7 +27,7 @@ class ClientesController extends Controller
          $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
                 ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
     }
-    if($cliente=="" && $email!="" && $estatus!="")
+    if($cliente=="" && $email=="" && $estatus!="")
     {
          $email = $email."%";
          $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
