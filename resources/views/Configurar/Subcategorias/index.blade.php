@@ -98,7 +98,7 @@
         <div class="tile-body">
           <div class="tile-body table-responsive">
             <div class="subcategorias">
-              <table class="table table-hover table-bordered" id="sampleTable">
+              <table class="table table-hover" id="sampleTable">
                 <thead>
                   <tr>
                     <th>Nombre</th>

@@ -17,39 +17,36 @@
     <div class="tile">
       <div class="tile-body ">
         <div class="col mb-3 text-center">
-          <div class="row">
+          <div class="row ">
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Productos</h3>
             </div>
-            <form class="row" action="{{route('productos.index')}}" method="get"> 
-            <div class="form-group col-md-3">
-              <input class="form-control" type="text" name="valor" id="valor" placeholder="Producto">
-            </div>
-
-            <div class="form-group col-md-3">
-              <select class="form-control" id="id_categoria" name="id_categoria" ">
-                <option value="">Categoría</option>
-                @foreach($categorias as $cate)
-                <option value="{{$cate->id}}">{{$cate->categoria}}</option>
-                @endforeach
-              </select>
-            </div>
-            <div class="form-group col-md-3">
-              <select class="form-control" id="id_subcategoria" name="id_subcategoria">
-                <option value="">Subcategoria</option>
-              </select>
-            </div>
-            <div class="col-md-1 mr-md-3">
-              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
-              
-            </div>
+            <form class="row d-flex justify-content-end" action="{{route('productos.index')}}" method="get"> 
+              <div class="form-group col-md-3">
+                <input class="form-control" type="text" name="valor" id="valor" placeholder="Producto">
+              </div>
+              <div class="form-group col-md-3">
+                <select class="form-control" id="id_categoria" name="id_categoria" ">
+                  <option value="">Categoría</option>
+                  @foreach($categorias as $cate)
+                  <option value="{{$cate->id}}">{{$cate->categoria}}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                <select class="form-control" id="id_subcategoria" name="id_subcategoria">
+                  <option value="">Subcategoria</option>
+                </select>
+              </div>
+              <div class="col-md-1 mr-md-5">
+                <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
+              </div>
             </form>
-
           </div>
         </div>
      
           <div class="table-responsive">
-            <table class="table table-hover table-bordered" id="sampleTable">
+            <table class="table table-hover " id="sampleTable">
               <thead>
                 <tr>
                   <th>#</th>
@@ -65,8 +62,8 @@
               </thead>
               <tbody>
                 @foreach($productos as $ficha)
-                <tr>
-                  <td>{{$ficha->id}}</td>
+                <tr >
+                  <td class="" >{{$ficha->id}}</td>
                   <td>{{$ficha->codigo_producto}}</td>
                   <td>{{$ficha->descripcion}}</td>
                   <td>
@@ -90,7 +87,7 @@
                       //echo $zurl;
                   ?>
 
-                  <td class="text-center"><img src="{{ asset($zurl) }}" class="img-fluid " width="60%" alt=""></td>
+                  <td class="text-center"><img src="{{ asset($zurl) }}" class="img-fluid" width="100px" alt=""></td> 
                   <td class="text-center">
                     <div class="btn-group">
                       <a class="btn btn-primary" href="{{ route('productos.edit',$ficha->id) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
