@@ -25,7 +25,9 @@ class GastosController extends Controller
 	public function show(){
 		return view('Registro.Gastos.show');
 	}
-	public function update(){
-		return view('Registro.Gastos.edit');
+	
+	public function edit($id){
+		$gastos=gastos::find($id);
+		return view('Registro.Gastos.edit')->with('gastos',$gastos);
 	}
 }
