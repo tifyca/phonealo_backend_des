@@ -64,9 +64,9 @@
                 <thead>
                   <tr>
                     <th>Cliente</th>
-                    <th>Teléfono</th>
+                    <th>Tel&eacute;fono</th>
                     <th>Email</th>
-                    <th>Dirección</th>
+                    <th>Direcci&oacute;n</th>
                     <th>Barrio</th>
                     <th>Ciudad</th>
                     <th>Acciones</th>
