@@ -7,7 +7,7 @@ use App\Productos;
 use App\Categorias;
 use App\Subcategorias;
 use DB;
-use Galeria;
+use App\imagenes;
 class GaleriaController extends Controller
 {
     public function index(Request $request){
@@ -30,10 +30,10 @@ class GaleriaController extends Controller
                 $titulo          = $request->titulo;
                 $id_producto    = $request->id;
 
-                if(galeria::where('titulo',$titulo)->where('id_producto',$id)->first()){
+                if(imagenes::where('titulo',$titulo)->where('id_producto',$id_producto)->first()){
                   return redirect()->route('productos.index')->with("notificacion_error","Ya se encuentra Registrado");
                 }
-       $galeria = new glaeria($request->all());
+       $galeria = new imagenes($request->all());
      if($request["archivo"]){
           //dd($request->archivo);
           $fileName = $this->saveFile($request["archivo"], "productos/");
@@ -58,7 +58,7 @@ class GaleriaController extends Controller
     }
 
 	public function edit($id){
-		$galeria=galeria::find($id);
+		$galeria=imagenes::find($id);
 		return view('Galeria.edit')->with('galeria',$galeria);
 	}
   public function show($id){
@@ -77,7 +77,7 @@ class GaleriaController extends Controller
 	public function updated(Request $request,$id){
 		
 try {
-       $galeria=galeria::find($id);
+       $galeria=imagenes::find($id);
        $galeria->fill($request->all());
         if($request["archivo"]){
           $zfile = $request["archivo"];
