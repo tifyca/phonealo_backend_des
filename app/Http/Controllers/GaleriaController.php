@@ -59,7 +59,8 @@ class GaleriaController extends Controller
 
 	public function edit($id){
 		$galeria=imagenes::find($id);
-		return view('Galeria.edit')->with('galeria',$galeria);
+    $id_producto = $galeria->id_producto;
+		return view('Galeria.edit')->with('galeria',$galeria)->with('id',$id_producto);
 	}
   public function show($id){
 
