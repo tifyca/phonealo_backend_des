@@ -14,7 +14,7 @@ class ProveedoresController extends Controller
   public function index(Request $request){
 
     	$proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
-        				->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')->paginate(3);
+        				->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')->paginate(10);
       if($request->ajax()){
             return response()->json(view('Registro.Proveedores.lista',compact('proveedor'))->render());
         }
