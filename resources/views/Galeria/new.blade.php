@@ -5,7 +5,8 @@
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', '') @section('link_back', url('galeria/index'))
+<?php $url="galeria/".$id; ?>
+@section('display_back', '') @section('link_back', url($url))
 
 @section('display_new','d-none')  @section('link_edit', url('')) 
 @section('display_edit', 'd-none')    @section('link_new', url(''))
