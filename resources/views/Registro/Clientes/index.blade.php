@@ -38,8 +38,10 @@
              <div class="form-group col-md-3">
               <input type="text" class="form-control" name="cliente" placeholder="Cliente">
             </div>
-           <div class="form-group col-md-4">
+
+           <div class="form-group col-md-3">
               <input type="text" class="form-control" name="email" placeholder="Email">
+
             </div>
            
 
@@ -62,9 +64,9 @@
                 <thead>
                   <tr>
                     <th>Cliente</th>
-                    <th>TelÃ©fono</th>
+                    <th>Teléfono</th>
                     <th>Email</th>
-                    <th>DirecciÃ³n</th>
+                    <th>Dirección</th>
                     <th>Barrio</th>
                     <th>Ciudad</th>
                     <th>Acciones</th>
