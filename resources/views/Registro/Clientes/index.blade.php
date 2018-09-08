@@ -39,8 +39,10 @@
               <input type="text" class="form-control" name="cliente" placeholder="Cliente">
             </div>
            <div class="form-group col-md-4">
-              <input type="email" class="form-control" name="email" placeholder="Email">
+              <input type="text" class="form-control" name="email" placeholder="Email">
             </div>
+           
+
            
             <div class="col-md-1 mr-md-3">
 
