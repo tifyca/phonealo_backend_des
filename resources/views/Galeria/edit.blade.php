@@ -5,7 +5,10 @@
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', '') @section('link_back', url('galeria/index'))
+<?php 
+ $url = "galeria/".$id;
+?>
+@section('display_back', '') @section('link_back', url($url))
 
 @section('display_new','d-none')  @section('link_edit', url('')) 
 @section('display_edit', 'd-none')    @section('link_new', url(''))
@@ -17,7 +20,9 @@
   <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-        <form>
+        <form name="form1" action="{{ route('galeria.update', ($galeria->id)) }}"  accept-charset="UTF-8" method="post"  enctype="multipart/form-data">
+        {{ csrf_field() }}
+               {{ method_field('PUT') }}  
           <div class="row">
             <div class="col-md-6">
               <div class="row">
@@ -35,7 +40,7 @@
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                         <input class="form-check-input read" value="0" type="radio" id="estatus2" name="estatus2" @if($galeria->estatus==0) selected @endif disabled>Inactivo
+                         <input class="form-check-input read" value="0" type="radio" id="estatus2" name="estatus" @if($galeria->estatus==0) selected @endif disabled>Inactivo
                       </label>
                     </div>
                   </div>
