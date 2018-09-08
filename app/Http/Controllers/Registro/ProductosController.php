@@ -42,8 +42,14 @@ class ProductosController extends Controller
         $valor.="%";
        $productos=productos::where('descripcion','like',$valor)
             ->where('id_categoria',$categoria)->where('id_subcategoria',$subcategoria)->paginate(10); 
-
       }
+
+      if($valor=="" && $categoria!="" && $subcategoria!="") //buscar categoria y subcate
+      {
+        
+       $productos=productos::where('id_categoria',$categoria)->where('id_subcategoria',$subcategoria)->paginate(10); 
+      }
+
 
       if($valor=="" && $categoria=="" && $subcategoria!="")
       {
