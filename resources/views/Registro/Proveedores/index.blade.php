@@ -78,7 +78,7 @@
                       <td width="15%" >{{$Item->ruc}}</td>
                       <td width="10%" class="text-center">
                       <div class="btn-group">
-                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm " href="proveedores/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
+                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm m-0" href="proveedores/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
                       </div>
                       </td>
                     </tr>

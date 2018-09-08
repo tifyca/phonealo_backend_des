@@ -78,12 +78,12 @@
                       <td width="15%" >{{$Item->ciudad}}</td>
                       <td width="10%" class="text-center">
                       <div class="btn-group">
-                      <a class="btn btn-primary" href="clientes/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
+                      <a class="btn btn-primary btn-sm m-0" href="clientes/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
                    
                      @if(empty($Item->ubicacion)) 
-                     <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm"  style="pointer-events: none; cursor: default; opacity: .6"  ><i class="fa fa-lg fa-globe"></i></a>
+                     <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm m-0"  style="pointer-events: none; cursor: default; opacity: .6"  ><i class="fa fa-lg fa-globe"></i></a>
                      @else
-                     <a data-toggle="tooltip" data-placement="top" title="Mapa" class="btn btn-primary btn-sm"  href="clientes/gmaps/{{$Item->ubicacion}}" ><i class="fa fa-lg fa-globe"></i></a>
+                     <a data-toggle="tooltip" data-placement="top" title="Mapa" class="btn btn-primary btn-sm m-0"  href="clientes/gmaps/{{$Item->ubicacion}}" ><i class="fa fa-lg fa-globe"></i></a>
                      @endif                
                       </div>
                       </td>
