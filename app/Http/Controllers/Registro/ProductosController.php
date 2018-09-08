@@ -18,27 +18,57 @@ class ProductosController extends Controller
 
     	$categoria = $request["id_categoria"];
     	$subcategoria = $request["id_subcategoria"];
-    	if($categoria!=""){
-    	 $productos=productos::where('id_categoria',$categoria)->paginate(10);	
-    	}else{
-    	  if($subcategoria!="")	$productos=productos::where('id_subcategoria',$categoria)->paginate(10);	
-    	  else{
+      $valor = $request["valor"];
+      if($valor!="" && $categoria=="" && $subcategoria=="") //buscar solo nombre
+      {
+        $valor.="%";
+        $productos=productos::where('descripcion','like',$valor)->paginate(10);  
+      }
+      if($valor=="" && $categoria!="" && $subcategoria=="") //buscar categoria
+      {
+       $productos=productos::where('id_categoria',$categoria)->paginate(10); 
+      }
+
+      if($valor!="" && $categoria!="" && $subcategoria=="") //buscar nombre y categoria
+      {
+        $valor.="%";
+       $productos=productos::where('descripcion','like',$valor)
+            ->where('id_categoria',$categoria)->paginate(10); 
+
+      }
+      
+      if($valor!="" && $categoria!="" && $subcategoria!="") //buscar nombre y categoria y subcate
+      {
+        $valor.="%";
+       $productos=productos::where('descripcion','like',$valor)
+            ->where('id_categoria',$categoria)->where('id_subcategoria',$subcategoria)->paginate(10); 
+
+      }
+
+      if($valor=="" && $categoria=="" && $subcategoria!="")
+      {
+        
+        $productos=productos::where('id_subcategoria',$subcategoria)->paginate(10); 
+      }
+
+      if($valor=="" && $categoria=="" && $subcategoria=="")
+      {
+
     	  	$productos=productos::orderby('id','asc')->paginate(10);
-    	  }
-    	}	    
-    	
-    	
+      }
+       	
     	$categorias=categorias::where('tipo','Productos')->get();
 
-		return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos);
+		  return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos);
 	}
 
     public function edit($id){
     	$categorias = categorias::where('tipo','Productos')->get();
 		$productos = productos::find($id);
 
-		$subcategorias = subcategorias::where('id',$productos->id_subcategoria);
-		return view('Registro.Productos.edit')->with('productos',$productos)->with('categorias',$categorias)->with('subcategoria',$subcategorias);
+		$subcategorias = subcategorias::where('id',$productos->id_subcategoria)->get();
+
+		return view('Registro.Productos.edit')->with('productos',$productos)->with('categorias',$categorias)->with('subcategorias',$subcategorias);
 	}
 
 

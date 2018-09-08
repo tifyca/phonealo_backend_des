@@ -22,7 +22,11 @@
               <h3 class="tile-title text-center text-md-left">Listado de Productos</h3>
             </div>
             <form class="row" action="{{route('productos.index')}}" method="get"> 
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-3">
+              <input class="form-control" type="text" name="valor" id="valor" placeholder="Producto">
+            </div>
+
+            <div class="form-group col-md-3">
               <select class="form-control" id="id_categoria" name="id_categoria" ">
                 <option value="">Categoría</option>
                 @foreach($categorias as $cate)
@@ -30,7 +34,7 @@
                 @endforeach
               </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <select class="form-control" id="id_subcategoria" name="id_subcategoria">
                 <option value="">Subcategoria</option>
               </select>
@@ -65,7 +69,14 @@
                   <td>{{$ficha->id}}</td>
                   <td>{{$ficha->codigo_producto}}</td>
                   <td>{{$ficha->descripcion}}</td>
-                  <td>{{$ficha->id_categoria}}</td>
+                  <td>
+                     @foreach($categorias as $categoria)
+                      @if($categoria->id==$ficha->id_categoria)
+                         {{$categoria->categoria}}
+                      @endif
+                     @endforeach
+                    
+                  </td>
                   <td>{{$ficha->descompuesto}}</td>
                   <td>{{$ficha->stock_minimo}}</td>
                   <td>{{$ficha->precio_ideal}}</td>

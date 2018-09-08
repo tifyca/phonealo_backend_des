@@ -54,7 +54,9 @@
                   <label for="subcategoria_producto">Subcategoría</label>
                   <select class="form-control read" name="id_subcategoria" id="id_subcategoria" disabled>
                     <option value="">Seleccione</option>
-                      
+                    @foreach($subcategorias as $sub)
+                       <option value="{{$sub->id}}" selected="">{{$sub->sub_categoria}}</option>
+                    @endforeach  
                   </select>
                 </div>
                 <div class="form-group col-md-4">
