@@ -3,6 +3,7 @@
                   <tr>
                     <th>Cliente</th>
                     <th>Teléfono</th>
+                    <th>Email</th>
                     <th>Dirección</th>
                     <th>Barrio</th>
                     <th>Ciudad</th>
@@ -14,6 +15,7 @@
                      <tr id="cliente{{$Item->id}}">
                       <td width="20%" >{{$Item->nombres}}</td>
                       <td width="15%" >{{$Item->telefono}}</td>
+                      <td width="15%" >{{$Item->email}}</td>
                       <td width="25%" >{{$Item->direccion}}</td>
                       <td width="15%" >{{$Item->barrio}}</td>
                       <td width="15%" >{{$Item->ciudad}}</td>

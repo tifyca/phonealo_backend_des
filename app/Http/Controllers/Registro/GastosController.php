@@ -8,6 +8,7 @@ use App\Categorias;
 use App\Subcategorias;
 use App\auditoria;
 use App\User;
+use App\Fuentes;
 use App\Gastos;
 use DB;
 use File;
@@ -25,9 +26,10 @@ class GastosController extends Controller
 	public function show(){
 		return view('Registro.Gastos.show');
 	}
-	
+
 	public function edit($id){
 		$gastos=gastos::find($id);
-		return view('Registro.Gastos.edit')->with('gastos',$gastos);
+		$categorias=categorias::where('tipo','Gastos')->get();
+		return view('Registro.Gastos.edit')->with('gastos',$gastos)->with('categorias',$categorias)->with('fuentes',$fuentes);
 	}
 }
