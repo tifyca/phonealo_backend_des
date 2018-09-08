@@ -87,7 +87,7 @@
                       //echo $zurl;
                   ?>
 
-                  <td class="text-center"><img src="{{ asset($zurl) }}" class="img-fluid" width="100px" alt=""></td>
+                  <td class="text-center"><img src="{{ asset($zurl) }}" class="img-fluid" width="100px" alt=""></td> 
                   <td class="text-center">
                     <div class="btn-group">
                       <a class="btn btn-primary" href="{{ route('productos.edit',$ficha->id) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
