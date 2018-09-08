@@ -29,23 +29,29 @@
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
           <div class="row">
+            <form class="row" action="{{route('proveedores.index')}}" method="get">  
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Proveedores</h3>
             </div>
              <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="" placeholder="Buscar Proveedor">
+              <input type="text" class="form-control" name="proveedor" placeholder="Proveedor">
             </div>
            <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="" placeholder="Buscar Email">
+              <input type="text" class="form-control" name="email" placeholder="Email">
             </div>
            
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="estatus" name="estatus">
                 <option value="">Estatus</option>
-                <option>Activo</option>
-                <option>Inactivo</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
               </select>
             </div>
+            <div class="col-md-1 mr-md-3">
+              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
+              
+            </div>
+          </form>
           </div>
         </div>
         {{-- FIN FILTRO --}}
