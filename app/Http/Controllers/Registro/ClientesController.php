@@ -20,26 +20,27 @@ class ClientesController extends Controller
     {
       $cliente = $cliente."%"; 
       $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('nombres','like',$cliente)->orderby('nombres','asc')->paginate(10);
+                ->select('clientes.id', 'nombres','telefono','direccion','email', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('nombres','like',$cliente)->orderby('nombres','asc')->paginate(10);
+
     }
     if($cliente=="" && $email!="")
     {
          $email = $email."%";
          $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+                ->select('clientes.id', 'nombres','telefono','direccion', 'email','barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
     }
   
 
     if($cliente=="" && $email=="")
     {
          $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->orderby('nombres','asc')->paginate(10);
+                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'email','clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->orderby('nombres','asc')->paginate(10);
     }
 
-    if($request->ajax())
-    {
-       return response()->json(view('Registro.Clientes.lista',compact('clientes'))->render());
-    }
+    //if($request->ajax())
+    //{
+    //   return response()->json(view('Registro.Clientes.lista',compact('clientes'))->render());
+    //}
        
     	return view('Registro.Clientes.index')->with('clientes',$clientes);
 	
