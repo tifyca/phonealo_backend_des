@@ -62,8 +62,8 @@
               </thead>
               <tbody>
                 @foreach($productos as $ficha)
-                <tr>
-                  <td>{{$ficha->id}}</td>
+                <tr >
+                  <td class="" >{{$ficha->id}}</td>
                   <td>{{$ficha->codigo_producto}}</td>
                   <td>{{$ficha->descripcion}}</td>
                   <td>

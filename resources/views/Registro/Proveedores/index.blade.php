@@ -65,9 +65,10 @@
                   <tr>
                     <th>Proveedor</th>
                     <th>Teléfono</th>
+                    <th>Email</th>
                     <th>Dirección</th>
                     <th>País</th>
-                    <th>Email</th>
+                    
                     <th>RUC</th>
                     <th>Acciones</th>     
                   </tr>
@@ -78,9 +79,9 @@
                      <tr id="cliente{{$Item->id}}">
                       <td width="20%" >{{$Item->proveedor}}</td>
                       <td width="15%" >{{$Item->telefono}}</td>
+                      <td width="15%" >{{$Item->email}}</td>
                       <td width="25%" >{{$Item->direccion}}</td>
                       <td width="15%" >{{$Item->pais}}</td>
-                      <td width="15%" >{{$Item->email}}</td>
                       <td width="15%" >{{$Item->ruc}}</td>
                       <td width="10%" class="text-center">
                       <div class="btn-group">
