@@ -7,7 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Aws\S3\S3Client;
-
+use File;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -15,9 +15,11 @@ class Controller extends BaseController
     public function saveFile($file, $path)
     {
         $fileName = "";
+
         if ($file) {
             $foto = json_decode($file);
-	        list(, $extension) = explode('/', $foto->output->type);
+            $foto=$file;
+	       /* list(, $extension) = explode('/', $foto->output->type);
             $fileName = (string)(date("YmdHis")) . (string)(rand(1, 9)) . (string)(rand(1, 9)) . '.' . $extension;
             $picture = $foto->output->image;
             $filepath = $path . $fileName;
@@ -30,7 +32,37 @@ class Controller extends BaseController
                 'SourceFile' => $picture,
                 'ContentType' => 'image',
                 'ACL' => 'public-read',
+            ));*/
+            //$zfoto = json_decode($foto);
+            //dd($foto);
+            //$extension = $foto->mimeType == 'image/png' ? '.png' : '.jpg';
+             $fileName = 'producto_'.time().'.'.$foto->getClientOriginalExtension();
+             //$fileName = (string)(date("YmdHis")) . (string)(rand(1, 9)) . (string)(rand(1, 9)) . $extension;
+            
+              $picture = $foto->getPathname();
+              
+              $filepath = $path . $fileName;
+              
+            //if ($foto->input->type == 'image/gif') {
+              //  $path = $foto->input->name;
+              //  $extension = pathinfo($path, PATHINFO_EXTENSION);
+              //  $data = file_get_contents($path);
+              //  $picture = 'data:image/' . $extension . ';base64,' . base64_encode($data);
+              //  $fileName = (string)(date("YmdHis")) . (string)(rand(1, 9)) . (string)(rand(1, 9)) . $extension;
+            //}
+
+            $s3 = S3Client::factory(config('app.s3'));
+
+            $s3->putObject(array(
+                'Bucket' => config('app.s3_bucket'),
+                'Key' => $filepath,
+                'SourceFile' => $picture,
+                'ContentType' => 'image',
+                'ACL' => 'public-read',
             ));
+        
+
+
         }
 
         return $fileName;

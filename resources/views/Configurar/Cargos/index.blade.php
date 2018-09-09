@@ -54,17 +54,32 @@
     </div>
   </div>
 
-  <div style="display: none ;" class="col-12 text-center alert alert-success" id="res"></div>
-
-  <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
   
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado de Cargos</h3>
-        <div class="tile-body ">
-          <div class="tile-body">
+      {{-- FILTRO --}}
+      <div class="col mb-3 text-center">
+          <div class="row">
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado de Cargos</h3>
+            </div>
+             <div class="form-group col-md-2">
+              <input type="text" class="form-control" name="" placeholder="Buscar">
+            </div>
+            <div class="form-group col-md-2">
+              <select class="form-control" id="" name="">
+                <option value="">Estatus</option>
+                <option>Activo</option>
+                <option>Inactivo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        {{-- FIN FILTRO --}}
+            <div class="tile-body">
             <div class="table-responsive">
-            <table class="table table-hover table-bordered" id="sampleTable">
+              <div class="cargos">
+            <table class="table table-hover" id="sampleTable">
                 <thead>
                   <tr>
                     <th>Nombre</th>
@@ -75,26 +90,27 @@
                 <tbody id="cargos-list" name="cargos-list">
                   @foreach($cargos as $cargo)           
                      <tr id="cargo{{$cargo->id}}">
-                      <td>{{$cargo->cargo}}</td>
+                      <td width="45%" >{{$cargo->cargo}}</td>
                 <?php if ($cargo->status==1){ ?>
-                      <td><?=  'Activo' ?></td>
+                      <td width="45%"><?=  'Activo' ?></td>
                 <?php }else{ ?> 
-                      <td><?='Inactivo' ?></td>
+                      <td width="45%"><?='Inactivo' ?></td>
                 <?php } ?> 
                       <td width="10%" class="text-right">
                       <div class="btn-group">
-                      <button class="btn btn-primary open_modal" value="{{$cargo->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button class="btn btn-primary confirm-delete" value="{{$cargo->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
+                      <button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$cargo->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
+                      <button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$cargo->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
                       </div>
                       </td>
                     </tr>
                     @endforeach
                 </tbody>
               </table>
-              </div>
               <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
                     <?php echo $cargos->render(); ?>
               </div>
+              </div>
+            </div>
             </div>
         </div>
     </div>
@@ -176,7 +192,7 @@
 
 @push('scripts')
  <meta name="_token" content="{!! csrf_token() !!}" />
- <script src="{{asset('js/crud_cargos.js')}}"></script>
+ <script src="{{asset('js/Configurar/crud_cargos.js')}}"></script>
 
     <script type="text/javascript">
   

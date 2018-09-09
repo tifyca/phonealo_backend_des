@@ -46,9 +46,6 @@
     </div>
   </div>
 
-   <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
- <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
-
     <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Listado Ciudades</h3>
@@ -60,7 +57,7 @@
                 </select>
               </div>
           <div class="table-responsive">
-            <table class="table table-hover table-bordered" id="sampleTable">
+            <table class="table table-hover" id="sampleTable">
               <thead>
                 <tr>
                   <th>Nombre</th>
@@ -141,7 +138,7 @@
 
 @push('scripts')
 <meta name="_token" content="{!! csrf_token() !!}" />
- <script src="{{asset('js/crud_ciudades.js')}}"></script>
+ <script src="{{asset('js/Configurar/crud_ciudades.js')}}"></script>
 
 <script  type="text/javascript" charset="utf-8">
   $(document).ready(function(){
@@ -175,7 +172,7 @@
 
                  $.each(data1, function(l, item1) {
 
-                    $("#ciudades-list").append('<tr id="ciudades'+ item1.id +'"><td>'+item1.ciudad+'</td><td width="10%"><div class="btn-group"><button class="btn btn-primary open_modal" value="'+ item1.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button class="btn btn-primary confirm-delete" value="'+ item1.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#ciudades-list").append('<tr id="ciudades'+ item1.id +'"><td>'+item1.ciudad+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal m-0" value="'+ item1.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item1.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
               }
           });

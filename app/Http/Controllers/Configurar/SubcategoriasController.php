@@ -12,13 +12,18 @@ use Illuminate\Support\Facades\Validator;
 
 class SubcategoriasController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
     	$categorias = Categorias::where('status',1)
                 ->select('categoria','id')->get();
 
         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
-        				->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')->paginate(3);
+        				->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')->paginate(10);
+
+                 if($request->ajax()){
+            return response()->json(view('Configurar.Subcategorias.lista',compact('subcategorias'))->render());
+        }
+    
     	return view('Configurar.Subcategorias.index',compact('categorias', 'subcategorias'));
     }
     
@@ -28,8 +33,8 @@ class SubcategoriasController extends Controller
 
    $rules = array( 'nombre'=>'required|unique:sub_categorias,sub_categoria', 
                    'status'=>'required'); 
-   $messages = array( 'nombre.required'=>'Nombre de la Subcategoria es requerido', 
-                      'nombre.unique' => 'La Subcategoria ya existe', 
+   $messages = array( 'nombre.required'=>'Nombre de la Subcategoría es requerido', 
+                      'nombre.unique' => 'La Subcategoría ya existe', 
                       'status.required'=>'El estatus es requerido' );
 
     $validator = Validator::make($data, $rules, $messages);

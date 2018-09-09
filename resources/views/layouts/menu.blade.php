@@ -5,7 +5,7 @@
     <ul class="treeview-menu ">
      @if ($perfil==1 || $perfil==2)  
      <li><a class="treeview-item {{ Request::is('configurar/cargos*') ? 'active' : '' }}" href="{{ route('cargos.index') }}"><i class="icon fa fa-circle-o"></i>Cargos</a></li>
-     <li><a class="treeview-item  {{ Request::is('configurar/categorias*') ? 'active' : '' }}" href="{{ route('categorias.index') }}"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
+     <li><a class="treeview-item  {{ Request::is('configurar/categorias*') ? 'active' : '' }}" href="{{ route('categorias.index') }}"><i class="icon fa fa-circle-o"></i>Categorías</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/subcategorias*') ? 'active' : '' }}" href="{{ route('subcategorias.index') }}"><i class="icon fa fa-circle-o"></i>Subcategorias</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/estados*') ? 'active' : '' }}" href="{{ route('estados') }}"><i class="icon fa fa-circle-o"></i>Estados</a></li>
      
@@ -28,7 +28,6 @@
     <li><a class="treeview-item {{ Request::is('registro/proveedores*') ? 'active' : '' }}" href="{{ route('proveedores.index') }}"><i class="icon fa fa-circle-o"></i>Proveedores</a></li>
     <li><a class="treeview-item {{ Request::is('registro/productos*') ? 'active' : '' }}" href="{{ route('productos.index') }}"><i class="icon fa fa-circle-o"></i>Productos</a></li>
     <li><a class="treeview-item {{ Request::is('registro/empleados*') ? 'active' : '' }}" href="{{ route('empleados.index') }}"><i class="icon fa fa-circle-o"></i>Empleados</a></li>
-    <li><a class="treeview-item {{ Request::is('registro/gastos*') ? 'active' : '' }}" href="{{ route('gastos.index') }}"><i class="icon fa fa-circle-o"></i>Gastos</a></li>
   </ul>
 </li>
 
@@ -36,6 +35,7 @@
   <ul class="treeview-menu">
     <li><a class="treeview-item {{ Request::is('inventario/entradas*') ? 'active' : '' }}" href="{{ route('entradas.index') }}"><i class="icon fa fa-circle-o"></i>Entrada</a></li>
     <li><a class="treeview-item {{ Request::is('inventario/salidas*') ? 'active' : '' }}" href="{{ route('salidas.index') }}"><i class="icon fa fa-circle-o"></i>Salidas</a></li>
+
     <li><a class="treeview-item {{ Request::is('inventario/consolidado*') ? 'active' : '' }}" href="{{ route('consolidado.index') }}"><i class="icon fa fa-circle-o"></i>Consolidados</a></li>
   </ul>
 </li>
@@ -43,6 +43,8 @@
 
 <li class="treeview {{ Request::is('procesar/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-check"></i><span class="app-menu__label">Procesar</span><i class="treeview-indicator fa fa-angle-right"></i></a>
   <ul class="treeview-menu">
+    <li><a class="treeview-item {{ Request::is('registro/gastos*') ? 'active' : '' }}" href="{{ route('gastos.index') }}"><i class="icon fa fa-circle-o"></i>Gastos</a></li>
+
     <li><a class="treeview-item {{ Request::is('procesar/ventas*') ? 'active' : '' }}" href="{{ route('ventas.index') }}"><i class="icon fa fa-circle-o"></i>Ventas</a></li>
     {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Pedidos</a></li> --}}
     {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Cargas</a></li> --}}
@@ -58,20 +60,19 @@
     </li>
     <li><a class="treeview-item {{ Request::is('procesar/aconfirmar*') ? 'active' : '' }}" href="{{ route('aconfirmar.index') }}"><i class="icon fa fa-circle-o"></i>A confirmar</a></li> 
     <li><a class="treeview-item {{ Request::is('procesar/logistica*') ? 'active' : '' }}" href="{{ route('logistica') }}"><i class="icon fa fa-circle-o"></i>Logística</a></li>
-    {{-- <li><a class="treeview-item {{ Request::is('procesar/monitoreo*') ? 'active' : '' }}" href="{{ route('monitoreo.index') }}"><i class="icon fa fa-circle-o"></i>Monitoreo</a></li> --}}
+    <li><a class="treeview-item {{ Request::is('procesar/conversiones*') ? 'active' : '' }}" href="{{ route('procesar.conversiones') }}"><i class="icon fa fa-circle-o"></i>Conversiones</a></li>
   </ul>
 </li>
 
 
 @endif
 
-<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file"></i><span class="app-menu__label">Cajas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+<li class="treeview {{ Request::is('caja*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file"></i><span class="app-menu__label">Caja</span><i class="treeview-indicator fa fa-angle-right"></i></a>
   <ul class="treeview-menu">
 
-    <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Prueba</a>
-      
-    </li>
-    <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Otro</a></li>
+    <li><a class="treeview-item {{ Request::is('caja/index*') ? 'active' : '' }}" href="{{ route('caja.index') }}"><i class="icon fa fa-circle-o"></i>Abrir Caja</a></li>
+    <li><a class="treeview-item {{ Request::is('caja/cierres*') ? 'active' : '' }}" href="{{ route('caja.cierres') }}"><i class="icon fa fa-circle-o"></i>Cierres</a></li>
+    <li><a class="treeview-item {{ Request::is('caja/historial*') ? 'active' : '' }}" href="{{ route('caja.historial') }}"><i class="icon fa fa-circle-o"></i>Historial de POS/otros ingresos</a></li>
   </ul>
 </li>
 
