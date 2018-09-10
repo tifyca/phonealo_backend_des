@@ -33,7 +33,7 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="ci_empleado">CI</label>
-							<input class="form-control" type="text" id="ci_empleado" name="ci_empleado" placeholder="..." onkeypress="return soloNumeros(event);">
+							<input class="form-control" type="text" id="ci_empleado" name="ci_empleado" maxlength="15" placeholder="..." onkeypress="return soloNumeros(event);">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="telefono_empleado">Teléfono</label>

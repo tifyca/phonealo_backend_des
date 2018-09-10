@@ -185,5 +185,4 @@ class ProductosController extends Controller
 		return view('Registro.Productos.detalle')->with('productos',$productos)->with('categoria',$categoria)->with('subcategoria',$subcategoria)->with('imagenes',$imagenes);
 	}
 	
-	
 }

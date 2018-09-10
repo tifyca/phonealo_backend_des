@@ -62,20 +62,20 @@ class ClientesController extends Controller
                     'barrio_cliente'=>'required|not_in:0',
                     'direccion_cliente'=>'required');
 
-    $messages = array( 'nombre_cliente.required'=>'Nombre del cliente es requerido', 
-                       'nombre_cliente.unique' => 'El cliente ya existe', 
-                       'email_cliente.required'=>'El email del cliente es requerido', 
-                       'email_cliente.unique' => 'El email del cliente ya existe',
-                       'telefono_cliente.required'=>'El teléfono del cliente es requerido', 
-                       'telefono_cliente.unique' => 'El teléfono del cliente ya existe',
-                       'departamento_cliente.required'=>'El departamento del cliente es requerido',
-                       'departamento_cliente.not_in'=> 'El departamento del cliente es requerido',
-                       'ciudad_cliente.required'=> 'La ciudad del cliente es requerida',
-                       'ciudad_cliente.not_in'=> 'La ciudad del cliente es requerida',
-                       'barrio_cliente.required'=> 'El barrio del cliente es requerido',
-                       'barrio_cliente.not_in'=> 'El barrio del cliente es requerido',
-                       'direccion_cliente.required'=>'La dirección del cliente es requerida',
-                       'direccion_cliente.not_in'=>'La dirección del cliente es requerida');
+    $messages = array( 'nombre_cliente.required'=>'Nombre del Cliente es Requerido', 
+                       'nombre_cliente.unique' => 'El Cliente ya Existe', 
+                       'email_cliente.required'=>'El Email del Cliente es Requerido', 
+                       'email_cliente.unique' => 'El Email del Cliente ya Existe',
+                       'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
+                       'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
+                       'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',
+                       'departamento_cliente.not_in'=> 'El Departamento del Cliente es Requerido',
+                       'ciudad_cliente.required'=> 'La Ciudad del Cliente es Requerida',
+                       'ciudad_cliente.not_in'=> 'La Ciudad del Cliente es Requerida',
+                       'barrio_cliente.required'=> 'El Barrio del Cliente es Requerido',
+                       'barrio_cliente.not_in'=> 'El Barrio del Cliente es Requerido',
+                       'direccion_cliente.required'=>'La Dirección del Cliente es Requerida',
+                       'direccion_cliente.not_in'=>'La Dirección del Cliente es Requerida');
 
         $validator = Validator::make($data, $rules, $messages);
 
@@ -140,20 +140,21 @@ class ClientesController extends Controller
                     'barrio_cliente'=>'required|not_in:0',
                     'direccion_cliente'=>'required');
 
-    $messages = array( 'nombre_cliente.required'=>'Nombre del cliente es requerido', 
-                       'nombre_cliente.unique' => 'El cliente ya existe', 
-                       'email_cliente.required'=>'El email del cliente es requerido', 
-                       'email_cliente.unique' => 'El email del cliente ya existe',
-                       'telefono_cliente.required'=>'El teléfono del cliente es requerido', 
-                       'telefono_cliente.unique' => 'El teléfono del cliente ya existe',
-                       'departamento_cliente.required'=>'El departamento del cliente es requerido',
-                       'departamento_cliente.not_in'=> 'El departamento del cliente es requerido',
-                       'ciudad_cliente.required'=> 'La ciudad del cliente es requerida',
-                       'ciudad_cliente.not_in'=> 'La ciudad del cliente es requerida',
-                       'barrio_cliente.required'=> 'El barrio del cliente es requerido',
-                       'barrio_cliente.not_in'=> 'El barrio del cliente es requerido',
-                       'direccion_cliente.required'=>'La dirección del cliente es requerida',
-                       'direccion_cliente.not_in'=>'La dirección del cliente es requerida');
+    
+    $messages = array( 'nombre_cliente.required'=>'Nombre del Cliente es Requerido', 
+                       'nombre_cliente.unique' => 'El Cliente ya Existe', 
+                       'email_cliente.required'=>'El Email del Cliente es Requerido', 
+                       'email_cliente.unique' => 'El Email del Cliente ya Existe',
+                       'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
+                       'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
+                       'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',
+                       'departamento_cliente.not_in'=> 'El Departamento del Cliente es Requerido',
+                       'ciudad_cliente.required'=> 'La Ciudad del Cliente es Requerida',
+                       'ciudad_cliente.not_in'=> 'La Ciudad del Cliente es Requerida',
+                       'barrio_cliente.required'=> 'El Barrio del Cliente es Requerido',
+                       'barrio_cliente.not_in'=> 'El Barrio del Cliente es Requerido',
+                       'direccion_cliente.required'=>'La Dirección del Cliente es Requerida',
+                       'direccion_cliente.not_in'=>'La Dirección del Cliente es Requerida');
 
         $validator = Validator::make($data, $rules, $messages);
 

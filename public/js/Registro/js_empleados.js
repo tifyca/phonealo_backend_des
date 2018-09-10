@@ -37,7 +37,7 @@ $("#btn-save").click(function (e) {
        
           error: function (data,estado,error) { 
             console.log(error);
-             var errorsHtml = '';
+            var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
@@ -46,8 +46,12 @@ $("#btn-save").click(function (e) {
 
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
-                         }); 
+                        
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                     
+                      }); 
                 }
             }
           errorsHtml +="</ul>"; 
@@ -97,7 +101,7 @@ $("#btn-edit").click(function (e) {
        
           error: function (data,estado,error) { 
             console.log(error);
-             var errorsHtml = '';
+          var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
@@ -106,8 +110,12 @@ $("#btn-edit").click(function (e) {
 
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
-                         }); 
+                        
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                     
+                      }); 
                 }
             }
           errorsHtml +="</ul>"; 
@@ -143,9 +151,9 @@ $(document).on('click', '.delete-empleado', function () {
             console.log(data);
             $("#empleado" + id_empleado).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Empleado Eliminado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").html("Empleado Eliminado con Éxito");
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);

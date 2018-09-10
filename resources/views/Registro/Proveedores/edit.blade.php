@@ -17,8 +17,6 @@
 @section('display_trash','d-none')    @section('link_trash', url(''))
 
 @section('content')
-   <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
-   <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>          
 <div class="row">
   <div class="col-12">
     <div class="tile">
@@ -31,7 +29,7 @@
              <div class="row">  
               <div class="form-group col-md-6">
                 <label for="nombre_proveedor">Nombres</label>
-                <input class="form-control read" type="text" id="nombre_proveedor" name="nombre_proveedor" placeholder="..." value="{{$proveedor->nombres}}" readonly >
+                <input class="form-control read" type="text" id="nombre_proveedor" name="nombre_proveedor" placeholder="..." value="{{$proveedor->nombres}}" onkeypress="return soloLetrasNum(event);" readonly >
               </div>
                <div class="form-group col-md-6">
                 <label for="email_proveedor">Email</label>
@@ -47,7 +45,7 @@
               </div>
               <div class="form-group col-md-6">
                 <label for="ruc_proveedor">RUC</label>
-                <input class="form-control read" type="text" id="ruc_proveedor" name="ruc_proveedor" placeholder="..." value="{{$proveedor->ruc}}" onkeypress="return soloNumeros(event);" readonly>
+                <input class="form-control read" type="text" id="ruc_proveedor" name="ruc_proveedor" placeholder="..." value="{{$proveedor->ruc}}" onkeypress="return soloNumeros(event);" maxlength="13" readonly>
               </div>
               <div class="form-group col-md-6">
                 <label for="pais_proveedor">País</label>
