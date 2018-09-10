@@ -71,26 +71,32 @@
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
           <div class="row">
+            <form class="row d-flex justify-content-end" action="{{route('subcategorias.index')}}" method="get">
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Subcategorias</h3>
             </div>
              <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="" placeholder="Buscar">
+              <input type="text" class="form-control" id="buscarsubc" name="buscarsubc" placeholder="Buscar">
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="selectcat" name="selectcat">
                 <option value="">Categoría</option>
-                <option>Lorem</option>
-                <option>Lorem</option>
+                @foreach($categorias as $categoria)   
+                <option value="{{$categoria->id}}"> {{ $categoria->categoria }} </option>
+                 @endforeach
               </select>
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="selectstatus" name="selectstatus">
                 <option value="">Estatus</option>
-                <option>Activo</option>
-                <option>Inactivo</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
               </select>
             </div>
+             <div class="col-md-1 mr-md-3">
+              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
+            </div>
+          </form>
           </div>
         </div>
         {{-- FIN FILTRO --}}
@@ -143,7 +149,7 @@
    <div class="modal-dialog modal-lg">
     <div class="modal-content">
      <div class="modal-header">
-     
+      <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Categoria</h4>
      </div>
      <div class="modal-body">

@@ -31,12 +31,14 @@ Route::group(['middleware' => 'auth'], function () {
     // CONFIGURAR
 
     Route::resource('configurar/cargos', 'Configurar\CargosController');
+    Route::get('searchCargos','Configurar\CargosController@search')->name('searchCargos');
+    Route::post('configurar/cargos/create','Configurar\CargosController@store');
     Route::get('configurar/cargos/edit/{cargo_id?}','Configurar\CargosController@editar');
-    Route::post('configurar/cargos','Configurar\CargosController@store');
     Route::put('configurar/cargos/mod/{cargo_id?}','Configurar\CargosController@update');
     Route::delete('configurar/cargos/{cargo_id?}','Configurar\CargosController@destroy');
 
     Route::resource('configurar/categorias', 'Configurar\CategoriasController');
+    Route::get('search','Configurar\CategoriasController@search')->name('searchCategorias');
     Route::get('configurar/categorias/edit/{categoria_id?}','Configurar\CategoriasController@editar');
     Route::post('configurar/categorias','Configurar\CategoriasController@store');
     Route::put('configurar/categorias/mod/{categoria_id?}','Configurar\CategoriasController@update');
