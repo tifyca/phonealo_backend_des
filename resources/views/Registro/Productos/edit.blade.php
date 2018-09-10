@@ -87,8 +87,9 @@
                         $zurl = 'img/img-default.png';
                       //echo $zurl;
                   ?>
+                  
                   <img id="imgSalida" src="{{ asset($zurl) }}" class="img-fluid " alt="">
-
+                  <label><span>Mínimo 512 x 256 píxeles | JPG y PNG</span></label>
                   <div class="form-group mt-4">
                     <input type="file" class="read-file read" id="archivo" name="archivo" accept="image/*"disabled>
 

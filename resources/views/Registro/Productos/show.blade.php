@@ -67,9 +67,8 @@
               <div class="row">
                 <label for="imagen_producto">Imagen del Producto</label>
                 <div class="form-group  text-center mt-3">
-
                   <img id="imgSalida" src="{{ asset('img/img-default.png') }}" class="img-fluid " alt="">
-
+                  <label><span>Mínimo 512 x 256 píxeles | JPG y PNG</span></label>
                   <div class="form-group mt-4">
                     <input type="file" class=" read-file read" id="archivo" name="archivo" accept="image/*">                    </div>
                   </div>
@@ -152,7 +151,6 @@
         var valor = $(this).val();
         document.form1.cod_barra_producto.value=valor.toUpperCase();
       });
-
 
 
       $("select#id_categoria").bind('change', function (event) {
