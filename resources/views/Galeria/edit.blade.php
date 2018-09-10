@@ -1,6 +1,6 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
+@section('icono_titulo', 'fa-circle')
 @section('titulo', 'Editar Imagen')
 @section('descripcion', '')
 
