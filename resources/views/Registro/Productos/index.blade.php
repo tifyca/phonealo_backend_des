@@ -76,7 +76,9 @@
                   </td>
                   <td>{{$ficha->descompuesto}}</td>
                   <td>{{$ficha->stock_minimo}}</td>
-                  <td>{{$ficha->precio_ideal}}</td>
+                  <td><?php 
+                      $precio = number_format($ficha->precio_ideal, 2, ',', '.');
+                  echo $precio;?></td>
                  <?php 
                       $url=$ficha->img;
                        if($url)
