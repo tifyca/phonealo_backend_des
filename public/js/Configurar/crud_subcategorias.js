@@ -120,7 +120,9 @@ $("#btn-save").click(function (e) {
                        
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                          }); 
                 }
             }
@@ -178,17 +180,24 @@ $("#btn-save-edit").click(function (e) {
        error: function (data,estado,error) { 
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
-            var info = $('#rese');
+             errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
                 if(error.message.hasOwnProperty(k)){ 
                     error.message[k].forEach(function(val){
 
-                        errorsHtml += val;
-                        $("#rese").text(errorsHtml).show().fadeOut(4000);
+                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
+                       
+                        
+                        $("#remodal").html(errorsHtml);
+                        $("#remodal").css("display","block");
+                        $("#remodal").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                    
                          }); 
                 }
             }
-        },
+          errorsHtml +="</ul>"; 
+        
+        }
     });
 });
 

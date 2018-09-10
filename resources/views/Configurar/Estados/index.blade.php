@@ -23,13 +23,17 @@
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
           <div class="row">
+             <form class="row d-flex justify-content-end" action="{{route('estados')}}" method="get">
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Estados</h3>
             </div>
-             <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="" placeholder="Buscar">
+             <div class="form-group col-md-4">
+              <input type="text" class="form-control" id="buscarestado" name="buscarestado" placeholder="Buscar">
             </div>
-            
+             <div class="col-md-1 mr-md-3">
+              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
+            </div>
+          </form>
           </div>
         </div>
         {{-- FIN FILTRO --}}
@@ -75,7 +79,7 @@
    <div class="modal-dialog">
     <div class="modal-content">
      <div class="modal-header">
-     
+       <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Estado</h4>
      </div>
      <div class="modal-body">

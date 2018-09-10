@@ -68,29 +68,33 @@
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-          <div class="row">
+        <form class="row d-flex justify-content-end" action="{{route('categorias.index')}}" method="get"> 
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Categorías</h3>
             </div>
-             <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="" placeholder="Buscar">
+             <div class="form-group col-md-3">
+              <input type="text" class="form-control" id="buscarcategoria" name="buscarcategoria" placeholder="Buscar">
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="selecttipo" name="selecttipo">
                 <option value="">Tipo</option>
                 <option>Producto</option>
                 <option>Gastos</option>
               </select>
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="selectstatus" name="selectstatus">
                 <option value="">Estatus</option>
-                <option>Activo</option>
-                <option>Inactivo</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
               </select>
             </div>
-          </div>
+            <div class="col-md-1 mr-md-2">
+              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">             
+           </div>
+          </form>
         </div>
+       
         {{-- FIN FILTRO --}}
         <div class="tile-body ">
             <div class="table-responsive">
@@ -141,7 +145,7 @@
    <div class="modal-dialog modal-lg">
     <div class="modal-content">
      <div class="modal-header">
-     
+     <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Categoría</h4>
      </div>
      <div class="modal-body">
@@ -222,4 +226,61 @@
 @push('scripts')
  <meta name="_token" content="{!! csrf_token() !!}" />
  <script src="{{asset('js/Configurar/crud_categorias.js')}}"></script>
+ <script type="text/javascript">
+
+ /* $('#buscar').on('keyup',function(){
+     $('tbody').html('');
+     
+     $value=$(this).val();
+     $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+     $.ajax({
+       type : 'get',
+       url :'{{ route('searchCategorias') }}',
+       data:{'search':$value},
+       dataType:'html',
+       success:function(data){
+       $('tbody').html(data);
+       }
+       });
+    });
+
+  $('#select-tipo').change(function(){
+        var tipo = $(this).val();
+   
+          $("tbody").html('');
+
+           $.ajax({
+              type: "get",
+              url: '{{ route('searchCategorias') }}',
+              dataType: "html",
+              data: {tipo: tipo},
+              success: function (data){
+                $('select[name=select-tipo]').val(tipo);
+                $('tbody').html(data);
+              }
+          });
+          
+      });
+
+  $('#select-status').change(function(){
+        var valor = $(this).val();
+   
+          $("tbody").html('');
+
+           $.ajax({
+              type: "get",
+              url: '{{ route('searchCategorias') }}',
+              dataType: "html",
+              data: {valor: valor},
+              success: function (data){
+                $('select[name=select-status]').val(estatus);
+                $('tbody').html(data);
+              }
+          });
+          
+      });*/
+ 
+</script>
+ 
+
 @endpush

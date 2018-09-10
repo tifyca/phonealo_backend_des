@@ -118,7 +118,7 @@
     </main>
   <div style="display: none" class="alert-top fixed-top col-6 offset-md-4  " id="res-content">
     <div style="display: none;" class="col-12  text-center alert alert-success" id="res"></div>
-    <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>
+    <div style="display: none;" class="col-12  text-center alert alert-danger" id="rese"> </div>
   </div>
     <!-- Essential javascripts for application to work-->
 

@@ -21,10 +21,9 @@
                          <div class="alert alert-success">
 
                            {{ Session::get('message') }} 
-                          /div>
+                          </div>
                       @endif    
 
-<div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div> 
 <div class="row">
   <div class="col-12">
     <div class="tile">

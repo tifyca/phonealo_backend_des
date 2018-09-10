@@ -54,21 +54,21 @@ class EmpleadosController extends Controller
 		$data=$request->all();
 
     $rules = array( 'nombre_empleado'=>'required|unique:empleados,nombres', 
-                   // 'email_empleado'=>'required|unique:empleados,email',
+                    'email_empleado'=>'required|unique:empleados,email',
                     'direccion_empleado'=>'required',
                     'telefono_empleado'=>'required',
-                    'ci_empleado' =>'required',
+                    'ci_empleado' =>'required|unique:empleados,ci',
                     
                     );
 
-    $messages = array( 'nombre_empleado.required'=>'Nombre del empleado es requerido', 
-                       'nombre_empleado.unique' => 'El empleado ya existe', 
-                     //  'email_empleado.required'=>'El email del empleado es requerido', 
-                     //  'email_empleado.unique' => 'El email del empleado ya existe',
-                       'telefono_empleado.required'=>'El teléfono del empleado es requerido', 
+    $messages = array( 'nombre_empleado.required'=>'Nombre del Empleado es Requerido', 
+                       'nombre_empleado.unique' => 'El Empleado ya Existe', 
+                      'email_empleado.required'=>'El Email del Empleado es Requerido', 
+                      'email_empleado.unique' => 'El Email del Empleado ya Existe',
+                       'telefono_empleado.required'=>'El Teléfono del Empleado es Requerido', 
                        //'telefono_empleado.unique' => 'El teléfono del empleado ya existe',
-                       'ci_empleado.required' =>'El ruc del empleado es requerido',
-                       
+                       'ci_empleadoci_empleado.required' =>'El CI del Empleado es Requerido',
+                       'ci_empleadoci_empleado.unique' =>'El CI del Empleado ya Existe',
                       );
 
                       
@@ -118,20 +118,20 @@ class EmpleadosController extends Controller
     $data=$request->all();
 
     $rules = array( 'nombre_empleado'=>'required|unique:empleados,nombres,' .$empleado_id,  
-                    'email_empleado'=>'required ',          //|unique:empleados,email,' .$empleado_id,
+                    'email_empleado'=>'required|unique:empleados,email,' .$empleado_id,
                     'telefono_empleado'=>'required',        ///|unique:empleados,telefono,' .$empleado_id,
                     'direccion_empleado'=>'required',
-                	'ci_empleado' =>'required'
+                	  'ci_empleado' =>'required|unique:empleados,ci,' .$empleado_id,
                    );
 
-    $messages = array( 'nombre_empleado.required'=>'Nombre del empleado es requerido', 
-                       'nombre_empleado.unique' => 'El empleado ya existe', 
-                       'email_empleado.required'=>'El email del empleado es requerido', 
-                      // 'email_empleado.unique' => 'El email del empleado ya existe',
-                       'telefono_empleado.required'=>'El teléfono del empleado es requerido', 
-                     //  'telefono_empleado.unique' => 'El teléfono del empleado ya existe',
-                       'ci_empleado.required' =>'El CI del empleado es requerido',
-                    
+    $messages = array( 'nombre_empleado.required'=>'Nombre del Empleado es Requerido', 
+                       'nombre_empleado.unique' => 'El Empleado ya Existe', 
+                      'email_empleado.required'=>'El Email del Empleado es Requerido', 
+                      'email_empleado.unique' => 'El Email del Empleado ya Existe',
+                       'telefono_empleado.required'=>'El Teléfono del Empleado es Requerido', 
+                       //'telefono_empleado.unique' => 'El teléfono del empleado ya existe',
+                       'ci_empleado.required' =>'El CI del Empleado es Requerido',
+                       'ci_empleado.unique' =>'El CI del Empleado ya Existe',
                        );
 
         $validator = Validator::make($data, $rules, $messages);
