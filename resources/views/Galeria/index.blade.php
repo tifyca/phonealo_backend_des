@@ -1,6 +1,6 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
+@section('icono_titulo', 'fa-circle')
 @section('titulo', 'Galería')
 @section('descripcion', '')
 
@@ -26,7 +26,7 @@
               <thead>
                 <tr>
                   <th>Título</th>
-                  <th>Img</th>
+                  <th>Imagen</th>
                   <th>Estatus</th>
                   <th>Acciones</th>
                 </tr>
@@ -49,8 +49,8 @@
                   </td>
                   <td>{{$ficha->estatus}}</td>
                   <td class="text-center">
-                    <a class="btn btn-primary" href="{{ route('galeria.edit',$ficha->id) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                      <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a>
+                    <a class="btn btn-primary" href="{{ route('galeria.edit',$ficha->id) }}" title="Ver/Editar"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                      <a class="btn btn-primary" href="{{ route('galeria.destroy',$ficha->id)}}" title="Eliminar"><i class="m-0 fa fa-lg fa-trash"></i></a>
                       
                   </td>
                 </tr>

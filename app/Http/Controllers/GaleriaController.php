@@ -105,5 +105,11 @@ try {
 
 	}
 
+public function destroy($id){
+        $galeria= imagenes::find($id);
+        $this->deleteFile($galeria->imagen, "productos/");
+        $galeria->destroy($id);
+        return redirect()->route('producto.index');
 
+}
 }
