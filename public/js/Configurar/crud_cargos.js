@@ -61,7 +61,10 @@ $(document).on('click', '.delete-cargo', function () {
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
-            console.log('Error:', data);
+            $('#confirm-delete').modal('hide');
+            $("#rese").html("No se pudo Eliminar el Cargo, por que está Asociada a un Empleado");
+            $("#rese, #res-content, #res-content").css("display","block");
+            $("#rese, #res-content, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
@@ -83,7 +86,7 @@ $("#btn-save").click(function (e) {
     console.log(formData);
     $.ajax({
         type: "POST",
-        url: url,
+        url: url + '/create',
         data: formData,
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -112,8 +115,12 @@ $("#btn-save").click(function (e) {
 
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
-                         }); 
+                        
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                     
+                      }); 
                 }
             }
           errorsHtml +="</ul>"; 
@@ -160,8 +167,25 @@ $("#btn-save-edit").click(function (e) {
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
-        error: function (data) {
-            console.log('Error:', data);
+        error: function (data,estado,error) { 
+             var errorsHtml = '';
+           var error = jQuery.parseJSON(data.responseText);
+             errorsHtml +="<ul style='list-style:none;'>";
+             for(var k in error.message){ 
+                if(error.message.hasOwnProperty(k)){ 
+                    error.message[k].forEach(function(val){
+
+                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
+                       
+                        
+                        $("#remodal").html(errorsHtml);
+                        $("#remodal").css("display","block");
+                        $("#remodal").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                    
+                         }); 
+                }
+            }
+          errorsHtml +="</ul>"; 
         }
     });
 });
@@ -198,3 +222,5 @@ $(document).on('click','.pagination a',function(e){
         }
     });
 });
+
+  

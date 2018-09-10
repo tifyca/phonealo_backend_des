@@ -14,11 +14,49 @@ class SubcategoriasController extends Controller
 {
     public function index(Request $request){
 
-    	$categorias = Categorias::where('status',1)
-                ->select('categoria','id')->get();
 
-        $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
-        				->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')->paginate(10);
+      $subcategoria = $request["buscarsubc"];
+      $status       = $request["selectstatus"];
+      $categoria    =$request["selectcat"];
+   
+    if($subcategoria!="" && $status=="" && $categoria=="" )
+    {
+     
+      $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
+                        ->where('sub_categoria','LIKE', $subcategoria.'%')
+                        ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
+                        ->orderBy('sub_categoria','asc')
+                        ->paginate(10);
+
+    }
+    if($subcategoria=="" && $status!="" && $categoria=="")
+    {
+         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
+                        ->where('sub_categorias.status', $status)
+                        ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
+                        ->orderBy('sub_categoria','asc')
+                        ->paginate(10);
+    }
+    if($subcategoria=="" && $status=="" && $categoria!="")
+    {
+         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
+                        ->where('categorias.id', $categoria)
+                        ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
+                        ->orderBy('sub_categoria','asc')
+                        ->paginate(10);
+    }
+    if($subcategoria=="" && $status=="" && $categoria=="")
+    {
+         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
+                ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
+                ->orderBy('sub_categoria','asc')
+                ->paginate(10);
+    }
+
+
+    	  $categorias = Categorias::where('status',1)
+                      ->select('categoria','id')->get();
+
 
                  if($request->ajax()){
             return response()->json(view('Configurar.Subcategorias.lista',compact('subcategorias'))->render());
@@ -29,12 +67,15 @@ class SubcategoriasController extends Controller
     
     public function store(Request $request){  
 
-         $data=$request->all();
+      $data=$request->all();
 
-   $rules = array( 'nombre'=>'required|unique:sub_categorias,sub_categoria', 
-                   'status'=>'required'); 
-   $messages = array( 'nombre.required'=>'Nombre de la Subcategoría es requerido', 
+      $rules = array( 'nombre'=>'required|unique:sub_categorias,sub_categoria',
+                      'categoria'=> 'required|not_in:0',
+                      'status'=>'required'); 
+      $messages = array( 'nombre.required'=>'Nombre de la Subcategoría es requerido', 
                       'nombre.unique' => 'La Subcategoría ya existe', 
+                      'categoria.required'=>'La Categoria es Requerida',
+                       'categoria.not_in'=>'La Categoria es Requerida',
                       'status.required'=>'El estatus es requerido' );
 
     $validator = Validator::make($data, $rules, $messages);
@@ -65,6 +106,27 @@ class SubcategoriasController extends Controller
     }
 
   public function update (Request $request,$subcategoria_id){
+
+      $data=$request->all();
+      $rules = array( 'nombre'=>'required|unique:sub_categorias,sub_categoria,' .$subcategoria_id,
+                      'categoria'=> 'required|not_in:0',
+                      'status'=>'required'); 
+      $messages = array( 'nombre.required'=>'Nombre de la Subcategoría es requerido', 
+                      'nombre.unique' => 'La Subcategoría ya existe', 
+                      'categoria.required'=>'La Categoria es Requerida',
+                       'categoria.not_in'=>'La Categoria es Requerida',
+                      'status.required'=>'El estatus es requerido' );
+
+    $validator = Validator::make($data, $rules, $messages);
+
+
+   if($validator->fails()){ 
+
+      $errors = $validator->errors(); 
+      return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
+      
+     }elseif ($validator->passes()){ 
+
         $subcategoria = Subcategorias::find($subcategoria_id);
         $subcategoria->sub_categoria = $request->nombre;
         $subcategoria->id_categoria = $request->categoria;
@@ -73,6 +135,8 @@ class SubcategoriasController extends Controller
         $subcategoria->save();
         return response()->json($subcategoria);
     }
+
+  }
 
   public function destroy($subcategoria_id){
       $subcategoria = Subcategorias::destroy($subcategoria_id);

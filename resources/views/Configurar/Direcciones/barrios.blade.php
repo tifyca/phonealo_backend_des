@@ -102,7 +102,7 @@
    <div class="modal-dialog  modal-lg">
     <div class="modal-content">
      <div class="modal-header">
-     
+     <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Barrio</h4>
      </div>
      <div class="modal-body ">
