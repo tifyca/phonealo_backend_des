@@ -178,10 +178,14 @@
           </div>
         </div>
     </div>
+      <div id="img-product" class="col-6 mt-3 p-0 d-none" style="position: absolute; z-index: 9999; right: 0 ">
+        <img src="{{ asset('img/1.jpg') }}" alt="" class="img-fluid">
+      </div>
   </div>
   {{-- FIN DATOS DE LA VENTA --}}
   {{-- /// --}}
   {{-- SELECCION DE PRODUCTOS --}}
+ 
   <div class="col-md-5 d-flex">
     <div class="tile flex-fill">
     <h3 class="tile-title text-center text-md-left">Selección de Productos</h3>
@@ -275,7 +279,7 @@
                     <td>23459</td>
                     <td>
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a>
+                        <a class="btn btn-primary" href="#" ><i class="m-0 fa fa-lg fa-trash"></i></a>
                         <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
                       </div>
                     </td>
@@ -371,7 +375,7 @@
               $('#list-productos').html('');
 
               $.each(data, function(l, item) {
-                $('#list-productos').append('<li onclick="captura(this)" data-value='+item.id+' class="list-group-item list-group-item-action cursor-pointer"><div class="row no-gutters d-flex align-items-center"><div class="col mr-1">'+item.descripcion+'</div><div class="col-1 ml-1"><span class="badge badge-primary badge-pill ">'+item.stock_activo+'</span></div></div></li>');
+                $('#list-productos').append('<li  onclick="captura(this)" data-value='+item.id+' class="list-group-item list-group-item-action cursor-pointer"><div  class="row no-gutters d-flex align-items-center"><div id="item-product" class="col mr-1">'+item.descripcion+'</div><div class="col-1 ml-1"><span class="badge badge-primary badge-pill ">'+item.stock_activo+'</span></div></div></li>');
               });
             }
 
@@ -414,6 +418,15 @@
 
     }
 
+    $('#item-product').hover(function(){
+
+      console.log('noe');
+        $('#img-product').removeClass('d-none');
+    }, function(){
+
+      console.log('nae');
+        $('#img-product').addClass('d-none');
+    });
 
 
 
