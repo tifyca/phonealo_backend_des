@@ -391,6 +391,7 @@
       $('#img-product').addClass('d-none');
       $('.opacity-x').css('opacity', '1');
       $('#img-p').html('');
+      $('#eye').addClass('d-none');
     });
 
     //CAPTURA AL SOLTAR EL TECLADO Y DESATA EL EVENTO Y BUSCA EL PRODUCTO.
@@ -433,6 +434,8 @@
 
     });
 
+    // CAPTURA CUANDO SELECCIONO UN PRODUCTO DE LA LISTA
+
     function captura(elemento){
 
       var value = $(elemento).data('value');
@@ -473,6 +476,8 @@
 
 
     }
+
+    // HOVER DE LA IMAGEN LUEGO QUE SELECCIONO EL PRODUCTO
 
     $("#eye-hover" ).mouseover(function() {
       $('#img-product').removeClass('d-none');
