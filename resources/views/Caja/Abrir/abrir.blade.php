@@ -71,7 +71,7 @@
           </div>
         </a>
       </div>
-      <div class="col-12">
+      <div class="col-12"> 
         <a href="" title="" class="link-card">
           <div class="widget-small info "><i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
