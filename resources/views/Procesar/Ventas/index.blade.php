@@ -92,11 +92,13 @@
 </div>
 <div class="row">
     {{-- DATOS DE LA VENTA --}}
-  <div class="col-7 d-flex">
-    <div class="tile flex-fill">
-      <h3 class="tile-title text-center text-md-left">Detalles de la Venta</h3>
+  <div class="col-7 d-flex" >
+
+    <div class="tile flex-fill m-0" >
+      <h3 class="tile-title text-center text-md-left opacity-x">Detalles de la Venta</h3>
         <div class="tile-body ">
-          <div class="row">
+          <div class="row opacity-x" >
+
             <div class="form-group col-md-4">
               <label for="">Fecha de Venta</label>
               <input class="form-control" type="date" id="" name="" >
@@ -175,19 +177,32 @@
               <label for="">Nota</label>
               <textarea name="" class="form-control" cols="5"></textarea>
             </div>
+              
           </div>
+
+
         </div>
+
+
     </div>
-      <div id="img-product" class="col-6  p-0 d-none" style="position: absolute; z-index: 999; right: 0 ">
-       
+   <div class="d-none" id="img-product">
+      <div  class="col-12 d-flex justify-content-center align-items-center" style="position: absolute; z-index: 999; left: 0; height: 100%">
+          <div id="img-p" class="col-6">
+           
+          </div>   
       </div>
+    </div>
+  
+    
+     
   </div>
+
   {{-- FIN DATOS DE LA VENTA --}}
   {{-- /// --}}
   {{-- SELECCION DE PRODUCTOS --}}
  
   <div class="col-md-5 d-flex">
-    <div class="tile flex-fill">
+    <div class="tile flex-fill m-0">
     <h3 class="tile-title text-center text-md-left">Selección de Productos</h3>
       <div class="tile-body">
         <div class="row">
@@ -244,7 +259,7 @@
   </div>
   {{-- FIN SELECCION DE PRODUCTOS --}}
 </div>
-<div class="alert alert-danger bg-danger text-white" role="alert">
+<div class="alert alert-danger bg-danger text-white mt-4" role="alert">
   Se agregó un producto faltante: <b>Nombre del Producto</b>.
 </div>
 <div class="row">
@@ -441,18 +456,14 @@
 
             if (img.length > 0) {
               var zurl = url1+img;
-              $('#img-product').html('<img src="'+zurl+'" alt="" class="img-fluid">');
+              $('#img-p').html('<img src="'+zurl+'" alt="" class="img-fluid">');
               $('#eye-hover').addClass('btn-primary').removeClass('btn-secondary');
             }else{
               var zurl = url2;
-              //$('#img-product').html('<img src="{{ asset('') }}'+zurl+'" alt="" class="img-fluid">');
+              $('#img-product').html('');
               $('#eye-hover').addClass('btn-secondary').removeClass('btn-primary');
             }
-
-           
-
-            
-                 
+     
           }
 
         });
@@ -462,8 +473,10 @@
 
     $("#eye-hover" ).mouseover(function() {
       $('#img-product').removeClass('d-none');
+      $('.opacity-x').css('opacity', '0');
     }).mouseout(function() {
       $('#img-product').addClass('d-none');
+      $('.opacity-x').css('opacity', '1');
     });
 
 
