@@ -468,6 +468,8 @@
               var zurl = url2;
               $('#img-p').html('');
               $('#eye-hover').addClass('btn-secondary').removeClass('btn-primary');
+              $('.opacity-x').css('opacity', '1');
+              $('#img-product').addClass('d-none');
             }
      
           }
