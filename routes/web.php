@@ -142,7 +142,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
 
-    Route::resource('registro/gastos', 'Registro\GastosController');
+   
 
 
     Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
@@ -188,6 +188,8 @@ Route::group(['middleware' => 'auth'], function () {
     ///////////
 
     // PROCESAR
+    // 
+     Route::resource('procesar/gastos', 'Registro\GastosController');
     
     Route::resource('procesar/ventas', 'Procesar\VentasController');
 
@@ -256,7 +258,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('caja/historial', 'Caja\historialController@index')->name('caja.historial');
     
 
+//////////////////////
+/// DOCUMENTACION
 
+    Route::get('documentacion', 'Documentacion\DocumentacionController@index')->name('documentacion');
+    Route::get('documentacion/configurar', 'Documentacion\DocumentacionController@configurar')->name('documentacion.configurar');
+    Route::get('documentacion/registro', 'Documentacion\DocumentacionController@registro')->name('documentacion.registro');
+    Route::get('documentacion/inventario', 'Documentacion\DocumentacionController@inventario')->name('documentacion.inventario');
+    Route::get('documentacion/procesar', 'Documentacion\DocumentacionController@procesar')->name('documentacion.procesar');
+    Route::get('documentacion/caja', 'Documentacion\DocumentacionController@caja')->name('documentacion.caja');
+    Route::get('documentacion/seguridad', 'Documentacion\DocumentacionController@seguridad')->name('documentacion.seguridad');
 
     
 
