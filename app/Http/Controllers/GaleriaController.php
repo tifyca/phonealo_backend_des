@@ -8,6 +8,7 @@ use App\Categorias;
 use App\Subcategorias;
 use DB;
 use App\imagenes;
+ @session_start();
 class GaleriaController extends Controller
 {
     public function index(Request $request){

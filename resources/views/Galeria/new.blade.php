@@ -48,6 +48,7 @@
             
            <div class="form-group col-md-4 text-center mt-3">
               <img id="imgSalida" src="{{ asset('img/img-default.png') }}" class="img-fluid " alt="">  
+                <label><span>Mínimo 512 x 256 píxeles | JPG y PNG</span></label>
               <div class="form-group mt-4">
                 <input type="file" class="form-control-file" id="archivo" name="archivo" accept="image/*">
               </div>
