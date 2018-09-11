@@ -142,7 +142,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
 
-    Route::resource('registro/gastos', 'Registro\GastosController');
+   
 
 
     Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
@@ -188,6 +188,8 @@ Route::group(['middleware' => 'auth'], function () {
     ///////////
 
     // PROCESAR
+    // 
+     Route::resource('procesar/gastos', 'Registro\GastosController');
     
     Route::resource('procesar/ventas', 'Procesar\VentasController');
 
