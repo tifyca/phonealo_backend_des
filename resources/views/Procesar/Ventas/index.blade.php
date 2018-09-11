@@ -388,6 +388,9 @@
       $('#stock').val('');
       $('#precio').val('');
       $('#id_producto').val('');
+      $('#img-product').addClass('d-none');
+      $('.opacity-x').css('opacity', '1');
+      $('#img-p').html('');
     });
 
     //CAPTURA AL SOLTAR EL TECLADO Y DESATA EL EVENTO Y BUSCA EL PRODUCTO.
@@ -460,7 +463,7 @@
               $('#eye-hover').addClass('btn-primary').removeClass('btn-secondary');
             }else{
               var zurl = url2;
-              $('#img-product').html('');
+              $('#img-p').html('');
               $('#eye-hover').addClass('btn-secondary').removeClass('btn-primary');
             }
      
