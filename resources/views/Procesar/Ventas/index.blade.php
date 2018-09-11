@@ -178,8 +178,8 @@
           </div>
         </div>
     </div>
-      <div id="img-product" class="col-6 mt-3 p-0 d-none" style="position: absolute; z-index: 9999; right: 0 ">
-        <img src="{{ asset('img/1.jpg') }}" alt="" class="img-fluid">
+      <div id="img-product" class="col-6  p-0 d-none" style="position: absolute; z-index: 999; right: 0 ">
+       
       </div>
   </div>
   {{-- FIN DATOS DE LA VENTA --}}
@@ -193,15 +193,23 @@
         <div class="row">
           <div class="form-group col-md-12">
             <div class="row">
-              <div class="col-12">
+              <div class="col">
                 <label for="descripcion">Descripción</label>
                 <input class="form-control" autocomplete="off" type="text" id="descripcion" name="descripcion" >
                 {{-- ESTE SE LLENA CON EL ID DEL PRODUCTO --}}
                 <input type="hidden" id="id_producto"  name="id_producto">
                 {{-- //// --}}
               </div>
+              
+                <div class="col-2 align-items-end row d-none" id="eye">
+                  <div class="row align-items-end">
+                    <span id="eye-hover" class="btn " ><i class="m-0 fa fa-lg fa-eye "></i></span>
+                  </div>
+                </div>
+              
+              
               <div class="selec_productos col-12 d-none">
-                <ul class="list-group" id="list-productos">
+                <ul class="list-group " id="list-productos">
                    {{-- ESTE ESPACIO APARECE Y SE LLENA CON AJAX, SE ACATUALIZA CADA QUE SUELTAS LA TECLA --}}
                 </ul>
               </div>
@@ -302,9 +310,26 @@
 
 @endsection
 
+@php
+
+   
+      $url1 = config('app.url') . '/productos/';
+    
+      $url2 = 'img/img-default.png';
+    
+
+@endphp
+
+              
+
 @push('scripts')
 <script type="text/javascript" charset="utf-8" async defer>
+
+  var url1 = '{{ $url1 }}';
+  var url2 = '{{ $url2 }}';
+
   //ACTIVA Y DESACTIVA EL MONTO DEL DELIVERY
+  //
     $('#delivery').change(function(){
       if ($('#delivery').prop('checked')){
         
@@ -375,7 +400,7 @@
               $('#list-productos').html('');
 
               $.each(data, function(l, item) {
-                $('#list-productos').append('<li  onclick="captura(this)" data-value='+item.id+' class="list-group-item list-group-item-action cursor-pointer"><div  class="row no-gutters d-flex align-items-center"><div id="item-product" class="col mr-1">'+item.descripcion+'</div><div class="col-1 ml-1"><span class="badge badge-primary badge-pill ">'+item.stock_activo+'</span></div></div></li>');
+                $('#list-productos').append('<li  onclick="captura(this)" data-value='+item.id+' class=" list-group-item list-group-item-action cursor-pointer"><div  class="row no-gutters d-flex align-items-center"><div  class="col mr-1 ">'+item.descripcion+'</div><div class="col-1 ml-1"><span  class=" badge badge-primary badge-pill ">'+item.stock_activo+'</span></div></div></li>');
               });
             }
 
@@ -396,6 +421,7 @@
 
       $('.selec_productos').addClass('d-none');
       $('.opacity-p').css('opacity','1');
+      $('#eye').removeClass('d-none');
 
       $.ajax({
           type: "get",
@@ -410,7 +436,23 @@
             $('#stock').val(data.stock_activo);
             $('#precio').val(data.precio_ideal);
             $('#id_producto').val(data.id);
-                
+
+            var img = data.img;
+
+            if (img.length > 0) {
+              var zurl = url1+img;
+              $('#img-product').html('<img src="'+zurl+'" alt="" class="img-fluid">');
+              $('#eye-hover').addClass('btn-primary').removeClass('btn-secondary');
+            }else{
+              var zurl = url2;
+              //$('#img-product').html('<img src="{{ asset('') }}'+zurl+'" alt="" class="img-fluid">');
+              $('#eye-hover').addClass('btn-secondary').removeClass('btn-primary');
+            }
+
+           
+
+            
+                 
           }
 
         });
@@ -418,14 +460,10 @@
 
     }
 
-    $('#item-product').hover(function(){
-
-      console.log('noe');
-        $('#img-product').removeClass('d-none');
-    }, function(){
-
-      console.log('nae');
-        $('#img-product').addClass('d-none');
+    $("#eye-hover" ).mouseover(function() {
+      $('#img-product').removeClass('d-none');
+    }).mouseout(function() {
+      $('#img-product').addClass('d-none');
     });
 
 
@@ -433,7 +471,6 @@
 
   </script>
   
-
 
 
 
