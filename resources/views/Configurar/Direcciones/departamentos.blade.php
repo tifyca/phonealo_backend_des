@@ -28,7 +28,7 @@
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Departamento</label>
-                <input class="form-control" type="text" placeholder="Nombre Departamento"  id="nombreDpto" name="nombreDpto" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre Departamento"  id="nombreDpto" name="nombreDpto" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false">
               </div>
               <div class="tile-footer text-center border-0" >
                 <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
@@ -107,7 +107,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false">
               </div>
           
             </div>

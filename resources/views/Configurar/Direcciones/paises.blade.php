@@ -6,7 +6,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Paises')
+@section('titulo', 'Países')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -28,7 +28,7 @@
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">País</label>
-                <input class="form-control" type="text" placeholder="Nombre País"  id="nombrePais" name="nombrePais" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre País"  id="nombrePais" name="nombrePais" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false">
               </div>
               <div class="tile-footer text-center border-0" >
                 <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
@@ -45,7 +45,7 @@
       <div class="col mb-3 text-center">
              <form class="row d-flex justify-content-end" action="{{route('paises')}}" method="get">
             <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado Paises</h3>
+              <h3 class="tile-title text-center text-md-left">Listado Países</h3>
             </div>
              <div class="form-group col-md-3">
               <input type="text" class="form-control" id="buscarpais" name="buscarpais" placeholder="Buscar">
@@ -99,7 +99,7 @@
     <div class="modal-content">
      <div class="modal-header">
      <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
-      <h4 class="modal-title" id="myModalLabel">Editar Pais</h4>
+      <h4 class="modal-title" id="myModalLabel">Editar País</h4>
      </div>
      <div class="modal-body">
       <form id="frmpaises" name="frmpaises" class="form-horizontal" novalidate="">
@@ -107,7 +107,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false">
               </div>
           
             </div>
@@ -133,11 +133,11 @@
             
                 <div class="modal-header">
                     
-                    <h4 class="modal-title" id="myModalLabel">Eliminar Pais</h4>
+                    <h4 class="modal-title" id="myModalLabel">Eliminar País</h4>
                 </div>
             <form id="frmdel" name="frmdel" class="form-horizontal" novalidate="">
                 <div class="modal-body">
-                    <p>Está seguro que desea eliminar este Pais?</p>
+                    <p>Está seguro que desea eliminar este País?</p>
                     <p class="debug-url"></p>
                 </div>
               </form> 

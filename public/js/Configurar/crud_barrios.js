@@ -118,7 +118,7 @@ $("#btn-save").click(function (e) {
             
                  }),
 
-            $("#res").html("Barrio Registrada con Éxito");
+            $("#res").html("Barrio Registrado con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
