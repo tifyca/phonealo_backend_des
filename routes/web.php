@@ -31,14 +31,12 @@ Route::group(['middleware' => 'auth'], function () {
     // CONFIGURAR
 
     Route::resource('configurar/cargos', 'Configurar\CargosController');
-    Route::get('searchCargos','Configurar\CargosController@search')->name('searchCargos');
     Route::post('configurar/cargos/create','Configurar\CargosController@store');
     Route::get('configurar/cargos/edit/{cargo_id?}','Configurar\CargosController@editar');
     Route::put('configurar/cargos/mod/{cargo_id?}','Configurar\CargosController@update');
     Route::delete('configurar/cargos/{cargo_id?}','Configurar\CargosController@destroy');
 
     Route::resource('configurar/categorias', 'Configurar\CategoriasController');
-    Route::get('search','Configurar\CategoriasController@search')->name('searchCategorias');
     Route::get('configurar/categorias/edit/{categoria_id?}','Configurar\CategoriasController@editar');
     Route::post('configurar/categorias','Configurar\CategoriasController@store');
     Route::put('configurar/categorias/mod/{categoria_id?}','Configurar\CategoriasController@update');
@@ -93,7 +91,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('configurar/estados/edit/{estado_id?}','Configurar\EstadosController@editar');
     Route::put('configurar/estados/mod/{estado_id?}','Configurar\EstadosController@update');
     
-
+    Route::resource('configurar/horas', 'Configurar\HorasController');
+    Route::get('configurar/horas/edit/{hora_id?}','Configurar\HorasController@editar');
+    Route::post('configurar/horas/create','Configurar\HorasController@store');
+    Route::put('configurar/horas/mod/{hora_id?}','Configurar\HorasController@update');
+    Route::delete('configurar/horas/{hora_id?}','Configurar\HorasController@destroy');
      
    
    
@@ -192,6 +194,8 @@ Route::group(['middleware' => 'auth'], function () {
      Route::resource('procesar/gastos', 'Registro\GastosController');
     
     Route::resource('procesar/ventas', 'Procesar\VentasController');
+    Route::get('searchCliente/{tlf?}', 'Procesar\VentasController@getcliente')->name('searchCliente');
+
 
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
 

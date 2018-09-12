@@ -21,7 +21,7 @@
         <div class="row">
           <div class="form-group col-md-4">
             <label for="telefono_cliente">Teléfono</label>
-            <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="...">
+            <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="15">
           </div>
           <div class="form-group col-md-4">
             <label for="nombre_cliente">Nombres</label>
@@ -39,41 +39,26 @@
             <label for="tipo_cliente">Tipo de Cliente</label>
             <select class="form-control" id="tipo_cliente" name="tipo_cliente">
               <option value="">Seleccione</option>
-              <option selected value="N">Natural</option>
-              <option value="J">Jurídico</option>
+              <option selected value="1">Natural</option>
+              <option value="2">Jurídico</option>
             </select>
           </div>
           <div class="form-group col-12 col-md-4">
             <label for="departamento_cliente">Departamento</label>
-            <select class="form-control" id="departamento_cliente" name="departamento_cliente">
-              <option value="">Seleccione</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select class="form-control departamento" id="departamento_cliente" name="departamento_cliente">
+              <option value="0">Seleccione</option>
             </select>
           </div>
           <div class="form-group col-md-4">
             <label for="ciudad_cliente">Ciudad</label>
-            <select class="form-control" id="ciudad_cliente" name="ciudad_cliente">
-              <option value="">Seleccione</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select class="form-control ciudades" id="ciudad_cliente" name="ciudad_cliente">
+              <option value="0">Seleccione</option>
             </select>
           </div>
           <div class="form-group col-md-4">
             <label for="barrio_cliente">Barrio</label>
-            <select class="form-control" id="barrio_cliente" name="barrio_cliente">
-              <option value="">Seleccione</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select class="form-control barrios" id="barrio_cliente" name="barrio_cliente">
+              <option value="0">Seleccione</option>
             </select>
           </div>
           <div class="form-group col-md-4">
@@ -338,6 +323,8 @@
               
 
 @push('scripts')
+ <meta name="_token" content="{!! csrf_token() !!}" />
+ <script src="{{asset('js/Procesar/js_ventas.js')}}"></script>
 <script type="text/javascript" charset="utf-8" async defer>
 
   var url1 = '{{ $url1 }}';
@@ -491,7 +478,103 @@
     
 
 
+     $("#telefono_cliente").blur(function(){
+         var value=$(this).val();
+         alert(value);
+     $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
 
+    $.get('{{ route('searchCliente') }}' + '/' + value, function(data){
+      console.log(data);
+            $('#nombre_cliente').val('');
+            $('#email_cliente').val('');
+            $('#ruc_cliente').val('');
+            $('#tipo_cliente').val('');
+            $('select[name=departamento_cliente]').val(0);
+            $('select[name=ciudad_cliente]').val(0);
+            $('select[name=barrio_cliente]').val(0);
+            $('#ubicacion_cliente').val('');
+            $('#direccion_cliente').val('');
+        $.each(data, function(i, item) {
+        console.log(item.barrio);
+                 $('#nombre_cliente').val(item.nombres);
+            $('#email_cliente').val(item.email);
+            $('#ruc_cliente').val(item.ruc_ci);
+            $('#tipo_cliente').val(item.id_tipo);
+            $('select[name=departamento_cliente]').val(item.id_departamento);
+            $('select[name=ciudad_cliente]').val(item.id_ciudad);
+            $('select[name=barrio_cliente]').val(item.barrio);
+            $('#ubicacion_cliente').val(item.ubicacion);
+            $('#direccion_cliente').val(item.direccion);
+          });
+      
+       });
+    });
+
+    $(document).ready(function(){
+    {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
+      $.ajax({
+          type: "get",
+          url: '{{ route('departamentos_ajax') }}',
+          dataType: "json",
+          success: function (data){
+
+             $.each(data, function(i, item) {
+
+              //$(".departamento option:eq(1)").prop("selected", true);
+              $(".departamento").append('<option value='+item.id+'>'+item.nombre+'</option>');
+              });
+          }
+
+      });
+      // AL SELECCIONAR EL DEPARTAMENTO SE ENVIA EL ID Y SE RECIBE LAS CIUDADES
+      $('#departamento_cliente').change(function(){
+        var id_departamento = $(this).val();
+
+
+          $(".ciudades").html('');
+
+           $.ajax({
+              type: "get",
+              url: '{{ route('ciudadesCombo') }}',
+              dataType: "json",
+              data: {id_departamento: id_departamento},
+              success: function (data){
+                    $(".ciudades").append('<option value=0> Seleccione </option>');
+                 $.each(data, function(l, item1) {
+
+                   //$(".ciudades option:eq(1)").prop("selected", true);
+                   $(".ciudades").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
+                  });
+              }
+          });
+      });
+
+      // AL SELECCIONAR CIUDAD SE ENVIA EL ID Y SE RECIBE LOS BARRIOS
+      $('#ciudad_cliente').change(function(){
+        var id_ciudad = $(this).val();
+
+
+          $(".barrios").html('');
+
+           $.ajax({
+              type: "get",
+              url: '{{ route('barriosCombo') }}',
+              dataType: "json",
+              data: {id_ciudad: id_ciudad},
+              success: function (data){
+
+                 $.each(data, function(l, item2) {
+
+                    $(".barrios").append('<option value=0> Seleccione </option>');
+                   //$(".ciudades option:eq(1)").prop("selected", true);
+                   $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
+                  });
+              }
+          });
+      });
+
+  
+  });
 
   </script>
   
