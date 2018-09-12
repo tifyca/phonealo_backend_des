@@ -15,6 +15,7 @@
      <li><a class="treeview-item {{ Request::is('configurar/direcciones/departamentos*') ? 'active' : '' }}" href="{{ route('departamentos') }}"><i class="icon fa fa-circle-o"></i>Departamentos</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/direcciones/ciudades*') ? 'active' : '' }}" href="{{ route('ciudades') }}"><i class="icon fa fa-circle-o"></i>Ciudades</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/direcciones/barrios*') ? 'active' : '' }}" href="{{ route('barrios') }}"> <i class="icon fa fa-circle-o"></i>Barrios</a></li>
+     <li><a class="treeview-item {{ Request::is('configurar/horas/horas*') ? 'active' : '' }}" href="{{ route('horas.index') }}"> <i class="icon fa fa-circle-o"></i>Horas</a></li>
      
      
      @endif

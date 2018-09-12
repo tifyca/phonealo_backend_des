@@ -199,40 +199,7 @@
  <script src="{{asset('js/Configurar/crud_cargos.js')}}"></script>
  <script type="text/javascript">
 
-/*  $('#buscar').on('keyup',function(){
-     $('tbody').html('');
-     
-     
-      var value=$(this).val();
-     $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
-     $.ajax({
-       type : 'get',
-       url :'{{ route('searchCargos') }}',
-       data:{search:value},
-       dataType:'html',
-       success:function(data){
-       $('tbody').html(data);
-       }
-       });
-    })
 
-  $('#buscar-select').change(function(){
-        var valor = $(this).val();
-   
-          $("tbody").html('');
-
-           $.ajax({
-              type: "get",
-              url: '{{ route('searchCargos') }}',
-              dataType: "html",
-              data: {valor: valor},
-              success: function (data){
-                $('select[name=buscar-select]').val('estatus');
-                $('tbody').html(data);
-              }
-          });
-          
-      });*/
  
 </script>
  
