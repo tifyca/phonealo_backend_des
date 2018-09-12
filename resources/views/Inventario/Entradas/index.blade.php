@@ -30,13 +30,11 @@
               </select>
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="id_proveedor" name="id_proveedor">
                 <option value="">Proveedor</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                 @foreach($proveedores as $provee)
+                 <option value="{{$provee->id}}">{{$provee->nombres}}</option>
+                 @endforeach
               </select>
             </div>
             <div class="form-group col-md-2">

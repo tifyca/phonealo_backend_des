@@ -26,7 +26,7 @@
                 <div class="form-group col-md-8">
                   <label for="titulo_galeria">Título</label>
                   <input type="hidden" name="id_producto" id="id_producto" value="{{$id}}">
-                  <input class="form-control" type="text" id="titulo" name="titulo" placeholder="Título de imagen">
+                  <input class="form-control" type="text" id="titulo" name="titulo" placeholder="Título de imagen" required="">
                 </div>
                 <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
