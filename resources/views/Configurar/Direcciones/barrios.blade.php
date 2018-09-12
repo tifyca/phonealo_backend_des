@@ -41,7 +41,7 @@
               </div>
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Barrio</label>
-                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group col-12  col-md-3">
                 <label class="control-label">Latitud</label>
@@ -102,7 +102,7 @@
    <div class="modal-dialog  modal-lg">
     <div class="modal-content">
      <div class="modal-header">
-     
+     <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Barrio</h4>
      </div>
      <div class="modal-body ">
@@ -111,7 +111,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Barrio</label>
-                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombre" name="nombre" oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Latitud</label>

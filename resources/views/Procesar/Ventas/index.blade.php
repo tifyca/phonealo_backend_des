@@ -21,7 +21,7 @@
         <div class="row">
           <div class="form-group col-md-4">
             <label for="telefono_cliente">Teléfono</label>
-            <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="...">
+            <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="15">
           </div>
           <div class="form-group col-md-4">
             <label for="nombre_cliente">Nombres</label>
@@ -39,41 +39,26 @@
             <label for="tipo_cliente">Tipo de Cliente</label>
             <select class="form-control" id="tipo_cliente" name="tipo_cliente">
               <option value="">Seleccione</option>
-              <option selected value="N">Natural</option>
-              <option value="J">Jurídico</option>
+              <option selected value="1">Natural</option>
+              <option value="2">Jurídico</option>
             </select>
           </div>
           <div class="form-group col-12 col-md-4">
             <label for="departamento_cliente">Departamento</label>
-            <select class="form-control" id="departamento_cliente" name="departamento_cliente">
-              <option value="">Seleccione</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select class="form-control departamento" id="departamento_cliente" name="departamento_cliente">
+              <option value="0">Seleccione</option>
             </select>
           </div>
           <div class="form-group col-md-4">
             <label for="ciudad_cliente">Ciudad</label>
-            <select class="form-control" id="ciudad_cliente" name="ciudad_cliente">
-              <option value="">Seleccione</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select class="form-control ciudades" id="ciudad_cliente" name="ciudad_cliente">
+              <option value="0">Seleccione</option>
             </select>
           </div>
           <div class="form-group col-md-4">
             <label for="barrio_cliente">Barrio</label>
-            <select class="form-control" id="barrio_cliente" name="barrio_cliente">
-              <option value="">Seleccione</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select class="form-control barrios" id="barrio_cliente" name="barrio_cliente">
+              <option value="0">Seleccione</option>
             </select>
           </div>
           <div class="form-group col-md-4">
@@ -92,11 +77,13 @@
 </div>
 <div class="row">
     {{-- DATOS DE LA VENTA --}}
-  <div class="col-7 d-flex">
-    <div class="tile flex-fill">
-      <h3 class="tile-title text-center text-md-left">Detalles de la Venta</h3>
+  <div class="col-7 d-flex" >
+
+    <div class="tile flex-fill m-0" >
+      <h3 class="tile-title text-center text-md-left opacity-x">Detalles de la Venta</h3>
         <div class="tile-body ">
-          <div class="row">
+          <div class="row opacity-x" >
+
             <div class="form-group col-md-4">
               <label for="">Fecha de Venta</label>
               <input class="form-control" type="date" id="" name="" >
@@ -175,29 +162,54 @@
               <label for="">Nota</label>
               <textarea name="" class="form-control" cols="5"></textarea>
             </div>
+              
           </div>
+
+
         </div>
+
+
     </div>
+   <div class="d-none" id="img-product">
+      <div  class="col-12 d-flex justify-content-center align-items-center" style="position: absolute; z-index: 999; left: 0; height: 100%">
+          <div id="img-p" class="col-6">
+           
+          </div>   
+      </div>
+    </div>
+  
+    
+     
   </div>
+
   {{-- FIN DATOS DE LA VENTA --}}
   {{-- /// --}}
   {{-- SELECCION DE PRODUCTOS --}}
+ 
   <div class="col-md-5 d-flex">
-    <div class="tile flex-fill">
+    <div class="tile flex-fill m-0">
     <h3 class="tile-title text-center text-md-left">Selección de Productos</h3>
       <div class="tile-body">
         <div class="row">
           <div class="form-group col-md-12">
             <div class="row">
-              <div class="col-12">
+              <div class="col">
                 <label for="descripcion">Descripción</label>
                 <input class="form-control" autocomplete="off" type="text" id="descripcion" name="descripcion" >
                 {{-- ESTE SE LLENA CON EL ID DEL PRODUCTO --}}
                 <input type="hidden" id="id_producto"  name="id_producto">
                 {{-- //// --}}
               </div>
+              
+                <div class="col-2 align-items-end row d-none" id="eye">
+                  <div class="row align-items-end">
+                    <span id="eye-hover" class="btn " ><i class="m-0 fa fa-lg fa-eye "></i></span>
+                  </div>
+                </div>
+              
+              
               <div class="selec_productos col-12 d-none">
-                <ul class="list-group" id="list-productos">
+                <ul class="list-group " id="list-productos">
                    {{-- ESTE ESPACIO APARECE Y SE LLENA CON AJAX, SE ACATUALIZA CADA QUE SUELTAS LA TECLA --}}
                 </ul>
               </div>
@@ -232,7 +244,7 @@
   </div>
   {{-- FIN SELECCION DE PRODUCTOS --}}
 </div>
-<div class="alert alert-danger bg-danger text-white" role="alert">
+<div class="alert alert-danger bg-danger text-white mt-4" role="alert">
   Se agregó un producto faltante: <b>Nombre del Producto</b>.
 </div>
 <div class="row">
@@ -275,7 +287,7 @@
                     <td>23459</td>
                     <td>
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a>
+                        <a class="btn btn-primary" href="#" ><i class="m-0 fa fa-lg fa-trash"></i></a>
                         <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
                       </div>
                     </td>
@@ -298,9 +310,28 @@
 
 @endsection
 
+@php
+
+   
+      $url1 = config('app.url') . '/productos/';
+    
+      $url2 = 'img/img-default.png';
+    
+
+@endphp
+
+              
+
 @push('scripts')
+ <meta name="_token" content="{!! csrf_token() !!}" />
+ <script src="{{asset('js/Procesar/js_ventas.js')}}"></script>
 <script type="text/javascript" charset="utf-8" async defer>
+
+  var url1 = '{{ $url1 }}';
+  var url2 = '{{ $url2 }}';
+
   //ACTIVA Y DESACTIVA EL MONTO DEL DELIVERY
+  //
     $('#delivery').change(function(){
       if ($('#delivery').prop('checked')){
         
@@ -344,6 +375,10 @@
       $('#stock').val('');
       $('#precio').val('');
       $('#id_producto').val('');
+      $('#img-product').addClass('d-none');
+      $('.opacity-x').css('opacity', '1');
+      $('#img-p').html('');
+      $('#eye').addClass('d-none');
     });
 
     //CAPTURA AL SOLTAR EL TECLADO Y DESATA EL EVENTO Y BUSCA EL PRODUCTO.
@@ -371,7 +406,7 @@
               $('#list-productos').html('');
 
               $.each(data, function(l, item) {
-                $('#list-productos').append('<li onclick="captura(this)" data-value='+item.id+' class="list-group-item list-group-item-action cursor-pointer"><div class="row no-gutters d-flex align-items-center"><div class="col mr-1">'+item.descripcion+'</div><div class="col-1 ml-1"><span class="badge badge-primary badge-pill ">'+item.stock_activo+'</span></div></div></li>');
+                $('#list-productos').append('<li  onclick="captura(this)" data-value='+item.id+' class=" list-group-item list-group-item-action cursor-pointer"><div  class="row no-gutters d-flex align-items-center"><div  class="col mr-1 ">'+item.descripcion+'</div><div class="col-1 ml-1"><span  class=" badge badge-primary badge-pill ">'+item.stock_activo+'</span></div></div></li>');
               });
             }
 
@@ -386,12 +421,15 @@
 
     });
 
+    // CAPTURA CUANDO SELECCIONO UN PRODUCTO DE LA LISTA
+
     function captura(elemento){
 
       var value = $(elemento).data('value');
 
       $('.selec_productos').addClass('d-none');
       $('.opacity-p').css('opacity','1');
+      $('#eye').removeClass('d-none');
 
       $.ajax({
           type: "get",
@@ -406,7 +444,30 @@
             $('#stock').val(data.stock_activo);
             $('#precio').val(data.precio_ideal);
             $('#id_producto').val(data.id);
-                
+
+            var img = data.img;
+
+            if (img.length > 0) {
+              var zurl = url1+img;
+              $('#img-p').html('<img src="'+zurl+'" alt="" class="img-fluid">');
+              $('#eye-hover').addClass('btn-primary').removeClass('btn-secondary');
+              // HOVER DE LA IMAGEN LUEGO QUE SELECCIONO EL PRODUCTO
+
+              $("#eye-hover" ).mouseover(function() {
+                $('#img-product').removeClass('d-none');
+                $('.opacity-x').css('opacity', '0');
+              }).mouseout(function() {
+                $('#img-product').addClass('d-none');
+                $('.opacity-x').css('opacity', '1');
+              });
+            }else{
+              var zurl = url2;
+              $('#img-p').html('');
+              $('#eye-hover').addClass('btn-secondary').removeClass('btn-primary');
+              $('.opacity-x').css('opacity', '1');
+              $('#img-product').addClass('d-none');
+            }
+     
           }
 
         });
@@ -414,13 +475,109 @@
 
     }
 
+    
 
 
+     $("#telefono_cliente").blur(function(){
+         var value=$(this).val();
+         alert(value);
+     $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
 
+    $.get('{{ route('searchCliente') }}' + '/' + value, function(data){
+      console.log(data);
+            $('#nombre_cliente').val('');
+            $('#email_cliente').val('');
+            $('#ruc_cliente').val('');
+            $('#tipo_cliente').val('');
+            $('select[name=departamento_cliente]').val(0);
+            $('select[name=ciudad_cliente]').val(0);
+            $('select[name=barrio_cliente]').val(0);
+            $('#ubicacion_cliente').val('');
+            $('#direccion_cliente').val('');
+        $.each(data, function(i, item) {
+        console.log(item.barrio);
+                 $('#nombre_cliente').val(item.nombres);
+            $('#email_cliente').val(item.email);
+            $('#ruc_cliente').val(item.ruc_ci);
+            $('#tipo_cliente').val(item.id_tipo);
+            $('select[name=departamento_cliente]').val(item.id_departamento);
+            $('select[name=ciudad_cliente]').val(item.id_ciudad);
+            $('select[name=barrio_cliente]').val(item.barrio);
+            $('#ubicacion_cliente').val(item.ubicacion);
+            $('#direccion_cliente').val(item.direccion);
+          });
+      
+       });
+    });
+
+    $(document).ready(function(){
+    {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
+      $.ajax({
+          type: "get",
+          url: '{{ route('departamentos_ajax') }}',
+          dataType: "json",
+          success: function (data){
+
+             $.each(data, function(i, item) {
+
+              //$(".departamento option:eq(1)").prop("selected", true);
+              $(".departamento").append('<option value='+item.id+'>'+item.nombre+'</option>');
+              });
+          }
+
+      });
+      // AL SELECCIONAR EL DEPARTAMENTO SE ENVIA EL ID Y SE RECIBE LAS CIUDADES
+      $('#departamento_cliente').change(function(){
+        var id_departamento = $(this).val();
+
+
+          $(".ciudades").html('');
+
+           $.ajax({
+              type: "get",
+              url: '{{ route('ciudadesCombo') }}',
+              dataType: "json",
+              data: {id_departamento: id_departamento},
+              success: function (data){
+                    $(".ciudades").append('<option value=0> Seleccione </option>');
+                 $.each(data, function(l, item1) {
+
+                   //$(".ciudades option:eq(1)").prop("selected", true);
+                   $(".ciudades").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
+                  });
+              }
+          });
+      });
+
+      // AL SELECCIONAR CIUDAD SE ENVIA EL ID Y SE RECIBE LOS BARRIOS
+      $('#ciudad_cliente').change(function(){
+        var id_ciudad = $(this).val();
+
+
+          $(".barrios").html('');
+
+           $.ajax({
+              type: "get",
+              url: '{{ route('barriosCombo') }}',
+              dataType: "json",
+              data: {id_ciudad: id_ciudad},
+              success: function (data){
+
+                 $.each(data, function(l, item2) {
+
+                    $(".barrios").append('<option value=0> Seleccione </option>');
+                   //$(".ciudades option:eq(1)").prop("selected", true);
+                   $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
+                  });
+              }
+          });
+      });
+
+  
+  });
 
   </script>
   
-
 
 
 

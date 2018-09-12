@@ -78,7 +78,7 @@
         </div>
         
       </div>
-      @include('layouts.menu')
+      @include('Documentacion.layout.menu')
     </aside>
     <main class="app-content">
       <div class="app-title">

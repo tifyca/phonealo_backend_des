@@ -6,7 +6,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Subcategorias')
+@section('titulo', 'Horario de Entrega')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -21,36 +21,35 @@
 <div class="row">
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Nueva Subcategoria</h3>
+        <h3 class="tile-title">Nuevo Horario de Entrega</h3>
         <div class="tile-body ">
           <form id="frmc" name="frmc"  novalidate="">
             {{ csrf_field() }} 
             <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
               <div class="form-group col-12  col-md-4">
-                <label for="exampleSelect1">Categoría</label>
-                <select class="form-control" id="categoria" name="categoria">
-                  <option value="">Seleccione</option>       
-                @foreach($categorias as $categoria)   
-                <option value="{{$categoria->id}}"> {{ $categoria->categoria }} </option>
-                 @endforeach
+                <label for="exampleSelect1">Estatus de Venta</label>
+                <select class="form-control" id="statusVenta" name="statusVenta">
+                  <option value="">Seleccione</option> 
+                   <option value="1">Activo</option> 
+                   <option value="5">Espera</option> 
                 </select>
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombreSubcategoria" name="nombreSubcategoria" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
+                <input class="form-control" type="text" placeholder="..." id="horaVenta" name="horaVenta"  oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="radio" value="1"  id="statusSubcategoria" name="statusSubcategoria" checked>Activo
+                        <input class="form-check-input" type="radio" value="1"  id="statusHora" name="statusHora" checked>Activo
                       </label>
                     </div>
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" type="radio" value="0" id="statusSubcategoria2" name="statusSubcategoria">Inactivo
+                        <input class="form-check-input" type="radio" value="0" id="statusHora2" name="statusHora">Inactivo
                       </label>
                     </div>
                   </div>
@@ -70,73 +69,76 @@
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-          
-            <form class="row d-flex justify-content-end" action="{{route('subcategorias.index')}}" method="get">
+          <div class="row">
+            <form class="row d-flex justify-content-end" action="{{route('horas.index')}}" method="get">
             <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado de Subcategorias</h3>
+              <h3 class="tile-title text-center text-md-left">Listado de Horario de Ventas</h3>
             </div>
              <div class="form-group col-md-2">
-              <input type="text" class="form-control" id="buscarsubc" name="buscarsubc" placeholder="Buscar">
+              <input type="text" class="form-control" id="buscarhora" name="buscarhora" placeholder="Buscar">
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="selectcat" name="selectcat">
-                <option value="">Categoría</option>
-                @foreach($categorias as $categoria)   
-                <option value="{{$categoria->id}}"> {{ $categoria->categoria }} </option>
-                 @endforeach
+              <select class="form-control" id="selectven" name="selectven">
+                <option value="">Estatus de Venta</option>
+                <option value="1">Activo</option> 
+                <option value="5">Espera</option> 
               </select>
             </div>
             <div class="form-group col-md-2">
               <select class="form-control" id="selectstatus" name="selectstatus">
-                <option value="">Estatus</option>
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
+                <option value="">Estatus</option>  
+                  <option value="1">Activo</option>
+                  <option value="0">Inactivo</option>     
               </select>
             </div>
              <div class="col-md-1 mr-md-3">
               <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
             </div>
           </form>
-         
+          </div>
         </div>
         {{-- FIN FILTRO --}}
       
         <div class="tile-body">
           <div class="tile-body table-responsive">
-            <div class="subcategorias">
+            <div class="horas">
               <table class="table table-hover" id="sampleTable">
                 <thead>
                   <tr>
                     <th>Nombre</th>
-                    <th>Categoría</th>
+                    <th>Estatus Venta</th>
                     <th>Estatus</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
              
-                  <tbody id="subcategorias-list" name="subcategorias-list"> 
-                  @foreach($subcategorias as $subcategoria)           
-                     <tr id="subcategoria{{$subcategoria->id}}">
-                      <td width="30%">{{$subcategoria->sub_categoria}}</td>
-                      <td width="30%">{{$subcategoria->categoria}}</td>
-                <?php if ($subcategoria->status==1){ ?>
+                  <tbody id="horas-list" name="horas-list"> 
+                 @foreach($horarios as $horario)           
+                     <tr id="hora{{$horario->id}}">
+                      <td width="30%">{{$horario->horario}}</td>
+                <?php if ($horario->status_v==1){ ?>
+                      <td width="25%"><?=  'Activo' ?></td>
+                <?php }else{ ?> 
+                      <td width="25%"><?='Espera' ?></td>
+                <?php } ?> 
+                <?php if ($horario->status==1){ ?>
                       <td width="25%"><?=  'Activo' ?></td>
                 <?php }else{ ?> 
                       <td width="25%"><?='Inactivo' ?></td>
                 <?php } ?> 
                       <td width="15%" class="text-center">
                       <div class="btn-group">
-                      <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
+                      <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$horario->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
+                      <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$horario->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
                       </div>
                       </td>
                     </tr>
                     @endforeach
-                                 
+                  
                 </tbody>
               </table>
             <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $subcategorias->render(); ?>
+                     <?php echo $horarios->render(); ?>
               </div>
             </div>
           </div>
@@ -150,24 +152,23 @@
     <div class="modal-content">
      <div class="modal-header">
       <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
-      <h4 class="modal-title" id="myModalLabel">Editar Categoria</h4>
+      <h4 class="modal-title" id="myModalLabel">Editar Horario de Entrega</h4>
      </div>
      <div class="modal-body">
       <form id="frmsubcategoria" name="frmsubcategoria" class="form-horizontal" novalidate="">
         
        <div class="row">
         <div class="form-group col-12  col-md-4">
-                <label for="exampleSelect1">Categoría</label>
-                <select class="form-control" id="cat" name="cat">
-                  <option value="">Seleccione</option>       
-                @foreach($categorias as $categoria)   
-                <option value="{{$categoria->id}}"> {{ $categoria->categoria }} </option>
-                 @endforeach
+                <label for="exampleSelect1">Estatus Venta</label>
+                <select class="form-control" id="statusventa" name="statusventa">
+                  <option value="">Seleccione</option>  
+                  <option value="1">Activo</option> 
+                   <option value="5">Espera</option>           
                 </select>
               </div>
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
+                <input class="form-control" type="text" placeholder="..." id="horario" name="horario"  oncopy="return false" onpaste="return false" >
               </div>
              <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
@@ -191,7 +192,7 @@
       <div class="modal-footer">
       <button type="button" class="btn btn-primary" id="btn-save-edit" value="update">Guardar</button>
       <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
-      <input type="hidden" id="subcategoria_id" name="subcategoria_id" value="0">
+      <input type="hidden" id="hora_id" name="hora_id" value="0">
       <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
      </div>
      
@@ -208,18 +209,18 @@
             
                 <div class="modal-header">
                     
-                    <h4 class="modal-title" id="myModalLabel">Eliminar Categoria</h4>
+                    <h4 class="modal-title" id="myModalLabel">Eliminar Horario de Venta</h4>
                 </div>
             <form id="frmdel" name="frmdel" class="form-horizontal" novalidate="">
                 <div class="modal-body">
-                    <p>Está seguro que desea Eliminar este Categoria?</p>
+                    <p>Está seguro que desea Eliminar este Horario?</p>
                     <p class="debug-url"></p>
                 </div>
               </form> 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"></span>No</button>
-                     <button type="button" class="btn btn-danger delete-subcategoria" >Si</button>
-                    <input type="hidden" id="subcategoria-id" name="subcategoria-id" value="0">
+                     <button type="button" class="btn btn-danger delete-hora" >Si</button>
+                    <input type="hidden" id="hora-id" name="hora-id" value="0">
                 </div>
             </div>
         </div>
@@ -229,5 +230,5 @@
 
 @push('scripts')
 <meta name="csrf-token" content="{{ csrf_token() }}"> 
- <script src="{{asset('js/Configurar/crud_subcategorias.js')}}"></script>
+ <script src="{{asset('js/Configurar/crud_horas.js')}}"></script>
 @endpush

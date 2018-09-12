@@ -1,4 +1,4 @@
-var url = "fuentes";
+var url = "horas";
 
   $.ajaxSetup({
         headers: {
@@ -6,10 +6,10 @@ var url = "fuentes";
         }
     });
 
-// muestra el formulario modal para la edición del fuente
+// muestra el formulario modal para la edición del hora
 $(document).on('click', '.open_modal', function () {
-    var fuente_id = $(this).val();
-    $.get(url + '/edit/' + fuente_id, function(data){
+    var hora_id = $(this).val();
+    $.get(url + '/edit/' + hora_id, function(data){
           $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -17,8 +17,9 @@ $(document).on('click', '.open_modal', function () {
     });
         //success data
         console.log(data);
-        $('#fuente_id').val(data.id);
-        $('#nombre').val(data.fuente);
+        $('#hora_id').val(data.id);
+        $('#horario').val(data.horario);
+        $('select[name=statusventa]').val(data.status_v);
         if (data.status==1){
         $('input:radio[id=status]').prop("checked", true);
         }
@@ -30,18 +31,18 @@ $(document).on('click', '.open_modal', function () {
     
 });
 
-// muestra modal para la confirmar eliminar   fuente
+// muestra modal para la confirmar eliminar   hora
 $(document).on('click', '.confirm-delete', function () {
-    var fuente_id = $(this).val();
+    var hora_id = $(this).val();
     $('#confirm-delete').modal('show');
-    $('#fuente-id').val(fuente_id);
+    $('#hora-id').val(hora_id);
 });
 
 
-// eliminar el fuente y eliminarlo de la lista
-$(document).on('click', '.delete-fuente', function () {
+// eliminar el hora y eliminarlo de la lista
+$(document).on('click', '.delete-hora', function () {
 
-    var fuente_id = $('#fuente-id').val();
+    var hora_id = $('#hora-id').val();
 
     $.ajaxSetup({
         headers: {
@@ -50,21 +51,25 @@ $(document).on('click', '.delete-fuente', function () {
     });
     $.ajax({
         type: "DELETE",
-        url: url + '/' + fuente_id,
+        url: url + '/' + hora_id,
+         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
-            $("#fuente" + fuente_id).remove();
+            $("#hora" + hora_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Fuente Eliminada con Éxito");
+            $("#res").html("La hora de Entrega se Eliminó con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
-            console.log('Error:', data);
+            $('#confirm-delete').modal('hide');
+            $("#rese").html("No se pudo Eliminar la Hora de Entrega, por que está Asociada a una Venta");
+            $("#rese, #res-content, #res-content").css("display","block");
+            $("#rese, #res-content, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
-// crear nuevo fuente
+// crear nuevo hora
 $("#btn-save").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -74,48 +79,51 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
-        nombre: $('#nombreFuente').val(),
-        status: $('input:radio[name=statusFuente]:checked').val(),
+        nombre: $('#horaVenta').val(),
+        status: $('input:radio[name=statusHora]:checked').val(),
+        status_v: $('#statusVenta').val(),
         id_usuario: $('#id_usuario').val(),
     }
     
     console.log(formData);
     $.ajax({
         type: "POST",
-        url: url,
+        url: url + '/create',
         data: formData,
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
+            var esp='Espera';
             var act='Activo';
             var ina='Inactivo';
-            var fuente = '<tr id="fuente' + data.id + '"><td width="45%">' + data.fuente + '</td>'+(data.status==1 ? '<td  width="45%">' + act + '</td>':'<td  width="45%">' + ina + '</td>');
-            fuente += '<td width="10%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            fuente += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            var hora = '<tr id="hora' + data.id + '"><td width="30%">' + data.horario + '</td>'+(data.status_v==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + esp + '</td>')+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
+            hora += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            hora += ' <button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
-            $('#fuentes-list').append(fuente);
+            $('#horas-list').append(hora);
             $('#frmc').trigger("reset");
-            $("#res").html("Fuente Registrada con Éxito");
+            $("#res").html("La Hora de Entrega se Registro con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
        
-         error: function (data,estado,error) { 
+          error: function (data,estado,error) { 
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
                 if(error.message.hasOwnProperty(k)){ 
                     error.message[k].forEach(function(val){
-                       
+
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
+                        
                         $("#rese").html(errorsHtml);
                         $("#rese, #res-content").css("display","block");
                         $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-
-                         }); 
+                     
+                      }); 
                 }
             }
           errorsHtml +="</ul>"; 
@@ -124,7 +132,7 @@ $("#btn-save").click(function (e) {
 });
 
 
-////actualiza fuente
+////actualiza hora
 $("#btn-save-edit").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -133,10 +141,14 @@ $("#btn-save-edit").click(function (e) {
     });
 
     e.preventDefault();
-        var fuente_id = $('#fuente_id').val();
-        var formData = {nombre: $('#nombre').val(), status: $('input:radio[name=status]:checked').val(), id_usuario: $('#id_usuario').val(),}
+        var hora_id = $('#hora_id').val();
+        var formData = { nombre: $('#horario').val(),
+                         status: $('input:radio[name=status]:checked').val(),
+                         status_v: $('#statusventa').val(),
+                         id_usuario: $('#id_usuario').val(),
+                                        }
         var my_url = url;
-        my_url += '/mod/'+ fuente_id;
+        my_url += '/mod/'+ hora_id;
    
     console.log(formData);
     $.ajax({
@@ -147,20 +159,22 @@ $("#btn-save-edit").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data.status);
+            var esp='Espera';
             var act='Activo';
             var ina='Inactivo';
-            var fuente = '<tr id="fuente' + data.id + '"><td width="45%">' + data.fuente + '</td>'+(data.status==1 ? '<td  width="45%">' + act + '</td>':'<td  width="45%">' + ina + '</td>');
-            fuente += '<td width="10%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            fuente += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-            $("#fuente" + fuente_id).replaceWith(fuente);
+            var hora = '<tr id="hora' + data.id + '"><td width="30%">' + data.horario + '</td>'+(data.status_v==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + esp + '</td>')+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
+            hora += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            hora += ' <button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+          
+           $("#hora" + hora_id).replaceWith(hora);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Fuente Modificada con Éxito");
+            $("#res").html("La Hora de Entrega se  Modifico con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
-        error: function (data) {
-            var errorsHtml = '';
+        error: function (data,estado,error) { 
+             var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
@@ -178,7 +192,6 @@ $("#btn-save-edit").click(function (e) {
                 }
             }
           errorsHtml +="</ul>"; 
-        
         }
     });
 });
@@ -200,20 +213,20 @@ function soloLetras(e) {
     if(letras.indexOf(tecla) == -1 && !tecla_especial)
         return false;
 }
-
-
 $(document).on('click','.pagination a',function(e){
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
 //console.log(page);
-    var route ="fuentes";
+    var route ="horas";
     $.ajax({
         url: route,
         data: {page: page},
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            $(".fuentes").html(data);
+            $(".horas").html(data);
         }
     });
 });
+
+  

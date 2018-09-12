@@ -15,6 +15,7 @@
      <li><a class="treeview-item {{ Request::is('configurar/direcciones/departamentos*') ? 'active' : '' }}" href="{{ route('departamentos') }}"><i class="icon fa fa-circle-o"></i>Departamentos</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/direcciones/ciudades*') ? 'active' : '' }}" href="{{ route('ciudades') }}"><i class="icon fa fa-circle-o"></i>Ciudades</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/direcciones/barrios*') ? 'active' : '' }}" href="{{ route('barrios') }}"> <i class="icon fa fa-circle-o"></i>Barrios</a></li>
+     <li><a class="treeview-item {{ Request::is('configurar/horas/horas*') ? 'active' : '' }}" href="{{ route('horas.index') }}"> <i class="icon fa fa-circle-o"></i>Horas</a></li>
      
      
      @endif
@@ -43,7 +44,7 @@
 
 <li class="treeview {{ Request::is('procesar/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-check"></i><span class="app-menu__label">Procesar</span><i class="treeview-indicator fa fa-angle-right"></i></a>
   <ul class="treeview-menu">
-    <li><a class="treeview-item {{ Request::is('registro/gastos*') ? 'active' : '' }}" href="{{ route('gastos.index') }}"><i class="icon fa fa-circle-o"></i>Gastos</a></li>
+    <li><a class="treeview-item {{ Request::is('procesar/gastos*') ? 'active' : '' }}" href="{{ route('gastos.index') }}"><i class="icon fa fa-circle-o"></i>Gastos</a></li>
 
     <li><a class="treeview-item {{ Request::is('procesar/ventas*') ? 'active' : '' }}" href="{{ route('ventas.index') }}"><i class="icon fa fa-circle-o"></i>Ventas</a></li>
     {{-- <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Pedidos</a></li> --}}

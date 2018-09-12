@@ -28,14 +28,14 @@
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="Nombre Fuente" id="nombreFuente" name="nombreFuente" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre Fuente" id="nombreFuente" name="nombreFuente" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input"  value="1" type="radio" id="statusFuente" name="statusFuente">Activo
+                        <input class="form-check-input"  value="1" type="radio" id="statusFuente" name="statusFuente" checked>Activo
                       </label>
                     </div>
                     <div class="form-check">
@@ -57,7 +57,30 @@
  
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado de Fuentes</h3>
+        {{-- FILTRO --}}
+      <div class="col mb-3 text-center">
+            <form class="row d-flex justify-content-end" action="{{route('fuentes.index')}}" method="get">
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado Fuente</h3>
+            </div>
+             <div class="form-group col-md-3">
+              <input type="text" class="form-control" name="buscarfuente" id="buscarfuente" placeholder="Buscar Fuentes">
+            </div>
+            <div class="form-group col-md-3">
+              <select class="form-control" id="selectstatus" name="selectstatus">
+                <option value="">Estatus</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+              </select>
+            </div>
+            <div class="col-md-1 mr-md-3">
+              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
+            </div>
+          </form>
+          <div class="row">
+          </div>
+        </div>
+        {{-- FIN FILTRO --}}
         <div class="tile-body ">
           <div class="tile-body">
             <div class="table-responsive">
@@ -103,7 +126,7 @@
    <div class="modal-dialog">
     <div class="modal-content">
      <div class="modal-header">
-     
+     <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Fuente</h4>
      </div>
      <div class="modal-body">
@@ -112,7 +135,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>

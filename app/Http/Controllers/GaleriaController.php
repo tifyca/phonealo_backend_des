@@ -8,6 +8,7 @@ use App\Categorias;
 use App\Subcategorias;
 use DB;
 use App\imagenes;
+ @session_start();
 class GaleriaController extends Controller
 {
     public function index(Request $request){
@@ -105,5 +106,11 @@ try {
 
 	}
 
+public function destroy($id){
+        $galeria= imagenes::find($id);
+        $this->deleteFile($galeria->imagen, "productos/");
+        $galeria->destroy($id);
+        return redirect()->route('producto.index');
 
+}
 }

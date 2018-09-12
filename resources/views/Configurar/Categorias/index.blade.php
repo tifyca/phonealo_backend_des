@@ -25,11 +25,11 @@
         <div class="tile-body ">
           <form id="frmc" name="frmc"  novalidate="">
             {{ csrf_field() }} 
-             <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+            <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombreCategoria" name="nombreCategoria" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombreCategoria" name="nombreCategoria" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Tipo de Categoría</label>
@@ -68,29 +68,33 @@
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-          <div class="row">
+        <form class="row d-flex justify-content-end" action="{{route('categorias.index')}}" method="get"> 
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Categorías</h3>
             </div>
-             <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="" placeholder="Buscar">
+             <div class="form-group col-md-3">
+              <input type="text" class="form-control" id="buscarcategoria" name="buscarcategoria" placeholder="Buscar">
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="selecttipo" name="selecttipo">
                 <option value="">Tipo</option>
-                <option>Producto</option>
-                <option>Gastos</option>
+                <option value="Productos">Productos</option>
+                <option value="Gastos">Gastos</option>
               </select>
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="selectstatus" name="selectstatus">
                 <option value="">Estatus</option>
-                <option>Activo</option>
-                <option>Inactivo</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
               </select>
             </div>
-          </div>
+            <div class="col-md-1 mr-md-2">
+              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">             
+           </div>
+          </form>
         </div>
+       
         {{-- FIN FILTRO --}}
         <div class="tile-body ">
             <div class="table-responsive">
@@ -141,7 +145,7 @@
    <div class="modal-dialog modal-lg">
     <div class="modal-content">
      <div class="modal-header">
-     
+     <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Categoría</h4>
      </div>
      <div class="modal-body">
@@ -150,7 +154,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Tipo de Categoría</label>
@@ -222,4 +226,11 @@
 @push('scripts')
  <meta name="_token" content="{!! csrf_token() !!}" />
  <script src="{{asset('js/Configurar/crud_categorias.js')}}"></script>
+ <script type="text/javascript">
+
+ 
+ 
+</script>
+ 
+
 @endpush

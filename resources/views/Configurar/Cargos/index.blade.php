@@ -21,14 +21,13 @@
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Nuevo Cargo</h3>
-        <div class="tile-body ">
           <form id="frmc" name="frmc"  novalidate="">
             {{ csrf_field() }} 
-		<input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+		          <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control"  type="text" placeholder="Ej: Repartidor" id="nombreCargo" name="nombreCargo" onkeypress="return soloLetras(event)">
+                <input class="form-control"  type="text" placeholder="Ej: Repartidor" id="nombreCargo" name="nombreCargo" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
@@ -50,6 +49,7 @@
               </div>
             </div>
           </form>
+        <div class="tile-body ">
         </div>  
     </div>
   </div>
@@ -59,21 +59,26 @@
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-          <div class="row">
+          
+            <form class="row d-flex justify-content-end" action="{{route('cargos.index')}}" method="get">
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Cargos</h3>
             </div>
-             <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="" placeholder="Buscar">
+             <div class="form-group col-md-3">
+              <input type="text" class="form-control" name="buscarcargos" id="buscarcargos" placeholder="Buscar Cargo">
             </div>
-            <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+            <div class="form-group col-md-3">
+              <select class="form-control" id="selectstatus" name="selectstatus">
                 <option value="">Estatus</option>
-                <option>Activo</option>
-                <option>Inactivo</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
               </select>
             </div>
-          </div>
+            <div class="col-md-1 mr-md-3">
+              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
+            </div>
+          </form>
+         
         </div>
         {{-- FIN FILTRO --}}
             <div class="tile-body">
@@ -120,16 +125,15 @@
    <div class="modal-dialog">
     <div class="modal-content">
      <div class="modal-header">
-     
+        <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Cargo</h4>
      </div>
      <div class="modal-body">
-      <form id="frmcargos" name="frmcargos" class="form-horizontal" novalidate="">
-        
+      <form id="frmcargos" name="frmcargos" class="form-horizontal" novalidate="">  
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
@@ -193,14 +197,13 @@
 @push('scripts')
  <meta name="_token" content="{!! csrf_token() !!}" />
  <script src="{{asset('js/Configurar/crud_cargos.js')}}"></script>
-
-    <script type="text/javascript">
-  
-
-   /*$( "div.alert" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );*/
+ <script type="text/javascript">
 
 
-    
-  </script>
+ 
+</script>
+ 
+
+ 
 @endpush
 

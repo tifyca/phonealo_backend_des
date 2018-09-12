@@ -59,23 +59,23 @@ class ProveedoresController extends Controller
 		$data=$request->all();
 
     $rules = array( 'nombre_proveedor'=>'required|unique:proveedores,nombres', 
-                   // 'email_proveedor'=>'required|unique:proveedores,email',
+                    'email_proveedor'=>'required|unique:proveedores,email',
                     'direccion_proveedor'=>'required',
                     'telefono_proveedor'=>'required',
                     'ruc_proveedor' =>'required',
                     'pais_proveedor' =>'required|not_in:0'
                     );
 
-    $messages = array( 'nombre_proveedor.required'=>'Nombre del proveedor es requerido', 
-                       'nombre_proveedor.unique' => 'El proveedor ya existe', 
-                     //  'email_proveedor.required'=>'El email del proveedor es requerido', 
-                     //  'email_proveedor.unique' => 'El email del proveedor ya existe',
-                       'telefono_proveedor.required'=>'El teléfono del proveedor es requerido', 
+    $messages = array( 'nombre_proveedor.required'=>'Nombre del Proveedor es Requerido', 
+                       'nombre_proveedor.unique' => 'El Proveedor ya Existe', 
+                       'email_proveedor.required'=>'El Email del Proveedor es Requerido', 
+                       'email_proveedor.unique' => 'El Email del Proveedor ya Existe',
+                       'telefono_proveedor.required'=>'El Teléfono del Proveedor es Requerido', 
                        //'telefono_proveedor.unique' => 'El teléfono del proveedor ya existe',
-                       'ruc_proveedor' =>'El ruc del proveedor es requerido',
-                       'pais_proveedor.required'=>'El pais del proveedor es requerido',
-                       'pais_proveedor.not_in'=> 'El pais del proveedor es requerido'
-                      );
+                       'ruc_proveedor' =>'El Ruc del Proveedor es Requerido',
+                       'pais_proveedor.required'=>'El Pais del Proveedor es Requerido',
+                       'pais_proveedor.not_in'=> 'El Pais del Proveedor es Requerido'
+                       );
 
                       
         $validator = Validator::make($data, $rules, $messages);
@@ -125,21 +125,21 @@ class ProveedoresController extends Controller
     $data=$request->all();
 
     $rules = array( 'nombre_proveedor'=>'required|unique:proveedores,nombres,' .$proveedor_id,  
-                    'email_proveedor'=>'required ',          //|unique:proveedors,email,' .$proveedor_id,
+                    'email_proveedor'=>'required|unique:proveedores,email,' .$proveedor_id,
                     'telefono_proveedor'=>'required',        ///|unique:proveedors,telefono,' .$proveedor_id,
                     'direccion_proveedor'=>'required',
                 	'ruc_proveedor' =>'required',
                     'pais_proveedor' =>'required|not_in:0');
 
-    $messages = array( 'nombre_proveedor.required'=>'Nombre del proveedor es requerido', 
-                       'nombre_proveedor.unique' => 'El proveedor ya existe', 
-                       'email_proveedor.required'=>'El email del proveedor es requerido', 
-                      // 'email_proveedor.unique' => 'El email del proveedor ya existe',
-                       'telefono_proveedor.required'=>'El teléfono del proveedor es requerido', 
+    $messages = array( 'nombre_proveedor.required'=>'Nombre del Proveedor es Requerido', 
+                       'nombre_proveedor.unique' => 'El Proveedor ya Existe', 
+                       'email_proveedor.required'=>'El Email del Proveedor es Requerido', 
+                       'email_proveedor.unique' => 'El Email del Proveedor ya Existe',
+                       'telefono_proveedor.required'=>'El Teléfono del Proveedor es Requerido', 
                      //  'telefono_proveedor.unique' => 'El teléfono del proveedor ya existe',
-                       'ruc_proveedor' =>'El ruc del proveedor es requerido',
-                       'pais_proveedor.required'=>'El pais del proveedor es requerido',
-                       'pais_proveedor.not_in'=> 'El pais del proveedor es requerido'
+                       'ruc_proveedor' =>'El Ruc del Proveedor es Requerido',
+                       'pais_proveedor.required'=>'El Pais del Proveedor es Requerido',
+                       'pais_proveedor.not_in'=> 'El Pais del Proveedor es Requerido'
                        );
 
         $validator = Validator::make($data, $rules, $messages);

@@ -31,8 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
     // CONFIGURAR
 
     Route::resource('configurar/cargos', 'Configurar\CargosController');
+    Route::post('configurar/cargos/create','Configurar\CargosController@store');
     Route::get('configurar/cargos/edit/{cargo_id?}','Configurar\CargosController@editar');
-    Route::post('configurar/cargos','Configurar\CargosController@store');
     Route::put('configurar/cargos/mod/{cargo_id?}','Configurar\CargosController@update');
     Route::delete('configurar/cargos/{cargo_id?}','Configurar\CargosController@destroy');
 
@@ -91,7 +91,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('configurar/estados/edit/{estado_id?}','Configurar\EstadosController@editar');
     Route::put('configurar/estados/mod/{estado_id?}','Configurar\EstadosController@update');
     
-
+    Route::resource('configurar/horas', 'Configurar\HorasController');
+    Route::get('configurar/horas/edit/{hora_id?}','Configurar\HorasController@editar');
+    Route::post('configurar/horas/create','Configurar\HorasController@store');
+    Route::put('configurar/horas/mod/{hora_id?}','Configurar\HorasController@update');
+    Route::delete('configurar/horas/{hora_id?}','Configurar\HorasController@destroy');
      
    
    
@@ -140,7 +144,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
 
-    Route::resource('registro/gastos', 'Registro\GastosController');
+   
 
 
     Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
@@ -186,8 +190,12 @@ Route::group(['middleware' => 'auth'], function () {
     ///////////
 
     // PROCESAR
+    // 
+     Route::resource('procesar/gastos', 'Registro\GastosController');
     
     Route::resource('procesar/ventas', 'Procesar\VentasController');
+    Route::get('searchCliente/{tlf?}', 'Procesar\VentasController@getcliente')->name('searchCliente');
+
 
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
 
@@ -254,7 +262,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('caja/historial', 'Caja\historialController@index')->name('caja.historial');
     
 
+//////////////////////
+/// DOCUMENTACION
 
+    Route::get('documentacion', 'Documentacion\DocumentacionController@index')->name('documentacion');
+    Route::get('documentacion/configurar', 'Documentacion\DocumentacionController@configurar')->name('documentacion.configurar');
+    Route::get('documentacion/registro', 'Documentacion\DocumentacionController@registro')->name('documentacion.registro');
+    Route::get('documentacion/inventario', 'Documentacion\DocumentacionController@inventario')->name('documentacion.inventario');
+    Route::get('documentacion/procesar', 'Documentacion\DocumentacionController@procesar')->name('documentacion.procesar');
+    Route::get('documentacion/caja', 'Documentacion\DocumentacionController@caja')->name('documentacion.caja');
+    Route::get('documentacion/seguridad', 'Documentacion\DocumentacionController@seguridad')->name('documentacion.seguridad');
 
     
 

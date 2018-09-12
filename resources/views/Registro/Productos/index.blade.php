@@ -76,7 +76,9 @@
                   </td>
                   <td>{{$ficha->descompuesto}}</td>
                   <td>{{$ficha->stock_minimo}}</td>
-                  <td>{{$ficha->precio_ideal}}</td>
+                  <td><?php 
+                      $precio = number_format($ficha->precio_ideal, 2, ',', '.');
+                  echo $precio;?></td>
                  <?php 
                       $url=$ficha->img;
                        if($url)
@@ -90,9 +92,9 @@
                   <td class="text-center"><img src="{{ asset($zurl) }}" class="img-fluid" width="100px" alt=""></td> 
                   <td class="text-center">
                     <div class="btn-group">
-                      <a class="btn btn-primary" href="{{ route('productos.edit',$ficha->id) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                      <a class="btn btn-primary" href="{{ route('productos.detalle',$ficha->id) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
-                      <a class="btn btn-primary" href="{{ route('galeria.index',$ficha->id) }}"><i class="m-0 fa fa-lg fa-image"></i></a>
+                      <a class="btn btn-primary" href="{{ route('productos.edit',$ficha->id) }}" title="Ver/Editar"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                      <a class="btn btn-primary" href="{{ route('productos.detalle',$ficha->id) }}" title="Ver Detalle"><i class="m-0 fa fa-lg fa-info"></i></a>
+                      <a class="btn btn-primary" href="{{ route('galeria.index',$ficha->id) }}" title="Ver Galería de Imágenes"><i class="m-0 fa fa-lg fa-image"></i></a>
                     </div>
                   </td>
                 </tr>
