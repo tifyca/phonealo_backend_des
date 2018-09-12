@@ -27,7 +27,7 @@ class GaleriaController extends Controller
 	}
     public function store(Request $request)
     {
-	try{
+	   try{
                 $titulo          = $request->titulo;
                 $id_producto    = $request->id;
 
@@ -49,7 +49,7 @@ class GaleriaController extends Controller
         $galeria->id_usuario      = $_SESSION["user"];
         $galeria->save();
         $id = $id_producto;
-        return redirect()->route('galeria.index',$id)->with("notificacion","Se ha guardado correctamente su información");
+        return redirect()->route('galeria.index',$request->id)->with("notificacion","Se ha guardado correctamente su información");
         //
 	  }catch (Exception $e) {
         \Log::info('Error creating item: '.$e);
