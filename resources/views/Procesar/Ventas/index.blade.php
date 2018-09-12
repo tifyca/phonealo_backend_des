@@ -1,3 +1,9 @@
+<?php
+ @session_start();
+ $id_usuario= $_SESSION["user"];
+ $name_user= $_SESSION["nombre"];
+?>
+
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
@@ -86,26 +92,25 @@
 
             <div class="form-group col-md-4">
               <label for="">Fecha de Venta</label>
-              <input class="form-control" type="date" id="" name="" >
+              <input class="form-control" type="date" id="fecha_venta" name="fecha_venta" >
             </div>
              <div class="form-group col-md-4">
               <label for="">Fecha de Entrega</label>
-              <input class="form-control" type="date" id="" name="" >
+              <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" >
             </div>
             <div class="form-group col-md-4">
               <label for="">Horario de Entrega</label>
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="horario_venta" name="horario_venta">
                 <option value="">Seleccione</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+               @foreach($horarios as $horario)  
+                      <option value="{{$horario->id}}"> {{ $horario->horario }} </option>
+                 @endforeach         
+                    
               </select>
             </div>
             <div class="form-group col-md-4">
               <label for="">Forma de Pago</label>
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="forma_pago" name="forma_pago">
                 <option value="">Seleccione</option>
                 <option>Efectivo</option>
                 <option>Giro Tigo</option>
@@ -114,7 +119,7 @@
             </div>
             <div class="form-group col-md-4">
               <label for="">Factura</label>
-              <select id="factura" class="form-control" id="" name="">
+              <select id="factura" class="form-control" id="factura" name="factura">
                 <option value="">Seleccione</option>
                 <option value="1" selected>No</option>
                 <option value="2">Si</option>
@@ -123,25 +128,23 @@
             </div>
             <div class="form-group col-md-4">
               <label for="">Vendedor</label>
-              <select class="form-control" id="" name="">
-                <option value="">Seleccione</option>
-                <option value="">Item1</option>
-                <option value="" selected>Item2</option>
-                <option value="">Item3</option>
+              <select class="form-control" id="vendedor" name="vendedor" disabled>
+                <option value="">{{$name_user }}</option>
+                
               </select>
             </div>
             {{-- ESTOS CAMPOS APARECEN CUANDO SE SELECCIONA FACTURA : SI / SIN NOMBRE   --}}
             <div id="nombres_factura" class=" d-none form-group col-md-4">
               <label for="">Nombres</label>
-              <input class="form-control" type="text" id="" name="" >
+              <input class="form-control" type="text" id="factura_nomb" name="factura_nomb" >
             </div>
             <div id="direccion_factura" class=" d-none form-group col-md-8">
               <label for="">Direccion</label>
-              <input class="form-control" type="text" id="" name="" >
+              <input class="form-control" type="text" id="factura_dir" name="factura_dir" >
             </div>
             <div id="ruc_factura" class=" d-none form-group col-md-4">
               <label for="">RUC</label>
-              <input class="form-control" type="text" id="" name="" >
+              <input class="form-control" type="text" id="factura_ruc" name="factura_ruc" >
             </div>
             {{-- //// --}}
             
@@ -154,13 +157,13 @@
                   </label>
                 </div>
                 <div class="col-9">
-                  <input class="form-control" type="text" id="monto" name="" placeholder="Monto" >
+                  <input class="form-control" type="text" id="monto" name="monto" placeholder="Monto" >
                 </div>
               </div>
             </div>
             <div class="form-group col-md-12">
               <label for="">Nota</label>
-              <textarea name="" class="form-control" cols="5"></textarea>
+              <textarea name="nota_venta" id="nota_venta" class="form-control" cols="5"></textarea>
             </div>
               
           </div>
@@ -220,22 +223,22 @@
           
           <div class="form-group col-md-6 opacity-p">
             <label for="">Cod. Producto</label>
-            <input class="form-control" type="text" id="cod_producto" name="" readonly>
+            <input class="form-control" type="text" id="cod_producto" name="cod_producto" readonly>
           </div>
           <div class="form-group col-md-6 opacity-p">
             <label for="">Stock</label>
-            <input class="form-control" type="text" id="stock" name=""  readonly>
+            <input class="form-control" type="text" id="stock" name="stock"  readonly>
           </div>
           <div class="form-group col-md-6 opacity-p">
             <label for="">Cantidad</label>
-            <input class="form-control" type="text" id="" name="" >
+            <input class="form-control" type="text" id="cantidad" name="cantidad" >
           </div>
           <div class="form-group col-md-6 opacity-p">
             <label for="">Precio</label>
-            <input class="form-control" type="text" id="precio" name="" >
+            <input class="form-control" type="text" id="precio" name="precio" >
           </div>
           <div class="col-sm-12 opacity-p d-flex justify-content-between mt-4">
-            <a id="añadir" class="btn btn-primary " ><i class=" fa fa-lg fa-plus"></i>Añadir</a>
+            <a class="btn btn-primary "  id="btn-save" value="add"><i class=" fa fa-lg fa-plus"></i>Añadir</a>
             <a id="refrescar" class="btn btn-secondary " ><i class=" fa fa-lg fa-refresh"></i>Refrescar</a>
           </div>
         </div>
@@ -296,7 +299,7 @@
                 <tbody>
                   <tr>
                     <td colspan="5" class="text-right"><h4>Total: 0000000</h4></td>
-                    <td><button class="btn btn-primary" type="submit">Guardar</button></td>
+                    <td><button class="btn btn-primary" type="submit" >Guardar</button></td>
                   </tr>
                 </tbody>
               </table>
@@ -306,7 +309,7 @@
       {{-- FIN CESTA DE COMPRA --}}
    </div>
 </div>
-  
+
 
 @endsection
 
@@ -475,42 +478,76 @@
 
     }
 
-    
-
-
-     $("#telefono_cliente").blur(function(){
+  $("#telefono_cliente").blur(function(){
          var value=$(this).val();
-         alert(value);
-     $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+ 
+        $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
 
-    $.get('{{ route('searchCliente') }}' + '/' + value, function(data){
-      console.log(data);
-            $('#nombre_cliente').val('');
-            $('#email_cliente').val('');
-            $('#ruc_cliente').val('');
-            $('#tipo_cliente').val('');
-            $('select[name=departamento_cliente]').val(0);
-            $('select[name=ciudad_cliente]').val(0);
-            $('select[name=barrio_cliente]').val(0);
-            $('#ubicacion_cliente').val('');
-            $('#direccion_cliente').val('');
+        $.get('{{ route('searchCliente') }}' + '/' + value, function(data){
+          console.log(data);
+
         $.each(data, function(i, item) {
-        console.log(item.barrio);
-                 $('#nombre_cliente').val(item.nombres);
-            $('#email_cliente').val(item.email);
-            $('#ruc_cliente').val(item.ruc_ci);
-            $('#tipo_cliente').val(item.id_tipo);
-            $('select[name=departamento_cliente]').val(item.id_departamento);
-            $('select[name=ciudad_cliente]').val(item.id_ciudad);
-            $('select[name=barrio_cliente]').val(item.barrio);
-            $('#ubicacion_cliente').val(item.ubicacion);
-            $('#direccion_cliente').val(item.direccion);
+        console.log(item.id_departamento);
+                $('#nombre_cliente').val(item.nombres);
+                $('#email_cliente').val(item.email);
+                $('#ruc_cliente').val(item.ruc_ci);
+                $('#tipo_cliente').val(item.id_tipo);
+                $('select[name=departamento_cliente]').val(item.id_departamento);
+                cargarComboCiudad(item.id_departamento);
+                $('select[name=ciudad_cliente]').val(item.id_ciudad);
+                cargarComboBarrio(item.id_ciudad);
+                $('select[name=barrio_cliente]').val(item.barrio);
+                $('#ubicacion_cliente').val(item.ubicacion);
+                $('#direccion_cliente').val(item.direccion);
           });
       
        });
     });
 
-    $(document).ready(function(){
+
+function cargarComboCiudad(id_departamneto){
+          var id_departamento = $(this).val();
+          alert(id_departamento);
+          console.log(id_departamento);
+          $(".ciudades").html('');
+
+          $.ajax({
+          type: "get",
+          url: '{{ route('ciudadesCombo') }}',
+          dataType: "json",
+          data: {id_departamneto: id_departamneto},
+          success: function (data){
+          // $(".ciudades").append('<option value=0> Seleccione </option>');
+          $.each(data, function(l, item1) {
+
+          //$(".ciudades option:eq(1)").prop("selected", true);
+          $(".ciudades").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
+          });
+          }
+  });
+};
+
+function cargarComboBarrio(id_ciudad){
+          var id_ciudad = $(this).val();
+          $(".barrios").html('');
+
+           $.ajax({
+              type: "get",
+              url: '{{ route('barriosCombo') }}',
+              dataType: "json",
+              data: {id_ciudad: id_ciudad},
+              success: function (data){
+
+                 $.each(data, function(l, item2) {
+                 // $(".barrios").append('<option value=0> Seleccione </option>');
+                   //$(".ciudades option:eq(1)").prop("selected", true);
+                   $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
+                  });
+              }
+          });
+ };
+ 
+ $(document).ready(function(){
     {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
       $.ajax({
           type: "get",
@@ -539,7 +576,7 @@
               dataType: "json",
               data: {id_departamento: id_departamento},
               success: function (data){
-                    $(".ciudades").append('<option value=0> Seleccione </option>');
+                   // $(".ciudades").append('<option value=0> Seleccione </option>');
                  $.each(data, function(l, item1) {
 
                    //$(".ciudades option:eq(1)").prop("selected", true);
@@ -564,8 +601,7 @@
               success: function (data){
 
                  $.each(data, function(l, item2) {
-
-                    $(".barrios").append('<option value=0> Seleccione </option>');
+                 // $(".barrios").append('<option value=0> Seleccione </option>');
                    //$(".ciudades option:eq(1)").prop("selected", true);
                    $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
                   });
