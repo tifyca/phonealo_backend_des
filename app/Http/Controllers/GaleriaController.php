@@ -114,9 +114,12 @@ public function updated(Request $request,$id){
 
 public function destroy($id){
   $galeria= imagenes::find($id);
+  $id_producto = $galeria->id_producto;
   $this->deleteFile($galeria->imagen, "productos/");
   $galeria->destroy($id);
-  return redirect()->route('producto.index');
+  $productos = productos::where('id',$id_producto)->first();
+  $id = $productos->id;
+  return redirect()->route('galeria.index',$id_producto)->with("notificacion","Se ha Eliminado el Registro");
 
 }
 }
