@@ -25,7 +25,7 @@
         <div class="tile-body ">
           <form id="frmc" name="frmc"  novalidate="">
             {{ csrf_field() }} 
-             <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+            <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>

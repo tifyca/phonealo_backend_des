@@ -59,7 +59,7 @@
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-          <div class="row">
+          
             <form class="row d-flex justify-content-end" action="{{route('cargos.index')}}" method="get">
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Cargos</h3>
@@ -78,7 +78,7 @@
               <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
             </div>
           </form>
-          </div>
+         
         </div>
         {{-- FIN FILTRO --}}
             <div class="tile-body">
