@@ -29,7 +29,7 @@
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombreCategoria" name="nombreCategoria" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombreCategoria" name="nombreCategoria" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Tipo de Categoría</label>
@@ -78,8 +78,8 @@
             <div class="form-group col-md-2">
               <select class="form-control" id="selecttipo" name="selecttipo">
                 <option value="">Tipo</option>
-                <option>Producto</option>
-                <option>Gastos</option>
+                <option value="Productos">Productos</option>
+                <option value="Gastos">Gastos</option>
               </select>
             </div>
             <div class="form-group col-md-2">
@@ -154,7 +154,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Tipo de Categoría</label>
@@ -228,57 +228,7 @@
  <script src="{{asset('js/Configurar/crud_categorias.js')}}"></script>
  <script type="text/javascript">
 
- /* $('#buscar').on('keyup',function(){
-     $('tbody').html('');
-     
-     $value=$(this).val();
-     $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
-     $.ajax({
-       type : 'get',
-       url :'{{ route('searchCategorias') }}',
-       data:{'search':$value},
-       dataType:'html',
-       success:function(data){
-       $('tbody').html(data);
-       }
-       });
-    });
-
-  $('#select-tipo').change(function(){
-        var tipo = $(this).val();
-   
-          $("tbody").html('');
-
-           $.ajax({
-              type: "get",
-              url: '{{ route('searchCategorias') }}',
-              dataType: "html",
-              data: {tipo: tipo},
-              success: function (data){
-                $('select[name=select-tipo]').val(tipo);
-                $('tbody').html(data);
-              }
-          });
-          
-      });
-
-  $('#select-status').change(function(){
-        var valor = $(this).val();
-   
-          $("tbody").html('');
-
-           $.ajax({
-              type: "get",
-              url: '{{ route('searchCategorias') }}',
-              dataType: "html",
-              data: {valor: valor},
-              success: function (data){
-                $('select[name=select-status]').val(estatus);
-                $('tbody').html(data);
-              }
-          });
-          
-      });*/
+ 
  
 </script>
  

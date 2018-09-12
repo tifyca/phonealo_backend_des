@@ -28,7 +28,7 @@
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="Nombre Fuente" id="nombreFuente" name="nombreFuente" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre Fuente" id="nombreFuente" name="nombreFuente" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
@@ -135,7 +135,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
