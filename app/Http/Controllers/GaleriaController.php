@@ -51,7 +51,7 @@ public function store(Request $request)
     $id = $id_producto;
         //return redirect()->route('galeria.index',$request->id)->with("notificacion","Se ha guardado correctamente su información");
         //
-    $productos = productos::find($id);
+    $productos = productos::where('id',$id_producto)->first();
     $nombre = $productos->descripcion;
     $codigo = $productos->codigo_producto;
     $galeria=db::table('producto_imagenes as a')
@@ -82,7 +82,7 @@ public function show($id){
   return view('Galeria.index')->with('galeria',$galeria)->with('nombre',$nombre)->with('codigo',$codigo)->with("id",$id);
 
 }
-public function updated(Request $request,$id){
+public function update(Request $request,$id){
 
   try {
    $galeria=imagenes::find($id);
