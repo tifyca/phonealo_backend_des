@@ -158,6 +158,12 @@ Route::group(['middleware' => 'auth'], function () {
         'as'   => 'galeria.index'
     ]);
 
+    Route::get('galeria/{id}/destroy', [
+        'uses' => 'GaleriaController@destroy',
+        'as'   => 'galeria.destroy'
+    ]);
+
+
     Route::get('galeria/new/{id}', [
         'uses' => 'GaleriaController@new',
         'as'   => 'galeria.new'
