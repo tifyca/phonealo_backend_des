@@ -82,7 +82,7 @@ public function show($id){
   return view('Galeria.index')->with('galeria',$galeria)->with('nombre',$nombre)->with('codigo',$codigo)->with("id",$id);
 
 }
-public function updated(Request $request,$id){
+public function update(Request $request,$id){
 
   try {
    $galeria=imagenes::find($id);
