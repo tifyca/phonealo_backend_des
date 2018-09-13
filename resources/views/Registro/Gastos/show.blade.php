@@ -25,7 +25,7 @@
                   
                     <div class="form-group col-md-6">
                       <label for="categoria_gasto">Categoría de Gastos</label>
-                      <select class="form-control" id="categoria_gasto" name="categoria_gasto">
+                      <select class="form-control" id="categoria_gasto" name="categoria_gasto" required="">
                         <option value="">Seleccione</option>}
                          @foreach($categorias as $fuen)
                         <option value="{{$fuen->id}}">{{$fuen->categoria}}</option>
@@ -36,7 +36,7 @@
 
                     <div class="form-group col-md-6">
                       <label for="descripcion_gasto">Descripción</label>
-                      <input class="form-control" type="text" id="descripcion_gasto" name="descripcion_gasto" placeholder="...">
+                      <input class="form-control" type="text" id="descripcion_gasto" name="descripcion_gasto" placeholder="..." required="">
                     </div>
                     
                     <div class="form-group col-md-6">
@@ -50,18 +50,18 @@
                     </div>
                     <div class="form-group col-md-4">
                       <label for="comprobante_gasto">Nro.Solicitud</label>
-                      <input class="form-control" type="text" id="id_solped" name="id_solped" placeholder="...">
+                      <select class="form-control" id="id_solped" name="id_solped">
+                        <option value="">Seleccione</option>}
+                      </select>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="comprobante_gasto">Comprobante</label>
-                      <input class="form-control" type="text" id="comprobante_gasto" name="comprobante_gasto" placeholder="...">
-                    </div>
-                
-                    
+                      <input class="form-control" type="text" id="comprobante_gasto" name="comprobante_gasto" placeholder="..." required="">
+                    </div>       
 
                     <div class="form-group col-md-4">
                       <label for="proveedor_gasto">Fuente</label>
-                      <select class="form-control" id="proveedor_gasto" name="proveedor_gasto">
+                      <select class="form-control" id="id_fuente" name="id_fuente" required="">
                         <option value="">Seleccione</option>
                         @foreach($fuentes as $fuen)
                         <option value="{{$fuen->id}}">{{$fuen->fuente}}</option>
@@ -70,18 +70,19 @@
                     </div>
                     <div class="form-group col-md-4">
                       <label for="importe_gasto">Importe</label>
-                      <input class="form-control" type="text" id="importe_gasto" name="importe_gasto" placeholder="...">
+                      <input class="form-control" type="text" id="importe_gasto" name="importe_gasto" placeholder="..." required="">
                     </div>
                     <div class="form-group col-md-4">
                       <label for="fecha_comprobante_gasto">Fecha Comprobante</label>
-                      <input class="form-control" type="date" id="fecha_comprobante_gasto" name="fecha_comprobante_gasto">
+                      <input class="form-control" type="date" id="fecha_comprobante_gasto" name="fecha_comprobante_gasto" required="">
                     </div>
                     <div class="form-group col-md-4">
                       <label for="divisa_gasto">Divisa</label>
-                      <select class="form-control" id="divisa_gasto" name="divisa_gasto">
-                        <option value="">Seleccione</option>}
-                        <option value="1">Guaranies</option>
-                        <option value="2">Dólares</option>
+                      <select class="form-control" id="divisa_gasto" name="divisa_gasto" required="">
+                      <option value="">Seleccione</option>
+                        @foreach($divisas as $fuen)
+                        <option value="{{$fuen->id_divisa}}">{{$fuen->divisa}}</option>
+                        @endforeach
                       </select>
                     </div>
                     <div class="form-group col-md-4">
@@ -149,11 +150,15 @@
         document.form1.descripcion_gasto.value=valor.toUpperCase();
       });
 
-
-      $("select#id_categoria").bind('change', function (event) {
+     $("select#divisa_gasto").bind('change', function (event) {
         var valor = $(this).val();
-        $("#id_subcategoria").html('');
-        $("#id_subcategoria").append('<option value='+'>Subcategoria</option>');
+        document.form1.cambio_gasto.value=valor;
+     });
+
+      $("select#id_proveedor").bind('change', function (event) {
+        var valor = $(this).val();
+        $("#id_solped").html('');
+        $("#id_solped").append('<option value='+'>Solicitudes</option>');
         $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -164,13 +169,13 @@
 
         $.ajax({
           type: "GET",
-          url: '{{ url('mostrar_subcategorias') }}',
+          url: '{{ url('mostrar_solicitudes') }}',
           dataType: "json",
           data: { idc: valor ,  _token: '{{csrf_token()}}' },
           success: function (data){
             console.log(data);
             $.each(data, function(l, item1) {
-             $("#id_subcategoria").append('<option value='+item1.id+'>'+item1.sub_categoria+'</option>');
+             $("#id_solped").append('<option value='+item1.id+'>'+item1.id+'</option>');
            });
           }    
 

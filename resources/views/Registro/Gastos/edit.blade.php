@@ -29,7 +29,7 @@
                       <select class="form-control read" id="categoria_gasto" name="categoria_gasto" disabled>
                         <option value="">Seleccione</option>
                        @foreach($categorias as $fuen)
-                        <option value="{{$fuen->id}}">{{$fuen->categoria}}</option>
+                        <option value="{{$fuen->id}}" @if($fuen->id==$gastos->id_categoria) selected @endif>{{$fuen->categoria}}</option>
                         @endforeach
                       </select>
                     </div>
@@ -48,7 +48,7 @@
                       <select class="form-control read" id="id_proveedor" name="id_proveedor" disabled>
                         <option value="">Seleccione</option>
                          @foreach($proveedores as $fuen)
-                        <option value="{{$fuen->id}}">{{$fuen->nombres}}</option>
+                        <option value="{{$fuen->id}}" @if($fuen->id==$gastos->id_proveedor) selected @endif>{{$fuen->nombres}}</option>
                         @endforeach
                       </select>
                     </div>
@@ -59,10 +59,10 @@
                   
                     <div class="form-group col-md-4">
                       <label for="proveedor_gasto">Fuente</label>
-                      <select class="form-control read" id="proveedor_gasto" name="proveedor_gasto" disabled>
+                      <select class="form-control read" id="id_fuente" name="id_fuente" disabled>
                         <option value="">Seleccione</option>
                          @foreach($fuentes as $fuen)
-                        <option value="{{$fuen->id}}">{{$fuen->fuente}}</option>
+                        <option value="{{$fuen->id}}" @if($fuen->id==$gastos->id_fuente) selected @endif>{{$fuen->fuente}}</option>
                         @endforeach
                       </select>
                     </div>
@@ -79,8 +79,9 @@
                       <select class="form-control read" id="divisa_gasto" name="divisa_gasto" disabled>
                        
                          <option value="">Seleccione</option>
-                         <option value="1">Guaranies</option>
-                        <option value="2">Dólares</option>
+                          @foreach($divisas as $fuen)
+                        <option value="{{$fuen->id_divisa}}" @if($fuen->id_divisa==$gastos->id_divisa) selected @endif>{{$fuen->divisa}}</option>
+                        @endforeach
                       </select>
                     </div>
                     <div class="form-group col-md-4">
