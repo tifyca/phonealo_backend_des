@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Productos;
 use App\Subcategorias;
+use App\solped;
 class ProductosAjax extends Controller
 {
     public function productos_list(Request $request){
@@ -31,4 +32,12 @@ class ProductosAjax extends Controller
         $subcategorias = Subcategorias::where('id_categoria',$id_categoria)->where('status','1')->get();
         return $subcategorias;
     }
+
+    public function solicitudes_list(Request $request)
+    {
+        $id_proveedor = $request["idc"];
+        $solicitudes = solped::where('id_proveedor',$id_proveedor)->where('id_estado','1')->get();
+        return $solicitudes;
+    }
+
 }
