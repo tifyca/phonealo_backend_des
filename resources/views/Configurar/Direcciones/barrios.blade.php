@@ -41,7 +41,7 @@
               </div>
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Barrio</label>
-                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" oncopy="return false" onpaste="return false">
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" oncopy="return false" onpaste="return false" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group col-12  col-md-3">
                 <label class="control-label">Latitud</label>
@@ -61,7 +61,17 @@
   </div>
   <div class="col-12">
     <div class="tile">
+         {{-- FILTRO --}}
+      <div class="col mb-3 text-center">
+             <form class="row d-flex justify-content-end" action="" method="">
         <h3 class="tile-title">Listado Barrios</h3>
+        <div class="form-group col-md-3">
+              <input type="text" class="form-control" id="buscarbarrio" name="buscarbarrio" placeholder="Buscar" onkeypress="return soloLetras(event)">
+            </div>
+            <div class="col-md-1 mr-md-3">
+             <button class="btn btn-primary" type="submit" name="boton" id="boton" >Filtrar</button>  
+            </div>
+          </form>
         <div class="tile-body ">
           <div class="row">
             <div class="form-group col-12 col-md-3">
@@ -111,7 +121,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Barrio</label>
-                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombre" name="nombre" oncopy="return false" onpaste="return false">
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombre" name="nombre" oncopy="return false" onpaste="return false" onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Latitud</label>
@@ -170,6 +180,31 @@
  <script src="{{asset('js/Configurar/crud_barrios.js')}}"></script>
 
 <script  type="text/javascript" charset="utf-8">
+
+  $("#boton").click(function (e) {
+    var buscarbarrio =  $('#buscarbarrio').val();
+   // var id_departamento = $(this).val();
+
+    e.preventDefault();
+     $("#barrios-list").html('');
+
+           $.ajax({
+              type: "get",
+              url: '{{route('barrios')}}',
+              dataType: "json",
+              data: {buscarbarrio: buscarbarrio},
+              success: function (data){
+                console.log(data);
+                $.each(data, function(l, item) {
+
+          
+
+                    $("#barrios-list").append('<tr id="barrios'+ item.id +'"><td>'+item.barrio+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item.id +'"><i class="fa fa-lg fa-edit"  ></i></button><buttondata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                  });
+              }
+          });
+       });
+
   $(document).ready(function(){
     {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
       $.ajax({
