@@ -28,7 +28,11 @@ class CargosController extends Controller
     {
         $cargos=  Cargos::where('status',$status)->paginate(10);
     }
-  
+      if($cargo!="" && $status!="")
+    {
+        $cargos= Cargos::where('cargo','LIKE', $cargo.'%')
+                       ->where('status',$status)->orderBy('cargo','ASC')->paginate(10);
+    }
 
     if($cargo=="" && $status=="")
     {

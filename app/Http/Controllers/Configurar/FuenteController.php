@@ -27,6 +27,11 @@ class FuenteController extends Controller
     {
         $fuentes=  Fuente::where('status',$status)->paginate(10);
     }
+     if($fuente!="" && $status!="")
+    {
+        $fuentes=  Fuente::where('status',$status)
+                         ->where('fuente','LIKE', $fuente.'%')->orderBy('fuente','asc')->paginate(10);
+    }
   
 
     if($fuente=="" && $status=="")
