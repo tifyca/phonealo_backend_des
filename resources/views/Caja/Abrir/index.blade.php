@@ -20,6 +20,7 @@
 
 <div class="row">
   <div class="col-12">
+    {{-- LA CAJA DURA ABIERTA 24 HORAS. A LAS 12PM SI UNA CAJA ESTA ABIERTA PASA A UN ESTADO 'POR CERRAR' Y NO PERMITE ABRIR UNA NUEVA CAJA EN EL NUEVO DIA. EL USUARIO DEBE CERRARLA PARA ABRIR UNA NUEVA. EN ESTE CASO APARECE ESTE MENSAJE Y EL BOTON DE 'CERRAR CAJA' --}}
     <div class="card text-white bg-danger mb-3 col-12">
       
       <div class="card-body">
@@ -28,6 +29,7 @@
       </div>
     </div>
     <div class="row d-flex justify-content-around">
+    {{-- ESTE BOTON ESTA AQUI SOLO DE DEMOSTRACION MIENTRAS NO EXISTA LA FUNCIONALIDAD. SI LA CAJA ESTA DISPONIBLE ABRIRA DIRECTAMENTE Y REDIRECCIONA A LA VISTA 'ABRIR' ESO QUIERE DECIR QUE ESTA VISTA 'INDEX' SOLO SE MUESTRA SI LA CAJA DEL DIA ANTERIOR ESTA ABIERTA Y NECESITA SER CERRADA --}}
       <div class="col-md-3">
         <a href="{{ route('caja.abrir') }}" title="" class="link-card">
           <div class="widget-small info"><i class="icon fa fa-check fa-3x"></i>
@@ -37,6 +39,7 @@
           </div>
         </a>
       </div>
+      {{--  --}}
       <div class="col-md-3">
         <a href="{{ route('caja.cerrar') }}" title="" class="link-card">
           <div class="widget-small danger "><i class="icon fa fa-close fa-3x"></i>
