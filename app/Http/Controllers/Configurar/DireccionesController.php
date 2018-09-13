@@ -207,11 +207,25 @@ class DireccionesController extends Controller
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function ciudades(){
+    public function ciudades(Request $request){
 
-    	return view('Configurar.Direcciones.ciudades');
-    }
+       $ciudad = $request["buscarciudad"];
 
+      // $id_departamento=$request["id_departamento"];
+
+        if($ciudad!="")
+        {
+            $ciudades= Ciudades::where('ciudad','LIKE', $ciudad.'%')->orderBy('ciudad','asc')->get();
+             return $ciudades;
+        }
+        if($ciudad=="")
+        {
+           return view('Configurar.Direcciones.ciudades');
+        }
+
+                    
+
+}
     public function store_ciudades(Request $request){
 
     $data=$request->all();
@@ -313,8 +327,24 @@ class DireccionesController extends Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    public function barrios(){
-    	return view('Configurar.Direcciones.barrios');
+    public function barrios(Request $request){
+
+
+      $barrio = $request["buscarbarrio"];
+
+      // $id_departamento=$request["id_departamento"];
+
+        if($barrio!="")
+        {
+            $barrios= Barrios::where('barrio','LIKE', $barrio.'%')->orderBy('barrio','asc')->get();
+             return $barrios;
+        }
+        if($barrio=="")
+        {
+           return view('Configurar.Direcciones.barrios');
+        }
+
+    	
     }
 
     public function store_barrios(Request $request){
