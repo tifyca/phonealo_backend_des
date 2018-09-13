@@ -259,6 +259,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('caja/cobro_remito', 'Caja\AbrirController@cobro_remito')->name('caja.cobro_remito');
     Route::get('caja/salida', 'Caja\AbrirController@salida')->name('caja.salida');
     Route::get('caja/cerrar', 'Caja\AbrirController@cerrar')->name('caja.cerrar');
+    Route::get('caja/detalle', 'Caja\AbrirController@detalle')->name('caja.detalle');
+
 
     Route::get('caja/cierres', 'Caja\CierresController@index')->name('caja.cierres');
     Route::get('caja/cierres/resumen', 'Caja\CierresController@resumen')->name('caja.cierre.resumen');

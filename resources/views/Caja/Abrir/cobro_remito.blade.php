@@ -21,14 +21,22 @@
 <div class="row">
   <div class="col-12 col-md-7">
     <div class="tile">
-       <h3 class="tile-title text-center text-md-left">Ventas </h3>
+      <div class="row d-flex justify-content-between">
+        <div class="col">
+          <h3 class="tile-title text-center text-md-left">Ventas </h3>
+        </div>
+        <div class="col-4 text-right">
+           <a  class="btn btn-primary open_modal" href="" ><i class="fa m-0 fa-check"  ></i> Confirmar Todo</a>
+        </div>
+      </div>
+       
         <div class="tile-body">
             <table class="table">
               <thead>
                 <tr >
                   <th>N° Venta</th>
                   <th>Importe</th>
-                  <th>Acciones</th>
+                  <th width="10%">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -37,9 +45,9 @@
                   <td>123456</td>
                   <td>
                     <div class="btn-group">
-                      <a class="btn btn-primary open_modal" href="" ><i class="fa m-0 fa-edit"  ></i></a>
-                      <a class="btn btn-primary confirm-delete" href="" data-toggle="modal" data-target="#Confirmar"  data-placement="top" title="Confirmar"><i class="fa m-0 fa-check"></i></a> 
-                      <a class="btn btn-primary confirm-delete" href="" ><i class="fa m-0 fa-times"></i></a>                   
+                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary open_modal" href="" ><i class="fa m-0 fa-edit"  ></i></a>
+                      <a  data-placement="top" title="Confirmar" class="btn btn-primary confirm-delete" href="" data-toggle="modal" data-target="#Confirmar"  data-placement="top" title="Confirmar"><i class="fa m-0 fa-check"></i></a> 
+                      <a data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary confirm-delete" href="" ><i class="fa m-0 fa-times"></i></a>                   
                     </div>
                   </td>
                 </tr>
@@ -48,9 +56,9 @@
                   <td>123456</td>
                   <td>
                     <div class="btn-group">
-                      <a class="btn btn-primary open_modal" href="" ><i class="fa m-0 fa-edit"  ></i></a>
-                      <a class="btn btn-primary confirm-delete" href="" data-toggle="modal" data-target="#Confirmar"  data-placement="top" title="Confirmar"><i class="fa m-0 fa-check"></i></a> 
-                      <a class="btn btn-primary confirm-delete" href="" ><i class="fa m-0 fa-times"></i></a>                   
+                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary open_modal" href="" ><i class="fa m-0 fa-edit"  ></i></a>
+                      <a  data-placement="top" title="Confirmar" class="btn btn-primary confirm-delete" href="" data-toggle="modal" data-target="#Confirmar"  data-placement="top" title="Confirmar"><i class="fa m-0 fa-check"></i></a> 
+                      <a data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary confirm-delete" href="" ><i class="fa m-0 fa-times"></i></a>                   
                     </div>
                   </td>
                 </tr>
