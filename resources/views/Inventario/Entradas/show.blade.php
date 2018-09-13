@@ -16,7 +16,9 @@
   <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-        <form name="form1">
+      <form name="form1" action="{{route('entradas.store')}}" accept-charset="UTF-8"  method="post">
+          {{ csrf_field() }}
+
           <div class="row">
             <div class="form-group col-md-3">
               <label for="fecha_entrada">Fecha</label>
@@ -229,6 +231,12 @@
       }        
       ;
     });    
+
+      $("input#nro_documento").bind('change', function (event) {
+        var valor = $(this).val();
+        document.form1.nro_documento.value=valor.toUpperCase();
+      });
+
      $("input#cantidad").bind('change', function (event) {
       var valor = $(this).val();
       var precio = $('#precio').val();
@@ -252,8 +260,10 @@ $('#agregar').click(function() {
 
 <script>
   var contador=0;
+  productos=[];
   subtotal=[];
   ptotal=0;
+  noincluir=0;
   function incluir()
     {
       codigo      = $('#cod_producto').val();
@@ -261,18 +271,22 @@ $('#agregar').click(function() {
       cantidad    = $('#cantidad').val();
       precio      = $('#precio').val();
       idproducto  = $('#idproducto').val();
+      verificar(contador+1);
       if(codigo!="" && cantidad!="" && cantidad>0  && precio!="" && precio>0)
       {
+        if(noincluir==0)
+        {
         subtotal[contador]=(precio*cantidad);
         ptotal = ptotal + subtotal[contador];
-        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input type="hidden" name="codigo[]" value="'+idproducto+'"><input type="text" class="form-control" name="descripcion[]" value="'+descripcion+'" readonly></td><td><input type="number" class="form-control" name="cantidad[]" value="'+cantidad+'" readonly></td><td><input type="number" class="form-control" name="precio[]" value="'+precio+'" readonly></td><td>'+subtotal[contador]+'</td><td><div></div></td></tr>';
-        
+        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input type="hidden" name="codigo[]" id="name="codigo[]"" value="'+idproducto+'"><input type="text" class="form-control" name="descripcion[]" value="'+descripcion+'" readonly></td><td><input type="number" class="form-control" name="cantidad[]" id="cantidad[]" value="'+cantidad+'" readonly></td><td><input type="number" class="form-control" name="precio[]" id="precio[]" value="'+precio+'" readonly></td><td>'+subtotal[contador]+'</td><td><div></div></td></tr>';
+          productos[contador]=idproducto;
 
         contador++;
         limpiar();
         $("#ztotal").html("Gns/." + ptotal);
-        verificar();
+        
         $("#detalles").append(fila);
+      }
       }
       else{alert("Error al ingresar item de la solicitud");}
     }
@@ -284,9 +298,18 @@ $('#agregar').click(function() {
     $('#precio').val("");
     $('#total').val("");
   }
-  function verificar()
+  function verificar(z)
   {
- 
+     x=0;
+     for(i=0;i<z;i++){
+      if(productos[i]==$('#idproducto').val()){
+        x++;
+      }
+
+     }
+     if(x>0){alert('Producto Ya Incluido');
+     limpiar();
+     noincluir=1;}
   }
   function eliminar(index)
   {

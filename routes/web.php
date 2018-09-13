@@ -173,8 +173,15 @@ Route::group(['middleware' => 'auth'], function () {
 
 
      // INVENTARIO
+
     Route::resource('inventario/entradas', 'Inventario\EntradasController');
+    Route::get('inventario/entradas/{id}/destroy', [
+        'uses' => 'Inventario\EntradasController@destroy',
+        'as'   => 'inventario.entrada.destroy'
+    ]);
+
     Route::resource('inventario/salidas', 'Inventario\SalidasController');
+
     Route::resource('inventario/consolidado', 'Inventario\ConsolidadoController');
 
      // //////////

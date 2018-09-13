@@ -15,7 +15,12 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
+@if(Session::has('message'))
+                         <div class="alert alert-success">
 
+                           {{ Session::get('message') }} 
+                          </div>
+                      @endif    
 <div class="row">
   <div class="col-12">
     <div class="tile">
@@ -53,7 +58,7 @@
                   </td>
                   <td class="text-center">
                     <a class="btn btn-primary" href="{{ route('galeria.edit',$ficha->id) }}" title="Ver/Editar"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                      <a class="btn btn-primary" href="{{ route('galeria.destroy',$ficha->id)}}" title="Eliminar"><i class="m-0 fa fa-lg fa-trash"></i></a>
+                      <a class="btn btn-primary" href="{{ route('galeria.destroy',$ficha->id)}}" title="Eliminar"><i class="m-0 fa fa-lg fa-trash" onclick="return confirm('¿Seguro desea eliminar este registro?')"></i></a>
                       
                   </td>
                 </tr>

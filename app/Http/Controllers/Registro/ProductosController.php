@@ -85,7 +85,7 @@ class ProductosController extends Controller
       $id_categoria    = $request->id_categoria;
       $id_subcategoria = $request->id_subcategoria;
       if(productos::where('descripcion',$nombre)->where('id_categoria',$id_categoria)->where('id_subcategoria',$id_subcategoria)->first()){
-       return redirect()->route('productos.index')->with("notificacion_error","Ya se encuentra Registrado");
+       return redirect()->route('productos.index')->with("message","Ya se encuentra Registrado");
      }
      $productos = new productos($request->all());
      if($request["archivo"]){
@@ -115,7 +115,7 @@ class ProductosController extends Controller
     $auditoria->id_producto = $productos->id;
     $auditoria->save(); 
     
-    return redirect()->route('productos.index')->with("notificacion","Se ha guardado correctamente su información");
+    return redirect()->route('productos.index')->with("message","Se ha guardado correctamente su información");
         //
   }catch (Exception $e) {
     \Log::info('Error creating item: '.$e);
@@ -161,7 +161,7 @@ class ProductosController extends Controller
          $auditoria->id_producto = $productos->id;
          $auditoria->save(); 
 
-        return redirect()->route('productos.index')->with("notificacion","Se ha guardado correctamente su información");
+        return redirect()->route('productos.index')->with("message","Se ha guardado correctamente su información");
       } catch (Exception $e) {
         \Log::info('Error creating item: '.$e);
        return \Response::json(['created' => false], 500);

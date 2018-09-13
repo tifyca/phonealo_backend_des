@@ -27,14 +27,14 @@ class EntradasController extends Controller
     }
     public function store(Request $request)
     {
-    	try{
-            DB::beginTransaction();
+    	
             $solped = new solped;
             $solped->id_proveedor   = $request->get('id_proveedor');
             $solped->nro_documento  = $request->get('nro_documento');
-            $solped->fecha          = $request->get('fecha');
+            $solped->fecha          = $request->get('fecha_entrada');
+
             $solped->id_usuario     = $request->get('id_usuario');
-            $solped->id_estado      = $request->get('id_estado');
+            $solped->id_estado      = 1;
             $solped->id_usuario     = $_SESSION["user"];
             $solped->created_at     = date('Y-m-d');
             $solped->updated_at     = date('Y-m-d');
@@ -43,7 +43,8 @@ class EntradasController extends Controller
             $cantidad   = $request->get('cantidad');
             $precio     = $request->get('precio');
             $cont=0;
-            while($cont < count($idmaterial))
+            dd($codigo);
+            while($cont < count($codigo))
             {
                 $detallesolped              = new detallesolped();
                 $detallesolped->id_solped   = $solped->id;
@@ -53,9 +54,6 @@ class EntradasController extends Controller
                 $detallesolped->save();
                 $cont = $cont + 1;
             }
-            DB::commit();
-        }catch(\Exception $e){
-            DB::rollback();
-        }
+          return redirect()->route('inventario.entradas')->with("message","Se ha guardado correctamente su información"); 
     }
 }

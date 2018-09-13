@@ -11,7 +11,12 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
+@if(Session::has('message'))
+                         <div class="alert alert-success">
 
+                           {{ Session::get('message') }} 
+                          </div>
+                      @endif    
 <div class="row">
   <div class="col-12">
     <div class="tile">

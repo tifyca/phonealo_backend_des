@@ -11,16 +11,23 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
+@if(Session::has('message'))
+                         <div class="alert alert-success">
 
+                           {{ Session::get('message') }} 
+                          </div>
+                      @endif    
 <div class="row">
   
   <div class="col-12">
     <div class="tile">
       <div class="col mb-2 text-center">
-          <div class="row">
-            <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado de Gastos</h3>
+        <div class="col">
+              <h4 class="tile-title text-center text-md-left">Listado de Gastos</h4>
             </div>
+          <div class="row">
+            
+            <br>
 
              <form class="row" action="{{route('productos.index')}}" method="get"> 
               <div class="form-group col-md-3">
@@ -45,7 +52,7 @@
             <div class="form-group col-md-3">
               <input type="date" class="form-control" name="fecha_fin">
             </div>            
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-1">
               <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
               
             </div>
