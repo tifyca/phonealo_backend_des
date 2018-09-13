@@ -8,6 +8,8 @@ use App\Proveedores;
 use App\solped;
 use App\detallesolped;
 use DB;
+@session_start();
+
 class EntradasController extends Controller
 {
     public function index(){
@@ -22,5 +24,38 @@ class EntradasController extends Controller
     	$proveedores = proveedores::where('id_estado','1')->get();
     	$fecha = date('Y-m-d');
     	return view('Inventario.Entradas.show')->with('proveedores',$proveedores)->with('fecha',$fecha);
+    }
+    public function store(Request $request)
+    {
+    	try{
+            DB::beginTransaction();
+            $solped = new solped;
+            $solped->id_proveedor   = $request->get('id_proveedor');
+            $solped->nro_documento  = $request->get('nro_documento');
+            $solped->fecha          = $request->get('fecha');
+            $solped->id_usuario     = $request->get('id_usuario');
+            $solped->id_estado      = $request->get('id_estado');
+            $solped->id_usuario     = $_SESSION["user"];
+            $solped->created_at     = date('Y-m-d');
+            $solped->updated_at     = date('Y-m-d');
+            $solped->save();
+            $codigo     = $request->get('codigo');
+            $cantidad   = $request->get('cantidad');
+            $precio     = $request->get('precio');
+            $cont=0;
+            while($cont < count($idmaterial))
+            {
+                $detallesolped              = new detallesolped();
+                $detallesolped->id_solped   = $solped->id;
+                $detallesolped->id_producto = $codigo[$cont];
+                $detallesolped->cantidad    = $cantidad[$cont];
+                $detallesolped->precio      = $precio[$cont];
+                $detallesolped->save();
+                $cont = $cont + 1;
+            }
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollback();
+        }
     }
 }

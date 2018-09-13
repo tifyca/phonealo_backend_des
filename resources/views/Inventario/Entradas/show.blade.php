@@ -24,7 +24,7 @@
             </div>
             <div class="form-group col-md-3">
               <label for="n_documento_entrada">Número de Documento</label>
-              <input class="form-control" type="text" id="n_documento_entrada" name="n_documento_entrada" placeholder="..." required="">
+              <input class="form-control" type="text" id="nro_documento" name="nro_documento" placeholder="..." required="">
             </div>
             <div class="form-group col-md-3">
               <label for="proveedor_entrada">Proveedor</label>
@@ -51,6 +51,7 @@
             <div class="form-group col-md-2">
               <label for="cod_entrada">Cod.</label>
               <input class="form-control" type="text" id="cod_producto" name="cod_producto" >
+              <input type="hidden" name="idproducto" id="idproducto">
             </div>
             <div class="form-group col-md-4">
               <label for="descripcion">Descripción</label>
@@ -188,6 +189,7 @@
         success: function (data){
 
           $('#descripcion').val(data.descripcion);
+          $('#idproducto').val(data.id);
           $('#cod_producto').val(data.codigo_producto);
           $('#stock').val(data.stock_activo);
 
@@ -255,14 +257,15 @@ $('#agregar').click(function() {
   function incluir()
     {
       codigo      = $('#cod_producto').val();
-      descripcion = $('#descripcion').text();
+      descripcion = $('#descripcion').val();
       cantidad    = $('#cantidad').val();
       precio      = $('#precio').val();
+      idproducto  = $('#idproducto').val();
       if(codigo!="" && cantidad!="" && cantidad>0  && precio!="" && precio>0)
       {
         subtotal[contador]=(precio*cantidad);
         ptotal = ptotal + subtotal[contador];
-        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input type="text" class="form-control" name="codigo[]" value="'+codigo+'" readonly>'+descripcion+'</td><td><input type="number" class="form-control" name="cantidad[]" value="'+cantidad+'" readonly></td><td><input type="number" class="form-control" name="precio[]" value="'+precio+'" readonly></td><td>'+subtotal[contador]+'</td><td><div></div></td></tr>';
+        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input type="hidden" name="codigo[]" value="'+idproducto+'"><input type="text" class="form-control" name="descripcion[]" value="'+descripcion+'" readonly></td><td><input type="number" class="form-control" name="cantidad[]" value="'+cantidad+'" readonly></td><td><input type="number" class="form-control" name="precio[]" value="'+precio+'" readonly></td><td>'+subtotal[contador]+'</td><td><div></div></td></tr>';
         
 
         contador++;

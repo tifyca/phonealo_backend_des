@@ -70,7 +70,7 @@
             @foreach($imagenes as $img)
               <?php 
                  //$url = 'img/productos/'.$img->imagen;
-                 $url = config('app.url') . 'productos/' . $url ;
+                 $url = config('app.url') . 'productos/' . $img->imagen ;
                  if(!$url) $dir ='img/2.jpg';
                  else      $dir=$url; 
               ?>
