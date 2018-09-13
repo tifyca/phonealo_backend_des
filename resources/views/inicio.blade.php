@@ -37,7 +37,7 @@
       <div class="widget-small primary"><i class="icon fa fa-money fa-3x"></i>
         <div class="info">
           <h4>Cobrado</h4>
-          <p><b>100 Bs.S.</b></p>
+          <p><b>8.017.000 Gs.</b></p>
         </div>
       </div>
     </div>
