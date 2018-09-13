@@ -2,6 +2,7 @@
  @session_start();
  $id_usuario= $_SESSION["user"];
  $name_user= $_SESSION["nombre"];
+ $fecha_actual=  date('d-m-Y');
 ?>
 
 @extends ('layouts.header')
@@ -92,11 +93,11 @@
 
             <div class="form-group col-md-4">
               <label for="">Fecha de Venta</label>
-              <input class="form-control" type="date" id="fecha_venta" name="fecha_venta" >
+              <input class="form-control" type="date" id="fecha_venta" name="fecha_venta" disabled >
             </div>
              <div class="form-group col-md-4">
               <label for="">Fecha de Entrega</label>
-              <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" >
+              <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" value="">
             </div>
             <div class="form-group col-md-4">
               <label for="">Horario de Entrega</label>
@@ -329,6 +330,17 @@
  <meta name="_token" content="{!! csrf_token() !!}" />
  <script src="{{asset('js/Procesar/js_ventas.js')}}"></script>
 <script type="text/javascript" charset="utf-8" async defer>
+  window.onload = function(){
+  var fecha = new Date(); //Fecha actual
+  var mes = fecha.getMonth()+1; //obteniendo mes
+  var dia = fecha.getDate(); //obteniendo dia
+  var ano = fecha.getFullYear(); //obteniendo año
+  if(dia<10)
+    dia='0'+dia; //agrega cero si el menor de 10
+  if(mes<10)
+    mes='0'+mes //agrega cero si el menor de 10
+  document.getElementById('fecha_venta').value=ano+"-"+mes+"-"+dia;
+}
 
   var url1 = '{{ $url1 }}';
   var url2 = '{{ $url2 }}';
@@ -478,32 +490,32 @@
 
     }
 
-  $("#telefono_cliente").blur(function(){
+  $("#telefono_cliente").blur(function(event){
          var value=$(this).val();
  
-        $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+        $.ajax({
+          type: "get",
+          url: '{{ route('searchCliente') }}',
+          dataType: "json",
+          data: { search: value },
+          success: function (data){
+          console.log(data.id_departamento);
 
-        $.get('{{ route('searchCliente') }}' + '/' + value, function(data){
-          console.log(data);
-
-        $.each(data, function(i, item) {
-        console.log(item.id_departamento);
-                $('#nombre_cliente').val(item.nombres);
-                $('#email_cliente').val(item.email);
-                $('#ruc_cliente').val(item.ruc_ci);
-                $('#tipo_cliente').val(item.id_tipo);
-                $('select[name=departamento_cliente]').val(item.id_departamento);
-                cargarComboCiudad(item.id_departamento);
-                $('select[name=ciudad_cliente]').val(item.id_ciudad);
-                cargarComboBarrio(item.id_ciudad);
-                $('select[name=barrio_cliente]').val(item.barrio);
-                $('#ubicacion_cliente').val(item.ubicacion);
-                $('#direccion_cliente').val(item.direccion);
-          });
-      
+                $('#nombre_cliente').val(data.nombres);
+                $('#email_cliente').val(data.email);
+                $('#ruc_cliente').val(data.ruc_ci);
+                $('#tipo_cliente').val(data.id_tipo);
+                $('select[name=departamento_cliente]').val(data.id_departamento);
+                cargarComboCiudad(data.id_departamento);
+                $('select[name=ciudad_cliente]').val(data.id_ciudad);
+                cargarComboBarrio(data.id_ciudad);
+                $('select[name=barrio_cliente]').val(data.barrio);
+                $('#ubicacion_cliente').val(data.ubicacion);
+                $('#direccion_cliente').val(data.direccion);
+          },
+     
        });
     });
-
 
 function cargarComboCiudad(id_departamneto){
           var id_departamento = $(this).val();
@@ -563,7 +575,7 @@ function cargarComboBarrio(id_ciudad){
           }
 
       });
-      // AL SELECCIONAR EL DEPARTAMENTO SE ENVIA EL ID Y SE RECIBE LAS CIUDADES
+        // AL SELECCIONAR EL DEPARTAMENTO SE ENVIA EL ID Y SE RECIBE LAS CIUDADES
       $('#departamento_cliente').change(function(){
         var id_departamento = $(this).val();
 
@@ -611,7 +623,7 @@ function cargarComboBarrio(id_ciudad){
 
   
   });
-
+  
   </script>
   
 

@@ -57,7 +57,7 @@ $(document).on('click', '.delete-hora', function () {
             console.log(data);
             $("#hora" + hora_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("La hora de Entrega se Eliminó con Éxito");
+            $("#res").html("La Hora de Entrega se Eliminó con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
