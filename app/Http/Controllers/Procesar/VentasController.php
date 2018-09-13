@@ -8,6 +8,8 @@ use App\Clientes;
 use App\Horarios;
 use App\Ventas;
 use App\Facturas;
+use Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class VentasController extends Controller
 {
@@ -18,10 +20,10 @@ class VentasController extends Controller
     	return view('Procesar.Ventas.index', compact('horarios'));
     }
 
-    public function getcliente($telefono){
+    public function getcliente(Request $request){
 
     
-    	$clientes=Clientes::where('telefono', $telefono)->get();
+    	$clientes=Clientes::where('telefono', $request->search)->first();
 
          	return ($clientes);
    	}
@@ -30,20 +32,20 @@ class VentasController extends Controller
 
      	$data=$request->all();
 
-    $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres', 
-                    'email_cliente'=>'required|unique:clientes,email',
-                    'telefono_cliente'=>'required|unique:clientes,telefono',
+    $rules = array( 'nombre_cliente'=>'required', //|unique:clientes,nombres', 
+                    'email_cliente'=>'required', //|unique:clientes,email',
+                    'telefono_cliente'=>'required', //|unique:clientes,telefono',
                     'departamento_cliente'=>'required|not_in:0',
                     'ciudad_cliente'=>'required|not_in:0',
                     'barrio_cliente'=>'required|not_in:0',
                     'direccion_cliente'=>'required');
 
     $messages = array( 'nombre_cliente.required'=>'Nombre del Cliente es Requerido', 
-                       'nombre_cliente.unique' => 'El Cliente ya Existe', 
+                      // 'nombre_cliente.unique' => 'El Cliente ya Existe', 
                        'email_cliente.required'=>'El Email del Cliente es Requerido', 
-                       'email_cliente.unique' => 'El Email del Cliente ya Existe',
+                      // 'email_cliente.unique' => 'El Email del Cliente ya Existe',
                        'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
-                       'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
+                      // 'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
                        'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',
                        'departamento_cliente.not_in'=> 'El Departamento del Cliente es Requerido',
                        'ciudad_cliente.required'=> 'La Ciudad del Cliente es Requerida',
@@ -67,7 +69,7 @@ class VentasController extends Controller
 
 
       $cliente= new Ventas; 
-      $cliente->nombres   = $request->nombre_cliente; 
+      /*$cliente->nombres   = $request->nombre_cliente; 
       $cliente->telefono  = $request->telefono_cliente; 
       $cliente->direccion = $request->direccion_cliente;
       $cliente->barrio    = $request->barrio_cliente;
@@ -77,7 +79,7 @@ class VentasController extends Controller
       $cliente->email     = $request->email_cliente;
       $cliente->ubicacion = $request->ubicacion_cliente;
       $cliente->id_tipo   = $request->tipo_cliente;
-      $cliente->notas     = $request->nota_cliente;
+      $cliente->notas     = $request->nota_cliente;*/
       $cliente->id_estado= $request->id_estado;
       $cliente->id_usuario= $request->id_usuario;
       $cliente->save(); 
@@ -92,8 +94,4 @@ class VentasController extends Controller
         
     }
 
-
-
-
-     }
 }

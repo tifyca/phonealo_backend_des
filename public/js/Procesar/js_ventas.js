@@ -46,7 +46,7 @@ $("#btn-save").click(function (e) {
     console.log(formData);
     $.ajax({
         type: "POST",
-        url: "create",
+        url: url +"/create",
         data: formData,
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
