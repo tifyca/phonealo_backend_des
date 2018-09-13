@@ -53,8 +53,8 @@
                   </td>
                   <td width="10%" class="text-center">
                     <div class="btn-group">
-                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary" href="{{ route('galeria.edit',$ficha->id) }}" title="Ver/Editar"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                      <a data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary" href="{{ route('galeria.destroy',$ficha->id)}}" title="Eliminar"><i class="m-0 fa fa-lg fa-trash"></i></a>
+                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm" href="{{ route('galeria.edit',$ficha->id) }}" title="Ver/Editar"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                      <a data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm" href="{{ route('galeria.destroy',$ficha->id)}}" title="Eliminar"><i class="m-0 fa fa-lg fa-trash"></i></a>
                     </div>
                     
                       

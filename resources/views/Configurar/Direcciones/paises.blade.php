@@ -45,7 +45,7 @@
       <div class="col mb-3 text-center">
              <form class="row d-flex justify-content-end" action="{{route('paises')}}" method="get">
             <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado Países</h3>
+              <h3 class="tile-title text-center text-md-left">Listado Paises</h3>
             </div>
              <div class="form-group col-md-3">
               <input type="text" class="form-control" id="buscarpais" name="buscarpais" placeholder="Buscar">
