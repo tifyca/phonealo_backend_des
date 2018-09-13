@@ -51,13 +51,8 @@ public function store(Request $request)
     $id = $id_producto;
         //return redirect()->route('galeria.index',$request->id)->with("notificacion","Se ha guardado correctamente su información");
         //
-    $productos = productos::where('id',$id_producto)->first();
-    $nombre = $productos->descripcion;
-    $codigo = $productos->codigo_producto;
-    $galeria=db::table('producto_imagenes as a')
-    ->select('a.id_producto','a.id','a.imagen as img','a.titulo','a.estatus')
-    ->where('id_producto',$id)->paginate(10);
-    return view('Galeria.index')->with('galeria',$galeria)->with('nombre',$nombre)->with('codigo',$codigo)->with("id",$id);
+    return redirect()->route('galeria.index',$id_producto)->with("notificacion","Se ha guardado correctamente su información");
+    
   }catch (Exception $e) {
     \Log::info('Error creating item: '.$e);
     return \Response::json(['created' => false], 500);
