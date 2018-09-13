@@ -158,6 +158,12 @@ Route::group(['middleware' => 'auth'], function () {
         'as'   => 'galeria.index'
     ]);
 
+    Route::get('galeria/{id}/destroy', [
+        'uses' => 'GaleriaController@destroy',
+        'as'   => 'galeria.destroy'
+    ]);
+
+
     Route::get('galeria/new/{id}', [
         'uses' => 'GaleriaController@new',
         'as'   => 'galeria.new'
@@ -167,8 +173,15 @@ Route::group(['middleware' => 'auth'], function () {
 
 
      // INVENTARIO
+
     Route::resource('inventario/entradas', 'Inventario\EntradasController');
+    Route::get('inventario/entradas/{id}/destroy', [
+        'uses' => 'Inventario\EntradasController@destroy',
+        'as'   => 'inventario.entrada.destroy'
+    ]);
+
     Route::resource('inventario/salidas', 'Inventario\SalidasController');
+
     Route::resource('inventario/consolidado', 'Inventario\ConsolidadoController');
 
      // //////////
@@ -195,7 +208,8 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::resource('procesar/ventas', 'Procesar\VentasController');
     Route::get('searchCliente/{tlf?}', 'Procesar\VentasController@getcliente')->name('searchCliente');
-
+    Route::post('procesar/ventas/create', 'Procesar\VentasController@create');
+    
 
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
 
@@ -253,6 +267,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('caja/cobro_remito', 'Caja\AbrirController@cobro_remito')->name('caja.cobro_remito');
     Route::get('caja/salida', 'Caja\AbrirController@salida')->name('caja.salida');
     Route::get('caja/cerrar', 'Caja\AbrirController@cerrar')->name('caja.cerrar');
+    Route::get('caja/detalle', 'Caja\AbrirController@detalle')->name('caja.detalle');
+
 
     Route::get('caja/cierres', 'Caja\CierresController@index')->name('caja.cierres');
     Route::get('caja/cierres/resumen', 'Caja\CierresController@resumen')->name('caja.cierre.resumen');

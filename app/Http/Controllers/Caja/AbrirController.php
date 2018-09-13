@@ -25,5 +25,8 @@ class AbrirController extends Controller
     public function salida(){
     	return view('Caja.Abrir.salida');
     }
+    public function detalle(){
+        return view('Caja.Abrir.detalle_caja');
+    }
 }
 

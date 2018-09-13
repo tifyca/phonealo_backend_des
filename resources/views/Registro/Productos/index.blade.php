@@ -11,7 +11,12 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
+  @if(Session::has('message'))
+                         <div class="alert alert-success">
 
+                           {{ Session::get('message') }} 
+                          </div>
+                      @endif      
 <div class="row">
   <div class="col-12">
     <div class="tile">
@@ -19,7 +24,7 @@
         <div class="col mb-3 text-center">
           <div class="row ">
             <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado de Productos</h3>
+              <h4 class="tile-title text-center text-md-left">Listado de Productos</h4>
             </div>
             <form class="row d-flex justify-content-end" action="{{route('productos.index')}}" method="get"> 
               <div class="form-group col-md-3">
@@ -92,9 +97,9 @@
                   <td class="text-center"><img src="{{ asset($zurl) }}" class="img-fluid" width="100px" alt=""></td> 
                   <td class="text-center">
                     <div class="btn-group">
-                      <a class="btn btn-primary" href="{{ route('productos.edit',$ficha->id) }}" title="Ver/Editar"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                      <a class="btn btn-primary" href="{{ route('productos.detalle',$ficha->id) }}" title="Ver Detalle"><i class="m-0 fa fa-lg fa-info"></i></a>
-                      <a class="btn btn-primary" href="{{ route('galeria.index',$ficha->id) }}" title="Ver Galería de Imágenes"><i class="m-0 fa fa-lg fa-image"></i></a>
+                      <a data-toggle="tooltip" data-placement="top" title="Ver/Editar" class="btn btn-primary" href="{{ route('productos.edit',$ficha->id) }}" ><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                      <a data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary" href="{{ route('productos.detalle',$ficha->id) }}" title="Ver Detalle"><i class="m-0 fa fa-lg fa-info"></i></a>
+                      <a data-toggle="tooltip" data-placement="top" title="Galería" class="btn btn-primary" href="{{ route('galeria.index',$ficha->id) }}" title="Ver Galería de Imágenes"><i class="m-0 fa fa-lg fa-image"></i></a>
                     </div>
                   </td>
                 </tr>

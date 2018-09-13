@@ -6,7 +6,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', '')
-@section('titulo', 'Ver lista de Conversión')
+@section('titulo', 'Lista de Conversión')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -19,11 +19,19 @@
               
 
 <div class="row">
+  <div class="col-12">
+    <div class="tile">
+      <h3 class="tile-title">Nombre de la Lista</h3>
+      <div class="embed-responsive embed-responsive-21by9">
+        <canvas class="embed-responsive-item" id="barChartDemo"></canvas>
+      </div>
+    </div>
+  </div>
   <div class="col">
     <div class="tile">
       <div class="row">
         <div class="col-6">
-          <h3 class="tile-title text-center text-md-left">Nombre de la Lista </h3>
+          <h3 class="tile-title text-center text-md-left">Productos de la Lista </h3>
         </div>
         <div class="col-6">
           <div class="row d-flex justify-content-end">
@@ -129,9 +137,33 @@
         ]
       };
 
+      
+
       var ctxl = $("#lineChartDemo").get(0).getContext("2d");
       var lineChart = new Chart(ctxl).Line(data);
+
+      
+
  });
+     
+  var data1 = {
+        labels: ["Producto1", "Producto2", "Producto3", "Producto4", "Producto5", "Producto6", "Producto7", "Producto8","Producto1", "Producto2", "Producto3", "Producto4", "Producto5", "Producto6", "Producto7", "Producto8"],
+        datasets: [
+          
+          {
+            label: "My Second dataset",
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: [28, 48, 40, 19, 86 , 40, 19, 86,28, 48, 40, 19, 86 , 40, 19, 86]
+          }
+        ]
+      };
+         var ctxb = $("#barChartDemo").get(0).getContext("2d");
+      var barChart = new Chart(ctxb).Bar(data1);
   
     </script>
   

@@ -103,7 +103,7 @@
     });
   </script>
 
-  <script type="text/javascript" language="javascript">
+   <script type="text/javascript" language="javascript">
     $(function() {
     $('#archivo').change(function(e) {
       addImage(e); 
@@ -124,5 +124,6 @@
     var result=e.target.result;
     $('#imgSalida').attr("src",result);
   }
+});
   </script>
 @endpush

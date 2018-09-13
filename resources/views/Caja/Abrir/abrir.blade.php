@@ -89,7 +89,16 @@
           </div>
         </a>
       </div>
-      <div class="col-12">
+      <div class="col-6">
+        <a href="{{ route('caja.detalle') }}" title="" class="link-card">
+          <div class="widget-small info "><i class="icon fa fa-list fa-3x"></i>
+            <div class="info">
+              <h4>Detalles de Caja</h4>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-6">
         <a href="{{ route('caja.cerrar') }}" title="" class="link-card">
           <div class="widget-small danger "><i class="icon fa fa-close fa-3x"></i>
             <div class="info">

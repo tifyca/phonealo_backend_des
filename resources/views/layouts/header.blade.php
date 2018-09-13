@@ -4,6 +4,7 @@
    $_SESSION["perfil"]      = Auth::user()->perfil;
    $nombre = Auth::user()->name;
    $perfil = Auth::user()->rol_id;
+   $_SESSION["nombre"] = Auth::user()->name;
 ?>
 
 <!DOCTYPE html>

@@ -69,7 +69,7 @@
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-          <div class="row">
+        
             <form class="row d-flex justify-content-end" action="{{route('horas.index')}}" method="get">
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Horario de Ventas</h3>
@@ -95,7 +95,7 @@
               <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
             </div>
           </form>
-          </div>
+        
         </div>
         {{-- FIN FILTRO --}}
       

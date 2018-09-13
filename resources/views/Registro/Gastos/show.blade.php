@@ -17,7 +17,9 @@
   <div class="col-12">
     <div class="tile">
         <div class="tile-body ">
-              <form>
+             <form name="form1" action="{{route('gastos.store')}}" accept-charset="UTF-8"  method="post">
+          {{ csrf_field() }}
+
                 <div class="col-12 ">
                 <div class="row">
                   
@@ -25,18 +27,31 @@
                       <label for="categoria_gasto">Categoría de Gastos</label>
                       <select class="form-control" id="categoria_gasto" name="categoria_gasto">
                         <option value="">Seleccione</option>}
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                         @foreach($categorias as $fuen)
+                        <option value="{{$fuen->id}}">{{$fuen->categoria}}</option>
+                        @endforeach
                       </select>
                     </div>
+
+
                     <div class="form-group col-md-6">
                       <label for="descripcion_gasto">Descripción</label>
                       <input class="form-control" type="text" id="descripcion_gasto" name="descripcion_gasto" placeholder="...">
                     </div>
                     
+                    <div class="form-group col-md-6">
+                      <label for="categoria_gasto">Proveedores</label>
+                      <select class="form-control" id="id_proveedor" name="id_proveedor">
+                        <option value="">Seleccione</option>}
+                         @foreach($proveedores as $fuen)
+                        <option value="{{$fuen->id}}">{{$fuen->nombres}}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="comprobante_gasto">Nro.Solicitud</label>
+                      <input class="form-control" type="text" id="id_solped" name="id_solped" placeholder="...">
+                    </div>
                     <div class="form-group col-md-4">
                       <label for="comprobante_gasto">Comprobante</label>
                       <input class="form-control" type="text" id="comprobante_gasto" name="comprobante_gasto" placeholder="...">
@@ -47,13 +62,14 @@
                     <div class="form-group col-md-4">
                       <label for="proveedor_gasto">Fuente</label>
                       <select class="form-control" id="proveedor_gasto" name="proveedor_gasto">
-                        <option value="">Seleccione</option>}
-                        <option>Caja Principal</option>
-                        <option>Caja Chica</option>
+                        <option value="">Seleccione</option>
+                        @foreach($fuentes as $fuen)
+                        <option value="{{$fuen->id}}">{{$fuen->fuente}}</option>
+                        @endforeach
                       </select>
                     </div>
                     <div class="form-group col-md-4">
-                      <label for="importe_gasto">Imnporte</label>
+                      <label for="importe_gasto">Importe</label>
                       <input class="form-control" type="text" id="importe_gasto" name="importe_gasto" placeholder="...">
                     </div>
                     <div class="form-group col-md-4">
@@ -64,8 +80,8 @@
                       <label for="divisa_gasto">Divisa</label>
                       <select class="form-control" id="divisa_gasto" name="divisa_gasto">
                         <option value="">Seleccione</option>}
-                        <option>Guaranies</option>
-                        <option>Dólares</option>
+                        <option value="1">Guaranies</option>
+                        <option value="2">Dólares</option>
                       </select>
                     </div>
                     <div class="form-group col-md-4">
@@ -94,5 +110,114 @@
 @endsection
 
 @push('scripts')
+  <script type="text/javascript" language="javascript">
+    $ = jQuery;
+    jQuery(document).ready(function () {
+      
+  $("input#importe_gasto").bind('keydown', function (event) {
+
+      if(event.shiftKey)
+      {
+        event.preventDefault();
+      }
+      if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 241 )    {
+      }
+      else {
+        if (event.keyCode < 95) {
+          if (event.keyCode < 48 || event.keyCode > 57) {
+            event.preventDefault();
+          }
+        } 
+        else {
+          if (event.keyCode < 96 || event.keyCode > 105) {
+            event.preventDefault();
+          }
+        }
+      }        
+      ;
+    });    
+
  
-@endpush
+      $("input#comprobante_gasto").bind('change', function (event) {
+        var valor = $(this).val();
+        document.form1.comprobante_gasto.value=valor.toUpperCase();
+      });
+
+
+      $("input#descripcion_gasto").bind('change', function (event) {
+        var valor = $(this).val();
+        document.form1.descripcion_gasto.value=valor.toUpperCase();
+      });
+
+
+      $("select#id_categoria").bind('change', function (event) {
+        var valor = $(this).val();
+        $("#id_subcategoria").html('');
+        $("#id_subcategoria").append('<option value='+'>Subcategoria</option>');
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+          }
+
+        });
+
+        $.ajax({
+          type: "GET",
+          url: '{{ url('mostrar_subcategorias') }}',
+          dataType: "json",
+          data: { idc: valor ,  _token: '{{csrf_token()}}' },
+          success: function (data){
+            console.log(data);
+            $.each(data, function(l, item1) {
+             $("#id_subcategoria").append('<option value='+item1.id+'>'+item1.sub_categoria+'</option>');
+           });
+          }    
+
+
+        });
+
+
+      });
+
+    });
+
+
+
+  </script>
+
+  <script>
+    var editor_config = {
+      path_absolute : "{{ URL::to('/') }}/",
+      selector: "textarea",
+      plugins: [
+      "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+      "searchreplace wordcount visualblocks visualchars code fullscreen",
+      "insertdatetime media nonbreaking save table contextmenu directionality",
+      "emoticons template paste textcolor colorpicker textpattern"
+      ],
+      toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+      relative_urls: false,
+      file_browser_callback : function(field_name, url, type, win) {
+        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+        var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+        if (type == 'image') {
+          cmsURL = cmsURL + "&type=Images";
+        } else {
+          cmsURL = cmsURL + "&type=Files";
+        }
+        tinyMCE.activeEditor.windowManager.open({
+          file : cmsURL,
+          title : 'Filemanager',
+          width : x * 0.8,
+          height : y * 0.8,
+          resizable : "yes",
+          close_previous : "no"
+        });
+      }
+    };
+    tinymce.init(editor_config);
+  </script>
+
+  @endpush

@@ -52,7 +52,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr class="table-warning">
                     
                     <td>Fecha</td>
                     <td>Usuario</td>

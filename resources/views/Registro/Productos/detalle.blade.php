@@ -1,7 +1,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Detalle Producto')
+@section('titulo', 'Detalle del Producto')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -70,7 +70,7 @@
             @foreach($imagenes as $img)
               <?php 
                  //$url = 'img/productos/'.$img->imagen;
-                 $url = config('app.url') . 'productos/' . $url ;
+                 $url = config('app.url') . 'productos/' . $img->imagen ;
                  if(!$url) $dir ='img/2.jpg';
                  else      $dir=$url; 
               ?>

@@ -33,3 +33,9 @@
 .alert-top{
 	top: 60px;
 }
+
+.disabled-btn{
+	pointer-events: none;
+	cursor: default; 
+	opacity: .6
+}

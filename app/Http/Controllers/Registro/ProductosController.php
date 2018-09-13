@@ -81,45 +81,46 @@ class ProductosController extends Controller
 	public function store(Request $request){
 		//dd($request);
 		try{
-                $nombre          = $request->descripcion;
-                $id_categoria    = $request->id_categoria;
-                $id_subcategoria = $request->id_subcategoria;
-                if(productos::where('descripcion',$nombre)->where('id_categoria',$id_categoria)->where('id_subcategoria',$id_subcategoria)->first()){
-         return redirect()->route('productos.index')->with("notificacion_error","Ya se encuentra Registrado");
-       }
-       $productos = new productos($request->all());
+      $nombre          = $request->descripcion;
+      $id_categoria    = $request->id_categoria;
+      $id_subcategoria = $request->id_subcategoria;
+      if(productos::where('descripcion',$nombre)->where('id_categoria',$id_categoria)->where('id_subcategoria',$id_subcategoria)->first()){
+       return redirect()->route('productos.index')->with("message","Ya se encuentra Registrado");
+     }
+     $productos = new productos($request->all());
      if($request["archivo"]){
           //dd($request->archivo);
-          $fileName = $this->saveFile($request["archivo"], "productos/");
-          $productos->img        = $fileName;
-      }
-        
-        $productos->descripcion          = $request["descripcion"];
-        $productos->descripcion_producto = $request["descripcion_producto"];
-        $productos->precio_ideal         = $request["precio_ideal"];
-        $productos->id_categoria         = $request["id_categoria"];
-        $productos->id_subcategoria      = $request["id_subcategoria"];
-        $productos->cod_barra_producto          = $request["cod_barra_producto"];
-        $productos->codigo_producto      = $request["codigo_producto"];
-        $productos->descripcion          = $request["descripcion"];
-        $productos->created_at           = date('Y-m-d');
-        $productos->updated_at            = date('Y-m-d');
-        $productos->id_usuario              = $_SESSION["user"];
-        $productos->save();
+      $fileName = $this->saveFile($request["archivo"], "productos/");
+      $productos->img        = $fileName;
+    }
+
+    $productos->descripcion          = $request["descripcion"];
+    $productos->descripcion_producto = $request["descripcion_producto"];
+    $productos->precio_ideal         = $request["precio_ideal"];
+    $productos->id_categoria         = $request["id_categoria"];
+    $productos->id_subcategoria      = $request["id_subcategoria"];
+    $productos->cod_barra_producto          = $request["cod_barra_producto"];
+    $productos->codigo_producto      = $request["codigo_producto"];
+    $productos->descripcion          = $request["descripcion"];
+    $productos->created_at           = date('Y-m-d');
+    $productos->updated_at            = date('Y-m-d');
+    $productos->id_usuario              = $_SESSION["user"];
+    $productos->save();
 
         //crear registro de auditoria
-         $auditoria = new auditoria();
-         $auditoria->id_usuario =  $_SESSION["user"];
-         $auditoria->fecha      = date('Y-m-d');
-         $auditoria->accion     = "Creando Producto";
-         $auditoria->id_producto = $productos->id;
-         $auditoria->save(); 
-
+    $auditoria = new auditoria();
+    $auditoria->id_usuario =  $_SESSION["user"];
+    $auditoria->fecha      = date('Y-m-d');
+    $auditoria->accion     = "Creando Producto";
+    $auditoria->id_producto = $productos->id;
+    $auditoria->save(); 
+    
+    return redirect()->route('productos.index')->with("message","Se ha guardado correctamente su información");
         //
-	  }catch (Exception $e) {
-        \Log::info('Error creating item: '.$e);
-       return \Response::json(['created' => false], 500);
-     }
+  }catch (Exception $e) {
+    \Log::info('Error creating item: '.$e);
+    return \Response::json(['created' => false], 500);
+  }
 	}
 	public function show($id){
         $categorias = categorias::where('tipo','Productos')->get();		
@@ -160,7 +161,7 @@ class ProductosController extends Controller
          $auditoria->id_producto = $productos->id;
          $auditoria->save(); 
 
-        return redirect()->route('productos.index')->with("notificacion","Se ha guardado correctamente su información");
+        return redirect()->route('productos.index')->with("message","Se ha guardado correctamente su información");
       } catch (Exception $e) {
         \Log::info('Error creating item: '.$e);
        return \Response::json(['created' => false], 500);
