@@ -19,7 +19,7 @@
         <div class="col mb-3 text-center">
           <div class="row ">
             <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado de Productos</h3>
+              <h4 class="tile-title text-center text-md-left">Listado de Productos</h4>
             </div>
             <form class="row d-flex justify-content-end" action="{{route('productos.index')}}" method="get"> 
               <div class="form-group col-md-3">
