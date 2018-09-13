@@ -29,7 +29,7 @@
             
             <br>
 
-             <form class="row" action="{{route('productos.index')}}" method="get"> 
+             <form class="row" action="{{route('gastos.index')}}" method="get"> 
               <div class="form-group col-md-3">
               <select class="form-control" id="id_categoria" name="id_categoria" ">
                 <option value="">Categoría</option>
@@ -39,7 +39,7 @@
               </select>
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="id_subcategoria" name="id_subcategoria">
+              <select class="form-control" id="id_usuario" name="id_usuario">
                 <option value="">Usuario</option>
                 @foreach($usuarios as $us)
                 <option value="{{$us->id}}">{{$us->name}}</option>
@@ -47,10 +47,10 @@
               </select>
             </div>
           <div class="form-group col-md-3">
-              <input type="date" class="form-control" name="fecha_inicio">
+              <input type="date" class="form-control" name="desde" id='desde'>
             </div>
             <div class="form-group col-md-3">
-              <input type="date" class="form-control" name="fecha_fin">
+              <input type="date" class="form-control" name="hasta" id='hasta'>
             </div>            
             <div class="form-group col-md-1">
               <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
@@ -69,7 +69,7 @@
                     <th>Comprobante</th>
                     <th>Categoría</th>
                     <th>Fuente</th>
-                    <th>Importe</th>
+                    <th align="right">Importe</th>
                     <th>Divisa</th>
                     <th>Usuario</th>
                     <th>Fecha de Comprobante</th>
@@ -84,14 +84,25 @@
                     <td>{{$gast->comprobante}}</td>
                     <td>
                        @foreach($categorias as $categoria)
-                      @if($categoria->id==$gast->id_categoria)
+                       @if($categoria->id==$gast->id_categoria_gasto)
                          {{$categoria->categoria}}
                       @endif
                      @endforeach
                     </td>
                     <td>{{$gast->id_fuente}}</td>
-                    <td>{{$gast->importe}}</td>
-                    <td>{{$gast->id_divisa}}</td>
+                    <td aling="right">
+                    <?php 
+                    $monto = number_format($gast->importe, 2, ',', '.');
+                    echo $monto;?>
+
+                    </td>
+                    <td>
+                      @foreach($divisas as $divisa)
+                       @if($divisa->id_divisa==$gast->id_divisa)
+                         {{$divisa->divisa}}
+                      @endif
+                     @endforeach
+                    </td>
                     <td>{{$gast->id_usuario}}</td>
                     <td>{{$gast->fecha_comprobante}}</td>
                     <td>{{$gast->fecha}}</td>

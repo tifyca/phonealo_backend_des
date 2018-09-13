@@ -15,6 +15,8 @@ class EmpleadosController extends Controller
     $empleado = $request["empleado"];
     $email   = $request["email"];
     $estatus = $request["estatus"];
+     $email = $email."%";
+        
     if($empleado!="" && $email=="" && $estatus=="")
     {
       $empleado = $empleado."%"; 
@@ -30,10 +32,25 @@ class EmpleadosController extends Controller
          $email = $email."%";
          $empleados= empleados::where('id_estado',$estatus)->orderby('nombres','asc')->paginate(10);
     }
-
-    if($empleado=="" && $email=="" && $estatus=="")
+   if($empleado!="" && $email=="" && $estatus!="")
     {
-         $empleados= Empleados::orderby('nombres','asc')->paginate(10);
+          $empleado = $empleado."%";  
+         $empleados= empleados::where('id_estado',$estatus)->where('nombres','like',$empleado)->orderby('nombres','asc')->paginate(10);
+    }
+
+
+    if($empleado!="" && $email!="" && $estatus=="")
+    {
+      $empleado = $empleado."%"; 
+      $email = $email."%";
+         $empleados= Empleados::where('nombres','like',$empleado)->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+    }
+
+    if($empleado!="" && $email!="" && $estatus!="")
+    {
+      $empleado = $empleado."%"; 
+      $email = $email."%";
+         $empleados= Empleados::where('nombres','like',$empleado)->where('email','like',$email)->where('id_estado',$estatus)->orderby('nombres','asc')->paginate(10);
     }
 
        if($request->ajax()){

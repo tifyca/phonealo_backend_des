@@ -21,8 +21,7 @@ class ProveedoresController extends Controller
     	$proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
         				->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')->where('proveedores.nombres','like',$zproveedor)->orderby('proveedor','asc')->paginate(10);
     }
-    
-   if($zproveedor=="" && $email!="" && $estatus=="")
+    if($zproveedor=="" && $email!="" && $estatus=="")
     {
       $email = $email."%"; 
       $proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
@@ -33,6 +32,46 @@ class ProveedoresController extends Controller
       $email = $email."%"; 
       $proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
                 ->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')->where('id_estado','=',$estatus)->orderby('proveedor','asc')->paginate(10);
+    }
+   if($zproveedor!="" && $email=="" && $estatus!="")
+    {
+      $email = $email."%"; 
+      $zproveedor = $zproveedor."%"; 
+      $proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
+                ->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')
+                ->where('proveedores.nombres','like',$zproveedor)
+                ->where('id_estado','=',$estatus)->orderby('proveedor','asc')->paginate(10);
+    }
+      if($zproveedor!="" && $email!="" && $estatus=="")
+    {
+      $email = $email."%"; 
+      $zproveedor = $zproveedor."%"; 
+      $proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
+                ->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')
+                ->where('proveedores.nombres','like',$zproveedor)
+                ->where('email','like',$email)
+                ->orderby('proveedor','asc')->paginate(10);
+    }
+ 
+
+   if($zproveedor!="" && $email!="" && $estatus!="")
+    {
+      $email = $email."%"; 
+      $zproveedor = $zproveedor."%"; 
+      $proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
+                ->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')
+                ->where('proveedores.nombres','like',$zproveedor)
+                ->where('email','like',$email)
+                ->where('id_estado','=',$estatus)->orderby('proveedor','asc')->paginate(10);
+    }
+
+   if($zproveedor=="" && $email!="" && $estatus!="")
+    {
+      $email = $email."%"; 
+      $proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
+                ->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')
+                ->where('email','like',$email)
+                ->where('id_estado','=',$estatus)->orderby('proveedor','asc')->paginate(10);
     }
    if($zproveedor=="" && $email=="" && $estatus=="")
     {
