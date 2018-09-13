@@ -29,8 +29,8 @@ public function store(Request $request)
 {
   try{
     $titulo          = $request->titulo;
-    $id_producto    = $request->id;
-
+    $id_producto    = $request->id_producto;
+    $productos = productos::where('id',"=",$id_producto)->first();
     if(imagenes::where('titulo',$titulo)->where('id_producto',$id_producto)->first()){
       return redirect()->route('productos.index')->with("notificacion_error","Ya se encuentra Registrado");
     }
@@ -48,11 +48,13 @@ public function store(Request $request)
     $galeria->updated_at      = date('Y-m-d');
     $galeria->id_usuario      = $_SESSION["user"];
     $galeria->save();
-    $id = $id_producto;
+    
         //return redirect()->route('galeria.index',$request->id)->with("notificacion","Se ha guardado correctamente su información");
         //
-    return redirect()->route('galeria.index',$id_producto)->with("notificacion","Se ha guardado correctamente su información");
     
+    //dd($id_producto);
+   return redirect()->route('galeria.index',$id_producto)->with("notificacion","Se ha guardado correctamente su información");
+
   }catch (Exception $e) {
     \Log::info('Error creating item: '.$e);
     return \Response::json(['created' => false], 500);
