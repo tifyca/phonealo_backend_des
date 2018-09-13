@@ -199,7 +199,7 @@ $("#btn-save-edit").click(function (e) {
 function soloLetras(e) {
     key = e.keyCode || e.which;
     tecla = String.fromCharCode(key).toLowerCase();
-    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz0123456789";
     especiales = [8, 39];
 
     tecla_especial = false

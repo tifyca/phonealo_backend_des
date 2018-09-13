@@ -68,24 +68,23 @@
         <div class="form-group col-md-3">
               <input type="text" class="form-control" id="buscarbarrio" name="buscarbarrio" placeholder="Buscar" onkeypress="return soloLetras(event)">
             </div>
+            <div class="form-group col-md-3">
+                 <select class="form-control departamento" id="departamento-select-list" name="departamento-select-list">
+                 <option value="">Departamento</option>
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                 <select class="form-control ciudades" id="ciudades-select-list" name="ciudades-select-list">
+                 <option value="">Ciudad</option>
+                </select>
+              </div>
             <div class="col-md-1 mr-md-3">
              <button class="btn btn-primary" type="submit" name="boton" id="boton" >Filtrar</button>  
             </div>
           </form>
         <div class="tile-body ">
           <div class="row">
-            <div class="form-group col-12 col-md-3">
-                <label for="exampleSelect1">Seleccione Departamento</label>
-                <select class="form-control departamento" id="departamento-select-list" name="departamento-select-list">
-                 <option value="">Seleccione</option>
-                </select>
-              </div>
-              <div class="form-group col-12 col-md-3">
-                <label for="exampleSelect1">Seleccione Ciudad</label>
-                <select class="form-control ciudades" id="ciudades-select-list" name="ciudades-select-list">
-                 <option value="">Seleccione</option>
-                </select>
-              </div>
+            
           </div>
               
           <div class="table-responsive">
@@ -183,7 +182,8 @@
 
   $("#boton").click(function (e) {
     var buscarbarrio =  $('#buscarbarrio').val();
-   // var id_departamento = $(this).val();
+    var id_departamento = $('#departamento-select-list').val();
+    var id_ciudad = $('#ciudades-select-list').val();
 
     e.preventDefault();
      $("#barrios-list").html('');
@@ -192,15 +192,18 @@
               type: "get",
               url: '{{route('barrios')}}',
               dataType: "json",
-              data: {buscarbarrio: buscarbarrio},
+              data: {buscarbarrio: buscarbarrio, id_departamento:id_departamento, id_ciudad:id_ciudad },
               success: function (data){
                 console.log(data);
-                $.each(data, function(l, item) {
+                $.each(data, function(l, item3) {
 
           
 
-                    $("#barrios-list").append('<tr id="barrios'+ item.id +'"><td>'+item.barrio+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item.id +'"><i class="fa fa-lg fa-edit"  ></i></button><buttondata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#barrios-list").append('<tr id="barrios'+ item3.id +'"><td>'+item3.barrio+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item3.id +'"><i class="fa fa-lg fa-edit"  ></i></button><buttondata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item3.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
+                $('#buscarbarrio').val('');
+                $('#departamento-select-list').val('');
+                $('#ciudades-select-list').val('');
               }
           });
        });

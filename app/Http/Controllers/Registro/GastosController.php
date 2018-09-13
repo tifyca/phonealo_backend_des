@@ -18,11 +18,52 @@ use File;
 class GastosController extends Controller
 {
     public function index(Request $request){
+      $id_categoria=$request->id_categoria;
+      $desde = $request->desde;
+      $hasta = $request->hasta;
+      $id_usuario=$request->id_usuario;
+      if($id_categoria=='' && $id_usuario=='' && $desde=='' && $hasta==''){
+         $gastos = gastos::orderby('fecha','desc')->paginate(10);
+      }
+      if($id_categoria!='' && $id_usuario=='' && $desde=='' && $hasta==''){
+         $gastos = gastos::where('id_categoria_gasto',$id_categoria)->orderby('fecha','desc')->paginate(10);
+      }
+      if($id_categoria=='' && $id_usuario!='' && $desde=='' && $hasta==''){
+         $gastos = gastos::where('id_usuario',$id_usuario)->orderby('fecha','desc')->paginate(10);
+      }
+      if($id_categoria=='' && $id_usuario=='' && $desde!='' && $hasta==''){
+         $gastos = gastos::where('fecha_comprobante','>=',$desde)->orderby('fecha','desc')->paginate(10);
+      }
+
+      if($id_categoria=='' && $id_usuario=='' && $desde=='' && $hasta!=''){
+         $gastos = gastos::where('fecha_comprobante','<=',$hasta)->orderby('fecha','desc')->paginate(10);
+      }
+
+      if($id_categoria!='' && $id_usuario!='' && $desde=='' && $hasta==''){
+         $gastos = gastos::where('id_usuario',$id_usuario)->where('id_categoria',$id_categoria)->orderby('fecha','desc')->paginate(10);
+      }
+      if($id_categoria!='' && $id_usuario!='' && $desde!='' && $hasta==''){
+         $gastos = gastos::where('id_usuario',$id_usuario)->where('id_categoria',$id_categoria)->where('fecha_comprobante','>=',$desde)->orderby('fecha','desc')->paginate(10);
+      }
+      if($id_categoria!='' && $id_usuario!='' && $desde!='' && $hasta!=''){
+         $gastos = gastos::where('id_usuario',$id_usuario)->where('id_categoria',$id_categoria)->where('fecha_comprobante','>=',$desde)->where('fecha_comprobante','<=',$hasta)->orderby('fecha','desc')->paginate(10);
+      }
+      if($id_categoria=='' && $id_usuario!='' && $desde!='' && $hasta!=''){
+         $gastos = gastos::where('id_usuario',$id_usuario)->where('fecha_comprobante','>=',$desde)->where('fecha_comprobante','<=',$hasta)->orderby('fecha','desc')->paginate(10);
+      }
+      if($id_categoria!='' && $id_usuario=='' && $desde!='' && $hasta!=''){
+         $gastos = gastos::where('id_categoria',$id_categoria)->where('fecha_comprobante','>=',$desde)->where('fecha_comprobante','<=',$hasta)->orderby('fecha','desc')->paginate(10);
+      }
+        if($id_categoria=='' && $id_usuario=='' && $desde!='' && $hasta!=''){
+         $gastos = gastos::where('fecha_comprobante','>=',$desde)->where('fecha_comprobante','<=',$hasta)->orderby('fecha','desc')->paginate(10);
+      }
+
 
     	$categorias=categorias::where('tipo','Gastos')->get();
-        $gastos = gastos::orderby('fecha','desc')->paginate(10);
         $usuarios = User::orderby('id','asc')->get();
-		return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios);
+         $divisas = DB::table('divisa')->orderby('id_divisa')->get();
+     $fuentes= fuente::orderby('id')->get();
+		return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes);
 	}
 	public function show(){
 		

@@ -37,7 +37,7 @@
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="horaVenta" name="horaVenta"  oncopy="return false" onpaste="return false">
+                <input class="form-control" type="text" placeholder="..." id="horaVenta" name="horaVenta"  oncopy="return false" onpaste="return false"  onkeypress="return soloLetras(event)">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
@@ -168,7 +168,7 @@
               </div>
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="horario" name="horario"  oncopy="return false" onpaste="return false" >
+                <input class="form-control" type="text" placeholder="..." id="horario" name="horario"  oncopy="return false" onpaste="return false"  onkeypress="return soloLetras(event)">
               </div>
              <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>

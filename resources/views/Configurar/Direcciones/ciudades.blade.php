@@ -57,6 +57,14 @@
              <div class="form-group col-md-3">
               <input type="text" class="form-control" id="buscarciudad" name="buscarciudad" placeholder="Buscar" onkeypress="return soloLetras(event)">
             </div>
+            <div class="form-group col-md-3">
+                 <select class="form-control departamento" id="departamento-select" name="departamento-select">
+                 <option value="">Departamento</option>
+                @foreach($departamentos as $departamento)   
+                <option value="{{$departamento->id}}"> {{ $departamento->nombre }} </option>
+                 @endforeach
+               </select>
+              </div>
             <div class="col-md-1 mr-md-3">
              <button class="btn btn-primary" type="submit" name="boton" id="boton" >Filtrar</button>  
             </div>
@@ -67,12 +75,6 @@
         {{-- FIN FILTRO --}}
 
         <div class="tile-body ">
-              <div class="form-group col-12 col-md-3">
-                <label for="exampleSelect1">Seleccione Departamento</label>
-                <select class="form-control departamento" id="departamento-select" name="departamento-select">
-                 <option value="">Seleccione</option>
-                </select>
-              </div>
           <div class="table-responsive">
             <table class="table table-hover" id="sampleTable">
               <thead>
@@ -160,7 +162,7 @@
 <script  type="text/javascript" charset="utf-8">
  $("#boton").click(function (e) {
     var buscarciudad =  $('#buscarciudad').val();
-   // var id_departamento = $(this).val();
+    var id_departamento = $('#departamento-select').val();
 
     e.preventDefault();
      $("#ciudades-list").html('');
@@ -169,21 +171,23 @@
               type: "get",
               url: '{{route('ciudades')}}',
               dataType: "json",
-              data: {buscarciudad: buscarciudad},
+              data: {buscarciudad: buscarciudad, id_departamento:id_departamento },
               success: function (data){
                 console.log(data);
                 $.each(data, function(l, item) {
 
                     $("#ciudades-list").append('<tr id="ciudades'+ item.id +'"><td>'+item.ciudad+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal m-0" value="'+ item.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   }); 
+                $('#buscarciudad').val('');
+                $('#departamento-select').val('');
               },
     
 });
            });
 
-  $(document).ready(function(){
+  /*$(document).ready(function(){
     {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
-      $.ajax({
+    /*  $.ajax({
           type: "get",
           url: '{{ route('departamentos_ajax') }}',
           dataType: "json",
@@ -196,9 +200,9 @@
               });
           }
 
-      });
+      });*/
       // AL SELECCIONAR EL DEPARTAMENTO TRAE LAS CIUDADES ASOCIADAS
-      $('#departamento-select').change(function(){
+   /*   $('#departamento-select').change(function(){
         var id_departamento = $(this).val();
 
           $("#ciudades-list").html('');
@@ -216,7 +220,7 @@
                   });
               }
           });
-      });
-  });
+      });*/
+ // })
 </script>
 @endpush
