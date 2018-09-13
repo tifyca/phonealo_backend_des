@@ -57,7 +57,7 @@
                   
                     <td width="10%" class="text-center">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="{{ route('clientes.update',2) }}"><i class="fa fa-lg fa-eye"></i></a>
+                        <a data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary" href="{{ route('clientes.update',2) }}"><i class="fa fa-lg fa-eye m-0"></i></a>
                         {{-- <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a> --}}
                       </div>
                     </td>
@@ -70,7 +70,7 @@
                     <td>Descompuesto</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-eye"></i></a>
+                        <a data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary" href="{{ route('clientes.update',2) }}"><i class="fa fa-lg fa-eye m-0"></i></a>
                         {{-- <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a> --}}
                       </div>
                     </td>
@@ -83,7 +83,7 @@
                   <td>Venta</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-eye"></i></a>
+                        <a data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary" href="{{ route('clientes.update',2) }}"><i class="fa fa-lg fa-eye m-0"></i></a>
                         {{-- <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-globe"></i></a> --}}
                       </div>
                     </td>
