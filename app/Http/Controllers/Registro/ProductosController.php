@@ -114,7 +114,7 @@ class ProductosController extends Controller
          $auditoria->accion     = "Creando Producto";
          $auditoria->id_producto = $productos->id;
          $auditoria->save(); 
-
+      return redirect()->route('productos.index')->with("notificacion","Se ha guardado correctamente su información");
         //
 	  }catch (Exception $e) {
         \Log::info('Error creating item: '.$e);

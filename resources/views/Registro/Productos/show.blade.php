@@ -1,7 +1,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Nuevo producto')
+@section('titulo', 'Nuevo Producto')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
