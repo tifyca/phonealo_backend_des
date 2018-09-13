@@ -51,9 +51,12 @@
                     @if($ficha->estatus==0) Inactivo @endif 
                     @if($ficha->estatus==1) Activo @endif
                   </td>
-                  <td class="text-center">
-                    <a class="btn btn-primary" href="{{ route('galeria.edit',$ficha->id) }}" title="Ver/Editar"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                      <a class="btn btn-primary" href="{{ route('galeria.destroy',$ficha->id)}}" title="Eliminar"><i class="m-0 fa fa-lg fa-trash"></i></a>
+                  <td width="10%" class="text-center">
+                    <div class="btn-group">
+                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary" href="{{ route('galeria.edit',$ficha->id) }}" title="Ver/Editar"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                      <a data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary" href="{{ route('galeria.destroy',$ficha->id)}}" title="Eliminar"><i class="m-0 fa fa-lg fa-trash"></i></a>
+                    </div>
+                    
                       
                   </td>
                 </tr>
