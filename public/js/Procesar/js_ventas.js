@@ -11,6 +11,7 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
+                    id_cliente:       $('#id_cliente').val(),
                     nombre_cliente :  $('#nombre_cliente').val(), 
                     telefono_cliente: $('#telefono_cliente').val(),
                     direccion_cliente:$('#direccion_cliente').val(),

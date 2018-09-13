@@ -26,6 +26,7 @@
     <h3 class="tile-title text-center text-md-left">Detalles del Cliente</h3>
       <div class="tile-body ">
         <div class="row">
+          <input type="hidden" name="id_cliente" id="id_cliente">
           <div class="form-group col-md-4">
             <label for="telefono_cliente">Teléfono</label>
             <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="15">
@@ -93,11 +94,11 @@
 
             <div class="form-group col-md-4">
               <label for="">Fecha de Venta</label>
-              <input class="form-control" type="date" id="fecha_venta" name="fecha_venta" disabled >
+              <input class="form-control" type="date" id="fecha_venta" name="fecha_venta" data-date-format="DD/MM/YYYY" disabled >
             </div>
              <div class="form-group col-md-4">
               <label for="">Fecha de Entrega</label>
-              <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" value="">
+              <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" data-date-format="DD/MM/YYYY" value="">
             </div>
             <div class="form-group col-md-4">
               <label for="">Horario de Entrega</label>
@@ -330,17 +331,19 @@
  <meta name="_token" content="{!! csrf_token() !!}" />
  <script src="{{asset('js/Procesar/js_ventas.js')}}"></script>
 <script type="text/javascript" charset="utf-8" async defer>
-  window.onload = function(){
-  var fecha = new Date(); //Fecha actual
-  var mes = fecha.getMonth()+1; //obteniendo mes
-  var dia = fecha.getDate(); //obteniendo dia
-  var ano = fecha.getFullYear(); //obteniendo año
-  if(dia<10)
-    dia='0'+dia; //agrega cero si el menor de 10
-  if(mes<10)
-    mes='0'+mes //agrega cero si el menor de 10
-  document.getElementById('fecha_venta').value=ano+"-"+mes+"-"+dia;
-}
+   
+
+     window.onload = function(){
+      var fecha = new Date(); //Fecha actual
+      var mes = fecha.getMonth()+1; //obteniendo mes
+      var dia = fecha.getDate(); //obteniendo dia
+      var ano = fecha.getFullYear(); //obteniendo año
+      if(dia<10)
+        dia='0'+dia; //agrega cero si el menor de 10
+      if(mes<10)
+        mes='0'+mes //agrega cero si el menor de 10
+      document.getElementById('fecha_venta').value=ano+"-"+mes+"-"+dia;
+    }
 
   var url1 = '{{ $url1 }}';
   var url2 = '{{ $url2 }}';
@@ -501,6 +504,7 @@
           success: function (data){
           console.log(data.id_departamento);
 
+                $('#id_cliente').val(data.id);
                 $('#nombre_cliente').val(data.nombres);
                 $('#email_cliente').val(data.email);
                 $('#ruc_cliente').val(data.ruc_ci);
@@ -517,48 +521,56 @@
        });
     });
 
-function cargarComboCiudad(id_departamneto){
-          var id_departamento = $(this).val();
-          alert(id_departamento);
-          console.log(id_departamento);
-          $(".ciudades").html('');
 
-          $.ajax({
+function cargarComboCiudad(id_departamento){
+         console.log(id_departamento);
+          $('#ciudad_cliente')
+          .find('option')
+          .remove()
+          .end()
+          .append('<option value="whatever">Seleccione</option>');
+         $.ajax({
           type: "get",
           url: '{{ route('ciudadesCombo') }}',
           dataType: "json",
-          data: {id_departamneto: id_departamneto},
+          data: {id_departamento: id_departamento},
           success: function (data){
+            console.log(data);
           // $(".ciudades").append('<option value=0> Seleccione </option>');
           $.each(data, function(l, item1) {
 
           //$(".ciudades option:eq(1)").prop("selected", true);
-          $(".ciudades").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
+          $("#ciudad_cliente").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
           });
           }
   });
 };
 
 function cargarComboBarrio(id_ciudad){
-          var id_ciudad = $(this).val();
-          $(".barrios").html('');
+        
+          $('#barrio_cliente')
+          .find('option')
+          .remove()
+          .end()
+          .append('<option value="whatever">Seleccione</option>');
+         $.ajax({
+          type: "get",
+          url: '{{ route('barriosCombo') }}',
+          dataType: "json",
+          data: {id_ciudad: id_ciudad},
+          success: function (data){
+            console.log(data);
+          // $(".ciudades").append('<option value=0> Seleccione </option>');
+          $.each(data, function(l, item2) {
 
-           $.ajax({
-              type: "get",
-              url: '{{ route('barriosCombo') }}',
-              dataType: "json",
-              data: {id_ciudad: id_ciudad},
-              success: function (data){
-
-                 $.each(data, function(l, item2) {
-                 // $(".barrios").append('<option value=0> Seleccione </option>');
-                   //$(".ciudades option:eq(1)").prop("selected", true);
-                   $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
-                  });
-              }
+          //$(".ciudades option:eq(1)").prop("selected", true);
+          $("#ciudad_cliente").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
           });
- };
- 
+          }
+  });
+};
+
+
  $(document).ready(function(){
     {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
       $.ajax({
