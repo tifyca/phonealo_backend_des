@@ -32,7 +32,7 @@ public function store(Request $request)
     $id_producto    = $request->id_producto;
     $productos = productos::where('id',"=",$id_producto)->first();
     if(imagenes::where('titulo',$titulo)->where('id_producto',$id_producto)->first()){
-      return redirect()->route('productos.index')->with("notificacion_error","Ya se encuentra Registrado");
+      return redirect()->route('productos.index')->with("message","Ya se encuentra Registrado");
     }
     $galeria = new imagenes($request->all());
     if($request["archivo"]){
@@ -40,9 +40,10 @@ public function store(Request $request)
       $fileName = $this->saveFile($request["archivo"], "productos/");
       $galeria->imagen        = $fileName;
     }
-
+    if(!isset($request["estatus"])) $estatus = 1;
+    else $estatus = $request["estatus"];
     $galeria->titulo          = $request["titulo"];
-    $galeria->estatus         = $request["estatus"];
+    $galeria->estatus         = $estatus;
     $galeria->id_producto     = $request["id_producto"];
     $galeria->created_at      = date('Y-m-d');
     $galeria->updated_at      = date('Y-m-d');
@@ -53,7 +54,7 @@ public function store(Request $request)
         //
     
     //dd($id_producto);
-   return redirect()->route('galeria.index',$id_producto)->with("notificacion","Se ha guardado correctamente su información");
+   return redirect()->route('galeria.index',$id_producto)->with("message","Se ha guardado correctamente su información");
 
   }catch (Exception $e) {
     \Log::info('Error creating item: '.$e);
@@ -100,7 +101,7 @@ public function update(Request $request,$id){
   $galeria->save();
 
 
-  return redirect()->route('galeria.index',$id_producto)->with("notificacion","Se ha guardado correctamente su información");
+  return redirect()->route('galeria.index',$id_producto)->with("message","Se ha guardado correctamente su información");
 } catch (Exception $e) {
   \Log::info('Error creating item: '.$e);
   return \Response::json(['created' => false], 500);
@@ -116,7 +117,7 @@ public function destroy($id){
   $galeria->destroy($id);
   $productos = productos::where('id',$id_producto)->first();
   $id = $productos->id;
-  return redirect()->route('galeria.index',$id_producto)->with("notificacion","Se ha Eliminado el Registro");
+  return redirect()->route('galeria.index',$id_producto)->with("message","Se ha Eliminado el Registro");
 
 }
 }

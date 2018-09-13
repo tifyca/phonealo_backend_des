@@ -33,7 +33,7 @@
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="1" type="radio" id="estatus1" name="estatus">Activo
+                        <input class="form-check-input" value="1" type="radio" id="estatus1" name="estatus" sel>Activo
                       </label>
                     </div>
                     <div class="form-check">
