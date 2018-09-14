@@ -40,9 +40,25 @@ class CategoriasController extends Controller
                                      ->where('status', $status)
                                      ->where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
           }
+          if($categoria!="" && $status!="" && $tipo=="")
+          {
+               $categorias=Categorias::where('status', $status)
+                                     ->where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
+          }
+          if($categoria!="" && $status=="" && $tipo!="")
+          {
+               $categorias=Categorias::where('tipo', $tipo)
+                                     ->where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
+          }
           if($categoria=="" && $status=="" && $tipo=="")
           {
                $categorias=  Categorias::orderBy('categoria','ASC')->paginate(10);
+          }
+          if($categoria=="" && $status!="" && $tipo!="")
+          {
+               $categorias=Categorias::where('tipo', $tipo)
+                                     ->where('status', $status)
+                                     ->orderBy('categoria','asc')->paginate(10);
           }
 
           

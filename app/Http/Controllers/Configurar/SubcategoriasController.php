@@ -81,6 +81,15 @@ class SubcategoriasController extends Controller
                 ->orderBy('sub_categoria','asc')
                 ->paginate(10);
     }
+    if($subcategoria=="" && $status!="" && $categori!="")
+    {
+         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
+                ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
+                ->where('categorias.id', $categoria)
+                ->where('sub_categorias.status', $status)
+                ->orderBy('sub_categoria','asc')
+                ->paginate(10);
+    }
 
 
     	  $categorias = Categorias::where('status',1)
