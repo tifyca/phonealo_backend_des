@@ -382,9 +382,36 @@ class DireccionesController extends Controller
                             ->orderBy('barrio','asc')->get();
              return $barrios;
         }
+        if($barrio!="" && $id_departamento!="" && $id_ciudad=="")
+        {
+          $barrios= Barrios::join('ciudades', 'barrios.id_ciudad', '=', 'ciudades.id')
+                           ->join('departamentos','departamentos.id', '=', 'ciudades.id_departamento' )
+                           ->where('ciudades.id_departamento', $id_departamento)
+                           ->where('barrio','LIKE', $barrio.'%')
+                           ->orderBy('barrio','asc')->get();
+             return $barrios;
+        }
+         if($barrio!="" && $id_departamento=="" && $id_ciudad!="")
+        {
+          $barrios= Barrios::join('ciudades', 'barrios.id_ciudad', '=', 'ciudades.id')
+                            ->join('departamentos','departamentos.id', '=', 'ciudades.id_departamento' )
+                            ->where('id_ciudad', $id_ciudad)
+                            ->where('barrio','LIKE', $barrio.'%')
+                            ->orderBy('barrio','asc')->get();
+             return $barrios;
+        }
         if($barrio=="" && $id_departamento=="" && $id_ciudad=="")
         {
            return view('Configurar.Direcciones.barrios');
+        }
+         if($barrio=="" && $id_departamento!="" && $id_ciudad!="")
+        {
+          $barrios= Barrios::join('ciudades', 'barrios.id_ciudad', '=', 'ciudades.id')
+                            ->join('departamentos','departamentos.id', '=', 'ciudades.id_departamento' )
+                            ->where('id_ciudad', $id_ciudad)
+                            ->where('ciudades.id_departamento', $id_departamento)
+                            ->orderBy('barrio','asc')->get();
+             return $barrios;
         }
 
     	

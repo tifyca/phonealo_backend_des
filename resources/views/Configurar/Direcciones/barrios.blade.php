@@ -41,7 +41,7 @@
               </div>
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Barrio</label>
-                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" oncopy="return false" onpaste="return false" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" oncopy="return false" onpaste="return false" onkeypress="return soloLetras(event)"  maxlength="50">
               </div>
               <div class="form-group col-12  col-md-3">
                 <label class="control-label">Latitud</label>
@@ -66,7 +66,7 @@
              <form class="row d-flex justify-content-end" action="" method="">
         <h3 class="tile-title">Listado Barrios</h3>
         <div class="form-group col-md-3">
-              <input type="text" class="form-control" id="buscarbarrio" name="buscarbarrio" placeholder="Buscar" onkeypress="return soloLetras(event)">
+              <input type="text" class="form-control" id="buscarbarrio" name="buscarbarrio" placeholder="Buscar" onkeypress="return soloLetras(event)"  maxlength="50">
             </div>
             <div class="form-group col-md-3">
                  <select class="form-control departamento" id="departamento-select-list" name="departamento-select-list">
@@ -120,7 +120,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Barrio</label>
-                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombre" name="nombre" oncopy="return false" onpaste="return false" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombre" name="nombre" oncopy="return false" onpaste="return false" onkeypress="return soloLetras(event)"  maxlength="50">
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Latitud</label>
@@ -199,7 +199,7 @@
 
           
 
-                    $("#barrios-list").append('<tr id="barrios'+ item3.id +'"><td>'+item3.barrio+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item3.id +'"><i class="fa fa-lg fa-edit"  ></i></button><buttondata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item3.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#barrios-list").append('<tr id="barrios'+ item3.id +'"><td>'+item3.barrio+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item3.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item3.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
                 $('#buscarbarrio').val('');
                 $('#departamento-select-list').val('');
@@ -284,7 +284,7 @@
 
                  $.each(data2, function(l, item2) {
 
-                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><buttondata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
               }
           });

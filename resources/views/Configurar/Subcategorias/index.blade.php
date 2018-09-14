@@ -38,7 +38,7 @@
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombreSubcategoria" name="nombreSubcategoria" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
+                <input class="form-control" type="text" placeholder="..." id="nombreSubcategoria" name="nombreSubcategoria" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
@@ -76,7 +76,7 @@
               <h3 class="tile-title text-center text-md-left">Listado de Subcategorias</h3>
             </div>
              <div class="form-group col-md-2">
-              <input type="text" class="form-control" id="buscarsubc" name="buscarsubc" placeholder="Buscar">
+              <input type="text" class="form-control" id="buscarsubc" name="buscarsubc" placeholder="Buscar"  maxlength="50">
             </div>
             <div class="form-group col-md-2">
               <select class="form-control" id="selectcat" name="selectcat">
@@ -167,7 +167,7 @@
               </div>
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
              <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>

@@ -28,7 +28,7 @@
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">País</label>
-                <input class="form-control" type="text" placeholder="Nombre País"  id="nombrePais" name="nombrePais" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false">
+                <input class="form-control" type="text" placeholder="Nombre País"  id="nombrePais" name="nombrePais" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
               <div class="tile-footer text-center border-0" >
                 <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
@@ -45,10 +45,10 @@
       <div class="col mb-3 text-center">
              <form class="row d-flex justify-content-end" action="{{route('paises')}}" method="get">
             <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado Paises</h3>
+              <h3 class="tile-title text-center text-md-left">Listado Países</h3>
             </div>
              <div class="form-group col-md-3">
-              <input type="text" class="form-control" id="buscarpais" name="buscarpais" placeholder="Buscar">
+              <input type="text" class="form-control" id="buscarpais" name="buscarpais" placeholder="Buscar"  maxlength="50">
             </div>
             <div class="col-md-1 mr-md-3">
               <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
@@ -107,7 +107,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
           
             </div>

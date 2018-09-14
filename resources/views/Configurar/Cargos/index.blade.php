@@ -27,7 +27,7 @@
             <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control"  type="text" placeholder="Ej: Repartidor" id="nombreCargo" name="nombreCargo" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
+                <input class="form-control"  type="text" placeholder="Ej: Repartidor" id="nombreCargo" name="nombreCargo" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" maxlength="50">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
@@ -65,7 +65,7 @@
               <h3 class="tile-title text-center text-md-left">Listado de Cargos</h3>
             </div>
              <div class="form-group col-md-3">
-              <input type="text" class="form-control" name="buscarcargos" id="buscarcargos" placeholder="Buscar Cargo">
+              <input type="text" class="form-control" name="buscarcargos" id="buscarcargos" placeholder="Buscar Cargo"  maxlength="50">
             </div>
             <div class="form-group col-md-3">
               <select class="form-control" id="selectstatus" name="selectstatus">
@@ -133,7 +133,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>

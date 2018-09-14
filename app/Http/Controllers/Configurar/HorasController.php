@@ -39,9 +39,27 @@ class HorasController extends Controller
                             ->where('horario','LIKE', $horario.'%')->orderBy('horario','asc')->paginate(10);
         
     }
+     if($horario!="" && $status!="" && $status_v=="")
+    {
+        $horarios=  Horarios::where('status',$status)
+                            ->where('horario','LIKE', $horario.'%')->orderBy('horario','asc')->paginate(10);
+        
+    }
+     if($horario!="" && $status!="" && $status_v=="")
+    {
+        $horarios=  Horarios::where('status_v',$status_v)
+                            ->where('horario','LIKE', $horario.'%')->orderBy('horario','asc')->paginate(10);
+        
+    }
     if($horario=="" && $status=="" && $status_v=="")
     {
         $horarios= Horarios::orderBy('horario','ASC')->paginate(10);
+    }
+     if($horario=="" && $status!="" && $status_v!="")
+    {
+        $horarios=  Horarios::where('status_v',$status_v)
+                            ->where('status',$status)->orderBy('horario','asc')->paginate(10);
+        
     }
 
     
