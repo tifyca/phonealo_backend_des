@@ -35,7 +35,7 @@
               </div>
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Ciudad</label>
-                <input class="form-control" type="text" placeholder="Nombre Ciudad"  id="nombreCiudad" name="nombreCiudad" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false">
+                <input class="form-control" type="text" placeholder="Nombre Ciudad"  id="nombreCiudad" name="nombreCiudad" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
               <div class="tile-footer text-center border-0" >
                 <button class="btn btn-primary" type="submit"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
@@ -55,7 +55,7 @@
               <h3 class="tile-title text-center text-md-left">Listado Ciudades</h3>
             </div>
              <div class="form-group col-md-3">
-              <input type="text" class="form-control" id="buscarciudad" name="buscarciudad" placeholder="Buscar" onkeypress="return soloLetras(event)">
+              <input type="text" class="form-control" id="buscarciudad" name="buscarciudad" placeholder="Buscar" onkeypress="return soloLetras(event)"  maxlength="50">
             </div>
             <div class="form-group col-md-3">
                  <select class="form-control departamento" id="departamento-select" name="departamento-select">
@@ -109,7 +109,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" oncopy="return false" onpaste="return false" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" oncopy="return false" onpaste="return false" onkeypress="return soloLetras(event)"  maxlength="50">
               </div>
           
             </div>

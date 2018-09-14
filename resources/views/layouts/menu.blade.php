@@ -11,7 +11,7 @@
      
      <li><a class="treeview-item {{ Request::is('configurar/fuente*') ? 'active' : '' }}" href="{{ route('fuente.index') }}"><i class="icon fa fa-circle-o"></i>Fuentes</a></li>
 
-     <li><a class="treeview-item {{ Request::is('configurar/direcciones/paises*') ? 'active' : '' }}" href="{{ route('paises') }}"><i class="icon fa fa-circle-o"></i>Paises</a></li>
+     <li><a class="treeview-item {{ Request::is('configurar/direcciones/paises*') ? 'active' : '' }}" href="{{ route('paises') }}"><i class="icon fa fa-circle-o"></i>Países</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/direcciones/departamentos*') ? 'active' : '' }}" href="{{ route('departamentos') }}"><i class="icon fa fa-circle-o"></i>Departamentos</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/direcciones/ciudades*') ? 'active' : '' }}" href="{{ route('ciudades') }}"><i class="icon fa fa-circle-o"></i>Ciudades</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/direcciones/barrios*') ? 'active' : '' }}" href="{{ route('barrios') }}"> <i class="icon fa fa-circle-o"></i>Barrios</a></li>
