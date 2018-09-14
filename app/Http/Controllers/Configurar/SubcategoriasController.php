@@ -14,7 +14,6 @@ class SubcategoriasController extends Controller
 {
     public function index(Request $request){
 
-
       $subcategoria = $request["buscarsubc"];
       $status       = $request["selectstatus"];
       $categoria    =$request["selectcat"];
@@ -49,6 +48,16 @@ class SubcategoriasController extends Controller
     {
          $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
                         ->where('categorias.id', $categoria)
+                        ->where('sub_categorias.status', $status)
+                        ->where('sub_categoria','LIKE', $subcategoria.'%')
+                        ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
+                        ->orderBy('sub_categoria','asc')
+                        ->paginate(10);
+    }
+   
+ if($subcategoria!="" && $status!="" && $categoria=="")
+    {
+         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
                         ->where('sub_categorias.status', $status)
                         ->where('sub_categoria','LIKE', $subcategoria.'%')
                         ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
