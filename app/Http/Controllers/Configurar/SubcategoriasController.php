@@ -14,7 +14,6 @@ class SubcategoriasController extends Controller
 {
     public function index(Request $request){
 
-
       $subcategoria = $request["buscarsubc"];
       $status       = $request["selectstatus"];
       $categoria    =$request["selectcat"];
