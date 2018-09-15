@@ -45,7 +45,7 @@
                   </div>
                 </div>
               <div class="tile-footer col-12 col-md-2 text-center border-0" >
-                <button class="btn btn-primary"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
+                <button class="btn btn-primary save"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
               </div>
             </div>
           </form>
@@ -197,6 +197,7 @@
 @push('scripts')
  <meta name="_token" content="{!! csrf_token() !!}" />
  <script src="{{asset('js/Configurar/crud_cargos.js')}}"></script>
+
  <script type="text/javascript">
 
 

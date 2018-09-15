@@ -81,6 +81,7 @@ $("#btn-save").click(function (e) {
         nombre: $('#nombreCargo').val(),
         status: $('input:radio[name=statusCargo]:checked').val(),
         id_usuario: $('#id_usuario').val(),
+
     }
     
     console.log(formData);
@@ -215,6 +216,20 @@ $(document).on('click','.pagination a',function(e){
     $.ajax({
         url: route,
         data: {page: page},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".cargos").html(data);
+        }
+    });
+});
+
+$(document).on('click','.save',function(e){
+    e.preventDefault();
+
+   var route ="cargos";
+    $.ajax({
+        url: route,
         type: 'GET',
         dataType: 'json',
         success: function(data){

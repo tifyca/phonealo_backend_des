@@ -30,8 +30,10 @@
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Departamento</label>
                 <select class="form-control departamento" id="dpto" name="dpto">
-                 <option value="0">Seleccione</option>
-                </select>
+                 @foreach($departamentos as $departamento)   
+                <option value="{{$departamento->id}}"> {{ $departamento->nombre }} </option>
+                 @endforeach
+               </select>
               </div>
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Ciudad</label>
@@ -74,12 +76,13 @@
         </div>
         {{-- FIN FILTRO --}}
 
-        <div class="tile-body ">
+        <div class="tile-body " >
           <div class="table-responsive">
             <table class="table table-hover" id="sampleTable">
               <thead>
                 <tr>
-                  <th>Nombre</th>
+                  <th width="45%">Nombre</th>
+                  <th width="45%">Departamento</th>
                   <th width="10%">Acciones</th>
                 </tr>
               </thead>
@@ -176,7 +179,7 @@
                 console.log(data);
                 $.each(data, function(l, item) {
 
-                    $("#ciudades-list").append('<tr id="ciudades'+ item.id +'"><td>'+item.ciudad+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal m-0" value="'+ item.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#ciudades-list").append('<tr id="ciudades'+ item.id +'"><td width="45%">'+item.ciudad+'</td><td width="45%">'+item.nombre+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal m-0" value="'+ item.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   }); 
                 $('#buscarciudad').val('');
                 $('#departamento-select').val('');
@@ -185,9 +188,9 @@
 });
            });
 
-  /*$(document).ready(function(){
+ /* $(document).ready(function(){
     {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
-    /*  $.ajax({
+      $.ajax({
           type: "get",
           url: '{{ route('departamentos_ajax') }}',
           dataType: "json",
