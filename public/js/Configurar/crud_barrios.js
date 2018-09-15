@@ -108,8 +108,8 @@ $("#btn-save").click(function (e) {
            $.get(url + '/ciud/' + data.id_ciudad, function(ciud){
                $.each(ciud, function(l, item1) {
 
-                var barrio = '<tr id="barrios' + item1.id + '"><td>' + item1.barrio + '</td>';
-                    barrio += '<td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                var barrio = '<tr id="barrios' + item1.id + '"><td width="35%">'+item1.barrio+'</td><td width="25%">'+item1.nombre+'</td><td width="25%">'+item1.ciudad+'</td>';
+                    barrio += '<td width="15%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
                     barrio += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
             $('#barrios-list').append(barrio);
@@ -174,7 +174,7 @@ $("#btn-save-edit").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data.barrio);
-             var barrio = '<tr id="barrios' + data.id + '"><td>' + data.barrio + '</td>';
+        var barrio = '<tr id="barrios' + data.id + '"><td width="35%">'+data.barrio+'</td><td width="25%">'+data.nombre+'</td><td width="25%">'+data.ciudad+'</td>';
             barrio += '<td><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             barrio += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
             $("#barrios" + barrio_id).replaceWith(barrio);

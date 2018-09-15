@@ -73,7 +73,7 @@ if(isset($_SESSION["user"]))
             </div>
           </div>
           <div class="tile-footer text-center border-0" >
-            <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
+            <button class="btn btn-primary save" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
           </div>
         </div>
       </form>
@@ -86,10 +86,11 @@ if(isset($_SESSION["user"]))
   <div class="tile">
     {{-- FILTRO --}}
     <div class="col mb-3 text-center">
-      <form class="row d-flex justify-content-end" action="{{route('categorias.index')}}" method="get"> 
-        <div class="col">
+       <div class="col">
           <h3 class="tile-title text-center text-md-left">Listado de Categorías</h3>
         </div>
+      <form class="row d-flex justify-content-end" action="{{route('categorias.index')}}" method="get"> 
+       
         <div class="form-group col-md-3">
           <input type="text" class="form-control" id="buscarcategoria" name="buscarcategoria" placeholder="Buscar"  maxlength="50">
         </div>
@@ -98,6 +99,13 @@ if(isset($_SESSION["user"]))
             <option value="">Tipo</option>
             <option value="Productos">Productos</option>
             <option value="Gastos">Gastos</option>
+          </select>
+        </div>
+         <div class="form-group col-md-2">
+          <select class="form-control" id="selectproveedor" name="selectproveedor">
+            <option value="">Proveedor</option>
+            <option value="1">Si</option>
+            <option value="0">No</option>
           </select>
         </div>
         <div class="form-group col-md-2">

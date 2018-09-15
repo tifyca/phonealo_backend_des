@@ -100,7 +100,7 @@ $("#btn-save").click(function (e) {
             $.get(url + '/dpto/' + data.id_departamento, function(dpto){
                $.each(dpto, function(l, item1) {
 
-                var ciudad = '<tr id="ciudades' + item1.id + '"><td>' + item1.ciudad + '</td>';
+                var ciudad = '<tr id="ciudades' + item1.id + '"><td width="45%">' + data.ciudad + '</td><td width="45%">'+item.nombre+'</td>';
                     ciudad += '<td width="10%"><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
                     ciudad += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
@@ -163,8 +163,8 @@ $("#btn-save-edit").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data.ciudad);
-             var ciudad = '<tr id="ciudades' + data.id + '"><td>' + data.ciudad + '</td>';
-            ciudad += '<td><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+             var ciudad = '<tr id="ciudades' + data.id + '"><td width="45%">' + data.ciudad + '</td><td width="45%">'+item.nombre+'</td>';
+            ciudad += '<td width="10%"><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             ciudad += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
             $("#ciudades" + ciudad_id).replaceWith(ciudad);
             $('#frmc').trigger("reset");
@@ -215,3 +215,4 @@ function soloLetras(e) {
     if(letras.indexOf(tecla) == -1 && !tecla_especial)
         return false;
 }
+

@@ -80,7 +80,8 @@ class GastosController extends Controller
 		$fuentes    = fuente::orderby('id')->get();
     $divisas    = DB::table('divisa')->orderby('id_divisa')->get();
 		$categorias =categorias::where('id',$gastos->id_categoria_gasto)->first();
-    $categoria  = $categorias->categoria;
+    if($categorias) $categoria  = $categorias->categoria;
+    else $categoria="";
     $sproveedor = $categorias->proveedor;
 		$proveedores =proveedores::get();
     $solped      = solped::where('id_proveedor',$gastos->id_solped)->get();
@@ -97,24 +98,30 @@ class GastosController extends Controller
        return redirect()->route('gastos.index')->with("message","Ya se encuentra Registrado");
      }
      $gastos = new gastos($request->all());
-    $gastos->descripcion          = $request["descripcion_gasto"];
-    $gastos->id_categoria_gasto   = $request["categoria_gasto"];
-    $gastos->observaciones        = $request["observaciones"];
-    $gastos->importe              = $request["importe_gasto"];
-    $gastos->id_solped            = $request["id_solped"];
-    $gastos->id_proveedor         = $request["id_proveedor"];
-    $gastos->comprobante          = $request["comprobante_gasto"];
-    $gastos->fecha_comprobante    = $request["fecha_comprobante_gasto"];
-    $gastos->id_fuente            = $request["id_fuente"];
-    $gastos->id_divisa            = $request["divisa_gasto"];
-    $gastos->cambio               = $request["cambio_gasto"];
-    $gastos->created_at           = date('Y-m-d');
-    $gastos->updated_at            = date('Y-m-d');
-    $gastos->id_usuario              = $_SESSION["user"];
-    $gastos->save();
-
-       
-    return redirect()->route('gastos.index')->with("message","Se ha creado el gasto");
+     $gastos->descripcion          = $request["descripcion_gasto"];
+     $gastos->id_categoria_gasto   = $request["categoria_gasto"];
+     $gastos->observaciones        = $request["observaciones"];
+     $gastos->importe              = $request["importe_gasto"];
+     $gastos->id_solped            = $request["id_solped"];
+     $gastos->id_proveedor         = $request["id_proveedor"];
+     $gastos->comprobante          = $request["comprobante_gasto"];
+     $gastos->fecha_comprobante    = $request["fecha_comprobante_gasto"];
+     $gastos->id_fuente            = $request["id_fuente"];
+     $gastos->id_divisa            = $request["divisa_gasto"];
+     $gastos->cambio               = $request["cambio_gasto"];
+     $gastos->created_at           = date('Y-m-d');
+     $gastos->updated_at            = date('Y-m-d');
+     $gastos->id_usuario              = $_SESSION["user"];
+     $gastos->save();
+     if($request->id_proveedor && $request->id_solped) 
+     {
+        $solped = solped::where('id',$id_solped)->first();
+        if($solped){
+          $solped->id_estado=8;
+         $solped->save();
+       } 
+    }   
+    return redirect()->route('gastos.index')->with("message","Se ha creado el registro de gasto");
         //
   }catch (Exception $e) {
     \Log::info('Error creating item: '.$e);

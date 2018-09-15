@@ -18,48 +18,96 @@ class CategoriasController extends Controller
           $categoria = $request["buscarcategoria"];
           $status    = $request["selectstatus"];
           $tipo      = $request["selecttipo"];
+          $proveedor = $request["selectproveedor"];
 
          
-          if($categoria!="" && $status=="" && $tipo=="" )
+          if($categoria!="" && $status=="" && $tipo=="" && $proveedor=="")
           {
               $categorias= Categorias::where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
           }
-          if($categoria=="" && $status!="" && $tipo=="")
+          if($categoria=="" && $status!="" && $tipo=="" && $proveedor=="")
           {
                $categorias=Categorias::where('status', $status)->orderBy('categoria','asc')->paginate(10);
 
           }
-          if($categoria=="" && $status=="" && $tipo!="")
+          if($categoria=="" && $status=="" && $tipo!="" && $proveedor=="")
           {
                $categorias=Categorias::where('tipo', $tipo)->orderBy('categoria','asc')->paginate(10);
           }
-          if($categoria!="" && $status!="" && $tipo!="")
+          if($categoria=="" && $status=="" && $tipo=="" && $proveedor!="")
+          {
+               $categorias=Categorias::where('proveedor', $proveedor)->orderBy('categoria','asc')->paginate(10);
+          }
+
+          if($categoria!="" && $status!="" && $tipo!="" && $proveedor!="")
           {
                $categorias=Categorias::where('tipo', $tipo)
                                      ->where('status', $status)
+                                     ->where('proveedor', $proveedor)
                                      ->where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
           }
-          if($categoria!="" && $status!="" && $tipo=="")
+          if($categoria!="" && $status!="" && $tipo=="" && $proveedor=="")
           {
                $categorias=Categorias::where('status', $status)
                                      ->where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
           }
-          if($categoria!="" && $status=="" && $tipo!="")
+          if($categoria!="" && $status=="" && $tipo!="" && $proveedor=="")
           {
                $categorias=Categorias::where('tipo', $tipo)
                                      ->where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
           }
-          if($categoria=="" && $status=="" && $tipo=="")
+          if($categoria=="" && $status=="" && $tipo=="" && $proveedor=="")
           {
                $categorias=  Categorias::orderBy('categoria','ASC')->paginate(10);
           }
-          if($categoria=="" && $status!="" && $tipo!="")
+          if($categoria=="" && $status!="" && $tipo!="" && $proveedor=="")
           {
                $categorias=Categorias::where('tipo', $tipo)
                                      ->where('status', $status)
                                      ->orderBy('categoria','asc')->paginate(10);
           }
-
+          if($categoria!="" && $status=="" && $tipo=="" && $proveedor!="")
+          {
+               $categorias=Categorias::where('proveedor', $proveedor)
+                                     ->where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
+          }
+          if($categoria!="" && $status!="" && $tipo!="" && $proveedor=="")
+          {
+               $categorias=Categorias::where('tipo', $tipo)
+                                     ->where('status', $status)
+                                     ->where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
+          }
+          if($categoria=="" && $status!="" && $tipo=="" && $proveedor!="")
+          {
+               $categorias=Categorias::where('status', $status)
+                                     ->where('proveedor', $proveedor)
+                                     ->orderBy('categoria','asc')->paginate(10);
+          }
+          if($categoria!="" && $status=="" && $tipo!="" && $proveedor!="")
+          {
+               $categorias=Categorias::where('tipo', $tipo)
+                                     ->where('proveedor', $proveedor)
+                                     ->where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
+          }
+          if($categoria!="" && $status!="" && $tipo=="" && $proveedor!="")
+          {
+               $categorias=Categorias::where('status', $status)
+                                     ->where('proveedor', $proveedor)
+                                     ->where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
+          }
+          if($categoria=="" && $status=="" && $tipo!="" && $proveedor!="")
+          {
+               $categorias=Categorias::where('tipo', $tipo)
+                                     ->where('proveedor', $proveedor)
+                                     ->where('categoria','LIKE', $categoria.'%')->orderBy('categoria','asc')->paginate(10);
+          }
+          if($categoria=="" && $status!="" && $tipo!="" && $proveedor!="")
+          {
+               $categorias=Categorias::where('tipo', $tipo)
+                                     ->where('status', $status)
+                                     ->where('proveedor', $proveedor)
+                                     ->orderBy('categoria','asc')->paginate(10);
+          }
           
             if($request->ajax()){
                   return response()->json(view('Configurar.Categorias.lista',compact('categorias'))->render());

@@ -229,4 +229,18 @@ $(document).on('click','.pagination a',function(e){
     });
 });
 
+$(document).on('click','.save',function(e){
+    e.preventDefault();
+
+    var route ="horas";
+    $.ajax({
+        url: route,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".horas").html(data);
+        }
+    });
+});
+
   
