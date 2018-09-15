@@ -1,3 +1,7 @@
+ @guest
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            
+                        @else
 <ul class="app-menu">
   <li><a class="app-menu__item {{ Request::is('/','home') ? 'active' : '' }}" href="{{ route('home') }}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Inicio</span></a></li>
   
@@ -97,3 +101,4 @@
 
 
 </ul>
+@endguest

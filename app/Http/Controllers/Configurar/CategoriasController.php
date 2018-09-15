@@ -8,14 +8,13 @@ use App\Categorias;
 use App\Subcategorias;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
-
+@session_start();
 
 class CategoriasController extends Controller
 {
     
     public function index(Request $request){
     	
-
           $categoria = $request["buscarcategoria"];
           $status    = $request["selectstatus"];
           $tipo      = $request["selecttipo"];
@@ -167,6 +166,7 @@ class CategoriasController extends Controller
             $categoria->tipo     = $request->tipo;
             $categoria->status   = $request->status;
             $categoria->id_usuario=$request->id_usuario;
+            $categoria->proveedor =$request->proveedor;
             $categoria->save();
             return response()->json($categoria);
         }  
@@ -179,7 +179,7 @@ class CategoriasController extends Controller
     }
 
   public function update (Request $request,$categoria_id){
-
+        
         $data=$request->all();
 
         $rules = array( 'nombre'=>'required|unique:categorias,categoria,'.$categoria_id, 
@@ -205,6 +205,7 @@ class CategoriasController extends Controller
         $categoria->tipo     = $request->tipo;
         $categoria->status = $request->status;
         $categoria->id_usuario=$request->id_usuario;
+        $categoria->proveedor =$request->proveedor;
         $categoria->save();
         return response()->json($categoria);
      }

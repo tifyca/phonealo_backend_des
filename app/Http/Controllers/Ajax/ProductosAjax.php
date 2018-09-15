@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Productos;
 use App\Subcategorias;
 use App\solped;
+use App\Categorias;
 class ProductosAjax extends Controller
 {
     public function productos_list(Request $request){
@@ -38,6 +39,17 @@ class ProductosAjax extends Controller
         $id_proveedor = $request["idc"];
         $solicitudes = solped::where('id_proveedor',$id_proveedor)->where('id_estado','1')->get();
         return $solicitudes;
+    }
+
+    public function categorias_list(Request $request)
+    {
+        $id_categoria = $request["idc"];
+        $categorias = categorias::where('id',$id_categoria)->where('proveedor',1)->first();
+        if($categorias)
+        $data["status"]='OK';
+       else
+        $data["status"]='NO';
+        return $data;
     }
 
 }
