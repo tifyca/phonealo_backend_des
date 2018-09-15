@@ -62,9 +62,9 @@
   <div class="col-12">
     <div class="tile">
          {{-- FILTRO --}}
-      <div class="col mb-3 text-center">
-             <form class="row d-flex justify-content-end" action="" method="">
         <h3 class="tile-title">Listado Barrios</h3>
+      <div class="col mb-3">
+             <form class="row d-flex justify-content-end" action="" method="">
         <div class="form-group col-md-3">
               <input type="text" class="form-control" id="buscarbarrio" name="buscarbarrio" placeholder="Buscar" onkeypress="return soloLetras(event)"  maxlength="50">
             </div>
@@ -83,16 +83,16 @@
             </div>
           </form>
         <div class="tile-body ">
-          <div class="row">
-            
-          </div>
+         
               
           <div class="table-responsive">
             <table class="table table-hover" id="sampleTable">
               <thead>
                 <tr>
-                  <th>Nombre</th>
-                  <th width="10%">Acciones</th>
+                  <th width="35%">Nombre</th>
+                  <th width="25%">Departamento</th>
+                  <th width="25%">Ciudad</th>
+                  <th width="15%">Acciones</th>
                 </tr>
               </thead>
               <tbody id="barrios-list" name="barrios-list">
@@ -199,7 +199,7 @@
 
           
 
-                    $("#barrios-list").append('<tr id="barrios'+ item3.id +'"><td>'+item3.barrio+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item3.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item3.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#barrios-list").append('<tr id="barrios'+ item3.id +'"><td width="35%">'+item3.barrio+'</td><td width="25%">'+item3.nombre+'</td><td width="25%">'+item3.ciudad+'</td><td width="15%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item3.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item3.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
                 $('#buscarbarrio').val('');
                 $('#departamento-select-list').val('');
@@ -284,7 +284,7 @@
 
                  $.each(data2, function(l, item2) {
 
-                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td width="35%">'+item2.barrio+'</td><td width="25%">'+item2.nombre+'</td><td width="25%">'+item2.ciudad+'</td><td width="15%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
               }
           });

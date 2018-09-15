@@ -217,3 +217,17 @@ $(document).on('click','.pagination a',function(e){
         }
     });
 });
+
+$(document).on('click','.save',function(e){
+    e.preventDefault();
+
+    var route ="fuentes";
+    $.ajax({
+        url: route,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".fuentes").html(data);
+        }
+    });
+});

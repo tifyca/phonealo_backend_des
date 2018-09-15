@@ -50,7 +50,7 @@ $(document).on('click', '.delete-pais', function () {
             console.log(data);
             $("#paises" + pais_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Pais Eliminado con Éxito");
+            $("#res").html("País Eliminado con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -88,7 +88,7 @@ $("#btn-save").click(function (e) {
           
             $('#paises-list').append(pais);
             $('#frmc').trigger("reset");
-            $("#res").html("Pais Registrado con Éxito");
+            $("#res").html("País Registrado con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -144,7 +144,7 @@ $("#btn-save-edit").click(function (e) {
             $("#paises" + pais_id).replaceWith(pais);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Pais Modificado con Éxito");
+            $("#res").html("País Modificado con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -197,6 +197,20 @@ $(document).on('click','.pagination a',function(e){
     $.ajax({
         url: route,
         data: {page: page},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".paises").html(data);
+        }
+    });
+});
+
+$(document).on('click','.save',function(e){
+    e.preventDefault();
+
+    var route ="paises";
+    $.ajax({
+        url: route,
         type: 'GET',
         dataType: 'json',
         success: function(data){
