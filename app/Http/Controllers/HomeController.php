@@ -31,8 +31,6 @@ class HomeController extends Controller
       /*$canreem =reembolso::select(DB::raw('count(cedben) as cantidad'))
               ->whereMonth('fecha',$mes)
               ->first();*/
-
-
         return view('inicio');
         
     }
