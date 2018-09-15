@@ -26,7 +26,7 @@
             </div>
             <div class="form-group col-md-3">
               <label for="n_documento_entrada">Número de Documento</label>
-              <input class="form-control" type="text" id="nro_documento" name="nro_documento" placeholder="..." required="">
+              <input class="form-control" type="text" id="nro_documento" name="nro_documento" placeholder="..." required="" maxlength="30">
             </div>
             <div class="form-group col-md-3">
               <label for="proveedor_entrada">Proveedor</label>
@@ -54,6 +54,7 @@
               <label for="cod_entrada">Cod.</label>
               <input class="form-control" type="text" id="cod_producto" name="cod_producto" >
               <input type="hidden" name="idproducto" id="idproducto">
+              <input type="hidden" name="codigo[]" id="codigo">
             </div>
             <div class="form-group col-md-4">
               <label for="descripcion">Descripción</label>
@@ -67,11 +68,11 @@
 
            <div class="form-group col-md-2">
             <label for="precio_entrada">Precio</label>
-            <input class="form-control" type="text" id="precio" name="precio" >
+            <input class="form-control" type="text" id="precio" name="precio[]" >
           </div>
           <div class="form-group col-md-1">
             <label for="cantidad_entrada">Cantidad</label>
-            <input class="form-control" type="text" id="cantidad" name="cantidad" >
+            <input class="form-control" type="text" id="cantidad" name="cantidad[]" >
           </div>
           <div class="form-group col-md-2">
             <label for="Total">Total</label>
@@ -278,7 +279,8 @@ $('#agregar').click(function() {
         {
         subtotal[contador]=(precio*cantidad);
         ptotal = ptotal + subtotal[contador];
-        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input type="hidden" name="codigo[]" id="name="codigo[]"" value="'+idproducto+'"><input type="text" class="form-control" name="descripcion[]" value="'+descripcion+'" readonly></td><td><input type="number" class="form-control" name="cantidad[]" id="cantidad[]" value="'+cantidad+'" readonly></td><td><input type="number" class="form-control" name="precio[]" id="precio[]" value="'+precio+'" readonly></td><td>'+subtotal[contador]+'</td><td><div></div></td></tr>';
+        name1 = "codigo"+contador;
+        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input type="hidden" name="codigo[]" id="'+name1+'" value="'+idproducto+'"><input type="text" class="form-control" name="descripcion[]" value="'+descripcion+'" readonly></td><td><input type="number" class="form-control" name="cantidad[]" id="cantidad" value="'+cantidad+'" readonly></td><td><input type="number" class="form-control" name="precio[]" id="precio[]" value="'+precio+'" readonly></td><td>'+subtotal[contador]+'</td><td><div></div></td></tr>';
           productos[contador]=idproducto;
 
         contador++;

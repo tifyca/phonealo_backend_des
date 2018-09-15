@@ -43,7 +43,7 @@ class EntradasController extends Controller
             $cantidad   = $request->get('cantidad');
             $precio     = $request->get('precio');
             $cont=0;
-            dd($codigo);
+            dd($request);
             while($cont < count($codigo))
             {
                 $detallesolped              = new detallesolped();
