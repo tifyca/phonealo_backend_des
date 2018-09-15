@@ -20,12 +20,21 @@ $(document).on('click', '.open_modal', function () {
         $('#categoria_id').val(data.id);
         $('#nombre').val(data.categoria);
         $('#tipo').val(data.tipo);
+
         if (data.status==1){
         $('input:radio[id=status]').prop("checked", true);
         }
         if (data.status==0){
         $('input:radio[id=status2]').prop("checked", true);
         }
+
+        if (data.proveedor==1){
+        $('input:radio[id=proveedor]').prop("checked", true);
+        }
+        if (data.proveedor==0){
+        $('input:radio[id=proveedor2]').prop("checked", true);
+        }
+
         $('#myModal').modal('show');
     });
     
@@ -83,6 +92,7 @@ $("#btn-save").click(function (e) {
         nombre: $('#nombreCategoria').val(),
         tipo: $('#tipoCategoria').val(),
         status: $('input:radio[name=statusCategoria]:checked').val(),
+        proveedor: $('input:radio[name=proveedor]:checked').val(),
         id_usuario: $('#id_usuario').val(),
     }
     
@@ -142,6 +152,7 @@ $("#btn-save-edit").click(function (e) {
         var formData = { nombre: $('#nombre').val(),  
                          tipo: $('#tipo').val(), 
                          status: $('input:radio[name=status]:checked').val(), 
+                         proveedor: $('input:radio[name=zproveedor]:checked').val(), 
                          id_usuario: $('#id_usuario').val(), 
                        }
         var my_url = url;

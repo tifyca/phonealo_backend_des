@@ -11,6 +11,7 @@ use App\User;
 use App\Fuente;
 use App\Gastos;
 use App\Proveedores;
+use App\solped;
 use DB;
 use File;
  @session_start();
@@ -75,12 +76,15 @@ class GastosController extends Controller
 	}
 
 	public function edit($id){
-		$gastos=gastos::find($id);
-		$fuentes= fuente::orderby('id')->get();
-     $divisas = DB::table('divisa')->orderby('id_divisa')->get();
-		$categorias=categorias::where('tipo','Gastos')->get();
-		$proveedores=proveedores::get();
-		return view('Registro.Gastos.edit')->with('gastos',$gastos)->with('categorias',$categorias)->with('fuentes',$fuentes)->with('proveedores',$proveedores)->with('divisas',$divisas);
+		$gastos     =gastos::find($id);
+		$fuentes    = fuente::orderby('id')->get();
+    $divisas    = DB::table('divisa')->orderby('id_divisa')->get();
+		$categorias =categorias::where('id',$gastos->id_categoria_gasto)->first();
+    $categoria  = $categorias->categoria;
+    $sproveedor = $categorias->proveedor;
+		$proveedores =proveedores::get();
+    $solped      = solped::where('id_proveedor',$gastos->id_solped)->get();
+		return view('Registro.Gastos.edit')->with('gastos',$gastos)->with('categoria',$categoria)->with('fuentes',$fuentes)->with('proveedores',$proveedores)->with('divisas',$divisas)->with('sproveedor',$sproveedor)->with('solped',$solped);
 	}
 
 	public function store(Request $request)

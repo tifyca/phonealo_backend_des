@@ -16,6 +16,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('productos', 'Ajax\ProductosAjax@productos_list')->name('productos_ajax');
     Route::get('mostrar_subcategorias', 'Ajax\ProductosAjax@subcategorias_list')->name('mostrar_subcategorias');
+    Route::get('mostrar_solicitudes', 'Ajax\ProductosAjax@solicitudes_list')->name('mostrar_solicitudes');
+    Route::get('buscar_categoria', 'Ajax\ProductosAjax@categorias_list')->name('buscar_categoria');
+
+
     Route::get('producto_click', 'Ajax\ProductosAjax@producto')->name('producto_click');
     Route::get('cargos', 'Ajax\Configurar@cargos')->name('cargos_ajax');
 

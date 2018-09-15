@@ -36,12 +36,12 @@
 
                     <div class="form-group col-md-6">
                       <label for="descripcion_gasto">Descripción</label>
-                      <input class="form-control" type="text" id="descripcion_gasto" name="descripcion_gasto" placeholder="..." required="">
+                      <input class="form-control" type="text" id="descripcion_gasto" name="descripcion_gasto" placeholder="..." required="" maxlength="50">
                     </div>
                     
                     <div class="form-group col-md-6">
                       <label for="categoria_gasto">Proveedores</label>
-                      <select class="form-control" id="id_proveedor" name="id_proveedor">
+                      <select class="form-control" id="id_proveedor" name="id_proveedor" disabled="">
                         <option value="">Seleccione</option>}
                          @foreach($proveedores as $fuen)
                         <option value="{{$fuen->id}}">{{$fuen->nombres}}</option>
@@ -50,13 +50,13 @@
                     </div>
                     <div class="form-group col-md-4">
                       <label for="comprobante_gasto">Nro.Solicitud</label>
-                      <select class="form-control" id="id_solped" name="id_solped">
+                      <select class="form-control" id="id_solped" name="id_solped" disabled="">
                         <option value="">Seleccione</option>}
                       </select>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="comprobante_gasto">Comprobante</label>
-                      <input class="form-control" type="text" id="comprobante_gasto" name="comprobante_gasto" placeholder="..." required="">
+                      <input class="form-control" type="text" id="comprobante_gasto" name="comprobante_gasto" placeholder="..." required="" maxlength="32">
                     </div>       
 
                     <div class="form-group col-md-4">
@@ -93,7 +93,7 @@
                  
                     <div class="form-group col-md-12">
                       <label for="observaciones_gastos">Observaciones</label>
-                      <textarea class="form-control" id="observaciones_gastos" name="observaciones_gastos" rows="3"></textarea>
+                      <textarea class="form-control" id="observaciones_gastos" name="observaciones_gastos" rows="3" maxlength="255"></textarea>
                     </div>
                     <div class="tile-footer col-md-12">
                       <button class="btn btn-primary" type="submit">Guardar</button>
@@ -155,6 +155,8 @@
         document.form1.cambio_gasto.value=valor;
      });
 
+
+
       $("select#id_proveedor").bind('change', function (event) {
         var valor = $(this).val();
         $("#id_solped").html('');
@@ -184,6 +186,40 @@
 
 
       });
+
+    });
+
+    $("select#categoria_gasto").bind('change', function (event) {
+
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        }
+
+      });
+      $.ajax({
+        type: "GET",
+        url: '{{ url('buscar_categoria') }}',
+        dataType: "json",
+        data: { idc: $(this).val() , _token: '{{csrf_token()}}' },
+        success: function (data){
+              //var dataJson = eval(data);
+              if(data.status == 'OK'){
+                console.log(data);
+                document.form1.id_proveedor.disabled=false;
+                document.form1.id_solped.disabled=false;
+              
+              //alert(data.result.primernombre);
+            }if(data.status == 'NO'){
+                document.form1.id_proveedor.disabled=true;
+                document.form1.id_solped.disabled=true;
+            }
+
+
+          }
+        });
+
 
     });
 
