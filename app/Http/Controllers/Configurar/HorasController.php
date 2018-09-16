@@ -99,7 +99,7 @@ class HorasController extends Controller
 
         $horario= new Horarios;
         $horario->status_v = $request->status_v;
-        $horario->horario= $request->nombre;  
+        $horario->horario= ucwords(strtolower($request->nombre));  
         $horario->status   = $request->status;
         $horario->id_usuario=$request->id_usuario;
         $horario->save();
@@ -140,7 +140,7 @@ class HorasController extends Controller
 
         $horario = Horarios::find($hora_id);
         $horario->status_v = $request->status_v;
-        $horario->horario= $request->nombre;  
+        $horario->horario= ucwords(strtolower($request->nombre));  
         $horario->status   = $request->status;
         $horario->id_usuario=$request->id_usuario;
         $horario->save();

@@ -30,6 +30,7 @@
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Departamento</label>
                 <select class="form-control departamento" id="dpto" name="dpto">
+                   <option value="">Seleccione</option>   
                  @foreach($departamentos as $departamento)   
                 <option value="{{$departamento->id}}"> {{ $departamento->nombre }} </option>
                  @endforeach
@@ -40,7 +41,7 @@
                 <input class="form-control" type="text" placeholder="Nombre Ciudad"  id="nombreCiudad" name="nombreCiudad" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
               <div class="tile-footer text-center border-0" >
-                <button class="btn btn-primary" type="submit"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
+                <button class="btn btn-primary save" type="submit"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
               </div>
             </div>
           </form>
@@ -52,7 +53,8 @@
     <div class="tile">
        {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-             <form class="row d-flex justify-content-end" action="" method="">
+        <form class="row d-flex justify-content-end" action="{{route('ciudades')}}" method="get">
+            
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado Ciudades</h3>
             </div>
@@ -78,22 +80,35 @@
 
         <div class="tile-body " >
           <div class="table-responsive">
+            <div class="ciudades">
             <table class="table table-hover" id="sampleTable">
               <thead>
                 <tr>
                   <th width="45%">Nombre</th>
                   <th width="45%">Departamento</th>
-                  <th width="10%">Acciones</th>
+                  <th width="10%" class="text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody id="ciudades-list" name="ciudades-list">
-                {{-- ESTE LISTADO SE LLENA CON AJAX --}}
+              @foreach ($ciudades as $item)
+                 <tr id="ciudades{{$item->id}}"> 
+                  <td width="45%">{{ $item->ciudad }}</td>
+                  <td width="45%">{{ $item->nombre }}</td>
+                  <td width="10%" class="text-center">
+                    <div class="btn-group">
+                        <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$item->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
+                      <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$item->id}}"><i class="fa fa-lg fa-trash"></i></button> 
+                      </div>
+                  </td>
+                </tr>
+                @endforeach
               </tbody>
               </table>
-          </div>
            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <!--?php echo $ciudades->render(); ?-->
+                    <?php echo $ciudades->render(); ?>
               </div>
+            </div>
+          </div>
         </div>
     </div>
   </div>
@@ -122,6 +137,8 @@
       <button type="button" class="btn btn-primary" id="btn-save-edit" value="update">Guardar</button>
       <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
       <input type="hidden" id="ciudad_id" name="ciudad_id" value="0">
+      <input type="hidden" id="id_dpto" name="id_dpto" value="0">
+      <input type="hidden" id="status" name="status" value="0">
       <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
      </div>
      
@@ -163,7 +180,7 @@
  <script src="{{asset('js/Configurar/crud_ciudades.js')}}"></script>
 
 <script  type="text/javascript" charset="utf-8">
- $("#boton").click(function (e) {
+ /* $("#boton").click(function (e) {
     var buscarciudad =  $('#buscarciudad').val();
     var id_departamento = $('#departamento-select').val();
 
@@ -188,7 +205,7 @@
 });
            });
 
- /* $(document).ready(function(){
+ $(document).ready(function(){
     {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
       $.ajax({
           type: "get",

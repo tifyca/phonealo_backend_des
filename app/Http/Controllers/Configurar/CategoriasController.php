@@ -117,75 +117,7 @@ class CategoriasController extends Controller
 
     }
 
- /*     public function search (Request $request){
-
-    if($request->ajax())
-    {
-     
-     if(isset($request->search))
-     {
-      $output="";
-      $categorias = DB::table('categorias')->where('categorias','LIKE','%'.$request->search."%")->paginate(10);
-     
-        if($categorias)
-          {
-           
-          foreach ($categorias as $key => $categoria)
-          {
-           
-                $output.='<tr id="categoria'.$categoria->id.'">'.
-                         '<td width="45%" >'.$categoria->categoria.'</td>';
-
-            if ($categoria->status==1 ){
-                $output.=  '<td width="45%">'."Activo".'</td>';     
-            }else{
-                $output.= '<td width="45%">'."Inactivo".'</td>';
-            }
-                $output.= '<td width="10%" class="text-right"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'.$categoria->id.'"><i class="fa fa-lg fa-edit"></i></button><button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'.$categoria->id.'"><i class="fa fa-lg fa-trash"></i></button></div></td>'.
-          '</tr>';
-     
-          }
-
-     return Response($output);
-
-      }
-
-    }elseif (isset($request->valor)) {
-
-        $output="";
-        if(($request->valor=="estatus"))
-        {
-          $categorias= categorias::orderBy('categoria','ASC')->paginate(10);
-        }else{
-        $categorias= categorias::where('status',$request->valor)->paginate(10);
-        }
-
-        if($categorias)
-          {
-           
-          foreach ($categorias as $key => $categoria)
-          {
-           
-                $output.='<tr id="categoria'.$categoria->id.'">'.
-                         '<td width="45%" >'.$categoria->categoria.'</td>';
-
-            if ($categoria->status==1 ){
-                $output.=  '<td width="45%">'."Activo".'</td>';     
-            }else{
-                $output.= '<td width="45%">'."Inactivo".'</td>';
-            }
-                $output.= '<td width="10%" class="text-right"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'.$categoria->id.'"><i class="fa fa-lg fa-edit"></i></button><button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'.$categoria->id.'"><i class="fa fa-lg fa-trash"></i></button></div></td>'.
-          '</tr>';
-     
-          }
-
-     return Response($output);
-
-      }
  
-   }
- } 
-}*/
 
     public function store(Request $request){  
 
@@ -210,7 +142,7 @@ class CategoriasController extends Controller
          }elseif ($validator->passes()){ 
 
             $categoria= new Categorias;
-            $categoria->categoria= $request->nombre;
+            $categoria->categoria= ucwords(strtolower($request->nombre));
             $categoria->tipo     = $request->tipo;
             $categoria->status   = $request->status;
             $categoria->id_usuario=$request->id_usuario;
@@ -249,7 +181,7 @@ class CategoriasController extends Controller
          }elseif ($validator->passes()){ 
 
         $categoria = Categorias::find($categoria_id);
-        $categoria->categoria = $request->nombre;
+        $categoria->categoria = ucwords(strtolower($request->nombre));
         $categoria->tipo     = $request->tipo;
         $categoria->status = $request->status;
         $categoria->id_usuario=$request->id_usuario;
