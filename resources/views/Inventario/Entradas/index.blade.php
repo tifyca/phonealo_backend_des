@@ -11,12 +11,8 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
-@if(Session::has('message'))
-                         <div class="alert alert-success">
-
-                           {{ Session::get('message') }} 
-                          </div>
-                      @endif    
+<input type="hidden" name="tipom" id="tipom" value="{{$tipo}}">
+<input type="hidden" name="mensaje" id="mensaje" value="{{$mensaje}}">  
 <div class="row">
   <div class="col-12">
     <div class="tile">
@@ -68,6 +64,13 @@
                     $monto = number_format($sol->monto, 2, ',', '.');
                     echo $monto;?>
                   </td>
+                    <td>
+                     <div class="btn-group">
+                      <a class="btn btn-primary" href="{{ route('entradas.ver',$sol->id) }}" title="Ver"><i class="m-0 fa fa-lg fa-eye"></i></a>
+                      @if($sol->id_estado==8) <a class="btn btn-primary" href="{{ route('entradas.confirmar',$sol->id) }}" title="Confirmar/Carga Inventario"><i class="m-0 fa fa-lg fa-check">@endif</i></a>
+                    </div>
+                                  
+                    </td>
                   @php
 
                   $total= $total + ($sol->monto);
@@ -96,5 +99,16 @@
   @endsection
 
   @push('scripts')
-  
+  <script type="text/javascript">
+$(document).ready(function() {   
+    setTimeout(function() {
+    valor = $(".tipom");
+    msj = $(".mensaje");
+    if(valor==1)
+      $("#res").html(msj);
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+});
+
+</script>
   @endpush

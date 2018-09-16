@@ -1,7 +1,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Nueva Entrada')
+@section('titulo', 'Vista de Solicitud de Pedido')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -16,24 +16,23 @@
   <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-      <form name="form1" action="{{route('entradas.store')}}" accept-charset="UTF-8"  method="post">
-          <input id="token" type="hidden" name="_token" value="{{ csrf_token() }}">
-
+      <form name="form1" action="#" accept-charset="UTF-8"  method="post">
+          
           <div class="row">
             <div class="form-group col-md-3">
               <label for="fecha_entrada">Fecha</label>
-              <input class="form-control" type="date" id="fecha_entrada" name="fecha_entrada" required="" value="{{$fecha}}">
+              <input class="form-control" type="date" id="fecha_entrada" name="fecha_entrada" required="" value="{{$solped->fecha}}" readonly="">
             </div>
             <div class="form-group col-md-3">
               <label for="n_documento_entrada">Número de Documento</label>
-              <input class="form-control" type="text" id="nro_documento" name="nro_documento" placeholder="..." required="" maxlength="30">
+              <input class="form-control" type="text" id="nro_documento" name="nro_documento" placeholder="..." readonly="" maxlength="30" value="{{$solped->nro_documento}}">
             </div>
             <div class="form-group col-md-3">
               <label for="proveedor_entrada">Proveedor</label>
-              <select class="form-control" id="id_proveedor" name="id_proveedor" required="">
+              <select class="form-control" id="id_proveedor" name="id_proveedor" readonly>
                 <option value="">Proveedor</option>
                 @foreach($proveedores as $provee)
-                <option value="{{$provee->id}}">{{$provee->nombres}}</option>
+                <option value="{{$provee->id}}" @if($solped->id_proveedor==$provee->id) selected="" @endif>{{$provee->nombres}}</option>
                 @endforeach
               </select>
 
@@ -46,67 +45,44 @@
     </div>
     <div class="col-12">
       <div class="tile">
-        <h3 class="tile-title text-center text-md-left">Detalles del Producto</h3>
-        <div class="tile-body ">
-          <div class="row">
-
-            <div class="form-group col-md-2">
-              <label for="cod_entrada">Cod.</label>
-              <input class="form-control" type="text" id="cod_producto" name="cod_producto" readonly="">
-              <input type="hidden" name="idproducto" id="idproducto">
-              
-            </div>
-            <div class="form-group col-md-4">
-              <label for="descripcion">Descripción</label>
-              <input class="form-control" type="text" name="descripcion" id="descripcion" disabled="true">
-            </div>
-            <div class="selec_productos col-12 d-none">
-              <ul class="list-group" id="list-productos">
-               {{-- ESTE ESPACIO APARECE Y SE LLENA CON AJAX, SE ACATUALIZA CADA QUE SUELTAS LA TECLA --}}
-             </ul>
-           </div>
-
-           <div class="form-group col-md-2">
-            <label for="precio_entrada">Precio</label>
-            <input class="form-control" type="text" id="precio" name="precio" disabled="true">
-          </div>
-          <div class="form-group col-md-1">
-            <label for="cantidad_entrada">Cantidad</label>
-            <input class="form-control" type="text" id="cantidad" name="cantidad" disabled="true">
-          </div>
-          <div class="form-group col-md-2">
-            <label for="Total">Total</label>
-            <input class="form-control" type="text" id="total" name="total" readonly >
-          </div>
-          <div class="col-sm-1">
-            <button type="button" id="agregar" class="btn btn-primary mt-4" href="#"><i class=" m-0 fa fa-lg fa-plus"></i></button>
-            <a </a>
-          </div>
-
-        </div>
-      </div>
-      <div class="tile">
         <div class="tile-body ">
           <div class="table-responsive">
             <table id="detalles" class="table">
               <thead>
                 <tr>
-                  <td>Cod.</td>
-                  <td>Producto</td>
-                  <td>Cantidad</td>
-                  <td>Precio</td>
-                  <td>Importe</td>
+                  <td><b>Cod.</b></td>
+                  <td><b>Producto</b></td>
+                  <td><b>Cantidad</b></td>
+                  <td><b>Precio</b></td>
+                  <td><b>Importe</b></td>
                 </tr>
-              </thead>
+               </thead>
               <tbody>
-               <input type="hidden" name="cod[]">
-               <input type="hidden" name="desc[]">
-               <input type="hidden" name="cant[]">
-               <input type="hidden" name="prec[]">
+                <?php $total=0;?>
+                @foreach($detalles as $det)
+                <tr>
+                  <td>{{$det->codigo}}</td>
+                  <td>{{$det->desprod}}</td>
+                  <td>{{$det->cantidad}}</td>
+                  <td>{{$det->precio}}</td>
+                  <td><?php $importe=$det->precio*$det->cantidad;
+                      $ztotal = number_format($importe, 2, ',', '.');
+                      $total = $total + $importe;
+                     echo $ztotal;?></td>
+                </tr>
+                @endforeach
+              </tbody>
               </tbody>
                <tr class="table-secondary">
-                    <td colspan="5" class="text-right"><b>Total Importe</b></td>
-                    <td colspan="2" id="ztotal"></td>
+                    <td  colspan="4" class="text-right"><b>Total Importe</b></td>
+                    <td  id="ztotal">
+                    <?php 
+                      $ztotal = number_format($total, 2, ',', '.');
+                      
+                     echo $ztotal;?>
+                      
+
+                    </td>
                   </tr>
             </table>
           </div>
