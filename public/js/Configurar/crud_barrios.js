@@ -89,27 +89,19 @@ $("#btn-save").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           // console.log(data);
-            //var barrio = '<tr id="barrios' + data.id + '"><td>' + data.barrio + '</td>';
-            //barrio += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            //barrio += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-          
-            //$('#barrios-list').append(barrio);
-           // $('#frmc').trigger("reset");
             $('#nombreBarrio').val("");
             $('#lon').val("");
             $('#lat').val("");
-           // $(".departamento option:eq(1)").prop("selected", true);
             $(".departamento ").val("");
             $(".ciudades ").val("");
             $('select[name=departamento-select-list]').val(id_dptos);
             $('select[name=ciudades-select-list]').val(id_ciudads);
 
-           $.get(url + '/ciud/' + data.id_ciudad, function(ciud){
+           $.get(url + '/ciud/' + data.id, function(ciud){
                $.each(ciud, function(l, item1) {
 
-                var barrio = '<tr id="barrios' + item1.id + '"><td width="35%">'+item1.barrio+'</td><td width="25%">'+item1.nombre+'</td><td width="25%">'+item1.ciudad+'</td>';
-                    barrio += '<td width="15%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                var barrio = '<tr id="barrios' + item1.id + '"><td width="35%">'+data.barrio+'</td><td width="25%">'+item1.nombre+'</td><td width="25%">'+item1.ciudad+'</td>';
+                    barrio += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
                     barrio += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
             $('#barrios-list').append(barrio);
@@ -158,8 +150,8 @@ $("#btn-save-edit").click(function (e) {
         var formData = { nombre: $('#nombre').val(),
                          id_usuario: $('#id_usuario').val(),
                          barrio_id:$('#barrio_id').val(),
-                        // id_dpto:$('.departamento').val(),
-                         //id_ciudad:$('.ciudades').val(), 
+                         id_dpto:$('#departamento').val(),
+                         id_ciudad:$('#ciudades').val(), 
                          lat:$('#latedit').val(),
                          lon:$('#lonedit').val(), }
         var my_url = url;
@@ -173,11 +165,24 @@ $("#btn-save-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            console.log(data.barrio);
-        var barrio = '<tr id="barrios' + data.id + '"><td width="35%">'+data.barrio+'</td><td width="25%">'+data.nombre+'</td><td width="25%">'+data.ciudad+'</td>';
-            barrio += '<td><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            barrio += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-            $("#barrios" + barrio_id).replaceWith(barrio);
+      //      console.log(data.barrio);
+        $.get(url + '/ciud/' + data.id, function(ciud){
+               $.each(ciud, function(l, item1) {
+
+                var barrio = '<tr id="barrios' + item1.id + '"><td width="35%">'+data.barrio+'</td><td width="25%">'+item1.nombre+'</td><td width="25%">'+item1.ciudad+'</td>';
+                    barrio += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                    barrio += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+          
+                        $("#barrios" + barrio_id).replaceWith(barrio);
+                 });
+            
+                 }),
+
+
+
+
+
+       
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
             $("#res").html("Barrio Modificado con Éxito");
@@ -241,6 +246,36 @@ $(document).on('click','.pagination a',function(e){
     $.ajax({
         url: route,
         data: {page: page},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".barrios").html(data);
+        }
+    });
+});
+
+$(document).on('click','.pagination a',function(e){
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+//console.log(page);
+    var route ="barrios";
+    $.ajax({
+        url: route,
+        data: {page: page},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".barrios").html(data);
+        }
+    });
+});
+
+$(document).on('click','.save',function(e){
+    e.preventDefault();
+
+    var route ="barrios";
+    $.ajax({
+        url: route,
         type: 'GET',
         dataType: 'json',
         success: function(data){

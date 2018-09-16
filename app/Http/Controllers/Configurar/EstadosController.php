@@ -54,7 +54,7 @@ class EstadosController extends Controller
       
      }elseif ($validator->passes()){ 
         $estado = Estados::find($estado_id);
-        $estado->estado = $request->nombre;
+        $estado->estado = ucwords(strtolower($request->nombre));
         $estado->id_usuario=$request->id_usuario;
         $estado->save();
         return response()->json($estado);

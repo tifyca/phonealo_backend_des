@@ -16,10 +16,11 @@ $(document).on('click', '.open_modal', function () {
         }
     });
         //success data
-        console.log(data);
+      //  console.log(data);
         $('#ciudad_id').val(data.id);
         $('#nombre').val(data.ciudad);
-        $('select[name=departamento]').val(data.id_departamento);
+        $('#id_dpto').val(data.id_departamento);
+        $('#status').val(1);
         $('#myModal').modal('show');
     });
     
@@ -79,7 +80,7 @@ $("#btn-save").click(function (e) {
         id_usuario: $('#id_usuario').val(),
     }
    
-    console.log(formData);
+    //console.log(formData);
     $.ajax({
         type: "POST",
         url: url,
@@ -87,21 +88,13 @@ $("#btn-save").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            console.log(data);
-           // var ciudad = '<tr id="ciudades' + data.id + '"><td>' + data.ciudad + '</td>';
-           // ciudad += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-           // ciudad += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-          
-           // $('#ciudades-list').append(ciudad);
-            $('#nombreCiudad').val("");
-            $(".departamento option:eq(1)").prop("selected", true);
-            $('select[name=departamento-select]').val(data.id_departamento);
-       
-            $.get(url + '/dpto/' + data.id_departamento, function(dpto){
+            //console.log(data);
+                
+            $.get(url + '/dpto/' + data.id, function(dpto){
                $.each(dpto, function(l, item1) {
 
-                var ciudad = '<tr id="ciudades' + item1.id + '"><td width="45%">' + data.ciudad + '</td><td width="45%">'+item.nombre+'</td>';
-                    ciudad += '<td width="10%"><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                var ciudad = '<tr id="ciudades' + item1.id + '"><td width="45%">' + data.ciudad + '</td><td width="45%">'+item1.nombre+'</td>';
+                    ciudad += '<td width="10%" class="text-center"><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
                     ciudad += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
            $('#ciudades-list').append(ciudad);
@@ -111,6 +104,7 @@ $("#btn-save").click(function (e) {
                  }),
    
             $("#res").html("Ciudad Registrada con Éxito");
+            $('#frmc').trigger("reset");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -149,7 +143,8 @@ $("#btn-save-edit").click(function (e) {
         var ciudad_id = $('#ciudad_id').val();
         var formData = { nombre: $('#nombre').val(), 
                          id_usuario: $('#id_usuario').val(), 
-                         id_dpto:$('.departamento').val(), 
+                         id_departamento:$('#id_dpto').val(),
+                         status:$('#status').val(),  
                        }
         var my_url = url;
         my_url += '/mod/'+ ciudad_id;
@@ -162,14 +157,21 @@ $("#btn-save-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            console.log(data.ciudad);
-             var ciudad = '<tr id="ciudades' + data.id + '"><td width="45%">' + data.ciudad + '</td><td width="45%">'+item.nombre+'</td>';
-            ciudad += '<td width="10%"><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            ciudad += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-            $("#ciudades" + ciudad_id).replaceWith(ciudad);
-            $('#frmc').trigger("reset");
+      
+        $.get(url + '/dpto/' + ciudad_id, function(dpto){
+               $.each(dpto, function(l, item1) {
+            //    console.log(item1);
+
+                  var ciudad = '<tr id="ciudades' + item1.id + '"><td width="45%">' + data.ciudad + '</td><td width="45%">'+item1.nombre+'</td>';
+                    ciudad += '<td width="10%" class="text-center"><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                    ciudad += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+          
+                             $("#ciudades" + ciudad_id).replaceWith(ciudad);
+          
+                         });
+            
+                 }),
             $('#myModal').modal('hide');
-            $(".departamento option:eq(1)").prop("selected", true);
             $("#res").html("Ciudad Modificada con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
@@ -216,3 +218,32 @@ function soloLetras(e) {
         return false;
 }
 
+$(document).on('click','.pagination a',function(e){
+    e.preventDefault();
+    var page = $(this).attr('href').split('page=')[1];
+//console.log(page);
+    var route ="ciudades";
+    $.ajax({
+        url: route,
+        data: {page: page},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".ciudades").html(data);
+        }
+    });
+});
+
+$(document).on('click','.save',function(e){
+    e.preventDefault();
+
+    var route ="ciudades";
+    $.ajax({
+        url: route,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".ciudades").html(data);
+        }
+    });
+});

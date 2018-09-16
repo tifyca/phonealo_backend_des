@@ -49,75 +49,7 @@ class CargosController extends Controller
     
   } 
 
-  /*public function search (Request $request){
 
-    if($request->ajax())
-    {
-    
-      if($request->search)
-     {
-      $output="";
-   
-          if(!empty($request->search))
-            $cargos= Cargos::orderBy('cargo','ASC')->paginate(10);
-          else
-            $cargos = DB::table('cargos')->where('cargo','LIKE','%'.$request->search."%")->paginate(10);
-          foreach ($cargos as $key => $cargo)
-          {
-           
-                $output.='<tr id="cargo'.$cargo->id.'">'.
-                         '<td width="45%" >'.$cargo->cargo.'</td>';
-
-            if ($cargo->status==1 ){
-                $output.=  '<td width="45%">'."Activo".'</td>';     
-            }else{
-                $output.= '<td width="45%">'."Inactivo".'</td>';
-            }
-                $output.= '<td width="10%" class="text-right"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'.$cargo->id.'"><i class="fa fa-lg fa-edit"></i></button><button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'.$cargo->id.'"><i class="fa fa-lg fa-trash"></i></button></div></td>'.
-          '</tr>';
-     
-        
-
-     return Response($output);
-
-      }
-
-    }elseif (isset($request->valor)) {
-
-        $output="";
-        if(($request->valor=="estatus"))
-        {
-          $cargos= Cargos::orderBy('cargo','ASC')->paginate(10);
-        }else{
-        $cargos= Cargos::where('status',$request->valor)->paginate(10);
-        }
-
-        if($cargos)
-          {
-           
-          foreach ($cargos as $key => $cargo)
-          {
-           
-                $output.='<tr id="cargo'.$cargo->id.'">'.
-                         '<td width="45%" >'.$cargo->cargo.'</td>';
-
-            if ($cargo->status==1 ){
-                $output.=  '<td width="45%">'."Activo".'</td>';     
-            }else{
-                $output.= '<td width="45%">'."Inactivo".'</td>';
-            }
-                $output.= '<td width="10%" class="text-right"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'.$cargo->id.'"><i class="fa fa-lg fa-edit"></i></button><button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'.$cargo->id.'"><i class="fa fa-lg fa-trash"></i></button></div></td>'.
-          '</tr>';
-     
-          }
-
-     return Response($output);
-
-      }
- 
-   }
- } 
-}*/
   public function store(Request $request){
 
    $data=$request->all();
@@ -139,7 +71,7 @@ class CargosController extends Controller
      }elseif ($validator->passes()){      
       
       $cargo= new Cargos; 
-      $cargo->cargo = $request->nombre; 
+      $cargo->cargo = ucwords(strtolower($request->nombre)); 
       $cargo->status =$request->status; 
       $cargo->id_usuario=$request->id_usuario;
       $cargo->save(); 
@@ -175,7 +107,7 @@ class CargosController extends Controller
      }elseif ($validator->passes()){      
       
         $cargo = Cargos::find($cargo_id);
-        $cargo->cargo = $request->nombre;
+        $cargo->cargo = ucwords(strtolower($request->nombre));
         $cargo->status = $request->status;
         $cargo->id_usuario=$request->id_usuario;
         $cargo->save();
