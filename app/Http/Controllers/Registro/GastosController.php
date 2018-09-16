@@ -115,7 +115,7 @@ class GastosController extends Controller
      $gastos->save();
      if($request->id_proveedor && $request->id_solped) 
      {
-        $solped = solped::where('id',$id_solped)->first();
+        $solped = solped::where('id',$request->id_solped)->first();
         if($solped){
           $solped->id_estado=8;
          $solped->save();

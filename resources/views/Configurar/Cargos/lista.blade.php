@@ -1,15 +1,15 @@
-<table class="table table-hover table-bordered" id="sampleTable">
+<table class="table table-hover" id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Nombre</th>
-                    <th>Estatus</th>
-                    <th>Acciones</th>
+                    <th width="45%">Nombre</th>
+                    <th width="45%">Estatus</th>
+                    <th width="10%"class="text-center">Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="cargos-list" name="cargos-list">
                   @foreach($cargos as $cargo)           
                      <tr id="cargo{{$cargo->id}}">
-                      <td width="45%">{{$cargo->cargo}}</td>
+                      <td width="45%" >{{$cargo->cargo}}</td>
                 <?php if ($cargo->status==1){ ?>
                       <td width="45%"><?=  'Activo' ?></td>
                 <?php }else{ ?> 
@@ -17,7 +17,7 @@
                 <?php } ?> 
                       <td width="10%" class="text-right">
                       <div class="btn-group">
-                      <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$cargo->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
+                      <button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$cargo->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
                       <button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$cargo->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
                       </div>
                       </td>

@@ -52,7 +52,7 @@
                 <input class="form-control" type="text"  id="lon" name="lon" onkeypress="return soloNumeros(event);">
               </div>
               <div class="tile-footer text-center border-0" >
-                <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
+                <button class="btn btn-primary save" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
               </div>
             </div>
           </form>
@@ -62,9 +62,11 @@
   <div class="col-12">
     <div class="tile">
          {{-- FILTRO --}}
-        <h3 class="tile-title">Listado Barrios</h3>
+         <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado Barrios</h3>
+            </div>
       <div class="col mb-3">
-             <form class="row d-flex justify-content-end" action="" method="">
+        <form class="row d-flex justify-content-end" action="{{route('barrios')}}" method="get">
         <div class="form-group col-md-3">
               <input type="text" class="form-control" id="buscarbarrio" name="buscarbarrio" placeholder="Buscar" onkeypress="return soloLetras(event)"  maxlength="50">
             </div>
@@ -86,20 +88,36 @@
          
               
           <div class="table-responsive">
+            <div class="barrios">
             <table class="table table-hover" id="sampleTable">
               <thead>
                 <tr>
                   <th width="35%">Nombre</th>
                   <th width="25%">Departamento</th>
                   <th width="25%">Ciudad</th>
-                  <th width="15%">Acciones</th>
+                  <th width="15%" class="text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody id="barrios-list" name="barrios-list">
-                {{-- ESTE LISTADO SE LLENA CON AJAX --}}
+             @foreach ($barrios as $item)
+                 <tr id="barrios{{$item->id}}"> 
+                  <td width="35%">{{ $item->barrio }}</td>
+                  <td width="25%">{{ $item->nombre }}</td>
+                  <td width="25%">{{ $item->ciudad }}</td>
+                  <td width="15%" class="text-center">
+                    <div class="btn-group">
+                        <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$item->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
+                      <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$item->id}}"><i class="fa fa-lg fa-trash"></i></button> 
+                      </div>
+                  </td>
+                </tr>
+                @endforeach
               </tbody>
               </table>
-             
+              <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    <?php echo $barrios->render(); ?>
+              </div>
+             </div>
           </div>
         </div>
     </div>
@@ -180,7 +198,7 @@
 
 <script  type="text/javascript" charset="utf-8">
 
-  $("#boton").click(function (e) {
+ /* $("#boton").click(function (e) {
     var buscarbarrio =  $('#buscarbarrio').val();
     var id_departamento = $('#departamento-select-list').val();
     var id_ciudad = $('#ciudades-select-list').val();
@@ -206,7 +224,7 @@
                 $('#ciudades-select-list').val('');
               }
           });
-       });
+       });*/
 
   $(document).ready(function(){
     {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
@@ -268,7 +286,7 @@
           });
       });
 
-      $('#ciudades-select-list').change(function(){
+     /* $('#ciudades-select-list').change(function(){
         var id_ciudad = $(this).val();
 
 
@@ -282,13 +300,13 @@
               success: function (data2){
                 console.log(data2);
 
-                 $.each(data2, function(l, item2) {
+                $.each(data2, function(l, item2) {
 
                     $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td width="35%">'+item2.barrio+'</td><td width="25%">'+item2.nombre+'</td><td width="25%">'+item2.ciudad+'</td><td width="15%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
               }
           });
-      });
+      });*/
   });
 </script>
 @endpush

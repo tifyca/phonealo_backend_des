@@ -93,7 +93,7 @@ class SubcategoriasController extends Controller
 
 
     	  $categorias = Categorias::where('status',1)
-                      ->select('categoria','id')->get();
+                      ->select('categoria','id')->orderBy('categoria','asc')->get();
 
 
                  if($request->ajax()){
@@ -128,7 +128,7 @@ class SubcategoriasController extends Controller
 
         $subcategoria= new Subcategorias;
         $subcategoria->id_categoria = $request->categoria;
-        $subcategoria->sub_categoria= $request->nombre;  
+        $subcategoria->sub_categoria= ucwords(strtolower($request->nombre));  
         $subcategoria->status   = $request->status;
         $subcategoria->id_usuario=$request->id_usuario;
         $subcategoria->save();
@@ -166,7 +166,7 @@ class SubcategoriasController extends Controller
      }elseif ($validator->passes()){ 
 
         $subcategoria = Subcategorias::find($subcategoria_id);
-        $subcategoria->sub_categoria = $request->nombre;
+        $subcategoria->sub_categoria = ucwords(strtolower($request->nombre));
         $subcategoria->id_categoria = $request->categoria;
         $subcategoria->status = $request->status;
         $subcategoria->id_usuario=$request->id_usuario;

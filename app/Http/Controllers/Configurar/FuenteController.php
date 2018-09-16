@@ -67,7 +67,7 @@ class FuenteController extends Controller
       
      }elseif ($validator->passes()){ 
       $fuente= new Fuente; 
-      $fuente->fuente = $request->nombre; 
+      $fuente->fuente = ucwords(strtolower($request->nombre)); 
       $fuente->status =$request->status;
       $fuente->id_usuario=$request->id_usuario; 
       $fuente->save(); 
@@ -104,7 +104,7 @@ class FuenteController extends Controller
       
      }elseif ($validator->passes()){ 
         $fuente = Fuente::find($fuente_id);
-        $fuente->fuente = $request->nombre;
+        $fuente->fuente = ucwords(strtolower($request->nombre));
         $fuente->status = $request->status;
         $fuente->id_usuario=$request->id_usuario;
         $fuente->save();

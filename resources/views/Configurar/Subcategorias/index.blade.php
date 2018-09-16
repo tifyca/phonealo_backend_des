@@ -107,10 +107,10 @@
               <table class="table table-hover" id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Nombre</th>
-                    <th>Categoría</th>
-                    <th>Estatus</th>
-                    <th>Acciones</th>
+                    <th width="30%">Nombre</th>
+                    <th width="30%">Categoría</th>
+                    <th width="25%">Estatus</th>
+                    <th width="15%" class="text-center">Acciones</th>
                   </tr>
                 </thead>
              

@@ -183,6 +183,25 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'Inventario\EntradasController@destroy',
         'as'   => 'inventario.entrada.destroy'
     ]);
+    Route::get('inventario/entradas', [
+        'uses' => 'Inventario\EntradasController@index',
+        'as'   => 'entradas.index'
+    ]);
+    Route::get('entradas/{id}/ver', [
+        'uses' => 'Inventario\EntradasController@vista',
+        'as'   => 'entradas.ver'
+    ]);
+    Route::get('entradas/{id}/confirmar', [
+        'uses' => 'Inventario\EntradasController@confirmar',
+        'as'   => 'entradas.confirmar'
+    ]);
+      Route::post('entradas/carga', [
+        'uses' => 'Inventario\EntradasController@carga',
+        'as'   => 'entradas.carga'
+    ]);
+
+    Route::get('cdetalle','Inventario\EntradasController@cargar_detalle');
+    Route::get('edetalle','Inventario\EntradasController@eliminar_detalle');
 
     Route::resource('inventario/salidas', 'Inventario\SalidasController');
 

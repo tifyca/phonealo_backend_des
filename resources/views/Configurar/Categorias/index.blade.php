@@ -86,9 +86,8 @@ if(isset($_SESSION["user"]))
   <div class="tile">
     {{-- FILTRO --}}
     <div class="col mb-3 text-center">
-       <div class="col">
-          <h3 class="tile-title text-center text-md-left">Listado de Categorías</h3>
-        </div>
+          <h3 class="tile-title text-left text-md-left">Listado de Categorías</h3>
+    
       <form class="row d-flex justify-content-end" action="{{route('categorias.index')}}" method="get"> 
        
         <div class="form-group col-md-3">
@@ -129,10 +128,10 @@ if(isset($_SESSION["user"]))
          <table class="table table-hover" id="sampleTable">
           <thead>
             <tr>
-              <th>Nombre</th>
-              <th>Tipo</th>
-              <th>Estatus</th>
-              <th>Acciones</th>
+              <th width="30%">Nombre</th>
+              <th width="30%">Tipo</th>
+              <th width="25%">Estatus</th>
+              <th width="15%" class="text-center">Acciones</th>
             </tr>
           </thead>
           <tbody id="categorias-list" name="categorias-list"> 
