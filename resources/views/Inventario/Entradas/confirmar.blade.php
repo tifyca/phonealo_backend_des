@@ -76,7 +76,7 @@
                 ?>
                 @foreach($detalles as $det)
                 <tr>
-                  <input type="hidden" name="idproducto[]" id="{{$name3}}" value="{{$det->idproducto}}">
+                  <input type="hidden" name="idproducto[]" value="{{$det->idproducto}}">
                   <td>{{$det->codigo}}</td>
                   <td>{{$det->desprod}}</td>
                   <td align="center">
