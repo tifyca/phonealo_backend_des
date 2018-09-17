@@ -1,7 +1,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'ConfirmaciÃ³n de Solicitud de Pedido')
+@section('titulo', 'Confirmación de Solicitud de Pedido')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -23,7 +23,7 @@
             </div>
             <div class="form-group col-md-3">
               <input type="hidden" id="idsolped" name="idsolped" value="{{$solped->id}}">
-              <label for="n_documento_entrada">NÃºmero de Documento</label>
+              <label for="n_documento_entrada">Número de Documento</label>
               <input class="form-control" type="text" id="nro_documento" name="nro_documento" placeholder="..." readonly="" maxlength="30" value="{{$solped->nro_documento}}">
             </div>
             <div class="form-group col-md-3">
@@ -70,9 +70,9 @@
                </thead>
               <tbody>
                 <?php $total=0; $z=1; 
-                $name3="idproducto"+$z;
-                $name="cantidad_conf"+$z;
-                 $name2="precio_conf"+$z;
+                //$name3="idproducto"+$z;
+                //$name="cantidad_conf"+$z;
+                 //$name2="precio_conf"+$z;
                 ?>
                 @foreach($detalles as $det)
                 <tr>
