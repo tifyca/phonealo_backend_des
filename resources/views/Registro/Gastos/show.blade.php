@@ -177,7 +177,7 @@
           success: function (data){
             console.log(data);
             $.each(data, function(l, item1) {
-             $("#id_solped").append('<option value='+item1.id+'>'+item1.id+'</option>');
+             $("#id_solped").append('<option value='+item1.id+'>'+item1.nro_documento+'</option>');
            });
           }    
 

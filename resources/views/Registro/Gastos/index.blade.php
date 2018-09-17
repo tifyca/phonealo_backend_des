@@ -72,12 +72,11 @@
                     <th>Comprobante</th>
                     <th>Categoría</th>
                     <th>Fuente</th>
-                    <th align="right">Importe</th>
+                    <th class="text-right">Importe</th>
                     <th>Divisa</th>
-                    <th>Usuario</th>
-                    <th>Fecha de Comprobante</th>
-                    <th>Fecha de Carga</th>
-                    <th>Acciones</th>
+                    <th align="center">Fecha de Comprobante</th>
+                    <th align="center">Fecha de Carga</th>
+                    <th align="center">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -93,7 +92,7 @@
                      @endforeach
                     </td>
                     <td>{{$gast->id_fuente}}</td>
-                    <td aling="right">
+                    <td class="text-right">
                     <?php 
                     $monto = number_format($gast->importe, 2, ',', '.');
                     echo $monto;?>
@@ -106,9 +105,8 @@
                       @endif
                      @endforeach
                     </td>
-                    <td>{{$gast->id_usuario}}</td>
-                    <td>{{$gast->fecha_comprobante}}</td>
-                    <td>{{$gast->fecha}}</td>
+                    <td  class="text-center">{{$gast->fecha_comprobante}}</td>
+                    <td  class="text-center">{{$gast->fecha}}</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
                         <a class="btn btn-primary" href="{{ route('gastos.edit',$gast->id) }}"><i class="fa fa-lg fa-eye"></i></a>
