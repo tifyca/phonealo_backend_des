@@ -66,7 +66,7 @@ class GastosController extends Controller
    $usuarios = User::orderby('id','asc')->get();
    $divisas = DB::table('divisa')->orderby('id_divisa')->get();
    $fuentes= fuente::orderby('id')->get();
-   return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes);
+   return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje);
  }
  public function show(){
 
@@ -74,7 +74,7 @@ class GastosController extends Controller
   $fuentes= fuente::orderby('id')->get();
   $divisas = DB::table('divisa')->orderby('id_divisa')->get();
   $proveedores= proveedores::where('id_estado',1)->orderby('id')->get();
-  return view('Registro.Gastos.show')->with('categorias',$categorias)->with('fuentes',$fuentes)->with('proveedores',$proveedores)->with('divisas',$divisas)->with("tipo",$tipo)->with("mensaje",$mensaje);
+  return view('Registro.Gastos.show')->with('categorias',$categorias)->with('fuentes',$fuentes)->with('proveedores',$proveedores)->with('divisas',$divisas);
 }
 
 public function edit($id){
@@ -132,7 +132,7 @@ public function store(Request $request)
     $divisas = DB::table('divisa')->orderby('id_divisa')->get();
     $fuentes= fuente::orderby('id')->get();
     $gastos = gastos::orderby('fecha','desc')->paginate(10);
-    return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes);    
+    return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje);    
      }   //
    }catch (Exception $e) {
     \Log::info('Error creating item: '.$e);
@@ -165,7 +165,7 @@ public function update(Request $request,$id)
     $divisas = DB::table('divisa')->orderby('id_divisa')->get();
     $fuentes= fuente::orderby('id')->get();
     $gastos = gastos::orderby('fecha','desc')->paginate(10);
-    return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes);  
+    return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje);  
 }
 public function destroy(Request $request){
   $gastos=gastos::find($id);
