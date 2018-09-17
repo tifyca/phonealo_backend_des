@@ -6,7 +6,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', '')
-@section('titulo', 'Editar Empleado')
+@section('titulo', 'Ver/Editar Empleado')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -29,7 +29,7 @@
 	            
 	              <div class="form-group col-md-4">
 	                <label for="nombre_empleado">Nombres</label>
-	                <input class="form-control read" type="text" id="nombre_empleado" name="nombre_empleado" placeholder="..."   value="{{$empleado->nombres}}" onkeypress="return soloLetras(event);" readonly>
+	                <input class="form-control read" type="text" id="nombre_empleado" name="nombre_empleado" placeholder="..."   value="{{$empleado->nombres}}" onkeypress="return soloLetras(event);" readonly maxlength="50">
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="ci_empleado">CI</label>
@@ -37,11 +37,11 @@
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="telefono_empleado">Teléfono</label>
-	                <input class="form-control read" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="..." value="{{$empleado->telefono}}" onkeypress="return soloNumeros(event);" readonly>
+	                <input class="form-control read" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="..." value="{{$empleado->telefono}}" onkeypress="return soloNumeros(event);" readonly maxlength="13">
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="email_empleado">Email</label>
-	                <input class="form-control read" type="text" id="email_empleado" name="email_empleado" placeholder="..." value="{{$empleado->email}}" readonly>
+	                <input class="form-control read" type="email" id="email_empleado" name="email_empleado" placeholder="..." value="{{$empleado->email}}" readonly>
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="direccion_empleado">Dirección</label>
@@ -57,7 +57,19 @@
 	                	<label for="referencia_empleado">Referencias</label>
 	                	<textarea class="form-control read" disabled id="referencia_empleado" name="referencia_empleado" rows="3">{{$empleado->ci}}</textarea>
 	              	</div>
-
+                  <div class="col-md-12 ">
+	             <label>Estatus</label>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input read" value="1" type="radio" id="status" name="status"  <?php if($empleado->id_estado=="1") echo 'checked="checked"';?> disabled>Activo
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                         <input class="form-check-input read" value="0" type="radio" id="status2" name="status" <?php if($empleado->id_estado=="0") echo 'checked="checked"';?> disabled>Inactivo
+                      </label>
+                    </div>
+                  </div>
 	              	<div class="tile-footer col-12 d-flex align-items-center">
 	                   <div class="form-check mr-3">
 	                    <label class="form-check-label">

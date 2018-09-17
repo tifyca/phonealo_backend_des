@@ -141,6 +141,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::resource('registro/empleados', 'Registro\EmpleadosController');
+    Route::resource('registro/empleados', 'Registro\EmpleadosController');
     Route::post('registro/empleados/create', 'Registro\EmpleadosController@create');
     Route::get('registro/empleados/editar/{id_empleado?}','Registro\EmpleadosController@editar');
     Route::put('registro/empleados/mod/{id_empleado?}','Registro\EmpleadosController@update');

@@ -14,41 +14,37 @@ class HorasController extends Controller
     public function index(Request $request){
 
 
-     $horario = $request["buscarhora"];
+     $horario = $request["hora"];
      $status_v   = $request["selectven"];
-     $status   = $request["selectstatus"];
+     $status   = $request["status"];
    
     if($horario!="" && $status=="" &&  $status_v=="" )
     {
-        $horarios= Horarios::where('horario','LIKE', $horario.'%')->orderBy('horario','asc')->paginate(10);
+        $horarios= Horarios::search($horario)->orderBy('horario','asc')->paginate(10);
 
     }
     if($horario=="" && $status!="" &&  $status_v=="")
     {
-        $horarios=  Horarios::where('status',$status)->paginate(10);
+        $horarios=  Horarios::status($status)->orderBy('horario','asc')->paginate(10);
     }
     if($horario=="" && $status=="" && $status_v!="")
     {
-        $horarios=  Horarios::where('status_v',$status_v)->paginate(10);
+        $horarios=  Horarios::status_v($status_v)->orderBy('horario','asc')->paginate(10);
         
     }
     if($horario!="" && $status!="" && $status_v!="")
     {
-        $horarios=  Horarios::where('status_v',$status_v)
-                            ->where('status',$status)
-                            ->where('horario','LIKE', $horario.'%')->orderBy('horario','asc')->paginate(10);
+        $horarios=  Horarios::search2($status_v, $status, $horario)->orderBy('horario','asc')->paginate(10);
         
     }
      if($horario!="" && $status!="" && $status_v=="")
     {
-        $horarios=  Horarios::where('status',$status)
-                            ->where('horario','LIKE', $horario.'%')->orderBy('horario','asc')->paginate(10);
+        $horarios=  Horarios::search3($status, $horario)->orderBy('horario','asc')->paginate(10);
         
     }
-     if($horario!="" && $status!="" && $status_v=="")
+     if($horario!="" && $status=="" && $status_v!="")
     {
-        $horarios=  Horarios::where('status_v',$status_v)
-                            ->where('horario','LIKE', $horario.'%')->orderBy('horario','asc')->paginate(10);
+        $horarios=  Horarios::search4($status_v, $horario)->orderBy('horario','asc')->paginate(10);
         
     }
     if($horario=="" && $status=="" && $status_v=="")
@@ -57,8 +53,7 @@ class HorasController extends Controller
     }
      if($horario=="" && $status!="" && $status_v!="")
     {
-        $horarios=  Horarios::where('status_v',$status_v)
-                            ->where('status',$status)->orderBy('horario','asc')->paginate(10);
+        $horarios=  Horarios::search5($status_v,$status)->orderBy('horario','asc')->paginate(10);
         
     }
 

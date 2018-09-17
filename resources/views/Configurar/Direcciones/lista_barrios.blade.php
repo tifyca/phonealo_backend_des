@@ -11,8 +11,8 @@
              @foreach ($barrios as $item)
                  <tr id="barrios{{$item->id}}"> 
                   <td width="35%">{{ $item->barrio }}</td>
-                  <td width="25%">{{ $item->ciudad }}</td>
                   <td width="25%">{{ $item->nombre }}</td>
+                  <td width="25%">{{ $item->ciudad }}</td>
                   <td width="15%" class="text-center">
                     <div class="btn-group">
                         <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$item->id}}"><i class="fa fa-lg fa-edit"  ></i></button>

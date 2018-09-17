@@ -227,11 +227,35 @@ $(document).on('click','.pagination a',function(e){
     var route ="categorias";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+               categorias: $('#buscarcategoria').val(),
+               status: $('#selectstatus').val(), 
+               tipo: $('#selecttipo').val(),
+               proveedor: $('#selectproveedor').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
             $(".categorias").html(data);
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="categorias";
+    $.ajax({
+        url: route,
+        data: {categorias: $('#buscarcategoria').val(),
+               status: $('#selectstatus').val(), 
+               tipo: $('#selecttipo').val(),
+               proveedor: $('#selectproveedor').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divcategorias").html(data);
+
         }
     });
 });

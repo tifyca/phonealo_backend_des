@@ -201,7 +201,7 @@ $(document).on('click','.pagination a',function(e){
     var route ="departamentos";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page, scope: $('#scope').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
@@ -209,6 +209,24 @@ $(document).on('click','.pagination a',function(e){
         }
     });
 });
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="departamentos";
+    $.ajax({
+        url: route,
+        data: {scope: $('#scope').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divdeparatementos").html(data);
+
+        }
+    });
+});
+
 
 $(document).on('click','.save',function(e){
     e.preventDefault();

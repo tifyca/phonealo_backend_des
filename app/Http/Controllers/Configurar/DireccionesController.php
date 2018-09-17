@@ -15,11 +15,11 @@ class DireccionesController extends Controller
 {
     public function paises(Request $request){
 
-      $pais = $request["buscarpais"];
+      $pais = $request["scope"];
    
         if($pais!="")
-        {
-            $paises= Paises::where('nombre','LIKE', $pais.'%')->orderBy('nombre','asc')->paginate(10);
+        {   
+            $paises= Paises::search($pais)->orderBy('nombre','asc')->paginate(10);
 
         }
         if($pais=="")
@@ -103,11 +103,11 @@ class DireccionesController extends Controller
 
     public function departamentos(Request $request){
 
-      $dpto = $request["buscardpto"];
+      $dpto = $request["scope"];
    
         if($dpto!="")
         {
-            $departamentos= Departamentos::where('nombre','LIKE', $dpto.'%')->orderBy('nombre','asc')->paginate(10);
+            $departamentos= Departamentos::search($dpto)->orderBy('nombre','asc')->paginate(10);
 
         }
         if($dpto=="")
@@ -212,32 +212,25 @@ class DireccionesController extends Controller
       
        // $ciudades ='';
 
-       $ciudad = $request["buscarciudad"];
+       $ciudad = $request["ciudad"];
 
-       $id_departamento=$request["departamento-select"];
+       $id_departamento=$request["dpto"];
 
         if($ciudad!="" && $id_departamento=="")
         {
-            $ciudades= Ciudades::join('departamentos', 'departamentos.id', '=', 'ciudades.id_departamento')
-                                ->select('id_departamento', 'departamentos.nombre', 'ciudades.id', 'ciudad', 'status','ciudades.id_usuario')
-                                ->where('ciudad','LIKE', $ciudad.'%')->orderBy('ciudad','asc')->paginate(10);
+            $ciudades= Ciudades::search($ciudad)->orderBy('ciudad','asc')->paginate(10);
            // return $ciudades;
              
         }
         if($ciudad!="" && $id_departamento!="")
         {
-            $ciudades= Ciudades::join('departamentos', 'departamentos.id', '=', 'ciudades.id_departamento')
-                                ->select('id_departamento', 'departamentos.nombre', 'ciudades.id', 'ciudad', 'status', 'ciudades.id_usuario')
-                                ->where('id_departamento', $id_departamento)
-                                ->where('ciudad','LIKE', $ciudad.'%')->orderBy('ciudad','asc')->paginate(10);
+            $ciudades= Ciudades::search2($ciudad, $id_departamento )->orderBy('ciudad','asc')->paginate(10);
            // return $ciudades;
                  
          } 
         if($ciudad=="" && $id_departamento!="" )
         {
-           $ciudades= Ciudades::join('departamentos', 'departamentos.id', '=', 'ciudades.id_departamento')
-                                ->select('id_departamento', 'departamentos.nombre', 'ciudades.id', 'ciudad', 'status', 'ciudades.id_usuario')
-                                ->where('id_departamento', $id_departamento)->orderBy('ciudad','asc')->paginate(10);
+           $ciudades= Ciudades::dpto($id_departamento)->orderBy('ciudad','asc')->paginate(10);
           // return $ciudades;
            
         }
@@ -370,67 +363,42 @@ class DireccionesController extends Controller
     public function barrios(Request $request){
 
 
-      $barrio = $request["buscarbarrio"];
+      $barrio = $request["barrio"];
 
-       $id_departamento=$request["departamento-select-list"];
-        $id_ciudad=$request["iciudades-select-list"];
+       $id_departamento=$request["dpto"];
+        $id_ciudad=$request["ciudad"];
 
 
         if($barrio!="" && $id_departamento=="" && $id_ciudad=="")
         {
-            $barrios= Barrios::join('ciudades', 'barrios.id_ciudad', '=', 'ciudades.id')
-                              ->join('departamentos','departamentos.id', '=', 'ciudades.id_departamento' )
-                              ->where('barrio','LIKE', $barrio.'%')
-                              ->Select('barrios.id', 'barrios.id_ciudad', 'barrio', 'departamentos.nombre','ciudades.ciudad','lat', 'lon', 'barrios.id_usuario')
-                              ->orderBy('barrio','asc')->paginate(10);
+            $barrios= Barrios::search($barrio)->orderBy('barrio','asc')->paginate(10);
             
         }
         if($barrio=="" && $id_departamento!="" && $id_ciudad=="")
         {
-           $barrios= Barrios::join('ciudades', 'barrios.id_ciudad', '=', 'ciudades.id')
-                              ->join('departamentos','departamentos.id', '=', 'ciudades.id_departamento' )
-                              ->where('ciudades.id_departamento', $id_departamento)
-                              ->Select('barrios.id', 'barrios.id_ciudad', 'barrio', 'departamentos.nombre','ciudades.ciudad','lat', 'lon', 'barrios.id_usuario')
-                              ->orderBy('barrio','asc')->paginate(10);
+           $barrios= Barrios::dpto($id_departamento)->orderBy('barrio','asc')->paginate(10);
              
         }
         if($barrio=="" && $id_departamento=="" && $id_ciudad!="")
         {
-           $barrios= Barrios::join('ciudades', 'barrios.id_ciudad', '=', 'ciudades.id')
-                              ->join('departamentos','departamentos.id', '=', 'ciudades.id_departamento' )
-                              ->where('id_ciudad', $id_ciudad)
-                              ->Select('barrios.id', 'id_ciudad', 'barrio', 'departamentos.nombre','ciudades.ciudad','lat', 'lon', 'barrios.id_usuario')
-                            ->orderBy('barrio','asc')->paginate(10);
+           $barrios= Barrios::ciudad($id_ciudad)->orderBy('barrio','asc')->paginate(10);
              
         }
          if($barrio!="" && $id_departamento!="" && $id_ciudad!="")
         {
-          $barrios= Barrios::join('ciudades', 'barrios.id_ciudad', '=', 'ciudades.id')
-                              ->join('departamentos','departamentos.id', '=', 'ciudades.id_departamento' )
-                             ->where('id_ciudad', $id_ciudad)
-                            ->where('ciudades.id_departamento', $id_departamento)
-                            ->where('barrio','LIKE', $barrio.'%')
-                            ->Select('barrios.id', 'barrios.id_ciudad', 'barrio', 'departamentos.nombre','ciudades.ciudad','lat', 'lon', 'barrios.id_usuario')
+          $barrios= Barrios::search2($barrio, $id_departamento, $id_ciudad )
                             ->orderBy('barrio','asc')->paginate(10);
             
         }
         if($barrio!="" && $id_departamento!="" && $id_ciudad=="")
         {
-          $barrios= Barrios::join('ciudades', 'barrios.id_ciudad', '=', 'ciudades.id')
-                           ->join('departamentos','departamentos.id', '=', 'ciudades.id_departamento' )
-                           ->where('ciudades.id_departamento', $id_departamento)
-                           ->where('barrio','LIKE', $barrio.'%')
-                           ->Select('barrios.id', 'barrios.id_ciudad', 'barrio', 'departamentos.nombre','ciudades.ciudad','lat', 'lon', 'barrios.id_usuario')
+          $barrios= Barrios::search3($barrio, $id_departamento )
                            ->orderBy('barrio','asc')->paginate(10);
             
         }
          if($barrio!="" && $id_departamento=="" && $id_ciudad!="")
         {
-          $barrios= Barrios::join('ciudades', 'barrios.id_ciudad', '=', 'ciudades.id')
-                            ->join('departamentos','departamentos.id', '=', 'ciudades.id_departamento' )
-                            ->where('id_ciudad', $id_ciudad)
-                            ->where('barrio','LIKE', $barrio.'%')
-                            ->Select('barrios.id', 'barrios.id_ciudad', 'barrio', 'departamentos.nombre','ciudades.ciudad','lat', 'lon', 'barrios.id_usuario')
+          $barrios= Barrios::search4($barrio, $id_ciudad)
                             ->orderBy('barrio','asc')->paginate(10);
            
         }
@@ -443,11 +411,7 @@ class DireccionesController extends Controller
         }
          if($barrio=="" && $id_departamento!="" && $id_ciudad!="")
         {
-          $barrios= Barrios::join('ciudades', 'barrios.id_ciudad', '=', 'ciudades.id')
-                            ->join('departamentos','departamentos.id', '=', 'ciudades.id_departamento' )
-                            ->where('id_ciudad', $id_ciudad)
-                            ->where('ciudades.id_departamento', $id_departamento)
-                            ->Select('barrios.id', 'barrios.id_ciudad', 'barrio', 'departamentos.nombre','ciudades.ciudad','lat', 'lon', 'barrios.id_usuario')
+          $barrios= Barrios::search5( $id_departamento,$id_ciudad)
                             ->orderBy('barrio','asc')->paginate(10);
           
         }

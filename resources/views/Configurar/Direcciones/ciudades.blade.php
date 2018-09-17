@@ -53,7 +53,8 @@
     <div class="tile">
        {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-        <form class="row d-flex justify-content-end" action="{{route('ciudades')}}" method="get">
+          <div class="row">  
+        <!--form class="row d-flex justify-content-end" action="{{route('ciudades')}}" method="get"-->
             
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado Ciudades</h3>
@@ -70,43 +71,19 @@
                </select>
               </div>
             <div class="col-md-1 mr-md-3">
-             <button class="btn btn-primary" type="submit" name="boton" id="boton" >Filtrar</button>  
+              <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>    
             </div>
-          </form>
-          <div class="row">  
+          <!--/form-->
           </div>
         </div>
         {{-- FIN FILTRO --}}
 
         <div class="tile-body " >
           <div class="table-responsive">
-            <div class="ciudades">
-            <table class="table table-hover" id="sampleTable">
-              <thead>
-                <tr>
-                  <th width="45%">Nombre</th>
-                  <th width="45%">Departamento</th>
-                  <th width="10%" class="text-center">Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="ciudades-list" name="ciudades-list">
-              @foreach ($ciudades as $item)
-                 <tr id="ciudades{{$item->id}}"> 
-                  <td width="45%">{{ $item->ciudad }}</td>
-                  <td width="45%">{{ $item->nombre }}</td>
-                  <td width="10%" class="text-center">
-                    <div class="btn-group">
-                        <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$item->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$item->id}}"><i class="fa fa-lg fa-trash"></i></button> 
-                      </div>
-                  </td>
-                </tr>
-                @endforeach
-              </tbody>
-              </table>
-           <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $ciudades->render(); ?>
-              </div>
+            <div class="ciudades" id="divciudades">
+                  @component('Configurar.Direcciones.lista_ciudades')
+                        @slot('ciudades', $ciudades)
+                    @endcomponent
             </div>
           </div>
         </div>

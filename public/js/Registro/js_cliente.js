@@ -36,6 +36,7 @@ $("#btn-save").click(function (e) {
             
             alert("El Cliente fue  Registrado con Éxito");
             location.href="/registro/clientes";
+          //    return redirect()->route('productos.index')->with("message","Se ha guardado correctamente su información");
         
        },
        
@@ -84,7 +85,7 @@ $("#btn-edit").click(function (e) {
                     ubicacion_cliente: $('#ubicacion_cliente').val(),
                     tipo_cliente: $('#tipo_cliente').val(),
                     nota_cliente: $('#nota_cliente').val(),
-                    id_estado : $('#id_estado').val(),
+                    id_estado :        $('input:radio[name=status]:checked').val(),
                     id_usuario : $('#id_usuario').val(),
                     }
 

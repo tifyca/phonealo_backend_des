@@ -6,7 +6,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', '')
-@section('titulo', 'Editar Cliente')
+@section('titulo', 'Ver/Editar Cliente')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -83,6 +83,19 @@
               <label for="nota_cliente">Nota</label>
               <textarea class="form-control read" id="nota_cliente" name="nota_cliente" rows="3" disabled >{{$cliente->notas}}</textarea>
             </div>
+            <div class="col-md-12 ">
+               <label>Estatus</label>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input read" value="1" type="radio" id="status" name="status" <?php if($cliente->id_estado=="1") echo 'checked="checked"';?>  disabled>Activo
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                         <input class="form-check-input read" value="0" type="radio" id="status2" name="status"  <?php if($cliente->id_estado=="0") echo 'checked="checked"';?> disabled>Inactivo
+                      </label>
+                    </div>
+                  </div>
             <div class="tile-footer col-12 pl-3 row">
               <div class="form-check mx-3 mt-2">
                 <label class="form-check-label">

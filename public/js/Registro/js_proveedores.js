@@ -71,7 +71,7 @@ $("#btn-edit").click(function (e) {
                     telefono_proveedor:  $('#telefono_proveedor').val(),                  
                     ruc_proveedor:       $('#ruc_proveedor').val(),
                     pais_proveedor:      $('#pais_proveedor').val(),
-                    id_estado:           $('#id_estado').val(),
+                    id_estado :          $('input:radio[name=status]:checked').val(),
                     id_usuario:          $('#id_usuario').val(),
                     }
 

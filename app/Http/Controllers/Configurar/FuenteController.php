@@ -15,22 +15,21 @@ class FuenteController extends Controller
 {
     public function index(Request $request){
 
-      $fuente = $request["buscarfuente"];
-     $status   = $request["selectstatus"];
+      $fuente = $request["fuente"];
+     $status   = $request["status"];
    
     if($fuente!="" && $status=="" )
     {
-        $fuentes= Fuente::where('fuente','LIKE', $fuente.'%')->orderBy('fuente','asc')->paginate(10);
+        $fuentes= Fuente::search($fuente)->orderBy('fuente','asc')->paginate(10);
 
     }
     if($fuente=="" && $status!="")
     {
-        $fuentes=  Fuente::where('status',$status)->paginate(10);
+        $fuentes=  Fuente::status($status)->orderBy('fuente','asc')->paginate(10);
     }
      if($fuente!="" && $status!="")
     {
-        $fuentes=  Fuente::where('status',$status)
-                         ->where('fuente','LIKE', $fuente.'%')->orderBy('fuente','asc')->paginate(10);
+        $fuentes=  Fuente::search2($status, $fuente)->orderBy('fuente','asc')->paginate(10);
     }
   
 
