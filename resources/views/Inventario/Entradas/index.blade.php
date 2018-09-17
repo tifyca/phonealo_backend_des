@@ -59,8 +59,8 @@
                 <th>Fecha</th>
                 <th>Proveedor</th>
                 <th>Estatus</th>
-                <th>Monto</th>
-                <th>Acciones</th>
+                <th class="text-right"> Monto</th>
+                <th align="center">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -83,7 +83,7 @@
                 @endif
                 @endforeach
               </td>
-              <td>
+              <td class="text-right">
                 <?php 
                 $monto = number_format($sol->monto, 2, ',', '.');
                 echo $monto;?>
@@ -107,9 +107,10 @@
             @endforeach
             <tr class="table-secondary">
               <td colspan="5" class="text-right"><b>Total Importe</b></td>
-              <td colspan="2"><b><?php 
+              <td  class="text-right"><b><?php 
               $ztotal = number_format($total, 2, ',', '.');
               echo $ztotal;?></b></td>
+              <td></td>
             </tr>
           </tbody>
         </table>
