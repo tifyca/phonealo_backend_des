@@ -97,12 +97,12 @@
                       $ztotal = number_format($importe, 2, ',', '.');
                       $total = $total + $importe;
                      echo $ztotal;$z++;
-                    $name="cantidad_conf"+$z;
-                    $name2="precio_conf"+$z;
-                    $name3="idproducto"+$z;
+                    //$name="cantidad_conf"+$z;
+                    //$name2="precio_conf"+$z;
+                    //$name3="idproducto"+$z;
                      ?></td>
-                  <td><input type="text" name="cantidad_conf[]" id="{{$name}}"></td>
-                  <td><input type="text" name="precio_conf[]" id="{{$name2}}"></td>
+                  <td><input type="text" name="cantidad_conf[]"></td>
+                  <td><input type="text" name="precio_conf[]" ></td>
                 </tr>
                 @endforeach
               </tbody>

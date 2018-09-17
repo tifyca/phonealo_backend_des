@@ -227,5 +227,12 @@ class EntradasController extends Controller
             }
             $cont++;
           }
+          $tipo=1;
+          $mensaje="Confirmación Ejecutada con éxito";
+        $proveedores = Proveedores::where('id_estado','1')->get();
+        $estados     = Estados::orderby('id')->get();       
+        $solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')                 ->join('proveedores as c','a.id_proveedor','=','c.id')->select('a.id','a.fecha','a.nro_documento','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),'a.id_estado','a.created_at')->groupBy('a.id')->paginate(10);
+                  
+        return view('Inventario.Entradas.index')->with('proveedores',$proveedores)->with('solped',$solped)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('estados',$estados);      
     }
 }
