@@ -10,7 +10,7 @@ use App\detallesolped;
 use App\auxiliar;
 use App\Productos;
 use App\auditoria;
-use App\estados;
+use App\Estados;
 use DB;
 @session_start();
 
