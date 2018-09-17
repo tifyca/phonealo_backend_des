@@ -226,11 +226,33 @@ $(document).on('click','.pagination a',function(e){
     var route ="subcategorias";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+               subcat: $('#buscarsubc').val(),
+               status: $('#selectstatus').val(), 
+               cat: $('#selectcat').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
             $(".subcategorias").html(data);
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="subcategorias";
+    $.ajax({
+        url: route,
+        data: {subcat: $('#buscarsubc').val(),
+               status: $('#selectstatus').val(), 
+               cat: $('#selectcat').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divsubcategorias").html(data);
+
         }
     });
 });

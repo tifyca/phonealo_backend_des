@@ -196,11 +196,29 @@ $(document).on('click','.pagination a',function(e){
     var route ="paises";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page, scope: $('#scope').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
             $(".paises").html(data);
+           
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+//console.log(page);
+    var route ="paises";
+    $.ajax({
+        url: route,
+        data: {scope: $('#scope').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divpaises").html(data);
+
         }
     });
 });

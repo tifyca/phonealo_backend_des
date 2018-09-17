@@ -43,49 +43,28 @@
     <div class="tile">
        {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-             <form class="row d-flex justify-content-end" action="{{route('paises')}}" method="get">
+          <div class="row">
+             <!--form class="row d-flex justify-content-end" action="{{route('paises')}}" method="get"-->
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado Países</h3>
             </div>
              <div class="form-group col-md-3">
-              <input type="text" class="form-control" id="buscarpais" name="buscarpais" placeholder="Buscar"  maxlength="50">
+              <input type="text" class="form-control" id="scope"  placeholder="Buscar"  maxlength="50">
             </div>
             <div class="col-md-1 mr-md-3">
-              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
+              <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>      
             </div>
-          </form>
-          <div class="row">
+          <!--/form-->
           </div>
         </div>
         {{-- FIN FILTRO --}}
       
         <div class="tile-body ">
           <div class="table-responsive">
-            <div class="paises">
-            <table class="table table-hover" id="sampleTable">
-              <thead>
-                <tr>
-                  <th width="90%">Nombre</th>
-                  <th width="10%" class="text-center">Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="paises-list" name="paises-list">
-                @foreach ($paises as $item)
-                 <tr id="paises{{$item->id}}"> 
-                  <td width="90%">{{ $item->nombre }}</td>
-                  <td  width="10%" class="text-center">
-                    <div class="btn-group">
-                        <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$item->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$item->id}}"><i class="fa fa-lg fa-trash"></i></button> 
-                      </div>
-                  </td>
-                </tr>
-                @endforeach
-              </tbody>
-              </table>
-            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $paises->render(); ?>
-              </div>
+            <div class="paises" id="divpaises">
+                  @component('Configurar.Direcciones.lista_paises')
+                        @slot('paises', $paises)
+                  @endcomponent
               </div>
               </div>
         </div>

@@ -215,11 +215,28 @@ $(document).on('click','.pagination a',function(e){
     var route ="cargos";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page, cargos: $('#buscarcargos').val(), status: $('#selectstatus').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
             $(".cargos").html(data);
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="cargos";
+    $.ajax({
+        url: route,
+        data: {cargos: $('#buscarcargos').val(), status: $('#selectstatus').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divcargos").html(data);
+
         }
     });
 });

@@ -112,11 +112,27 @@ $(document).on('click','.pagination a',function(e){
     var route ="estados";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page, scope: $('#scope').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
             $(".estados").html(data);
+        }
+    });
+});
+$(document).on('click','#btnBuscar',function(e){
+   
+//console.log(page);
+    var route ="estados";
+    $.ajax({
+        url: route,
+        data: {scope: $('#scope').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divestados").html(data);
+
         }
     });
 });

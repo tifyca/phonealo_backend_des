@@ -16,22 +16,21 @@ class CargosController extends Controller
 {
     public function index(Request $request){
 
-     $cargo = $request["buscarcargos"];
-     $status   = $request["selectstatus"];
+     $cargo = $request["cargos"];
+     $status   = $request["status"];
    
     if($cargo!="" && $status=="" )
     {
-        $cargos= Cargos::where('cargo','LIKE', $cargo.'%')->orderBy('cargo','asc')->paginate(10);
+        $cargos= Cargos::search($cargo)->orderBy('cargo','asc')->paginate(10);
 
     }
     if($cargo=="" && $status!="")
     {
-        $cargos=  Cargos::where('status',$status)->paginate(10);
+        $cargos=  Cargos::status($status)->paginate(10);
     }
       if($cargo!="" && $status!="")
     {
-        $cargos= Cargos::where('cargo','LIKE', $cargo.'%')
-                       ->where('status',$status)->orderBy('cargo','ASC')->paginate(10);
+        $cargos= Cargos::ambos($cargo,$status)->orderBy('cargo','ASC')->paginate(10);
     }
 
     if($cargo=="" && $status=="")

@@ -59,8 +59,8 @@
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-          
-            <form class="row d-flex justify-content-end" action="{{route('cargos.index')}}" method="get">
+          <div class="row">  
+            <!--form class="row d-flex justify-content-end" action="{{route('cargos.index')}}" method="get"-->
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Cargos</h3>
             </div>
@@ -75,45 +75,18 @@
               </select>
             </div>
             <div class="col-md-1 mr-md-3">
-              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
+              <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>           
             </div>
-          </form>
-         
+          <!--/form-->
+         </div>
         </div>
         {{-- FIN FILTRO --}}
             <div class="tile-body">
             <div class="table-responsive">
-              <div class="cargos">
-            <table class="table table-hover" id="sampleTable">
-                <thead>
-                  <tr>
-                    <th width="45%">Nombre</th>
-                    <th width="45%">Estatus</th>
-                    <th width="10%" class="text-center">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody id="cargos-list" name="cargos-list">
-                  @foreach($cargos as $cargo)           
-                     <tr id="cargo{{$cargo->id}}">
-                      <td width="45%" >{{$cargo->cargo}}</td>
-                <?php if ($cargo->status==1){ ?>
-                      <td width="45%"><?=  'Activo' ?></td>
-                <?php }else{ ?> 
-                      <td width="45%"><?='Inactivo' ?></td>
-                <?php } ?> 
-                      <td width="10%" class="text-right">
-                      <div class="btn-group">
-                      <button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$cargo->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$cargo->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
-                      </div>
-                      </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-              </table>
-              <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $cargos->render(); ?>
-              </div>
+              <div class="cargos" id="divcargos">
+                    @component('Configurar.Cargos.lista')
+                        @slot('cargos', $cargos)
+                  @endcomponent
               </div>
             </div>
             </div>

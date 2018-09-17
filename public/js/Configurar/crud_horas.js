@@ -220,11 +220,33 @@ $(document).on('click','.pagination a',function(e){
     var route ="horas";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+              hora: $('#buscarhora').val(),
+               selectven: $('#selectven').val(),
+               status: $('#selectstatus').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
             $(".horas").html(data);
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="horas";
+    $.ajax({
+        url: route,
+        data: {hora: $('#buscarhora').val(),
+               selectven: $('#selectven').val(),
+               status: $('#selectstatus').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divhoras").html(data);
+
         }
     });
 });
