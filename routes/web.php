@@ -163,7 +163,7 @@ Route::group(['middleware' => 'auth'], function () {
         'as'   => 'galeria.index'
     ]);
 
-    Route::get('galeria/{id}/destroy', [
+    Route::get('galeria/destroy', [
         'uses' => 'GaleriaController@destroy',
         'as'   => 'galeria.destroy'
     ]);
@@ -180,9 +180,9 @@ Route::group(['middleware' => 'auth'], function () {
      // INVENTARIO
 
     Route::resource('inventario/entradas', 'Inventario\EntradasController');
-    Route::get('inventario/entradas/{id}/destroy', [
-        'uses' => 'Inventario\EntradasController@destroy',
-        'as'   => 'inventario.entrada.destroy'
+    Route::get('entradas/anular', [
+        'uses' => 'Inventario\EntradasController@anular',
+        'as'   => 'entradas.anular'
     ]);
     Route::get('inventario/entradas', [
         'uses' => 'Inventario\EntradasController@index',
@@ -200,7 +200,10 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'Inventario\EntradasController@carga',
         'as'   => 'entradas.carga'
     ]);
-
+  Route::post('entrada/store', [
+        'uses' => 'Inventario\EntradasController@store',
+        'as'   => 'entrada.store'
+    ]);
     Route::get('cdetalle','Inventario\EntradasController@cargar_detalle');
     Route::get('edetalle','Inventario\EntradasController@eliminar_detalle');
 

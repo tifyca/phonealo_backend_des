@@ -17,6 +17,9 @@
                            {{ Session::get('message') }} 
                           </div>
                       @endif    
+<input type="hidden" name="tipom" id="tipom" value="<?php echo $tipo ?>">
+<input type="hidden" name="mensaje" id="mensaje" value="{{$mensaje}}">  
+
 <div class="row">
   
   <div class="col-12">
@@ -130,5 +133,84 @@
 @endsection
 
 @push('scripts')
+  <script type="text/javascript" language="javascript">
+window.onload = load;
+function load(){
+  var valor  = $("#tipom").val();
+  var mensaje = $("#mensaje").val();
   
+  if(valor==1){
+
+           $("#res").html(mensaje);
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  }
+  if(valor==2){
+
+            $("#rese").html(mensaje);
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  }
+
+} 
+
+
+  $ = jQuery;
+  jQuery(document).ready(function () {
+
+
+    $("input#boton").bind('click', function (event) {
+      $("form").submit();
+    });
+    
+  });
+
+
+// muestra modal para la confirmar eliminar   categoria
+$(document).on('click', '.confirm-delete', function () {
+    var id = $(this).val();
+    $('#confirm-delete').modal('show');
+    $('#solicitud-id').val(id);
+});
+
+
+
+$(document).on('click', '.delete-solicitud', function () {
+
+    var id = $('#solicitud-id').val();
+    var valor = id;
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        }
+    });
+    
+        $.ajax({
+          type: "GET",
+          url: '{{ route('entradas.anular') }}',
+          dataType: "json",
+          data: { id: valor ,  _token: '{{csrf_token()}}' },
+          success: function (data){
+            console.log(data);
+            $('#confirm-delete').modal('hide');
+            $("#res").html("Solicitud Anulada con Éxito");
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+          },    
+        error: function (data) {
+            console.log('Error:', data);
+            $('#confirm-delete').modal('hide');
+            $("#rese").html("No se pudo anular la solicitud");
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+        }
+
+        });
+
+
+});
+
+
+</script>
+
 @endpush

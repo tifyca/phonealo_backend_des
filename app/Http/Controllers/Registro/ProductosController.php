@@ -15,7 +15,8 @@ use File;
 class ProductosController extends Controller
 {
     public function index(Request $request){
-
+      $tipo="";
+      $mensaje="";
     	$categoria = $request["id_categoria"];
     	$subcategoria = $request["id_subcategoria"];
       $valor = $request["valor"];
@@ -65,7 +66,7 @@ class ProductosController extends Controller
        	
     	$categorias=categorias::where('tipo','Productos')->get();
 
-		  return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos);
+		  return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos)->with('tipo',$tipo)->with('mensaje',$mensaje);
 	}
 
     public function edit($id){
@@ -85,37 +86,41 @@ class ProductosController extends Controller
       $id_categoria    = $request->id_categoria;
       $id_subcategoria = $request->id_subcategoria;
       if(productos::where('descripcion',$nombre)->where('id_categoria',$id_categoria)->where('id_subcategoria',$id_subcategoria)->first()){
-       return redirect()->route('productos.index')->with("message","Ya se encuentra Registrado");
+       $mensaje="Ya se encuentra Registrado";
+       $tipo="2";
      }
-     $productos = new productos($request->all());
-     if($request["archivo"]){
+     else{
+        $productos = new productos($request->all());
+        if($request["archivo"]){
           //dd($request->archivo);
-      $fileName = $this->saveFile($request["archivo"], "productos/");
-      $productos->img        = $fileName;
-    }
-
-    $productos->descripcion          = $request["descripcion"];
-    $productos->descripcion_producto = $request["descripcion_producto"];
-    $productos->precio_ideal         = $request["precio_ideal"];
-    $productos->id_categoria         = $request["id_categoria"];
-    $productos->id_subcategoria      = $request["id_subcategoria"];
-    $productos->cod_barra_producto          = $request["cod_barra_producto"];
-    $productos->codigo_producto      = $request["codigo_producto"];
-    $productos->descripcion          = $request["descripcion"];
-    $productos->created_at           = date('Y-m-d');
-    $productos->updated_at            = date('Y-m-d');
-    $productos->id_usuario              = $_SESSION["user"];
-    $productos->save();
-
+        $fileName = $this->saveFile($request["archivo"], "productos/");
+          $productos->img        = $fileName;
+        }
+        $productos->descripcion          = $request["descripcion"];
+        $productos->descripcion_producto = $request["descripcion_producto"];
+        $productos->precio_ideal         = $request["precio_ideal"];
+        $productos->id_categoria         = $request["id_categoria"];
+        $productos->id_subcategoria      = $request["id_subcategoria"];
+        $productos->cod_barra_producto          = $request["cod_barra_producto"];
+        $productos->codigo_producto      = $request["codigo_producto"];
+        $productos->descripcion          = $request["descripcion"];
+        $productos->created_at           = date('Y-m-d');
+        $productos->updated_at            = date('Y-m-d');
+        $productos->id_usuario              = $_SESSION["user"];
+        $productos->save();
         //crear registro de auditoria
-    $auditoria = new auditoria();
-    $auditoria->id_usuario =  $_SESSION["user"];
-    $auditoria->fecha      = date('Y-m-d');
-    $auditoria->accion     = "Creando Producto";
-    $auditoria->id_producto = $productos->id;
-    $auditoria->save(); 
-    
-    return redirect()->route('productos.index')->with("message","Se ha guardado correctamente su información");
+        $auditoria = new auditoria();
+        $auditoria->id_usuario =  $_SESSION["user"];
+        $auditoria->fecha      = date('Y-m-d');
+        $auditoria->accion     = "Creando Producto";
+        $auditoria->id_producto = $productos->id;
+        $auditoria->save(); 
+      $tipo="1";
+      $mensaje="Producto Creado Satisfactoriamente";
+     }    
+     $categorias=categorias::where('tipo','Productos')->get();
+     $productos=productos::orderby('id','asc')->paginate(10);
+      return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos)->with('tipo',$tipo)->with('mensaje',$mensaje);
         //
   }catch (Exception $e) {
     \Log::info('Error creating item: '.$e);
@@ -161,7 +166,11 @@ class ProductosController extends Controller
          $auditoria->id_producto = $productos->id;
          $auditoria->save(); 
 
-        return redirect()->route('productos.index')->with("message","Se ha guardado correctamente su información");
+         $tipo="1";
+         $mensaje="Producto Actualizado Satisfactoriamente";
+         $categorias=categorias::where('tipo','Productos')->get();
+         $productos=productos::orderby('id','asc')->paginate(10);
+        return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos)->with('tipo',$tipo)->with('mensaje',$mensaje);
       } catch (Exception $e) {
         \Log::info('Error creating item: '.$e);
        return \Response::json(['created' => false], 500);
