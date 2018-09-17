@@ -70,8 +70,8 @@
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-          
-            <form class="row d-flex justify-content-end" action="{{route('subcategorias.index')}}" method="get">
+          <div class="row">
+            <!--form class="row d-flex justify-content-end" action="{{route('subcategorias.index')}}" method="get"-->
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Subcategorias</h3>
             </div>
@@ -94,50 +94,19 @@
               </select>
             </div>
              <div class="col-md-1 mr-md-3">
-              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
+              <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>         
             </div>
-          </form>
-         
+          <!--/form-->
+          </div>
         </div>
         {{-- FIN FILTRO --}}
       
         <div class="tile-body">
           <div class="tile-body table-responsive">
-            <div class="subcategorias">
-              <table class="table table-hover" id="sampleTable">
-                <thead>
-                  <tr>
-                    <th width="30%">Nombre</th>
-                    <th width="30%">Categoría</th>
-                    <th width="25%">Estatus</th>
-                    <th width="15%" class="text-center">Acciones</th>
-                  </tr>
-                </thead>
-             
-                  <tbody id="subcategorias-list" name="subcategorias-list"> 
-                  @foreach($subcategorias as $subcategoria)           
-                     <tr id="subcategoria{{$subcategoria->id}}">
-                      <td width="30%">{{$subcategoria->sub_categoria}}</td>
-                      <td width="30%">{{$subcategoria->categoria}}</td>
-                <?php if ($subcategoria->status==1){ ?>
-                      <td width="25%"><?=  'Activo' ?></td>
-                <?php }else{ ?> 
-                      <td width="25%"><?='Inactivo' ?></td>
-                <?php } ?> 
-                      <td width="15%" class="text-center">
-                      <div class="btn-group">
-                      <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
-                      </div>
-                      </td>
-                    </tr>
-                    @endforeach
-                                 
-                </tbody>
-              </table>
-            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $subcategorias->render(); ?>
-              </div>
+            <div class="subcategorias" id="divsubcategorias">
+                  @component('Configurar.Subcategorias.lista')
+                        @slot('subcategorias', $subcategorias)
+                @endcomponent
             </div>
           </div>
         </div>

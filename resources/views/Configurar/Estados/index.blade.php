@@ -28,10 +28,10 @@
               <h3 class="tile-title text-center text-md-left">Listado de Estados</h3>
             </div>
              <div class="form-group col-md-4">
-              <input type="text" class="form-control" id="buscarestado" name="buscarestado" placeholder="Buscar" oncopy="return false" onpaste="return false"  maxlength="50">
+              <input type="text" class="form-control" id="scope" name="scope" placeholder="Buscar" oncopy="return false" onpaste="return false"  maxlength="50">
             </div>
              <div class="col-md-1 mr-md-3">
-              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">       
+               <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>           
             </div>
           </form>
           
@@ -40,33 +40,10 @@
      
         <div class="tile-body ">
           <div class="tile-body">
-            <div class="estados">
-              <table class="table table-hover" id="sampleTable">
-                <thead>
-                  <tr>
-                    <th width="90%">Nombre</th>
-		                <th width="10%" class="text-center">Acción</th>
-                  </tr>
-                </thead>
-                <tbody id="estados-list" name="estados-list">
-                  @foreach($estados as $item)           
-                     <tr id="estado{{$item->id}}">
-                      <td width="90%">{{$item->estado}}</td>
-                
-                      <td width="10%" class="text-center">
-                      <div class="btn-group">
-                      <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$item->id}}"><i class="m-0 fa fa-lg fa-edit"  ></i></button>               
-                      </div>
-                      </td>
-                    </tr>
-                    @endforeach
-                  
-                </tbody>
-              </table>
-         
-            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $estados->render(); ?>
-            </div>
+            <div class="estados" id="divestados">
+               @component('Configurar.Estados.lista')
+                        @slot('estados', $estados)
+                  @endcomponent
               </div>
             </div>
         </div>

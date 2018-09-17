@@ -14,64 +14,48 @@ class SubcategoriasController extends Controller
 {
     public function index(Request $request){
 
-      $subcategoria = $request["buscarsubc"];
-      $status       = $request["selectstatus"];
-      $categoria    =$request["selectcat"];
+      $subcategoria = $request["subcat"];
+      $status       = $request["status"];
+      $categoria    =$request["cat"];
    
     if($subcategoria!="" && $status=="" && $categoria=="" )
     {
      
-      $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
-                        ->where('sub_categoria','LIKE', $subcategoria.'%')
-                        ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
-                        ->orderBy('sub_categoria','asc')
-                        ->paginate(10);
+      $subcategorias= Subcategorias::search( $subcategoria)
+                                   ->orderBy('sub_categoria','asc')
+                                   ->paginate(10);
 
     }
     if($subcategoria=="" && $status!="" && $categoria=="")
     {
-         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
-                        ->where('sub_categorias.status', $status)
-                        ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
-                        ->orderBy('sub_categoria','asc')
-                        ->paginate(10);
+         $subcategorias= Subcategorias::status($status)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
     }
     if($subcategoria=="" && $status=="" && $categoria!="")
     {
-         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
-                        ->where('categorias.id', $categoria)
-                        ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
-                        ->orderBy('sub_categoria','asc')
-                        ->paginate(10);
+         $subcategorias= Subcategorias::categoria($categoria)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
     }
     if($subcategoria!="" && $status!="" && $categoria!="")
     {
-         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
-                        ->where('categorias.id', $categoria)
-                        ->where('sub_categorias.status', $status)
-                        ->where('sub_categoria','LIKE', $subcategoria.'%')
-                        ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
-                        ->orderBy('sub_categoria','asc')
-                        ->paginate(10);
+         $subcategorias= Subcategorias::search2($categoria, $status, $subcategoria)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
     }
    
  if($subcategoria!="" && $status!="" && $categoria=="")
     {
-         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
-                        ->where('sub_categorias.status', $status)
-                        ->where('sub_categoria','LIKE', $subcategoria.'%')
-                        ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
-                        ->orderBy('sub_categoria','asc')
-                        ->paginate(10);
+         $subcategorias= Subcategorias::search3($status, $subcategoria)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
     }
     if($subcategoria!="" && $status=="" && $categoria!="")
     {
-         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
-                        ->where('categorias.id', $categoria)
-                        ->where('sub_categoria','LIKE', $subcategoria.'%')
-                        ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
-                        ->orderBy('sub_categoria','asc')
-                        ->paginate(10);
+         $subcategorias= Subcategorias::search4($categoria, $subcategoria)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
     }
 
     if($subcategoria=="" && $status=="" && $categoria=="")
@@ -83,12 +67,9 @@ class SubcategoriasController extends Controller
     }
     if($subcategoria=="" && $status!="" && $categoria!="")
     {
-         $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
-                ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
-                ->where('categorias.id', $categoria)
-                ->where('sub_categorias.status', $status)
-                ->orderBy('sub_categoria','asc')
-                ->paginate(10);
+         $subcategorias= Subcategorias::search5($categoria, $status)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
     }
 
 

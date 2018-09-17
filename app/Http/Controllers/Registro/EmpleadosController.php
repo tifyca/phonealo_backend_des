@@ -84,8 +84,8 @@ class EmpleadosController extends Controller
                       'email_empleado.unique' => 'El Email del Empleado ya Existe',
                        'telefono_empleado.required'=>'El Teléfono del Empleado es Requerido', 
                        //'telefono_empleado.unique' => 'El teléfono del empleado ya existe',
-                       'ci_empleadoci_empleado.required' =>'El CI del Empleado es Requerido',
-                       'ci_empleadoci_empleado.unique' =>'El CI del Empleado ya Existe',
+                       'ci_empleado.required' =>'El CI del Empleado es Requerido',
+                       'ci_empleado.unique' =>'El CI del Empleado ya Existe',
                       );
 
                       
@@ -113,9 +113,9 @@ class EmpleadosController extends Controller
       $empleado->id_usuario= $request->id_usuario;
       $empleado->save(); 
 
-       $trues="El empleado fue Creado Exitosamente!!";
-      return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
-
+      // $trues="El empleado fue Creado Exitosamente!!";
+      //return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+ return view('Registro.Empleados.index')->with("message","Se ha guardado correctamente su información");
       }  
 		
 	}

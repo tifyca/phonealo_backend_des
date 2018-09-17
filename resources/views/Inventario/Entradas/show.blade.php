@@ -16,7 +16,7 @@
   <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-      <form name="form1" action="{{route('entradas.store')}}" accept-charset="UTF-8"  method="post">
+      <form name="form1" action="{{route('entrada.store')}}" accept-charset="UTF-8"  method="post" enctype="multipart/form-data" >
           <input id="token" type="hidden" name="_token" value="{{ csrf_token() }}">
 
           <div class="row">
@@ -86,34 +86,36 @@
         </div>
       </div>
       <div class="tile">
+         <h3 class="tile-title text-center text-md-left">Productos de la Solicitud de Pedido</h3>
         <div class="tile-body ">
           <div class="table-responsive">
+            <input type="hidden" id="ListaProd1" name="ListaProd" value="" required />
             <table id="detalles" class="table">
               <thead>
-                <tr>
-                  <td>Cod.</td>
-                  <td>Producto</td>
-                  <td>Cantidad</td>
-                  <td>Precio</td>
-                  <td>Importe</td>
-                </tr>
+                   <tr> 
+                    <td>Acc</td>
+                    <td>Id</td>
+                    <td>Descripcion</td>
+                    <td>Cantidad</td>
+                    <td>Precio</td>
+                    <td>Importe</td>
+                  </tr>
               </thead>
-              <tbody>
-               <input type="hidden" name="cod[]">
-               <input type="hidden" name="desc[]">
-               <input type="hidden" name="cant[]">
-               <input type="hidden" name="prec[]">
-              </tbody>
+              <tfoot>
                <tr class="table-secondary">
                     <td colspan="5" class="text-right"><b>Total Importe</b></td>
                     <td colspan="2" id="ztotal"></td>
                   </tr>
+              </tfoot>
+              <tbody> 
+              
+              </tbody>    
             </table>
           </div>
         </div>
       </div>
       <div class="tile-footer col-12 pl-3">
-        <button class="btn btn-primary" type="submit">Guardar</button>
+        <button class="btn btn-primary" type="submit" name="guarda">Guardar</button>
       </div>
     </div>
   </div>
@@ -267,11 +269,15 @@
 $('#agregar').click(function() {
       incluir();
     });
+$('#guarda').click(function() {
+      guardar();
+    });
 
  </script>
 
 <script>
   var contador=0;
+  json_productos = [];
   productos=[];
   subtotal=[];
   ptotal=0;
@@ -291,12 +297,15 @@ $('#agregar').click(function() {
         {
         subtotal[contador]=(precio*cantidad);
         ptotal = ptotal + subtotal[contador];
-        name1 = "cod"+contador+1;
-        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input type="hidden" name="cod[]" id="'+name1+'" value="'+idproducto+'"><input type="text" class="form-control" name="des[]" value="'+descripcion+'" readonly></td><td><input type="number" class="form-control" name="cant[]" value="'+cantidad+'" readonly></td><td><input type="number" class="form-control" name="prec[]" value="'+precio+'" readonly></td><td>'+subtotal[contador]+'</td><td></td></tr>';
+
+        name1 = "ListaProd"+contador+1;
+        name2 = "cant"+contador+1;
+        
+        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input class="form-control" size="3" type="text" name="ListaProd[]" id="'+name1+'" value="'+idproducto+'" readonly></td><td><input type="text" class="form-control" name="des[]" value="'+descripcion+'" readonly size="40"></td><td><input type="text" class="form-control" size="3" name="cant[]" value="'+cantidad+'" readonly></td><td><input type="text" size="5" class="form-control" name="prec[]" value="'+precio+'" readonly></td><td>'+subtotal[contador]+'</td><td></td></tr>';
           productos[contador]=idproducto;
-         ndoc =$('#nro_documento').val();
+          ndoc =$('#nro_documento').val();
          
-         $.ajaxSetup({
+       /*  $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
@@ -308,12 +317,25 @@ $('#agregar').click(function() {
           data: { ndoc: ndocu , idc: idproducto , prec: precio , cant: cantidad , desc: descripcion ,  _token: '{{csrf_token()}}' },
           success: function (data){
             console.log(data);
-          }});    
+          }});   */
+////////////////////////////////////////////7
+        item = {}
+        item["documento"]=ndoc;
+        item["fecha"]=$('#fecha_entrada');
+        item["proveedor"]=$('#id_proveedor');
+        item["id"]=idproducto;
+        item["descripcion"]=descripcion;
+        item["cantidad"]=cantidad;
+        item["precio"]=precio;
+        json_productos.push(item);
+        
+//////////////////////////////////////////////
         contador++;
         limpiar();
         $("#ztotal").html("Gns/." + ptotal);
-        
+             
         $("#detalles").append(fila);
+
       }
       }
       else{alert("Error al ingresar item de la solicitud");}
@@ -325,6 +347,7 @@ $('#agregar').click(function() {
     $('#descripcion').val("");
     $('#precio').val("");
     $('#total').val("");
+    $('#ListaProd1').val(JSON.stringify(json_productos));
   }
   function verificar(z)
   {
@@ -345,8 +368,12 @@ $('#agregar').click(function() {
     $("#ztotal").html("Bs/." + ptotal);
     $("#fila"+index).remove();
     idc = productos[index];
+    productos.splice(index, 1);
+    json_productos.splice(index,1); 
+    $('#ListaProd1').val("");
+    $('#ListaProd1').val(JSON.stringify(json_productos));
     ndocu        = document.form1.nro_documento.value;
-             $.ajaxSetup({
+             /*$.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
@@ -358,10 +385,11 @@ $('#agregar').click(function() {
           data: { ndoc: ndocu , idc: idc ,  _token: '{{csrf_token()}}' },
           success: function (data){
             console.log(data);
-          }});    
+          }}); */   
 
-    verificar();
+    //verificar();
   }
+
 </script>  
 
 

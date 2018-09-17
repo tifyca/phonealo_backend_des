@@ -38,6 +38,12 @@
               </select>
 
             </div>
+            <?php $fecha=date('Y-m-d');?>
+            <div class="form-group col-md-3">
+              <label for="fecha_entrada">Fecha Confimacion</label>
+              <input class="form-control" type="date" id="fecha_confirmacion" name="fecha_confirmacion" required="" value="{{$fecha}}" >
+            </div>
+
            <div class="form-group col-md-6">
               <label for="n_documento_entrada">Observaciones</label>
               <textarea name="observaciones" class="form-control" id="observaciones" cols="60" rows="3"></textarea>

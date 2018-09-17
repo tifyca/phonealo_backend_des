@@ -209,11 +209,31 @@ $(document).on('click','.pagination a',function(e){
     var route ="fuentes";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+               fuente: $('#buscarfuente').val(),
+               status: $('#selectstatus').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
             $(".fuentes").html(data);
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="fuentes";
+    $.ajax({
+        url: route,
+        data: {fuente: $('#buscarfuente').val(),
+               status: $('#selectstatus').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divfuentes").html(data);
+
         }
     });
 });

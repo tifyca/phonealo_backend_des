@@ -225,11 +225,32 @@ $(document).on('click','.pagination a',function(e){
     var route ="ciudades";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+               ciudad: $('#buscarciudad').val(),
+               dpto: $('#departamento-select').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
             $(".ciudades").html(data);
+        }
+    });
+});
+
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="ciudades";
+    $.ajax({
+        url: route,
+        data: {ciudad: $('#buscarciudad').val(),
+               dpto: $('#departamento-select').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divciudades").html(data);
+
         }
     });
 });

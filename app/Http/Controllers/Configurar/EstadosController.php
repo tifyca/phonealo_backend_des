@@ -12,12 +12,12 @@ class EstadosController extends Controller
 {
     public function index(Request $request){
 
-     $estado = $request["buscarestado"];
+     $estado = $request["scope"];
      
    
     if($estado!="")
     {
-        $estados= Estados::where('estado','LIKE', $estado.'%')->orderBy('estado','asc')->paginate(10);
+        $estados= Estados::search($estado)->orderBy('estado','asc')->paginate(10);
 
     }
     if($estado=="")

@@ -53,6 +53,19 @@
                   <option  value="{{$proveedor->id_pais}}">{{$proveedor->pais}}</option>
                 </select>
               </div>
+              <div class="col-md-12 ">
+               <label>Estatus</label>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input read" value="1" type="radio" id="status" name="status" <?php if($proveedor->id_estado=="1") echo 'checked="checked"';?> disabled>Activo
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                         <input class="form-check-input read" value="0" type="radio" id="status2" name="status"  <?php if($proveedor->id_estado=="0") echo 'checked="checked"';?> disabled>Inactivo
+                      </label>
+                    </div>
+                  </div>
             </div>
             <div class="col-12">
               <div class="tile-footer d-flex align-items-center">

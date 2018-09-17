@@ -30,8 +30,8 @@ $("#btn-save").click(function (e) {
           //  $("#res").css("display","block");
            // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
             
-            alert("El Empleado fue  Registrado con Éxito");
-            location.href="/registro/empleados";
+           // alert("El Empleado fue  Registrado con Éxito");
+           // location.href="/registro/empleados";
         
        },
        
@@ -76,7 +76,7 @@ $("#btn-edit").click(function (e) {
                     email_empleado:    $('#email_empleado').val(),
                     direccion_empleado:$('#direccion_empleado').val(),
                     ref_empleado:      $('#referencia_empleado').val(),
-                    id_estado :        $('#id_estado').val(),
+                    id_estado :        $('input:radio[name=status]:checked').val(),
                     id_usuario :       $('#id_usuario').val(),
                     }
 

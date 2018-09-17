@@ -245,7 +245,10 @@ $(document).on('click','.pagination a',function(e){
     var route ="barrios";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+               barrio: $('#buscarbarrio').val(),
+               dpto: $('#departamento-select-list').val(),
+               ciudad: $('#ciudades-select-list').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
@@ -254,18 +257,22 @@ $(document).on('click','.pagination a',function(e){
     });
 });
 
-$(document).on('click','.pagination a',function(e){
-    e.preventDefault();
-    var page = $(this).attr('href').split('page=')[1];
-//console.log(page);
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
     var route ="barrios";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {barrio: $('#buscarbarrio').val(),
+               dpto: $('#departamento-select-list').val(),
+               ciudad: $('#ciudades-select-list').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            $(".barrios").html(data);
+          
+            $("#divbarrios").html(data);
+
         }
     });
 });
