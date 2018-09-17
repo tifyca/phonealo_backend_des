@@ -14,13 +14,20 @@ class GaleriaController extends Controller
   public function index(Request $request){
    $id=$request->id;
     	//dd($id);
+   $tipo="";
+   $mensaje="";
    $productos = productos::find($id);
    $nombre = $productos->descripcion;
    $codigo = $productos->codigo_producto;
    $galeria=db::table('producto_imagenes as a')
    ->select('a.id_producto','a.id','a.imagen as img','a.titulo','a.estatus')
    ->where('id_producto',$id)->paginate(10);
-   return view('Galeria.index')->with('galeria',$galeria)->with('nombre',$nombre)->with('codigo',$codigo)->with("id",$id);
+   return view('Galeria.index')->with('galeria',$galeria)
+   ->with('nombre',$nombre)
+   ->with('codigo',$codigo)
+   ->with("id",$id)
+   ->with("tipo",$tipo)
+   ->with("mensaje",$mensaje);
  }
  public function new(Request $request){
   return view('Galeria.new')->with('id',$request["id"]);
@@ -50,11 +57,20 @@ public function store(Request $request)
     $galeria->id_usuario      = $_SESSION["user"];
     $galeria->save();
     
-        //return redirect()->route('galeria.index',$request->id)->with("notificacion","Se ha guardado correctamente su información");
-        //
-    
-    //dd($id_producto);
-   return redirect()->route('galeria.index',$id_producto)->with("message","Se ha guardado correctamente su información");
+     $tipo="1";
+   $mensaje="Imagen almacenada Satisfactoriamente";
+   $productos = productos::find($id);
+   $nombre = $productos->descripcion;
+   $codigo = $productos->codigo_producto;
+   $galeria=db::table('producto_imagenes as a')
+   ->select('a.id_producto','a.id','a.imagen as img','a.titulo','a.estatus')
+   ->where('id_producto',$id)->paginate(10);
+   return view('Galeria.index')->with('galeria',$galeria)
+   ->with('nombre',$nombre)
+   ->with('codigo',$codigo)
+   ->with("id",$id)
+   ->with("tipo",$tipo)
+   ->with("mensaje",$mensaje);
 
   }catch (Exception $e) {
     \Log::info('Error creating item: '.$e);
@@ -68,16 +84,26 @@ public function edit($id){
   $id_producto = $galeria->id_producto;
   return view('Galeria.edit')->with('galeria',$galeria)->with('id',$id_producto);
 }
-public function show($id){
+public function show(Request $request,$id){
 
       //dd($id);
-  $productos = productos::find($id);
-  $nombre = $productos->descripcion;
-  $codigo = $productos->codigo_producto;
-  $galeria=db::table('producto_imagenes as a')
-  ->select('a.id_producto','a.id','a.imagen as img','a.titulo','a.estatus')
-  ->where('id_producto',$id)->paginate(10);
-  return view('Galeria.index')->with('galeria',$galeria)->with('nombre',$nombre)->with('codigo',$codigo)->with("id",$id);
+    //dd($id);
+ $tipo="";
+ $mensaje="";
+ $productos = productos::find($id);
+ if($productos){
+ $nombre = $productos->descripcion;
+ $codigo = $productos->codigo_producto;
+}else{ $nombre=""; $codigo="";}
+ $galeria=db::table('producto_imagenes as a')
+ ->select('a.id_producto','a.id','a.imagen as img','a.titulo','a.estatus')
+ ->where('id_producto',$id)->paginate(10);
+ return view('Galeria.index')->with('galeria',$galeria)
+ ->with('nombre',$nombre)
+ ->with('codigo',$codigo)
+ ->with("id",$id)
+ ->with("tipo",$tipo)
+ ->with("mensaje",$mensaje);
 
 }
 public function update(Request $request,$id){
@@ -110,14 +136,32 @@ public function update(Request $request,$id){
 
 }
 
-public function destroy($id){
+public function destroy(Request $request){
+
+ try
+ {
+  $id = $request->id;
   $galeria= imagenes::find($id);
   $id_producto = $galeria->id_producto;
   $this->deleteFile($galeria->imagen, "productos/");
   $galeria->destroy($id);
   $productos = productos::where('id',$id_producto)->first();
   $id = $productos->id;
-  return redirect()->route('galeria.index',$id_producto)->with("message","Se ha Eliminado el Registro");
+  return response()->json($galeria);
+}catch(\Illuminate\Database\QueryException $e)
+{
+
+  if($e->getCode() === '23000') {
+
+    return response()->json([ 'success' => false ], 400);
+
+  } 
+}
+
+
+
+
+  //return redirect()->route('galeria.index',$id_producto)->with("message","Se ha Eliminado el Registro");
 
 }
 }

@@ -38,6 +38,16 @@
 
             </div>
 
+            <div class="form-group col-md-3">
+              <label for="fecha_entrada">Fecha Confirmación</label>
+              <input class="form-control" type="date" id="fecha_confirmacion" name="fecha_confirmacion" required="" value="{{$solped->fecha_confirmacion}}" >
+            </div>
+
+         <div class="form-group col-md-6">
+              <label for="n_documento_entrada">Observaciones</label>
+              <textarea name="observaciones" class="form-control" id="observaciones" cols="60" rows="3">{{$solped->observaciones}}</textarea>
+            </div>
+          </div>
           </div>
 
         </div>
@@ -52,22 +62,32 @@
                 <tr>
                   <td><b>Cod.</b></td>
                   <td><b>Producto</b></td>
-                  <td><b>Cantidad</b></td>
-                  <td><b>Precio</b></td>
-                  <td><b>Importe</b></td>
+                  <td align="center"><b>Cantidad</b></td>
+                  <td align="right"><b>Precio</b></td>
+                  <td align="right"><b>Importe</b></td>
+                  <td align="center"><b>Cantidad Confirmada</b></td>
+                  <td align="right"><b>Precio Confirmado</b></td>
+                  <td align="center"><b>Importe Confirmado</b></td>
                 </tr>
                </thead>
               <tbody>
-                <?php $total=0;?>
+                <?php $total=0; $zztotal=0;?>
                 @foreach($detalles as $det)
                 <tr>
                   <td>{{$det->codigo}}</td>
                   <td>{{$det->desprod}}</td>
-                  <td>{{$det->cantidad}}</td>
-                  <td>{{$det->precio}}</td>
-                  <td><?php $importe=$det->precio*$det->cantidad;
+                  <td  align="center">{{$det->cantidad}}</td>
+                  <td align="right">{{$det->precio}}</td>
+                  <td align="right"><?php $importe=$det->precio*$det->cantidad;
                       $ztotal = number_format($importe, 2, ',', '.');
                       $total = $total + $importe;
+                     echo $ztotal;?></td>
+
+                  <td align="center">{{$det->cantidad_confirmada}}</td>
+                  <td align="right">{{$det->precio_confirmado}}</td>
+                  <td align="right"><?php $importe=$det->precio_confirmado*$det->cantidad_confirmada;
+                      $ztotal = number_format($importe, 2, ',', '.');
+                      $zztotal = $zztotal + $importe;
                      echo $ztotal;?></td>
                 </tr>
                 @endforeach
@@ -83,13 +103,19 @@
                       
 
                     </td>
+                    <td  colspan="2" class="text-right"><b>Total Importe C</b></td>
+                    <td  id="ztotal" align="right">
+                    <?php 
+                      $ztotal = number_format($zztotal, 2, ',', '.');
+                      
+                     echo $ztotal;?>
+                      
+
+                    </td>
                   </tr>
             </table>
           </div>
         </div>
-      </div>
-      <div class="tile-footer col-12 pl-3">
-        <button class="btn btn-primary" type="submit">Guardar</button>
       </div>
     </div>
   </div>

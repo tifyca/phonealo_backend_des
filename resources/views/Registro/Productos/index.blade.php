@@ -16,7 +16,9 @@
 
                            {{ Session::get('message') }} 
                           </div>
-                      @endif      
+                      @endif   
+                         <input type="hidden" name="tipom" id="tipom" value="<?php echo $tipo ?>">
+<input type="hidden" name="mensaje" id="mensaje" value="{{$mensaje}}">  
 <div class="row">
   <div class="col-12">
     <div class="tile">
@@ -122,6 +124,26 @@
 @push('scripts')
 
 <script type="text/javascript" language="javascript">
+window.onload = load;
+function load(){
+  var valor  = $("#tipom").val();
+  var mensaje = $("#mensaje").val();
+  
+  if(valor==1){
+
+           $("#res").html(mensaje);
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  }
+  if(valor==2){
+
+            $("#rese").html(mensaje);
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  }
+
+} 
+  
   $ = jQuery;
   jQuery(document).ready(function () {
 
