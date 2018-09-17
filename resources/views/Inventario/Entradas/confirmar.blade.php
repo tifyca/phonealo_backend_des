@@ -9,9 +9,7 @@
 @section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
-
 @section('content')
-
 <div class="row">
   <div class="col-12">
     <div class="tile">
