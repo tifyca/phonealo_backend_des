@@ -57,7 +57,7 @@
         <!--form class="row d-flex justify-content-end" action="{{route('ciudades')}}" method="get"-->
             
             <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado Ciudades</h3>
+              <h3 class="tile-title text-center text-md-left">Listado de Ciudades</h3>
             </div>
              <div class="form-group col-md-3">
               <input type="text" class="form-control" id="buscarciudad" name="buscarciudad" placeholder="Buscar" onkeypress="return soloLetras(event)"  maxlength="50">

@@ -1,13 +1,13 @@
 <table class="table table-hover" id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Cliente</th>
-                    <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Dirección</th>
-                    <th>Barrio</th>
-                    <th>Ciudad</th>
-                    <th>Acciones</th>
+                    <th  width="20%" >Cliente</th>
+                    <th  width="15%">Teléfono</th>
+                    <th  width="15%">Email</th>
+                    <th  width="25%">Dirección</th>
+                    <th  width="15%">Barrio</th>
+                    <th  width="15%">Ciudad</th>
+                    <th  width="10%"class="text-center">Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="clientes-list" name="clientes-list">

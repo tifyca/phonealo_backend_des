@@ -1,14 +1,14 @@
 <table class="table table-hover " id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Proveedor</th>
-                    <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Dirección</th>
-                    <th>País</th>
+                    <th width="20%">Proveedor</th>
+                    <th width="15%">Teléfono</th>
+                    <th width="15%">Email</th>
+                    <th width="25%"> Dirección</th>
+                    <th width="15%">País</th>
                     
-                    <th>RUC</th>
-                    <th>Acciones</th>
+                    <th  width="15%" >RUC</th>
+                    <th  width="10%" class="text-center">Acciones</th>
                     
                   </tr>
                 </thead>

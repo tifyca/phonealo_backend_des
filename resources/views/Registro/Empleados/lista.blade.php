@@ -1,10 +1,10 @@
               <table class="table table-hover " id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Nombre</th>
-                    <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Acciones</th>
+                    <th width="20%">Nombre</th>
+                    <th width="15%">Teléfono</th>
+                    <th width="25%">Email</th>
+                    <th width="10%" class="text-center">Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="empleados-list" name="empleados-list">
