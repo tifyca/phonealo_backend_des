@@ -168,12 +168,34 @@ console.log(page);
     var route ="proveedores";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+               proveedor: $('#proveedor').val(),
+               email: $('#email').val(),
+               status:$('#status').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
     
             $(".proveedores").html(data);
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="proveedores";
+    $.ajax({
+        url: route,
+        data: {proveedor: $('#proveedor').val(),
+               email: $('#email').val(),
+               status:$('#status').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divproveedores").html(data);
+
         }
     });
 });

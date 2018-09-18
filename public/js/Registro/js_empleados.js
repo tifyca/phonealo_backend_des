@@ -198,12 +198,34 @@ console.log(page);
     var route ="empleados";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+              empleado: $('#empleado').val(),
+               email: $('#email').val(),
+               status: $('#status').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
     
             $(".empleados").html(data);
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="empleados";
+    $.ajax({
+        url: route,
+        data: {empleado: $('#empleado').val(),
+               email: $('#email').val(),
+               status: $('#status').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divempleados").html(data);
+
         }
     });
 });

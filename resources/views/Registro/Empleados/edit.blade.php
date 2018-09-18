@@ -41,11 +41,11 @@
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="email_empleado">Email</label>
-	                <input class="form-control read" type="email" id="email_empleado" name="email_empleado" placeholder="..." value="{{$empleado->email}}" readonly>
+	                <input class="form-control read" type="email" id="email_empleado" name="email_empleado" placeholder="..." value="{{$empleado->email}}" readonly maxlength="50">
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="direccion_empleado">Dirección</label>
-	                <input class="form-control read" type="text" id="direccion_empleado" name="direccion_empleado" placeholder="..." value="{{$empleado->direccion}}" readonly>
+	                <input class="form-control read" type="text" id="direccion_empleado" name="direccion_empleado" placeholder="..." value="{{$empleado->direccion}}" readonly maxlength="150">
 	              </div>
 	              <div class="form-group col-md-4">
 			              <label for="cargo_empleado">Cargo</label>

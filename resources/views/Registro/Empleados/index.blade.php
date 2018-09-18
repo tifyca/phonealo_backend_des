@@ -22,19 +22,19 @@
 
   <div class="col-12">
     <div class="tile">
-     <form>
+     
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
           <div class="row">
-             <form class="row" action="{{route('empleados.index')}}" method="get">   
+          
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Empleados</h3>
             </div>
              <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="empleado" placeholder="Empleado">
+              <input type="text" class="form-control" name="empleado" id="empleado" placeholder="Empleado">
             </div>
            <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="email" placeholder="Email">
+              <input type="text" class="form-control" name="email" id="email" placeholder="Email">
             </div>
            
             <div class="form-group col-md-2">
@@ -45,7 +45,7 @@
               </select>
             </div>
             <div class="col-md-1 mr-md-3">
-              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
+                <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>  
               
             </div>
           </div>
@@ -54,39 +54,12 @@
         
         <div class="tile-body ">
           <div class="table-responsive">
-             <div class="empleados">
+             <div class="empleados" id="divempleados">
            
-              <table class="table table-hover" id="sampleTable">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody id="empleados-list" name="empleados-list">
-                  @foreach($empleados as $Item)    
-                  
-                     <tr id="empleado{{$Item->id}}">
-                      <td width="20%" >{{$Item->nombres}}</td>
-                      <td width="15%" >{{$Item->telefono}}</td>
-                      <td width="25%" >{{$Item->email}}</td>
-                      <td width="10%" class="text-center">
-                      <div class="btn-group">
-                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm" href="empleados/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
-                         <button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$Item->id}}"  type="button"><i class="fa fa-lg fa-trash"></i></button>  
-                           
-                      </div>
-                      </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-              </table>
-              <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $empleados->render(); ?>
-              </div>
-              </form>
+                 @component('Registro/Empleados.lista')
+                        @slot('empleados', $empleados)
+                  @endcomponent
+          
             </div>
             </div>
         </div>

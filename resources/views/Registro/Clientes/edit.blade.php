@@ -28,7 +28,7 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label for="nombre_cliente">Nombres</label>
-              <input class="form-control read" type="text" id="nombre_cliente" name="nombre_cliente" readonly value="{{$cliente->nombres}}" onkeypress="return soloLetras(event);">
+              <input class="form-control read" type="text" id="nombre_cliente" name="nombre_cliente" readonly value="{{$cliente->nombres}}" onkeypress="return soloLetras(event);" maxlength="50">
             </div>
             <div class="form-group col-md-6">
               <label for="email_cliente">Email</label>
@@ -36,11 +36,11 @@
             </div>
             <div class="form-group col-md-6">
               <label for="telefono_cliente">Teléfono</label>
-              <input class="form-control read" type="text" id="telefono_cliente" name="telefono_cliente" readonly value="{{$cliente->telefono}}" onkeypress="return soloNumeros(event);">
+              <input class="form-control read" type="text" id="telefono_cliente" name="telefono_cliente" readonly value="{{$cliente->telefono}}" onkeypress="return soloNumeros(event);" maxlength="15">
             </div>
             <div class="form-group col-md-6">
               <label for="ruc_cliente">RUC</label>
-              <input class="form-control read" type="text" id="ruc_cliente" name="ruc_cliente" readonly value="{{$cliente->ruc_ci}}" onkeypress="return soloNumeros(event);">
+              <input class="form-control read" type="text" id="ruc_cliente" name="ruc_cliente" readonly value="{{$cliente->ruc_ci}}" onkeypress="return soloNumeros(event);" maxlength="13">
             </div>
             <div class="form-group col-12 col-md-3">
               <label for="tipo_cliente">Tipo de Cliente</label>
@@ -73,7 +73,7 @@
             </div>
             <div class="form-group col-md-6">
               <label for="direccion_cliente">Dirección</label>
-              <input class="form-control read" type="text" id="direccion_cliente" name="direccion_cliente" readonly value="{{$cliente->direccion}}">
+              <input class="form-control read" type="text" id="direccion_cliente" name="direccion_cliente" readonly value="{{$cliente->direccion}}" maxlength="150">
             </div>
             <div class="form-group col-md-6">
               <label for="ubicacion_cliente">Ubicación</label>
