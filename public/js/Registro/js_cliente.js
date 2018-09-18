@@ -30,14 +30,12 @@ $("#btn-save").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           // $("#res").html("El Cliente fue  Registrado con Éxito").show();
-          //  $("#res").css("display","block");
-           // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-            
-            alert("El Cliente fue  Registrado con Éxito");
-            location.href="/registro/clientes";
-          //    return redirect()->route('productos.index')->with("message","Se ha guardado correctamente su información");
+ 
+            $("#res").html(data.message);
+            $("#res, #res-content").css("display","block");
         
+            location.href="/registro/clientes";
+         
        },
        
           error: function (data,estado,error) { 
@@ -99,11 +97,9 @@ $("#btn-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           // $("#res").html("El Cliente fue  Registrado con Éxito").show();
-          //  $("#res").css("display","block");
-           // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-            
-            alert("El Cliente fue  Modificado con Éxito");
+         
+            $("#res").html(data.message);
+            $("#res, #res-content").css("display","block");
             location.href="/registro/clientes";
         
        },

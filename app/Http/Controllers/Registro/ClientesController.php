@@ -108,11 +108,9 @@ class ClientesController extends Controller
       $cliente->id_usuario= $request->id_usuario;
       $cliente->save(); 
 
- //return response()->json(view('Registro.Clientes.index')->with('message', 'El Cliente fue Creado Exitosamente!!'));
-     
-      //return Redirect::to('registro/clientes')->with('message', 'El Cliente fue Creado Exitosamente!!');
-      $trues="El Cliente fue Creado Exitosamente!!";
-      return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+
+        $jsonres['message']="El Cliente fue  Registrado con Éxito";
+         echo json_encode($jsonres);
 
       }  
         
@@ -187,9 +185,9 @@ class ClientesController extends Controller
       $cliente->id_usuario= $request->id_usuario;
       $cliente->save(); 
 
-	//	return view('Registro.Clientes.index');
-	$trues="El Cliente fue Modificado Exitosamente!!";
-     return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+	       $jsonres['message']="El Cliente fue  Modificado con Éxito";
+         echo json_encode($jsonres);
+
 
       }  
         
