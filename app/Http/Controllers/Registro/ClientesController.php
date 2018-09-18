@@ -18,23 +18,19 @@ class ClientesController extends Controller
    
     if($cliente!="" && $email=="" )
     {
-      $cliente = $cliente."%"; 
-      $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion','email', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('nombres','like',$cliente)->orderby('nombres','asc')->paginate(10);
+      
+      $clientes= Clientes::search($cliente)->orderby('nombres','asc')->paginate(10);
 
     }
     if($cliente=="" && $email!="")
     {
-         $email = $email."%";
-         $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'email','barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+        
+         $clientes= Clientes::email($email)->orderby('nombres','asc')->paginate(10);
     }
   if($cliente!="" && $email!="")
     {
-         $email = $email."%";
-          $cliente = $cliente."%"; 
-         $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'email','barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('nombres','like',$cliente)->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+        
+         $clientes= Clientes::search2($cliente,$email)->orderby('nombres','asc')->paginate(10);
     }
     
     if($cliente=="" && $email=="")

@@ -167,12 +167,32 @@ console.log(page);
     var route ="clientes";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+              cliente: $('#cliente').val(),
+               email: $('#email').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
     
             $(".clientes").html(data);
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="clientes";
+    $.ajax({
+        url: route,
+        data: {cliente: $('#cliente').val(),
+               email: $('#email').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divclientes").html(data);
+
         }
     });
 });

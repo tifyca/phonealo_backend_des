@@ -36,23 +36,23 @@
           <div class="row">
               <div class="form-group col-md-6">
                 <label for="nombre_proveedor">Nombres</label>
-                <input class="form-control" type="text" id="nombre_proveedor" name="nombre_proveedor" onkeypress="return soloLetrasNum(event);"  placeholder="...">
+                <input class="form-control" type="text" id="nombre_proveedor" name="nombre_proveedor" onkeypress="return soloLetrasNum(event);"  placeholder="..." maxlength="50">
               </div>
               <div class="form-group col-md-6">
                 <label for="email_proveedor">Email</label>
-                <input class="form-control" id="email_proveedor" name="email_proveedor" type="email" aria-describedby="emailHelp" placeholder="...">
+                <input class="form-control" id="email_proveedor" name="email_proveedor" type="email" aria-describedby="emailHelp" placeholder="..." maxlength="50">
               </div>
               <div class="form-group col-md-6">
                 <label for="direccion_proveedor">Dirección</label>
-                <input class="form-control" type="text" id="direccion_proveedor" name="direccion_proveedor" placeholder="...">
+                <input class="form-control" type="text" id="direccion_proveedor" name="direccion_proveedor" placeholder="..." maxlength="150">
               </div>
               <div class="form-group col-md-6">
                 <label for="telefono_proveedor">Teléfono</label>
-                <input class="form-control" type="text" id="telefono_proveedor" name="telefono_proveedor" placeholder="..." onkeypress="return soloNumeros(event);">
+                <input class="form-control" type="text" id="telefono_proveedor" name="telefono_proveedor" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="13">
               </div>
               <div class="form-group col-md-6">
                 <label for="ruc_proveedor">RUC</label>
-                <input class="form-control" type="text" id="ruc_proveedor" name="ruc_proveedor" maxlength="13" placeholder="..." onkeypress="return soloNumeros(event);">
+                <input class="form-control" type="text" id="ruc_proveedor" name="ruc_proveedor" maxlength="13" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="15">
               </div>
               <div class="form-group col-md-6">
                 <label for="pais_proveedor">País</label>

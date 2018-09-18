@@ -45,7 +45,7 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="direccion_empleado">Dirección</label>
-							<input class="form-control" type="text" id="direccion_empleado" name="direccion_empleado" placeholder="...">
+							<input class="form-control" type="text" id="direccion_empleado" name="direccion_empleado" placeholder="..." maxlength="150">
 						</div>
 						<div class="form-group col-md-4">
 			              <label for="cargo_empleado">Cargo</label>

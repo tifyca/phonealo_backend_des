@@ -1,4 +1,4 @@
-              <table class="table table-hover table-bordered" id="sampleTable">
+              <table class="table table-hover " id="sampleTable">
                 <thead>
                   <tr>
                     <th>Nombre</th>

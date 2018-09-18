@@ -35,19 +35,19 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label for="nombre_cliente">Nombres</label>
-              <input class="form-control" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="..." onkeypress="return soloLetras(event);">
+              <input class="form-control" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="..." onkeypress="return soloLetras(event);" maxlength="50">
             </div>
             <div class="form-group col-md-6">
               <label for="email_cliente">Email</label>
-              <input class="form-control" id="email_cliente" name="email_cliente" type="email" aria-describedby="emailHelp" placeholder="...">
+              <input class="form-control" id="email_cliente" name="email_cliente" type="email" aria-describedby="emailHelp" placeholder="..." maxlength="50">
             </div>
             <div class="form-group col-md-6">
               <label for="telefono_cliente">Teléfono</label>
-              <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="..." onkeypress="return soloNumeros(event);">
+              <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="15">
             </div>
             <div class="form-group col-md-6">
               <label for="ruc_cliente">RUC</label>
-              <input class="form-control" type="text" id="ruc_cliente" name="ruc_cliente" placeholder="..." onkeypress="return soloNumeros(event);">
+              <input class="form-control" type="text" id="ruc_cliente" name="ruc_cliente" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="13">
             </div>
             <div class="form-group col-12 col-md-3">
               <label for="tipo_cliente">Tipo de Cliente</label>
@@ -80,7 +80,7 @@
             </div>
             <div class="form-group col-md-6">
               <label for="direccion_cliente">Dirección</label>
-              <input class="form-control" type="text" id="direccion_cliente" name="direccion_cliente" placeholder="...">
+              <input class="form-control" type="text" id="direccion_cliente" name="direccion_cliente" placeholder="..." maxlength="150">
             </div>
             <div class="form-group col-md-6">
               <label for="ubicacion_cliente">Ubicación</label>
