@@ -123,8 +123,8 @@ class ProveedoresController extends Controller
       $proveedor->id_usuario= $request->id_usuario;
       $proveedor->save(); 
 
-       $trues="El proveedor fue Creado Exitosamente!!";
-      return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+         $jsonres['message']="El Proveedor fue  Registrado con Éxito";
+         echo json_encode($jsonres);
 
       }  
 		
@@ -188,8 +188,8 @@ class ProveedoresController extends Controller
       $proveedor->save(); 
       
 
-      $trues="El proveedor fue Modificado Exitosamente!!";
-     return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+     $jsonres['message']="El Proveedor fue  Modificado con Éxito";
+    echo json_encode($jsonres);
 
       }  
         

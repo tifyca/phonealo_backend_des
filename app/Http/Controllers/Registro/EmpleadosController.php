@@ -121,9 +121,8 @@ class EmpleadosController extends Controller
       $empleado->id_usuario= $request->id_usuario;
       $empleado->save(); 
 
-      // $trues="El empleado fue Creado Exitosamente!!";
-      //return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
- return view('Registro.Empleados.index')->with("message","Se ha guardado correctamente su información");
+        $jsonres['message']="El Empleado fue  Registrado con Éxito";
+         echo json_encode($jsonres);
       }  
 		
 	}
@@ -183,8 +182,10 @@ class EmpleadosController extends Controller
       $empleado->id_usuario= $request->id_usuario;
       $empleado->save(); 
      
-	$trues="El Empleado fue Modificado Exitosamente!!";
-     return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+         $jsonres['message']="El Empleado fue  Modificado con Éxito";
+         echo json_encode($jsonres);
+
+	
 
       }  
         

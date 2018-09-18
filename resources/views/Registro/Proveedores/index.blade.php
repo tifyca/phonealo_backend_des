@@ -58,7 +58,7 @@
 
           <div class="tile-body">
             <div class="table-responsive">
-                <div class="proveedores">
+                <div class="proveedores" id="divproveedores">
                 <form>
                   @component('Registro/Proveedores.lista')
                         @slot('proveedor', $proveedor)
