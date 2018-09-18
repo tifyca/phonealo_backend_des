@@ -15,42 +15,50 @@ class EmpleadosController extends Controller
     $empleado = $request["empleado"];
     $email   = $request["email"];
     $estatus = $request["estatus"];
-     $email = $email."%";
+   
         
     if($empleado!="" && $email=="" && $estatus=="")
     {
-      $empleado = $empleado."%"; 
-      $empleados= Empleados::where('nombres','like',$empleado)->orderby('nombres','asc')->paginate(10);
+      
+      $empleados= Empleados::search($empleado)->orderby('nombres','asc')->paginate(10);
     }
     if($empleado=="" && $email!="" && $estatus=="")
     {
-         $email = $email."%";
-         $empleados= Empleados::where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+     
+         $empleados= Empleados::email($email)->orderby('nombres','asc')->paginate(10);
      }
     if($empleado=="" && $email=="" && $estatus!="")
     {
-         $email = $email."%";
-         $empleados= empleados::where('id_estado',$estatus)->orderby('nombres','asc')->paginate(10);
+        
+         $empleados= Empleados::status($estatus)->orderby('nombres','asc')->paginate(10);
     }
    if($empleado!="" && $email=="" && $estatus!="")
     {
-          $empleado = $empleado."%";  
-         $empleados= empleados::where('id_estado',$estatus)->where('nombres','like',$empleado)->orderby('nombres','asc')->paginate(10);
+          
+         $empleados= Empleados::search2($empleado, $estatus)->orderby('nombres','asc')->paginate(10);
     }
 
 
     if($empleado!="" && $email!="" && $estatus=="")
     {
-      $empleado = $empleado."%"; 
-      $email = $email."%";
-         $empleados= Empleados::where('nombres','like',$empleado)->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+
+         $empleados= Empleados::search3($empleado, $email)->orderby('nombres','asc')->paginate(10);
     }
 
     if($empleado!="" && $email!="" && $estatus!="")
     {
-      $empleado = $empleado."%"; 
-      $email = $email."%";
-         $empleados= Empleados::where('nombres','like',$empleado)->where('email','like',$email)->where('id_estado',$estatus)->orderby('nombres','asc')->paginate(10);
+   
+         $empleados= Empleados::search4($empleado,$email,$estatus)->orderby('nombres','asc')->paginate(10);
+    }
+     if($empleado=="" && $email!="" && $estatus!="")
+    {
+   
+         $empleados= Empleados::search5($email,$estatus)->orderby('nombres','asc')->paginate(10);
+    }
+      if($empleado=="" && $email=="" && $estatus=="")
+    {
+   
+         $empleados= Empleados::orderby('nombres','asc')->paginate(10);
     }
 
        if($request->ajax()){
@@ -113,9 +121,8 @@ class EmpleadosController extends Controller
       $empleado->id_usuario= $request->id_usuario;
       $empleado->save(); 
 
-      // $trues="El empleado fue Creado Exitosamente!!";
-      //return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
- return view('Registro.Empleados.index')->with("message","Se ha guardado correctamente su información");
+        $jsonres['message']="El Empleado fue  Registrado con Éxito";
+         echo json_encode($jsonres);
       }  
 		
 	}
@@ -175,8 +182,10 @@ class EmpleadosController extends Controller
       $empleado->id_usuario= $request->id_usuario;
       $empleado->save(); 
      
-	$trues="El Empleado fue Modificado Exitosamente!!";
-     return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+         $jsonres['message']="El Empleado fue  Modificado con Éxito";
+         echo json_encode($jsonres);
+
+	
 
       }  
         

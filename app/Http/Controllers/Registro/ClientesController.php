@@ -18,23 +18,19 @@ class ClientesController extends Controller
    
     if($cliente!="" && $email=="" )
     {
-      $cliente = $cliente."%"; 
-      $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion','email', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('nombres','like',$cliente)->orderby('nombres','asc')->paginate(10);
+      
+      $clientes= Clientes::search($cliente)->orderby('nombres','asc')->paginate(10);
 
     }
     if($cliente=="" && $email!="")
     {
-         $email = $email."%";
-         $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'email','barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+        
+         $clientes= Clientes::email($email)->orderby('nombres','asc')->paginate(10);
     }
   if($cliente!="" && $email!="")
     {
-         $email = $email."%";
-          $cliente = $cliente."%"; 
-         $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'email','barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('nombres','like',$cliente)->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+        
+         $clientes= Clientes::search2($cliente,$email)->orderby('nombres','asc')->paginate(10);
     }
     
     if($cliente=="" && $email=="")
@@ -112,11 +108,9 @@ class ClientesController extends Controller
       $cliente->id_usuario= $request->id_usuario;
       $cliente->save(); 
 
- //return response()->json(view('Registro.Clientes.index')->with('message', 'El Cliente fue Creado Exitosamente!!'));
-     
-      //return Redirect::to('registro/clientes')->with('message', 'El Cliente fue Creado Exitosamente!!');
-      $trues="El Cliente fue Creado Exitosamente!!";
-      return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+
+        $jsonres['message']="El Cliente fue  Registrado con Éxito";
+         echo json_encode($jsonres);
 
       }  
         
@@ -191,9 +185,9 @@ class ClientesController extends Controller
       $cliente->id_usuario= $request->id_usuario;
       $cliente->save(); 
 
-	//	return view('Registro.Clientes.index');
-	$trues="El Cliente fue Modificado Exitosamente!!";
-     return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+	       $jsonres['message']="El Cliente fue  Modificado con Éxito";
+         echo json_encode($jsonres);
+
 
       }  
         
