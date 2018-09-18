@@ -13,4 +13,7 @@ class LogisticaController extends Controller
     public function edit(){
     	return view('Procesar.Logistica.edit');
     }
+    public function remisa(){
+    	return view('Procesar.Logistica.remisa');
+    }
 }

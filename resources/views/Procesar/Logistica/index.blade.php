@@ -22,7 +22,7 @@
           <h3 class="tile-title text-center text-md-left"> Remisa </h3>
         </div>
         <div class="col-4 text-right">
-          <a href="#" class="btn btn-primary"><i class="m-0 fa fa-lg fa-sign-out"></i>Remisa</a>
+          <a href="{{ route('logistica.remisa') }}" class="btn btn-primary"><i class="m-0 fa fa-lg fa-sign-out"></i>Remisa</a>
         </div>
       </div>
       
