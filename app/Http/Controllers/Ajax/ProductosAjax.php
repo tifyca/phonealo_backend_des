@@ -44,7 +44,7 @@ class ProductosAjax extends Controller
     public function categorias_list(Request $request)
     {
         $id_categoria = $request["idc"];
-        $categorias = categorias::where('id',$id_categoria)->where('proveedor',1)->first();
+        $categorias = categorias::where('id',$id_categoria)->where('proveedor',7)->first();
         if($categorias)
         $data["status"]='OK';
        else

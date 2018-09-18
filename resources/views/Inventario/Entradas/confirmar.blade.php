@@ -58,26 +58,31 @@
             <table id="detalles" class="table">
               <thead>
                 <tr>
-                  <td><b>Cod.</b></td>
+                  <td><b>#</b></td>
                   <td><b>Producto</b></td>
                   <td><b>Cantidad</b></td>
                   <td><b>Precio</b></td>
                   <td><b>Importe</b></td>
                   <td><b>Cantidad(Conf)</b></td>
                   <td><b>Precio(Conf)</b></td>
-                  
+                  <td><b>Nombre S/Factura</b></td>
                 </tr>
                </thead>
               <tbody>
                 <?php $total=0; $z=1; 
-                $name3="idproducto"+$z;
-                $name="cantidad_conf"+$z;
-                 $name2="precio_conf"+$z;
+                $name3="idproducto".$z;
+                $name="cantidad_conf".$z;
+                 $name2="precio_conf".$z;
+                $contador=0;
                 ?>
                 @foreach($detalles as $det)
                 <tr>
-                  <input type="hidden" name="idproducto[]" id="{{$name3}}" value="{{$det->idproducto}}">
-                  <td>{{$det->codigo}}</td>
+                  <input type="hidden" name="idproducto[]" id="{{$name3}}" value="{{$det->idproducto}}" >
+                  <td>
+                    <div class="form-check">
+                         <input type="checkbox" class="form-check-input" name="producto" onclick="activar('{{$contador}}');">
+                    </div>
+                  </td>
                   <td>{{$det->desprod}}</td>
                   <td align="center">
                     <?php $cant=$det->cantidad;
@@ -99,9 +104,11 @@
                     //$name2="precio_conf"+$z;
                     //$name3="idproducto"+$z;
                      ?></td>
-                  <td><input type="text" name="cantidad_conf[]"></td>
-                  <td><input type="text" name="precio_conf[]" ></td>
+                  <td><input type="text" name="cantidad_conf[]" id="{{$name}}" disabled=""></td>
+                  <td><input type="text" name="precio_conf[]"  id="{{$name2}}" disabled=""></td>
+                  <td><input type="text" name="nombre_conf[]"  disabled=""></td>
                 </tr>
+                <?php $contador++;?>
                 @endforeach
               </tbody>
               </tbody>
@@ -190,6 +197,19 @@
     });    
 });
  </script>
-
+<script>
+  function activar(index){
+    var valor = parseInt(index);
+    valor = valor + 1;
+    
+    name1 = "cantidad_conf"+valor;
+    name2 = "precio_conf"+valor;
+    name3 = "nombre_conf"+valor;
+    alert(name1);
+    document.getElementById('+name1+').disabled=false;
+    document.getElementById("'+name2+'").disabled=false;
+    document.getElementById("'+name3+'").disabled=false;
+  }
+</script>
 
  @endpush

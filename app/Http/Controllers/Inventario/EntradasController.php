@@ -196,7 +196,7 @@ class EntradasController extends Controller
 
     public function carga(Request $request)
     {
-        //dd($request);
+        
         $id = $request->idsolped;
         $solped=solped::find($id);
         $solped->id_estado=7;
@@ -212,18 +212,25 @@ class EntradasController extends Controller
         $auditoria->accion     = "Confirmación de Pedido de Producto:".$id;
         $auditoria->save(); 
         $cont=0;
+       
         while($cont < count($idproducto))
+       
           {
-            $detallesolped=detallesolped::where('id_producto',$idproducto[$cont])->first();
-            $detallesolped->cantidad_confirmada = $cantidad_conf[$cont];
-            $detallesolped->precio_confirmado = $precio_conf[$cont];
-            $detallesolped->save();
-            $productos=productos::where('id',$idproducto[$cont])->first();
-            if($productos){
-                $productos->precio_compra = $precio_conf[$cont];
-                $productos->stock_activo  = $productos->stock_activo + $cantidad_conf[$cont];
-                $productos->save();
+            if($cantidad_conf[$cont]>0)
+            {
+                $detallesolped=detallesolped::where('id_producto',$idproducto[$cont])->first();
+                if($detallesolped){
 
+                  $detallesolped->cantidad_confirmada = $cantidad_conf[$cont];
+                  $deallesolped->precio_confirmado = $precio_conf[$cont];
+                  $detallesolped->save();
+                  $productos=productos::where('id',$idproducto[$cont])->first();
+                  if($productos){
+                      $productos->precio_compra = $precio_conf[$cont];
+                      $productos->stock_activo  = $productos->stock_activo + $cantidad_conf[$cont];
+                      $productos->save();
+                    }
+                }
             }
             $cont++;
           }

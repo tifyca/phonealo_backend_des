@@ -59,7 +59,7 @@
                 <th>Fecha</th>
                 <th>Proveedor</th>
                 <th>Estatus</th>
-                <th class="text-right"> Monto</th>
+                <th class="text-center"> Monto</th>
                 <th align="center">Acciones</th>
               </tr>
             </thead>
@@ -89,11 +89,12 @@
                 echo $monto;?>
               </td>
               <td>
-               <div class="btn-group">
+               <div class="btn-group text-center">
                 <a class="btn btn-primary" href="{{ route('entradas.ver',$sol->id) }}" title="Ver"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                @if($sol->id_estado==8) <a class="btn btn-primary" href="{{ route('entradas.confirmar',$sol->id) }}" title="Confirmar/Carga Inventario"><i class="m-0 fa fa-lg fa-check"></i></a>
+                @if($sol->id_estado==8)
                 @endif
                 @if($sol->id_estado==1) 
+                 <a class="btn btn-primary" href="{{ route('entradas.confirmar',$sol->id) }}" title="Confirmar/Carga Inventario"><i class="m-0 fa fa-lg fa-check"></i></a>
                   <button data-toggle="tooltip" data-placement="top" title="Anular" class="btn btn-primary btn-sm confirm-delete" value="{{$sol->id}}"><i class="fa fa-lg fa-random"></i></button>                                  
                @endif 
 
