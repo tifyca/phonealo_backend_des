@@ -154,8 +154,6 @@ return /\d/.test(String.fromCharCode(keynum));
 }
 
 
-
-
 $(document).on('click','.pagination a',function(e){
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
@@ -166,7 +164,7 @@ console.log(page);
         data: {page: page,
               cliente: $('#cliente').val(),
                email: $('#email').val(),
-               status:$('#estatus').val()},
+               status:$('#status').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
@@ -184,7 +182,7 @@ $(document).on('click','#btnBuscar',function(e){
         url: route,
         data: {cliente: $('#cliente').val(),
                email: $('#email').val(),
-               status:$('#estatus').val()},
+               status:$('#status').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){

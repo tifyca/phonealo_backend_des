@@ -42,14 +42,13 @@
 
             </div>
            <div class="form-group col-md-2">
-              <select class="form-control" id="estatus" name="estatus">
+              <select class="form-control" id="status" name="status">
                 <option value="">Estatus</option>
                 <option value="1">Activo</option>
                 <option value="0">Inactivo</option>
               </select>
             </div>
 
-           
             <div class="col-md-1 mr-md-3">
 
               <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>  
