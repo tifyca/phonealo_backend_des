@@ -49,7 +49,6 @@
               </select>
             </div>
 
-           
             <div class="col-md-1 mr-md-3">
 
               <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>  
