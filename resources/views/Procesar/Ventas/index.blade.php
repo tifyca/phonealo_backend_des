@@ -59,13 +59,13 @@
           </div>
           <div class="form-group col-md-4">
             <label for="ciudad_cliente">Ciudad</label>
-            <select class="form-control ciudades" id="ciudad_cliente" name="ciudad_cliente">
+            <select class="form-control ciudades" id="ciudad_client" name="ciudad_client">
               <option value="0">Seleccione</option>
             </select>
           </div>
           <div class="form-group col-md-4">
             <label for="barrio_cliente">Barrio</label>
-            <select class="form-control barrios" id="barrio_cliente" name="barrio_cliente">
+            <select class="form-control barrios" id="barrio_client" name="barrio_client">
               <option value="0">Seleccione</option>
             </select>
           </div>
@@ -262,47 +262,17 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <td>Cod.</td>
-                    <td>Producto</td>
-                    <td>Cantidad</td>
-                    <td>Precio</td>
-                    <td>Importe</td>
-                    <td>Acciones</td>
+                    <td width="15%">Cod.</td>
+                    <td width="25%">Producto</td>
+                    <td width="20%">Cantidad</td>
+                    <td width="20%">Precio</td>
+                    <td width="20%">Importe</td>
+                    <td width="20%">Acciones</td>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>087609</td>
-                    <td>Barbeador Recargable Resistente al agua - 4x1</td>
-                    <td>9</td>
-                    <td>9987</td>
-                    <td>23459</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a>
-                        <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="table-danger">
-                    <td>087609</td>
-                    <td>Barbeador Recargable Resistente al agua - 4x1</td>
-                    <td>9</td>
-                    <td>9987</td>
-                    <td>23459</td>
-                    <td>
-                      <div class="btn-group">
-                        <a class="btn btn-primary" href="#" ><i class="m-0 fa fa-lg fa-trash"></i></a>
-                        <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr>
-                    <td colspan="5" class="text-right"><h4>Total: 0000000</h4></td>
-                    <td><button class="btn btn-primary" type="submit" >Guardar</button></td>
-                  </tr>
+                
+                <tbody id="cesta-list" name="cesta-list">
+                  
                 </tbody>
               </table>
             </div>
@@ -495,14 +465,14 @@
 
   $("#telefono_cliente").blur(function(event){
          var value=$(this).val();
- 
+
         $.ajax({
           type: "get",
           url: '{{ route('searchCliente') }}',
           dataType: "json",
           data: { search: value },
           success: function (data){
-          console.log(data.id_departamento);
+          console.log(data.barrio);
 
                 $('#id_cliente').val(data.id);
                 $('#nombre_cliente').val(data.nombres);
@@ -511,9 +481,9 @@
                 $('#tipo_cliente').val(data.id_tipo);
                 $('select[name=departamento_cliente]').val(data.id_departamento);
                 cargarComboCiudad(data.id_departamento);
-                $('select[name=ciudad_cliente]').val(data.id_ciudad);
+                $('select[name=ciudad_client]').val(data.id_ciudad);
                 cargarComboBarrio(data.id_ciudad);
-                $('select[name=barrio_cliente]').val(data.barrio);
+                $('select[name=barrio_client]').val(data.barrio);
                 $('#ubicacion_cliente').val(data.ubicacion);
                 $('#direccion_cliente').val(data.direccion);
           },
@@ -524,11 +494,11 @@
 
 function cargarComboCiudad(id_departamento){
          console.log(id_departamento);
-          $('#ciudad_cliente')
-          .find('option')
-          .remove()
-          .end()
-          .append('<option value="whatever">Seleccione</option>');
+        //  $('#ciudad_client')
+        //  .find('option')
+        //  .remove()
+        //  .end();
+         // .append('<option value="whatever">Seleccione</option>');
          $.ajax({
           type: "get",
           url: '{{ route('ciudadesCombo') }}',
@@ -540,19 +510,19 @@ function cargarComboCiudad(id_departamento){
           $.each(data, function(l, item1) {
 
           //$(".ciudades option:eq(1)").prop("selected", true);
-          $("#ciudad_cliente").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
+          $(".ciudades").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
           });
           }
   });
 };
 
 function cargarComboBarrio(id_ciudad){
-        
-          $('#barrio_cliente')
-          .find('option')
-          .remove()
-          .end()
-          .append('<option value="whatever">Seleccione</option>');
+        console.log(id_ciudad);
+         // $('#barrio_client')
+        // .find('option')
+       //  .remove()
+      //  .end();
+        // .append('<option value="whatever">Seleccione</option>');
          $.ajax({
           type: "get",
           url: '{{ route('barriosCombo') }}',
@@ -564,7 +534,7 @@ function cargarComboBarrio(id_ciudad){
           $.each(data, function(l, item2) {
 
           //$(".ciudades option:eq(1)").prop("selected", true);
-          $("#ciudad_cliente").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
+          $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
           });
           }
   });
@@ -588,7 +558,7 @@ function cargarComboBarrio(id_ciudad){
 
       });
         // AL SELECCIONAR EL DEPARTAMENTO SE ENVIA EL ID Y SE RECIBE LAS CIUDADES
-      $('#departamento_cliente').change(function(){
+   /*   $('#departamento_cliente').change(function(){
         var id_departamento = $(this).val();
 
 
@@ -633,7 +603,7 @@ function cargarComboBarrio(id_ciudad){
           });
       });
 
-  
+  */
   });
   
   </script>
