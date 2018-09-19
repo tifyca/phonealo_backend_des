@@ -1,7 +1,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'ConfirmaciÃ³n de Solicitud de Pedido')
+@section('titulo', 'Confirmación de Solicitud de Pedido')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -24,7 +24,7 @@
             <div class="form-group col-md-3">
               <input type="hidden" id="cant" name="cant" value="{{$cant}}">
               <input type="hidden" id="idsolped" name="idsolped" value="{{$solped->id}}">
-              <label for="n_documento_entrada">NÃºmero de Documento</label>
+              <label for="n_documento_entrada">Número de Documento</label>
               <input class="form-control" type="text" id="nro_documento" name="nro_documento" placeholder="..." readonly="" maxlength="30" value="{{$solped->nro_documento}}">
             </div>
             <div class="form-group col-md-3">
@@ -65,7 +65,7 @@
               
             </div>
             <div class="form-group col-md-4">
-              <label for="descripcion">DescripciÃ³n</label>
+              <label for="descripcion">Descripción</label>
               <input class="form-control" type="text" name="descripcion" id="descripcion" >
             </div>
             <div class="selec_productos col-12 d-none">

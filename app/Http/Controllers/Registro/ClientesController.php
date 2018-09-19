@@ -15,32 +15,49 @@ class ClientesController extends Controller
 	public function index(Request $request){
     $cliente = $request["cliente"];
     $email   = $request["email"];
+    $estatus = $request["status"];
    
-    if($cliente!="" && $email=="" )
+    if($cliente!="" && $email=="" && $estatus=="" )
     {
-      $cliente = $cliente."%"; 
-      $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion','email', 'barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('nombres','like',$cliente)->orderby('nombres','asc')->paginate(10);
+      
+      $clientes= Clientes::search($cliente)->orderby('nombres','asc')->paginate(10);
 
     }
-    if($cliente=="" && $email!="")
+    if($cliente=="" && $email!="" && $estatus=="")
     {
-         $email = $email."%";
-         $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'email','barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+        
+         $clientes= Clientes::email($email)->orderby('nombres','asc')->paginate(10);
     }
-  if($cliente!="" && $email!="")
+    if($cliente=="" && $email=="" && $estatus!="")
     {
-         $email = $email."%";
-          $cliente = $cliente."%"; 
-         $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'email','barrio', 'clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->where('nombres','like',$cliente)->where('email','like',$email)->orderby('nombres','asc')->paginate(10);
+        
+         $clientes= Clientes::status($estatus)->orderby('nombres','asc')->paginate(10);
+    }
+    if($cliente!="" && $email!="" && $estatus!="")
+    {
+        
+         $clientes= Clientes::search2($cliente,$email, $estatus )->orderby('nombres','asc')->paginate(10);
     }
     
-    if($cliente=="" && $email=="")
+    if($cliente=="" && $email=="" && $estatus=="")
     {
          $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'email','clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion')->orderby('nombres','asc')->paginate(10);
+                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'email','clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion', 'clientes.id_estado')->orderby('nombres','asc')->paginate(10);
+    }
+     if($cliente!="" && $email=="" && $estatus!="")
+    {
+        
+         $clientes= Clientes::search3($cliente,$estatus )->orderby('nombres','asc')->paginate(10);
+    }
+     if($cliente=="" && $email!="" && $estatus!="")
+    {
+        
+         $clientes= Clientes::search4($email, $estatus )->orderby('nombres','asc')->paginate(10);
+    }
+    if($cliente!="" && $email!="" && $estatus=="")
+    {
+        
+         $clientes= Clientes::search5($cliente,$email )->orderby('nombres','asc')->paginate(10);
     }
 
     if($request->ajax())
@@ -61,7 +78,7 @@ class ClientesController extends Controller
     $data=$request->all();
 
     $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres', 
-                    'email_cliente'=>'required|unique:clientes,email',
+                    'email_cliente'=>'required|email|unique:clientes,email',
                     'telefono_cliente'=>'required|unique:clientes,telefono',
                     'departamento_cliente'=>'required|not_in:0',
                     'ciudad_cliente'=>'required|not_in:0',
@@ -72,6 +89,7 @@ class ClientesController extends Controller
                        'nombre_cliente.unique' => 'El Cliente ya Existe', 
                        'email_cliente.required'=>'El Email del Cliente es Requerido', 
                        'email_cliente.unique' => 'El Email del Cliente ya Existe',
+                       'email_cliente.email' => 'El Formato de Email es Incorrecto',
                        'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
                        'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
                        'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',
@@ -97,14 +115,14 @@ class ClientesController extends Controller
 
 
       $cliente= new Clientes; 
-      $cliente->nombres   = $request->nombre_cliente; 
+      $cliente->nombres   = ucwords(strtolower($request->nombre_cliente)); 
       $cliente->telefono  = $request->telefono_cliente; 
       $cliente->direccion = $request->direccion_cliente;
       $cliente->barrio    = $request->barrio_cliente;
       $cliente->id_ciudad = $request->ciudad_cliente;
       $cliente->id_departamento=$request->departamento_cliente;
       $cliente->ruc_ci    = $request->ruc_cliente;
-      $cliente->email     = $request->email_cliente;
+      $cliente->email     = ucwords(strtolower($request->email_cliente));
       $cliente->ubicacion = $request->ubicacion_cliente;
       $cliente->id_tipo   = $request->tipo_cliente;
       $cliente->notas     = $request->nota_cliente;
@@ -112,11 +130,9 @@ class ClientesController extends Controller
       $cliente->id_usuario= $request->id_usuario;
       $cliente->save(); 
 
- //return response()->json(view('Registro.Clientes.index')->with('message', 'El Cliente fue Creado Exitosamente!!'));
-     
-      //return Redirect::to('registro/clientes')->with('message', 'El Cliente fue Creado Exitosamente!!');
-      $trues="El Cliente fue Creado Exitosamente!!";
-      return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+
+        $jsonres['message']="El Cliente fue  Registrado con Éxito";
+         echo json_encode($jsonres);
 
       }  
         
@@ -139,7 +155,7 @@ class ClientesController extends Controller
     $data=$request->all();
 
     $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres,' .$cliente_id,  
-                    'email_cliente'=>'required|unique:clientes,email,' .$cliente_id,
+                    'email_cliente'=>'required|email|unique:clientes,email,' .$cliente_id,
                     'telefono_cliente'=>'required|unique:clientes,telefono,' .$cliente_id,
                     'departamento_cliente'=>'required|not_in:0',
                     'ciudad_cliente'=>'required|not_in:0',
@@ -151,6 +167,7 @@ class ClientesController extends Controller
                        'nombre_cliente.unique' => 'El Cliente ya Existe', 
                        'email_cliente.required'=>'El Email del Cliente es Requerido', 
                        'email_cliente.unique' => 'El Email del Cliente ya Existe',
+                       'email_cliente.email' => 'El Formato de Email es Incorrecto',
                        'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
                        'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
                        'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',
@@ -176,14 +193,14 @@ class ClientesController extends Controller
 
 
       $cliente = Clientes::find($cliente_id);
-      $cliente->nombres   = $request->nombre_cliente; 
+      $cliente->nombres   = ucwords(strtolower($request->nombre_cliente)); 
       $cliente->telefono  = $request->telefono_cliente; 
       $cliente->direccion = $request->direccion_cliente;
       $cliente->barrio    = $request->barrio_cliente;
       $cliente->id_ciudad = $request->ciudad_cliente;
       $cliente->id_departamento=$request->departamento_cliente;
       $cliente->ruc_ci    = $request->ruc_cliente;
-      $cliente->email     = $request->email_cliente;
+      $cliente->email     = ucwords(strtolower($request->email_cliente));
       $cliente->ubicacion = $request->ubicacion_cliente;
       $cliente->id_tipo   = $request->tipo_cliente;
       $cliente->notas     = $request->nota_cliente;
@@ -191,9 +208,9 @@ class ClientesController extends Controller
       $cliente->id_usuario= $request->id_usuario;
       $cliente->save(); 
 
-	//	return view('Registro.Clientes.index');
-	$trues="El Cliente fue Modificado Exitosamente!!";
-     return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+	       $jsonres['message']="El Cliente fue  Modificado con Éxito";
+         echo json_encode($jsonres);
+
 
       }  
         

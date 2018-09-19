@@ -13,6 +13,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('ciudades', 'Ajax\Direcciones@Ciudades')->name('ciudades_ajax');
     Route::get('barriosCombo', 'Ajax\Direcciones@BarriosCombo')->name('barriosCombo');
     Route::get('barrios', 'Ajax\Direcciones@barrios')->name('barrios_ajax');
+    Route::get('categoria', 'Ajax\Configurar@categorias')->name('tipocategoria');
 
     Route::get('productos', 'Ajax\ProductosAjax@productos_list')->name('productos_ajax');
     Route::get('mostrar_subcategorias', 'Ajax\ProductosAjax@subcategorias_list')->name('mostrar_subcategorias');
@@ -251,6 +252,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
+    Route::get('procesar/logistica/remisa', 'Procesar\LogisticaController@remisa')->name('logistica.remisa');
 
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');

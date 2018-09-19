@@ -26,9 +26,11 @@ $("#btn-save").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
 
-            alert("El Proveedor fue  Registrado con Éxito");
+            $("#res").html(data.message);
+            $("#res, #res-content").css("display","block");
+   
             location.href="/registro/proveedores";
-        
+
        },
        
           error: function (data,estado,error) { 
@@ -86,7 +88,10 @@ $("#btn-edit").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
            
-            alert("El Proveedor fue  Modificado con Éxito");
+         
+            $("#res").html(data.message);
+            $("#res, #res-content").css("display","block");
+          //  alert("El Proveedor fue  Modificado con Éxito");
             location.href="/registro/proveedores";
         
        },
@@ -168,12 +173,34 @@ console.log(page);
     var route ="proveedores";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+               proveedor: $('#proveedor').val(),
+               email: $('#email').val(),
+               status:$('#status').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
     
             $(".proveedores").html(data);
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="proveedores";
+    $.ajax({
+        url: route,
+        data: {proveedor: $('#proveedor').val(),
+               email: $('#email').val(),
+               status:$('#status').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divproveedores").html(data);
+
         }
     });
 });

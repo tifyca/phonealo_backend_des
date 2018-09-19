@@ -63,7 +63,7 @@
     <div class="tile">
          {{-- FILTRO --}}
          <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado Barrios</h3>
+              <h3 class="tile-title text-center text-md-left">Listado de Barrios</h3>
             </div>
       <div class="col mb-3">
          <div class="row">
