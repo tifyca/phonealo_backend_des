@@ -14,7 +14,7 @@ class EmpleadosController extends Controller
 
     $empleado = $request["empleado"];
     $email   = $request["email"];
-    $estatus = $request["estatus"];
+    $estatus = $request["status"];
    
         
     if($empleado!="" && $email=="" && $estatus=="")

@@ -40,7 +40,7 @@
             </div>
            
             <div class="form-group col-md-2">
-              <select class="form-control" id="estatus" name="estatus">
+              <select class="form-control" id="status" name="status">
                 <option value="">Estatus</option>
                 <option value="1">Activo</option>
                 <option value="0">Inactivo</option>
