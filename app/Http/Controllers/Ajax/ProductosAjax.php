@@ -30,7 +30,7 @@ class ProductosAjax extends Controller
     public function subcategorias_list(Request $request)
     {
         $id_categoria = $request["idc"];
-        $subcategorias = Subcategorias::where('id_categoria',$id_categoria)->where('status','1')->get();
+        $subcategorias = Subcategorias::where('id_categoria',$id_categoria)->where('status','1')->orderby('sub_categoria','asc')->get();
         return $subcategorias;
     }
 
@@ -44,7 +44,7 @@ class ProductosAjax extends Controller
     public function categorias_list(Request $request)
     {
         $id_categoria = $request["idc"];
-        $categorias = categorias::where('id',$id_categoria)->where('proveedor',1)->first();
+        $categorias = categorias::where('id',$id_categoria)->where('proveedor',7)->first();
         if($categorias)
         $data["status"]='OK';
        else
