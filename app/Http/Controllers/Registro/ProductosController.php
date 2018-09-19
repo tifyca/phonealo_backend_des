@@ -64,16 +64,16 @@ class ProductosController extends Controller
     	  	$productos=productos::orderby('id','asc')->paginate(10);
       }
        	
-    	$categorias=categorias::where('tipo','Productos')->get();
+    	$categorias=categorias::where('tipo','Productos')->orderby('categoria','asc')->get();
 
 		  return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos)->with('tipo',$tipo)->with('mensaje',$mensaje);
 	}
 
     public function edit($id){
-    	$categorias = categorias::where('tipo','Productos')->get();
-		$productos = productos::find($id);
+    	$categorias = categorias::where('tipo','Productos')->orderby('categoria','asc')->get();
+		  $productos = productos::find($id);
 
-		$subcategorias = subcategorias::where('id',$productos->id_subcategoria)->get();
+		  $subcategorias = subcategorias::where('id',$productos->id_subcategoria)->get();
 
 		return view('Registro.Productos.edit')->with('productos',$productos)->with('categorias',$categorias)->with('subcategorias',$subcategorias);
 	}
@@ -128,7 +128,7 @@ class ProductosController extends Controller
   }
 	}
 	public function show($id){
-        $categorias = categorias::where('tipo','Productos')->get();		
+    $categorias = categorias::where('tipo','Productos')->orderby('categoria','asc')->get();		
 
 		return view('Registro.Productos.show')->with('categorias',$categorias);
 	}

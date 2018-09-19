@@ -191,7 +191,13 @@ class EntradasController extends Controller
         $proveedores = proveedores::where('id_estado','1')->get();
         $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.id as idproducto','b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
         //$detallesolped = detallesolped::where('id_solped',$id)->get();
-        return view('Inventario.Entradas.confirmar')->with('solped',$solped)->with('proveedores',$proveedores)->with('detalles',$detallesolped);
+           $deta= db::table('detalle_solped as a')->
+                  join('productos as b','a.id_producto','=','b.id')
+                  ->select(DB::raw('count(b.id) as cantidad'))->where('a.id_solped',$id)->orderby('a.id','asc')->first();
+                  
+        $cantidad = $deta->cantidad;  
+
+        return view('Inventario.Entradas.confirmar')->with('solped',$solped)->with('proveedores',$proveedores)->with('detalles',$detallesolped)->with('cant',$cantidad);
     }
 
     public function carga(Request $request)
@@ -206,6 +212,7 @@ class EntradasController extends Controller
         $idproducto     = $request->get('idproducto');
         $cantidad_conf  = $request->get('cantidad_conf');
         $precio_conf  = $request->get('precio_conf');
+        $nombre_conf  = $request->get('nombre_conf');
         $auditoria = new auditoria();
         $auditoria->id_usuario =  $_SESSION["user"];
         $auditoria->fecha      = date('Y-m-d');
@@ -222,14 +229,17 @@ class EntradasController extends Controller
                 if($detallesolped){
 
                   $detallesolped->cantidad_confirmada = $cantidad_conf[$cont];
-                  $deallesolped->precio_confirmado = $precio_conf[$cont];
+                  $deallesolped->precio_confirmado    = $precio_conf[$cont];
+                  $deallesolped->nombre_fiscal        = $nombre_conf[$cont];
                   $detallesolped->save();
-                  $productos=productos::where('id',$idproducto[$cont])->first();
-                  if($productos){
-                      $productos->precio_compra = $precio_conf[$cont];
-                      $productos->stock_activo  = $productos->stock_activo + $cantidad_conf[$cont];
-                      $productos->save();
-                    }
+                  //$productos=productos::where('id',$idproducto[$cont])->first();
+                  //if($productos){
+                  //    $productos->precio_compra = $precio_conf[$cont];
+                  //    $productos->stock_activo  = $productos->stock_activo + $cantidad_conf[$cont];
+                  //    $productos->save();
+                  //  }
+                }else{
+
                 }
             }
             $cont++;

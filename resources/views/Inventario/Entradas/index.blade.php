@@ -116,9 +116,9 @@
           </tbody>
         </table>
       </div>
-      <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-        <?php echo $solped->render(); ?>
-      </div>
+     <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    {{$solped->appends(Request::only(['id_proveedor' , 'fecha', 'id_estado']))->links()}}
+              </div>
     </div>
   </div>
 </div>
