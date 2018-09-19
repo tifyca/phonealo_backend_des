@@ -165,7 +165,8 @@ console.log(page);
         url: route,
         data: {page: page,
               cliente: $('#cliente').val(),
-               email: $('#email').val()},
+               email: $('#email').val(),
+               status:$('#estatus').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
@@ -182,7 +183,8 @@ $(document).on('click','#btnBuscar',function(e){
     $.ajax({
         url: route,
         data: {cliente: $('#cliente').val(),
-               email: $('#email').val()},
+               email: $('#email').val(),
+               status:$('#estatus').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){

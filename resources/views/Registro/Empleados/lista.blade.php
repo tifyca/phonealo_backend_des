@@ -1,10 +1,11 @@
               <table class="table table-hover " id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Nombre</th>
-                    <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Acciones</th>
+                    <th width="20%">Nombre</th>
+                    <th width="15%">Teléfono</th>
+                    <th width="25%">Email</th>
+                    <th width="15%">Estatus</th>
+                    <th width="10%" class="text-center">Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="empleados-list" name="empleados-list">
@@ -14,6 +15,11 @@
                       <td width="20%" >{{$Item->nombres}}</td>
                       <td width="15%" >{{$Item->telefono}}</td>
                       <td width="25%" >{{$Item->email}}</td>
+                      <?php if ($Item->id_estado==1){ ?>
+                      <td width="15%"><?=  'Activo' ?></td>
+                      <?php }else{ ?> 
+                      <td width="15%"><?='Inactivo' ?></td>
+                      <?php } ?> 
                       <td width="10%" class="text-center">
                       <div class="btn-group">
                        <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm" href="empleados/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>

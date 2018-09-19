@@ -13,7 +13,7 @@ class Direcciones extends Controller
 {
 	// MUESTRA TODOS LOS REGISTROS
 	public function Paises(){
-		$paises = Paises::get();
+		$paises = Paises::orderBy('nombre','asc')->get();
 		return $paises;
 	}
     public function Departamentos(){

@@ -33,15 +33,21 @@
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Clientes</h3>
             </div>
-             <div class="form-group col-md-3">
+             <div class="form-group col-md-2">
               <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Cliente">
             </div>
 
-           <div class="form-group col-md-3">
+           <div class="form-group col-md-2">
               <input type="text" class="form-control" name="email" id="email" placeholder="Email">
 
             </div>
-           
+           <div class="form-group col-md-2">
+              <select class="form-control" id="estatus" name="estatus">
+                <option value="">Estatus</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+              </select>
+            </div>
 
            
             <div class="col-md-1 mr-md-3">

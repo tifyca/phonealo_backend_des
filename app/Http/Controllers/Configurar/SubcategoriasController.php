@@ -17,8 +17,9 @@ class SubcategoriasController extends Controller
       $subcategoria = $request["subcat"];
       $status       = $request["status"];
       $categoria    =$request["cat"];
+      $tipo         =$request["tipo"];
    
-    if($subcategoria!="" && $status=="" && $categoria=="" )
+    if($subcategoria!="" && $status=="" && $categoria=="" && $tipo=="" )
     {
      
       $subcategorias= Subcategorias::search( $subcategoria)
@@ -26,48 +27,96 @@ class SubcategoriasController extends Controller
                                    ->paginate(10);
 
     }
-    if($subcategoria=="" && $status!="" && $categoria=="")
+    if($subcategoria=="" && $status!="" && $categoria=="" && $tipo=="")
     {
          $subcategorias= Subcategorias::status($status)
                                       ->orderBy('sub_categoria','asc')
                                       ->paginate(10);
     }
-    if($subcategoria=="" && $status=="" && $categoria!="")
+    if($subcategoria=="" && $status=="" && $categoria!="" && $tipo=="")
     {
          $subcategorias= Subcategorias::categoria($categoria)
                                       ->orderBy('sub_categoria','asc')
                                       ->paginate(10);
     }
-    if($subcategoria!="" && $status!="" && $categoria!="")
+    if($subcategoria=="" && $status=="" && $categoria=="" && $tipo!="")
     {
-         $subcategorias= Subcategorias::search2($categoria, $status, $subcategoria)
+         $subcategorias= Subcategorias::tipo($tipo)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
+    }
+    if($subcategoria!="" && $status!="" && $categoria!="" && $tipo!="")
+    {
+         $subcategorias= Subcategorias::search2($categoria, $status, $subcategoria, $tipo)
                                       ->orderBy('sub_categoria','asc')
                                       ->paginate(10);
     }
    
- if($subcategoria!="" && $status!="" && $categoria=="")
+    if($subcategoria!="" && $status!="" && $categoria=="" && $tipo=="")
     {
          $subcategorias= Subcategorias::search3($status, $subcategoria)
                                       ->orderBy('sub_categoria','asc')
                                       ->paginate(10);
     }
-    if($subcategoria!="" && $status=="" && $categoria!="")
+    if($subcategoria!="" && $status=="" && $categoria!="" && $tipo=="")
     {
          $subcategorias= Subcategorias::search4($categoria, $subcategoria)
                                       ->orderBy('sub_categoria','asc')
                                       ->paginate(10);
     }
 
-    if($subcategoria=="" && $status=="" && $categoria=="")
+    if($subcategoria=="" && $status=="" && $categoria=="" && $tipo=="")
     {
          $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
                 ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
                 ->orderBy('sub_categoria','asc')
                 ->paginate(10);
     }
-    if($subcategoria=="" && $status!="" && $categoria!="")
+    if($subcategoria=="" && $status!="" && $categoria!=""  && $tipo=="")
     {
          $subcategorias= Subcategorias::search5($categoria, $status)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
+    }
+    if($subcategoria=="" && $status!="" && $categoria!=""  && $tipo!="")
+    {
+         $subcategorias= Subcategorias::search6($categoria, $status,$tipo)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
+    }
+    if($subcategoria!="" && $status=="" && $categoria!=""  && $tipo!="")
+    {
+         $subcategorias= Subcategorias::search7($subcategoria, $categoria,$tipo)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
+    }
+    if($subcategoria=="" && $status!="" && $categoria!=""  && $tipo!="")
+    {
+         $subcategorias= Subcategorias::search8($categoria, $status,$tipo)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
+    }
+    if($subcategoria!="" && $status!="" && $categoria==""  && $tipo!="")
+    {
+         $subcategorias= Subcategorias::search9($subcategoria, $status,$tipo)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
+    }
+    if($subcategoria!="" && $status=="" && $categoria==""  && $tipo!="")
+    {
+         $subcategorias= Subcategorias::search10($subcategoria, $tipo)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
+    }
+    if($subcategoria=="" && $status!="" && $categoria==""  && $tipo!="")
+    {
+         $subcategorias= Subcategorias::search11( $status,$tipo)
+                                      ->orderBy('sub_categoria','asc')
+                                      ->paginate(10);
+    }
+    if($subcategoria=="" && $status=="" && $categoria!=""  && $tipo!="")
+    {
+         $subcategorias= Subcategorias::search12( $categoria, $tipo)
                                       ->orderBy('sub_categoria','asc')
                                       ->paginate(10);
     }
