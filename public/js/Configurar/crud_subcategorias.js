@@ -229,7 +229,8 @@ $(document).on('click','.pagination a',function(e){
         data: {page: page,
                subcat: $('#buscarsubc').val(),
                status: $('#selectstatus').val(), 
-               cat: $('#selectcat').val()},
+               cat: $('#selectcat').val(),
+               tipo:$('#tipoCat').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
@@ -240,13 +241,14 @@ $(document).on('click','.pagination a',function(e){
 
 $(document).on('click','#btnBuscar',function(e){
    
-
+//alert($('#tipoCat').val());
     var route ="subcategorias";
     $.ajax({
         url: route,
         data: {subcat: $('#buscarsubc').val(),
                status: $('#selectstatus').val(), 
-               cat: $('#selectcat').val()},
+               cat: $('#selectcat').val(),
+               tipo: $('#tipoCat').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){

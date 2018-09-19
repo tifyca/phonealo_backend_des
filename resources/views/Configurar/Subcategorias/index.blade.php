@@ -29,7 +29,7 @@
             <div class="row">
             <div class="form-group col-12 col-md-2">
             <label for="exampleSelect1">Tipo de Categoría</label>
-            <select class="form-control" id="tipoCategoria" name="tipoCategoria">
+            <select class="form-control tipoCategoria" id="tipoCategoria" name="tipoCategoria">
               <option value="">Seleccione</option>
               <option value="Productos">Productos</option>
               <option value="Gastos">Gastos</option>
@@ -85,18 +85,16 @@
               <input type="text" class="form-control" id="buscarsubc" name="buscarsubc" placeholder="Buscar"  maxlength="50">
             </div>
             <div class="form-group col-12 col-md-2">
-            <select class="form-control" id="tipoCategoria" name="tipoCategoria">
+            <select class="form-control tipoCategoria" id="tipoCat" name="tipoCat">
               <option value="">Tipo de Categoría</option>
               <option value="Productos">Productos</option>
               <option value="Gastos">Gastos</option>
             </select>
           </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="selectcat" name="selectcat">
+              <select class="form-control categoria" id="selectcat" name="selectcat">
                 <option value="">Categoría</option>
-                @foreach($categorias as $categoria)   
-                <option value="{{$categoria->id}}"> {{ $categoria->categoria }} </option>
-                 @endforeach
+              
               </select>
             </div>
             <div class="form-group col-md-2">
@@ -140,10 +138,12 @@
        <div class="row">
         <div class="form-group col-12  col-md-4">
                 <label for="exampleSelect1">Categoría</label>
+                 <select class="form-control " id="cat" name="cat">
                  <option value="">Categoría</option>
                 @foreach($categorias as $categoria)   
                 <option value="{{$categoria->id}}"> {{ $categoria->categoria }} </option>
                  @endforeach
+               </select>
               </div>
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
@@ -212,8 +212,9 @@
  <script src="{{asset('js/Configurar/crud_subcategorias.js')}}"></script>
 <script>
 
- $('#tipoCategoria').change(function(){
+ $('.tipoCategoria').change(function(){
         var tipo = $(this).val();
+        
  $('.categoria').html('');
 
           $.ajax({
