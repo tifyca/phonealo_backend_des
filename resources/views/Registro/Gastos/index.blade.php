@@ -119,7 +119,7 @@
               </table>
             </div>
              <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $gastos->render(); ?>
+                    {{$gastos->appends(Request::only(['id_categoria' , 'id_usuario', 'fecha_comprobante']))->links()}}
               </div>
         </div>
     </div>

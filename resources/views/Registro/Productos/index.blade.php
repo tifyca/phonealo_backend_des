@@ -60,11 +60,11 @@
                   <th>Código</th>
                   <th>Producto</th>
                   <th>Categoría</th>
-                  <th>Descompuesto</th>
-                  <th>Stock</th>
-                  <th>Precio Ideal</th>
-                  <th>Imagen</th>
-                  <th>Acciones</th>
+                  <th class="text-center">Descompuesto</th>
+                  <th class="text-center">Stock</th>
+                  <th class="text-center">Precio Ideal</th>
+                  <th class="text-center">Imagen</th>
+                  <th class="text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -81,8 +81,8 @@
                      @endforeach
                     
                   </td>
-                  <td>{{$ficha->descompuesto}}</td>
-                  <td>{{$ficha->stock_minimo}}</td>
+                  <td class="text-center">{{$ficha->descompuesto}}</td>
+                  <td class="text-center">{{$ficha->stock_minimo}}</td>
                   <td><?php 
                       $precio = number_format($ficha->precio_ideal, 2, ',', '.');
                   echo $precio;?></td>
@@ -110,7 +110,8 @@
             </table>
           </div>
            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $productos->render(); ?>
+                    
+                    {{$productos->appends(Request::only(['id_categoria' , 'descripcion', 'id_subcategoria']))->links()}}
               </div>
         </div>
     </div>
@@ -118,7 +119,6 @@
 </div>
 
   
-
 @endsection
 
 @push('scripts')
