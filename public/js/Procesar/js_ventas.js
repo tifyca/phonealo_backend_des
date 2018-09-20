@@ -10,6 +10,12 @@ $("#btn-save").click(function (e) {
     });
 
     e.preventDefault();
+    var cod_producto=     $('#cod_producto').val();
+   var  descripcion=      $('#descripcion').val();
+            
+                var     precio=          $('#precio').val();
+                 var   cantidad=        $('#cantidad').val();
+
     var formData = {
                     id_cliente:       $('#id_cliente').val(),
                     nombre_cliente :  $('#nombre_cliente').val(), 
@@ -23,6 +29,7 @@ $("#btn-save").click(function (e) {
                     ubicacion_cliente:$('#ubicacion_cliente').val(),
                     tipo_cliente:     $('#tipo_cliente').val(),
                     nota_cliente:     $('#nota_cliente').val(),
+                   
                     fecha_venta:      $('#fecha_entrega').val(),
                     fecha_entrega:    $('#fecha_entrega').val(),
                     horario_venta:    $('#horario_venta').val(), 
@@ -36,28 +43,31 @@ $("#btn-save").click(function (e) {
                     monto:            $('#monto').val(),
                     nota_venta:       $('#nota_venta').val(),
                     descripcion:      $('#descripcion').val(),
+                    
                     cod_producto:     $('#cod_producto').val(),
                     id_producto:      $('#id_producto').val(),
+                    descripcion:      $('#descripcion').val(),
                     stock:            $('#stock').val(),
                     precio:           $('#precio').val(),
+                    cantidad:         $('#cantidad').val(),
                     id_estado :       $('#id_estado').val(),
-                    id_usuario : $('#id_usuario').val(),
+                    id_usuario :      $('#id_usuario').val(),
                     }
 
     console.log(formData);
     $.ajax({
         type: "POST",
-        url: url +"/create",
+        url: url +"/add",
         data: formData,
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           // $("#res").html("El Cliente fue  Registrado con Éxito").show();
-          //  $("#res").css("display","block");
-           // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+          console.log(data);
+           var cesta = '<tr id="cesta' + cod_producto + '"><td width="15%">' + cod_producto + '</td><td width="25%">' + descripcion + '</td><td width="20%">' + cantidad + '</td><td width="20%">' + precio + '</td><td width="20%">' + cantidad*precio + '</td><div class="btn-group">                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a><a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a></div></tr>';
+               cesta+='<tr><td colspan="5" class="text-right"><h4>Total: 0000000</h4></td><td><button class="btn btn-primary" type="submit" >Guardar</button></td></tr>';
+            $('#cesta-list').append(cesta);
             
-            alert("El Cliente fue  Registrado con Éxito");
-            location.href="/registro/clientes";
+           
         
        },
        

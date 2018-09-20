@@ -58,7 +58,7 @@ class ProveedoresController extends Controller
     {
 
       $proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
-                ->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono', 'proveedores.id_estado')
+                ->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono', 'telefono2','proveedores.id_estado')
                 ->orderby('proveedor','asc')->paginate(10);
     }
 
@@ -93,6 +93,7 @@ class ProveedoresController extends Controller
                        'email_proveedor.unique' => 'El Email del Proveedor ya Existe',
                        'email_proveedor.email' => 'El Formato de Email es Incorrecto',
                        'telefono_proveedor.required'=>'El Teléfono del Proveedor es Requerido', 
+                       'direccion_proveedor.required'=>'El Dirección del Proveedor es Requerido', 
                        //'telefono_proveedor.unique' => 'El teléfono del proveedor ya existe',
                        'ruc_proveedor' =>'El Ruc del Proveedor es Requerido',
                        'pais_proveedor.required'=>'El Pais del Proveedor es Requerido',
@@ -116,6 +117,7 @@ class ProveedoresController extends Controller
       $proveedor= new Proveedores; 
       $proveedor->nombres   = ucwords(strtolower($request->nombre_proveedor)); 
       $proveedor->telefono  = $request->telefono_proveedor; 
+      $proveedor->telefono2  = $request->telefono_proveedor2; 
       $proveedor->direccion = $request->direccion_proveedor;
       $proveedor->email     = ucwords(strtolower($request->email_proveedor)); 
       $proveedor->id_pais   = $request->pais_proveedor; 
@@ -158,6 +160,7 @@ class ProveedoresController extends Controller
                        'email_proveedor.required'=>'El Email del Proveedor es Requerido', 
                        'email_proveedor.unique' => 'El Email del Proveedor ya Existe',
                        'email_proveedor.email' => 'El Formato de Email es Incorrecto',
+                       'direccion_proveedor.required'=>'El Dirección del Proveedor es Requerido', 
                        'telefono_proveedor.required'=>'El Teléfono del Proveedor es Requerido', 
                      //  'telefono_proveedor.unique' => 'El teléfono del proveedor ya existe',
                        'ruc_proveedor' =>'El Ruc del Proveedor es Requerido',
@@ -181,6 +184,7 @@ class ProveedoresController extends Controller
       $proveedor = Proveedores::find($proveedor_id);
       $proveedor->nombres   = $request->nombre_proveedor; 
       $proveedor->telefono  = $request->telefono_proveedor; 
+      $proveedor->telefono2  = $request->telefono_proveedor2; 
       $proveedor->direccion = $request->direccion_proveedor;
       $proveedor->email     = $request->email_proveedor; 
       $proveedor->id_pais   = $request->pais_proveedor; 

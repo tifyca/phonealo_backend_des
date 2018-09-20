@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Clientes;
 use App\Horarios;
 use App\Ventas;
+use App\Detalle_Temporal;
 use App\Facturas;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -28,6 +29,20 @@ class VentasController extends Controller
          	return ($clientes);
    	}
 
+	public function addventa(Request $request){
+
+    
+    	$addventa= new Detalle_Temporal;
+    	$addventa->id_cliente=$request->id_cliente;
+    	$addventa->id_producto=$request->id_producto;
+    	$addventa->cantidad=$request->cantidad;
+    	$addventa->precio=$request->precio;
+    	$addventa->save(); 
+
+
+         	return ($addventa);
+   	}   	
+
      public function create(Request $request){
 
 
@@ -36,7 +51,7 @@ class VentasController extends Controller
      	$data=$request->all();
 
 		    $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres', 
-		                    'email_cliente'=>'required|unique:clientes,email',
+		                    'email_cliente'=>'required|email|unique:clientes,email',
 		                    'telefono_cliente'=>'required|unique:clientes,telefono',
 		                    'departamento_cliente'=>'required|not_in:0',
 		                    'ciudad_cliente'=>'required|not_in:0',
@@ -47,6 +62,7 @@ class VentasController extends Controller
 		                       'nombre_cliente.unique' => 'El Cliente ya Existe', 
 		                       'email_cliente.required'=>'El Email del Cliente es Requerido', 
 		                       'email_cliente.unique' => 'El Email del Cliente ya Existe',
+		                       'email_cliente.email' => 'El Formato de Email es Incorrecto',
 		                       'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
 		                       'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
 		                       'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',

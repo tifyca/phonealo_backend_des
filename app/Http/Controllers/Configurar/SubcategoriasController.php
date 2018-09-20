@@ -68,7 +68,7 @@ class SubcategoriasController extends Controller
     if($subcategoria=="" && $status=="" && $categoria=="" && $tipo=="")
     {
          $subcategorias= Subcategorias::join('categorias', 'sub_categorias.id_categoria', '=', 'categorias.id')
-                ->select('sub_categorias.id', 'categoria','sub_categoria','sub_categorias.status')
+                ->select('sub_categorias.id', 'categoria',  'tipo', 'sub_categoria','sub_categorias.status')
                 ->orderBy('sub_categoria','asc')
                 ->paginate(10);
     }
