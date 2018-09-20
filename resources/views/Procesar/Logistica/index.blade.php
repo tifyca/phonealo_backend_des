@@ -236,7 +236,10 @@
                       <td>{{$venta->importe}}</td>
                       <td width="10%" class="text-center">
                         <div class="btn-group">
-                        <a class="btn btn-primary detalle" data-toggle="modal" data-value="{{ $venta->id }}" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
+                         
+
+                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $venta->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+
                         <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
                         <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
                         <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
@@ -284,20 +287,8 @@
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>Código</td>
-                <td>Producto</td>
-                <td>Cantidad</td>
-                <td>Precio</td>
-                <td>
-                  <div class="btn-group">
-                    <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                    <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-file"></i></a>
-                    <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-times"></i></a>
-                  </div>
-                </td>
-              </tr>
+            <tbody id="productos_detalle">
+              
             </tbody>
           </table>
         </div>
@@ -332,17 +323,36 @@
 {{--  --}}
 
 
-  
-
 @endsection
 
 @push('scripts')
 
 <script type="text/javascript">
   $('.detalle').click(function(){
-    var id = $('.detalle').data('value');
+
+    var id = $(this).val();  //CAPTURA EL ID
+
+    $('#productos_detalle').html(''); //LIMPIA EL MODAL
+
+    $('#ModalProductos').modal('show'); //ABRE EL MODAL
     
-    console.log(id);
+   
+      $.ajax({
+        type: "GET",
+        url: '{{ url('detalle_venta') }}',
+        dataType: "json",
+        data: { id:id, _token: '{{csrf_token()}}'},
+
+        success: function (data){
+
+          //CICLO DE LOS DATOS RECIBIDOS
+          $.each(data, function(l, item) {
+
+            $("#productos_detalle").append('<tr><td>'+item.id_producto+'</td><td>'+item.descripcion+'</td><td>'+item.cantidad+'</td><td>'+item.precio+'</td><td><div class="btn-group"><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-file"></i></a><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-times"></i></a></div></td></tr>');
+          });
+        }
+
+    });
 
 
   });
