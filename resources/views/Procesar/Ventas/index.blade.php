@@ -259,7 +259,8 @@
         <h3 class="tile-title text-center text-md-left">Productos en la Cesta</h3>
           <div class="tile-body ">
             <div class="table-responsive">
-              <table class="table">
+              <input type='hidden' id='total_venta' value="">
+              <table class="table"  id="cesta-list" name="cesta-list">
                 <thead>
                   <tr>
                     <td width="15%">Cod.</td>
@@ -271,9 +272,12 @@
                   </tr>
                 </thead>
                 
-                <tbody id="cesta-list" name="cesta-list">
+                <tbody>
                   
                 </tbody>
+
+                  
+                <tr><td colspan="5" class="text-right">Total:<div id='total'></div></td><td><button class="btn btn-primary" type="submit" >Guardar</button></td></tr>
               </table>
             </div>
           </div>

@@ -63,9 +63,15 @@ $("#btn-save").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
           console.log(data);
-           var cesta = '<tr id="cesta' + cod_producto + '"><td width="15%">' + cod_producto + '</td><td width="25%">' + descripcion + '</td><td width="20%">' + cantidad + '</td><td width="20%">' + precio + '</td><td width="20%">' + cantidad*precio + '</td><div class="btn-group">                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a><a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a></div></tr>';
-               cesta+='<tr><td colspan="5" class="text-right"><h4>Total: 0000000</h4></td><td><button class="btn btn-primary" type="submit" >Guardar</button></td></tr>';
+          var importe= cantidad*precio;
+           var cesta = '<tr id="cesta' + cod_producto + '"><td width="15%">' + cod_producto + '</td><td width="25%">' + descripcion + '</td><td width="20%">' + cantidad + '</td><td width="20%">' + precio + '</td><td width="20%">' + importe.toFixed(2)+ '</td>';
+              cesta+='<td><div class="btn-group"><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a><a class="btn btn-primary" href=""><i class="m-0 fa fa-lg fa-info"></i></a></div></td></tr>';
+           
+
+          
             $('#cesta-list').append(cesta);
+            resumen();
+           
             
            
         
@@ -94,6 +100,28 @@ $("#btn-save").click(function (e) {
         },
     });
 });
+
+function resumen(){
+  $(document).ready(function(){
+            var articulos=0.00;
+            var monto=0.00;
+            $('#cesta-list > tbody > tr').each(function(){
+            articulos +=parseFloat($(this).find("td").eq(2).html());
+            monto+=parseFloat($(this).find('td').eq(3).html());
+            });
+            console.log(monto);
+            
+            $("#total_venta").val(monto.toFixed(2));
+            $("#total").html('Gs.' + monto.toFixed(2));
+           /* if(articulos>0){
+              $("#btn-procesa").prop('disabled', false);
+              $("#btn-cancela").prop('disabled', false);
+            }else{
+              $("#btn-procesa").prop('disabled', true);
+              $("#btn-cancela").prop('disabled', true);
+            }*/
+            })
+          }
 
 /*$("#btn-edit").click(function (e) {
      $.ajaxSetup({
