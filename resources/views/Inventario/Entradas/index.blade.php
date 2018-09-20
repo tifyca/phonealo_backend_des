@@ -57,8 +57,8 @@
                 <th>Id</th>
                 <th>N° Doc.</th>
                 <th>Fecha</th>
-                <th>Proveedor</th>
-                <th>Estatus</th>
+                <th class="text-rigth">Proveedor</th>
+                <th class="text-center">Estatus</th>
                 <th class="text-center"> Monto Orig.</th>
                 <th class="text-center"> Monto Conf.</th>
                 <th align="center">Acciones</th>
@@ -78,7 +78,7 @@
               <td>{{$sol->nro_documento}}</td>
               <td>{{$sol->fecha}}</td>
               <td>{{$sol->nombres}}</td>
-              <td>@foreach($estados as $estado)
+              <td class="text-center">@foreach($estados as $estado)
                 @if($estado->id == $sol->id_estado)
                 {{$estado->estado}}
                 @endif

@@ -193,7 +193,7 @@ class EntradasController extends Controller
     }
 
 
-      public function confirmar($id)
+    public function confirmar($id)
     {
         $solped=solped::find($id);
         $proveedores = proveedores::where('id_estado','1')->get();
@@ -258,8 +258,10 @@ class EntradasController extends Controller
             }
             $cont++;
           }
-         foreach ($lista as $deta)
-           {   
+          if(!empty($lista))
+          {
+            foreach ($lista as $deta)
+            {   
               $detallesolped= new detallesolped;
               $detallesolped->id_solped = $solped->id;
               $detallesolped->id_producto = $deta["id"];
@@ -268,8 +270,8 @@ class EntradasController extends Controller
               $detallesolped->cantidad_confirmada =  $deta["cantidad"];
               $detallesolped->precio_confirmado    = $deta["precio"];
               $detallesolped->save();
-         }            
-
+           }            
+          }
           $tipo=1;
           $mensaje="Confirmación Ejecutada con éxito";
         $proveedores = Proveedores::where('id_estado','1')->get();

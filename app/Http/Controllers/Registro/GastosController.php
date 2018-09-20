@@ -32,7 +32,7 @@ class GastosController extends Controller
      $gastos = gastos::orderby('fecha','desc')->paginate(10);
    }
    if($id_categoria!='' && $id_usuario=='' && $desde=='' && $hasta==''){
-     $gastos = gastos::where('id_categoria_gasto',$id_categoria)->orderby('fecha','desc')->paginate(10);
+     $gastos = gastos::where('id_categoria',$id_categoria)->orderby('fecha','desc')->paginate(10);
    }
    if($id_categoria=='' && $id_usuario!='' && $desde=='' && $hasta==''){
      $gastos = gastos::where('id_usuario',$id_usuario)->orderby('fecha','desc')->paginate(10);
@@ -84,7 +84,7 @@ public function edit($id){
   $gastos     =gastos::find($id);
   $fuentes    = fuente::orderby('id')->get();
   $divisas    = DB::table('divisa')->orderby('id_divisa')->get();
-  $categorias =categorias::where('id',$gastos->id_categoria_gasto)->first();
+  $categorias =categorias::where('id',$gastos->id_categoria)->first();
   if($categorias) $categoria  = $categorias->categoria;
   else $categoria="";
   $sproveedor = $categorias->proveedor;
@@ -99,14 +99,14 @@ public function store(Request $request)
     $descripcion          = $request->descripcion;
     $id_categoria    = $request->id_categoria;
       //$id_subcategoria = $request->id_subcategoria;
-    if(gastos::where('descripcion',$descripcion)->where('id_categoria_gasto',$request["categoria_gasto"])->where('comprobante',$request["comprobante_gasto"])->first()){
+    if(gastos::where('descripcion',$descripcion)->where('id_categoria',$request["categoria_gasto"])->where('comprobante',$request["comprobante"])->first()){
      $mensaje="Ya se encuentra Registrado";
      $tipo=2;
    }
    else{
      $gastos = new gastos($request->all());
      $gastos->descripcion          = $request["descripcion_gasto"];
-     $gastos->id_categoria_gasto   = $request["categoria_gasto"];
+     $gastos->id_categoria         = $request["categoria_gasto"];
      $gastos->observaciones        = $request["observaciones"];
      $gastos->importe              = $request["importe_gasto"];
      $gastos->id_solped            = $request["id_solped"];
@@ -166,7 +166,7 @@ public function update(Request $request,$id)
   $gastos->importe              = $request["importe_gasto"];
   $gastos->id_proveedor         = $request["id_proveedor"];
   $gastos->id_solped            = $request["id_solped"];
-  $gastos->id_categoria_gasto   = $request["categoria_gasto"];
+  $gastos->id_categoria         = $request["categoria_gasto"];
   $gastos->comprobante          = $request["comprobante_gasto"];
   $gastos->fecha_comprobante    = $request["fecha_comprobante_gasto"];
   $gastos->id_fuente            = $request["id_fuente"];

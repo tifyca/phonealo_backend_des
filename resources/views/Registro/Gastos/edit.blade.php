@@ -28,7 +28,7 @@
                        
                       <label for="categoria_gasto">Categoría de Gastos</label>
                       <input type="hidden" name="bandera" id="bandera" value="{{$sproveedor}}">
-                      <input type="hidden" name="categoria_gasto" id="categoria_gasto" value="{{$gastos->id_categoria_gasto}}">
+                      <input type="hidden" name="categoria_gasto" id="categoria_gasto" value="{{$gastos->id_categoria}}">
                       <input class="form-control" type="text" id="categoria" name="categoria" value="{{$categoria}}" readonly>
                     </div>
                     <div class="form-group col-md-6">
