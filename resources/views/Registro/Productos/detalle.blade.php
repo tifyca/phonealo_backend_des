@@ -75,7 +75,7 @@
                  else      $dir=$url; 
               ?>
             <div class="carousel-item">
-              <img class="d-block w-100" src="{{ asset('img/2.jpg') }}" alt="Second slide">
+              <img class="d-block w-100" src="{{ asset($dir) }}" alt="Second slide">
             </div>
             @endforeach
             {{-- ////////////////////////////// --}}
