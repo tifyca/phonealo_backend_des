@@ -1,7 +1,9 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
+<?php $titulo = "Confirmación de Solicitud de Pedido";
+      $tit = utf8_decode($titulo);?>
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Confirmación de Solicitud de Pedido')
+@section('titulo', 'Confirmacion de Solicitud de Pedido' )
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -104,12 +106,12 @@
                 <tr>
                   <td><b>#</b></td>
                   <td><b>Producto</b></td>
-                  <td><b>Cantidad</b></td>
-                  <td><b>Precio</b></td>
-                  <td><b>Importe</b></td>
-                  <td><b>Nombre S/Factura</b></td>
-                  <td><b>Cantidad(Conf)</b></td>
-                  <td><b>Precio(Conf)</b></td>
+                  <td class="text-center"><b>Cantidad</b></td>
+                  <td class="text-left"><b>Precio</b></td>
+                  <td class="text-left"><b>Importe</b></td>
+                  <td class="text-center"><b>Nombre S/Factura</b></td>
+                  <td class="text-center"><b>Cantidad(Conf)</b></td>
+                  <td class="text-left"><b>Precio(Conf)</b></td>
                   
                 </tr>
                </thead>

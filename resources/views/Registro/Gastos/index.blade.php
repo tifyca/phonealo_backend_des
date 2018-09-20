@@ -86,7 +86,7 @@
                     <td>{{$gast->comprobante}}</td>
                     <td>
                        @foreach($categorias as $categoria)
-                       @if($categoria->id==$gast->id_categoria_gasto)
+                       @if($categoria->id==$gast->id_categoria)
                          {{$categoria->categoria}}
                       @endif
                      @endforeach
