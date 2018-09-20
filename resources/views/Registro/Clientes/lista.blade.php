@@ -2,7 +2,7 @@
                 <thead>
                   <tr>
                     <th  width="20%">Cliente</th>
-                    <th  width="15%">Teléfono</th>
+                    <th  width="15%">Teléfonos</th>
                     <th  width="15%">Email</th>
                     <th  width="25%">Dirección</th>
                     <th  width="15%">Barrio</th>
@@ -16,7 +16,7 @@
                   @foreach($clientes as $Item)           
                      <tr id="cliente{{$Item->id}}">
                       <td width="20%" >{{$Item->nombres}}</td>
-                      <td width="15%" >{{$Item->telefono}}</td>
+                      <td width="15%" >{{$Item->telefono }} / {{ $Item->telefono2}}</td>
                       <td width="15%" >{{$Item->email}}</td>
                       <td width="25%" >{{$Item->direccion}}</td>
                       <td width="15%" >{{$Item->barrio}}</td>
