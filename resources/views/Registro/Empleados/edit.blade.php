@@ -5,7 +5,7 @@
 
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
+@section('icono_titulo', 'fa-circle')
 @section('titulo', 'Ver/Editar Empleado')
 @section('descripcion', '')
 
@@ -29,23 +29,23 @@
 	            
 	              <div class="form-group col-md-4">
 	                <label for="nombre_empleado">Nombres</label>
-	                <input class="form-control read" type="text" id="nombre_empleado" name="nombre_empleado" placeholder="..."   value="{{$empleado->nombres}}" onkeypress="return soloLetras(event);" readonly maxlength="50">
+	                <input class="form-control read" type="text" id="nombre_empleado" name="nombre_empleado" placeholder="..."   value="{{$empleado->nombres}}" onkeypress="return soloLetras(event);" readonly maxlength="50"  oncopy="return false">
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="ci_empleado">CI</label>
-	                <input class="form-control read" type="text" id="ci_empleado" name="ci_empleado" placeholder="..."  value="{{$empleado->ci}}" onkeypress="return soloNumeros(event);" maxlength="15" readonly>
+	                <input class="form-control read" type="text" id="ci_empleado" name="ci_empleado" placeholder="..."  value="{{$empleado->ci}}" onkeypress="return soloNumeros(event);" maxlength="15" readonly  oncopy="return false">
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="telefono_empleado">Teléfono</label>
-	                <input class="form-control read" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="..." value="{{$empleado->telefono}}" onkeypress="return soloNumeros(event);" readonly maxlength="13">
+	                <input class="form-control read" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="..." value="{{$empleado->telefono}}" onkeypress="return soloNumeros(event);" readonly maxlength="13"  oncopy="return false">
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="email_empleado">Email</label>
-	                <input class="form-control read" type="email" id="email_empleado" name="email_empleado" placeholder="..." value="{{$empleado->email}}" readonly maxlength="50">
+	                <input class="form-control read" type="email" id="email_empleado" name="email_empleado" placeholder="..." value="{{$empleado->email}}" readonly maxlength="50"  oncopy="return false">
 	              </div>
 	              <div class="form-group col-md-4">
 	                <label for="direccion_empleado">Dirección</label>
-	                <input class="form-control read" type="text" id="direccion_empleado" name="direccion_empleado" placeholder="..." value="{{$empleado->direccion}}" readonly maxlength="150">
+	                <input class="form-control read" type="text" id="direccion_empleado" name="direccion_empleado" placeholder="..." value="{{$empleado->direccion}}" readonly maxlength="150"  oncopy="return false">
 	              </div>
 	              <div class="form-group col-md-4">
 			              <label for="cargo_empleado">Cargo</label>

@@ -9,6 +9,7 @@ $("#btn-save").click(function (e) {
     var formData = {
                     nombre_cliente : $('#nombre_cliente').val(), 
                     telefono_cliente: $('#telefono_cliente').val(),
+                    telefono_cliente2: $('#telefono_cliente2').val(),
                     direccion_cliente: $('#direccion_cliente').val(),
                     barrio_cliente: $('#barrio_cliente').val(),
                     ciudad_cliente: $('#ciudad_cliente').val(),
@@ -74,6 +75,7 @@ $("#btn-edit").click(function (e) {
     var formData = {
                     nombre_cliente : $('#nombre_cliente').val(), 
                     telefono_cliente: $('#telefono_cliente').val(),
+                    telefono_cliente2: $('#telefono_cliente2').val(),
                     direccion_cliente: $('#direccion_cliente').val(),
                     barrio_cliente: $('#barrio_cliente').val(),
                     ciudad_cliente: $('#ciudad_cliente').val(),

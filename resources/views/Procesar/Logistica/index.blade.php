@@ -162,24 +162,32 @@
               <input class="form-control" type="date" id="" name="" placeholder="ldhd">
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <!-- CIUDADES-->
+              <select class="form-control read" id="ciudad" name="ciudad">
                 <option value="">Ciudad</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                  @foreach($ciudades as $ciudad)
+                    <option value="{{$ciudad->id}}" 
+                      @if($ciudad->id==0) 
+                        selected=""
+                      @endif>
+                    {{$ciudad->ciudad}}</option>
+                  @endforeach
               </select>
             </div>
              <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
-                <option value="">Horario</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+              <!-- HORARIOS-->
+              <select class="form-control read" id="id_categoria" name="id_categoria">
+                <option value="">Horarios</option>
+                  @foreach($horarios as $horario)
+                    <option value="{{$horario->id}}" 
+                      @if($horario->id==0) 
+                        selected=""
+                      @endif>
+                    {{$horario->horario}}</option>
+                  @endforeach
               </select>
+
+
             </div>
           </div>
         </div>
@@ -203,146 +211,41 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr >
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Fecha</td>
-                    <td>Fecha Activo</td>
-                    <td>Ciudad</td>
-                    <td>Horario</td>
-                    <td>Forma Pago</td>
-                    <td>Importe</td>
-                    <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                        <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
-                        <a class="btn btn-primary" href="{{ route('editar_logistica') }}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="table-primary">
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Fecha</td>
-                    <td>Fecha Activo</td>
-                    <td>Ciudad</td>
-                    <td>Horario</td>
-                    <td>Forma Pago</td>
-                    <td>Importe</td>
-                    <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                        <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="table-secondary">
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Fecha</td>
-                    <td>Fecha Activo</td>
-                    <td>Ciudad</td>
-                    <td>Horario</td>
-                    <td>Forma Pago</td>
-                    <td>Importe</td>
-                    <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                        <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="table-success">
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Fecha</td>
-                    <td>Fecha Activo</td>
-                    <td>Ciudad</td>
-                    <td>Horario</td>
-                    <td>Forma Pago</td>
-                    <td>Importe</td>
-                    <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                        <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="table-danger">
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Fecha</td>
-                    <td>Fecha Activo</td>
-                    <td>Ciudad</td>
-                    <td>Horario</td>
-                    <td>Forma Pago</td>
-                    <td>Importe</td>
-                    <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                        <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="table-warning">
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Fecha</td>
-                    <td>Fecha Activo</td>
-                    <td>Ciudad</td>
-                    <td>Horario</td>
-                    <td>Forma Pago</td>
-                    <td>Importe</td>
-                    <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                        <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="table-info">
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Fecha</td>
-                    <td>Fecha Activo</td>
-                    <td>Ciudad</td>
-                    <td>Horario</td>
-                    <td>Forma Pago</td>
-                    <td>Importe</td>
-                    <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                        <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                      </div>
-                    </td>
-                  </tr>
+                  <!-- jgonzalez LISTADO DE CLIENTES-->
+                  @foreach($ventas as $venta)
+                   <tr  
+                    @if($venta->id_estado==5)
+                      class="table-warning"
+                    @elseif($venta->id_estado==1 && $venta->status_v==11)
+                      class="table-primary"
+                    @elseif($venta->id_estado==11 && $venta->status_v==11)
+                      class="table-primary"
+                    @elseif($venta->od_estado==1 && $venta->status_v=='')
+                    
+                    @endif
+                    >
+                      <td>{{$venta->id}}</td>
+                      <td>{{$venta->nombres}}</td>
+                      <td>{{$venta->telefono}}</td>
+                      <td>{{$venta->direccion}}</td>
+                      <td>{{$venta->fecha}}</td>
+                      <td>{{$venta->fecha_activo}}</td>
+                      <td>{{$venta->ciudad}}</td>
+                      <td>{{$venta->horario_entrega}}</td>
+                      <td>{{$venta->forma_pago}}</td>
+                      <td>{{$venta->importe}}</td>
+                      <td width="10%" class="text-center">
+                        <div class="btn-group">
+                          <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
+                          <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
+                          <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
+                          <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                        </div>
+                      </td>
+                    </tr>
+                  @endforeach
+                  
+                  
 
                   <tr>
                     <td colspan="9" class="text-right">

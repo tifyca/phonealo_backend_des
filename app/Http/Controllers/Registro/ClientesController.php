@@ -42,7 +42,7 @@ class ClientesController extends Controller
     if($cliente=="" && $email=="" && $estatus=="")
     {
          $clientes= Clientes::join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-                ->select('clientes.id', 'nombres','telefono','direccion', 'barrio', 'email','clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion', 'clientes.id_estado')->orderby('nombres','asc')->paginate(10);
+                ->select('clientes.id', 'nombres','telefono', 'telefono2','direccion', 'barrio', 'email','clientes.id_ciudad', 'ciudades.ciudad', 'ubicacion', 'clientes.id_estado')->orderby('nombres','asc')->paginate(10);
     }
      if($cliente!="" && $email=="" && $estatus!="")
     {
@@ -80,6 +80,7 @@ class ClientesController extends Controller
     $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres', 
                     'email_cliente'=>'required|email|unique:clientes,email',
                     'telefono_cliente'=>'required|unique:clientes,telefono',
+                    'telefono_cliente2'=>'unique:clientes,telefono',
                     'departamento_cliente'=>'required|not_in:0',
                     'ciudad_cliente'=>'required|not_in:0',
                     'barrio_cliente'=>'required|not_in:0',
@@ -92,6 +93,7 @@ class ClientesController extends Controller
                        'email_cliente.email' => 'El Formato de Email es Incorrecto',
                        'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
                        'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
+                       'telefono_cliente2.unique' => 'El Teléfono del Cliente ya Existe',
                        'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',
                        'departamento_cliente.not_in'=> 'El Departamento del Cliente es Requerido',
                        'ciudad_cliente.required'=> 'La Ciudad del Cliente es Requerida',
@@ -117,6 +119,7 @@ class ClientesController extends Controller
       $cliente= new Clientes; 
       $cliente->nombres   = ucwords(strtolower($request->nombre_cliente)); 
       $cliente->telefono  = $request->telefono_cliente; 
+      $cliente->telefono2  = $request->telefono_cliente2; 
       $cliente->direccion = $request->direccion_cliente;
       $cliente->barrio    = $request->barrio_cliente;
       $cliente->id_ciudad = $request->ciudad_cliente;
@@ -157,6 +160,7 @@ class ClientesController extends Controller
     $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres,' .$cliente_id,  
                     'email_cliente'=>'required|email|unique:clientes,email,' .$cliente_id,
                     'telefono_cliente'=>'required|unique:clientes,telefono,' .$cliente_id,
+                    'telefono_cliente2'=>'unique:clientes,telefono,'.$cliente_id,
                     'departamento_cliente'=>'required|not_in:0',
                     'ciudad_cliente'=>'required|not_in:0',
                     'barrio_cliente'=>'required|not_in:0',
@@ -170,6 +174,7 @@ class ClientesController extends Controller
                        'email_cliente.email' => 'El Formato de Email es Incorrecto',
                        'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
                        'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
+                       'telefono_cliente2.unique' => 'El Teléfono del Cliente ya Existe',
                        'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',
                        'departamento_cliente.not_in'=> 'El Departamento del Cliente es Requerido',
                        'ciudad_cliente.required'=> 'La Ciudad del Cliente es Requerida',
@@ -195,6 +200,7 @@ class ClientesController extends Controller
       $cliente = Clientes::find($cliente_id);
       $cliente->nombres   = ucwords(strtolower($request->nombre_cliente)); 
       $cliente->telefono  = $request->telefono_cliente; 
+      $cliente->telefono2  = $request->telefono_cliente2; 
       $cliente->direccion = $request->direccion_cliente;
       $cliente->barrio    = $request->barrio_cliente;
       $cliente->id_ciudad = $request->ciudad_cliente;
