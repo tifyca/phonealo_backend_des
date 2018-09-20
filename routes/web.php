@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('producto_click', 'Ajax\ProductosAjax@producto')->name('producto_click');
     Route::get('cargos', 'Ajax\Configurar@cargos')->name('cargos_ajax');
+    Route::get('detalle_venta', 'Ajax\Logistica@detalle_venta')->name('detalle_venta');
 
     
 
