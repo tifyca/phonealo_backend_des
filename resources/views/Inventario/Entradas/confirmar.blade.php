@@ -98,6 +98,7 @@
         <h3 class="tile-title text-center text-md-left">Productos de la Solicitud de Pedido</h3>
         <div class="tile-body ">
           <div class="table-responsive">
+             <input type="hidden" id="ListaProd1" name="ListaProd" value="" required />
             <table id="detalles" class="table">
               <thead>
                 <tr>
@@ -134,13 +135,13 @@
                                       <?php $cant=$det->cantidad;
                       $zcan = number_format($cant, 0, ',', '.');?>
 
-                  <td align="text-center"><input type="text" class="form-control" name="cantidad[]" id="{{$name5}}" value="<?php echo $zcan;?>" size="3" disabled>
+                  <td align="text-center"><input type="text" class="form-control" name="precio[]" id="{{$name5}}" value="<?php echo $zcan;?>" size="3" disabled>
                         
                   </td>
                   <td align="right">
                     <?php $prec=$det->precio;
                       $zcan = number_format($prec, 2, ',', '.');?>
-                     <input type="text" class="form-control" name="precio[]" id="{{$name6}}" value="<?php echo $zcan;?>" size="16" disabled>
+                     <input type="text" class="form-control" name="cantidad[]" id="{{$name6}}" value="<?php echo $zcan;?>" size="16" disabled>
                     
                   </td>
                   <td><?php $importe=$det->precio*$det->cantidad;
@@ -151,9 +152,9 @@
                     //$name2="precio_conf"+$z;
                     //$name3="idproducto"+$z;
                      ?></td>
-                <td><input type="text" class="form-control" name="nombre_conf[]"  id="{{$name4}}"disabled="" size="10"></td>                     
-                  <td><input type="text" class="form-control" name="cantidad_conf[]" id="{{$name}}" disabled="" size="2"></td>
-                  <td><input type="text" size="4" class="form-control" name="precio_conf[]"  id="{{$name2}}" disabled=""></td>
+                <td><input type="text" class="form-control" name="nombre_conf[]"  id="{{$name4}}"disabled="" value="{{$det->nombre_fiscal}}" size="10"></td>                     
+                  <td><input type="text" class="form-control" name="cantidad_conf[]" id="{{$name}}" disabled="" value="{{$det->cantidad_confirmada}}" size="2"></td>
+                  <td><input type="text" size="4" class="form-control" name="precio_conf[]"  id="{{$name2}}" disabled="" value="{{$det->precio_confirmado}}"></td>
                 
                 </tr>
                 <?php $contador++;
@@ -181,10 +182,9 @@
                       $ztotal = number_format($total, 2, ',', '.');
                       
                      //echo $ztotal;?>
-                    <td  class="text-right" colspan="2"><input type="text" name="ctotal" id="ctotal" value="{{$total}}" class="form-control" disabled maxlength="10">
-                   
-                      
-
+                    <td  class="text-right" colspan="2"><input type="hidden" name="ctotal" id="ctotal" value="{{$total}}" class="form-control" disabled maxlength="10">
+                      <input type="text" name="ctotal2" id="ctotal2" value="{{$ztotal}}" class="form-control" disabled maxlength="10">
+        
                     </td>
                   </tr>
             </table>
@@ -263,13 +263,16 @@
          //total = ztotal.toFixed(2);
          total =  Number(ztotal).toLocaleString();
 
-         $('#total').val(total);
-         $('#precio').val(precio);
+         $('#total_conf').val(total);
+         $('#precio_conf').val(precio);
        });
 
    $('#agregar').click(function() {
       incluir();
     });
+
+
+
 
 });
  </script>
@@ -357,7 +360,7 @@
     $("#"+id).removeAttr("disabled");
     $("#"+id2).removeAttr("disabled");
    $("#"+id4).removeAttr("disabled");
-    $("#"+id).focus();
+    $("#"+id4).focus();
   }
 </script>
 <script>
@@ -410,6 +413,7 @@
         ptotal2 = 0;
         ptotal2 = parseFloat(aux) + parseFloat(cantidad*precio);
         $("#ctotal").val(ptotal2); 
+        $("#ctotal2").val(ptotal2); 
         //$("#ztotal").html("Gns/." + ptotal);
              
         $("#detalles").append(fila);
@@ -447,16 +451,15 @@
     ptotal2 = parseFloat(aux) - parseFloat(subtotal[index]);
     $("#ctotal").val(ptotal2); 
 
-
     
     //$("#ztotal").html("Bs/." + ptotal);
     $("#fila"+index).remove();
     idc = productos[index];
     productos.splice(index, 1);
-    //json_productos.splice(index,1); 
-    //$('#ListaProd1').val("");
-    //$('#ListaProd1').val(JSON.stringify(json_productos));
-    //ndocu        = document.form1.nro_documento.value;
+    json_productos.splice(index,1); 
+    $('#ListaProd1').val("");
+    $('#ListaProd1').val(JSON.stringify(json_productos));
+    ndocu        = document.form1.nro_documento.value;
   
   }
 

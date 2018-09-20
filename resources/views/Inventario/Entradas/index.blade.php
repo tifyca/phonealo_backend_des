@@ -59,7 +59,8 @@
                 <th>Fecha</th>
                 <th>Proveedor</th>
                 <th>Estatus</th>
-                <th class="text-center"> Monto</th>
+                <th class="text-center"> Monto Orig.</th>
+                <th class="text-center"> Monto Conf.</th>
                 <th align="center">Acciones</th>
               </tr>
             </thead>
@@ -88,13 +89,21 @@
                 $monto = number_format($sol->monto, 2, ',', '.');
                 echo $monto;?>
               </td>
+              <td class="text-right">
+                <?php 
+                $monto = number_format($sol->montoc, 2, ',', '.');
+                echo $monto;?>
+              </td>
+
               <td>
                <div class="btn-group text-center">
                 <a class="btn btn-primary" href="{{ route('entradas.ver',$sol->id) }}" title="Ver"><i class="m-0 fa fa-lg fa-eye"></i></a>
                 @if($sol->id_estado==8)
                 @endif
-                @if($sol->id_estado==1) 
+                @if($sol->id_estado==1 || $sol->id_estado==7) 
                  <a class="btn btn-primary" href="{{ route('entradas.confirmar',$sol->id) }}" title="Confirmar/Carga Inventario"><i class="m-0 fa fa-lg fa-check"></i></a>
+               @endif 
+                @if($sol->id_estado==1) 
                   <button data-toggle="tooltip" data-placement="top" title="Anular" class="btn btn-primary btn-sm confirm-delete" value="{{$sol->id}}"><i class="fa fa-lg fa-random"></i></button>                                  
                @endif 
 

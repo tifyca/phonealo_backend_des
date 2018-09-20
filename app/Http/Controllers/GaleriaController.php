@@ -59,6 +59,7 @@ public function store(Request $request)
     
      $tipo="1";
    $mensaje="Imagen almacenada Satisfactoriamente";
+   $id= $id_producto;
    $productos = productos::find($id);
    $nombre = $productos->descripcion;
    $codigo = $productos->codigo_producto;
