@@ -236,18 +236,15 @@
                       <td>{{$venta->importe}}</td>
                       <td width="10%" class="text-center">
                         <div class="btn-group">
-                          <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                          <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                          <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
-                          <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                        <a class="btn btn-primary detalle" data-toggle="modal" data-value="{{ $venta->id }}" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
+                        <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
+                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
                         </div>
                       </td>
                     </tr>
                   @endforeach
-                  
-                  
-
-                  <tr>
+                    <tr>
                     <td colspan="9" class="text-right">
                       <h4>Total:</h4>
                     </td>
@@ -340,5 +337,15 @@
 @endsection
 
 @push('scripts')
+
+<script type="text/javascript">
+  $('.detalle').click(function(){
+    var id = $('.detalle').data('value');
+    
+    console.log(id);
+
+
+  });
+</script>
   
 @endpush
