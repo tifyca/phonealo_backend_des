@@ -8,6 +8,7 @@ use App\Productos;
 use App\Subcategorias;
 use App\solped;
 use App\Categorias;
+use App\detallesolped;
 class ProductosAjax extends Controller
 {
     public function productos_list(Request $request){
@@ -37,14 +38,31 @@ class ProductosAjax extends Controller
     public function solicitudes_list(Request $request)
     {
         $id_proveedor = $request["idc"];
-        $solicitudes = solped::where('id_proveedor',$id_proveedor)->where('id_estado','1')->get();
+        $solicitudes = solped::where('id_proveedor',$id_proveedor)->where('id_estado','7')->get();
         return $solicitudes;
     }
+
+    public function solped_monto(Request $request)
+    {
+        $id = $request["idc"];
+        $detallesolped = detallesolped::where('id_solped',$id)->get();
+        $total=0;
+        $calculo = 0;
+        foreach($detallesolped as $deta){
+           $calculo = $deta->precio_confirmado * $deta->cantidad_confirmada;
+           $total = $total + $calculo;
+
+        }
+        
+        return $total;
+    }
+
+
 
     public function categorias_list(Request $request)
     {
         $id_categoria = $request["idc"];
-        $categorias = categorias::where('id',$id_categoria)->where('proveedor',7)->first();
+        $categorias = categorias::where('id',$id_categoria)->where('proveedor',1)->first();
         if($categorias)
         $data["status"]='OK';
        else

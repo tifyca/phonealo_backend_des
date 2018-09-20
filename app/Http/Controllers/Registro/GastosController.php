@@ -13,6 +13,9 @@ use App\Gastos;
 use App\Proveedores;
 use App\solped;
 use DB;
+use App\detallesolped;
+use App\Productos;
+use App\Estados;
 use File;
 @session_start();
 
@@ -110,7 +113,10 @@ public function store(Request $request)
      $gastos->id_proveedor         = $request["id_proveedor"];
      $gastos->comprobante          = $request["comprobante_gasto"];
      $gastos->fecha_comprobante    = $request["fecha_comprobante_gasto"];
-     $gastos->id_fuente            = $request["id_fuente"];
+     if($request->id_proveedor && $request->id_solped) {
+      $gastos->id_fuente = 1;
+    }else{$gastos->id_fuente            = $request["id_fuente"];}
+           
      $gastos->id_divisa            = $request["divisa_gasto"];
      $gastos->cambio               = $request["cambio_gasto"];
      $gastos->created_at           = date('Y-m-d');
@@ -123,7 +129,18 @@ public function store(Request $request)
       if($solped){
         $solped->id_estado=8;
         $solped->save();
+        $detallesolped= detallesolped::where('id_solped',$request->id_solped)->get();
+        foreach ($detallesolped as $deta) {
+          $productos= Productos::where('id',$deta->id_producto)->first();
+          $stock = $productos->stock_activo + $deta->cantidad_confirmada;
+          $productos->stock_activo  = $stock;
+          $productos->precio_compra = $deta->precio_confirmado;
+          $productos->updated_at    = date('Y-m-d');
+          $productos->save();
+
+        }
       } 
+
     }
     $tipo=1;
     $mensaje = "Se ha creado el registro de Gasto";   
@@ -158,14 +175,14 @@ public function update(Request $request,$id)
   $gastos->updated_at            = date('Y-m-d');
   $gastos->id_usuario              = $_SESSION["user"];
   $gastos->save();  
-    $tipo=1;
-    $mensaje = "Se ha actualizado el registro de Gasto";   
-    $categorias=categorias::where('tipo','Gastos')->get();
-    $usuarios = User::orderby('id','asc')->get();
-    $divisas = DB::table('divisa')->orderby('id_divisa')->get();
-    $fuentes= fuente::orderby('id')->get();
-    $gastos = gastos::orderby('fecha','desc')->paginate(10);
-    return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje);  
+  $tipo=1;
+  $mensaje = "Se ha actualizado el registro de Gasto";   
+  $categorias=categorias::where('tipo','Gastos')->get();
+  $usuarios = User::orderby('id','asc')->get();
+  $divisas = DB::table('divisa')->orderby('id_divisa')->get();
+  $fuentes= fuente::orderby('id')->get();
+  $gastos = gastos::orderby('fecha','desc')->paginate(10);
+  return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje);  
 }
 public function destroy(Request $request){
   $gastos=gastos::find($id);
@@ -174,11 +191,11 @@ public function destroy(Request $request){
     $tipo=2;
     $mensaje="No se puede Eliminar";   
   }
- else  
- {
+  else  
+  {
    $gastos->destroy($id);
-     $tipo=2;
-    $mensaje="Se ha eliminado el registro";   
+   $tipo=2;
+   $mensaje="Se ha eliminado el registro";   
  }
 }
 }
