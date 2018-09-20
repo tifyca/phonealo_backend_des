@@ -54,7 +54,7 @@
             {{-- Imagen principal --}}
             <div class="carousel-item active">
                 <?php $url=$productos->img;
-                       if($url)
+                       if(!empty($url))
                         $zurl = config('app.url') . '/productos/' . $url ;
                         //$zurl="img/productos/".$url;
 
@@ -70,8 +70,8 @@
             @foreach($imagenes as $img)
               <?php 
                  //$url = 'img/productos/'.$img->imagen;
-                 $url = config('app.url') . 'productos/' . $img->imagen ;
-                 if(!$url) $dir ='img/2.jpg';
+                 $url = config('app.url') . 'productos/' . $img->imagen;
+                 if(!empty($url)) $dir ='img/2.jpg';
                  else      $dir=$url; 
               ?>
             <div class="carousel-item">
