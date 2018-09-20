@@ -64,7 +64,7 @@
                   <td><b>Producto</b></td>
                   <td align="center"><b>Cantidad</b></td>
                   <td align="right"><b>Precio</b></td>
-                  <td align="right"><b>Importe</b></td>
+                  <td align="center"><b>Importe</b></td>
                   <td align="center"><b>Cantidad Confirmada</b></td>
                   <td align="right"><b>Precio Confirmado</b></td>
                   <td align="center"><b>Importe Confirmado</b></td>

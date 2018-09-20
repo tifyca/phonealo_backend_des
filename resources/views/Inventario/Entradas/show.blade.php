@@ -95,10 +95,10 @@
                    <tr> 
                     <td>Acc</td>
                     <td>Id</td>
-                    <td>Descripcion</td>
-                    <td>Cantidad</td>
-                    <td>Precio</td>
-                    <td>Importe</td>
+                    <td class="text-center">Descripcion</td>
+                    <td class="text-center">Cantidad</td>
+                    <td class="text-center">Precio</td>
+                    <td class="text-center">Importe</td>
                   </tr>
               </thead>
               <tfoot>
