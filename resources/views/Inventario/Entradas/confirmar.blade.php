@@ -24,7 +24,7 @@
             <div class="form-group col-md-3">
               <input type="hidden" id="cant" name="cant" value="{{$cant}}">
               <input type="hidden" id="idsolped" name="idsolped" value="{{$solped->id}}">
-              <label for="n_documento_entrada">Número de Documento</label>
+              <label for="n_documento_entrada">N&uacutemero de Documento</label>
               <input class="form-control" type="text" id="nro_documento" name="nro_documento" placeholder="..." readonly="" maxlength="30" value="{{$solped->nro_documento}}">
             </div>
             <div class="form-group col-md-3">
@@ -39,7 +39,7 @@
             </div>
             <?php $fecha=date('Y-m-d');?>
             <div class="form-group col-md-3">
-              <label for="fecha_entrada">Fecha Confimacion</label>
+              <label for="fecha_entrada">Fecha Confimaci&oacuten</label>
               <input class="form-control" type="date" id="fecha_confirmacion" name="fecha_confirmacion" required="" value="{{$fecha}}" >
             </div>
 
@@ -65,7 +65,7 @@
               
             </div>
             <div class="form-group col-md-4">
-              <label for="descripcion">Descripción</label>
+              <label for="descripcion">Descripci&oacuten</label>
               <input class="form-control" type="text" name="descripcion" id="descripcion" >
             </div>
             <div class="selec_productos col-12 d-none">
@@ -76,7 +76,7 @@
 
            <div class="form-group col-md-2">
             <label for="precio_entrada">Precio</label>
-            <input class="form-control" type="text" id="precio" name="precio" disabled="true">
+            <input class="form-control" type="text" id="precio" name="precio">
           </div>
           <div class="form-group col-md-1">
             <label for="cantidad_entrada">Cantidad</label>
@@ -168,20 +168,21 @@
               </tbody>
               </tbody>
                <tr class="table-secondary">
-                    <td  colspan="4" class="text-right"><b>Total Importe</b></td>
+                    <td  colspan="5" class="text-right"><b>Total Importe</b></td>
                     <td  id="ztotal">
                     <?php 
                       $ztotal = number_format($total, 2, ',', '.');
                       
-                     echo $ztotal;?>
+                     //echo $ztotal;?>
                       
 
                     </td>
-                    <td  align="right" colspan="2">
-                    <?php 
+                     <?php 
                       $ztotal = number_format($total, 2, ',', '.');
                       
-                     echo $ztotal;?>
+                     //echo $ztotal;?>
+                    <td  class="text-right" colspan="2"><input type="text" name="ctotal" id="ctotal" value="{{$total}}" class="form-control" disabled maxlength="10">
+                   
                       
 
                     </td>
@@ -370,6 +371,7 @@
   noincluir=0;
   function incluir()
     {
+      var aux = parseInt($("#ctotal").val()); 
       ndocu        = document.form1.nro_documento.value;
       codigo      = $('#cod_producto').val();
       descripcion = $('#descripcion').val();
@@ -386,8 +388,9 @@
 
         name1 = "idproducto"+contador+1;
         name2 = "cant"+contador+1;
+        name3 = "prec"+contador+1;
         
-        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input class="form-control" size="3" type="text" name="idproducto" id="'+name1+'" value="'+idproducto+'" readonly></td><td><input type="text" class="form-control" name="des[]" value="'+descripcion+'" readonly size="40"></td><td><input type="text" class="form-control" size="3" name="cant[]" value="'+cantidad+'" readonly></td><td><input type="text" size="5" class="form-control" name="prec[]" value="'+precio+'" readonly></td><td>'+subtotal[contador]+'</td><td></td></tr>';
+        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input class="form-control" size="3" type="hidden" name="idproducto" id="'+name1+'" value="'+idproducto+'" readonly><input type="text" class="form-control" name="des[]" value="'+descripcion+'" readonly size="40"></td><td><input type="text" class="form-control" size="3" name="cant[]" value="'+cantidad+'" readonly></td><td><input type="text" size="5" class="form-control" name="prec[]" value="'+precio+'" id="'+name3+'" readonly></td><td>'+subtotal[contador]+'</td><td></td></tr>';
           productos[contador]=idproducto;
           ndoc =$('#nro_documento').val();
 ////////////////////////////////////////////7
@@ -404,7 +407,10 @@
 //////////////////////////////////////////////
         contador++;
         limpiar();
-        $("#ztotal").html("Gns/." + ptotal);
+        ptotal2 = 0;
+        ptotal2 = parseFloat(aux) + parseFloat(cantidad*precio);
+        $("#ctotal").val(ptotal2); 
+        //$("#ztotal").html("Gns/." + ptotal);
              
         $("#detalles").append(fila);
 
@@ -436,8 +442,14 @@
   }
   function eliminar(index)
   {
+     var aux = parseInt($("#ctotal").val()); 
     ptotal = ptotal - subtotal[index];
-    $("#ztotal").html("Bs/." + ptotal);
+    ptotal2 = parseFloat(aux) - parseFloat(subtotal[index]);
+    $("#ctotal").val(ptotal2); 
+
+
+    
+    //$("#ztotal").html("Bs/." + ptotal);
     $("#fila"+index).remove();
     idc = productos[index];
     productos.splice(index, 1);

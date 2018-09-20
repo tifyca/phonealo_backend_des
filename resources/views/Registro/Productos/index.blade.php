@@ -111,7 +111,7 @@
           </div>
            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
                     
-                    {{$productos->appends(Request::only(['id_categoria' , 'descripcion', 'id_subcategoria']))->links()}}
+                    {{$productos->appends(Request::only(['id_categoria' , 'valor', 'id_subcategoria']))->links()}}
               </div>
         </div>
     </div>
