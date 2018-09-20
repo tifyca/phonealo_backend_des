@@ -1,48 +1,41 @@
   var url='ventas';
  
  
- 
-$("#btn-save").click(function (e) {
-     $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
+ function add_cesta(){
+   $(document).ready(function(){
 
-    e.preventDefault();
-    var cod_producto=     $('#cod_producto').val();
-   var  descripcion=      $('#descripcion').val();
-            
-                var     precio=          $('#precio').val();
-                 var   cantidad=        $('#cantidad').val();
+    var cod_producto= $('#cod_producto').val();
+    var  descripcion= $('#descripcion').val();
+    var     precio  = $('#precio').val();
+    var   cantidad  = $('#cantidad').val();
+    var     stock  = $('#stock').val();
 
-    var formData = {
-                    id_cliente:       $('#id_cliente').val(),
-                    nombre_cliente :  $('#nombre_cliente').val(), 
-                    telefono_cliente: $('#telefono_cliente').val(),
-                    direccion_cliente:$('#direccion_cliente').val(),
-                    barrio_cliente:   $('#barrio_cliente').val(),
-                    ciudad_cliente:   $('#ciudad_cliente').val(),
-                    departamento_cliente: $('#departamento_cliente').val(),
-                    ruc_cliente:      $('#ruc_cliente').val(),
-                    email_cliente:    $('#email_cliente').val(),
-                    ubicacion_cliente:$('#ubicacion_cliente').val(),
-                    tipo_cliente:     $('#tipo_cliente').val(),
-                    nota_cliente:     $('#nota_cliente').val(),
+    var dispo=stock-cantidad;
+    console.log(dispo);
+
+      if(dispo>=0){
+          
+          var importe= cantidad*precio;
+          var cesta  = '<tr><td  width="15%">' + cod_producto + '</td>'+
+                            '<td width="30%">' + descripcion + '</td>'+
+                            '<td width="15%">' + cantidad + '</td>' +
+                            '<td width="20%">' + precio + '</td>'+
+                            '<td width="20%">' + importe.toFixed(2)+ '</td>'+
+                            '<td width="15%" class="text-center"><div class="btn-group">'+
+                                 '<a class="btn btn-primary" href="#">'+
+                                 '<i class="m-0 fa fa-lg fa-trash"></i></a>'+
+                                 '<a class="btn btn-primary" href="">'+
+                                 '<i class="m-0 fa fa-lg fa-info"></i></a></div>'+
+                            '</td>'+
+                          '</tr>';
+           
+
+          
+            $('#cesta-list > tbody').append(cesta);
+            resumen();
+
+             /* var formData = {
                    
-                    fecha_venta:      $('#fecha_entrega').val(),
-                    fecha_entrega:    $('#fecha_entrega').val(),
-                    horario_venta:    $('#horario_venta').val(), 
-                    forma_pago:       $('#forma_pago').val(),
-                    factura:          $('#factura').val(),
-                    vendedor:         $('#vendedor').val(),
-                    factura_nomb:     $('#factura_nomb').val(),
-                    factura_dir:      $('#factura_dir').val(),
-                    factura_ruc:      $('#factura_ruc').val(),
-                    delivery:         $('#delivery').val(),
-                    monto:            $('#monto').val(),
-                    nota_venta:       $('#nota_venta').val(),
-                    descripcion:      $('#descripcion').val(),
                     
                     cod_producto:     $('#cod_producto').val(),
                     id_producto:      $('#id_producto').val(),
@@ -50,70 +43,103 @@ $("#btn-save").click(function (e) {
                     stock:            $('#stock').val(),
                     precio:           $('#precio').val(),
                     cantidad:         $('#cantidad').val(),
-                    id_estado :       $('#id_estado').val(),
-                    id_usuario :      $('#id_usuario').val(),
-                    }
+                   
+                    },
 
-    console.log(formData);
-    $.ajax({
-        type: "POST",
-        url: url +"/add",
-        data: formData,
-        dataType: 'json',
-        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        success: function (data) {
-          console.log(data);
-          var importe= cantidad*precio;
-           var cesta = '<tr id="cesta' + cod_producto + '"><td width="15%">' + cod_producto + '</td><td width="25%">' + descripcion + '</td><td width="20%">' + cantidad + '</td><td width="20%">' + precio + '</td><td width="20%">' + importe.toFixed(2)+ '</td>';
-              cesta+='<td><div class="btn-group"><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-trash"></i></a><a class="btn btn-primary" href=""><i class="m-0 fa fa-lg fa-info"></i></a></div></td></tr>';
+           $.ajax({
+              type: "POST",
+              url:  'add', 
+              data: formData,
+              dataType: 'json',
+              headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+              success: function (data) {
+     
+            $('#cod_producto').val("");
+            $('#descripcion').val("");
+            $('#precio').val("");
+            $('#cantidad').val("");
+            $('#stock').val("");
+            $('#descripcion').focus();
+          
+        
+          },
+       
+        
+          });*/
+      }else{
+
+        var importe= cantidad*precio;
+          var cesta  = '<tr class="table-danger"><td  width="15%">' + cod_producto + '</td>'+
+                            '<td width="30%">' + descripcion + '</td>'+
+                            '<td width="15%">' + cantidad + '</td>' +
+                            '<td width="20%">' + precio + '</td>'+
+                            '<td width="20%">' + importe.toFixed(2)+ '</td>'+
+                            '<td width="15%" class="text-center"><div class="btn-group">'+
+                                 '<a class="btn btn-primary" href="#">'+
+                                 '<i class="m-0 fa fa-lg fa-trash"></i></a>'+
+                                 '<a class="btn btn-primary" href="">'+
+                                 '<i class="m-0 fa fa-lg fa-info"></i></a></div>'+
+                            '</td>'+
+                          '</tr>';
            
 
           
-            $('#cesta-list').append(cesta);
-            resumen();
-           
+            $('#cesta-list > tbody').append(cesta);
+             $("#faltante, #fal-content").html(' Se agregó un producto faltante');
+             $('#fal-content').css("display","block");
+             $('#spacio').css("display","none");
             
-           
-        
-       },
-       
-          error: function (data,estado,error) { 
-            console.log(error);
-             var errorsHtml = '';
-           var error = jQuery.parseJSON(data.responseText);
-             errorsHtml +="<ul style='list-style:none;'>";
-             for(var k in error.message){ 
-                if(error.message.hasOwnProperty(k)){ 
-                    error.message[k].forEach(function(val){
+            resumen();
 
-                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
-                       
-                        
-                        $("#rese").html(errorsHtml);
-                        $("#rese, #res-content").css("display","block");
-                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-                     
-                      }); 
-                }
-            }
-          errorsHtml +="</ul>"; 
-        },
-    });
+          /*   var formData = {
+                   
+                    
+                    cod_producto:     $('#cod_producto').val(),
+                    id_producto:      $('#id_producto').val(),
+                    descripcion:      $('#descripcion').val(),
+                    stock:            $('#stock').val(),
+                    precio:           $('#precio').val(),
+                    cantidad:         $('#cantidad').val(),
+                   
+                    },
+
+            $.ajax({
+              type: "POST",
+              url:  'add', 
+              data: formData,
+              dataType: 'json',
+              headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+              success: function (data) {
+     
+            $('#cod_producto').val("");
+            $('#descripcion').val("");
+            $('#precio').val("");
+            $('#cantidad').val("");
+            $('#stock').val("");
+            $('#descripcion').focus();
+
+
+
+
+      }     
+            
+  })  */  
+  }     
+        
 });
+         }
 
 function resumen(){
   $(document).ready(function(){
-            var articulos=0.00;
-            var monto=0.00;
-            $('#cesta-list > tbody > tr').each(function(){
-            articulos +=parseFloat($(this).find("td").eq(2).html());
-            monto+=parseFloat($(this).find('td').eq(3).html());
-            });
-            console.log(monto);
             
+          var monto=0.00;
+            $('#cesta-list > tbody > tr').each(function(){
+            monto+= parseFloat( $(this).find('td').eq(4).html());
+            });
+                   
             $("#total_venta").val(monto.toFixed(2));
-            $("#total").html('Gs.' + monto.toFixed(2));
-           /* if(articulos>0){
+            $("#total").html('Total Gs.:'+ monto.toFixed(2));
+            /*if(articulos>0){
               $("#btn-procesa").prop('disabled', false);
               $("#btn-cancela").prop('disabled', false);
             }else{
@@ -122,6 +148,9 @@ function resumen(){
             }*/
             })
           }
+
+ 
+   
 
 /*$("#btn-edit").click(function (e) {
      $.ajaxSetup({

@@ -233,14 +233,14 @@
           </div>
           <div class="form-group col-md-6 opacity-p">
             <label for="">Cantidad</label>
-            <input class="form-control" type="text" id="cantidad" name="cantidad" >
+            <input class="form-control" type="text" id="cantidad" name="cantidad"  onkeypress="return soloNumeros(event);" required >
           </div>
           <div class="form-group col-md-6 opacity-p">
             <label for="">Precio</label>
             <input class="form-control" type="text" id="precio" name="precio" >
           </div>
           <div class="col-sm-12 opacity-p d-flex justify-content-between mt-4">
-            <a class="btn btn-primary "  id="btn-save" value="add"><i class=" fa fa-lg fa-plus"></i>Añadir</a>
+            <a class="btn btn-primary " onclick="add_cesta();" id="btn-add" value="add"><i class=" fa fa-lg fa-plus"></i>Añadir</a>
             <a id="refrescar" class="btn btn-secondary " ><i class=" fa fa-lg fa-refresh"></i>Refrescar</a>
           </div>
         </div>
@@ -249,8 +249,9 @@
   </div>
   {{-- FIN SELECCION DE PRODUCTOS --}}
 </div>
-<div class="alert alert-danger bg-danger text-white mt-4" role="alert">
-  Se agregó un producto faltante: <b>Nombre del Producto</b>.
+<div id="spacio" style="display: block;">&nbsp;</div>
+<div class="alert alert-danger bg-danger text-white mt-4" id="fal-content" style="display: none" role="alert">
+ <div id="faltante"></div>
 </div>
 <div class="row">
      <div class="col-md-12">
@@ -263,12 +264,12 @@
               <table class="table"  id="cesta-list" name="cesta-list">
                 <thead>
                   <tr>
-                    <td width="15%">Cod.</td>
-                    <td width="25%">Producto</td>
-                    <td width="20%">Cantidad</td>
-                    <td width="20%">Precio</td>
-                    <td width="20%">Importe</td>
-                    <td width="20%">Acciones</td>
+                    <th width="15%">Cod.</th>
+                    <th width="30%">Producto</th>
+                    <th width="15%">Cantidad</th>
+                    <th width="20%">Precio</th>
+                    <th width="20%">Importe</th>
+                    <th width="15%" class="text-center">Acciones</th>
                   </tr>
                 </thead>
                 
@@ -277,8 +278,9 @@
                 </tbody>
 
                   
-                <tr><td colspan="5" class="text-right">Total:<div id='total'></div></td><td><button class="btn btn-primary" type="submit" >Guardar</button></td></tr>
+               
               </table>
+               <div class="text-right col-md-"><h3><div id='total'></div></h3><button class="btn btn-primary" type="submit" >Guardar</button></div>
             </div>
           </div>
       </div>

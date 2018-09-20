@@ -31,17 +31,20 @@ class VentasController extends Controller
 
 	public function addventa(Request $request){
 
-    
+
+
     	$addventa= new Detalle_Temporal;
     	$addventa->id_cliente=$request->id_cliente;
     	$addventa->id_producto=$request->id_producto;
     	$addventa->cantidad=$request->cantidad;
     	$addventa->precio=$request->precio;
     	$addventa->save(); 
+    	
 
 
          	return ($addventa);
-   	}   	
+   	} 
+	
 
      public function create(Request $request){
 
