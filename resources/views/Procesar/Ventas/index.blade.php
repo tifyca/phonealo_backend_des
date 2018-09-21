@@ -2,7 +2,7 @@
  @session_start();
  $id_usuario= $_SESSION["user"];
  $name_user= $_SESSION["nombre"];
- $fecha_actual=  date('d-m-Y');
+
 ?>
 
 @extends ('layouts.header')
@@ -59,13 +59,13 @@
           </div>
           <div class="form-group col-md-4">
             <label for="ciudad_cliente">Ciudad</label>
-            <select class="form-control ciudades" id="ciudad_client" name="ciudad_client">
+            <select class="form-control ciudades" id="ciudad_cliente" name="ciudad_cliente">
               <option value="0">Seleccione</option>
             </select>
           </div>
           <div class="form-group col-md-4">
             <label for="barrio_cliente">Barrio</label>
-            <select class="form-control barrios" id="barrio_client" name="barrio_client">
+            <select class="form-control barrios" id="barrio_cliente" name="barrio_cliente">
               <option value="0">Seleccione</option>
             </select>
           </div>
@@ -98,7 +98,7 @@
             </div>
              <div class="form-group col-md-4">
               <label for="">Fecha de Entrega</label>
-              <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" data-date-format="DD/MM/YYYY" value="">
+              <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" data-date-format="DD/MM/YYYY" disabled>
             </div>
             <div class="form-group col-md-4">
               <label for="">Horario de Entrega</label>
@@ -319,7 +319,10 @@
       if(mes<10)
         mes='0'+mes //agrega cero si el menor de 10
       document.getElementById('fecha_venta').value=ano+"-"+mes+"-"+dia;
+      document.getElementById('fecha_entrega').value=ano+"-"+mes+"-"+dia;
+
     }
+    
 
   var url1 = '{{ $url1 }}';
   var url2 = '{{ $url2 }}';
@@ -438,7 +441,9 @@
             $('#stock').val(data.stock_activo);
             $('#precio').val(data.precio_ideal);
             $('#id_producto').val(data.id);
-
+            if(data.stock_activo==0){
+               $('#fecha_entrega').prop('disabled', false);
+            }
             var img = data.img;
 
             if (img.length > 0) {
@@ -468,43 +473,37 @@
 
 
     }
-
-  $("#telefono_cliente").blur(function(event){
+$("#telefono_cliente").blur(function(){
          var value=$(this).val();
+ 
+        $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
 
-        $.ajax({
-          type: "get",
-          url: '{{ route('searchCliente') }}',
-          dataType: "json",
-          data: { search: value },
-          success: function (data){
-          console.log(data.barrio);
+        $.get('{{ route('searchCliente') }}' + '/' + value, function(data){
+          console.log(data);
 
-                $('#id_cliente').val(data.id);
-                $('#nombre_cliente').val(data.nombres);
-                $('#email_cliente').val(data.email);
-                $('#ruc_cliente').val(data.ruc_ci);
-                $('#tipo_cliente').val(data.id_tipo);
-                $('select[name=departamento_cliente]').val(data.id_departamento);
-                cargarComboCiudad(data.id_departamento);
-                $('select[name=ciudad_client]').val(data.id_ciudad);
-                cargarComboBarrio(data.id_ciudad);
-                $('select[name=barrio_client]').val(data.barrio);
-                $('#ubicacion_cliente').val(data.ubicacion);
-                $('#direccion_cliente').val(data.direccion);
-          },
-     
+        $.each(data, function(i, item) {
+        console.log(item.id_departamento);
+               $('#nombre_cliente').val(item.nombres);
+                $('#email_cliente').val(item.email);
+                $('#ruc_cliente').val(item.ruc_ci);
+                $('#tipo_cliente').val(item.id_tipo);
+                $('select[name=departamento_cliente]').val(item.id_departamento);
+                cargarComboCiudad(item.id_departamento, item.id_ciudad);
+           //     $('select[name=ciudad_cliente]').val(item.id_ciudad);
+               cargarComboBarrio(item.id_ciudad,item.barrio);
+              //  $('select[name=barrio_cliente]').val(item.barrio);
+                $('#ubicacion_cliente').val(item.ubicacion);
+                $('#direccion_cliente').val(item.direccion);
+          });
+      
        });
     });
 
 
-function cargarComboCiudad(id_departamento){
-         console.log(id_departamento);
-        //  $('#ciudad_client')
-        //  .find('option')
-        //  .remove()
-        //  .end();
-         // .append('<option value="whatever">Seleccione</option>');
+function cargarComboCiudad(id_departamento, id_ciudad_selected){
+         console.log(id_ciudad_selected);
+          $("#ciudad_cliente").children('option:not(:first)').remove();
+
          $.ajax({
           type: "get",
           url: '{{ route('ciudadesCombo') }}',
@@ -514,39 +513,59 @@ function cargarComboCiudad(id_departamento){
             console.log(data);
           // $(".ciudades").append('<option value=0> Seleccione </option>');
           $.each(data, function(l, item1) {
-
+            var selected = (item1.id == id_ciudad_selected)?"selected":"";
           //$(".ciudades option:eq(1)").prop("selected", true);
-          $(".ciudades").append('<option value='+item1.id+'>'+item1.ciudad+'</option>');
+          $("#ciudad_cliente").append('<option value='+item1.id+' '+selected+'>'+item1.ciudad+'</option>');
           });
           }
   });
 };
 
-function cargarComboBarrio(id_ciudad){
-        console.log(id_ciudad);
-         // $('#barrio_client')
-        // .find('option')
-       //  .remove()
-      //  .end();
-        // .append('<option value="whatever">Seleccione</option>');
-         $.ajax({
-          type: "get",
-          url: '{{ route('barriosCombo') }}',
-          dataType: "json",
-          data: {id_ciudad: id_ciudad},
-          success: function (data){
-            console.log(data);
-          // $(".ciudades").append('<option value=0> Seleccione </option>');
-          $.each(data, function(l, item2) {
+function cargarComboBarrio(id_ciudad, id_barrio_selected){
+       //   var id_ciudad = $(this).val();
+        $("#barrio_cliente").children('option:not(:first)').remove();
 
-          //$(".ciudades option:eq(1)").prop("selected", true);
-          $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
+console.log("Buscar: "+id_barrio_selected);
+           $.ajax({
+              type: "get",
+              url: '{{ route('barriosCombo') }}',
+              dataType: "json",
+              data: {id_ciudad: id_ciudad},
+              success: function (data){
+
+                 $.each(data, function(l, item1) {
+                              var selected = (normalize(item1.barrio) == normalize(id_barrio_selected))?"selected":"";
+                              // console.log("Buscar: "+item1.barrio);
+                 // $(".barrios").append('<option value=0> Seleccione </option>');
+                   //$(".ciudades option:eq(1)").prop("selected", true);
+                   $("#barrio_cliente").append('<option value="'+item1.barrio+'" '+selected+'>'+item1.barrio+'</option>');
+                  });
+              }
           });
-          }
-  });
-};
+ };
+ 
 
-
+ var normalize = (function() {
+  var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç", 
+      to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+      mapping = {};
+ 
+  for(var i = 0, j = from.length; i < j; i++ )
+      mapping[ from.charAt( i ) ] = to.charAt( i );
+ 
+  return function( str ) {
+      var ret = [];
+      for( var i = 0, j = str.length; i < j; i++ ) {
+          var c = str.charAt( i );
+          if( mapping.hasOwnProperty( str.charAt( i ) ) )
+              ret.push( mapping[ c ] );
+          else
+              ret.push( c );
+      }      
+      return ret.join( '' );
+  }
+ 
+})();
  $(document).ready(function(){
     {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
       $.ajax({
@@ -563,8 +582,8 @@ function cargarComboBarrio(id_ciudad){
           }
 
       });
-        // AL SELECCIONAR EL DEPARTAMENTO SE ENVIA EL ID Y SE RECIBE LAS CIUDADES
-   /*   $('#departamento_cliente').change(function(){
+      // AL SELECCIONAR EL DEPARTAMENTO SE ENVIA EL ID Y SE RECIBE LAS CIUDADES
+      $('#departamento_cliente').change(function(){
         var id_departamento = $(this).val();
 
 
@@ -609,8 +628,9 @@ function cargarComboBarrio(id_ciudad){
           });
       });
 
-  */
+  
   });
+
   
   </script>
   

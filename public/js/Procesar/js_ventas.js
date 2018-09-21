@@ -20,7 +20,7 @@
                             '<td width="30%">' + descripcion + '</td>'+
                             '<td width="15%">' + cantidad + '</td>' +
                             '<td width="20%">' + precio + '</td>'+
-                            '<td width="20%">' + importe.toFixed(2)+ '</td>'+
+                            '<td width="20%">' + importe+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
                                  '<a class="btn btn-primary" href="#">'+
                                  '<i class="m-0 fa fa-lg fa-trash"></i></a>'+
@@ -33,8 +33,12 @@
           
             $('#cesta-list > tbody').append(cesta);
             resumen();
-
-             /* var formData = {
+              $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        }
+    });
+            var formData = {
                    
                     
                     cod_producto:     $('#cod_producto').val(),
@@ -43,12 +47,13 @@
                     stock:            $('#stock').val(),
                     precio:           $('#precio').val(),
                     cantidad:         $('#cantidad').val(),
+                    disponible:       dispo,
                    
-                    },
+                    }
 
            $.ajax({
               type: "POST",
-              url:  'add', 
+              url:  'ventas'+'/'+'add', 
               data: formData,
               dataType: 'json',
               headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -65,7 +70,7 @@
           },
        
         
-          });*/
+          });
       }else{
 
         var importe= cantidad*precio;
@@ -73,7 +78,7 @@
                             '<td width="30%">' + descripcion + '</td>'+
                             '<td width="15%">' + cantidad + '</td>' +
                             '<td width="20%">' + precio + '</td>'+
-                            '<td width="20%">' + importe.toFixed(2)+ '</td>'+
+                            '<td width="20%">' + importe+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
                                  '<a class="btn btn-primary" href="#">'+
                                  '<i class="m-0 fa fa-lg fa-trash"></i></a>'+
@@ -90,8 +95,8 @@
              $('#spacio').css("display","none");
             
             resumen();
-
-          /*   var formData = {
+            var dispo=0;
+            var formData = {
                    
                     
                     cod_producto:     $('#cod_producto').val(),
@@ -100,8 +105,9 @@
                     stock:            $('#stock').val(),
                     precio:           $('#precio').val(),
                     cantidad:         $('#cantidad').val(),
+                    disponible:      dispo 
                    
-                    },
+                    }
 
             $.ajax({
               type: "POST",
@@ -123,7 +129,7 @@
 
       }     
             
-  })  */  
+  })  
   }     
         
 });
@@ -132,13 +138,13 @@
 function resumen(){
   $(document).ready(function(){
             
-          var monto=0.00;
+          var monto=0;
             $('#cesta-list > tbody > tr').each(function(){
             monto+= parseFloat( $(this).find('td').eq(4).html());
             });
                    
-            $("#total_venta").val(monto.toFixed(2));
-            $("#total").html('Total Gs.:'+ monto.toFixed(2));
+            $("#total_venta").val(monto);
+            $("#total").html('Total Gs.:'+ monto);
             /*if(articulos>0){
               $("#btn-procesa").prop('disabled', false);
               $("#btn-cancela").prop('disabled', false);
