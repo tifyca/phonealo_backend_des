@@ -69,13 +69,15 @@
             {{-- Imagenes de galiria de producto --}}
             @foreach($imagenes as $img)
               <?php 
-                 $url=$img->imagen;
-                 //$url = config('app.url') . 'productos/' . $img->imagen;
-                 if(empty($url)) $dir ='img/2.jpg';
-                 else     $dir= config('app.url') . 'productos/'.$url; 
+                    $url=$img->imagen;
+                       if($url)
+                    
+                        $zurl = config('app.url') . '/productos/' . $url ;
+                      else
+                        $zurl = 'img/2.jpg';
               ?>
             <div class="carousel-item">
-              <img class="d-block w-100" src="{{ asset($dir) }}" alt="Second slide">
+              <img class="d-block w-100" src="{{ asset($zurl) }}" alt="Second slide">
             </div>
             @endforeach
             {{-- ////////////////////////////// --}}
