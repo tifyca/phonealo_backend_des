@@ -13,8 +13,8 @@ class LogisticaController extends Controller
 {
     public function index(){
     	#jgonzalez 
-    	$ventas = Ventas::Listado();
-    	$ciudades = Ciudades::get();
+    	$ventas = Ventas::Listado();#->paginate(10) Error cuando aplico este metodo;
+        $ciudades = Ciudades::get();
     	$horarios = Horarios::get();
     	return view('Procesar.Logistica.index', compact('ventas', 'ciudades', 'horarios'));
     }
