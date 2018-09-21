@@ -43,7 +43,7 @@ class Ventas extends Model
         return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
             ->leftjoin('detalle_pedidos', 'pedidos.id', '=', 'detalle_pedidos.id_pedido')
             ->join('productos', 'detalle_pedidos.id_producto', '=', 'productos.id')
-            ->select('detalle_pedidos.id_producto', 'productos.descripcion', 'detalle_pedidos.cantidad', 'detalle_pedidos.precio')
+            ->select('productos.codigo_producto', 'productos.descripcion', 'detalle_pedidos.cantidad', 'detalle_pedidos.precio')
             ->where('ventas.id', '=', $id_venta)
             ->get();
     }
