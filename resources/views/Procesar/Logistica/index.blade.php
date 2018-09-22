@@ -212,6 +212,9 @@
                 </thead>
                 <tbody>
                   <!-- jgonzalez LISTADO DE CLIENTES-->
+                  <?php 
+                    $total = 0;
+                  ?>
                   @foreach($ventas as $venta)
                    <tr  
                     @if($venta->id_estado==5)
@@ -246,13 +249,18 @@
                         </div>
                       </td>
                     </tr>
+                    <?php 
+                      $total += $venta->importe;
+                    ?>
                   @endforeach
                     <tr>
                     <td colspan="9" class="text-right">
                       <h4>Total:</h4>
                     </td>
                     <td colspan="2">
-                      <h4>09876543</h4>
+                      <h4>
+                        {{ $total }}
+                      </h4>
                     </td>
                   </tr>
                  
