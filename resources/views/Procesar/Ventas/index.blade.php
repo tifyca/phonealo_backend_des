@@ -27,6 +27,8 @@
       <div class="tile-body ">
         <div class="row">
           <input type="hidden" name="id_cliente" id="id_cliente">
+            <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+            
           <div class="form-group col-md-4">
             <label for="telefono_cliente">Teléfono</label>
             <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="15">
@@ -288,6 +290,83 @@
    </div>
 </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+     <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Detalle de Producto</h4>
+     </div>
+     <div class="modal-body">
+       <div class="row">
+          <div class="col-md-8">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="row">
+          <div class="col-12 table-responsive">
+            <h2><div id="det-descripcion"></div></h2>
+            <table class="table mt-4">
+              <tbody>
+                <tr>
+                  <th>Código:</th>
+                  <td><div id="det-codigo" ></div></td>
+                </tr>
+                <tr>
+                  <th>Categoría:</th>
+                  <td><div id="det-categoria" ></div></td>
+                </tr>
+                <tr>
+                  <th>Subcategoria:</th>
+                  <td><div id="det-subcategoria" ></div></td>
+                </tr>
+                <tr>
+                  <th>Precio Ideal:</th>
+                  <td><div id="det-precio" ></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-12">
+             <h3>Especificaciones</h3>
+             <p ><div id="det-especifcaciones" ></div></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 text-center">
+      <div id="carouselProducto" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            {{-- Imagen principal --}}
+            <div class="carousel-item active" id="img-prod" >
+           
+            </div>
+            {{-- ///////////// --}}
+            {{-- Imagenes de galiria de producto --}}
+            
+             <div  class="carousel-item" id="det-carousel"></div>
+          <a class="carousel-control-prev" href="#carouselProducto" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselProducto" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+    </div>
+</div>
+
+  
+        <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+        </div>
+     
+     
+    </div>
+   </div>
+  </div>
+
+
 
 @endsection
 
@@ -483,7 +562,8 @@ $("#telefono_cliente").blur(function(){
 
         $.each(data, function(i, item) {
         console.log(item.id_departamento);
-               $('#nombre_cliente').val(item.nombres);
+                $('#id_cliente').val(item.id);
+                $('#nombre_cliente').val(item.nombres);
                 $('#email_cliente').val(item.email);
                 $('#ruc_cliente').val(item.ruc_ci);
                 $('#tipo_cliente').val(item.id_tipo);

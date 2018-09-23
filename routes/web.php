@@ -239,7 +239,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('procesar/ventas', 'Procesar\VentasController');
     Route::get('searchCliente/{tlf?}', 'Procesar\VentasController@getcliente')->name('searchCliente');
     Route::post('procesar/ventas/add', 'Procesar\VentasController@addventa');
-    
+    Route::get('procesar/ventas/detalle/{valor}', 'Procesar\VentasController@detalle_producto');
 
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
 

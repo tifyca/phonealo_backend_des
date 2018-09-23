@@ -10,6 +10,11 @@ use App\Ventas;
 use App\Detalle_Temporal;
 use App\Facturas;
 use App\Productos;
+use App\Categorias;
+use App\Subcategorias;
+use DB;
+use File;
+ @session_start();
 use Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -40,6 +45,7 @@ class VentasController extends Controller
     	$addventa->cantidad=$request->cantidad;
     	$addventa->precio=$request->precio;
         $addventa->id_usuario= $request->id_usuario;
+        $addventa->espera= $request->espera;
     	$addventa->save(); 
 
 
@@ -145,6 +151,25 @@ class VentasController extends Controller
 
       }  
         
+    }
+
+    public function detalle_producto($id){
+        $productos=productos::find($id);
+        $categorias=Categorias::where('id',$productos->id_categoria)->first();
+        if($categorias)
+            $categoria = $categorias->categoria;
+        else 
+            $categoria="";
+        $subcategorias=Subcategorias::where('id',$productos->id_subcategoria)->first();
+        if($subcategorias)
+        $subcategoria = $subcategorias->sub_categoria;
+       else
+        $subcategoria="";
+       $imagenes=db::table('producto_imagenes as a')
+                    ->select('a.id_producto','a.imagen')
+                    ->where('id_producto',$id)->get();
+      
+         return response()->json([ 'productos' => $productos, 'categoria' => $categoria, 'subcategoria' => $subcategoria, 'imagenes' => $imagenes ]);
     }
 
 }

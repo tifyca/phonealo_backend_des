@@ -1,20 +1,23 @@
-  var url='ventas';
+var url='ventas';
  
  
  function add_cesta(){
    $(document).ready(function(){
 
+    var id_cliente  = $('#id_cliente').val();
+    var id_usuario  = $('#id_usuario').val();
+    var id_producto = $('#id_producto').val();
     var cod_producto= $('#cod_producto').val();
     var  descripcion= $('#descripcion').val();
     var     precio  = $('#precio').val();
     var   cantidad  = $('#cantidad').val();
-    var     stock  = $('#stock').val();
+    var     stock   = $('#stock').val();
 
-    var dispo=stock-cantidad;
-    console.log(dispo);
+    if(stock==0){var dispo=stock;}else{var dispo=stock-cantidad;}
+  
+      if(dispo>0){
 
-      if(dispo>=0){
-          
+          var espera =0;  
           var importe= cantidad*precio;
           var cesta  = '<tr><td  width="15%">' + cod_producto + '</td>'+
                             '<td width="30%">' + descripcion + '</td>'+
@@ -22,34 +25,34 @@
                             '<td width="20%">' + precio + '</td>'+
                             '<td width="20%">' + importe+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
-                                 '<a class="btn btn-primary" href="#">'+
-                                 '<i class="m-0 fa fa-lg fa-trash"></i></a>'+
-                                 '<a class="btn btn-primary" href="">'+
-                                 '<i class="m-0 fa fa-lg fa-info"></i></a></div>'+
+                                 '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" >'+
+                                 '<i class="m-0 fa fa-lg fa-trash"></i></button>'+
+                                 '<button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="'+id_producto+'">'+
+                                 '<i class="m-0 fa fa-lg fa-info"></i></button></div>'+
                             '</td>'+
                           '</tr>';
-           
-
-          
+                 
             $('#cesta-list > tbody').append(cesta);
+            
             resumen();
-              $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-        }
-    });
+            
+            $.ajaxSetup({
+             headers: {
+                  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+             }
+             });
             var formData = {
-                   
-                    
-                    cod_producto:     $('#cod_producto').val(),
-                    id_producto:      $('#id_producto').val(),
-                    descripcion:      $('#descripcion').val(),
-                    stock:            $('#stock').val(),
-                    precio:           $('#precio').val(),
-                    cantidad:         $('#cantidad').val(),
+                    id_usuario:   id_usuario,
+                    id_cliente:       id_cliente,
+                    cod_producto:     cod_producto,
+                    id_producto:      id_producto,
+                    descripcion:      descripcion,
+                    stock:            stock,
+                    precio:           precio,
+                    cantidad:         cantidad,
                     disponible:       dispo,
-                   
-                    }
+                    espera:           espera
+                   }
 
            $.ajax({
               type: "POST",
@@ -73,67 +76,67 @@
           });
       }else{
 
-        var importe= cantidad*precio;
+          var espera=1;
+          var importe= cantidad*precio;
           var cesta  = '<tr class="table-danger"><td  width="15%">' + cod_producto + '</td>'+
                             '<td width="30%">' + descripcion + '</td>'+
                             '<td width="15%">' + cantidad + '</td>' +
                             '<td width="20%">' + precio + '</td>'+
                             '<td width="20%">' + importe+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
-                                 '<a class="btn btn-primary" href="#">'+
+                                 '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" >'+
                                  '<i class="m-0 fa fa-lg fa-trash"></i></a>'+
-                                 '<a class="btn btn-primary" href="">'+
-                                 '<i class="m-0 fa fa-lg fa-info"></i></a></div>'+
+                                 '<button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="'+id_producto+'" >'+
+                                 '<i class="m-0 fa fa-lg fa-info"></i></button></div>'+
                             '</td>'+
                           '</tr>';
            
-
-          
-            $('#cesta-list > tbody').append(cesta);
+             $('#cesta-list > tbody').append(cesta);
              $("#faltante, #fal-content").html(' Se agregó un producto faltante');
              $('#fal-content').css("display","block");
              $('#spacio').css("display","none");
             
-            resumen();
-            var dispo=0;
-            var formData = {
-                   
-                    
-                    cod_producto:     $('#cod_producto').val(),
-                    id_producto:      $('#id_producto').val(),
-                    descripcion:      $('#descripcion').val(),
-                    stock:            $('#stock').val(),
-                    precio:           $('#precio').val(),
-                    cantidad:         $('#cantidad').val(),
-                    disponible:      dispo 
-                   
+             resumen();
+
+            $.ajaxSetup({
+             headers: {
+                  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+             }
+             });
+             var formData = {
+                    id_usuario:       id_usuario,
+                    id_cliente:       id_cliente,
+                    cod_producto:     cod_producto,
+                    id_producto:      id_producto,
+                    descripcion:      descripcion,
+                    stock:            stock,
+                    precio:           precio,
+                    cantidad:         cantidad,
+                    disponible:       dispo,
+                    espera:           espera
                     }
 
-            $.ajax({
-              type: "POST",
-              url:  'add', 
-              data: formData,
-              dataType: 'json',
-              headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-              success: function (data) {
+             $.ajax({
+                type: "POST",
+                url:  'ventas'+'/'+'add', 
+                data: formData,
+                dataType: 'json',
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                success: function (data) {
      
-            $('#cod_producto').val("");
-            $('#descripcion').val("");
-            $('#precio').val("");
-            $('#cantidad').val("");
-            $('#stock').val("");
-            $('#descripcion').focus();
-
-
-
-
-      }     
+                  $('#cod_producto').val("");
+                  $('#descripcion').val("");
+                  $('#precio').val("");
+                  $('#cantidad').val("");
+                  $('#stock').val("");
+                  $('#descripcion').focus();
+              }     
             
-  })  
-  }     
+          })  
+       }     
         
-});
-         }
+     });
+  }
 
 function resumen(){
   $(document).ready(function(){
@@ -155,8 +158,55 @@ function resumen(){
             })
           }
 
- 
-   
+ $(document).on('click', '.open_modal', function(){
+    var id_producto = $(this).val();
+    $.get('ventas/detalle/'+ id_producto, function(data){
+      console.log(data);
+          $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        }
+    });  
+
+          $('#det-descripcion').html(data.productos.descripcion);
+          $('#det-codigo').html(data.productos.codigo_producto);
+          $('#det-categoria').html(data.categoria);
+          $('#det-subcategoria').html(data.subcategoria);
+          $('#det-precio').html(data.productos.precio_ideal+' Gs');
+          $('#det-especifcaciones').html(data.productos.descripcion_producto);
+          
+          var url_img=data.productos.img;
+                       if(url_img===""){
+                        var zurl = '../../public/img/img-default.png'; 
+                       }
+                       else{
+                        var zurl =  '../../public/' + url_img ;
+                      }
+                     
+                   $('#img-prod').append('<img class="d-block w-100" src="'+zurl+'" alt="Primer slide">');
+              $.each(data.imagenes, function(l, item) {
+                var url_i=item.imagen;
+                      if(url_i===""){
+                        var zurl = '../../public/img/img-default.png'; 
+                       }
+                       else{
+                        var zurl = '../../public/' + url_i ;
+                      }
+                     
+                $('#det-carousel').append('<img class="d-block w-100" src="'+zurl+'" alt="Segundo slide">');
+              
+              });
+          $('#myModal').modal('show');
+       
+    
+})
+    });
+
+$(document).on('click', '.delete', function (e) {
+    e.preventDefault();
+    $(this).closest('tr').remove();
+    
+});   
 
 /*$("#btn-edit").click(function (e) {
      $.ajaxSetup({
