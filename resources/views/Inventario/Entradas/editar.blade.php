@@ -1,9 +1,9 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-<?php $titulo = "Confirmación de Solicitud de Pedido";
+<?php $titulo = "Editar Solicitud de Pedido";
       $tit = utf8_decode($titulo);?>
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Confirmacion de Solicitud de Pedido' )
+@section('titulo', 'Modificar Solicitud de Pedido' )
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -16,7 +16,7 @@
   <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-      <form name="form1" action="{{route('entradas.carga')}}" accept-charset="UTF-8"  method="post">
+      <form name="form1" action="{{route('entradas.update')}}" accept-charset="UTF-8"  method="post">
             {{ csrf_field() }}
           <div class="row">
             <div class="form-group col-md-3">
@@ -66,7 +66,7 @@
               <input type="hidden" name="id_producto" id="id_producto">
               
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-5">
               <label for="descripcion">Descripci&oacuten</label>
               <input class="form-control" type="text" name="descripcion" id="descripcion" >
             </div>
@@ -75,14 +75,7 @@
                {{-- ESTE ESPACIO APARECE Y SE LLENA CON AJAX, SE ACATUALIZA CADA QUE SUELTAS LA TECLA --}}
              </ul>
            </div>
-            <div class="form-group col-md-2">
-              <label for="descripcion">Nombre Fiscal</label>
-              <input class="form-control" type="text" name="nombre_fiscal" id="nombre_fiscal" >
-            </div>
-           <div class="form-group col-md-2">
-            <label for="precio_entrada">Factura</label>
-            <input class="form-control" type="text" id="factura" name="factura">
-          </div>
+       
 
            <div class="form-group col-md-2">
             <label for="precio_entrada">Precio</label>
@@ -112,54 +105,43 @@
                   <td><b>Producto</b></td>
                   <td class="text-center"><b>Cantidad</b></td>
                   <td class="text-center"><b>Precio</b></td>
-                  <td class="text-center"><b>Importe</b></td>
-                   <td class="text-center"><b>N.Fact</b></td>
-                  <td class="text-center"><b>Nombre S/Factura</b></td>
-                  <td class="text-center"><b>Cantidad(Conf)</b></td>
-                  <td class="text-center"><b>Precio(Conf)</b></td>
-                 
-                  
+                  <td class="text-center"><b>Importe</b></td> 
                 </tr>
                </thead>
               <tbody>
                 <?php $total=0; $z=1; $totalc=0; 
                 $name3="idproducto".$z;
-                $name="cantidad_conf".$z;
-                 $name2="precio_conf".$z;
-                 $name4="nombre_conf".$z;
-                 $name5="cantidad".$z;
-                 $name6="precio".$z;
-                 $name7="nfactura".$z;
+                $name="cantidad".$z;
+                $name2="precio".$z;
+              
                  $contador=0;
                  $n1 = "idproducto[".$contador."][id]";
                  $n2 = "idproducto[".$contador."][cantidad]";
                  $n3 = "idproducto[".$contador."][precio]";
-                 $n4 = "idproducto[".$contador."][factura]";
-                 $n5 = "idproducto[".$contador."][nombre]";
-                 $n6 = "idproducto[".$contador."][cf]";
-                 $n7 = "idproducto[".$contador."][pf]";
+             
                 ?>
                 @foreach($detalles as $det)
                 <tr>
+
                   <input type="hidden" name="{{$n1}}" id="{{$name3}}" value="{{$det->idproducto}}" >
                   <td>
-                    @if($det->pagado==0)
+                   
                     <div class="form-check">
-                         <input type="checkbox" class="form-check-input" name="producto[]" onclick="activar('{{$name}}','{{$name2}}','{{$name4}}','{{$name7}}');">
+                         <input type="checkbox" class="form-check-input" name="producto[]" onclick="activar('{{$name}}','{{$name2}}');">
                     </div>
-                    @endif
+                   
                   </td>
                   <td>{{$det->desprod}}</td>
                                       <?php $cant=$det->cantidad;
                       $zcan = number_format($cant, 0, ',', '.');?>
 
-                  <td align="text-center"><input type="text" class="form-control text-center" name="{{$n2}}" id="{{$name5}}" value="<?php echo $zcan;?>" size="3" disabled>
+                  <td align="text-center"><input type="text" class="form-control text-center" name="{{$n2}}" id="{{$name}}" value="<?php echo $zcan;?>" size="3" disabled>
                         
                   </td>
                   <td align="right" width="13%">
                     <?php $prec=$det->precio;
                       $zcan = number_format($prec, 2, ',', '.');?>
-                     <input type="text" class="form-control" name="{{$n3}}" id="{{$name6}}" value="<?php echo $zcan;?>" size="16" disabled>
+                     <input type="text" class="form-control" name="{{$n3}}" id="{{$name2}}" value="<?php echo $zcan;?>" size="16" disabled>
                     
                   </td>
                   <?php $importe=$det->precio*$det->cantidad;
@@ -172,53 +154,16 @@
                      ?>
                   <td width="15%" class="text-right"><input type="text" class="form-control text-right" value="{{$ztotal}}" disabled></td>
                  <td width="12%">
-                  <?php
-                    if(empty($det->nfactura))
-                      $dnfactura="";
-                    else
-                      $dnfactura = $det->nfactura;
-                    if(empty($det->nombre_fiscal)) 
-                      $nombref="";
-                    else
-                      $nombref=$det->nombre_fiscal;
-
-                   if(empty($det->cantidad_confirmada)) 
-                    $cantconf=0; 
-                   else $cantconf=$det->cantidad_confirmada; 
-                   if(empty($det->precio_confirmado)) 
-                      $precioconf=0; 
-                   else $precioconf=$det->precio_confirmado; 
-                  ?>
-                     
-                  <input type="text" size="4" class="form-control text-center" name="{{$n4}}"  id="{{$name7}}" disabled="" value="{{$dnfactura}}"></td>     
-                <td width="12%">
-                  
-                  <input type="text" class="form-control" name="{{$n5}}"  id="{{$name4}}"disabled="" value="{{$det->nombre_fiscal}}" size="10"></td>                     
-                  <td width="5%">
-                    
-
-                    <input type="number" class="form-control text-center" name="{{$n6}}" id="{{$name}}" disabled="" value="{{$cantconf}}" size="2"></td>
-                  <td>
-                   
-                    <input type="number" size="4" class="form-control text-rigth" name="{{$n7}}"  id="{{$name2}}" disabled="" value="{{$precioconf}}"></td>
-                 
-                
+                                      
                 </tr>
                 <?php $contador++;$z++;
-                   $name3="idproducto".$z;
-                   $name="cantidad_conf".$z;
-                   $name2="precio_conf".$z;
-                   $name4="nombre_conf".$z;
-                    $name5="cantidad".$z;
-                     $name6="precio".$z;
-                     $name7="nfactura".$z;
+                $name3="idproducto".$z;
+                $name="cantidad".$z;
+                $name2="precio".$z;
                  $n1 = "idproducto[".$contador."][id]";
                  $n2 = "idproducto[".$contador."][cantidad]";
                  $n3 = "idproducto[".$contador."][precio]";
-                 $n4 = "idproducto[".$contador."][factura]";
-                 $n5 = "idproducto[".$contador."][nombre]";
-                 $n6 = "idproducto[".$contador."][cf]";
-                 $n7 = "idproducto[".$contador."][pf]";                     
+                               
                 ?>
                 @endforeach
               </tbody>
@@ -241,11 +186,7 @@
                       <input type="text" name="ztotal2" id="ztotal2" value="{{$ztotal}}" class="form-control text-right" disabled maxlength="10">
         
                     </td>
-                    <td  colspan="2" class="text-right"><b>Total Confirmado</b></td>
-                     <td  colspan="2" class="text-right"><input type="hidden" name="contotal" id="contotal" value="{{$totalc}}" class="form-control" disabled maxlength="10">
-                      <input type="text" name="ctotal2" id="ctotal2" value="{{$zctotal}}" class="form-control text-right" disabled maxlength="10">
-        
-                    </td>
+                   
                   </tr>
             </table>
           </div>
@@ -445,7 +386,8 @@
       precio       = $('#precio').val();
       idp          = $('#id_producto').val();
       zfactura     = $('#factura').val();
-      znfiscal     = $('#nombre_fiscal').val()
+      znfiscal     = $('#nombre_fiscal').val();
+
       verificar(idp);
 
 
@@ -461,15 +403,15 @@
         name2 = "cant"+contador+1;
         name3 = "prec"+contador+1;
         
-        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input class="form-control" size="3" type="hidden" name="zidproducto" id="'+name1+'" value="'+idproducto+'" readonly>'+descripcion+'</td><td><input type="text" class="form-control" size="3" name="cant[]" value="'+cantidad+'" readonly></td><td><input type="text" size="5" class="form-control" name="prec[]" value="'+precio+'" id="'+name3+'" readonly></td><td ><input type="text" class="form-control text-right" name="subt" id="subt" value="'+subtotal[contador]+'" readonly></td><td><input type="text" class="form-control text-center" name="fact" value="'+zfactura+'" readonly></td><td><input type="text" name="nf" class="form-control text-left" value="'+znfiscal+'" readonly></td><td><input type="text" class="form-control text-center" value="'+cantidad+'" readonly></td><td><input type="text" class="form-control text-right" value="'+precio+'" readonly></td></tr>';
-          productos[contador]=idproducto;
+        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input class="form-control" size="3" type="hidden" name="zidproducto" id="'+name1+'" value="'+idp+'" readonly>'+descripcion+'</td><td><input type="text" class="form-control" size="3" name="cant[]" value="'+cantidad+'" readonly></td><td><input type="text" size="5" class="form-control" name="prec[]" value="'+precio+'" id="'+name3+'" readonly></td><td ><input type="text" class="form-control text-right" name="subt" id="subt" value="'+subtotal[contador]+'" readonly></td></tr>';
+          productos[contador]=idp;
           ndoc =$('#nro_documento').val();
 ////////////////////////////////////////////7
         item = {}
         item["documento"]           = ndoc;
         item["fecha"]               = $('#fecha_entrada');
         item["proveedor"]           = $('#id_proveedor');
-        item["id"]                  = idproducto;
+        item["id"]                  = idp;
         item["descripcion"]         = descripcion;
         item["cantidad"]            = cantidad;
         item["precio"]              = precio;
@@ -509,6 +451,7 @@
   }
   function verificar(z)
   {
+   
      valor = $('#idsolped').val();
      x=0;
      $.ajax({
@@ -528,8 +471,6 @@
 
       });
 
-
-    
 
 
   }

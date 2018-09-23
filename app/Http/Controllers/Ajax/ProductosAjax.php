@@ -57,18 +57,37 @@ class ProductosAjax extends Controller
         return $total;
     }
 
+ public function solped_comprobantes(Request $request)
+    {
+        $id = $request["idc"];
+        $detallesolped = detallesolped::where('id_solped',$id)->groupby('id_solped','nfactura')->get();
+        return $detallesolped;
+    }
+
+ public function verificar_detalle(Request $request)
+    {
+        $id = $request["idc"];
+        $idproducto = $request["idp"];
+        $detallesolped = detallesolped::where('id_solped',$id)->where("id_producto",$idproducto)->first();
+        //dd($idproducto);
+        if($detallesolped) 
+          $encontrado=1;
+        else 
+          $encontrado=0;        
+        return $encontrado;
+    }
 
     public function solped_factura(Request $request)
     {
         $id      = $request["ids"];
         $factura = $request["factura"];
         $detallesolped = detallesolped::where('id_solped',$id)->where("nfactura","like",$factura)->get();
-         if(!$detallesolped){
+      if(!$detallesolped){
                $data["status"]='No';
                $data["total"]=0;
                 
-          }      
-        else{ 
+      }      
+      else{ 
         $total=0;
         $calculo = 0;
         $pagado=0;

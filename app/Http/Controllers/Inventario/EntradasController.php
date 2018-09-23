@@ -103,26 +103,7 @@ class EntradasController extends Controller
               $detallesolped->cantidad    = $deta["cantidad"];
               $detallesolped->save();
         }            
-            //$detalles = auxiliar::where('documento',$request->get('nro_documento'))->get();
-           
-            //foreach ($detalles as $det) {
-              //  $detallesolped= new detallesolped;
-              //  $detallesolped->id_solped = $solped->id;
-              //  $detallesolped->id_producto = $det->codigo;
-              //  $detallesolped->precio      = $det->precio;
-             //   $detallesolped->cantidad    = $det->cantidad;
-             //   $detallesolped->save();
-             //   $det->delete();
-
-             //    $auditoria = new auditoria();
-             //    $auditoria->id_usuario =  $_SESSION["user"];
-             //    $auditoria->fecha      = date('Y-m-d');
-             //    $auditoria->accion     = "Solicitud de Pedido de Producto:".$solped->id;
-             //    $auditoria->id_producto = $det->codigo;
-             //    $auditoria->save(); 
-
-            //}
-
+          
                $tipo="1";
                 $mensaje="Solicitud de Pedido Almacenada correctamente";
 
@@ -138,27 +119,7 @@ class EntradasController extends Controller
         return view('Inventario.Entradas.index')->with('proveedores',$proveedores)->with('solped',$solped)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('estados',$estados);
     }
 
-    public function anular(Request $request){      
-      //dd($request);
-      try
-            {
-             $id = $request->id;
-             $solped= solped::find($id);
-              $solped->id_estado = 10;
-              $solped->save();
-              return response()->json($solped);
-          }catch(\Illuminate\Database\QueryException $e)
-          {
-           
-              if($e->getCode() === '23000') {
-                 
-                    return response()->json([ 'success' => false ], 400);
-        
-              } 
-          }
-
-
-    }
+  
     public function cargar_detalle(Request $request){
 
         $data=$request->all();
@@ -209,45 +170,50 @@ class EntradasController extends Controller
         return view('Inventario.Entradas.confirmar')->with('solped',$solped)->with('proveedores',$proveedores)->with('detalles',$detallesolped)->with('cant',$cantidad);
     }
 
+    public function edit($id)
+    {
+        $solped=solped::find($id);
+        $proveedores = proveedores::where('id_estado','1')->get();
+        $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.id as idproducto','b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad','a.nombre_fiscal','a.pagado','a.cantidad_confirmada','a.precio_confirmado','a.nfactura')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
+        //$detallesolped = detallesolped::where('id_solped',$id)->get();
+           $deta= db::table('detalle_solped as a')->
+                  join('productos as b','a.id_producto','=','b.id')
+                  ->select(DB::raw('count(b.id) as cantidad'))->where('a.id_solped',$id)->orderby('a.id','asc')->first();
+                  
+        $cantidad = $deta->cantidad;  
+
+        return view('Inventario.Entradas.editar')->with('solped',$solped)->with('proveedores',$proveedores)->with('detalles',$detallesolped)->with('cant',$cantidad);
+    }
+
+
+
     public function carga(Request $request)
     {
-        //dd($request);
         $lista = json_decode($request->ListaProd,true);
-        $id = $request->idsolped;
-        
-        $idproducto            = $request->get('idproducto');
-        $cantidad_conf         = $request->get('cantidad_conf');
-        $precio_conf           = $request->get('precio_conf');
-        $nombre_conf           = $request->get('nombre_conf');
-        $factura               = $request->get('nfactura');
-
+        $id = $request->idsolped;     
+        $idproducto            = $request->get('idproducto');   
         $cont=0;
-        $cambio = 0;
+        $z = 0;
         while($cont < count($idproducto))
        
-          {
-            if(!empty($cantidad_conf[$cont]))
+          { 
+
+            if(isset($idproducto[$cont]["cf"]))
             {
-                $detallesolped=detallesolped::where('id_solped',$id)->where('id_producto',$idproducto[$cont])->where('pagado',0)->first();
-                //dd($detallesolped);
+                $detallesolped=detallesolped::where('id_solped',$id)->where('id_producto',$idproducto[$cont]["id"])->where('pagado',NULL)->first();
                 if($detallesolped){
                  
-                  $detallesolped->cantidad_confirmada = $cantidad_conf[$cont];
-                  if(!empty($precio_conf[$cont])){
+                  $detallesolped->cantidad_confirmada = $idproducto[$cont]["cf"];
+                  if(!empty($idproducto[$cont]["pf"])){
                   
-                    $detallesolped->precio_confirmado    = $precio_conf[$cont];
+                    $detallesolped->precio_confirmado    = $idproducto[$cont]["pf"];
                   }
                   if($detallesolped->precio!=$detallesolped->precio_confirmado || $detallesolped->cantidad!=$detallesolped->cantidad_confirmada)
-                  { $cambio++;}   
-                  $detallesolped->nombre_fiscal  = $nombre_conf[$cont];
-                  $detallesolped->nfactura       = $factura[$cont];
+                  { $z++;}   
+                  $detallesolped->nombre_fiscal  = $idproducto[$cont]["nombre"];
+                  $detallesolped->nfactura       = $idproducto[$cont]["factura"];
                   $detallesolped->save();
-                  //$productos=productos::where('id',$idproducto[$cont])->first();
-                  //if($productos){
-                  //    $productos->precio_compra = $precio_conf[$cont];
-                  //    $productos->stock_activo  = $productos->stock_activo + $cantidad_conf[$cont];
-                  //    $productos->save();
-                  //  }
+                 
                 }else{
 
                 }
@@ -269,14 +235,16 @@ class EntradasController extends Controller
               $detallesolped->nfactura             = $deta["nro_factura"];
               $detallesolped->pagado               = 0;
               $detallesolped->save();
+               $z++;
            }            
           }
+          //dd($cambio);
 
         $solped=solped::find($id);
         $solped->id_estado=7;
         $solped->observaciones = $request->observaciones;
         $solped->fecha_confirmacion = $request->fecha_confirmacion;
-        $solped->modificado         = $cambio;
+        $solped->modificado         = $z;
         $solped->save();
         $auditoria             = new auditoria();
         $auditoria->id_usuario =  $_SESSION["user"];
@@ -288,12 +256,105 @@ class EntradasController extends Controller
         $mensaje="Confirmación Ejecutada con éxito";
         $proveedores = Proveedores::where('id_estado','1')->get();
         $estados     = Estados::orderby('id')->get();       
-          $solped = DB::table('solped as a')
+        $solped = DB::table('solped as a')
                   ->join('proveedores as c','a.id_proveedor','=','c.id')
                   ->join('detalle_solped as b','a.id','=','b.id_solped')
                   ->select('a.id','a.modificado','a.fecha','a.nro_documento','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),'a.id_estado','a.created_at')->orderby('a.fecha','desc')
                   ->groupBy('a.id')->paginate(10);
                   
         return view('Inventario.Entradas.index')->with('proveedores',$proveedores)->with('solped',$solped)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('estados',$estados);      
+    }
+
+
+    public function update(Request $request)
+    {
+        $lista = json_decode($request->ListaProd,true);
+        $id = $request->idsolped;     
+        $idproducto            = $request->get('idproducto');   
+        $cont=0;
+        $z = 0;
+        while($cont < count($idproducto))
+       
+          { 
+
+            if(isset($idproducto[$cont]["cf"]))
+            {
+                $detallesolped=detallesolped::where('id_solped',$id)->where('id_producto',$idproducto[$cont]["id"])->where('pagado',NULL)->first();
+                if($detallesolped){
+                 
+                  $detallesolped->cantidad  = $idproducto[$cont]["cantidad"];
+                  $detallesolped->precio    = $idproducto[$cont]["precio"];
+                  $detallesolped->save();
+                 
+                }
+            }
+            $cont++;
+          }
+          if(!empty($lista))
+          {
+            foreach ($lista as $deta)
+            {   
+              $deta = detallesolped::where('id_solped',$id)->where('id_producto', $deta["id"])->first();
+              if(!$deta){
+              $detallesolped= new detallesolped;
+              $detallesolped->id_solped = $id;
+              $detallesolped->id_producto = $deta["id"];
+              $detallesolped->precio      = $deta["precio"];
+              $detallesolped->cantidad    = $deta["cantidad"];
+     
+              $detallesolped->pagado      = 0;
+              $detallesolped->save();
+               $z++;
+              }
+           }            
+          }
+          //dd($cambio);
+
+        $solped=solped::find($id);
+        $solped->id_estado=11;
+        $solped->observaciones = $request->observaciones;
+        $solped->fecha_confirmacion = $request->fecha_confirmacion;
+        $solped->modificado         = $z;
+        $solped->save();
+        $auditoria             = new auditoria();
+        $auditoria->id_usuario =  $_SESSION["user"];
+        $auditoria->fecha      = date('Y-m-d');
+
+        $auditoria->accion     = "Modificación de Pedido de Producto:".$id;
+        $auditoria->save(); 
+        $tipo=1;
+        $mensaje="Modificación Ejecutada con éxito";
+        $proveedores = Proveedores::where('id_estado','1')->get();
+        $estados     = Estados::orderby('id')->get();       
+        $solped = DB::table('solped as a')
+                  ->join('proveedores as c','a.id_proveedor','=','c.id')
+                  ->join('detalle_solped as b','a.id','=','b.id_solped')
+                  ->select('a.id','a.modificado','a.fecha','a.nro_documento','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),'a.id_estado','a.created_at')->orderby('a.fecha','desc')
+                  ->groupBy('a.id')->paginate(10);
+                  
+        return view('Inventario.Entradas.index')->with('proveedores',$proveedores)->with('solped',$solped)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('estados',$estados);      
+    }
+
+  public function anular(Request $request){      
+      //dd($request);
+      try
+            {
+             $id = $request->id;
+             $solped= solped::find($id);
+              $solped->id_estado = 10;
+              $solped->modificado =0;
+              $solped->save();
+              return response()->json($solped);
+          }catch(\Illuminate\Database\QueryException $e)
+          {
+           
+              if($e->getCode() === '23000') {
+                 
+                    return response()->json([ 'success' => false ], 400);
+        
+              } 
+          }
+
+
     }
 }
