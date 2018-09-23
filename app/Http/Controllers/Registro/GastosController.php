@@ -109,14 +109,20 @@ public function store(Request $request)
      $gastos->id_categoria         = $request["categoria_gasto"];
      $gastos->observaciones        = $request["observaciones"];
      $gastos->importe              = $request["importe_gasto"];
-     $gastos->id_solped            = $request["id_solped"];
-     $gastos->id_proveedor         = $request["id_proveedor"];
-     $gastos->comprobante          = $request["comprobante_gasto"];
      $gastos->fecha_comprobante    = $request["fecha_comprobante_gasto"];
      $gastos->id_estado             = 1;
      if($request->id_proveedor && $request->id_solped) {
       $gastos->id_fuente = 1;
-    }else{$gastos->id_fuente            = $request["id_fuente"];}
+      $gastos->id_solped            = $request["id_solped"];
+     $gastos->id_proveedor         = $request["id_proveedor"];
+     $gastos->comprobante          = $request["comprobante_gasto2"];
+
+
+    }else
+    {
+      $gastos->id_fuente            = $request["id_fuente"];
+      $gastos->comprobante          = $request["comprobante_gasto"];
+    }
 
     $gastos->id_divisa            = $request["divisa_gasto"];
     $gastos->cambio               = $request["cambio_gasto"];

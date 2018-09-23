@@ -65,9 +65,9 @@
         </div>
         <div class="tile-body ">
           <div class="table-responsive">
-              <table class="table table-hover table-bordered" id="sampleTable">
+              <table class="table table-hover" id="sampleTable">
                 <thead>
-                  <tr class="table-info">
+                  <tr>
                     <th>Descripción</th>
                     <th>Comprobante</th>
                     <th>Categoría</th>
@@ -81,7 +81,11 @@
                 </thead>
                 <tbody>
                   @foreach($gastos as $gast)
-                  <tr>
+                  <tr
+                    @if($gast->id_estado=="2")
+                    class="table-danger"
+                    @endif
+                  >
                     <td>{{$gast->descripcion}}</td>
                     <td>{{$gast->comprobante}}</td>
                     <td>
@@ -114,9 +118,11 @@
                     <td  class="text-center">{{$gast->fecha}}</td>
                     <td width="10%" class="text-center">
                       <div class="btn-group">
+                       @if($gast->id_estado!=2)  
                         <a class="btn btn-primary" href="{{ route('gastos.edit',$gast->id) }}"><i class="fa fa-lg fa-eye"></i></a>
-                        @if($gast->id_categoria!=2)
+                         @if($gast->id_categoria!=2)
                           <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$gast->id}}"><i class="fa fa-lg fa-trash"></i></button>  
+                         @endif 
                         @endif    
                       </div>
                     </td>
