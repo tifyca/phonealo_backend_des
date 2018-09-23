@@ -87,9 +87,17 @@
 
             <div class="form-group col-md-3">
               <label for="comprobante_gasto">Comprobante</label>
+              <div id="comprobante1" style="display:block">
               <input class="form-control" type="text" id="comprobante_gasto" name="comprobante_gasto" placeholder="..." required="" maxlength="32">
+            </div>
+             <div id="comprobante2" style="display:none;">
+              <select class="form-control" id="comprobante_gasto2" name="comprobante_gasto2">
+                <option value="">Seleccione</option>}
+              </select>              
+            </div>
             </div>       
-            
+                    
+
             <div class="form-group col-md-3">
               <label for="importe_gasto">Importe</label>
               <input class="form-control" type="text" id="importe_gasto" name="importe_gasto" placeholder="..." required="">
@@ -151,9 +159,6 @@
     });    
 
 
-   
-
-
     $("input#descripcion_gasto").bind('change', function (event) {
       var valor = $(this).val();
       document.form1.descripcion_gasto.value=valor.toUpperCase();
@@ -204,9 +209,7 @@
          });
         }    
 
-
       });
-
 
     });
 
@@ -232,13 +235,26 @@
           $("#total").val(data);      
         }    
       });
+     $.ajax({
+        type: "GET",
+        url: '{{ url('buscar_comprobantes') }}',
+        dataType: "json",
+        data: { idc: valor ,  _token: '{{csrf_token()}}' },
+     success: function (data){
+          console.log(data);
+          $.each(data, function(l, item1) {
+           $("#comprobante_gasto2").append('<option value='+item1.nfactura+'>'+item1.nfactura+'</option>');
+         });
+        }    
 
+      });
 
     });    
 
   });
 
-  $("input#comprobante_gasto").bind('change', function (event) {
+
+  $("select#comprobante_gasto2").bind('change', function (event) {
     var valor = $(this).val();
     var ids  = $("#id_solped").val();
     document.form1.comprobante_gasto.value=valor.toUpperCase();
@@ -265,7 +281,7 @@
           document.form1.guardar.disabled=true;       
         }
         if(data.status == 'Pagado'){       
-          $("#rese").html("Comprobante No tiene productos confirmados en esta solicitud");
+          $("#rese").html("Comprobante Ya Cancelado");
           $("#rese, #res-content").css("display","block");
           $("#rese, #res-content").fadeIn( 300 ).delay( 1800 ).fadeOut( 1500 );
           document.form1.guardar.disabled=true;   
@@ -282,6 +298,7 @@
     
 
   });
+
 
 
   $("select#categoria_gasto").bind('change', function (event) {
@@ -306,12 +323,17 @@
                 document.form1.id_solped.disabled=false;
                 document.form1.id_fuente.disabled = true;
                 document.form1.id_fuente.value = 1;
+                document.getElementById('comprobante1').style.display='none';
+                document.getElementById('comprobante2').style.display='block';
 
               //alert(data.result.primernombre);
             }if(data.status == 'NO'){
               document.form1.id_proveedor.disabled=true;
               document.form1.id_solped.disabled=true;
               document.form1.id_fuente.disabled = false;
+                document.getElementById('comprobante1').style.display='block';
+                document.getElementById('comprobante2').style.display='none';
+
             }
 
 

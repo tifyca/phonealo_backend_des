@@ -20,7 +20,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('mostrar_solicitudes', 'Ajax\ProductosAjax@solicitudes_list')->name('mostrar_solicitudes');
     Route::get('buscar_categoria', 'Ajax\ProductosAjax@categorias_list')->name('buscar_categoria');
     Route::get('buscar_solped', 'Ajax\ProductosAjax@solped_monto')->name('buscar_solped');
+    Route::get('buscar_comprobantes', 'Ajax\ProductosAjax@solped_comprobantes')->name('buscar_comprobantes');
     Route::get('buscar_factura', 'Ajax\ProductosAjax@solped_factura')->name('buscar_factura');
+    Route::get('buscar_item', 'Ajax\ProductosAjax@verificar_detalle')->name('buscar_item');
 
     Route::get('producto_click', 'Ajax\ProductosAjax@producto')->name('producto_click');
     Route::get('cargos', 'Ajax\Configurar@cargos')->name('cargos_ajax');
@@ -203,6 +205,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'Inventario\EntradasController@carga',
         'as'   => 'entradas.carga'
     ]);
+      Route::post('entradas/update', [
+        'uses' => 'Inventario\EntradasController@update',
+        'as'   => 'entradas.update'
+    ]);
+
   Route::post('entrada/store', [
         'uses' => 'Inventario\EntradasController@store',
         'as'   => 'entrada.store'

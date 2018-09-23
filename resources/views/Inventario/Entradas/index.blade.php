@@ -74,6 +74,9 @@
               @if($sol->id_estado==1) 
                 class="table-info" 
               @endif 
+               @if($sol->id_estado==11) 
+                class="table-warning" 
+              @endif 
               @if($sol->id_estado==10) 
               class="table-danger" 
               @endif
@@ -112,15 +115,18 @@
               <td>
                <div class="btn-group text-center">
                 <a class="btn btn-primary" href="{{ route('entradas.ver',$sol->id) }}" title="Ver"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                @if($sol->id_estado==8)
-                @endif
-                @if($sol->id_estado==1 || $sol->id_estado==7) 
-                 <a class="btn btn-primary" href="{{ route('entradas.confirmar',$sol->id) }}" title="Confirmar/Carga Inventario"><i class="m-0 fa fa-lg fa-check"></i></a>
-               @endif 
-                @if($sol->id_estado==1) 
-                  <button data-toggle="tooltip" data-placement="top" title="Anular" class="btn btn-primary btn-sm confirm-delete" value="{{$sol->id}}"><i class="fa fa-lg fa-random"></i></button>                                  
+                @if($sol->id_estado==1  || $sol->id_estado==11) 
+                  <a class="btn btn-primary" href="{{ route('entradas.edit',$sol->id) }}"><i class="fa fa-lg fa-edit" title="Modificar Solicitud"></i></a>
+                  <button data-toggle="tooltip" data-placement="top" title="Anular" class="btn btn-primary btn-sm confirm-delete" value="{{$sol->id}}"><i class="fa fa-lg fa-random"></i></button>     
+
                @endif 
 
+                @if($sol->id_estado==8)
+                @endif
+                @if($sol->id_estado==1 || $sol->id_estado==7 || $sol->id_estado==11) 
+                 <a class="btn btn-primary" href="{{ route('entradas.confirmar',$sol->id) }}" title="Confirmar/Carga Inventario" ><i class="m-0 fa fa-lg fa-check"></i></a>
+               @endif 
+           
               </div>
 
             </td>
@@ -195,7 +201,8 @@ function load(){
             $("#rese, #res-content").css("display","block");
             $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
   }
-
+  $("#tipom").val("");
+  $("#mensaje").val("");
 } 
 
 
