@@ -67,7 +67,7 @@
           <div class="table-responsive">
               <table class="table table-hover table-bordered" id="sampleTable">
                 <thead>
-                  <tr>
+                  <tr class="table-info">
                     <th>Descripción</th>
                     <th>Comprobante</th>
                     <th>Categoría</th>
@@ -91,7 +91,12 @@
                       @endif
                      @endforeach
                     </td>
-                    <td>{{$gast->id_fuente}}</td>
+                    <td>@foreach($fuentes as $fuen)
+                        @if($fuen->id==$gast->id_fuente)
+                            {{$fuen->fuente}}
+                        @endif
+                      @endforeach
+                    </td>
                     <td class="text-right">
                     <?php 
                     $monto = number_format($gast->importe, 2, ',', '.');
@@ -110,7 +115,9 @@
                     <td width="10%" class="text-center">
                       <div class="btn-group">
                         <a class="btn btn-primary" href="{{ route('gastos.edit',$gast->id) }}"><i class="fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-trash"></i></a>
+                        @if($gast->id_categoria!=2)
+                          <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$gast->id}}"><i class="fa fa-lg fa-trash"></i></button>  
+                        @endif    
                       </div>
                     </td>
                   </tr>
@@ -119,19 +126,42 @@
               </table>
             </div>
              <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    {{$gastos->appends(Request::only(['id_categoria' , 'id_usuario', 'fecha_comprobante']))->links()}}
+                    {{$gastos->appends(Request::only(['id_categoria' , 'id_usuario', 'desde','hasta']))->links()}}
               </div>
         </div>
     </div>
   </div>
 </div>
 
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h4 class="modal-title" id="myModalLabel">Anular Gastos</h4>
+      </div>
+      <form id="frmdel" name="frmdel" class="form-horizontal" novalidate="">
+        <div class="modal-body">
+          <p>Está seguro que desea Anular el Gasto?</p>
+          <p class="debug-url"></p>
+        </div>
+      </form> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"></span>No</button>
+        <button type="button" class="btn btn-danger delete-solicitud" >Si</button>
+        <input type="hidden" id="solicitud-id" name="solicitud-id" value="0">
+      </div>
+    </div>
+  </div>
+</div>
   
 
 @endsection
 
 @push('scripts')
-  <script type="text/javascript" language="javascript">
+
+<script type="text/javascript" language="javascript">
 window.onload = load;
 function load(){
   var valor  = $("#tipom").val();
@@ -185,20 +215,20 @@ $(document).on('click', '.delete-solicitud', function () {
     
         $.ajax({
           type: "GET",
-          url: '{{ route('entradas.anular') }}',
+          url: '{{ route('gastos.anular') }}',
           dataType: "json",
           data: { id: valor ,  _token: '{{csrf_token()}}' },
           success: function (data){
             console.log(data);
             $('#confirm-delete').modal('hide');
-            $("#res").html("Solicitud Anulada con Éxito");
+            $("#res").html("Gasto Anulado con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
           },    
         error: function (data) {
             console.log('Error:', data);
             $('#confirm-delete').modal('hide');
-            $("#rese").html("No se pudo anular la solicitud");
+            $("#rese").html("No se pudo anular el gasto");
             $("#rese, #res-content").css("display","block");
             $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
@@ -210,5 +240,4 @@ $(document).on('click', '.delete-solicitud', function () {
 
 
 </script>
-
-@endpush
+  @endpush

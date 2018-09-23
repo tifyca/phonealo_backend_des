@@ -132,13 +132,14 @@ class EntradasController extends Controller
         $solped = DB::table('solped as a')
                   ->join('proveedores as c','a.id_proveedor','=','c.id')
                   ->join('detalle_solped as b','a.id','=','b.id_solped')
-                  ->select('a.id','a.fecha','a.nro_documento','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),'a.id_estado','a.created_at')->orderby('a.fecha','desc')
+                  ->select('a.id','a.fecha','a.modificado','a.nro_documento','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),'a.id_estado','a.created_at')->orderby('a.fecha','desc')
                   ->groupBy('a.id')->paginate(10);
                   
         return view('Inventario.Entradas.index')->with('proveedores',$proveedores)->with('solped',$solped)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('estados',$estados);
     }
 
     public function anular(Request $request){      
+      //dd($request);
       try
             {
              $id = $request->id;

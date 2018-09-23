@@ -113,6 +113,7 @@ public function store(Request $request)
      $gastos->id_proveedor         = $request["id_proveedor"];
      $gastos->comprobante          = $request["comprobante_gasto"];
      $gastos->fecha_comprobante    = $request["fecha_comprobante_gasto"];
+     $gastos->id_estado             = 1;
      if($request->id_proveedor && $request->id_solped) {
       $gastos->id_fuente = 1;
     }else{$gastos->id_fuente            = $request["id_fuente"];}
@@ -178,15 +179,10 @@ public function update(Request $request,$id)
   $gastos->descripcion          = $request["descripcion_gasto"];
   $gastos->observaciones        = $request["observaciones_gastos"];
   $gastos->importe              = $request["importe_gasto"];
-  $gastos->id_proveedor         = $request["id_proveedor"];
-  $gastos->id_solped            = $request["id_solped"];
-  $gastos->id_categoria         = $request["categoria_gasto"];
-  $gastos->comprobante          = $request["comprobante_gasto"];
   $gastos->fecha_comprobante    = $request["fecha_comprobante_gasto"];
   $gastos->id_fuente            = $request["id_fuente"];
-  $gastos->id_divisa            = $request["divisa_gasto"];
-  $gastos->cambio               = $request["cambio_gasto"];
   $gastos->updated_at            = date('Y-m-d');
+
   $gastos->id_usuario              = $_SESSION["user"];
   $gastos->save();  
   $tipo=1;
@@ -198,18 +194,22 @@ public function update(Request $request,$id)
   $gastos = gastos::orderby('fecha','desc')->paginate(10);
   return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje);  
 }
-public function destroy(Request $request){
-  $gastos=gastos::find($id);
-  $solped=solped::where('id',$gastos->id_solped)->first();
-  if($solped){
-    $tipo=2;
-    $mensaje="No se puede Eliminar";   
+public function anular(Request $request){
+   
+ try{
+      $id = $request->id;
+      $gastos=gastos::find($id);
+      $gastos->id_estado = 2;
+      $gastos->save();
+      return response()->json($gastos);
+      }catch(\Illuminate\Database\QueryException $e)
+      {      
+              if($e->getCode() === '23000') {          
+                    return response()->json([ 'success' => false ], 400);
+              } 
+          } 
+
+
+
   }
-  else  
-  {
-   $gastos->destroy($id);
-   $tipo=2;
-   $mensaje="Se ha eliminado el registro";   
- }
-}
 }

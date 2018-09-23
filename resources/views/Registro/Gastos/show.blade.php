@@ -23,7 +23,7 @@
         <div class="col-12 ">
           <div class="row">
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-2">
               <label for="categoria_gasto">Categoría de Gastos</label>
               <select class="form-control" id="categoria_gasto" name="categoria_gasto" required="">
                 <option value="">Seleccione</option>}
@@ -32,39 +32,11 @@
                 @endforeach
               </select>
             </div>
-
-
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
               <label for="descripcion_gasto">Descripción</label>
               <input class="form-control" type="text" id="descripcion_gasto" name="descripcion_gasto" placeholder="..." required="" maxlength="50">
             </div>
-
-            <div class="form-group col-md-6">
-              <label for="proveedor">Proveedores</label>
-              <select class="form-control" id="id_proveedor" name="id_proveedor" disabled="">
-                <option value="">Seleccione</option>}
-                @foreach($proveedores as $fuen)
-                <option value="{{$fuen->id}}">{{$fuen->nombres}}</option>
-                @endforeach
-              </select>
-            </div>
-            <div class="form-group col-md-3">
-              <label for="comprobante_gasto">Nro.Solicitud</label>
-              <select class="form-control" id="id_solped" name="id_solped" disabled="">
-                <option value="">Seleccione</option>}
-              </select>
-            </div>
-            <div class="form-group col-md-3">
-              <label for="importe_gasto">Total Pedido</label>
-              <input class="form-control" type="text" id="total" name="total" placeholder="..." readonly="">
-            </div>
-
-            <div class="form-group col-md-4">
-              <label for="comprobante_gasto">Comprobante</label>
-              <input class="form-control" type="text" id="comprobante_gasto" name="comprobante_gasto" placeholder="..." required="" maxlength="32">
-            </div>       
-
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
               <label for="proveedor_gasto">Fuente</label>
               <select class="form-control" id="id_fuente" name="id_fuente" required="">
                 <option value="">Seleccione</option>
@@ -73,15 +45,8 @@
                 @endforeach
               </select>
             </div>
-            <div class="form-group col-md-4">
-              <label for="importe_gasto">Importe</label>
-              <input class="form-control" type="text" id="importe_gasto" name="importe_gasto" placeholder="..." required="">
-            </div>
-            <div class="form-group col-md-4">
-              <label for="fecha_comprobante_gasto">Fecha Comprobante</label>
-              <input class="form-control" type="date" id="fecha_comprobante_gasto" name="fecha_comprobante_gasto" required="">
-            </div>
-            <div class="form-group col-md-4">
+
+            <div class="form-group col-md-2">
               <label for="divisa_gasto">Divisa</label>
               <select class="form-control" id="divisa_gasto" name="divisa_gasto" required="">
                 <option value="">Seleccione</option>
@@ -90,10 +55,52 @@
                 @endforeach
               </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
               <label for="cambio_gasto">Cambio</label>
               <input class="form-control" type="text" id="cambio_gasto" name="cambio_gasto" placeholder="...">
             </div>
+
+            <div class="form-group col-md-4">
+              <label for="proveedor">Proveedor</label>
+              <select class="form-control" id="id_proveedor" name="id_proveedor" disabled="">
+                <option value="">Seleccione</option>}
+                @foreach($proveedores as $fuen)
+                <option value="{{$fuen->id}}">{{$fuen->nombres}}</option>
+                @endforeach
+              </select>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="comprobante_gasto">Nro.Solicitud</label>
+              <select class="form-control" id="id_solped" name="id_solped" disabled="">
+                <option value="">Seleccione</option>}
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="importe_gasto">Total General Pedido</label>
+              <input class="form-control" type="text" id="total" name="total" placeholder="..." readonly="">
+            </div>
+            <div class="form-group col-md-2">
+              <label for="fecha_comprobante_gasto">Fecha Comprobante</label>
+              <input class="form-control" type="date" id="fecha_comprobante_gasto" name="fecha_comprobante_gasto" required="">
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="comprobante_gasto">Comprobante</label>
+              <input class="form-control" type="text" id="comprobante_gasto" name="comprobante_gasto" placeholder="..." required="" maxlength="32">
+            </div>       
+            
+            <div class="form-group col-md-3">
+              <label for="importe_gasto">Importe</label>
+              <input class="form-control" type="text" id="importe_gasto" name="importe_gasto" placeholder="..." required="">
+            </div>
+            
+            <div class="form-group col-md-4">
+              <label for="importe_gasto">Total Pedido Según Comprobante</label>
+              <input class="form-control" type="text" id="totalf" name="totalf" placeholder="..." readonly="">
+            </div>
+
+
 
 
             <div class="form-group col-md-12">
@@ -144,10 +151,7 @@
     });    
 
 
-    $("input#comprobante_gasto").bind('change', function (event) {
-      var valor = $(this).val();
-      document.form1.comprobante_gasto.value=valor.toUpperCase();
-    });
+   
 
 
     $("input#descripcion_gasto").bind('change', function (event) {
@@ -162,7 +166,7 @@
 
     $("input#importe_gasto").bind('change', function (event) {
       var valor = $(this).val();
-      var valor2 = $("#total").val();
+      var valor2 = $("#totalf").val();
       var nrosolped = $("#id_solped").val();
 
       if(nrosolped>0){
@@ -209,7 +213,7 @@
 
     $("select#id_solped").bind('change', function (event) {
       var valor = $(this).val();
-    
+      
       $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -233,6 +237,52 @@
     });    
 
   });
+
+  $("input#comprobante_gasto").bind('change', function (event) {
+    var valor = $(this).val();
+    var ids  = $("#id_solped").val();
+    document.form1.comprobante_gasto.value=valor.toUpperCase();
+    comprobante = valor.toUpperCase();
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+      }
+
+    });
+
+    $.ajax({
+      type: "GET",
+      url: '{{ url('buscar_factura') }}',
+      dataType: "json",
+      data: { factura: comprobante , ids: ids ,  _token: '{{csrf_token()}}' },
+      success: function (data){
+        console.log(data);  
+        if(data.status == 'No'){       
+          $("#rese").html("Comprobante No tiene productos confirmados en esta solicitud");
+          $("#rese, #res-content").css("display","block");
+          $("#rese, #res-content").fadeIn( 300 ).delay( 1800 ).fadeOut( 1500 );
+          document.form1.guardar.disabled=true;       
+        }
+        if(data.status == 'Pagado'){       
+          $("#rese").html("Comprobante No tiene productos confirmados en esta solicitud");
+          $("#rese, #res-content").css("display","block");
+          $("#rese, #res-content").fadeIn( 300 ).delay( 1800 ).fadeOut( 1500 );
+          document.form1.guardar.disabled=true;   
+          
+        }
+        if(data.status == 'Ok'){ 
+          $("#totalf").val(data.total); 
+          //alert("paso");
+        } 
+      }    
+    });
+
+
+    
+
+  });
+
 
   $("select#categoria_gasto").bind('change', function (event) {
 

@@ -227,6 +227,10 @@ Route::group(['middleware' => 'auth'], function () {
             'uses' => 'Registro\gastosController@update',
             'as'   => 'gastos.update'
         ]);
+    Route::get('gastos/anular', [
+        'uses' => 'Registro\GastosController@anular',
+        'as'   => 'gastos.anular'
+    ]);
 
     Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
     
