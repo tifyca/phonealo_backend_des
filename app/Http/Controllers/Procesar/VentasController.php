@@ -9,6 +9,7 @@ use App\Horarios;
 use App\Ventas;
 use App\Detalle_Temporal;
 use App\Facturas;
+use App\Productos;
 use Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -21,28 +22,38 @@ class VentasController extends Controller
     	return view('Procesar.Ventas.index', compact('horarios'));
     }
 
-    public function getcliente(Request $request){
+    public function getcliente($tlf){
 
     
-    	$clientes=Clientes::where('telefono', $request->search)->first();
+    	$clientes=Clientes::where('telefono', $tlf)->get();
 
-         	return ($clientes);
+         	return $clientes;
    	}
 
 	public function addventa(Request $request){
 
-    
+        
+
     	$addventa= new Detalle_Temporal;
     	$addventa->id_cliente=$request->id_cliente;
     	$addventa->id_producto=$request->id_producto;
     	$addventa->cantidad=$request->cantidad;
     	$addventa->precio=$request->precio;
+        $addventa->id_usuario= $request->id_usuario;
     	$addventa->save(); 
 
 
-         	return ($addventa);
-   	}   	
+        $producto = Productos::find($request->id_producto);
+        $producto->stock_activo = $request->disponible;
+        $producto->id_usuario=$request->id_usuario;
+        $producto->save();
+    	
 
+
+         	return ($addventa);
+   	
+	
+}
      public function create(Request $request){
 
 

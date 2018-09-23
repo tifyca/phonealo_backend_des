@@ -20,7 +20,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('mostrar_solicitudes', 'Ajax\ProductosAjax@solicitudes_list')->name('mostrar_solicitudes');
     Route::get('buscar_categoria', 'Ajax\ProductosAjax@categorias_list')->name('buscar_categoria');
     Route::get('buscar_solped', 'Ajax\ProductosAjax@solped_monto')->name('buscar_solped');
-
+    Route::get('buscar_factura', 'Ajax\ProductosAjax@solped_factura')->name('buscar_factura');
 
     Route::get('producto_click', 'Ajax\ProductosAjax@producto')->name('producto_click');
     Route::get('cargos', 'Ajax\Configurar@cargos')->name('cargos_ajax');
@@ -227,6 +227,10 @@ Route::group(['middleware' => 'auth'], function () {
             'uses' => 'Registro\gastosController@update',
             'as'   => 'gastos.update'
         ]);
+    Route::get('gastos/anular', [
+        'uses' => 'Registro\GastosController@anular',
+        'as'   => 'gastos.anular'
+    ]);
 
     Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
     
