@@ -58,6 +58,42 @@ class ProductosAjax extends Controller
     }
 
 
+    public function solped_factura(Request $request)
+    {
+        $id      = $request["ids"];
+        $factura = $request["factura"];
+        $detallesolped = detallesolped::where('id_solped',$id)->where("nfactura","like",$factura)->get();
+         if(!$detallesolped){
+               $data["status"]='No';
+               $data["total"]=0;
+                
+          }      
+        else{ 
+        $total=0;
+        $calculo = 0;
+        $pagado=0;
+        foreach($detallesolped as $deta){
+          if($deta->pagado==1)
+          {
+            $pagado++;
+          }
+          else{  
+           $calculo = $deta->precio_confirmado * $deta->cantidad_confirmada;
+           $total = $total + $calculo;}
+        }
+        if($pagado>0){
+         $data["status"]='Pagado';
+         $data["total"]=0;
+
+        }else{
+         $data["status"]='Ok';
+         $data["total"]=$total;
+        }
+       }
+
+       return $data;
+    }
+
 
     public function categorias_list(Request $request)
     {

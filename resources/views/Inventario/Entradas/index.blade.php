@@ -67,12 +67,26 @@
             <tbody>
               @php
               $total=0;
+              $totalc=0;
               @endphp
               @foreach($solped as $sol)
               <tr 
-              @if($sol->id_estado==1) class="table-info" @endif 
-              @if($sol->id_estado==7) class="table-success" @endif
-              @if($sol->id_estado==10) class="table-danger" @endif
+              @if($sol->id_estado==1) 
+                class="table-info" 
+              @endif 
+              @if($sol->id_estado==10) 
+              class="table-danger" 
+              @endif
+              @if($sol->id_estado==7 && $sol->monto < $sol->montoc || $sol->monto > $sol->montoc) 
+                class="table-warning" 
+                           
+              @endif
+
+               @if($sol->id_estado==7 && $sol->modificado==0 ) 
+                class="table-success" 
+              @endif
+
+             
               >
               <td>{{$sol->id}}</td>
               <td>{{$sol->nro_documento}}</td>
@@ -112,15 +126,18 @@
             </td>
             @php
 
-            $total= $total + ($sol->monto);
+            $total  = $total + ($sol->monto);
+            $totalc = $totalc + ($sol->montoc);
             @endphp
             @endforeach
             <tr class="table-secondary">
-              <td colspan="5" class="text-right"><b>Total Importe</b></td>
+              <td colspan="5" class="text-right"><b>Total</b></td>
               <td  class="text-right"><b><?php 
               $ztotal = number_format($total, 2, ',', '.');
               echo $ztotal;?></b></td>
-              <td></td>
+              <td  class="text-right"><b><?php 
+              $ztotal = number_format($totalc, 2, ',', '.');
+              echo $ztotal;?></b></td>
             </tr>
           </tbody>
         </table>
