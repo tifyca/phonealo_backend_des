@@ -40,12 +40,12 @@
 
             <div class="form-group col-md-3">
               <label for="fecha_entrada">Fecha Confirmación</label>
-              <input class="form-control" type="date" id="fecha_confirmacion" name="fecha_confirmacion" required="" value="{{$solped->fecha_confirmacion}}" >
+              <input class="form-control" type="date" id="fecha_confirmacion" name="fecha_confirmacion" required="" value="{{$solped->fecha_confirmacion}}" readonly="">
             </div>
 
-         <div class="form-group col-md-6">
+         <div class="form-group col-md-12">
               <label for="n_documento_entrada">Observaciones</label>
-              <textarea name="observaciones" class="form-control" id="observaciones" cols="60" rows="3">{{$solped->observaciones}}</textarea>
+              <textarea name="observaciones" class="form-control" id="observaciones" cols="80" rows="2" readonly="">{{$solped->observaciones}}</textarea>
             </div>
           </div>
           </div>
@@ -59,21 +59,30 @@
           <div class="table-responsive">
             <table id="detalles" class="table">
               <thead>
+                <tr class="table-secondary">
+                  <td colspan="5" class="text-left"><b>Detalles Pedido</b></td>
+                  <td colspan="4" class="text-left" ><b>Datos de Confirmación</b></td>
+                </tr>
                 <tr>
                   <td><b>Cod.</b></td>
                   <td><b>Producto</b></td>
                   <td align="center"><b>Cantidad</b></td>
                   <td align="right"><b>Precio</b></td>
                   <td align="center"><b>Importe</b></td>
-                  <td align="center"><b>Cantidad Confirmada</b></td>
-                  <td align="right"><b>Precio Confirmado</b></td>
-                  <td align="center"><b>Importe Confirmado</b></td>
+                  <td align="center" ><b>Factura</b></td>
+                  <td align="center"><b>Cantidad</b></td>
+                  <td align="right"><b>Precio</b></td>
+                  <td align="center"><b>Importe</b></td>
                 </tr>
                </thead>
               <tbody>
                 <?php $total=0; $zztotal=0;?>
                 @foreach($detalles as $det)
-                <tr>
+                <tr
+                  @if($det->precio != $det->precio_confirmado && $det->precio_confirmado>0)
+                  class="table-warning" 
+                  @endif
+                >
                   <td>{{$det->codigo}}</td>
                   <td>{{$det->desprod}}</td>
                   <td  align="center">{{$det->cantidad}}</td>
@@ -82,7 +91,7 @@
                       $ztotal = number_format($importe, 2, ',', '.');
                       $total = $total + $importe;
                      echo $ztotal;?></td>
-
+                  <td align="center">{{$det->nfactura}}</td>
                   <td align="center">{{$det->cantidad_confirmada}}</td>
                   <td align="right">{{$det->precio_confirmado}}</td>
                   <td align="right"><?php $importe=$det->precio_confirmado*$det->cantidad_confirmada;
@@ -94,21 +103,21 @@
               </tbody>
               </tbody>
                <tr class="table-secondary">
-                    <td  colspan="4" class="text-right"><b>Total Importe</b></td>
-                    <td  id="ztotal">
+                    <td  colspan="4" class="text-right"><b>Total</b></td>
+                    <td  class="table-active text-right" id="ztotal">
                     <?php 
                       $ztotal = number_format($total, 2, ',', '.');
                       
-                     echo $ztotal;?>
+                     echo "<b>".$ztotal."</b>";?>
                       
 
                     </td>
-                    <td  colspan="2" class="text-right"><b>Total Importe C</b></td>
-                    <td  id="ztotal" align="right">
+                    <td  colspan="3" class="text-right "><b>Total</b></td>
+                    <td  id="ztotal" class="text-right ">
                     <?php 
                       $ztotal = number_format($zztotal, 2, ',', '.');
                       
-                     echo $ztotal;?>
+                     echo "<b>".$ztotal."</b>";?>
                       
 
                     </td>

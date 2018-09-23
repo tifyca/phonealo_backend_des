@@ -38,11 +38,11 @@ class GastosController extends Controller
      $gastos = gastos::where('id_usuario',$id_usuario)->orderby('fecha','desc')->paginate(10);
    }
    if($id_categoria=='' && $id_usuario=='' && $desde!='' && $hasta==''){
-     $gastos = gastos::where('fecha_comprobante','>=',$desde)->orderby('fecha','desc')->paginate(10);
+     $gastos = gastos::where('fecha','>=',$desde)->orderby('fecha','desc')->paginate(10);
    }
 
    if($id_categoria=='' && $id_usuario=='' && $desde=='' && $hasta!=''){
-     $gastos = gastos::where('fecha_comprobante','<=',$hasta)->orderby('fecha','desc')->paginate(10);
+     $gastos = gastos::where('fecha','<=',$hasta)->orderby('fecha','desc')->paginate(10);
    }
 
    if($id_categoria!='' && $id_usuario!='' && $desde=='' && $hasta==''){
@@ -116,31 +116,45 @@ public function store(Request $request)
      if($request->id_proveedor && $request->id_solped) {
       $gastos->id_fuente = 1;
     }else{$gastos->id_fuente            = $request["id_fuente"];}
-           
-     $gastos->id_divisa            = $request["divisa_gasto"];
-     $gastos->cambio               = $request["cambio_gasto"];
-     $gastos->created_at           = date('Y-m-d');
-     $gastos->updated_at            = date('Y-m-d');
-     $gastos->id_usuario              = $_SESSION["user"];
-     $gastos->save();
-     if($request->id_proveedor && $request->id_solped) 
-     {
-      $solped = solped::where('id',$request->id_solped)->first();
-      if($solped){
-        $solped->id_estado=8;
-        $solped->save();
-        $detallesolped= detallesolped::where('id_solped',$request->id_solped)->get();
-        foreach ($detallesolped as $deta) {
+
+    $gastos->id_divisa            = $request["divisa_gasto"];
+    $gastos->cambio               = $request["cambio_gasto"];
+    $gastos->created_at           = date('Y-m-d');
+    $gastos->fecha                = date('Y-m-d');
+    $gastos->updated_at            = date('Y-m-d');
+    $gastos->id_usuario              = $_SESSION["user"];
+    $gastos->save();
+    if($request->id_proveedor && $request->id_solped) 
+    {
+
+      $detallesolped= detallesolped::where('id_solped',$request->id_solped)->get();
+      $cant=0; //Contador de productos incluidos en la solicitud
+      $pag=0;
+      foreach ($detallesolped as $deta) {
+        if(strtolower($deta->nfactura)==strtolower($request["comprobante_gasto"]))
+        {
+          $deta->pagado = 1;
+          $deta->save();
           $productos= Productos::where('id',$deta->id_producto)->first();
           $stock = $productos->stock_activo + $deta->cantidad_confirmada;
           $productos->stock_activo  = $stock;
           $productos->precio_compra = $deta->precio_confirmado;
           $productos->updated_at    = date('Y-m-d');
           $productos->save();
-
+          $pag++;
         }
-      } 
-
+        
+      }
+      $pagado=db::table("detalle_solped")->select(DB::raw('count(id_solped) as cantidad'))->where('id_solped',$request->id_solped)->where('pagado',1)->groupby('id_solped')->first();
+      $cant =$pagado->cantidad;
+      $detalle=db::table("detalle_solped")->select(DB::raw('count(id_solped) as cantidad'))->where('id_solped',$request->id_solped)->groupby('id_solped')->first();
+      if($cant==$detalle->cantidad){  
+        $solped = solped::where('id',$request->id_solped)->first();
+        if($solped){
+          $solped->id_estado=8;
+          $solped->save();
+        } 
+      }
     }
     $tipo=1;
     $mensaje = "Se ha creado el registro de Gasto";   
