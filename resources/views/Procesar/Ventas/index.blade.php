@@ -116,9 +116,9 @@
               <label for="">Forma de Pago</label>
               <select class="form-control" id="forma_pago" name="forma_pago">
                 <option value="">Seleccione</option>
-                <option>Efectivo</option>
-                <option>Giro Tigo</option>
-                <option>Tarjeta</option>
+                <option value="Efectivo">Efectivo</option>
+                <option value="Giro Tigo">Giro Tigo</option>
+                <option value="Tarjeta">Tarjeta</option>
               </select>
             </div>
             <div class="form-group col-md-4">
@@ -133,7 +133,7 @@
             <div class="form-group col-md-4">
               <label for="">Vendedor</label>
               <select class="form-control" id="vendedor" name="vendedor" disabled>
-                <option value="">{{$name_user }}</option>
+                <option value="{{$id_usuario}}">{{$name_user }}</option>
                 
               </select>
             </div>
@@ -235,7 +235,7 @@
           </div>
           <div class="form-group col-md-6 opacity-p">
             <label for="">Cantidad</label>
-            <input class="form-control" type="text" id="cantidad" name="cantidad"  onkeypress="return soloNumeros(event);" required >
+            <input class="form-control" type="text" id="cantidad" name="cantidad"  onkeypress="return soloNumeros(event);"  >
           </div>
           <div class="form-group col-md-6 opacity-p">
             <label for="">Precio</label>
@@ -282,7 +282,8 @@
                   
                
               </table>
-               <div class="text-right col-md-"><h3><div id='total'></div></h3><button class="btn btn-primary" type="submit" >Guardar</button></div>
+               <div class="text-right col-md-"><h3><div id='total'></div></h3>
+               <button class="btn btn-primary" type="submit" id="btn-save">Guardar</button></div>
             </div>
           </div>
       </div>
@@ -432,13 +433,23 @@
      }
      if (seleccion == 2) {
         $('#nombres_factura').removeClass('d-none');
+        $('#factura_nomb').val("");
+        $('#factura_nomb').prop('readonly', false);
         $('#direccion_factura').removeClass('d-none').removeClass('col-md-12').addClass('col-md-8');
         $('#ruc_factura').removeClass('d-none'); 
+        $('#factura_ruc').val(""); 
+        $('#factura_ruc').prop('readonly', false);
      }
      if (seleccion == 3) {
-        $('#nombres_factura').addClass('d-none');
-        $('#direccion_factura').removeClass('d-none').removeClass('col-md-8').addClass('col-md-12');
-        $('#ruc_factura').addClass('d-none');  
+        var nombre='SIN NOMBRE';
+        var ruc='44444401-7';
+        $('#nombres_factura').removeClass('d-none');
+        $('#factura_nomb').val(nombre);
+        $('#factura_nomb').prop('readonly', true);
+        $('#direccion_factura').removeClass('d-none').removeClass('col-md-12').addClass('col-md-8');
+        $('#ruc_factura').removeClass('d-none');  
+        $('#factura_ruc').val(ruc); 
+        $('#factura_ruc').prop('readonly', true);
      }
     });
     
@@ -559,24 +570,32 @@ $("#telefono_cliente").blur(function(){
 
         $.get('{{ route('searchCliente') }}' + '/' + value, function(data){
           console.log(data);
+              if(data.length==0){
+                
+                    $("#rese").html("El Cliente No Existe debe Registrarlo");
+                    $("#rese, #res-content").css("display","block");
+                    $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
-        $.each(data, function(i, item) {
-        console.log(item.id_departamento);
-                $('#id_cliente').val(item.id);
-                $('#nombre_cliente').val(item.nombres);
-                $('#email_cliente').val(item.email);
-                $('#ruc_cliente').val(item.ruc_ci);
-                $('#tipo_cliente').val(item.id_tipo);
-                $('select[name=departamento_cliente]').val(item.id_departamento);
-                cargarComboCiudad(item.id_departamento, item.id_ciudad);
-           //     $('select[name=ciudad_cliente]').val(item.id_ciudad);
-               cargarComboBarrio(item.id_ciudad,item.barrio);
-              //  $('select[name=barrio_cliente]').val(item.barrio);
-                $('#ubicacion_cliente').val(item.ubicacion);
-                $('#direccion_cliente').val(item.direccion);
-          });
+              }else{
+                  $.each(data, function(i, item) {
+                      $('#id_cliente').val(item.id);
+                      $('#nombre_cliente').val(item.nombres);
+                      $('#email_cliente').val(item.email);
+                      $('#ruc_cliente').val(item.ruc_ci);
+                      $('#tipo_cliente').val(item.id_tipo);
+                      $('select[name=departamento_cliente]').val(item.id_departamento);
+                      cargarComboCiudad(item.id_departamento, item.id_ciudad);
+                 //     $('select[name=ciudad_cliente]').val(item.id_ciudad);
+                     cargarComboBarrio(item.id_ciudad,item.barrio);
+                    //  $('select[name=barrio_cliente]').val(item.barrio);
+                      $('#ubicacion_cliente').val(item.ubicacion);
+                      $('#direccion_cliente').val(item.direccion);
+                  });
       
-       });
+              }
+
+      });
+
     });
 
 
