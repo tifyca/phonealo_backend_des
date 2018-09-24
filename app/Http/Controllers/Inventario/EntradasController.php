@@ -268,34 +268,38 @@ class EntradasController extends Controller
 
     public function update(Request $request)
     {
+
         $lista = json_decode($request->ListaProd,true);
         $id = $request->idsolped;     
-        $idproducto            = $request->get('idproducto');   
+        $idproducto           = $request->get('idproducto');   
         $cont=0;
         $z = 0;
+
         while($cont < count($idproducto))
        
           { 
 
-            if(isset($idproducto[$cont]["cf"]))
-            {
+           
                 $detallesolped=detallesolped::where('id_solped',$id)->where('id_producto',$idproducto[$cont]["id"])->where('pagado',NULL)->first();
                 if($detallesolped){
-                 
+                  if(isset($idproducto[$cont]["cantidad"]))
+                  {
                   $detallesolped->cantidad  = $idproducto[$cont]["cantidad"];
                   $detallesolped->precio    = $idproducto[$cont]["precio"];
                   $detallesolped->save();
+
+                  }
                  
                 }
-            }
-            $cont++;
+                  $cont++;
           }
+          //dd($lista);
           if(!empty($lista))
           {
             foreach ($lista as $deta)
             {   
-              $deta = detallesolped::where('id_solped',$id)->where('id_producto', $deta["id"])->first();
-              if(!$deta){
+              $deta2 = detallesolped::where('id_solped',$id)->where('id_producto', $deta["id"])->first();
+              if(!$deta2){
               $detallesolped= new detallesolped;
               $detallesolped->id_solped = $id;
               $detallesolped->id_producto = $deta["id"];
