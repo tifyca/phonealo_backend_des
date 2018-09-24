@@ -33,7 +33,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     ///////////
 
-
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('home');
 
@@ -250,7 +249,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('procesar/ventas', 'Procesar\VentasController');
     Route::get('searchCliente/{tlf?}', 'Procesar\VentasController@getcliente')->name('searchCliente');
     Route::post('procesar/ventas/add', 'Procesar\VentasController@addventa');
-    
+    Route::post('procesar/ventas/create', 'Procesar\VentasController@create');
+    Route::get('/procesar/elimanarProdCesta/{prod?}', 'Procesar\VentasController@delventa');
+    Route::get('procesar/ventas/detalle/{valor}', 'Procesar\VentasController@detalle_producto');
 
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
 
