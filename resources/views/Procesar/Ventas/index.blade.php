@@ -2,7 +2,6 @@
  @session_start();
  $id_usuario= $_SESSION["user"];
  $name_user= $_SESSION["nombre"];
-
 ?>
 
 @extends ('layouts.header')
@@ -27,6 +26,8 @@
       <div class="tile-body ">
         <div class="row">
           <input type="hidden" name="id_cliente" id="id_cliente">
+            <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+            
           <div class="form-group col-md-4">
             <label for="telefono_cliente">Teléfono</label>
             <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="15">
@@ -114,9 +115,9 @@
               <label for="">Forma de Pago</label>
               <select class="form-control" id="forma_pago" name="forma_pago">
                 <option value="">Seleccione</option>
-                <option>Efectivo</option>
-                <option>Giro Tigo</option>
-                <option>Tarjeta</option>
+                <option value="Efectivo">Efectivo</option>
+                <option value="Giro Tigo">Giro Tigo</option>
+                <option value="Tarjeta">Tarjeta</option>
               </select>
             </div>
             <div class="form-group col-md-4">
@@ -131,7 +132,7 @@
             <div class="form-group col-md-4">
               <label for="">Vendedor</label>
               <select class="form-control" id="vendedor" name="vendedor" disabled>
-                <option value="">{{$name_user }}</option>
+                <option value="{{$id_usuario}}">{{$name_user }}</option>
                 
               </select>
             </div>
@@ -233,7 +234,7 @@
           </div>
           <div class="form-group col-md-6 opacity-p">
             <label for="">Cantidad</label>
-            <input class="form-control" type="text" id="cantidad" name="cantidad"  onkeypress="return soloNumeros(event);" required >
+            <input class="form-control" type="text" id="cantidad" name="cantidad"  onkeypress="return soloNumeros(event);"  >
           </div>
           <div class="form-group col-md-6 opacity-p">
             <label for="">Precio</label>
@@ -280,13 +281,91 @@
                   
                
               </table>
-               <div class="text-right col-md-"><h3><div id='total'></div></h3><button class="btn btn-primary" type="submit" >Guardar</button></div>
+               <div class="text-right col-md-"><h3><div id='total'></div></h3>
+               <button class="btn btn-primary" type="submit" id="btn-save">Guardar</button></div>
             </div>
           </div>
       </div>
       {{-- FIN CESTA DE COMPRA --}}
    </div>
 </div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+     <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Detalle de Producto</h4>
+     </div>
+     <div class="modal-body">
+       <div class="row">
+          <div class="col-md-8">
+    <div class="tile">
+      <div class="tile-body">
+        <div class="row">
+          <div class="col-12 table-responsive">
+            <h2><div id="det-descripcion"></div></h2>
+            <table class="table mt-4">
+              <tbody>
+                <tr>
+                  <th>Código:</th>
+                  <td><div id="det-codigo" ></div></td>
+                </tr>
+                <tr>
+                  <th>Categoría:</th>
+                  <td><div id="det-categoria" ></div></td>
+                </tr>
+                <tr>
+                  <th>Subcategoria:</th>
+                  <td><div id="det-subcategoria" ></div></td>
+                </tr>
+                <tr>
+                  <th>Precio Ideal:</th>
+                  <td><div id="det-precio" ></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-12">
+             <h3>Especificaciones</h3>
+             <p ><div id="det-especifcaciones" ></div></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 text-center">
+      <div id="carouselProducto" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            {{-- Imagen principal --}}
+            <div class="carousel-item active" id="img-prod" >
+           
+            </div>
+            {{-- ///////////// --}}
+            {{-- Imagenes de galiria de producto --}}
+            
+             <div  class="carousel-item" id="det-carousel"></div>
+          <a class="carousel-control-prev" href="#carouselProducto" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselProducto" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+    </div>
+</div>
+
+  
+        <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+        </div>
+     
+     
+    </div>
+   </div>
+  </div>
+
 
 
 @endsection
@@ -353,13 +432,23 @@
      }
      if (seleccion == 2) {
         $('#nombres_factura').removeClass('d-none');
+        $('#factura_nomb').val("");
+        $('#factura_nomb').prop('readonly', false);
         $('#direccion_factura').removeClass('d-none').removeClass('col-md-12').addClass('col-md-8');
         $('#ruc_factura').removeClass('d-none'); 
+        $('#factura_ruc').val(""); 
+        $('#factura_ruc').prop('readonly', false);
      }
      if (seleccion == 3) {
-        $('#nombres_factura').addClass('d-none');
-        $('#direccion_factura').removeClass('d-none').removeClass('col-md-8').addClass('col-md-12');
-        $('#ruc_factura').addClass('d-none');  
+        var nombre='SIN NOMBRE';
+        var ruc='44444401-7';
+        $('#nombres_factura').removeClass('d-none');
+        $('#factura_nomb').val(nombre);
+        $('#factura_nomb').prop('readonly', true);
+        $('#direccion_factura').removeClass('d-none').removeClass('col-md-12').addClass('col-md-8');
+        $('#ruc_factura').removeClass('d-none');  
+        $('#factura_ruc').val(ruc); 
+        $('#factura_ruc').prop('readonly', true);
      }
     });
     
@@ -480,23 +569,32 @@ $("#telefono_cliente").blur(function(){
 
         $.get('{{ route('searchCliente') }}' + '/' + value, function(data){
           console.log(data);
+              if(data.length==0){
+                
+                    $("#rese").html("El Cliente No Existe debe Registrarlo");
+                    $("#rese, #res-content").css("display","block");
+                    $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
-        $.each(data, function(i, item) {
-        console.log(item.id_departamento);
-               $('#nombre_cliente').val(item.nombres);
-                $('#email_cliente').val(item.email);
-                $('#ruc_cliente').val(item.ruc_ci);
-                $('#tipo_cliente').val(item.id_tipo);
-                $('select[name=departamento_cliente]').val(item.id_departamento);
-                cargarComboCiudad(item.id_departamento, item.id_ciudad);
-           //     $('select[name=ciudad_cliente]').val(item.id_ciudad);
-               cargarComboBarrio(item.id_ciudad,item.barrio);
-              //  $('select[name=barrio_cliente]').val(item.barrio);
-                $('#ubicacion_cliente').val(item.ubicacion);
-                $('#direccion_cliente').val(item.direccion);
-          });
+              }else{
+                  $.each(data, function(i, item) {
+                      $('#id_cliente').val(item.id);
+                      $('#nombre_cliente').val(item.nombres);
+                      $('#email_cliente').val(item.email);
+                      $('#ruc_cliente').val(item.ruc_ci);
+                      $('#tipo_cliente').val(item.id_tipo);
+                      $('select[name=departamento_cliente]').val(item.id_departamento);
+                      cargarComboCiudad(item.id_departamento, item.id_ciudad);
+                 //     $('select[name=ciudad_cliente]').val(item.id_ciudad);
+                     cargarComboBarrio(item.id_ciudad,item.barrio);
+                    //  $('select[name=barrio_cliente]').val(item.barrio);
+                      $('#ubicacion_cliente').val(item.ubicacion);
+                      $('#direccion_cliente').val(item.direccion);
+                  });
       
-       });
+              }
+
+      });
+
     });
 
 

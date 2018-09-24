@@ -10,6 +10,12 @@ use App\Ventas;
 use App\Detalle_Temporal;
 use App\Facturas;
 use App\Productos;
+use App\Categorias;
+use App\Subcategorias;
+use App\pedido;
+use DB;
+use File;
+ @session_start();
 use Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,19 +33,38 @@ class VentasController extends Controller
     
     	$clientes=Clientes::where('telefono', $tlf)->get();
 
-         	return $clientes;
+           return $clientes;
+ 
+         
    	}
 
 	public function addventa(Request $request){
 
-        
+        $data=$request->all();
+
+        $rules = array( 'cantidad'=>'required');
+
+        $messages = array( 'cantidad.required'=>'La Cantidad es Requerida');
+
+        $validator = Validator::make($data, $rules, $messages);
+
+       if($validator->fails()){ 
+
+
+          $errors = $validator->errors(); 
+          
+          return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
+          
+         }elseif ($validator->passes()){ 
+
 
     	$addventa= new Detalle_Temporal;
     	$addventa->id_cliente=$request->id_cliente;
     	$addventa->id_producto=$request->id_producto;
     	$addventa->cantidad=$request->cantidad;
     	$addventa->precio=$request->precio;
-        $addventa->id_usuario= $request->id_usuario;
+      $addventa->id_usuario= $request->id_usuario;
+      $addventa->espera= $request->espera;
     	$addventa->save(); 
 
 
@@ -51,14 +76,37 @@ class VentasController extends Controller
 
 
          	return ($addventa);
-   	
-	
+
+      }
+
 }
+
+    public function delventa ($prod){
+
+      $dtemporal= Detalle_Temporal::where('id_producto',$prod)
+                                    ->Select('id_cliente', 'id_producto', 'cantidad', 'precio', 'espera', 'id_usuario')->first();
+
+
+      
+        $producto = Productos::find($prod);
+        $producto->stock_activo = $producto->stock_activo+$dtemporal->cantidad;
+        //$producto->id_usuario=$request->id_usuario;
+        $producto->save();
+
+        $del= Detalle_Temporal::where('id_producto',$prod)->delete();
+        $espera= Detalle_Temporal::where('espera', 1)->count();
+
+        return $espera ;
+    
+
+    }
      public function create(Request $request){
+
 
 
      	if($request->id_cliente=="")
      	{
+
      	$data=$request->all();
 
 		    $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres', 
@@ -88,63 +136,99 @@ class VentasController extends Controller
         $validator = Validator::make($data, $rules, $messages);
 
 
-   if($validator->fails()){ 
+       if($validator->fails()){ 
 
 
-      $errors = $validator->errors(); 
-      
-      return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
-      
-     }elseif ($validator->passes()){ 
+          $errors = $validator->errors(); 
+          
+          return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
+          
+         }elseif ($validator->passes()){ 
 
 
-    $cliente= new Clientes; 
-    $cliente->nombres   = $request->nombre_cliente; 
-    $cliente->telefono  = $request->telefono_cliente; 
-    $cliente->direccion = $request->direccion_cliente;
-    $cliente->barrio    = $request->barrio_cliente;
-    $cliente->id_ciudad = $request->ciudad_cliente;
-    $cliente->id_departamento=$request->departamento_cliente;
-    $cliente->ruc_ci    = $request->ruc_cliente;
-    $cliente->email     = $request->email_cliente;
-    $cliente->ubicacion = $request->ubicacion_cliente;
-    $cliente->id_tipo   = $request->tipo_cliente;
-    $cliente->notas     = $request->nota_cliente;
-    $cliente->id_estado = $request->id_estado;
-    $cliente->id_usuario= $request->id_usuario;
-    $cliente->save(); 
-}	
-	$venta= new Ventas;
-	$venta->id_pedido;
-	$venta->id_estado;
-	$venta->fecha;
-	$venta->status_v;
-	$venta->notas;
-	$venta->importe;
-	$venta->forma_pago;
-	$venta->factura;
-	$venta->horario_entrega;
-    $venta->fecha_activo;
-	$venta->fecha_cobro;
-	$venta->id_usuario;
-	$venta->save(); 
-	
-	$factura= new Facturas;
-	$factura->id_venta  = $venta->id;                               
-	$factura->nombres   = $request->factura_nomb;
-	$factura->direccion = $request->factura_dir;
-	$factura->ruc_ci    = $request->factura_ruc;
-	$factura->id_usuario= $request->id_usuario;
-	$factura->save();
+        $cliente= new Clientes; 
+        $cliente->nombres   = $request->nombre_cliente; 
+        $cliente->telefono  = $request->telefono_cliente; 
+        $cliente->direccion = $request->direccion_cliente;
+        $cliente->barrio    = $request->barrio_cliente;
+        $cliente->id_ciudad = $request->ciudad_cliente;
+        $cliente->id_departamento=$request->departamento_cliente;
+        $cliente->ruc_ci    = $request->ruc_cliente;
+        $cliente->email     = $request->email_cliente;
+        $cliente->ubicacion = $request->ubicacion_cliente;
+        $cliente->id_tipo   = $request->tipo_cliente;
+        $cliente->notas     = $request->nota_cliente;
+        $cliente->id_estado = $request->id_estado;
+        $cliente->id_usuario= $request->id_usuario;
+        $cliente->save(); 
 
- //return response()->json(view('Registro.Clientes.index')->with('message', 'El Cliente fue Creado Exitosamente!!'));
-     
-      //return Redirect::to('registro/clientes')->with('message', 'El Cliente fue Creado Exitosamente!!');
-     // $trues="La venta fue Creada Exitosamente!!";
-    //  return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+        $cliente=$cliente->id;
+     }	
 
-      }  
+   }else{
+
+        $cliente= $request->id_cliente;
+    }
+
+
+  
+
+            $pedido= new Pedido;
+            $pedido->id_cliente = $cliente;
+            $pedido->fecha      = $request->fecha_venta;
+            $pedido->id_estado  =7;
+            $pedido->id_usuario =$request->id_usuario;
+            $pedido->save(); 
+
+          	$venta= new Ventas;
+          	$venta->id_pedido = $pedido->id;
+          	$venta->id_estado = 4;
+          	$venta->fecha     = $request->fecha_venta;
+          	$venta->status_v  = 1;
+          	$venta->importe   = $request->importe;
+          	$venta->forma_pago= $request->forma_pago;
+          	$venta->factura   = $request->factura;
+          	$venta->horario_entrega= $request->horario_venta;
+            $venta->fecha_activo   = $request->fecha_activo;
+          	$venta->fecha_cobro    = $request->fecha_cobro;
+          	$venta->id_usuario     = $request->id_usuario;
+          	$venta->save(); 
+          	
+            if($request->factura<>1){
+          	$factura= new Facturas;
+          	$factura->id_venta  = $venta->id;                               
+          	$factura->nombres   = $request->factura_nomb;
+          	$factura->direccion = $request->factura_dir;
+          	$factura->ruc_ci    = $request->factura_ruc;
+          	$factura->id_usuario= $request->id_usuario;
+          	$factura->save();
+            }
+
+        $del= Detalle_Temporal::delete();
+        $jsonres['message']="La Venta fue  Registrado con Éxito";
+         echo json_encode($jsonres);
+
         
+        
+}
+
+    public function detalle_producto($id){
+        $productos=productos::find($id);
+        $categorias=Categorias::where('id',$productos->id_categoria)->first();
+        if($categorias)
+            $categoria = $categorias->categoria;
+        else 
+            $categoria="";
+        $subcategorias=Subcategorias::where('id',$productos->id_subcategoria)->first();
+        if($subcategorias)
+        $subcategoria = $subcategorias->sub_categoria;
+       else
+        $subcategoria="";
+       $imagenes=db::table('producto_imagenes as a')
+                    ->select('a.id_producto','a.imagen')
+                    ->where('id_producto',$id)->get();
+      
+         return response()->json([ 'productos' => $productos, 'categoria' => $categoria, 'subcategoria' => $subcategoria, 'imagenes' => $imagenes ]);
     }
 
 }
