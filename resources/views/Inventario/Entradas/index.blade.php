@@ -26,10 +26,11 @@
   <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-        <div class="col mb-3 text-center">
+        <div class="col mb-2 text-center">
           <div class="row ">
             <div class="col">
-              <h4 class="tile-title text-center text-md-left">Listado de Entradas</h4>
+              <h4 class="tile-title text-left text-md-left">Listado de Entradas</h4>
+              <br>
             </div>
             <form class="row d-flex justify-content-end" action="{{route('entradas.index')}}" method="get"> 
               <div class="form-group col-md-3">
@@ -40,9 +41,19 @@
                   @endforeach
                 </select>
               </div>
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-3">
                 <input class="form-control" type="date" name="fecha" id="fecha">
               </div>
+              <div class="form-group col-md-3">
+                <select class="form-control" id="id_estado" name="id_estado">
+                  <option value="">Estado</option>
+                  @foreach($estados as $estado)
+                  <option value="{{$estado->id}}">{{$estado->estado}}</option>
+                  @endforeach
+                </select>
+              </div>
+
+
               <div class="col-md-1 mr-md-5">
                 <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
               </div>
@@ -58,7 +69,7 @@
                 <th>N° Doc.</th>
                 <th>Fecha</th>
                 <th class="text-rigth">Proveedor</th>
-                <th class="text-center">Estatus</th>
+                <th class="text-center">Estado</th>
                 <th class="text-center"> Monto Orig.</th>
                 <th class="text-center"> Monto Conf.</th>
                 <th align="center">Acciones</th>
@@ -72,7 +83,7 @@
               @foreach($solped as $sol)
               <tr 
               @if($sol->id_estado==1) 
-                class="table-info" 
+                class="table-primary" 
               @endif 
                @if($sol->id_estado==11) 
                 class="table-warning" 
@@ -89,7 +100,10 @@
                 class="table-success" 
               @endif
 
-             
+              @if($sol->id_estado==8 ) 
+                class="table-secondary" 
+              @endif
+
               >
               <td>{{$sol->id}}</td>
               <td>{{$sol->nro_documento}}</td>

@@ -60,7 +60,8 @@ class ProductosAjax extends Controller
  public function solped_comprobantes(Request $request)
     {
         $id = $request["idc"];
-        $detallesolped = detallesolped::where('id_solped',$id)->groupby('id_solped','nfactura')->get();
+        $detallesolped = detallesolped::where('id_solped',$id)->where('pagado','')->groupby('id_solped','nfactura')->get();
+      
         return $detallesolped;
     }
 
