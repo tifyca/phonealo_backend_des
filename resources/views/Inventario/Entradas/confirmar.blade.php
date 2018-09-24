@@ -461,15 +461,15 @@
         name2 = "cant"+contador+1;
         name3 = "prec"+contador+1;
         
-        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input class="form-control" size="3" type="hidden" name="zidproducto" id="'+name1+'" value="'+idproducto+'" readonly>'+descripcion+'</td><td><input type="text" class="form-control" size="3" name="cant[]" value="'+cantidad+'" readonly></td><td><input type="text" size="5" class="form-control" name="prec[]" value="'+precio+'" id="'+name3+'" readonly></td><td ><input type="text" class="form-control text-right" name="subt" id="subt" value="'+subtotal[contador]+'" readonly></td><td><input type="text" class="form-control text-center" name="fact" value="'+zfactura+'" readonly></td><td><input type="text" name="nf" class="form-control text-left" value="'+znfiscal+'" readonly></td><td><input type="text" class="form-control text-center" value="'+cantidad+'" readonly></td><td><input type="text" class="form-control text-right" value="'+precio+'" readonly></td></tr>';
-          productos[contador]=idproducto;
+        var fila = '<tr class="selected" id="fila'+contador+'"><td><button type="button"class="btn btn-warning" onclick="eliminar('+contador+');"><i class="m-0 fa fa-lg fa-trash"></i></button></td><td><input class="form-control" size="3" type="hidden" name="zidproducto" id="'+name1+'" value="'+idp+'" readonly>'+descripcion+'</td><td><input type="text" class="form-control" size="3" name="cant[]" value="'+cantidad+'" readonly></td><td><input type="text" size="5" class="form-control" name="prec[]" value="'+precio+'" id="'+name3+'" readonly></td><td ><input type="text" class="form-control text-right" name="subt" id="subt" value="'+subtotal[contador]+'" readonly></td><td><input type="text" class="form-control text-center" name="fact" value="'+zfactura+'" readonly></td><td><input type="text" name="nf" class="form-control text-left" value="'+znfiscal+'" readonly></td><td><input type="text" class="form-control text-center" value="'+cantidad+'" readonly></td><td><input type="text" class="form-control text-right" value="'+precio+'" readonly></td></tr>';
+          productos[contador]=idp;
           ndoc =$('#nro_documento').val();
 ////////////////////////////////////////////7
         item = {}
         item["documento"]           = ndoc;
         item["fecha"]               = $('#fecha_entrada');
         item["proveedor"]           = $('#id_proveedor');
-        item["id"]                  = idproducto;
+        item["id"]                  = idp;
         item["descripcion"]         = descripcion;
         item["cantidad"]            = cantidad;
         item["precio"]              = precio;

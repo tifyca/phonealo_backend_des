@@ -17,7 +17,9 @@ use DB;
 class EntradasController extends Controller
 {
     public function index(Request $request){
+
         $documento    = $request->nro_documento;
+        $estado       = $request->id_estado;
         $id_proveedor = $request->id_proveedor;
         $fecha        = $request->fecha;
         $tipo="";
@@ -26,19 +28,25 @@ class EntradasController extends Controller
         $mensaje = $request->mensaje;
     	  $proveedores = Proveedores::where('id_estado','1')->get();
         $estados     = Estados::orderby('id')->get();
-        if($id_proveedor!='' && $fecha!=''){
-        $solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')                 ->join('proveedores as c','a.id_proveedor','=','c.id')->select('a.id','a.fecha','a.nro_documento','a.modificado','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),'a.id_estado','a.created_at')->where('id_proveedor',$id_proveedor)->where('a.fecha',$fecha)->orderby('fecha','desc')->groupBy('a.id')->paginate(10);
+        //dd($estado);
+        if($id_proveedor!='' && $fecha!='' &&$estado!=''){
+        $solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')                 ->join('proveedores as c','a.id_proveedor','=','c.id')->select('a.id','a.fecha','a.nro_documento','a.modificado','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),'a.id_estado','a.created_at')->where('id_proveedor',$id_proveedor)->where('a.fecha',$fecha)->where('a.id_estado',$estado)->orderby('fecha','desc')->groupBy('a.id')->paginate(10);
 
         }
-        if($id_proveedor!='' && $fecha==''){
-        $solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')                 ->join('proveedores as c','a.id_proveedor','=','c.id')->select('a.id','a.fecha','a.nro_documento','a.modificado','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),'a.id_estado','a.created_at')->where('a.id_proveedor',$id_proveedor)->orderby('fecha','desc')->groupBy('a.id')->paginate(10);
+        if($id_proveedor!='' && $fecha=='' && $estado!=''){
+        $solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')                 ->join('proveedores as c','a.id_proveedor','=','c.id')->select('a.id','a.fecha','a.nro_documento','a.modificado','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),'a.id_estado','a.created_at')->where('a.id_proveedor',$id_proveedor)->where('a.id_estado',$estado)->orderby('fecha','desc')->groupBy('a.id')->paginate(10);
             
         }
-        if($id_proveedor=='' && $fecha!=''){
-        $solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')                 ->join('proveedores as c','a.id_proveedor','=','c.id')->select('a.id','a.fecha','a.nro_documento','a.modificado','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),'a.id_estado','a.created_at')->where('a.fecha',$fecha)->orderby('fecha','desc')->groupBy('a.id')->paginate(10);
+        if($id_proveedor=='' && $fecha!='' && $estado!=''){
+        $solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')                 ->join('proveedores as c','a.id_proveedor','=','c.id')->select('a.id','a.fecha','a.nro_documento','a.modificado','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),'a.id_estado','a.created_at')->where('a.fecha',$fecha)->where('a.id_estado',$estado)->orderby('fecha','desc')->groupBy('a.id')->paginate(10);
             
         }
-        if($id_proveedor=='' && $fecha==''){
+        if($id_proveedor=='' && $fecha=='' && $estado!=''){
+        $solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')                 ->join('proveedores as c','a.id_proveedor','=','c.id')->select('a.id','a.fecha','a.nro_documento','a.modificado','a.fecha','a.id_proveedor','c.nombres',DB::raw('sum(b.precio * b.cantidad) as monto'),DB::raw('sum(b.precio_confirmado * b.cantidad_confirmada) as montoc'),'a.id_estado','a.created_at')->where('a.id_estado',$estado)->orderby('fecha','desc')->groupBy('a.id')->paginate(10);
+            
+        }
+
+        if($id_proveedor=='' && $fecha=='' && $estado==''){
         $solped = DB::table('solped as a')
                   ->join('proveedores as c','a.id_proveedor','=','c.id')
                   ->join('detalle_solped as b','a.id','=','b.id_solped')
@@ -194,13 +202,12 @@ class EntradasController extends Controller
         $idproducto            = $request->get('idproducto');   
         $cont=0;
         $z = 0;
-        while($cont < count($idproducto))
-       
+        while($cont < count($idproducto)) 
           { 
-
             if(isset($idproducto[$cont]["cf"]))
             {
-                $detallesolped=detallesolped::where('id_solped',$id)->where('id_producto',$idproducto[$cont]["id"])->where('pagado',NULL)->first();
+                $detallesolped=detallesolped::where('id_solped',$id)->where('id_producto',$idproducto[$cont]["id"])->where('pagado','')->first();
+                
                 if($detallesolped){
                  
                   $detallesolped->cantidad_confirmada = $idproducto[$cont]["cf"];
@@ -274,12 +281,8 @@ class EntradasController extends Controller
         $idproducto           = $request->get('idproducto');   
         $cont=0;
         $z = 0;
-
-        while($cont < count($idproducto))
-       
-          { 
-
-           
+        while($cont < count($idproducto))    
+          {           
                 $detallesolped=detallesolped::where('id_solped',$id)->where('id_producto',$idproducto[$cont]["id"])->where('pagado',NULL)->first();
                 if($detallesolped){
                   if(isset($idproducto[$cont]["cantidad"]))
