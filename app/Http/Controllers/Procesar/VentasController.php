@@ -13,6 +13,7 @@ use App\Productos;
 use App\Categorias;
 use App\Subcategorias;
 use App\pedido;
+use App\Montos_delivery;
 use DB;
 use File;
  @session_start();
@@ -24,8 +25,9 @@ class VentasController extends Controller
     public function index(){
 
     	$horarios=Horarios::all();
+      $deliverys=Montos_delivery::all();
 
-    	return view('Procesar.Ventas.index', compact('horarios'));
+    	return view('Procesar.Ventas.index', compact('horarios','deliverys' ));
     }
 
     public function getcliente($tlf){

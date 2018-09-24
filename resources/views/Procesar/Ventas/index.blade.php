@@ -160,7 +160,14 @@
                   </label>
                 </div>
                 <div class="col-9">
-                  <input class="form-control" type="text" id="monto" name="monto" placeholder="Monto" >
+               
+              <select class="form-control" id="monto" name="monto" >
+                <option value="">Monto</option>
+               @foreach($deliverys as $delivery)  
+                      <option value="{{$delivery->id}}"> {{ $delivery->monto }} </option>
+                 @endforeach             
+              </select>
+                 
                 </div>
               </div>
             </div>
@@ -337,13 +344,12 @@
       <div id="carouselProducto" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             {{-- Imagen principal --}}
-            <div class="carousel-item active" id="img-prod" >
-           
-            </div>
+            <div class="carousel-item active" id="img-prod" ></div>
             {{-- ///////////// --}}
             {{-- Imagenes de galiria de producto --}}
             
              <div  class="carousel-item" id="det-carousel"></div>
+           </div>
           <a class="carousel-control-prev" href="#carouselProducto" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
@@ -352,7 +358,7 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
           </a>
-        </div>
+       
     </div>
 </div>
 
@@ -562,6 +568,56 @@
 
 
     }
+
+ $(document).on('click', '.open_modal', function(){
+    var id_producto = $(this).val();
+     var url_img="";
+      var url_i="";
+       $('#img-prod').html('');
+      $('#det-carousel').html('');
+
+    $.get('ventas/detalle/'+ id_producto, function(data){
+      console.log(data);
+          $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+    });  
+
+          $('#det-descripcion').html(data.productos.descripcion);
+          $('#det-codigo').html(data.productos.codigo_producto);
+          $('#det-categoria').html(data.categoria);
+          $('#det-subcategoria').html(data.subcategoria);
+          $('#det-precio').html(data.productos.precio_ideal+' Gs');
+          $('#det-especifcaciones').html(data.productos.descripcion_producto);
+          
+          var url_img=data.productos.img;
+                       if(url_img===""){
+                        var zurl =   url2;
+                       }
+                       else{
+                        var zurl =   url1 + url_img ;
+                      }
+                     
+                   $('#img-prod').append('<img class="d-block w-100" src="'+zurl+'" alt="Primer slide">');
+              $.each(data.imagenes, function(l, item) {
+
+                var url_i=item.imagen;
+                      if(url_i===""){
+                        var zurl =  url2;
+                       }
+                       else{
+                        var zurl =   url1 + url_i ;
+                      }
+                     
+                $('#det-carousel').append('<img class="d-block w-100" src="'+zurl+'" alt="Segundo slide">');
+              
+              });
+          $('#myModal').modal('show');
+       
+    
+})
+    });
 $("#telefono_cliente").blur(function(){
          var value=$(this).val();
  

@@ -203,49 +203,6 @@ function resumen(){
             })
           }
 
- $(document).on('click', '.open_modal', function(){
-    var id_producto = $(this).val();
-    $.get('ventas/detalle/'+ id_producto, function(data){
-      console.log(data);
-          $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            }
-    });  
-
-          $('#det-descripcion').html(data.productos.descripcion);
-          $('#det-codigo').html(data.productos.codigo_producto);
-          $('#det-categoria').html(data.categoria);
-          $('#det-subcategoria').html(data.subcategoria);
-          $('#det-precio').html(data.productos.precio_ideal+' Gs');
-          $('#det-especifcaciones').html(data.productos.descripcion_producto);
-          
-          var url_img=data.productos.img;
-                       if(url_img===""){
-                        var zurl = '../../public/img-default.png'; 
-                       }
-                       else{
-                        var zurl =  '../../public/productos/' + url_img ;
-                      }
-                     
-                   $('#img-prod').append('<img class="d-block w-100" src="'+zurl+'" alt="Primer slide">');
-              $.each(data.imagenes, function(l, item) {
-                var url_i=item.imagen;
-                      if(url_i===""){
-                        var zurl = '../../public/img-default.png'; 
-                       }
-                       else{
-                        var zurl = '../../public/productos/' + url_i ;
-                      }
-                     
-                $('#det-carousel').append('<img class="d-block w-100" src="'+zurl+'" alt="Segundo slide">');
-              
-              });
-          $('#myModal').modal('show');
-       
-    
-})
-    });
 
 $(document).on('click', '.delete', function (e) {
     e.preventDefault();
