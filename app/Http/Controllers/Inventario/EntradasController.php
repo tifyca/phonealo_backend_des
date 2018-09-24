@@ -202,11 +202,12 @@ class EntradasController extends Controller
         $idproducto            = $request->get('idproducto');   
         $cont=0;
         $z = 0;
+       
         while($cont < count($idproducto)) 
           { 
             if(isset($idproducto[$cont]["cf"]))
             {
-                $detallesolped=detallesolped::where('id_solped',$id)->where('id_producto',$idproducto[$cont]["id"])->where('pagado','')->first();
+                $detallesolped=detallesolped::where('id_solped',$id)->where('id_producto',$idproducto[$cont]["id"])->first();
                 
                 if($detallesolped){
                  

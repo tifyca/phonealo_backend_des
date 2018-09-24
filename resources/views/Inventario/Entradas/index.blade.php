@@ -30,7 +30,6 @@
           <div class="row ">
             <div class="col">
               <h4 class="tile-title text-left text-md-left">Listado de Entradas</h4>
-              <br>
             </div>
             <form class="row d-flex justify-content-end" action="{{route('entradas.index')}}" method="get"> 
               <div class="form-group col-md-3">
@@ -83,7 +82,7 @@
               @foreach($solped as $sol)
               <tr 
               @if($sol->id_estado==1) 
-                class="table-primary" 
+                class="table-info" 
               @endif 
                @if($sol->id_estado==11) 
                 class="table-warning" 
