@@ -267,9 +267,9 @@
                   <tr>
                     <th width="15%">Cod.</th>
                     <th width="30%">Producto</th>
-                    <th width="15%">Cantidad</th>
-                    <th width="20%">Precio</th>
-                    <th width="20%">Importe</th>
+                    <th width="15%"  class="text-center">Cantidad</th>
+                    <th width="20%"  class="text-center">Precio</th>
+                    <th width="20%"  class="text-center">Importe</th>
                     <th width="15%" class="text-center">Acciones</th>
                   </tr>
                 </thead>
@@ -445,7 +445,7 @@
         $('#nombres_factura').removeClass('d-none');
         $('#factura_nomb').val(nombre);
         $('#factura_nomb').prop('readonly', true);
-        $('#direccion_factura').removeClass('d-none').removeClass('col-md-12').addClass('col-md-8');
+       // $('#direccion_factura').removeClass('d-none').removeClass('col-md-12').addClass('col-md-8');
         $('#ruc_factura').removeClass('d-none');  
         $('#factura_ruc').val(ruc); 
         $('#factura_ruc').prop('readonly', true);

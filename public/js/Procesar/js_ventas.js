@@ -49,9 +49,9 @@ var url='ventas';
 
                 var cesta  = '<tr><td  width="15%" id="d-cod_producto">' + cod_producto + '</td>'+
                             '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
-                            '<td width="15%" id="d-cantidad">' + cantidad + '</td>' +
-                            '<td width="20%" id="d-precio">' + precio + '</td>'+
-                            '<td width="20%" id="d-importe">' + importe+ '</td>'+
+                            '<td width="15%" id="d-cantidad" class="text-center">' + cantidad + '</td>' +
+                            '<td width="20%" id="d-precio" class="text-center">' + precio + '</td>'+
+                            '<td width="20%" id="d-importe" class="text-center">' + importe+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
                                  '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="'+id_producto+'" >'+
                                  '<i class="m-0 fa fa-lg fa-trash"></i></button>'+
@@ -131,9 +131,9 @@ var url='ventas';
 
                   var cesta  = '<tr class="table-danger"><td  width="15%" id="d-cod_producto">' + cod_producto + '</td>'+
                             '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
-                            '<td width="15%" id="d-cantidad">' + cantidad + '</td>' +
-                            '<td width="20%" id="d-precio">' + precio + '</td>'+
-                            '<td width="20%" id="d-importe">' + importe+ '</td>'+
+                            '<td width="15%" id="d-cantidad" class="text-center">' + cantidad + '</td>' +
+                            '<td width="20%" id="d-precio" class="text-center">' + precio + '</td>'+
+                            '<td width="20%" id="d-importe" class="text-center">' + importe+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
                                  '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="'+id_producto+'" >'+
                                  '<i class="m-0 fa fa-lg fa-trash"></i></a>'+
@@ -208,9 +208,9 @@ function resumen(){
     $.get('ventas/detalle/'+ id_producto, function(data){
       console.log(data);
           $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-        }
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
     });  
 
           $('#det-descripcion').html(data.productos.descripcion);
@@ -222,20 +222,20 @@ function resumen(){
           
           var url_img=data.productos.img;
                        if(url_img===""){
-                        var zurl = '../../public/img/img-default.png'; 
+                        var zurl = '../../public/img-default.png'; 
                        }
                        else{
-                        var zurl =  '../../public/' + url_img ;
+                        var zurl =  '../../public/productos/' + url_img ;
                       }
                      
                    $('#img-prod').append('<img class="d-block w-100" src="'+zurl+'" alt="Primer slide">');
               $.each(data.imagenes, function(l, item) {
                 var url_i=item.imagen;
                       if(url_i===""){
-                        var zurl = '../../public/img/img-default.png'; 
+                        var zurl = '../../public/img-default.png'; 
                        }
                        else{
-                        var zurl = '../../public/' + url_i ;
+                        var zurl = '../../public/productos/' + url_i ;
                       }
                      
                 $('#det-carousel').append('<img class="d-block w-100" src="'+zurl+'" alt="Segundo slide">');
