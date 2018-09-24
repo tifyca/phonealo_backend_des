@@ -155,8 +155,7 @@ var url='ventas';
                   $('#cantidad').val("");
                   $('#stock').val("");
                   $('#descripcion').focus();
-              },
-             
+              },    
           error: function (data,estado,error) { 
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);

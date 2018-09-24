@@ -48,7 +48,6 @@ class VentasController extends Controller
 
         $validator = Validator::make($data, $rules, $messages);
 
-
        if($validator->fails()){ 
 
 

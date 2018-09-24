@@ -2,7 +2,6 @@
  @session_start();
  $id_usuario= $_SESSION["user"];
  $name_user= $_SESSION["nombre"];
-
 ?>
 
 @extends ('layouts.header')
