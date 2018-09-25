@@ -369,7 +369,6 @@ public function carga(Request $request)
       } 
     }
 
-
   }
 
   public function pdf($id)
@@ -387,6 +386,5 @@ public function carga(Request $request)
     $namefile = "solped".$id.".pdf";
     return $pdf->download($namefile);
   }
-
   
 }
