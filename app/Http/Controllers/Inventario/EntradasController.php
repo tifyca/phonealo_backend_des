@@ -102,7 +102,7 @@ class EntradasController extends Controller
             $cantidad   = $request->get('cant');
             $precio     = $request->get('prec');
             $cont=0;
-
+         //dd($lista);
           foreach ($lista as $deta)
           {   
               $detallesolped= new detallesolped;
@@ -110,8 +110,9 @@ class EntradasController extends Controller
               $detallesolped->id_producto = $deta["id"];
               $detallesolped->precio      = $deta["precio"];
               $detallesolped->cantidad    = $deta["cantidad"];
-              $detallessolped->pagado     = 0;
-              $detallessolped->condicion  = 1;
+              //$detallessolped->pagado     = 0;
+              //$detallessolped->condicion  = 1;
+              
               $detallesolped->save();
         }            
           
@@ -145,7 +146,7 @@ class EntradasController extends Controller
         $detalle->descripcion = $descripcion;
         $detalle->cantidad    = $cantidad;
         $detalle->precio      = $precio;
-        $detallessolped->pagado = 0;
+        //$detallessolped->pagado = 0;
         $detalle->save();
         $data["status"]="ok";
         return $data;
@@ -224,7 +225,7 @@ class EntradasController extends Controller
                   { $z++;  $detallessolped->condicion      = 2;}   
                   $detallesolped->nombre_fiscal  = $idproducto[$cont]["nombre"];
                   $detallesolped->nfactura       = $idproducto[$cont]["factura"];
-                  $detallessolped->pagado        = 0;
+                  //$detallessolped->pagado        = 0;
                   $detallesolped->save();
                  
                 }else{
@@ -242,13 +243,13 @@ class EntradasController extends Controller
               $detallesolped->id_producto = $deta["id"];
               $detallesolped->precio      = $deta["precio"];
               $detallesolped->cantidad    = $deta["cantidad"];
-              $detallessolped->pagado     = 0;
+              //$detallessolped->pagado     = 0;
               $detallesolped->cantidad_confirmada  =  $deta["cantidad"];
               $detallesolped->precio_confirmado    = $deta["precio"];
               $detallesolped->nombre_fiscal        = $deta["nombre_fiscal"];
               $detallesolped->nfactura             = $deta["nro_factura"];
-              $detallesolped->pagado               = 0;
-              $detallessolped->condicion      = 2;
+              //$detallesolped->pagado               = 0;
+              //$detallessolped->condicion      = 2;
               $detallesolped->save();
                $z++;
            }            
@@ -297,8 +298,8 @@ class EntradasController extends Controller
                   {
                   $detallesolped->cantidad  = $idproducto[$cont]["cantidad"];
                   $detallesolped->precio    = $idproducto[$cont]["precio"];
-                  $detallessolped->pagado     = 0;
-                  $detallessolped->condicion      = 2;
+                  //$detallessolped->pagado     = 0;
+                  //$detallessolped->condicion =2;
                   $detallesolped->save();
 
                   }
@@ -309,6 +310,8 @@ class EntradasController extends Controller
           //dd($lista);
           if(!empty($lista))
           {
+            $cond="2";
+            //dd($cond);
             foreach ($lista as $deta)
             {   
               $deta2 = detallesolped::where('id_solped',$id)->where('id_producto', $deta["id"])->first();
@@ -318,15 +321,18 @@ class EntradasController extends Controller
               $detallesolped->id_producto = $deta["id"];
               $detallesolped->precio      = $deta["precio"];
               $detallesolped->cantidad    = $deta["cantidad"];
-              $detallesolped->pagado      = 0;
-              $detallessolped->condicion      = 2;
+              //$detallesolped->pagado      = 0;
+              //$detallessolped->procesa  = $deta["condicion"];;
               $detallesolped->save();
                $z++;
               }
-           }            
+           }   
+                   
+
+
           }
           //dd($cambio);
-
+        
         $solped=solped::find($id);
         $solped->id_estado=11;
         $solped->observaciones = $request->observaciones;

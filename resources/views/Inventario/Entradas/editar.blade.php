@@ -419,6 +419,7 @@
         item["cantidad_confirmada"] = cantidad;
         item["nombre_fiscal"]       = znfiscal;
         item["nro_factura"]         = zfactura;
+        item["condicion"]           = "2";
         json_productos.push(item);
         
 //////////////////////////////////////////////
