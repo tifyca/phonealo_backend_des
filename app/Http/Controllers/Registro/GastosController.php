@@ -192,11 +192,12 @@ public function store(Request $request)
     $tipo=1;
     $mensaje = "Se ha creado el registro de Gasto";   
     $categorias=categorias::where('tipo','Gastos')->get();
+    $proveedores = proveedores::orderby('nombres','asc')->get();
     $usuarios = User::orderby('id','asc')->get();
     $divisas = DB::table('divisa')->orderby('id_divisa')->get();
     $fuentes= fuente::orderby('id')->get();
     $gastos = gastos::orderby('fecha','desc')->paginate(10);
-    return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje);    
+    return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('proveedores',$proveedores);    
      }   //
    }catch (Exception $e) {
     \Log::info('Error creating item: '.$e);
