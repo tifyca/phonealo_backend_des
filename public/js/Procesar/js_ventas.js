@@ -12,6 +12,8 @@ var url='ventas';
     var     precio  = $('#precio').val();
     var   cantidad  = $('#cantidad').val();
     var     stock   = $('#stock').val();
+    var  delivery   = $("#monto option:selected").text();
+   
 
    // if(stock==0){var dispo=stock;}else{var dispo=stock-cantidad;}
    var dispo=stock-cantidad;
@@ -64,13 +66,16 @@ var url='ventas';
             $('#stock_original').val(stock);
             resumen();
             
-     
-            $('#cod_producto').val("");
-            $('#descripcion').val("");
-            $('#precio').val("");
-            $('#cantidad').val("");
-            $('#stock').val("");
-            $('#descripcion').focus();
+            $('#cantidad').val('');
+            $('#descripcion').val('');
+            $('#cod_producto').val('');
+            $('#stock').val('');
+            $('#precio').val('');
+            $('#id_producto').val('');
+            $('#img-product').addClass('d-none');
+            $('.opacity-x').css('opacity', '1');
+            $('#img-p').html('');
+            $('#eye').addClass('d-none');
           
         
           },
@@ -142,19 +147,22 @@ var url='ventas';
                             '</td>'+
                           '</tr>';
            
-             $('#cesta-list > tbody').append(cesta);
-             $("#faltante, #fal-content").html(' Se agregó un producto faltante');
-             $('#fal-content').css("display","block");
-             $('#spacio').css("display","none");
-            
-             resumen();
-     
-                  $('#cod_producto').val("");
-                  $('#descripcion').val("");
-                  $('#precio').val("");
-                  $('#cantidad').val("");
-                  $('#stock').val("");
-                  $('#descripcion').focus();
+                     $('#cesta-list > tbody').append(cesta);
+                     $("#faltante, #fal-content").html(' Se agregó un producto faltante');
+                     $('#fal-content').css("display","block");
+                     $('#spacio').css("display","none");
+                    
+                     resumen();
+                    $('#cantidad').val('');
+                    $('#descripcion').val('');
+                    $('#cod_producto').val('');
+                    $('#stock').val('');
+                    $('#precio').val('');
+                    $('#id_producto').val('');
+                    $('#img-product').addClass('d-none');
+                    $('.opacity-x').css('opacity', '1');
+                    $('#img-p').html('');
+                    $('#eye').addClass('d-none');
               },    
           error: function (data,estado,error) { 
              var errorsHtml = '';
@@ -185,14 +193,16 @@ var url='ventas';
 
 function resumen(){
   $(document).ready(function(){
-            
-          var monto=0;
+          var  delivery   = $("#monto option:selected").text();        
+          var total=0;
             $('#cesta-list > tbody > tr').each(function(){
-            monto+= parseFloat( $(this).find('td').eq(4).html());
+            total+= parseFloat( $(this).find('td').eq(4).html());
             });
-                   
-            $("#total_venta").val(monto);
-            $("#total").html('Total Gs.:'+ monto);
+
+            mtotal=parseInt(total) + parseInt(delivery);
+
+            $("#total_venta").val(mtotal);
+            $("#total").html('Total Gs.:'+ mtotal);
             /*if(articulos>0){
               $("#btn-procesa").prop('disabled', false);
               $("#btn-cancela").prop('disabled', false);
