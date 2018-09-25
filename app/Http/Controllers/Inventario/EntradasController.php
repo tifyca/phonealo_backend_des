@@ -57,7 +57,7 @@ class EntradasController extends Controller
     }
 
 
-    	//$solped = solped::orderby('created_at','desc')->paginate(10);
+      //$solped = solped::orderby('created_at','desc')->paginate(10);
     return view('Inventario.Entradas.index')->with('proveedores',$proveedores)->with('solped',$solped)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('estados',$estados);
   }
 
