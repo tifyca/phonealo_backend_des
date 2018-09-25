@@ -111,6 +111,7 @@ class EntradasController extends Controller
               $detallesolped->precio      = $deta["precio"];
               $detallesolped->cantidad    = $deta["cantidad"];
               $detallessolped->pagado     = 0;
+              $detallessolped->condicion  = 1;
               $detallesolped->save();
         }            
           
@@ -220,7 +221,7 @@ class EntradasController extends Controller
                     $detallesolped->precio_confirmado    = $idproducto[$cont]["pf"];
                   }
                   if($detallesolped->precio!=$detallesolped->precio_confirmado || $detallesolped->cantidad!=$detallesolped->cantidad_confirmada)
-                  { $z++;}   
+                  { $z++;  $detallessolped->condicion      = 2;}   
                   $detallesolped->nombre_fiscal  = $idproducto[$cont]["nombre"];
                   $detallesolped->nfactura       = $idproducto[$cont]["factura"];
                   $detallessolped->pagado        = 0;
@@ -247,6 +248,7 @@ class EntradasController extends Controller
               $detallesolped->nombre_fiscal        = $deta["nombre_fiscal"];
               $detallesolped->nfactura             = $deta["nro_factura"];
               $detallesolped->pagado               = 0;
+              $detallessolped->condicion      = 2;
               $detallesolped->save();
                $z++;
            }            
@@ -296,6 +298,7 @@ class EntradasController extends Controller
                   $detallesolped->cantidad  = $idproducto[$cont]["cantidad"];
                   $detallesolped->precio    = $idproducto[$cont]["precio"];
                   $detallessolped->pagado     = 0;
+                  $detallessolped->condicion      = 2;
                   $detallesolped->save();
 
                   }
@@ -316,6 +319,7 @@ class EntradasController extends Controller
               $detallesolped->precio      = $deta["precio"];
               $detallesolped->cantidad    = $deta["cantidad"];
               $detallesolped->pagado      = 0;
+              $detallessolped->condicion      = 2;
               $detallesolped->save();
                $z++;
               }
