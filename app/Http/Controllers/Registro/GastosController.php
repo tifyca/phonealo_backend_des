@@ -225,7 +225,8 @@ public function update(Request $request,$id)
   $divisas = DB::table('divisa')->orderby('id_divisa')->get();
   $fuentes= fuente::orderby('id')->get();
   $gastos = gastos::orderby('fecha','desc')->paginate(10);
-  return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje);  
+  $proveedores = proveedores::orderby('nombres','asc')->get();
+  return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('proveedores',$proveedores);  
 }
 public function anular(Request $request){
    
