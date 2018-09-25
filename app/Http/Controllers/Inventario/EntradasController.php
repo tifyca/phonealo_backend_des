@@ -281,7 +281,7 @@ class EntradasController extends Controller
         return view('Inventario.Entradas.index')->with('proveedores',$proveedores)->with('solped',$solped)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('estados',$estados);      
     }
 
-
+}
     public function update(Request $request)
     {
 
