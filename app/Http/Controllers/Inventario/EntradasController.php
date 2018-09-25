@@ -222,7 +222,7 @@ class EntradasController extends Controller
                     $detallesolped->precio_confirmado    = $idproducto[$cont]["pf"];
                   }
                   if($detallesolped->precio!=$detallesolped->precio_confirmado || $detallesolped->cantidad!=$detallesolped->cantidad_confirmada)
-                  { $z++;  $detallessolped->condicion      = 2;}   
+                  { $z++;  //$detallessolped->condicion      = 2;}   
                   $detallesolped->nombre_fiscal  = $idproducto[$cont]["nombre"];
                   $detallesolped->nfactura       = $idproducto[$cont]["factura"];
                   //$detallessolped->pagado        = 0;
