@@ -14,31 +14,52 @@ class ProveedoresController extends Controller
   public function index(Request $request){
     $zproveedor = $request["proveedor"];
     $email   = $request["email"];
-    $estatus = $request["estatus"];
+    $estatus = $request["status"];
     if($zproveedor!="" && $email=="" && $estatus=="")
     {
-      $zproveedor = $zproveedor."%"; 
-    	$proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
-        				->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')->where('proveedores.nombres','like',$zproveedor)->orderby('proveedor','asc')->paginate(10);
+     
+    	$proveedor= Proveedores::search($zproveedor)->orderby('proveedor','asc')->paginate(10);
     }
-    
-   if($zproveedor=="" && $email!="" && $estatus=="")
+    if($zproveedor=="" && $email!="" && $estatus=="")
     {
-      $email = $email."%"; 
-      $proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
-                ->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')->where('email','like',$email)->orderby('proveedor','asc')->paginate(10);
+   
+      $proveedor= Proveedores::email($email)->orderby('proveedor','asc')->paginate(10);
     }
    if($zproveedor=="" && $email=="" && $estatus!="")
     {
-      $email = $email."%"; 
-      $proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
-                ->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')->where('id_estado','=',$estatus)->orderby('proveedor','asc')->paginate(10);
+    
+      $proveedor= Proveedores::status($estatus)->orderby('proveedor','asc')->paginate(10);
+    }
+   if($zproveedor!="" && $email=="" && $estatus!="")
+    {
+      
+       
+      $proveedor= Proveedores::search2($zproveedor, $estatus)->orderby('proveedor','asc')->paginate(10);
+    }
+      if($zproveedor!="" && $email!="" && $estatus=="")
+    {
+   
+      $proveedor= Proveedores::search3($zproveedor, $email)->orderby('proveedor','asc')->paginate(10);
+    }
+ 
+
+   if($zproveedor!="" && $email!="" && $estatus!="")
+    {
+   
+      $proveedor= Proveedores::search4($zproveedor, $email, $estatus)->orderby('proveedor','asc')->paginate(10);
+    }
+
+   if($zproveedor=="" && $email!="" && $estatus!="")
+    {
+     
+      $proveedor= Proveedores::search5($email, $estatus)->orderby('proveedor','asc')->paginate(10);
     }
    if($zproveedor=="" && $email=="" && $estatus=="")
     {
-      $email = $email."%"; 
+
       $proveedor= Proveedores::join('paises', 'proveedores.id_pais', '=', 'paises.id')
-                ->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono')->orderby('proveedor','asc')->paginate(10);
+                ->select( 'proveedores.id', 'paises.nombre as pais', 'proveedores.nombres as proveedor','ruc', 'proveedores.id_pais', 'direccion', 'email', 'telefono', 'telefono2','proveedores.id_estado')
+                ->orderby('proveedor','asc')->paginate(10);
     }
 
 
@@ -59,23 +80,25 @@ class ProveedoresController extends Controller
 		$data=$request->all();
 
     $rules = array( 'nombre_proveedor'=>'required|unique:proveedores,nombres', 
-                   // 'email_proveedor'=>'required|unique:proveedores,email',
+                    'email_proveedor'=>'required|email|unique:proveedores,email',
                     'direccion_proveedor'=>'required',
                     'telefono_proveedor'=>'required',
                     'ruc_proveedor' =>'required',
                     'pais_proveedor' =>'required|not_in:0'
                     );
 
-    $messages = array( 'nombre_proveedor.required'=>'Nombre del proveedor es requerido', 
-                       'nombre_proveedor.unique' => 'El proveedor ya existe', 
-                     //  'email_proveedor.required'=>'El email del proveedor es requerido', 
-                     //  'email_proveedor.unique' => 'El email del proveedor ya existe',
-                       'telefono_proveedor.required'=>'El teléfono del proveedor es requerido', 
+    $messages = array( 'nombre_proveedor.required'=>'Nombre del Proveedor es Requerido', 
+                       'nombre_proveedor.unique' => 'El Proveedor ya Existe', 
+                       'email_proveedor.required'=>'El Email del Proveedor es Requerido', 
+                       'email_proveedor.unique' => 'El Email del Proveedor ya Existe',
+                       'email_proveedor.email' => 'El Formato de Email es Incorrecto',
+                       'telefono_proveedor.required'=>'El Teléfono del Proveedor es Requerido', 
+                       'direccion_proveedor.required'=>'El Dirección del Proveedor es Requerido', 
                        //'telefono_proveedor.unique' => 'El teléfono del proveedor ya existe',
-                       'ruc_proveedor' =>'El ruc del proveedor es requerido',
-                       'pais_proveedor.required'=>'El pais del proveedor es requerido',
-                       'pais_proveedor.not_in'=> 'El pais del proveedor es requerido'
-                      );
+                       'ruc_proveedor' =>'El Ruc del Proveedor es Requerido',
+                       'pais_proveedor.required'=>'El Pais del Proveedor es Requerido',
+                       'pais_proveedor.not_in'=> 'El Pais del Proveedor es Requerido'
+                       );
 
                       
         $validator = Validator::make($data, $rules, $messages);
@@ -92,18 +115,19 @@ class ProveedoresController extends Controller
 
 
       $proveedor= new Proveedores; 
-      $proveedor->nombres   = $request->nombre_proveedor; 
+      $proveedor->nombres   = ucwords(strtolower($request->nombre_proveedor)); 
       $proveedor->telefono  = $request->telefono_proveedor; 
+      $proveedor->telefono2  = $request->telefono_proveedor2; 
       $proveedor->direccion = $request->direccion_proveedor;
-      $proveedor->email     = $request->email_proveedor; 
+      $proveedor->email     = ucwords(strtolower($request->email_proveedor)); 
       $proveedor->id_pais   = $request->pais_proveedor; 
       $proveedor->ruc       = $request->ruc_proveedor;
       $proveedor->id_estado = $request->id_estado;
       $proveedor->id_usuario= $request->id_usuario;
       $proveedor->save(); 
 
-       $trues="El proveedor fue Creado Exitosamente!!";
-      return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+         $jsonres['message']="El Proveedor fue  Registrado con Éxito";
+         echo json_encode($jsonres);
 
       }  
 		
@@ -114,7 +138,7 @@ class ProveedoresController extends Controller
     public function editar($id_proveedor){
         $proveedor = Proveedores::where('proveedores.id','=', $id_proveedor)
                       ->join('paises', 'proveedores.id_pais', '=', 'paises.id')
-                      ->select('proveedores.id','nombres', 'proveedores.id_pais', 'paises.nombre as pais', 'telefono', 'direccion', 'ruc', 'email','id_estado', 'proveedores.id_usuario')->first();
+                      ->select('proveedores.id','nombres', 'proveedores.id_pais', 'paises.nombre as pais', 'telefono', 'direccion', 'ruc', 'email','proveedores.id_estado', 'proveedores.id_usuario')->first();
 
         return view('Registro.Proveedores.edit', compact('proveedor'));
     }
@@ -125,21 +149,23 @@ class ProveedoresController extends Controller
     $data=$request->all();
 
     $rules = array( 'nombre_proveedor'=>'required|unique:proveedores,nombres,' .$proveedor_id,  
-                    'email_proveedor'=>'required ',          //|unique:proveedors,email,' .$proveedor_id,
+                    'email_proveedor'=>'required|email|unique:proveedores,email,' .$proveedor_id,
                     'telefono_proveedor'=>'required',        ///|unique:proveedors,telefono,' .$proveedor_id,
                     'direccion_proveedor'=>'required',
                 	'ruc_proveedor' =>'required',
                     'pais_proveedor' =>'required|not_in:0');
 
-    $messages = array( 'nombre_proveedor.required'=>'Nombre del proveedor es requerido', 
-                       'nombre_proveedor.unique' => 'El proveedor ya existe', 
-                       'email_proveedor.required'=>'El email del proveedor es requerido', 
-                      // 'email_proveedor.unique' => 'El email del proveedor ya existe',
-                       'telefono_proveedor.required'=>'El teléfono del proveedor es requerido', 
+    $messages = array( 'nombre_proveedor.required'=>'Nombre del Proveedor es Requerido', 
+                       'nombre_proveedor.unique' => 'El Proveedor ya Existe', 
+                       'email_proveedor.required'=>'El Email del Proveedor es Requerido', 
+                       'email_proveedor.unique' => 'El Email del Proveedor ya Existe',
+                       'email_proveedor.email' => 'El Formato de Email es Incorrecto',
+                       'direccion_proveedor.required'=>'El Dirección del Proveedor es Requerido', 
+                       'telefono_proveedor.required'=>'El Teléfono del Proveedor es Requerido', 
                      //  'telefono_proveedor.unique' => 'El teléfono del proveedor ya existe',
-                       'ruc_proveedor' =>'El ruc del proveedor es requerido',
-                       'pais_proveedor.required'=>'El pais del proveedor es requerido',
-                       'pais_proveedor.not_in'=> 'El pais del proveedor es requerido'
+                       'ruc_proveedor' =>'El Ruc del Proveedor es Requerido',
+                       'pais_proveedor.required'=>'El Pais del Proveedor es Requerido',
+                       'pais_proveedor.not_in'=> 'El Pais del Proveedor es Requerido'
                        );
 
         $validator = Validator::make($data, $rules, $messages);
@@ -158,6 +184,7 @@ class ProveedoresController extends Controller
       $proveedor = Proveedores::find($proveedor_id);
       $proveedor->nombres   = $request->nombre_proveedor; 
       $proveedor->telefono  = $request->telefono_proveedor; 
+      $proveedor->telefono2  = $request->telefono_proveedor2; 
       $proveedor->direccion = $request->direccion_proveedor;
       $proveedor->email     = $request->email_proveedor; 
       $proveedor->id_pais   = $request->pais_proveedor; 
@@ -167,8 +194,8 @@ class ProveedoresController extends Controller
       $proveedor->save(); 
       
 
-      $trues="El proveedor fue Modificado Exitosamente!!";
-     return response()->json([ 'success' => true, 'message' => json_decode($trues) ], 200);
+     $jsonres['message']="El Proveedor fue  Modificado con Éxito";
+    echo json_encode($jsonres);
 
       }  
         

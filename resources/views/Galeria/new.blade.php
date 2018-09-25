@@ -1,6 +1,6 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
+@section('icono_titulo', 'fa-circle')
 @section('titulo', 'Nueva Imagen')
 @section('descripcion', '')
 
@@ -26,14 +26,14 @@
                 <div class="form-group col-md-8">
                   <label for="titulo_galeria">Título</label>
                   <input type="hidden" name="id_producto" id="id_producto" value="{{$id}}">
-                  <input class="form-control" type="text" id="titulo" name="titulo" placeholder="Título de imagen">
+                  <input class="form-control" type="text" id="titulo" name="titulo" placeholder="Título de imagen" required="">
                 </div>
                 <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="1" type="radio" id="estatus1" name="estatus">Activo
+                        <input class="form-check-input" value="1" type="radio" id="estatus1" name="estatus" sel>Activo
                       </label>
                     </div>
                     <div class="form-check">
@@ -48,6 +48,7 @@
             
            <div class="form-group col-md-4 text-center mt-3">
               <img id="imgSalida" src="{{ asset('img/img-default.png') }}" class="img-fluid " alt="">  
+                <label><span>Mínimo 512 x 256 píxeles | JPG y PNG</span></label>
               <div class="form-group mt-4">
                 <input type="file" class="form-control-file" id="archivo" name="archivo" accept="image/*">
               </div>

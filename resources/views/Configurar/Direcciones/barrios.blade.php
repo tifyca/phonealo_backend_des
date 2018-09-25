@@ -41,7 +41,7 @@
               </div>
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Barrio</label>
-                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombreBarrio" name="nombreBarrio" oncopy="return false" onpaste="return false" onkeypress="return soloLetras(event)"  maxlength="50">
               </div>
               <div class="form-group col-12  col-md-3">
                 <label class="control-label">Latitud</label>
@@ -52,7 +52,7 @@
                 <input class="form-control" type="text"  id="lon" name="lon" onkeypress="return soloNumeros(event);">
               </div>
               <div class="tile-footer text-center border-0" >
-                <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
+                <button class="btn btn-primary save" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
               </div>
             </div>
           </form>
@@ -61,36 +61,40 @@
   </div>
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado Barrios</h3>
-        <div class="tile-body ">
-          <div class="row">
-            <div class="form-group col-12 col-md-3">
-                <label for="exampleSelect1">Seleccione Departamento</label>
-                <select class="form-control departamento" id="departamento-select-list" name="departamento-select-list">
-                 <option value="">Seleccione</option>
+         {{-- FILTRO --}}
+         <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado de Barrios</h3>
+            </div>
+      <div class="col mb-3">
+         <div class="row">
+        <!--form class="row d-flex justify-content-end" action="{{route('barrios')}}" method="get"-->
+        <div class="form-group col-md-3">
+              <input type="text" class="form-control" id="buscarbarrio" name="buscarbarrio" placeholder="Buscar" onkeypress="return soloLetras(event)"  maxlength="50">
+            </div>
+            <div class="form-group col-md-3">
+                 <select class="form-control departamento" id="departamento-select-list" name="departamento-select-list">
+                 <option value="">Departamento</option>
                 </select>
               </div>
-              <div class="form-group col-12 col-md-3">
-                <label for="exampleSelect1">Seleccione Ciudad</label>
-                <select class="form-control ciudades" id="ciudades-select-list" name="ciudades-select-list">
-                 <option value="">Seleccione</option>
+              <div class="form-group col-md-3">
+                 <select class="form-control ciudades" id="ciudades-select-list" name="ciudades-select-list">
+                 <option value="">Ciudad</option>
                 </select>
               </div>
+            <div class="col-md-1 mr-md-3">
+              <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>    
+            </div>
+          <!--/form-->
           </div>
+        <div class="tile-body ">
+         
               
           <div class="table-responsive">
-            <table class="table table-hover" id="sampleTable">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th width="10%">Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="barrios-list" name="barrios-list">
-                {{-- ESTE LISTADO SE LLENA CON AJAX --}}
-              </tbody>
-              </table>
-             
+            <div class="barrios" id="divbarrios">
+                    @component('Configurar.Direcciones.lista_barrios')
+                        @slot('barrios', $barrios)
+                    @endcomponent
+             </div>
           </div>
         </div>
     </div>
@@ -102,7 +106,7 @@
    <div class="modal-dialog  modal-lg">
     <div class="modal-content">
      <div class="modal-header">
-     
+     <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Barrio</h4>
      </div>
      <div class="modal-body ">
@@ -111,7 +115,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Barrio</label>
-                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre Barrio" id="nombre" name="nombre" oncopy="return false" onpaste="return false" onkeypress="return soloLetras(event)"  maxlength="50">
               </div>
               <div class="form-group col-12  col-md-4">
                 <label class="control-label">Latitud</label>
@@ -170,6 +174,35 @@
  <script src="{{asset('js/Configurar/crud_barrios.js')}}"></script>
 
 <script  type="text/javascript" charset="utf-8">
+
+ /* $("#boton").click(function (e) {
+    var buscarbarrio =  $('#buscarbarrio').val();
+    var id_departamento = $('#departamento-select-list').val();
+    var id_ciudad = $('#ciudades-select-list').val();
+
+    e.preventDefault();
+     $("#barrios-list").html('');
+
+           $.ajax({
+              type: "get",
+              url: '{{route('barrios')}}',
+              dataType: "json",
+              data: {buscarbarrio: buscarbarrio, id_departamento:id_departamento, id_ciudad:id_ciudad },
+              success: function (data){
+                console.log(data);
+                $.each(data, function(l, item3) {
+
+          
+
+                    $("#barrios-list").append('<tr id="barrios'+ item3.id +'"><td width="35%">'+item3.barrio+'</td><td width="25%">'+item3.nombre+'</td><td width="25%">'+item3.ciudad+'</td><td width="15%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item3.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item3.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                  });
+                $('#buscarbarrio').val('');
+                $('#departamento-select-list').val('');
+                $('#ciudades-select-list').val('');
+              }
+          });
+       });*/
+
   $(document).ready(function(){
     {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
       $.ajax({
@@ -230,7 +263,7 @@
           });
       });
 
-      $('#ciudades-select-list').change(function(){
+     /* $('#ciudades-select-list').change(function(){
         var id_ciudad = $(this).val();
 
 
@@ -244,13 +277,13 @@
               success: function (data2){
                 console.log(data2);
 
-                 $.each(data2, function(l, item2) {
+                $.each(data2, function(l, item2) {
 
-                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td>'+item2.barrio+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><buttondata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                    $("#barrios-list").append('<tr id="barrios'+ item2.id +'"><td width="35%">'+item2.barrio+'</td><td width="25%">'+item2.nombre+'</td><td width="25%">'+item2.ciudad+'</td><td width="15%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="'+ item2.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item2.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
                   });
               }
           });
-      });
+      });*/
   });
 </script>
 @endpush

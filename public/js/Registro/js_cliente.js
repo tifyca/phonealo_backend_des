@@ -9,6 +9,7 @@ $("#btn-save").click(function (e) {
     var formData = {
                     nombre_cliente : $('#nombre_cliente').val(), 
                     telefono_cliente: $('#telefono_cliente').val(),
+                    telefono_cliente2: $('#telefono_cliente2').val(),
                     direccion_cliente: $('#direccion_cliente').val(),
                     barrio_cliente: $('#barrio_cliente').val(),
                     ciudad_cliente: $('#ciudad_cliente').val(),
@@ -30,13 +31,12 @@ $("#btn-save").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           // $("#res").html("El Cliente fue  Registrado con Éxito").show();
-          //  $("#res").css("display","block");
-           // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-            
-            alert("El Cliente fue  Registrado con Éxito");
-            location.href="/registro/clientes";
+ 
+            $("#res").html(data.message);
+            $("#res, #res-content").css("display","block");
         
+            location.href="/registro/clientes";
+         
        },
        
           error: function (data,estado,error) { 
@@ -50,8 +50,12 @@ $("#btn-save").click(function (e) {
 
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
-                         }); 
+                        
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                     
+                      }); 
                 }
             }
           errorsHtml +="</ul>"; 
@@ -71,6 +75,7 @@ $("#btn-edit").click(function (e) {
     var formData = {
                     nombre_cliente : $('#nombre_cliente').val(), 
                     telefono_cliente: $('#telefono_cliente').val(),
+                    telefono_cliente2: $('#telefono_cliente2').val(),
                     direccion_cliente: $('#direccion_cliente').val(),
                     barrio_cliente: $('#barrio_cliente').val(),
                     ciudad_cliente: $('#ciudad_cliente').val(),
@@ -80,7 +85,7 @@ $("#btn-edit").click(function (e) {
                     ubicacion_cliente: $('#ubicacion_cliente').val(),
                     tipo_cliente: $('#tipo_cliente').val(),
                     nota_cliente: $('#nota_cliente').val(),
-                    id_estado : $('#id_estado').val(),
+                    id_estado :        $('input:radio[name=status]:checked').val(),
                     id_usuario : $('#id_usuario').val(),
                     }
 
@@ -94,11 +99,9 @@ $("#btn-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           // $("#res").html("El Cliente fue  Registrado con Éxito").show();
-          //  $("#res").css("display","block");
-           // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-            
-            alert("El Cliente fue  Modificado con Éxito");
+         
+            $("#res").html(data.message);
+            $("#res, #res-content").css("display","block");
             location.href="/registro/clientes";
         
        },
@@ -114,8 +117,12 @@ $("#btn-edit").click(function (e) {
 
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
-                         }); 
+                        
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                     
+                      }); 
                 }
             }
           errorsHtml +="</ul>"; 
@@ -149,8 +156,6 @@ return /\d/.test(String.fromCharCode(keynum));
 }
 
 
-
-
 $(document).on('click','.pagination a',function(e){
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
@@ -158,12 +163,34 @@ console.log(page);
     var route ="clientes";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+              cliente: $('#cliente').val(),
+               email: $('#email').val(),
+               status:$('#status').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
     
             $(".clientes").html(data);
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="clientes";
+    $.ajax({
+        url: route,
+        data: {cliente: $('#cliente').val(),
+               email: $('#email').val(),
+               status:$('#status').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divclientes").html(data);
+
         }
     });
 });

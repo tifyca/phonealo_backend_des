@@ -50,7 +50,7 @@ $(document).on('click', '.delete-pais', function () {
             console.log(data);
             $("#paises" + pais_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Pais Eliminado con Éxito");
+            $("#res").html("País Eliminado con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -88,7 +88,7 @@ $("#btn-save").click(function (e) {
           
             $('#paises-list').append(pais);
             $('#frmc').trigger("reset");
-            $("#res").html("Pais Registrado con Éxito");
+            $("#res").html("País Registrado con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -103,7 +103,9 @@ $("#btn-save").click(function (e) {
 
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                          }); 
                 }
             }
@@ -142,12 +144,29 @@ $("#btn-save-edit").click(function (e) {
             $("#paises" + pais_id).replaceWith(pais);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Pais Modificado con Éxito");
+            $("#res").html("País Modificado con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
-            console.log('Error:', data);
+              var errorsHtml = '';
+           var error = jQuery.parseJSON(data.responseText);
+             errorsHtml +="<ul style='list-style:none;'>";
+             for(var k in error.message){ 
+                if(error.message.hasOwnProperty(k)){ 
+                    error.message[k].forEach(function(val){
+
+                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
+                       
+                        
+                        $("#remodal").html(errorsHtml);
+                        $("#remodal").css("display","block");
+                        $("#remodal").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                    
+                         }); 
+                }
+            }
+          errorsHtml +="</ul>"; 
         }
     });
 });
@@ -177,7 +196,39 @@ $(document).on('click','.pagination a',function(e){
     var route ="paises";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page, scope: $('#scope').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".paises").html(data);
+           
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+//console.log(page);
+    var route ="paises";
+    $.ajax({
+        url: route,
+        data: {scope: $('#scope').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divpaises").html(data);
+
+        }
+    });
+});
+
+$(document).on('click','.save',function(e){
+    e.preventDefault();
+
+    var route ="paises";
+    $.ajax({
+        url: route,
         type: 'GET',
         dataType: 'json',
         success: function(data){

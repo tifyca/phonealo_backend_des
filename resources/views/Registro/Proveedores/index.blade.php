@@ -23,78 +23,46 @@
                           </div>
                       @endif    
 
-<div class="row">
   <div class="col-12">
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
+      <div class="row">
         
-            <form class="row d-flex justify-content-end" action="{{route('proveedores.index')}}" method="get">  
+           
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Proveedores</h3>
             </div>
              <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="proveedor" placeholder="Proveedor">
+              <input type="text" class="form-control" name="proveedor" id="proveedor" placeholder="Proveedor">
             </div>
            <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="email" placeholder="Email">
+              <input type="text" class="form-control" name="email" id="email" placeholder="Email">
             </div>
            
             <div class="form-group col-md-2">
-              <select class="form-control" id="estatus" name="estatus">
+              <select class="form-control" id="status" name="status">
                 <option value="">Estatus</option>
                 <option value="1">Activo</option>
                 <option value="0">Inactivo</option>
               </select>
             </div>
             <div class="col-md-1">
-              <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
+                  <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>  
               
             </div>
-          </form>
+   
          
         </div>
         {{-- FIN FILTRO --}}
 
           <div class="tile-body">
             <div class="table-responsive">
-                <div class="proveedores">
+                <div class="proveedores" id="divproveedores">
                 <form>
-              <table class="table table-hover" id="sampleTable">
-                <thead>
-                  <tr>
-                    <th>Proveedor</th>
-                    <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Dirección</th>
-                    <th>País</th>
-                    
-                    <th>RUC</th>
-                    <th>Acciones</th>     
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach($proveedor as $Item)    
-                  
-                     <tr id="cliente{{$Item->id}}">
-                      <td width="20%" >{{$Item->proveedor}}</td>
-                      <td width="15%" >{{$Item->telefono}}</td>
-                      <td width="15%" >{{$Item->email}}</td>
-                      <td width="25%" >{{$Item->direccion}}</td>
-                      <td width="15%" >{{$Item->pais}}</td>
-                      <td width="15%" >{{$Item->ruc}}</td>
-                      <td width="10%" class="text-center">
-                      <div class="btn-group">
-                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm m-0" href="proveedores/editar/{{$Item->id}}"><i class="fa fa-lg fa-eye"></i></a>
-                      </div>
-                      </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-              </table>
-              <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $proveedor->render(); ?>
-              </div>
+                  @component('Registro/Proveedores.lista')
+                        @slot('proveedor', $proveedor)
+                  @endcomponent
               </form>
             </div>
           </div>

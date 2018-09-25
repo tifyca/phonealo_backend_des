@@ -89,27 +89,19 @@ $("#btn-save").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           // console.log(data);
-            //var barrio = '<tr id="barrios' + data.id + '"><td>' + data.barrio + '</td>';
-            //barrio += '<td><div class="btn-group"><button class="btn btn-primary open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            //barrio += ' <button class="btn btn-primary confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-          
-            //$('#barrios-list').append(barrio);
-           // $('#frmc').trigger("reset");
             $('#nombreBarrio').val("");
             $('#lon').val("");
             $('#lat').val("");
-           // $(".departamento option:eq(1)").prop("selected", true);
             $(".departamento ").val("");
             $(".ciudades ").val("");
             $('select[name=departamento-select-list]').val(id_dptos);
             $('select[name=ciudades-select-list]').val(id_ciudads);
 
-           $.get(url + '/ciud/' + data.id_ciudad, function(ciud){
+           $.get(url + '/ciud/' + data.id, function(ciud){
                $.each(ciud, function(l, item1) {
 
-                var barrio = '<tr id="barrios' + item1.id + '"><td>' + item1.barrio + '</td>';
-                    barrio += '<td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                var barrio = '<tr id="barrios' + item1.id + '"><td width="35%">'+data.barrio+'</td><td width="25%">'+item1.nombre+'</td><td width="25%">'+item1.ciudad+'</td>';
+                    barrio += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
                     barrio += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
             $('#barrios-list').append(barrio);
@@ -118,7 +110,7 @@ $("#btn-save").click(function (e) {
             
                  }),
 
-            $("#res").html("Barrio Registrada con Éxito");
+            $("#res").html("Barrio Registrado con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -133,7 +125,9 @@ $("#btn-save").click(function (e) {
 
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                          }); 
                 }
             }
@@ -156,8 +150,8 @@ $("#btn-save-edit").click(function (e) {
         var formData = { nombre: $('#nombre').val(),
                          id_usuario: $('#id_usuario').val(),
                          barrio_id:$('#barrio_id').val(),
-                        // id_dpto:$('.departamento').val(),
-                         //id_ciudad:$('.ciudades').val(), 
+                         id_dpto:$('#departamento').val(),
+                         id_ciudad:$('#ciudades').val(), 
                          lat:$('#latedit').val(),
                          lon:$('#lonedit').val(), }
         var my_url = url;
@@ -171,11 +165,24 @@ $("#btn-save-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            console.log(data.barrio);
-             var barrio = '<tr id="barrios' + data.id + '"><td>' + data.barrio + '</td>';
-            barrio += '<td><div class="btn-group"><button  data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            barrio += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-            $("#barrios" + barrio_id).replaceWith(barrio);
+      //      console.log(data.barrio);
+        $.get(url + '/ciud/' + data.id, function(ciud){
+               $.each(ciud, function(l, item1) {
+
+                var barrio = '<tr id="barrios' + item1.id + '"><td width="35%">'+data.barrio+'</td><td width="25%">'+item1.nombre+'</td><td width="25%">'+item1.ciudad+'</td>';
+                    barrio += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + item1.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+                    barrio += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + item1.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+          
+                        $("#barrios" + barrio_id).replaceWith(barrio);
+                 });
+            
+                 }),
+
+
+
+
+
+       
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
             $("#res").html("Barrio Modificado con Éxito");
@@ -183,7 +190,24 @@ $("#btn-save-edit").click(function (e) {
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
-            console.log('Error:', data);
+              var errorsHtml = '';
+           var error = jQuery.parseJSON(data.responseText);
+             errorsHtml +="<ul style='list-style:none;'>";
+             for(var k in error.message){ 
+                if(error.message.hasOwnProperty(k)){ 
+                    error.message[k].forEach(function(val){
+
+                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
+                       
+                        
+                        $("#remodal").html(errorsHtml);
+                        $("#remodal").css("display","block");
+                        $("#remodal").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                    
+                         }); 
+                }
+            }
+          errorsHtml +="</ul>"; 
         }
     });
 });
@@ -191,7 +215,7 @@ $("#btn-save-edit").click(function (e) {
 function soloLetras(e) {
     key = e.keyCode || e.which;
     tecla = String.fromCharCode(key).toLowerCase();
-    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz0123456789";
     especiales = [8, 39];
 
     tecla_especial = false
@@ -221,7 +245,44 @@ $(document).on('click','.pagination a',function(e){
     var route ="barrios";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+               barrio: $('#buscarbarrio').val(),
+               dpto: $('#departamento-select-list').val(),
+               ciudad: $('#ciudades-select-list').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".barrios").html(data);
+        }
+    });
+});
+
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="barrios";
+    $.ajax({
+        url: route,
+        data: {barrio: $('#buscarbarrio').val(),
+               dpto: $('#departamento-select-list').val(),
+               ciudad: $('#ciudades-select-list').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divbarrios").html(data);
+
+        }
+    });
+});
+
+$(document).on('click','.save',function(e){
+    e.preventDefault();
+
+    var route ="barrios";
+    $.ajax({
+        url: route,
         type: 'GET',
         dataType: 'json',
         success: function(data){

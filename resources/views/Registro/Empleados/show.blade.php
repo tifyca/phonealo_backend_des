@@ -5,7 +5,7 @@
 
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
+@section('icono_titulo', 'fa-circle')
 @section('titulo', 'Nuevo Empleado')
 @section('descripcion', '')
 
@@ -29,23 +29,23 @@
 	          		<div class="row">
 						<div class="form-group col-md-4">
 							<label for="nombre_empleado">Nombres</label>
-							<input class="form-control" type="text" id="nombre_empleado" name="nombre_empleado" placeholder="..." onkeypress="return soloLetras(event);">
+							<input class="form-control" type="text" id="nombre_empleado" name="nombre_empleado" placeholder="..." onkeypress="return soloLetras(event);" maxlength="50"  oncopy="return false">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="ci_empleado">CI</label>
-							<input class="form-control" type="text" id="ci_empleado" name="ci_empleado" placeholder="..." onkeypress="return soloNumeros(event);">
+							<input class="form-control" type="text" id="ci_empleado" name="ci_empleado" maxlength="15" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="telefono_empleado">Teléfono</label>
-							<input class="form-control" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="..." onkeypress="return soloNumeros(event);">
+							<input class="form-control" type="text" id="telefono_empleado" name="telefono_empleado" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="13"  oncopy="return false">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="email_empleado">Email</label>
-							<input class="form-control" type="text" id="email_empleado" name="email_empleado" placeholder="...">
+							<input class="form-control" type="email" id="email_empleado" name="email_empleado" placeholder="..."  oncopy="return false">
 						</div>
 						<div class="form-group col-md-4">
 							<label for="direccion_empleado">Dirección</label>
-							<input class="form-control" type="text" id="direccion_empleado" name="direccion_empleado" placeholder="...">
+							<input class="form-control" type="text" id="direccion_empleado" name="direccion_empleado" placeholder="..." maxlength="150">
 						</div>
 						<div class="form-group col-md-4">
 			              <label for="cargo_empleado">Cargo</label>

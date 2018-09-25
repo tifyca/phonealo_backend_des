@@ -22,47 +22,28 @@
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
-          <div class="row">
+          
+             <form class="row d-flex justify-content-end" action="{{route('estados')}}" method="get">
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Estados</h3>
             </div>
-             <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="" placeholder="Buscar">
+             <div class="form-group col-md-4">
+              <input type="text" class="form-control" id="scope" name="scope" placeholder="Buscar" oncopy="return false" onpaste="return false"  maxlength="50">
             </div>
-            
-          </div>
+             <div class="col-md-1 mr-md-3">
+               <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>           
+            </div>
+          </form>
+          
         </div>
         {{-- FIN FILTRO --}}
      
         <div class="tile-body ">
           <div class="tile-body">
-            <div class="estados">
-              <table class="table table-hover" id="sampleTable">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-		                <th>Acción</th>
-                  </tr>
-                </thead>
-                <tbody id="estados-list" name="estados-list">
-                  @foreach($estados as $item)           
-                     <tr id="estado{{$item->id}}">
-                      <td width="90%">{{$item->estado}}</td>
-                
-                      <td width="10%" class="text-center">
-                      <div class="btn-group">
-                      <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$item->id}}"><i class="m-0 fa fa-lg fa-edit"  ></i></button>               
-                      </div>
-                      </td>
-                    </tr>
-                    @endforeach
-                  
-                </tbody>
-              </table>
-         
-            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $estados->render(); ?>
-            </div>
+            <div class="estados" id="divestados">
+               @component('Configurar.Estados.lista')
+                        @slot('estados', $estados)
+                  @endcomponent
               </div>
             </div>
         </div>
@@ -75,7 +56,7 @@
    <div class="modal-dialog">
     <div class="modal-content">
      <div class="modal-header">
-     
+       <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Estado</h4>
      </div>
      <div class="modal-body">
@@ -84,7 +65,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
               
             </div>

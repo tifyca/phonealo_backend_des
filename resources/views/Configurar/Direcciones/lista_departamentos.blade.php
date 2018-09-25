@@ -1,8 +1,8 @@
 <table class="table table-hover" id="sampleTable">
               <thead>
                 <tr>
-                  <th>Nombre</th>
-                  <th>Acciones</th>
+                  <th width="90%">Nombre</th>
+                  <th width="10%" class="text-center" >Acciones</th>
                 </tr>
               </thead>
               <tbody id="dpto-list" name="dpto-list">

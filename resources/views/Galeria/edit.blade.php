@@ -1,6 +1,6 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
+@section('icono_titulo', 'fa-circle')
 @section('titulo', 'Editar Imagen')
 @section('descripcion', '')
 
@@ -60,6 +60,7 @@
                   ?>         
 
               <img id="imgSalida" src="{{ asset($zurl) }}" class="img-fluid " alt="">  
+                <label><span>Mínimo 512 x 256 píxeles | JPG y PNG</span></label>
               <div class="form-group mt-4">
                 <input type="file" class="form-control-file read" id="archivo" name="archivo" disabled>
               </div>
@@ -102,7 +103,7 @@
     });
   </script>
 
-  <script type="text/javascript" language="javascript">
+   <script type="text/javascript" language="javascript">
     $(function() {
     $('#archivo').change(function(e) {
       addImage(e); 
@@ -123,5 +124,6 @@
     var result=e.target.result;
     $('#imgSalida').attr("src",result);
   }
+});
   </script>
 @endpush

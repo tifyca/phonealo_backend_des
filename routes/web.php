@@ -13,17 +13,25 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('ciudades', 'Ajax\Direcciones@Ciudades')->name('ciudades_ajax');
     Route::get('barriosCombo', 'Ajax\Direcciones@BarriosCombo')->name('barriosCombo');
     Route::get('barrios', 'Ajax\Direcciones@barrios')->name('barrios_ajax');
+    Route::get('categoria', 'Ajax\Configurar@categorias')->name('tipocategoria');
 
     Route::get('productos', 'Ajax\ProductosAjax@productos_list')->name('productos_ajax');
     Route::get('mostrar_subcategorias', 'Ajax\ProductosAjax@subcategorias_list')->name('mostrar_subcategorias');
+    Route::get('mostrar_solicitudes', 'Ajax\ProductosAjax@solicitudes_list')->name('mostrar_solicitudes');
+    Route::get('buscar_categoria', 'Ajax\ProductosAjax@categorias_list')->name('buscar_categoria');
+    Route::get('buscar_solped', 'Ajax\ProductosAjax@solped_monto')->name('buscar_solped');
+    Route::get('buscar_comprobantes', 'Ajax\ProductosAjax@solped_comprobantes')->name('buscar_comprobantes');
+    Route::get('buscar_factura', 'Ajax\ProductosAjax@solped_factura')->name('buscar_factura');
+    Route::get('buscar_item', 'Ajax\ProductosAjax@verificar_detalle')->name('buscar_item');
+
     Route::get('producto_click', 'Ajax\ProductosAjax@producto')->name('producto_click');
     Route::get('cargos', 'Ajax\Configurar@cargos')->name('cargos_ajax');
+    Route::get('detalle_venta', 'Ajax\Logistica@detalle_venta')->name('detalle_venta');
 
     
 
 
     ///////////
-
 
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('home');
@@ -31,8 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
     // CONFIGURAR
 
     Route::resource('configurar/cargos', 'Configurar\CargosController');
+    Route::post('configurar/cargos/create','Configurar\CargosController@store');
     Route::get('configurar/cargos/edit/{cargo_id?}','Configurar\CargosController@editar');
-    Route::post('configurar/cargos','Configurar\CargosController@store');
     Route::put('configurar/cargos/mod/{cargo_id?}','Configurar\CargosController@update');
     Route::delete('configurar/cargos/{cargo_id?}','Configurar\CargosController@destroy');
 
@@ -91,7 +99,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('configurar/estados/edit/{estado_id?}','Configurar\EstadosController@editar');
     Route::put('configurar/estados/mod/{estado_id?}','Configurar\EstadosController@update');
     
-
+    Route::resource('configurar/horas', 'Configurar\HorasController');
+    Route::get('configurar/horas/edit/{hora_id?}','Configurar\HorasController@editar');
+    Route::post('configurar/horas/create','Configurar\HorasController@store');
+    Route::put('configurar/horas/mod/{hora_id?}','Configurar\HorasController@update');
+    Route::delete('configurar/horas/{hora_id?}','Configurar\HorasController@destroy');
      
    
    
@@ -133,6 +145,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::resource('registro/empleados', 'Registro\EmpleadosController');
+    Route::resource('registro/empleados', 'Registro\EmpleadosController');
     Route::post('registro/empleados/create', 'Registro\EmpleadosController@create');
     Route::get('registro/empleados/editar/{id_empleado?}','Registro\EmpleadosController@editar');
     Route::put('registro/empleados/mod/{id_empleado?}','Registro\EmpleadosController@update');
@@ -140,7 +153,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
 
-    Route::resource('registro/gastos', 'Registro\GastosController');
+   
 
 
     Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
@@ -154,6 +167,12 @@ Route::group(['middleware' => 'auth'], function () {
         'as'   => 'galeria.index'
     ]);
 
+    Route::get('galeria/destroy', [
+        'uses' => 'GaleriaController@destroy',
+        'as'   => 'galeria.destroy'
+    ]);
+
+
     Route::get('galeria/new/{id}', [
         'uses' => 'GaleriaController@new',
         'as'   => 'galeria.new'
@@ -163,8 +182,46 @@ Route::group(['middleware' => 'auth'], function () {
 
 
      // INVENTARIO
+
     Route::resource('inventario/entradas', 'Inventario\EntradasController');
+    Route::get('entradas/anular', [
+        'uses' => 'Inventario\EntradasController@anular',
+        'as'   => 'entradas.anular'
+    ]);
+    Route::get('inventario/entradas', [
+        'uses' => 'Inventario\EntradasController@index',
+        'as'   => 'entradas.index'
+    ]);
+    Route::get('entradas/{id}/ver', [
+        'uses' => 'Inventario\EntradasController@vista',
+        'as'   => 'entradas.ver'
+    ]);
+     Route::get('entradas/{id}/pdf', [
+        'uses' => 'Inventario\EntradasController@pdf',
+        'as'   => 'entradas.pdf'
+    ]);
+    Route::get('entradas/{id}/confirmar', [
+        'uses' => 'Inventario\EntradasController@confirmar',
+        'as'   => 'entradas.confirmar'
+    ]);
+      Route::post('entradas/carga', [
+        'uses' => 'Inventario\EntradasController@carga',
+        'as'   => 'entradas.carga'
+    ]);
+      Route::post('entradas/update', [
+        'uses' => 'Inventario\EntradasController@update',
+        'as'   => 'entradas.update'
+    ]);
+
+  Route::post('entrada/store', [
+        'uses' => 'Inventario\EntradasController@store',
+        'as'   => 'entrada.store'
+    ]);
+    Route::get('cdetalle','Inventario\EntradasController@cargar_detalle');
+    Route::get('edetalle','Inventario\EntradasController@eliminar_detalle');
+
     Route::resource('inventario/salidas', 'Inventario\SalidasController');
+
     Route::resource('inventario/consolidado', 'Inventario\ConsolidadoController');
 
      // //////////
@@ -180,14 +237,25 @@ Route::group(['middleware' => 'auth'], function () {
             'uses' => 'Registro\gastosController@update',
             'as'   => 'gastos.update'
         ]);
+    Route::get('gastos/anular', [
+        'uses' => 'Registro\GastosController@anular',
+        'as'   => 'gastos.anular'
+    ]);
 
     Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
     
     ///////////
 
     // PROCESAR
+    // 
+     Route::resource('procesar/gastos', 'Registro\GastosController');
     
     Route::resource('procesar/ventas', 'Procesar\VentasController');
+    Route::get('searchCliente/{tlf?}', 'Procesar\VentasController@getcliente')->name('searchCliente');
+    Route::post('procesar/ventas/add', 'Procesar\VentasController@addventa');
+    Route::post('procesar/ventas/create', 'Procesar\VentasController@create');
+    Route::get('/procesar/elimanarProdCesta/{prod?}', 'Procesar\VentasController@delventa');
+    Route::get('procesar/ventas/detalle/{valor}', 'Procesar\VentasController@detalle_producto');
 
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
 
@@ -202,6 +270,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
+    Route::get('procesar/logistica/remisa', 'Procesar\LogisticaController@remisa')->name('logistica.remisa');
 
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');
@@ -245,6 +314,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('caja/cobro_remito', 'Caja\AbrirController@cobro_remito')->name('caja.cobro_remito');
     Route::get('caja/salida', 'Caja\AbrirController@salida')->name('caja.salida');
     Route::get('caja/cerrar', 'Caja\AbrirController@cerrar')->name('caja.cerrar');
+    Route::get('caja/detalle', 'Caja\AbrirController@detalle')->name('caja.detalle');
+
 
     Route::get('caja/cierres', 'Caja\CierresController@index')->name('caja.cierres');
     Route::get('caja/cierres/resumen', 'Caja\CierresController@resumen')->name('caja.cierre.resumen');
@@ -254,7 +325,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('caja/historial', 'Caja\historialController@index')->name('caja.historial');
     
 
+//////////////////////
+/// DOCUMENTACION
 
+    Route::get('documentacion', 'Documentacion\DocumentacionController@index')->name('documentacion');
+    Route::get('documentacion/configurar', 'Documentacion\DocumentacionController@configurar')->name('documentacion.configurar');
+    Route::get('documentacion/registro', 'Documentacion\DocumentacionController@registro')->name('documentacion.registro');
+    Route::get('documentacion/inventario', 'Documentacion\DocumentacionController@inventario')->name('documentacion.inventario');
+    Route::get('documentacion/procesar', 'Documentacion\DocumentacionController@procesar')->name('documentacion.procesar');
+    Route::get('documentacion/caja', 'Documentacion\DocumentacionController@caja')->name('documentacion.caja');
+    Route::get('documentacion/seguridad', 'Documentacion\DocumentacionController@seguridad')->name('documentacion.seguridad');
 
     
 

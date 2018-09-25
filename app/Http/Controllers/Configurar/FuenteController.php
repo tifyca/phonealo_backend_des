@@ -14,7 +14,30 @@ use Illuminate\Support\Facades\Validator;
 class FuenteController extends Controller
 {
     public function index(Request $request){
-    	$fuentes= Fuente::orderBy('fuente','ASC')->paginate(10);
+
+      $fuente = $request["fuente"];
+     $status   = $request["status"];
+   
+    if($fuente!="" && $status=="" )
+    {
+        $fuentes= Fuente::search($fuente)->orderBy('fuente','asc')->paginate(10);
+
+    }
+    if($fuente=="" && $status!="")
+    {
+        $fuentes=  Fuente::status($status)->orderBy('fuente','asc')->paginate(10);
+    }
+     if($fuente!="" && $status!="")
+    {
+        $fuentes=  Fuente::search2($status, $fuente)->orderBy('fuente','asc')->paginate(10);
+    }
+  
+
+    if($fuente=="" && $status=="")
+    {
+        $fuentes= Fuente::orderBy('fuente','ASC')->paginate(10);
+    }      
+    	
       if($request->ajax()){
             return response()->json(view('Configurar.Fuente.lista',compact('fuentes'))->render());
         }
@@ -29,9 +52,9 @@ class FuenteController extends Controller
 
    $rules = array( 'nombre'=>'required|unique:fuente_financiamiento,fuente', 
                    'status'=>'required'); 
-   $messages = array( 'nombre.required'=>'Nombre de la fuente de financiamiento es requerido', 
-                      'nombre.unique' => 'La fuente de financiamiento ya existe', 
-                      'status.required'=>'El estatus es requerido' );
+   $messages = array( 'nombre.required'=>'Nombre de la Fuente de Financiamiento es Requerido', 
+                      'nombre.unique' => 'La Fuente de Financiamiento ya Existe', 
+                      'status.required'=>'El Estatus es Requerido' );
 
     $validator = Validator::make($data, $rules, $messages);
 
@@ -43,7 +66,7 @@ class FuenteController extends Controller
       
      }elseif ($validator->passes()){ 
       $fuente= new Fuente; 
-      $fuente->fuente = $request->nombre; 
+      $fuente->fuente = ucwords(strtolower($request->nombre)); 
       $fuente->status =$request->status;
       $fuente->id_usuario=$request->id_usuario; 
       $fuente->save(); 
@@ -61,13 +84,33 @@ class FuenteController extends Controller
     }
 
   public function update (Request $request,$fuente_id){
+
+     $data=$request->all();
+
+   $rules = array( 'nombre'=>'required|unique:fuente_financiamiento,fuente,' .$fuente_id, 
+                   'status'=>'required'); 
+   $messages = array( 'nombre.required'=>'Nombre de la Fuente de Financiamiento es Requerido', 
+                      'nombre.unique' => 'La Fuente de Financiamiento ya Existe', 
+                      'status.required'=>'El Estatus es Requerido' );
+
+    $validator = Validator::make($data, $rules, $messages);
+
+
+   if($validator->fails()){ 
+
+      $errors = $validator->errors(); 
+      return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
+      
+     }elseif ($validator->passes()){ 
         $fuente = Fuente::find($fuente_id);
-        $fuente->fuente = $request->nombre;
+        $fuente->fuente = ucwords(strtolower($request->nombre));
         $fuente->status = $request->status;
         $fuente->id_usuario=$request->id_usuario;
         $fuente->save();
         return response()->json($fuente);
     }
+
+  }
 
   public function destroy($fuente_id){
       $fuente = Fuente::destroy($fuente_id);

@@ -1,7 +1,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
-@section('titulo', 'Nuevo producto')
+@section('icono_titulo', 'fa-circle')
+@section('titulo', 'Nuevo Producto')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -65,11 +65,11 @@
             </div>
             <div class="col-md-3">
               <div class="row">
-                <label for="imagen_producto">Imagen del Producto</label>
+                
                 <div class="form-group  text-center mt-3">
-
+                  <label for="imagen_producto" align="center"><b>Imagen del Producto</b></label><br>
                   <img id="imgSalida" src="{{ asset('img/img-default.png') }}" class="img-fluid " alt="">
-
+                  <label>Mínimo 512 x 256 píxeles | JPG y PNG</label>
                   <div class="form-group mt-4">
                     <input type="file" class=" read-file read" id="archivo" name="archivo" accept="image/*">                    </div>
                   </div>
@@ -95,6 +95,53 @@
   <script type="text/javascript" language="javascript">
     $ = jQuery;
     jQuery(document).ready(function () {
+      
+  $("input#precio_ideal").bind('keydown', function (event) {
+
+      if(event.shiftKey)
+      {
+        event.preventDefault();
+      }
+      if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 241 )    {
+      }
+      else {
+        if (event.keyCode < 95) {
+          if (event.keyCode < 48 || event.keyCode > 57) {
+            event.preventDefault();
+          }
+        } 
+        else {
+          if (event.keyCode < 96 || event.keyCode > 105) {
+            event.preventDefault();
+          }
+        }
+      }        
+      ;
+    });    
+
+ 
+  $("input#precio_minimo").bind('keydown', function (event) {
+
+      if(event.shiftKey)
+      {
+        event.preventDefault();
+      }
+      if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 241 )    {
+      }
+      else {
+        if (event.keyCode < 95) {
+          if (event.keyCode < 48 || event.keyCode > 57) {
+            event.preventDefault();
+          }
+        } 
+        else {
+          if (event.keyCode < 96 || event.keyCode > 105) {
+            event.preventDefault();
+          }
+        }
+      }        
+      ;
+    });    
       $("input#codigo_producto").bind('change', function (event) {
         var valor = $(this).val();
         document.form1.codigo_producto.value=valor.toUpperCase();
@@ -105,7 +152,6 @@
         var valor = $(this).val();
         document.form1.cod_barra_producto.value=valor.toUpperCase();
       });
-
 
 
       $("select#id_categoria").bind('change', function (event) {
@@ -137,8 +183,6 @@
 
 
       });
-
-
 
     });
 

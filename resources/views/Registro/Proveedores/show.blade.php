@@ -5,7 +5,7 @@
 
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
+@section('icono_titulo', 'fa-circle')
 @section('titulo', 'Nuevo Proveedor')
 @section('descripcion', '')
 
@@ -21,10 +21,9 @@
                          <div class="alert alert-success">
 
                            {{ Session::get('message') }} 
-                          /div>
+                          </div>
                       @endif    
 
-<div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div> 
 <div class="row">
   <div class="col-12">
     <div class="tile">
@@ -37,23 +36,24 @@
           <div class="row">
               <div class="form-group col-md-6">
                 <label for="nombre_proveedor">Nombres</label>
-                <input class="form-control" type="text" id="nombre_proveedor" name="nombre_proveedor" placeholder="...">
+                <input class="form-control" type="text" id="nombre_proveedor" name="nombre_proveedor" onkeypress="return soloLetrasNum(event);"  placeholder="..." maxlength="50"  oncopy="return false">
               </div>
               <div class="form-group col-md-6">
                 <label for="email_proveedor">Email</label>
-                <input class="form-control" id="email_proveedor" name="email_proveedor" type="email" aria-describedby="emailHelp" placeholder="...">
+                <input class="form-control" id="email_proveedor" name="email_proveedor" type="email" aria-describedby="emailHelp" placeholder="..." maxlength="50"  oncopy="return false">
               </div>
               <div class="form-group col-md-6">
                 <label for="direccion_proveedor">Dirección</label>
-                <input class="form-control" type="text" id="direccion_proveedor" name="direccion_proveedor" placeholder="...">
+                <input class="form-control" type="text" id="direccion_proveedor" name="direccion_proveedor" placeholder="..." maxlength="150"  oncopy="return false">
               </div>
               <div class="form-group col-md-6">
-                <label for="telefono_proveedor">Teléfono</label>
-                <input class="form-control" type="text" id="telefono_proveedor" name="telefono_proveedor" placeholder="..." onkeypress="return soloNumeros(event);">
+                <label for="telefono_proveedor">Teléfonos</label>
+                <input class="form-control" type="text" id="telefono_proveedor" name="telefono_proveedor" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="13"  oncopy="return false">
+                <input class="form-control" type="text" id="telefono_proveedor2" name="telefono_proveedor2" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="13"  oncopy="return false">
               </div>
               <div class="form-group col-md-6">
                 <label for="ruc_proveedor">RUC</label>
-                <input class="form-control" type="text" id="ruc_proveedor" name="ruc_proveedor" placeholder="..." onkeypress="return soloNumeros(event);">
+                <input class="form-control" type="text" id="ruc_proveedor" name="ruc_proveedor" maxlength="13" placeholder="..." onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false">
               </div>
               <div class="form-group col-md-6">
                 <label for="pais_proveedor">País</label>

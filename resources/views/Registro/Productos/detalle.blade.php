@@ -1,7 +1,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
-@section('titulo', 'Detalle Producto')
+@section('icono_titulo', 'fa-circle')
+@section('titulo', 'Detalle del Producto')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -54,7 +54,7 @@
             {{-- Imagen principal --}}
             <div class="carousel-item active">
                 <?php $url=$productos->img;
-                       if($url)
+                       if(!empty($url))
                         $zurl = config('app.url') . '/productos/' . $url ;
                         //$zurl="img/productos/".$url;
 
@@ -69,13 +69,15 @@
             {{-- Imagenes de galiria de producto --}}
             @foreach($imagenes as $img)
               <?php 
-                 //$url = 'img/productos/'.$img->imagen;
-                 $url = config('app.url') . 'productos/' . $url ;
-                 if(!$url) $dir ='img/2.jpg';
-                 else      $dir=$url; 
+                    $url=$img->imagen;
+                       if($url)
+                    
+                        $zurl = config('app.url') . '/productos/' . $url ;
+                      else
+                        $zurl = 'img/2.jpg';
               ?>
             <div class="carousel-item">
-              <img class="d-block w-100" src="{{ asset('img/2.jpg') }}" alt="Second slide">
+              <img class="d-block w-100" src="{{ asset($zurl) }}" alt="Second slide">
             </div>
             @endforeach
             {{-- ////////////////////////////// --}}

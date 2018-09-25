@@ -28,14 +28,14 @@
             <div class="row">
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="Nombre Fuente" id="nombreFuente" name="nombreFuente" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre Fuente" id="nombreFuente" name="nombreFuente" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
                   <div class="col-md-12 ">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input class="form-check-input"  value="1" type="radio" id="statusFuente" name="statusFuente">Activo
+                        <input class="form-check-input"  value="1" type="radio" id="statusFuente" name="statusFuente" checked>Activo
                       </label>
                     </div>
                     <div class="form-check">
@@ -46,7 +46,7 @@
                   </div>
                 </div>
               <div class="tile-footer text-center border-0" >
-                <button class="btn btn-primary" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
+                <button class="btn btn-primary save" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
               </div>
             </div>
           </form>
@@ -57,40 +57,37 @@
  
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado de Fuentes</h3>
+        {{-- FILTRO --}}
+      <div class="col mb-3 text-center">
+          <div class="row">
+            <!--form class="row d-flex justify-content-end" action="{{route('fuentes.index')}}" method="get"-->
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado Fuente</h3>
+            </div>
+             <div class="form-group col-md-3">
+              <input type="text" class="form-control" name="buscarfuente" id="buscarfuente" placeholder="Buscar Fuentes"  maxlength="50">
+            </div>
+            <div class="form-group col-md-3">
+              <select class="form-control" id="selectstatus" name="selectstatus">
+                <option value="">Estatus</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+              </select>
+            </div>
+            <div class="col-md-1 mr-md-3">
+              <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>         
+            </div>
+          <!--/form-->
+          </div>
+        </div>
+        {{-- FIN FILTRO --}}
         <div class="tile-body ">
           <div class="tile-body">
             <div class="table-responsive">
-              <div class="fuentes">
-             <table class="table table-hover" id="sampleTable">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Estatus</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody id="fuentes-list" name="fuentes-list">
-                   @foreach($fuentes as $fuente)           
-                     <tr id="fuente{{$fuente->id}}">
-                      <td width="45%">{{$fuente->fuente}}</td>
-                <?php if ($fuente->status==1){ ?>
-                      <td width="45%"><?=  'Activo' ?></td>
-                <?php }else{ ?> 
-                      <td width="45%"><?='Inactivo' ?></td>
-                <?php } ?> 
-                      <td width="10%" class="text-center">
-                      <div class="btn-group">
-                      <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$fuente->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$fuente->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
-                      </div>
-                      </td>
-                    </tr>
-                    @endforeach
-              </table>       
-               <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $fuentes->render(); ?>
-              </div>
+              <div class="fuentes" id="divfuentes">
+                    @component('Configurar.Fuente.lista')
+                        @slot('fuentes', $fuentes)
+                    @endcomponent
               </div>
               </div>
             </div>
@@ -103,7 +100,7 @@
    <div class="modal-dialog">
     <div class="modal-content">
      <div class="modal-header">
-     
+     <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Fuente</h4>
      </div>
      <div class="modal-body">
@@ -112,7 +109,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)"  oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>

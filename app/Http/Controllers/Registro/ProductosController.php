@@ -15,7 +15,8 @@ use File;
 class ProductosController extends Controller
 {
     public function index(Request $request){
-
+      $tipo="";
+      $mensaje="";
     	$categoria = $request["id_categoria"];
     	$subcategoria = $request["id_subcategoria"];
       $valor = $request["valor"];
@@ -63,16 +64,16 @@ class ProductosController extends Controller
     	  	$productos=productos::orderby('id','asc')->paginate(10);
       }
        	
-    	$categorias=categorias::where('tipo','Productos')->get();
+    	$categorias=categorias::where('tipo','Productos')->orderby('categoria','asc')->get();
 
-		  return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos);
+		  return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos)->with('tipo',$tipo)->with('mensaje',$mensaje);
 	}
 
     public function edit($id){
-    	$categorias = categorias::where('tipo','Productos')->get();
-		$productos = productos::find($id);
+    	$categorias = categorias::where('tipo','Productos')->orderby('categoria','asc')->get();
+		  $productos = productos::find($id);
 
-		$subcategorias = subcategorias::where('id',$productos->id_subcategoria)->get();
+		  $subcategorias = subcategorias::where('id',$productos->id_subcategoria)->get();
 
 		return view('Registro.Productos.edit')->with('productos',$productos)->with('categorias',$categorias)->with('subcategorias',$subcategorias);
 	}
@@ -81,19 +82,20 @@ class ProductosController extends Controller
 	public function store(Request $request){
 		//dd($request);
 		try{
-                $nombre          = $request->descripcion;
-                $id_categoria    = $request->id_categoria;
-                $id_subcategoria = $request->id_subcategoria;
-                if(productos::where('descripcion',$nombre)->where('id_categoria',$id_categoria)->where('id_subcategoria',$id_subcategoria)->first()){
-         return redirect()->route('productos.index')->with("notificacion_error","Ya se encuentra Registrado");
-       }
-       $productos = new productos($request->all());
-     if($request["archivo"]){
+      $nombre          = $request->descripcion;
+      $id_categoria    = $request->id_categoria;
+      $id_subcategoria = $request->id_subcategoria;
+      if(productos::where('descripcion',$nombre)->where('id_categoria',$id_categoria)->where('id_subcategoria',$id_subcategoria)->first()){
+       $mensaje="Ya se encuentra Registrado";
+       $tipo="2";
+     }
+     else{
+        $productos = new productos($request->all());
+        if($request["archivo"]){
           //dd($request->archivo);
-          $fileName = $this->saveFile($request["archivo"], "productos/");
+        $fileName = $this->saveFile($request["archivo"], "productos/");
           $productos->img        = $fileName;
-      }
-        
+        }
         $productos->descripcion          = $request["descripcion"];
         $productos->descripcion_producto = $request["descripcion_producto"];
         $productos->precio_ideal         = $request["precio_ideal"];
@@ -106,23 +108,27 @@ class ProductosController extends Controller
         $productos->updated_at            = date('Y-m-d');
         $productos->id_usuario              = $_SESSION["user"];
         $productos->save();
-
         //crear registro de auditoria
-         $auditoria = new auditoria();
-         $auditoria->id_usuario =  $_SESSION["user"];
-         $auditoria->fecha      = date('Y-m-d');
-         $auditoria->accion     = "Creando Producto";
-         $auditoria->id_producto = $productos->id;
-         $auditoria->save(); 
-
+        $auditoria = new auditoria();
+        $auditoria->id_usuario =  $_SESSION["user"];
+        $auditoria->fecha      = date('Y-m-d');
+        $auditoria->accion     = "Creando Producto";
+        $auditoria->id_producto = $productos->id;
+        $auditoria->save(); 
+      $tipo="1";
+      $mensaje="Producto Creado Satisfactoriamente";
+     }    
+     $categorias=categorias::where('tipo','Productos')->get();
+     $productos=productos::orderby('id','asc')->paginate(10);
+      return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos)->with('tipo',$tipo)->with('mensaje',$mensaje);
         //
-	  }catch (Exception $e) {
-        \Log::info('Error creating item: '.$e);
-       return \Response::json(['created' => false], 500);
-     }
+  }catch (Exception $e) {
+    \Log::info('Error creating item: '.$e);
+    return \Response::json(['created' => false], 500);
+  }
 	}
 	public function show($id){
-        $categorias = categorias::where('tipo','Productos')->get();		
+    $categorias = categorias::where('tipo','Productos')->orderby('categoria','asc')->get();		
 
 		return view('Registro.Productos.show')->with('categorias',$categorias);
 	}
@@ -160,7 +166,11 @@ class ProductosController extends Controller
          $auditoria->id_producto = $productos->id;
          $auditoria->save(); 
 
-        return redirect()->route('productos.index')->with("notificacion","Se ha guardado correctamente su información");
+         $tipo="1";
+         $mensaje="Producto Actualizado Satisfactoriamente";
+         $categorias=categorias::where('tipo','Productos')->get();
+         $productos=productos::orderby('id','asc')->paginate(10);
+        return view('Registro.Productos.index')->with('categorias',$categorias)->with('productos',$productos)->with('tipo',$tipo)->with('mensaje',$mensaje);
       } catch (Exception $e) {
         \Log::info('Error creating item: '.$e);
        return \Response::json(['created' => false], 500);
@@ -184,6 +194,5 @@ class ProductosController extends Controller
    	                ->where('id_producto',$id)->get();
 		return view('Registro.Productos.detalle')->with('productos',$productos)->with('categoria',$categoria)->with('subcategoria',$subcategoria)->with('imagenes',$imagenes);
 	}
-	
 	
 }

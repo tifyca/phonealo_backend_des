@@ -1,10 +1,11 @@
   <table class="table table-hover" id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Nombre</th>
-                    <th>Categoria</th>
-                    <th>Estatus</th>
-                    <th>Acciones</th>
+                    <th width="30%">Nombre</th>
+                    <th width="30%">Tipo Categoria</th>
+                    <th width="30%">Categoria</th>
+                    <th width="25%">Estatus</th>
+                    <th width="15%" class="text-center">Acciones</th>
                   </tr>
                 </thead>
              
@@ -12,6 +13,7 @@
                   @foreach($subcategorias as $subcategoria)           
                      <tr id="subcategoria{{$subcategoria->id}}">
                       <td width="30%">{{$subcategoria->sub_categoria}}</td>
+                      <td width="30%">{{$subcategoria->tipo}}</td>
                       <td width="30%">{{$subcategoria->categoria}}</td>
                 <?php if ($subcategoria->status==1){ ?>
                       <td width="25%"><?=  'Activo' ?></td>

@@ -58,7 +58,7 @@ $(document).on('click', '.delete-dpto', function () {
         error: function (data) {
             console.log('Error:', data);
             $('#confirm-delete').modal('hide');
-            $("#rese").html("No se pudo eliminar el departamento, por que está asociado a una Ciudad");
+            $("#rese").html("No se pudo Eliminar el Departamento, por que está Asociado a una Ciudad");
             $("#rese, #res-content").css("display","block");
             $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
@@ -108,7 +108,9 @@ $("#btn-save").click(function (e) {
 
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                          }); 
                 }
             }
@@ -152,7 +154,24 @@ $("#btn-save-edit").click(function (e) {
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
-            console.log('Error:', data);
+           var errorsHtml = '';
+           var error = jQuery.parseJSON(data.responseText);
+             errorsHtml +="<ul style='list-style:none;'>";
+             for(var k in error.message){ 
+                if(error.message.hasOwnProperty(k)){ 
+                    error.message[k].forEach(function(val){
+
+                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
+                       
+                        
+                        $("#remodal").html(errorsHtml);
+                        $("#remodal").css("display","block");
+                        $("#remodal").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                    
+                         }); 
+                }
+            }
+          errorsHtml +="</ul>"; 
         }
     });
 });
@@ -182,7 +201,7 @@ $(document).on('click','.pagination a',function(e){
     var route ="departamentos";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page, scope: $('#scope').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
@@ -190,3 +209,37 @@ $(document).on('click','.pagination a',function(e){
         }
     });
 });
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="departamentos";
+    $.ajax({
+        url: route,
+        data: {scope: $('#scope').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divdeparatementos").html(data);
+
+        }
+    });
+});
+
+
+$(document).on('click','.save',function(e){
+    e.preventDefault();
+
+    var route ="departamentos";
+    $.ajax({
+        url: route,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            $(".departamentos").html(data);
+        }
+    });
+});
+
+

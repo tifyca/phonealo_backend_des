@@ -5,7 +5,7 @@
 
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
+@section('icono_titulo', 'fa-circle')
 @section('titulo', 'Ver/Editar Proveedor')
 @section('descripcion', '')
 
@@ -17,8 +17,6 @@
 @section('display_trash','d-none')    @section('link_trash', url(''))
 
 @section('content')
-   <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
-   <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>          
 <div class="row">
   <div class="col-12">
     <div class="tile">
@@ -31,23 +29,24 @@
              <div class="row">  
               <div class="form-group col-md-6">
                 <label for="nombre_proveedor">Nombres</label>
-                <input class="form-control read" type="text" id="nombre_proveedor" name="nombre_proveedor" placeholder="..." value="{{$proveedor->nombres}}" readonly >
+                <input class="form-control read" type="text" id="nombre_proveedor" name="nombre_proveedor" placeholder="..." value="{{$proveedor->nombres}}" onkeypress="return soloLetrasNum(event);" readonly maxlength="50"  oncopy="return false">
               </div>
                <div class="form-group col-md-6">
                 <label for="email_proveedor">Email</label>
-                <input class="form-control read" id="email_proveedor" name="email_proveedor" type="email" aria-describedby="emailHelp" placeholder="..." value="{{$proveedor->email}}" readonly>
+                <input class="form-control read" id="email_proveedor" name="email_proveedor" type="email" aria-describedby="emailHelp" placeholder="..." value="{{$proveedor->email}}" readonly maxlength="50"  oncopy="return false">
               </div>
               <div class="form-group col-md-6">
                 <label for="direccion_proveedor">Dirección</label>
-                <input class="form-control read" type="text" id="direccion_proveedor" name="direccion_proveedor" placeholder="..."  value="{{$proveedor->direccion}}" readonly>
+                <input class="form-control read" type="text" id="direccion_proveedor" name="direccion_proveedor" placeholder="..."  value="{{$proveedor->direccion}}" readonly maxlength="150">
               </div>
               <div class="form-group col-md-6">
-                <label for="telefono_proveedor">Teléfono</label>
-                <input class="form-control read" type="text" id="telefono_proveedor" name="telefono_proveedor" placeholder="..." value="{{$proveedor->telefono}}" onkeypress="return soloNumeros(event);" readonly>
+                <label for="telefono_proveedor">Teléfonos</label>
+                <input class="form-control read" type="text" id="telefono_proveedor" name="telefono_proveedor" placeholder="..." value="{{$proveedor->telefono}}" onkeypress="return soloNumeros(event);" readonly maxlength="13"  oncopy="return false">
+                <input class="form-control read" type="text" id="telefono_proveedor2" name="telefono_proveedor2" placeholder="..." value="{{$proveedor->telefono2}}" onkeypress="return soloNumeros(event);" readonly maxlength="13"  oncopy="return false">
               </div>
               <div class="form-group col-md-6">
                 <label for="ruc_proveedor">RUC</label>
-                <input class="form-control read" type="text" id="ruc_proveedor" name="ruc_proveedor" placeholder="..." value="{{$proveedor->ruc}}" onkeypress="return soloNumeros(event);" readonly>
+                <input class="form-control read" type="text" id="ruc_proveedor" name="ruc_proveedor" placeholder="..." value="{{$proveedor->ruc}}" onkeypress="return soloNumeros(event);" maxlength="15" readonly  oncopy="return false">
               </div>
               <div class="form-group col-md-6">
                 <label for="pais_proveedor">País</label>
@@ -55,6 +54,19 @@
                   <option  value="{{$proveedor->id_pais}}">{{$proveedor->pais}}</option>
                 </select>
               </div>
+              <div class="col-md-12 ">
+               <label>Estatus</label>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input read" value="1" type="radio" id="status" name="status" <?php if($proveedor->id_estado=="1") echo 'checked="checked"';?> disabled>Activo
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                         <input class="form-check-input read" value="0" type="radio" id="status2" name="status"  <?php if($proveedor->id_estado=="0") echo 'checked="checked"';?> disabled>Inactivo
+                      </label>
+                    </div>
+                  </div>
             </div>
             <div class="col-12">
               <div class="tile-footer d-flex align-items-center">

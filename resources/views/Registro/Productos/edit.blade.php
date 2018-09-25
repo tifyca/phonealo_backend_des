@@ -1,7 +1,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
-@section('titulo', 'Editar producto')
+@section('icono_titulo', 'fa-circle')
+@section('titulo', 'Ver/Editar Producto')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -60,6 +60,7 @@
                   </select>
                 </div>
                 <div class="form-group col-md-4">
+                  
                   <label for="precio_minimo_producto">Precio Mínimo</label>
                   <input class="form-control read" id="precio_minimo" name="precio_minimo" type="text" value="{{$productos->precio_minimo}}" readonly>
                 </div>
@@ -86,8 +87,9 @@
                         $zurl = 'img/img-default.png';
                       //echo $zurl;
                   ?>
+                  
                   <img id="imgSalida" src="{{ asset($zurl) }}" class="img-fluid " alt="">
-
+                  <label><span>Mínimo 512 x 256 píxeles | JPG y PNG</span></label>
                   <div class="form-group mt-4">
                     <input type="file" class="read-file read" id="archivo" name="archivo" accept="image/*"disabled>
 
@@ -195,10 +197,53 @@
   <script type="text/javascript" language="javascript">
     $ = jQuery;
     jQuery(document).ready(function () {
+ $("input#precio_ideal").bind('keydown', function (event) {
 
+      if(event.shiftKey)
+      {
+        event.preventDefault();
+      }
+      if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 241 )    {
+      }
+      else {
+        if (event.keyCode < 95) {
+          if (event.keyCode < 48 || event.keyCode > 57) {
+            event.preventDefault();
+          }
+        } 
+        else {
+          if (event.keyCode < 96 || event.keyCode > 105) {
+            event.preventDefault();
+          }
+        }
+      }        
+      ;
+    });    
 
-     
-    });
+ 
+  $("input#precio_minimo").bind('keydown', function (event) {
+
+      if(event.shiftKey)
+      {
+        event.preventDefault();
+      }
+      if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 241 )    {
+      }
+      else {
+        if (event.keyCode < 95) {
+          if (event.keyCode < 48 || event.keyCode > 57) {
+            event.preventDefault();
+          }
+        } 
+        else {
+          if (event.keyCode < 96 || event.keyCode > 105) {
+            event.preventDefault();
+          }
+        }
+      }        
+      ;
+    });    
+});
 
 $(function() {
     $('#archivo').change(function(e) {

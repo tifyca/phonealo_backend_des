@@ -30,15 +30,18 @@
               <div class="form-group col-12 col-md-3">
                 <label for="exampleSelect1">Departamento</label>
                 <select class="form-control departamento" id="dpto" name="dpto">
-                 <option value="0">Seleccione</option>
-                </select>
+                   <option value="">Seleccione</option>   
+                 @foreach($departamentos as $departamento)   
+                <option value="{{$departamento->id}}"> {{ $departamento->nombre }} </option>
+                 @endforeach
+               </select>
               </div>
                <div class="form-group col-12  col-md-4">
                 <label class="control-label">Ciudad</label>
-                <input class="form-control" type="text" placeholder="Nombre Ciudad"  id="nombreCiudad" name="nombreCiudad" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="Nombre Ciudad"  id="nombreCiudad" name="nombreCiudad" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
               <div class="tile-footer text-center border-0" >
-                <button class="btn btn-primary" type="submit" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
+                <button class="btn btn-primary save" type="submit"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
               </div>
             </div>
           </form>
@@ -48,30 +51,41 @@
 
     <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Listado Ciudades</h3>
-        <div class="tile-body ">
-              <div class="form-group col-12 col-md-3">
-                <label for="exampleSelect1">Seleccione Departamento</label>
-                <select class="form-control departamento" id="departamento-select" name="departamento-select">
-                 <option value="">Seleccione</option>
-                </select>
+       {{-- FILTRO --}}
+      <div class="col mb-3 text-center">
+          <div class="row">  
+        <!--form class="row d-flex justify-content-end" action="{{route('ciudades')}}" method="get"-->
+            
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado de Ciudades</h3>
+            </div>
+             <div class="form-group col-md-3">
+              <input type="text" class="form-control" id="buscarciudad" name="buscarciudad" placeholder="Buscar" onkeypress="return soloLetras(event)"  maxlength="50">
+            </div>
+            <div class="form-group col-md-3">
+                 <select class="form-control departamento" id="departamento-select" name="departamento-select">
+                 <option value="">Departamento</option>
+                @foreach($departamentos as $departamento)   
+                <option value="{{$departamento->id}}"> {{ $departamento->nombre }} </option>
+                 @endforeach
+               </select>
               </div>
-          <div class="table-responsive">
-            <table class="table table-hover" id="sampleTable">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th width="10%">Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="ciudades-list" name="ciudades-list">
-                {{-- ESTE LISTADO SE LLENA CON AJAX --}}
-              </tbody>
-              </table>
+            <div class="col-md-1 mr-md-3">
+              <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>    
+            </div>
+          <!--/form-->
           </div>
-           <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <!--?php echo $ciudades->render(); ?-->
-              </div>
+        </div>
+        {{-- FIN FILTRO --}}
+
+        <div class="tile-body " >
+          <div class="table-responsive">
+            <div class="ciudades" id="divciudades">
+                  @component('Configurar.Direcciones.lista_ciudades')
+                        @slot('ciudades', $ciudades)
+                    @endcomponent
+            </div>
+          </div>
         </div>
     </div>
   </div>
@@ -81,7 +95,7 @@
    <div class="modal-dialog">
     <div class="modal-content">
      <div class="modal-header">
-     
+     <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Ciudad</h4>
      </div>
      <div class="modal-body">
@@ -90,7 +104,7 @@
        <div class="row">
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" oncopy="return false" onpaste="return false" onkeypress="return soloLetras(event)"  maxlength="50">
               </div>
           
             </div>
@@ -100,6 +114,8 @@
       <button type="button" class="btn btn-primary" id="btn-save-edit" value="update">Guardar</button>
       <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
       <input type="hidden" id="ciudad_id" name="ciudad_id" value="0">
+      <input type="hidden" id="id_dpto" name="id_dpto" value="0">
+      <input type="hidden" id="status" name="status" value="0">
       <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
      </div>
      
@@ -141,7 +157,32 @@
  <script src="{{asset('js/Configurar/crud_ciudades.js')}}"></script>
 
 <script  type="text/javascript" charset="utf-8">
-  $(document).ready(function(){
+ /* $("#boton").click(function (e) {
+    var buscarciudad =  $('#buscarciudad').val();
+    var id_departamento = $('#departamento-select').val();
+
+    e.preventDefault();
+     $("#ciudades-list").html('');
+
+           $.ajax({
+              type: "get",
+              url: '{{route('ciudades')}}',
+              dataType: "json",
+              data: {buscarciudad: buscarciudad, id_departamento:id_departamento },
+              success: function (data){
+                console.log(data);
+                $.each(data, function(l, item) {
+
+                    $("#ciudades-list").append('<tr id="ciudades'+ item.id +'"><td width="45%">'+item.ciudad+'</td><td width="45%">'+item.nombre+'</td><td width="10%"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal m-0" value="'+ item.id +'"><i class="fa fa-lg fa-edit"  ></i></button><button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="'+ item.id +'"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>');
+                  }); 
+                $('#buscarciudad').val('');
+                $('#departamento-select').val('');
+              },
+    
+});
+           });
+
+ $(document).ready(function(){
     {{-- SE LLENA EL SELECT DE LOS DEPARTAMENTOS CON AJAX --}}
       $.ajax({
           type: "get",
@@ -156,9 +197,9 @@
               });
           }
 
-      });
+      });*/
       // AL SELECCIONAR EL DEPARTAMENTO TRAE LAS CIUDADES ASOCIADAS
-      $('#departamento-select').change(function(){
+   /*   $('#departamento-select').change(function(){
         var id_departamento = $(this).val();
 
           $("#ciudades-list").html('');
@@ -176,7 +217,7 @@
                   });
               }
           });
-      });
-  });
+      });*/
+ // })
 </script>
 @endpush

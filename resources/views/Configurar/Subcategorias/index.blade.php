@@ -27,18 +27,24 @@
             {{ csrf_field() }} 
             <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
-              <div class="form-group col-12  col-md-4">
+            <div class="form-group col-12 col-md-2">
+            <label for="exampleSelect1">Tipo de Categoría</label>
+            <select class="form-control tipoCategoria" id="tipoCategoria" name="tipoCategoria">
+              <option value="">Seleccione</option>
+              <option value="Productos">Productos</option>
+              <option value="Gastos">Gastos</option>
+            </select>
+          </div>
+              <div class="form-group col-12  col-md-3">
                 <label for="exampleSelect1">Categoría</label>
-                <select class="form-control" id="categoria" name="categoria">
+                <select class="form-control categoria" id="categoria" name="categoria">
                   <option value="">Seleccione</option>       
-                @foreach($categorias as $categoria)   
-                <option value="{{$categoria->id}}"> {{ $categoria->categoria }} </option>
-                 @endforeach
+               
                 </select>
               </div>
-              <div class="form-group col-12  col-md-4">
+              <div class="form-group col-12  col-md-3">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombreSubcategoria" name="nombreSubcategoria" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombreSubcategoria" name="nombreSubcategoria" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
               <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
@@ -56,7 +62,7 @@
                   </div>
                 </div>
               <div class="tile-footer col-12 col-md-2 text-center border-0" >
-                <button class="btn btn-primary" type="submit"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
+                <button class="btn btn-primary save" type="submit"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
               </div>
             </div>
           </form>
@@ -70,68 +76,48 @@
     <div class="tile">
       {{-- FILTRO --}}
       <div class="col mb-3 text-center">
+           
+              <h3 class="tile-title text-left text-md-left">Listado de Subcategorias</h3>
+          
           <div class="row">
-            <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado de Subcategorias</h3>
-            </div>
+            <!--form class="row d-flex justify-content-end" action="{{route('subcategorias.index')}}" method="get"-->
              <div class="form-group col-md-2">
-              <input type="text" class="form-control" name="" placeholder="Buscar">
+              <input type="text" class="form-control" id="buscarsubc" name="buscarsubc" placeholder="Buscar"  maxlength="50">
             </div>
+            <div class="form-group col-12 col-md-2">
+            <select class="form-control tipoCategoria" id="tipoCat" name="tipoCat">
+              <option value="">Tipo de Categoría</option>
+              <option value="Productos">Productos</option>
+              <option value="Gastos">Gastos</option>
+            </select>
+          </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control categoria" id="selectcat" name="selectcat">
                 <option value="">Categoría</option>
-                <option>Lorem</option>
-                <option>Lorem</option>
+              
               </select>
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="selectstatus" name="selectstatus">
                 <option value="">Estatus</option>
-                <option>Activo</option>
-                <option>Inactivo</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
               </select>
             </div>
+             <div class="col-md-1 mr-md-3">
+              <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>         
+            </div>
+          <!--/form-->
           </div>
         </div>
         {{-- FIN FILTRO --}}
       
         <div class="tile-body">
           <div class="tile-body table-responsive">
-            <div class="subcategorias">
-              <table class="table table-hover" id="sampleTable">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Categoría</th>
-                    <th>Estatus</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-             
-                  <tbody id="subcategorias-list" name="subcategorias-list"> 
-                  @foreach($subcategorias as $subcategoria)           
-                     <tr id="subcategoria{{$subcategoria->id}}">
-                      <td width="30%">{{$subcategoria->sub_categoria}}</td>
-                      <td width="30%">{{$subcategoria->categoria}}</td>
-                <?php if ($subcategoria->status==1){ ?>
-                      <td width="25%"><?=  'Activo' ?></td>
-                <?php }else{ ?> 
-                      <td width="25%"><?='Inactivo' ?></td>
-                <?php } ?> 
-                      <td width="15%" class="text-center">
-                      <div class="btn-group">
-                      <button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-edit"  ></i></button>
-                      <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$subcategoria->id}}"><i class="fa fa-lg fa-trash"></i></button>                   
-                      </div>
-                      </td>
-                    </tr>
-                    @endforeach
-                                 
-                </tbody>
-              </table>
-            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    <?php echo $subcategorias->render(); ?>
-              </div>
+            <div class="subcategorias" id="divsubcategorias">
+                  @component('Configurar.Subcategorias.lista')
+                        @slot('subcategorias', $subcategorias)
+                @endcomponent
             </div>
           </div>
         </div>
@@ -143,7 +129,7 @@
    <div class="modal-dialog modal-lg">
     <div class="modal-content">
      <div class="modal-header">
-     
+      <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
       <h4 class="modal-title" id="myModalLabel">Editar Categoria</h4>
      </div>
      <div class="modal-body">
@@ -152,16 +138,16 @@
        <div class="row">
         <div class="form-group col-12  col-md-4">
                 <label for="exampleSelect1">Categoría</label>
-                <select class="form-control" id="cat" name="cat">
-                  <option value="">Seleccione</option>       
+                 <select class="form-control " id="cat" name="cat">
+                 <option value="">Categoría</option>
                 @foreach($categorias as $categoria)   
                 <option value="{{$categoria->id}}"> {{ $categoria->categoria }} </option>
                  @endforeach
-                </select>
+               </select>
               </div>
               <div class="form-group col-12  col-md-8">
                 <label class="control-label">Nombre</label>
-                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)">
+                <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
               </div>
              <div class="form-group row col-12 col-md-2">
                   <label class="control-label col-md-12">Estatus</label>
@@ -224,4 +210,27 @@
 @push('scripts')
 <meta name="csrf-token" content="{{ csrf_token() }}"> 
  <script src="{{asset('js/Configurar/crud_subcategorias.js')}}"></script>
+<script>
+
+ $('.tipoCategoria').change(function(){
+        var tipo = $(this).val();
+        
+ $('.categoria').html('');
+
+          $.ajax({
+              type: "get",
+              url: '{{ route('tipocategoria') }}',
+              dataType: "json",
+              data: {tipo: tipo},
+              success: function (data){
+                     $(".categoria").append('<option value="">Seleccione</option>');
+                 $.each(data, function(l, item1) {
+
+                   //$(".ciudades option:eq(1)").prop("selected", true);
+                   $(".categoria").append('<option value='+item1.id+'>'+item1.categoria+'</option>');
+                  });
+              }
+          });
+      });
+</script>
 @endpush

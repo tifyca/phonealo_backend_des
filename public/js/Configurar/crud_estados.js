@@ -63,7 +63,26 @@ $("#btn-save-edit").click(function (e) {
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
-            console.log('Error:', data);
+            var errorsHtml = '';
+           var error = jQuery.parseJSON(data.responseText);
+             errorsHtml +="<ul style='list-style:none;'>";
+             for(var k in error.message){ 
+                if(error.message.hasOwnProperty(k)){ 
+                    error.message[k].forEach(function(val){
+
+                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
+                       
+                        
+                        $("#remodal").html(errorsHtml);
+                        $("#remodal").css("display","block");
+                        $("#remodal").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                    
+                         }); 
+                }
+            }
+          errorsHtml +="</ul>"; 
+        
+        
         }
     });
 });
@@ -93,11 +112,27 @@ $(document).on('click','.pagination a',function(e){
     var route ="estados";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page, scope: $('#scope').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
             $(".estados").html(data);
+        }
+    });
+});
+$(document).on('click','#btnBuscar',function(e){
+   
+//console.log(page);
+    var route ="estados";
+    $.ajax({
+        url: route,
+        data: {scope: $('#scope').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divestados").html(data);
+
         }
     });
 });

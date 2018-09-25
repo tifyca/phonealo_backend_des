@@ -26,18 +26,16 @@ $("#btn-save").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           // $("#res").html("El Cliente fue  Registrado con Éxito").show();
-          //  $("#res").css("display","block");
-           // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-            
-            alert("El Empleado fue  Registrado con Éxito");
+
+            $("#res").html(data.message);
+            $("#res, #res-content").css("display","block");
             location.href="/registro/empleados";
         
        },
        
           error: function (data,estado,error) { 
             console.log(error);
-             var errorsHtml = '';
+            var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
@@ -46,8 +44,12 @@ $("#btn-save").click(function (e) {
 
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
-                         }); 
+                        
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                     
+                      }); 
                 }
             }
           errorsHtml +="</ul>"; 
@@ -72,7 +74,7 @@ $("#btn-edit").click(function (e) {
                     email_empleado:    $('#email_empleado').val(),
                     direccion_empleado:$('#direccion_empleado').val(),
                     ref_empleado:      $('#referencia_empleado').val(),
-                    id_estado :        $('#id_estado').val(),
+                    id_estado :        $('input:radio[name=status]:checked').val(),
                     id_usuario :       $('#id_usuario').val(),
                     }
 
@@ -86,18 +88,17 @@ $("#btn-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           // $("#res").html("El Cliente fue  Registrado con Éxito").show();
-          //  $("#res").css("display","block");
-           // $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+        
             
-            alert("El Empleado fue  Modificado con Éxito");
+            $("#res").html(data.message);
+            $("#res, #res-content").css("display","block");
             location.href="/registro/empleados";
         
        },
        
           error: function (data,estado,error) { 
             console.log(error);
-             var errorsHtml = '';
+          var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
@@ -106,8 +107,12 @@ $("#btn-edit").click(function (e) {
 
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
-                        $("#rese").html(errorsHtml).show().fadeOut(4000);
-                         }); 
+                        
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                     
+                      }); 
                 }
             }
           errorsHtml +="</ul>"; 
@@ -140,12 +145,12 @@ $(document).on('click', '.delete-empleado', function () {
         url: my_url,
          headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            console.log(data);
+      
             $("#empleado" + id_empleado).remove();
             $('#confirm-delete').modal('hide');
             $("#res").html("Empleado Eliminado con Éxito");
-            $("#res").css("display","block");
-            $("#res").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
             console.log('Error:', data);
@@ -190,12 +195,34 @@ console.log(page);
     var route ="empleados";
     $.ajax({
         url: route,
-        data: {page: page},
+        data: {page: page,
+              empleado: $('#empleado').val(),
+               email: $('#email').val(),
+               status: $('#status').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
     
             $(".empleados").html(data);
+        }
+    });
+});
+
+$(document).on('click','#btnBuscar',function(e){
+   
+
+    var route ="empleados";
+    $.ajax({
+        url: route,
+        data: {empleado: $('#empleado').val(),
+               email: $('#email').val(),
+               status: $('#status').val()},
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+          
+            $("#divempleados").html(data);
+
         }
     });
 });

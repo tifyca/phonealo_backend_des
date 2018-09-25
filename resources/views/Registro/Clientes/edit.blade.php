@@ -5,8 +5,8 @@
 
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
-@section('titulo', 'Editar Cliente')
+@section('icono_titulo', 'fa-circle')
+@section('titulo', 'Ver/Editar Cliente')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -17,8 +17,7 @@
 @section('display_trash','d-none')    @section('link_trash', url(''))
 
 @section('content')
-   <div style="display: none;" class="col-12 text-center alert alert-success" id="res"></div>
-   <div style="display: none;" class="col-12 alert alert-danger" id="rese"> </div>          
+      
 <div class="row">
   <div class="col-12">
     <div class="tile">
@@ -29,19 +28,20 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label for="nombre_cliente">Nombres</label>
-              <input class="form-control read" type="text" id="nombre_cliente" name="nombre_cliente" readonly value="{{$cliente->nombres}}" onkeypress="return soloLetras(event);">
+              <input class="form-control read" type="text" id="nombre_cliente" name="nombre_cliente" readonly value="{{$cliente->nombres}}" onkeypress="return soloLetras(event);" maxlength="50"  oncopy="return false">
             </div>
             <div class="form-group col-md-6">
               <label for="email_cliente">Email</label>
-              <input class="form-control read" id="email_cliente" name="email_cliente" type="email" aria-describedby="emailHelp" readonly value="{{$cliente->email}}">
+              <input class="form-control read" id="email_cliente" name="email_cliente" type="email" aria-describedby="emailHelp" readonly value="{{$cliente->email}}"  oncopy="return false">
             </div>
             <div class="form-group col-md-6">
-              <label for="telefono_cliente">Teléfono</label>
-              <input class="form-control read" type="text" id="telefono_cliente" name="telefono_cliente" readonly value="{{$cliente->telefono}}" onkeypress="return soloNumeros(event);">
+              <label for="telefono_cliente">Teléfonos</label>
+              <input class="form-control read" type="text" id="telefono_cliente" name="telefono_cliente" readonly value="{{$cliente->telefono}}" onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false">
+              <input class="form-control read"  type="text" id="telefono_cliente2" name="telefono_cliente2" placeholder="..." value="{{$cliente->telefono2}}" onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false" >
             </div>
             <div class="form-group col-md-6">
               <label for="ruc_cliente">RUC</label>
-              <input class="form-control read" type="text" id="ruc_cliente" name="ruc_cliente" readonly value="{{$cliente->ruc_ci}}" onkeypress="return soloNumeros(event);">
+              <input class="form-control read" type="text" id="ruc_cliente" name="ruc_cliente" readonly value="{{$cliente->ruc_ci}}" onkeypress="return soloNumeros(event);" maxlength="13"  oncopy="return false">
             </div>
             <div class="form-group col-12 col-md-3">
               <label for="tipo_cliente">Tipo de Cliente</label>
@@ -74,7 +74,7 @@
             </div>
             <div class="form-group col-md-6">
               <label for="direccion_cliente">Dirección</label>
-              <input class="form-control read" type="text" id="direccion_cliente" name="direccion_cliente" readonly value="{{$cliente->direccion}}">
+              <input class="form-control read" type="text" id="direccion_cliente" name="direccion_cliente" readonly value="{{$cliente->direccion}}" maxlength="150">
             </div>
             <div class="form-group col-md-6">
               <label for="ubicacion_cliente">Ubicación</label>
@@ -84,6 +84,19 @@
               <label for="nota_cliente">Nota</label>
               <textarea class="form-control read" id="nota_cliente" name="nota_cliente" rows="3" disabled >{{$cliente->notas}}</textarea>
             </div>
+            <div class="col-md-12 ">
+               <label>Estatus</label>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input read" value="1" type="radio" id="status" name="status" <?php if($cliente->id_estado=="1") echo 'checked="checked"';?>  disabled>Activo
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                         <input class="form-check-input read" value="0" type="radio" id="status2" name="status"  <?php if($cliente->id_estado=="0") echo 'checked="checked"';?> disabled>Inactivo
+                      </label>
+                    </div>
+                  </div>
             <div class="tile-footer col-12 pl-3 row">
               <div class="form-check mx-3 mt-2">
                 <label class="form-check-label">
