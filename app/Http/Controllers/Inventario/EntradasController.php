@@ -110,6 +110,7 @@ class EntradasController extends Controller
               $detallesolped->id_producto = $deta["id"];
               $detallesolped->precio      = $deta["precio"];
               $detallesolped->cantidad    = $deta["cantidad"];
+              $detallessolped->pagado     = 0;
               $detallesolped->save();
         }            
           
@@ -143,6 +144,7 @@ class EntradasController extends Controller
         $detalle->descripcion = $descripcion;
         $detalle->cantidad    = $cantidad;
         $detalle->precio      = $precio;
+        $detallessolped->pagado = 0;
         $detalle->save();
         $data["status"]="ok";
         return $data;
@@ -221,6 +223,7 @@ class EntradasController extends Controller
                   { $z++;}   
                   $detallesolped->nombre_fiscal  = $idproducto[$cont]["nombre"];
                   $detallesolped->nfactura       = $idproducto[$cont]["factura"];
+                  $detallessolped->pagado        = 0;
                   $detallesolped->save();
                  
                 }else{
@@ -238,6 +241,7 @@ class EntradasController extends Controller
               $detallesolped->id_producto = $deta["id"];
               $detallesolped->precio      = $deta["precio"];
               $detallesolped->cantidad    = $deta["cantidad"];
+              $detallessolped->pagado     = 0;
               $detallesolped->cantidad_confirmada  =  $deta["cantidad"];
               $detallesolped->precio_confirmado    = $deta["precio"];
               $detallesolped->nombre_fiscal        = $deta["nombre_fiscal"];
@@ -291,6 +295,7 @@ class EntradasController extends Controller
                   {
                   $detallesolped->cantidad  = $idproducto[$cont]["cantidad"];
                   $detallesolped->precio    = $idproducto[$cont]["precio"];
+                  $detallessolped->pagado     = 0;
                   $detallesolped->save();
 
                   }
@@ -310,7 +315,6 @@ class EntradasController extends Controller
               $detallesolped->id_producto = $deta["id"];
               $detallesolped->precio      = $deta["precio"];
               $detallesolped->cantidad    = $deta["cantidad"];
-     
               $detallesolped->pagado      = 0;
               $detallesolped->save();
                $z++;
