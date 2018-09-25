@@ -147,26 +147,26 @@ var url='ventas';
                             '</td>'+
                           '</tr>';
            
-                     $('#cesta-list > tbody').append(cesta);
-                     $("#faltante, #fal-content").html(' Se agregó un producto faltante');
-                     $('#fal-content').css("display","block");
-                     $('#spacio').css("display","none");
-                    
-                     resumen();
-                    $('#cantidad').val('');
-                    $('#descripcion').val('');
-                    $('#cod_producto').val('');
-                    $('#stock').val('');
-                    $('#precio').val('');
-                    $('#id_producto').val('');
-                    $('#img-product').addClass('d-none');
-                    $('.opacity-x').css('opacity', '1');
-                    $('#img-p').html('');
-                    $('#eye').addClass('d-none');
+                      $('#cesta-list > tbody').append(cesta);
+                      $("#faltante, #fal-content").html(' Se agregó un producto faltante');
+                      $('#fal-content').css("display","block");
+                      $('#spacio').css("display","none");
+                      resumen();
+                     
+                      $('#cantidad').val('');
+                      $('#descripcion').val('');
+                      $('#cod_producto').val('');
+                      $('#stock').val('');
+                      $('#precio').val('');
+                      $('#id_producto').val('');
+                      $('#img-product').addClass('d-none');
+                      $('.opacity-x').css('opacity', '1');
+                      $('#img-p').html('');
+                      $('#eye').addClass('d-none');
               },    
           error: function (data,estado,error) { 
              var errorsHtml = '';
-           var error = jQuery.parseJSON(data.responseText);
+             var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
                 if(error.message.hasOwnProperty(k)){ 
@@ -175,9 +175,9 @@ var url='ventas';
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
                         
-                        $("#rese").html(errorsHtml);
-                        $("#rese, #res-content").css("display","block");
-                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                      $("#rese").html(errorsHtml);
+                      $("#rese, #res-content").css("display","block");
+                      $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                      
                       }); 
                 }
@@ -195,21 +195,25 @@ function resumen(){
   $(document).ready(function(){
           var  delivery   = $("#monto option:selected").text();        
           var total=0;
+          var articulos=0;
             $('#cesta-list > tbody > tr').each(function(){
+            articulos +=parseFloat($(this).find("td").eq(2).html());
             total+= parseFloat( $(this).find('td').eq(4).html());
             });
-
+            if(delivery>0){
             mtotal=parseInt(total) + parseInt(delivery);
-
+            }else{
+            mtotal=parseInt(total);
+            }
             $("#total_venta").val(mtotal);
             $("#total").html('Total Gs.:'+ mtotal);
-            /*if(articulos>0){
-              $("#btn-procesa").prop('disabled', false);
-              $("#btn-cancela").prop('disabled', false);
+            if(articulos>0){
+              $("#btn-save").prop('disabled', false);
+              //$("#btn-cancela").prop('disabled', false);
             }else{
-              $("#btn-procesa").prop('disabled', true);
-              $("#btn-cancela").prop('disabled', true);
-            }*/
+              $("#btn-save").prop('disabled', true);
+              //$("#btn-cancela").prop('disabled', true);
+            }
             })
           }
 
