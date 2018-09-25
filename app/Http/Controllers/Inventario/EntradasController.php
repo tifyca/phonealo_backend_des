@@ -71,7 +71,7 @@ class EntradasController extends Controller
     {
         $solped=solped::find($id);
         $proveedores = proveedores::where('id_estado','1')->get();
-        $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad','a.nfactura','a.cantidad_confirmada','a.precio_confirmado')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
+        $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad','a.nfactura','a.cantidad_confirmada','a.precio_confirmado','a.condicion')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
         //$detallesolped = detallesolped::where('id_solped',$id)->get();
         return view('Inventario.Entradas.solped')->with('solped',$solped)->with('proveedores',$proveedores)->with('detalles',$detallesolped);
     }

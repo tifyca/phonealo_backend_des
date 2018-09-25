@@ -84,7 +84,10 @@
                   @endif
                  @if($det->cantidad != $det->cantidad_confirmada && $det->cantidad_confirmada>0)
                   class="table-warning" 
-                  @endif                  
+                  @endif     
+                 @if($det->condicion==2)
+                   class="table-warning" 
+                 @endif              
                 >
                   <td>{{$det->codigo}}</td>
                   <td>{{$det->desprod}}</td>
