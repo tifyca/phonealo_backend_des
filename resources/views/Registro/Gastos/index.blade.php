@@ -30,10 +30,8 @@
             </div>
           <div class="row">
             
-            <br>
-
-             <form class="row" action="{{route('gastos.index')}}" method="get"> 
-              <div class="form-group col-md-3">
+               <form class="row" action="{{route('gastos.index')}}" method="get"> 
+              <div class="form-group col-md-2">
               <select class="form-control" id="id_categoria" name="id_categoria" ">
                 <option value="">Categoría</option>
                 @foreach($categorias as $cate)
@@ -41,6 +39,15 @@
                 @endforeach
               </select>
             </div>
+              <div class="form-group col-md-3">
+              <select class="form-control" id="id_proveedor" name="id_proveedor" ">
+                <option value="">Proveedor</option>
+                @foreach($proveedores as $proveedor)
+                <option value="{{$proveedor->id}}">{{$proveedor->nombres}}</option>
+                @endforeach
+              </select>
+            </div>
+
             <div class="form-group col-md-2">
               <select class="form-control" id="id_usuario" name="id_usuario">
                 <option value="">Usuario</option>
@@ -49,10 +56,10 @@
                 @endforeach                
               </select>
             </div>
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-2">
               <input type="date" class="form-control" name="desde" id='desde'>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
               <input type="date" class="form-control" name="hasta" id='hasta'>
             </div>            
             <div class="form-group col-md-1">
@@ -68,12 +75,12 @@
               <table class="table table-hover" id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Descripción</th>
-                    <th>Comprobante</th>
                     <th>Categoría</th>
+                    <th>Comprobante</th>
+                    
+                    <th>Proveedor</th>
                     <th>Fuente</th>
                     <th class="text-right">Importe</th>
-                    <th>Divisa</th>
                     <th align="center">Fecha de Comprobante</th>
                     <th align="center">Fecha de Carga</th>
                     <th align="center">Acciones</th>
@@ -86,14 +93,21 @@
                     class="table-danger"
                     @endif
                   >
-                    <td>{{$gast->descripcion}}</td>
-                    <td>{{$gast->comprobante}}</td>
                     <td>
                        @foreach($categorias as $categoria)
                        @if($categoria->id==$gast->id_categoria)
                          {{$categoria->categoria}}
                       @endif
                      @endforeach
+                    </td>
+                    <td>{{$gast->comprobante}}</td>
+                   
+                    <td>
+                      @foreach($proveedores as $proveedor)
+                       @if($proveedor->id==$gast->id_proveedor)
+                          {{$proveedor->nombres}}
+                       @endif
+                      @endforeach
                     </td>
                     <td>@foreach($fuentes as $fuen)
                         @if($fuen->id==$gast->id_fuente)
@@ -106,13 +120,6 @@
                     $monto = number_format($gast->importe, 2, ',', '.');
                     echo $monto;?>
 
-                    </td>
-                    <td>
-                      @foreach($divisas as $divisa)
-                       @if($divisa->id_divisa==$gast->id_divisa)
-                         {{$divisa->divisa}}
-                      @endif
-                     @endforeach
                     </td>
                     <td  class="text-center">{{$gast->fecha_comprobante}}</td>
                     <td  class="text-center">{{$gast->fecha}}</td>
@@ -132,7 +139,7 @@
               </table>
             </div>
              <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-                    {{$gastos->appends(Request::only(['id_categoria' , 'id_usuario', 'desde','hasta']))->links()}}
+                    {{$gastos->appends(Request::only(['id_categoria' , 'id_usuario', 'desde','hasta','id_proveedor']))->links()}}
               </div>
         </div>
     </div>
