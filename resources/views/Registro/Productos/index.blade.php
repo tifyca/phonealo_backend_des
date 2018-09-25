@@ -88,12 +88,11 @@
                   echo $precio;?></td>
                  <?php 
                       $url=$ficha->img;
-                       if($url)
-                        //$zurl="img/productos/".$url;
+                       if($url)   
                         $zurl = config('app.url') . '/productos/' . $url ;
                       else
                         $zurl = 'img/img-default.png';
-                      //echo $zurl;
+                     
                   ?>
 
                   <td class="text-center"><img src="{{ asset($zurl) }}" class="img-fluid" width="100px" alt=""></td> 

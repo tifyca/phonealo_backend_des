@@ -196,6 +196,10 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'Inventario\EntradasController@vista',
         'as'   => 'entradas.ver'
     ]);
+     Route::get('entradas/{id}/pdf', [
+        'uses' => 'Inventario\EntradasController@pdf',
+        'as'   => 'entradas.pdf'
+    ]);
     Route::get('entradas/{id}/confirmar', [
         'uses' => 'Inventario\EntradasController@confirmar',
         'as'   => 'entradas.confirmar'

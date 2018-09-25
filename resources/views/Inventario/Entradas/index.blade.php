@@ -135,9 +135,11 @@
                @endif 
 
                 @if($sol->id_estado==8)
+                    <a class="btn btn-primary" href="{{ route('entradas.pdf',$sol->id) }}" title="Generar Reporte"><i class="m-0 fa fa-lg fa-print"></i></a>
                 @endif
                 @if($sol->id_estado==1 || $sol->id_estado==7 || $sol->id_estado==11) 
                  <a class="btn btn-primary" href="{{ route('entradas.confirmar',$sol->id) }}" title="Confirmar/Carga Inventario" ><i class="m-0 fa fa-lg fa-check"></i></a>
+                  <a class="btn btn-primary" href="{{ route('entradas.pdf',$sol->id) }}" title="Generar Reporte"><i class="m-0 fa fa-lg fa-print"></i></a>
                @endif 
            
               </div>
