@@ -369,7 +369,6 @@ public function carga(Request $request)
       } 
     }
 
-
   }
 
   public function pdf($id)
