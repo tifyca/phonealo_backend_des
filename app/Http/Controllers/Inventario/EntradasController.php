@@ -12,6 +12,7 @@ use App\Productos;
 use App\auditoria;
 use App\Estados;
 use DB;
+use Barryvdh\DomPDF\Facade as PDF;
 @session_start();
 
 class EntradasController extends Controller
@@ -365,4 +366,22 @@ class EntradasController extends Controller
 
 
     }
+
+    public function pdf($id)
+    {
+        $solped=solped::where('id',$id)->get();
+        $proveedores = proveedores::where('id_estado','1')->get();
+        $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.id as idproducto','b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad','a.nombre_fiscal','a.pagado','a.cantidad_confirmada','a.precio_confirmado','a.nfactura')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
+        //$detallesolped = detallesolped::where('id_solped',$id)->get();
+           $deta= db::table('detalle_solped as a')->
+                  join('productos as b','a.id_producto','=','b.id')
+                  ->select(DB::raw('count(b.id) as cantidad'))->where('a.id_solped',$id)->orderby('a.id','asc')->first();
+                  
+        $cantidad = $deta->cantidad;  
+        $pdf = PDF::loadView('pdf.solped',compact('solped','proveedores','detallesolped'));
+        $namefile = "solped".$id.".pdf";
+         return $pdf->download($namefile);
+    }
+
+  
 }
