@@ -34,15 +34,15 @@
           </div>
           <div class="form-group col-md-4">
             <label for="nombre_cliente">Nombres</label>
-            <input class="form-control" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="...">
+            <input class="form-control" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="..."  onkeypress="return soloLetras(event);" maxlength="50"  oncopy="return false">
           </div>
           <div class="form-group col-md-4">
             <label for="email_cliente">Email</label>
-            <input class="form-control" id="email_cliente" name="email_cliente" type="email" aria-describedby="emailHelp" placeholder="...">
+            <input class="form-control" id="email_cliente" name="email_cliente" type="email" aria-describedby="emailHelp" placeholder="..." maxlength="50"  oncopy="return false">
           </div>
           <div class="form-group col-md-4">
             <label for="ruc_cliente">RUC</label>
-            <input class="form-control" type="text" id="ruc_cliente" name="ruc_cliente" placeholder="...">
+            <input class="form-control" type="text" id="ruc_cliente" name="ruc_cliente" placeholder="..."  onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false">
           </div>
           <div class="form-group col-12 col-md-4">
             <label for="tipo_cliente">Tipo de Cliente</label>
@@ -72,11 +72,11 @@
           </div>
           <div class="form-group col-md-4">
             <label for="ubicacion_cliente">Ubicación</label>
-            <input class="form-control" type="text" id="ubicacion_cliente" name="ubicacion_cliente" placeholder="...">
+            <input class="form-control" type="text" id="ubicacion_cliente" name="ubicacion_cliente" placeholder="..." onkeypress="return soloNumeros(event);" >
           </div>
           <div class="form-group col-md-12">
             <label for="direccion_cliente">Dirección</label>
-            <input class="form-control" type="text" id="direccion_cliente" name="direccion_cliente" placeholder="...">
+            <input class="form-control" type="text" id="direccion_cliente" name="direccion_cliente" placeholder="..." maxlength="150">
           </div>
         </div>
       </div>
@@ -139,15 +139,15 @@
             {{-- ESTOS CAMPOS APARECEN CUANDO SE SELECCIONA FACTURA : SI / SIN NOMBRE   --}}
             <div id="nombres_factura" class=" d-none form-group col-md-4">
               <label for="">Nombres</label>
-              <input class="form-control" type="text" id="factura_nomb" name="factura_nomb" >
+              <input class="form-control" type="text" id="factura_nomb" name="factura_nomb"   maxlength="50"  oncopy="return false" >
             </div>
             <div id="direccion_factura" class=" d-none form-group col-md-8">
               <label for="">Direccion</label>
-              <input class="form-control" type="text" id="factura_dir" name="factura_dir" >
+              <input class="form-control" type="text" id="factura_dir" name="factura_dir" maxlength="150" >
             </div>
             <div id="ruc_factura" class=" d-none form-group col-md-4">
               <label for="">RUC</label>
-              <input class="form-control" type="text" id="factura_ruc" name="factura_ruc" >
+              <input class="form-control" type="text" id="factura_ruc" name="factura_ruc"  onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false">
             </div>
             {{-- //// --}}
             
@@ -289,7 +289,7 @@
                
               </table>
                <div class="text-right col-md-"><h3><div id='total'></div></h3>
-               <button class="btn btn-primary" type="submit" id="btn-save">Guardar</button></div>
+               <button class="btn btn-primary" type="submit" id="btn-save" disabled>Guardar</button></div>
             </div>
           </div>
       </div>
@@ -444,6 +444,10 @@
         $('#ruc_factura').removeClass('d-none'); 
         $('#factura_ruc').val(""); 
         $('#factura_ruc').prop('readonly', false);
+
+        $('#factura_nomb').val(document.getElementById('nombre_cliente').value);
+        $('#factura_ruc').val(document.getElementById('ruc_cliente').value);
+        $('#factura_dir').val(document.getElementById('direccion_cliente').value);
      }
      if (seleccion == 3) {
         var nombre='SIN NOMBRE';
@@ -451,7 +455,7 @@
         $('#nombres_factura').removeClass('d-none');
         $('#factura_nomb').val(nombre);
         $('#factura_nomb').prop('readonly', true);
-       // $('#direccion_factura').removeClass('d-none').removeClass('col-md-12').addClass('col-md-8');
+        $('#direccion_factura').addClass('d-none');
         $('#ruc_factura').removeClass('d-none');  
         $('#factura_ruc').val(ruc); 
         $('#factura_ruc').prop('readonly', true);
@@ -462,6 +466,7 @@
     // REFRESCA LOS CAMPOS DE SELCCION DE PRODUCTO
 
     $('#refrescar').click(function(){
+      $('#cantidad').val('');
       $('#descripcion').val('');
       $('#cod_producto').val('');
       $('#stock').val('');
@@ -596,7 +601,7 @@
                         var zurl =   url2;
                        }
                        else{
-                        var zurl =   url1 + url_img ;
+                        var zurl =   url1 + url_img;
                       }
                      
                    $('#img-prod').append('<img class="d-block w-100" src="'+zurl+'" alt="Primer slide">');
@@ -607,7 +612,7 @@
                         var zurl =  url2;
                        }
                        else{
-                        var zurl =   url1 + url_i ;
+                        var zurl =   url1 + url_i;
                       }
                      
                 $('#det-carousel').append('<img class="d-block w-100" src="'+zurl+'" alt="Segundo slide">');
@@ -645,6 +650,8 @@ $("#telefono_cliente").blur(function(){
                     //  $('select[name=barrio_cliente]').val(item.barrio);
                       $('#ubicacion_cliente').val(item.ubicacion);
                       $('#direccion_cliente').val(item.direccion);
+
+                  
                   });
       
               }
