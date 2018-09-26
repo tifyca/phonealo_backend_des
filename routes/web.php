@@ -50,6 +50,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('configurar/categorias/mod/{categoria_id?}','Configurar\CategoriasController@update');
     Route::delete('configurar/categorias/{categoria_id?}','Configurar\CategoriasController@destroy');
 
+
+    Route::resource('configurar/montos_delivery', 'Configurar\Montos_deliveryController');
+    Route::get('configurar/montos_delivery/edit/{id?}','Configurar\Montos_deliveryController@editar');
+    Route::post('configurar/montos_delivery','Configurar\Montos_deliveryController@store');
+    Route::put('configurar/montos_delivery/mod/{id?}','Configurar\Montos_deliveryController@update');
+    Route::delete('configurar/montos_delivery/{id?}','Configurar\Montos_deliveryController@destroy');
+
+
+
+
     Route::resource('configurar/subcategorias', 'Configurar\SubcategoriasController');
     Route::get('configurar/subcategorias/edit/{subcategoria_id?}','Configurar\SubcategoriasController@editar');
     Route::post('configurar/subcategorias','Configurar\SubcategoriasController@store');

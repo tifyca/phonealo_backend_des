@@ -13,6 +13,8 @@
      <li><a class="treeview-item {{ Request::is('configurar/subcategorias*') ? 'active' : '' }}" href="{{ route('subcategorias.index') }}"><i class="icon fa fa-circle-o"></i>Subcategorias</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/estados*') ? 'active' : '' }}" href="{{ route('estados') }}"><i class="icon fa fa-circle-o"></i>Estados</a></li>
      
+
+
      <li><a class="treeview-item {{ Request::is('configurar/fuente*') ? 'active' : '' }}" href="{{ route('fuente.index') }}"><i class="icon fa fa-circle-o"></i>Fuentes</a></li>
 
      <li><a class="treeview-item {{ Request::is('configurar/direcciones/paises*') ? 'active' : '' }}" href="{{ route('paises') }}"><i class="icon fa fa-circle-o"></i>Países</a></li>
@@ -21,6 +23,7 @@
      <li><a class="treeview-item {{ Request::is('configurar/direcciones/barrios*') ? 'active' : '' }}" href="{{ route('barrios') }}"> <i class="icon fa fa-circle-o"></i>Barrios</a></li>
      <li><a class="treeview-item {{ Request::is('configurar/horas/horas*') ? 'active' : '' }}" href="{{ route('horas.index') }}"> <i class="icon fa fa-circle-o"></i>Horas</a></li>
      
+     <li><a class="treeview-item {{ Request::is('configurar/montos_delivery*') ? 'active' : '' }}" href="{{ route('montos_delivery.index') }}"> <i class="icon fa fa-circle-o"></i>Delivery</a></li>
      
      @endif
    </ul>

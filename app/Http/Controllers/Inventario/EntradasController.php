@@ -71,7 +71,7 @@ class EntradasController extends Controller
  {
   $solped=solped::find($id);
   $proveedores = proveedores::where('id_estado','1')->get();
-  $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad','a.nfactura','a.cantidad_confirmada','a.precio_confirmado','a.condicion')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
+  $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad','a.nfactura','a.cantidad_confirmada','a.confirmacion','a.precio_confirmado','a.confirmacion')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
         //$detallesolped = detallesolped::where('id_solped',$id)->get();
   return view('Inventario.Entradas.solped')->with('solped',$solped)->with('proveedores',$proveedores)->with('detalles',$detallesolped);
 }
@@ -220,9 +220,13 @@ public function carga(Request $request)
         $detallesolped->precio_confirmado    = $idproducto[$cont]["pf"];
           $detallesolped->nombre_fiscal  = $idproducto[$cont]["nombre"];
           $detallesolped->nfactura       = $idproducto[$cont]["factura"];
+
          $detallesolped->save();
          }
-      if($detallesolped->precio!=$detallesolped->precio_confirmado || $detallesolped->cantidad!=$detallesolped->cantidad_confirmada){ $z++; }   
+      if($detallesolped->precio!=$detallesolped->precio_confirmado || $detallesolped->cantidad!=$detallesolped->cantidad_confirmada){
+       $z++; 
+        $detallesolped->confirmado=2;
+      }   
      }    
      $cont++;
    }
@@ -242,6 +246,7 @@ public function carga(Request $request)
             $detallesolped->nfactura             = $deta["nro_factura"];
               //$detallesolped->pagado               = 0;
               //$detallessolped->condicion      = 2;
+            $detallesolped->confirmacion=2;
             $detallesolped->save();
             $z++;
           }            
@@ -281,9 +286,10 @@ public function carga(Request $request)
       $idproducto           = $request->get('idproducto');   
       $cont=0;
       $z = 0;
+      //dd($request);
       while($cont < count($idproducto))    
       {           
-        $detallesolped=detallesolped::where('id_solped',$id)->where('id_producto',$idproducto[$cont]["id"])->where('pagado',NULL)->first();
+        $detallesolped=detallesolped::where('id_solped',$id)->where('id_producto',$idproducto[$cont]["id"])->where('pagado',0)->first();
         if($detallesolped){
           if(isset($idproducto[$cont]["cantidad"]))
           {
@@ -291,6 +297,7 @@ public function carga(Request $request)
             $detallesolped->precio    = $idproducto[$cont]["precio"];
                   //$detallessolped->pagado     = 0;
                   //$detallessolped->condicion =2;
+             $detallesolped->confirmacion=2;
             $detallesolped->save();
 
           }
@@ -312,6 +319,7 @@ public function carga(Request $request)
             $detallesolped->id_producto = $deta["id"];
             $detallesolped->precio      = $deta["precio"];
             $detallesolped->cantidad    = $deta["cantidad"];
+            $detallesolped->confirmacion=2;
               //$detallesolped->pagado      = 0;
               //$detallessolped->procesa  = $deta["condicion"];;
             $detallesolped->save();
@@ -348,7 +356,6 @@ public function carga(Request $request)
 
       return view('Inventario.Entradas.index')->with('proveedores',$proveedores)->with('solped',$solped)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('estados',$estados);      
     }
-
     public function anular(Request $request){      
       //dd($request);
       try
