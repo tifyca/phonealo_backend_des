@@ -8,7 +8,7 @@ if(isset($_SESSION["user"]))
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Categorías')
+@section('titulo', 'Montos Deliverys')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -23,55 +23,18 @@ if(isset($_SESSION["user"]))
 <div class="row">
   <div class="col-12">
     <div class="tile">
-      <h3 class="tile-title">Nueva Categoría</h3>
+      <h3 class="tile-title">Nuevo Montos Delivery</h3>
       <div class="tile-body ">
         <form id="frmc" name="frmc"  novalidate="">
           {{ csrf_field() }} 
           <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
           <div class="row">
            <div class="form-group col-12  col-md-4">
-            <label class="control-label">Nombre</label>
-            <input class="form-control" type="text" placeholder="..." id="nombreCategoria" name="nombreCategoria" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
+            <label class="control-label">Monto</label>
+            <input class="form-control" type="text" placeholder="..." id="nombreCategoria" name="nombreCategoria" onkeypress="return solonumeros(event)" oncopy="return false" onpaste="return false"  maxlength="50">
           </div>
-          <div class="form-group col-12 col-md-3">
-            <label for="exampleSelect1">Tipo de Categoría</label>
-            <select class="form-control" id="tipoCategoria" name="tipoCategoria">
-              <option value="">Seleccione</option>
-              <option value="Productos" selected>Productos</option>
-              <option value="Gastos">Gastos</option>
-            </select>
-          </div>
-          <div class="form-group row col-12 col-md-2">
-            <label class="control-label col-md-12">Proveedor</label>
-            <div class="col-md-12 ">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" value="1"  id="proveedor" name="proveedor" >Si
-                </label>
-              </div>
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" value="0" id="proveedor2" name="proveedor" checked>No
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group row col-12 col-md-2">
-            <label class="control-label col-md-12">Estatus</label>
-            <div class="col-md-12 ">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" value="1"  id="statusCategoria" name="statusCategoria" checked>Activo
-                </label>
-              </div>
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" value="0" id="statusCategoria2" name="statusCategoria">Inactivo
-                </label>
-              </div>
-            </div>
-          </div>
+                       
+      
           <div class="tile-footer text-center border-0" >
             <button class="btn btn-primary save" type="submit" id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
           </div>
@@ -86,34 +49,13 @@ if(isset($_SESSION["user"]))
   <div class="tile">
     {{-- FILTRO --}}
     <div class="col mb-3 text-center">
-          <h3 class="tile-title text-left text-md-left">Listado de Categorías</h3>
+          <h3 class="tile-title text-left text-md-left">Listado de Montos Delivery</h3>
           
      <div class="row"> 
-      <!--form class="row d-flex justify-content-end" action="{{route('categorias.index')}}" method="get"--> 
+      <!--form class="row d-flex justify-content-end" action="{{route('montos_delivery.index')}}" method="get"--> 
        
         <div class="form-group col-md-3">
-          <input type="text" class="form-control" id="buscarcategoria" name="buscarcategoria" placeholder="Buscar"  maxlength="50">
-        </div>
-        <div class="form-group col-md-2">
-          <select class="form-control" id="selecttipo" name="selecttipo">
-            <option value="">Tipo</option>
-            <option value="Productos">Productos</option>
-            <option value="Gastos">Gastos</option>
-          </select>
-        </div>
-         <div class="form-group col-md-2">
-          <select class="form-control" id="selectproveedor" name="selectproveedor">
-            <option value="">Proveedor</option>
-            <option value="1">Si</option>
-            <option value="0">No</option>
-          </select>
-        </div>
-        <div class="form-group col-md-2">
-          <select class="form-control" id="selectstatus" name="selectstatus">
-            <option value="">Estatus</option>
-            <option value="1">Activo</option>
-            <option value="0">Inactivo</option>
-          </select>
+          <input type="text" class="form-control" id="buscarmonto" name="buscarmonto" placeholder="Buscar"  maxlength="50">
         </div>
 
         <div class="col-md-1 mr-md-2">
@@ -125,9 +67,9 @@ if(isset($_SESSION["user"]))
     {{-- FIN FILTRO --}}
     <div class="tile-body ">
       <div class="table-responsive">
-        <div class="categorias" id="divcategorias">
-                @component('Configurar.Categorias.lista')
-                        @slot('categorias', $categorias)
+        <div class="montos_delivery" id="divmontos_delivery">
+                @component('Configurar.Delivery.lista')
+                        @slot('montos_delivery', $montos_delivery)
                 @endcomponent
       </div>
     </div>
@@ -142,7 +84,7 @@ if(isset($_SESSION["user"]))
   <div class="modal-content">
    <div class="modal-header">
      <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
-     <h4 class="modal-title" id="myModalLabel">Editar Categoría</h4>
+     <h4 class="modal-title" id="myModalLabel">Editar Montos Delivery</h4>
    </div>
    <div class="modal-body">
     <form id="frmcategorias" name="frmcategorias" class="form-horizontal" novalidate="">
@@ -152,46 +94,7 @@ if(isset($_SESSION["user"]))
         <label class="control-label">Nombre</label>
         <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
       </div>
-      <div class="form-group col-12 col-md-3">
-        <label for="exampleSelect1">Tipo de Categoría</label>
-        <select class="form-control" id="tipo" name="tipo">
-          <option value="">Seleccione</option>
-          <option value="Productos">Productos</option>
-          <option value="Gastos">Gastos</option>
-        </select>
-      </div>
-          <div class="form-group row col-12 col-md-2">
-            <label class="control-label col-md-12">Proveedor</label>
-            <div class="col-md-12 ">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" value="1"  id="proveedor" name="zproveedor" >Si
-                </label>
-              </div>
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" value="0" id="proveedor2" name="zproveedor">No
-                </label>
-              </div>
-            </div>
-          </div>
 
-
-      <div class="form-group row col-12 col-md-2">
-        <label class="control-label col-md-12">Estatus</label>
-        <div class="col-md-12 ">
-          <div class="form-check">
-            <label class="form-check-label">
-              <input class="form-check-input" value="1" type="radio" id="status" name="status">Activo
-            </label>
-          </div>
-          <div class="form-check">
-            <label class="form-check-label">
-             <input class="form-check-input" value="0" type="radio" id="status2" name="status">Inactivo
-           </label>
-         </div>
-       </div>
-     </div>
 
    </div>
  </div>
@@ -216,11 +119,11 @@ if(isset($_SESSION["user"]))
 
       <div class="modal-header">
 
-        <h4 class="modal-title" id="myModalLabel">Eliminar Categoria</h4>
+        <h4 class="modal-title" id="myModalLabel">Eliminar Monto</h4>
       </div>
       <form id="frmdel" name="frmdel" class="form-horizontal" novalidate="">
         <div class="modal-body">
-          <p>Está seguro que desea Eliminar esta Categoría?</p>
+          <p>Está seguro que desea Eliminar esta Montos Delivery?</p>
           <p class="debug-url"></p>
         </div>
       </form> 
@@ -238,7 +141,7 @@ if(isset($_SESSION["user"]))
 
 @push('scripts')
 <meta name="_token" content="{!! csrf_token() !!}" />
-<script src="{{asset('js/Configurar/crud_categorias.js')}}"></script>
+<script src="{{asset('js/Configurar/crud_delivery.js')}}"></script>
 <script type="text/javascript">
 
 
