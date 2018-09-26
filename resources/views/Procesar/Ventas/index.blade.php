@@ -105,9 +105,9 @@
               <label for="">Horario de Entrega</label>
               <select class="form-control" id="horario_venta" name="horario_venta">
                 <option value="">Seleccione</option>
-               @foreach($horarios as $horario)  
+                  @foreach($horarios as $horario)  
                       <option value="{{$horario->id}}"> {{ $horario->horario }} </option>
-                 @endforeach         
+                  @endforeach         
                     
               </select>
             </div>
@@ -115,9 +115,9 @@
               <label for="">Forma de Pago</label>
               <select class="form-control" id="forma_pago" name="forma_pago">
                 <option value="">Seleccione</option>
-                <option value="Efectivo">Efectivo</option>
-                <option value="Giro Tigo">Giro Tigo</option>
-                <option value="Tarjeta">Tarjeta</option>
+                  @foreach($formas as $forma)  
+                      <option value="{{$forma->id}}"> {{ $forma->forma_pago }} </option>
+                  @endforeach  
               </select>
             </div>
             <div class="form-group col-md-4">
@@ -156,7 +156,7 @@
               <div class="row">
                 <div class="col-3 text-right">
                   <label class="form-check-label mt-2">
-                    <input class="form-check-input" id="delivery" type="checkbox">Gratis
+                    <input class="form-check-input" id="delivery" name="monto" type="checkbox" value="1">Gratis
                   </label>
                 </div>
                 <div class="col-9">
