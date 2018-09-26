@@ -17,23 +17,9 @@ $(document).on('click', '.open_modal', function () {
     });
         //success data
         console.log(data);
-        $('#categoria_id').val(data.id);
-        $('#nombre').val(data.categoria);
-        $('#tipo').val(data.tipo);
-
-        if (data.status==1){
-        $('input:radio[id=status]').prop("checked", true);
-        }
-        if (data.status==0){
-        $('input:radio[id=status2]').prop("checked", true);
-        }
-
-        if (data.proveedor==1){
-        $('input:radio[id=proveedor]').prop("checked", true);
-        }
-        if (data.proveedor==0){
-        $('input:radio[id=proveedor2]').prop("checked", true);
-        }
+        $('#id').val(data.id);
+        $('#monto').val(data.categoria);
+        
 
         $('#myModal').modal('show');
     });
@@ -73,7 +59,7 @@ $(document).on('click', '.delete-categoria', function () {
         error: function (data) {
             console.log('Error:', data);
             $('#confirm-delete').modal('hide');
-            $("#rese").html("No se pudo eliminar la categoría, por que está asociada a una Subcategoria");
+            $("#rese").html("No se pudo eliminar el monto");
             $("#rese, #res-content").css("display","block");
             $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }

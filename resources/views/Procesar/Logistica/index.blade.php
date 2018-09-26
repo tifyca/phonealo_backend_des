@@ -12,10 +12,20 @@
 
 @section('content')
 
+<div id='ejemplo1'>
+          
+        </div>
+        <div id='ejemplo2'>
+          
+        </div>
+        <div id='ejemplo3'>
+          
+        </div>
+
 <div class="row">
   {{-- TABLA DE REMITOS --}}
   {{-- ESTA LISTA SE MANTIENE OCULTA, SOLO APARECE CUANDO AÑADO UNA VENTA A REMISA --}}
-  <div class="col-12">
+  <div id="cualquier" class="col-12 d-none" >
     <div class="tile ">
       <div class="d-flex justify-content-end row">
         <div class="col">
@@ -27,6 +37,8 @@
       </div>
       
       <div class="tile-body ">
+        
+
         <div class="table-responsive">
               <table class="table table-hover table-bordered " id="sampleTable">
                 <thead>
@@ -77,6 +89,7 @@
   {{--  --}}
   {{-- TABLA POR ATENDER --}}
   {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS POR ATENDER --}}
+  @if(!empty($enEsperas))
    <div class="col-12">
     <div class="tile ">
       <h3 class="tile-title text-center text-md-left"> Ventas por Atender </h3>
@@ -100,52 +113,52 @@
                 </thead>
                 <tbody>
 
-                  <tr class="table-danger">
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Fecha</td>
-                    <td>Fecha Activo</td>
-                    <td>Ciudad</td>
-                    <td>Horario</td>
-                    <td>Forma Pago</td>
-                    <td>Importe</td>
-                    <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
+                  <!-- jgonzalez LISTADO DE VENTAS EN ESPERA-->
+                  
+                  @foreach($enEsperas as $enEspera)
+                   <tr  
+                    @if($enEspera->id_estado==5)
+                      class="table-warning"
+                    @elseif($enEspera->id_estado==1 && $enEspera->status_v==11)
+                      class="table-primary"
+                    @elseif($enEspera->id_estado==11 && $enEspera->status_v==11)
+                      class="table-primary"
+                    @elseif($enEspera->id_estado==1 && $enEspera->status_v=='')
+                    
+                    @endif
+                    >
+                      <td>{{$enEspera->id}}</td>
+                      <td>{{$enEspera->nombres}}</td>
+                      <td>{{$enEspera->telefono}}</td>
+                      <td>{{$enEspera->direccion}}</td>
+                      <td>{{$enEspera->fecha}}</td>
+                      <td>{{$enEspera->fecha_activo}}</td>
+                      <td>{{$enEspera->ciudad}}</td>
+                      <td>{{$enEspera->horario_entrega}}</td>
+                      <td>{{$enEspera->forma_pago}}</td>
+                      <td>{{$enEspera->importe}}</td>
+                      <td width="10%" class="text-center">
+                        <div class="btn-group">
+                         
+
+                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+
                         <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalAgregar" href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="table-warning">
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Fecha</td>
-                    <td>Fecha Activo</td>
-                    <td>Ciudad</td>
-                    <td>Horario</td>
-                    <td>Forma Pago</td>
-                    <td>Importe</td>
-                    <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalAgregar" href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                      </div>
-                    </td>
-                  </tr>
+                        <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
+                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
+                        </div>
+                      </td>
+                    </tr>
+                    
+                  @endforeach
+
                 </tbody>
               </table>
             </div>
       </div>
     </div>
   </div>
+  @endif
   {{--  --}}
   {{--  --}}
   <div class="col-12">
@@ -187,7 +200,6 @@
                   @endforeach
               </select>
 
-
             </div>
           </div>
         </div>
@@ -211,46 +223,48 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- jgonzalez LISTADO DE CLIENTES-->
+                  <!-- jgonzalez LISTADO DE VENTAS ACTIVAS-->
                   <?php 
                     $total = 0;
                   ?>
-                  @foreach($ventas as $venta)
+                  @foreach($activas as $activa)
                    <tr  
-                    @if($venta->id_estado==5)
+                    @if($activa->id_estado==5)
                       class="table-warning"
-                    @elseif($venta->id_estado==1 && $venta->status_v==11)
+                    @elseif($activa->id_estado==1 && $activa->status_v==11)
                       class="table-primary"
-                    @elseif($venta->id_estado==11 && $venta->status_v==11)
+                    @elseif($activa->id_estado==11 && $activa->status_v==11)
                       class="table-primary"
-                    @elseif($venta->od_estado==1 && $venta->status_v=='')
+                    @elseif($activa->id_estado==1 && $activa->status_v=='')
                     
                     @endif
                     >
-                      <td>{{$venta->id}}</td>
-                      <td>{{$venta->nombres}}</td>
-                      <td>{{$venta->telefono}}</td>
-                      <td>{{$venta->direccion}}</td>
-                      <td>{{$venta->fecha}}</td>
-                      <td>{{$venta->fecha_activo}}</td>
-                      <td>{{$venta->ciudad}}</td>
-                      <td>{{$venta->horario_entrega}}</td>
-                      <td>{{$venta->forma_pago}}</td>
-                      <td>{{$venta->importe}}</td>
+                      <td>{{$activa->id}}</td>
+                      <td>{{$activa->nombres}}</td>
+                      <td>{{$activa->telefono}}</td>
+                      <td>{{$activa->direccion}}</td>
+                      <td>{{$activa->fecha}}</td>
+                      <td>{{$activa->fecha_activo}}</td>
+                      <td>{{$activa->ciudad}}</td>
+                      <td>{{$activa->horario_entrega}}</td>
+                      <td>{{$activa->forma_pago}}</td>
+                      <td>{{$activa->importe}}</td>
                       <td width="10%" class="text-center">
                         <div class="btn-group">
                          
 
-                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $venta->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
 
                         <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                        <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
+                        <!--<a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>-->
+                        <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+
                         <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
                         </div>
                       </td>
                     </tr>
                     <?php 
-                      $total += $venta->importe;
+                      $total += $activa->importe;
                     ?>
                   @endforeach
                     <tr>
@@ -266,6 +280,7 @@
                  
                 </tbody>
               </table>
+
             </div>
             </div>
         </div>
@@ -336,6 +351,8 @@
 @push('scripts')
 
 <script type="text/javascript">
+  
+//<!-- Detalle de Venta - Vista rapida de productos en la Venta -->
   $('.detalle').click(function(){
 
     var id = $(this).val();  //CAPTURA EL ID
@@ -364,6 +381,36 @@
 
 
   });
+
+//<!-- Agregar Remisa -->
+
+  $('.remisa').click(function(){
+
+    $('#cualquier').removeClass('d-none');
+    var id = $(this).val();  //CAPTURA EL ID  
+    console.log(id);
+      $.ajax({
+        type: "GET",
+        url: '{{ url('agregar_remisa') }}',
+        dataType: "json",
+        data: { id:id, _token: '{{csrf_token()}}'},
+
+        success: function (data){
+
+          console.log(data);
+          $('#ejemplo1').html('PRUEBA');
+           $('#ejemplo2').html(data.id_estado);
+            $('#ejemplo3').html(data.id_cliente);
+        }
+
+    });
+
+
+  });
+
+
+
 </script>
+
   
 @endpush

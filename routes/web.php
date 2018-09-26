@@ -27,6 +27,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('producto_click', 'Ajax\ProductosAjax@producto')->name('producto_click');
     Route::get('cargos', 'Ajax\Configurar@cargos')->name('cargos_ajax');
     Route::get('detalle_venta', 'Ajax\Logistica@detalle_venta')->name('detalle_venta');
+    Route::get('agregar_remisa', 'Ajax\Logistica@agregar_remisa')->name('agregar_remisa');
+
 
     
 
@@ -49,6 +51,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('configurar/categorias','Configurar\CategoriasController@store');
     Route::put('configurar/categorias/mod/{categoria_id?}','Configurar\CategoriasController@update');
     Route::delete('configurar/categorias/{categoria_id?}','Configurar\CategoriasController@destroy');
+
+
+    Route::resource('configurar/montos_delivery', 'Configurar\Montos_deliveryController');
+    Route::get('configurar/montos_delivery/edit/{id?}','Configurar\Montos_deliveryController@editar');
+    Route::post('configurar/montos_delivery','Configurar\Montos_deliveryController@store');
+    Route::put('configurar/montos_delivery/mod/{id?}','Configurar\Montos_deliveryController@update');
+    Route::delete('configurar/montos_delivery/{id?}','Configurar\Montos_deliveryController@destroy');
+
+
+
 
     Route::resource('configurar/subcategorias', 'Configurar\SubcategoriasController');
     Route::get('configurar/subcategorias/edit/{subcategoria_id?}','Configurar\SubcategoriasController@editar');

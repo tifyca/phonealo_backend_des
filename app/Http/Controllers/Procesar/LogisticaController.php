@@ -13,10 +13,14 @@ class LogisticaController extends Controller
 {
     public function index(){
     	#jgonzalez 
-    	$ventas = Ventas::Listado();#->paginate(10) Error cuando aplico este metodo;
+        $fecha = "2018-09-08";
+        #sugerencia para que sea el dia de actual => date("Y-m-d");
+    	$activas = Ventas::Activas()->where('fecha', '=', $fecha);
+        $enEsperas = Ventas::EnEspera()->where('fecha', '=', $fecha);
+        #SOLICITAR AYUDA CON ESTIO->paginate(10);
         $ciudades = Ciudades::get();
     	$horarios = Horarios::get();
-    	return view('Procesar.Logistica.index', compact('ventas', 'ciudades', 'horarios'));
+    	return view('Procesar.Logistica.index', compact('activas','enEsperas', 'ciudades', 'horarios'));
     }
     public function edit(){
     	return view('Procesar.Logistica.edit');
