@@ -15,4 +15,10 @@ class Logistica extends Controller
     	return $venta;
     }
 
+    public function agregar_remisa(Request $request){
+    	$id = $request['id'];
+    	$venta = Ventas::Remisa($id);
+    	return $venta;
+    }
+
 }

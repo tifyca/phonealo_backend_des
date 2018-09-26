@@ -20,7 +20,6 @@
 <div class="row">
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Nuevo Cargo</h3>
           <form id="frmc" name="frmc"  novalidate="">
             {{ csrf_field() }} 
               <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
