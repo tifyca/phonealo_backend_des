@@ -58,8 +58,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('configurar/montos_delivery/{id?}','Configurar\Montos_deliveryController@destroy');
 
 
-
-
     Route::resource('configurar/subcategorias', 'Configurar\SubcategoriasController');
     Route::get('configurar/subcategorias/edit/{subcategoria_id?}','Configurar\SubcategoriasController@editar');
     Route::post('configurar/subcategorias','Configurar\SubcategoriasController@store');
