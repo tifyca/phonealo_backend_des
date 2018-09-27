@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cargos', 'Ajax\Configurar@cargos')->name('cargos_ajax');
     Route::get('detalle_venta', 'Ajax\Logistica@detalle_venta')->name('detalle_venta');
     Route::get('agregar_remisa', 'Ajax\Logistica@agregar_remisa')->name('agregar_remisa');
+    Route::get('quitar_remisa', 'Ajax\Logistica@quitar_remisa')->name('quitar_remisa');
 
 
     
