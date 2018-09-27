@@ -62,18 +62,18 @@ class VentasController extends Controller
 
 
     	$addventa= new Detalle_Temporal;
-    	$addventa->id_cliente=$request->id_cliente;
-    	$addventa->id_producto=$request->id_producto;
-    	$addventa->cantidad=$request->cantidad;
-    	$addventa->precio=$request->precio;
-      $addventa->id_usuario= $request->id_usuario;
-      $addventa->espera= $request->espera;
+    	$addventa->id_cliente = $request->id_cliente;
+    	$addventa->id_producto= $request->id_producto;
+    	$addventa->cantidad   = $request->cantidad;
+    	$addventa->precio     = $request->precio;
+      $addventa->id_usuario = $request->id_usuario;
+      $addventa->espera     = $request->espera;
     	$addventa->save(); 
 
 
         $producto = Productos::find($request->id_producto);
         $producto->stock_activo = $request->disponible;
-        $producto->id_usuario=$request->id_usuario;
+        $producto->id_usuario   = $request->id_usuario;
         $producto->save();
     	
 
@@ -225,7 +225,7 @@ class VentasController extends Controller
             $cliente->ubicacion = $request->ubicacion_cliente;
             $cliente->id_tipo   = $request->tipo_cliente;
             $cliente->notas     = $request->nota_cliente;
-            $cliente->id_estado= $request->id_estado;
+            $cliente->id_estado = $request->id_estado;
             $cliente->id_usuario= $request->id_usuario;
             $cliente->save(); 
 
@@ -235,21 +235,33 @@ class VentasController extends Controller
            $cliente= $request->id_cliente;
   }
 
+           $dts= Detalle_Temporal::where('espera', 1)->count();
 
-  
+           if($dts>0){
+
+            $id_estado_v=5;
+            $id_estado_p=1;
+            
+           }else{
+
+            $id_estado_v=1;
+            $id_estado_p=7;
+           }
+
 
             $pedido= new Pedido;
             $pedido->id_cliente = $cliente;
             $pedido->fecha      = $request->fecha_venta;
-            $pedido->id_estado  =7;
+            $pedido->id_estado  =$id_estado_p;
             $pedido->id_usuario =$request->id_usuario;
             $pedido->save(); 
 
+
           	$venta= new Ventas;
           	$venta->id_pedido = $pedido->id;
-          	$venta->id_estado = 4;
+          	$venta->id_estado = $id_estado_v;
           	$venta->fecha     = $request->fecha_venta;
-          	$venta->status_v  = 1;
+          	$venta->status_v  = $id_estado_v;
           	$venta->importe   = $request->importe;
           	$venta->forma_pago= $request->forma_pago;
           	$venta->factura   = $request->factura;
@@ -275,16 +287,27 @@ class VentasController extends Controller
 
               foreach ($detalle_tempora as $dt) {
 
-                        $result     = new Detalle_Ventas;
+                        $result  = new Detalle_Ventas;
                         $result->id_venta    = $venta->id;
                         $result->id_producto = $dt->id_producto;
                         $result->cantidad    = $dt->cantidad;
                         $result->precio      = $dt->precio;
                         $result->id_usuario  = $dt->id_usuario;
-                        $result->save();
-
-                  
+                        $result->save();           
                 
+              }
+
+              if($request->monto>0){
+
+                $deliverys=Montos_delivery::select('id', 'monto')->where('id',$request->monto)->first();
+
+                $deliver= new Detalle_Ventas;
+                $deliver->id_venta    = $venta->id;
+                $deliver->id_producto = 36;
+                $deliver->cantidad    = 1;
+                $deliver->precio      = $deliverys->monto;
+                $deliver->id_usuario  = $dt->id_usuario;
+                $deliver->save();            
               }
 
               $del= Detalle_Temporal::truncate();
