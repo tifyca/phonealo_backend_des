@@ -8,7 +8,7 @@ use App\Clientes;
 use App\Horarios;
 use App\Ventas;
 use App\Detalle_Temporal;
-use App\Forma_Pago;
+use App\Forma_pago;
 use App\Detalle_Ventas;
 use App\Facturas;
 use App\Productos;
@@ -28,7 +28,7 @@ class VentasController extends Controller
 
     	$horarios  = Horarios::all();
       $deliverys = Montos_delivery::all();
-      $formas    = Forma_Pago::all();
+      $formas    = Forma_pago::all();
 
     	return view('Procesar.Ventas.index', compact('horarios','deliverys', 'formas' ));
     }
