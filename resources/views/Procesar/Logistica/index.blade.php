@@ -12,20 +12,10 @@
 
 @section('content')
 
-<div id='ejemplo1'>
-          
-        </div>
-        <div id='ejemplo2'>
-          
-        </div>
-        <div id='ejemplo3'>
-          
-        </div>
-
-<div class="row">
+<div class="row" >
   {{-- TABLA DE REMITOS --}}
   {{-- ESTA LISTA SE MANTIENE OCULTA, SOLO APARECE CUANDO AÑADO UNA VENTA A REMISA --}}
-  <div id="cualquier" class="col-12 d-none" >
+  <div id="remisa" class="col-12 d-none" >
     <div class="tile ">
       <div class="d-flex justify-content-end row">
         <div class="col">
@@ -58,26 +48,8 @@
                 </thead>
                 <tbody>
 
-                  <tr >
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Fecha</td>
-                    <td>Fecha Activo</td>
-                    <td>Ciudad</td>
-                    <td>Horario</td>
-                    <td>Forma Pago</td>
-                    <td>Importe</td>
-                    <td width="10%" class="text-center">
-                      <div class="btn-group">
-                         <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                    <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                    {{-- se retira de la remisa --}}
-                    <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-minus"></i></a>
+                  <tr id="respRemisa" >
                     
-                  </div>
-                    </td>
                   </tr>
           
                 </tbody>
@@ -90,7 +62,7 @@
   {{-- TABLA POR ATENDER --}}
   {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS POR ATENDER --}}
   @if(!empty($enEsperas))
-   <div class="col-12">
+   <div class="col-12" >
     <div class="tile ">
       <h3 class="tile-title text-center text-md-left"> Ventas por Atender </h3>
       <div class="tile-body ">
@@ -134,7 +106,7 @@
                       <td>{{$enEspera->fecha}}</td>
                       <td>{{$enEspera->fecha_activo}}</td>
                       <td>{{$enEspera->ciudad}}</td>
-                      <td>{{$enEspera->horario_entrega}}</td>
+                      <td>{{$enEspera->horario}}</td>
                       <td>{{$enEspera->forma_pago}}</td>
                       <td>{{$enEspera->importe}}</td>
                       <td width="10%" class="text-center">
@@ -144,7 +116,7 @@
                         <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
 
                         <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                        <a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>
+                        <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
                         <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
                         </div>
                       </td>
@@ -246,7 +218,7 @@
                       <td>{{$activa->fecha}}</td>
                       <td>{{$activa->fecha_activo}}</td>
                       <td>{{$activa->ciudad}}</td>
-                      <td>{{$activa->horario_entrega}}</td>
+                      <td>{{$activa->horario}}</td>
                       <td>{{$activa->forma_pago}}</td>
                       <td>{{$activa->importe}}</td>
                       <td width="10%" class="text-center">
@@ -386,7 +358,7 @@
 
   $('.remisa').click(function(){
 
-    $('#cualquier').removeClass('d-none');
+    $('#remisa').removeClass('d-none');
     var id = $(this).val();  //CAPTURA EL ID  
     console.log(id);
       $.ajax({
@@ -396,11 +368,31 @@
         data: { id:id, _token: '{{csrf_token()}}'},
 
         success: function (data){
+          
+          $("#respRemisa").html(`
+            <td>${data[0].id}</td>
+            <td>${data[0].nombres}</td>
+            <td>${data[0].telefono}</td>
+            <td>${data[0].direccion}</td>
+            <td>${data[0].fecha}</td>
+            <td>${data[0].fecha_activo}</td>
+            <td>${data[0].ciudad}</td>
+            <td>${data[0].horario}</td>
+            <td>${data[0].forma_pago}</td>
+            <td>${data[0].importe}</td>
+            <td width="10%" class="text-center">
+            <div class="btn-group">
+                <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="${data[0].id}"><i class="m-0 fa fa-lg fa-eye"></i></button>
 
-          console.log(data);
-          $('#ejemplo1').html('PRUEBA');
-           $('#ejemplo2').html(data.id_estado);
-            $('#ejemplo3').html(data.id_cliente);
+                <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
+                {{-- se retira de la remisa --}}
+                <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-minus"></i></a>
+              </div>
+            </td>
+            `);
+
+         
+          
         }
 
     });
@@ -408,8 +400,11 @@
 
   });
 
+function codeAddress() {
+            alert('ok');
+        }
 
-
+//html.onload = codeAddress;
 </script>
 
   
