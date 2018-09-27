@@ -6,7 +6,7 @@
 
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
-@section('display_new','')  @section('link_new', url('registro/productos/show') ) 
+@section('display_new','')  @section('link_new', url('registro/productos/create') ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
 

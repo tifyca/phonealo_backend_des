@@ -131,10 +131,7 @@ $("#btn-save-edit").click(function (e) {
 
     e.preventDefault();
         var monto_id = $('#monto_id').val();
-        var formData = { nombre: $('#nombre').val(),  
-                         tipo: $('#tipo').val(), 
-                         status: $('input:radio[name=status]:checked').val(), 
-                         proveedor: $('input:radio[name=zproveedor]:checked').val(), 
+        var formData = { monto: $('#monto').val(),  
                          id_usuario: $('#id_usuario').val(), 
                        }
         var my_url = url;
@@ -148,9 +145,7 @@ $("#btn-save-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            var act='Activo';
-            var ina='Inactivo';
-            var monto = '<tr id="monto' + data.id + '"><td width="30%">' + data.monto + '</td><td width="30%">' + data.tipo + '</td>'+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
+            var monto = '<tr id="monto' + data.id + '"><td width="30%">' + data.monto + '</td>';
             monto += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
             monto += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
            $("#monto" + monto_id).replaceWith(monto);

@@ -127,10 +127,16 @@ class ProductosController extends Controller
     return \Response::json(['created' => false], 500);
   }
 	}
-	public function show($id){
-    $categorias = categorias::where('tipo','Productos')->orderby('categoria','asc')->get();		
+public function create()
+{
+      $categorias = categorias::where('tipo','Productos')->orderby('categoria','asc')->get();   
 
-		return view('Registro.Productos.show')->with('categorias',$categorias);
+    return view('Registro.Productos.show')->with('categorias',$categorias);
+
+}
+	public function show(Request $request){
+   $productos=productos::orderby('id')->paginate(20);
+   return view('Registro.Productos.mod')->with('productos',$productos);
 	}
 	public function update(Request $request,$id){
 		try {
@@ -194,5 +200,10 @@ class ProductosController extends Controller
    	                ->where('id_producto',$id)->get();
 		return view('Registro.Productos.detalle')->with('productos',$productos)->with('categoria',$categoria)->with('subcategoria',$subcategoria)->with('imagenes',$imagenes);
 	}
-	
+
+public function modificar(Request $request){
+   
+   $productos=productos::orderby('id')->paginate(20);
+   return view('Registros.Productos.mod')->with('productos',$productos);
+}	
 }
