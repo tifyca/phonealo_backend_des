@@ -15,7 +15,6 @@ use App\Categorias;
 use App\Subcategorias;
 use App\pedido;
 use App\Montos_delivery;
-use App\Forma_Pago;
 use DB;
 use File;
  @session_start();
@@ -26,11 +25,10 @@ class VentasController extends Controller
 {
     public function index(){
 
-    	$horarios  =Horarios::all();
-      $deliverys =Montos_delivery::all();
-      $formas    =Forma_Pago::all();
+    	$horarios=Horarios::all();
+      $deliverys=Montos_delivery::all();
 
-    	return view('Procesar.Ventas.index', compact('horarios','deliverys', 'formas' ));
+    	return view('Procesar.Ventas.index', compact('horarios','deliverys' ));
     }
 
     public function getcliente($tlf){
@@ -63,21 +61,21 @@ class VentasController extends Controller
          }elseif ($validator->passes()){ 
 
 
-            	$addventa= new Detalle_Temporal;
-            	$addventa->id_cliente = $request->id_cliente;
-            	$addventa->id_producto= $request->id_producto;
-            	$addventa->cantidad   = $request->cantidad;
-            	$addventa->precio     = $request->precio;
-              $addventa->id_usuario = $request->id_usuario;
-              $addventa->espera     = $request->espera;
-            	$addventa->save(); 
+    	$addventa= new Detalle_Temporal;
+    	$addventa->id_cliente = $request->id_cliente;
+    	$addventa->id_producto= $request->id_producto;
+    	$addventa->cantidad   = $request->cantidad;
+    	$addventa->precio     = $request->precio;
+      $addventa->id_usuario = $request->id_usuario;
+      $addventa->espera     = $request->espera;
+    	$addventa->save(); 
 
 
-              $producto = Productos::find($request->id_producto);
-              $producto->stock_activo = $request->disponible;
-              $producto->id_usuario   = $request->id_usuario;
-              $producto->save();
-          	
+        $producto = Productos::find($request->id_producto);
+        $producto->stock_activo = $request->disponible;
+        $producto->id_usuario   = $request->id_usuario;
+        $producto->save();
+    	
 
 
          	return ($addventa);
@@ -88,8 +86,8 @@ class VentasController extends Controller
 
     public function delventa ($prod){
 
-           $dtemporal= Detalle_Temporal::where('id_producto',$prod)
-                                       ->Select('id_cliente', 'id_producto', 'cantidad', 'precio', 'espera', 'id_usuario')->first();
+      $dtemporal= Detalle_Temporal::where('id_producto',$prod)
+                                    ->Select('id_cliente', 'id_producto', 'cantidad', 'precio', 'espera', 'id_usuario')->first();
 
 
       
@@ -120,10 +118,7 @@ class VentasController extends Controller
 		                    'departamento_cliente'=>'required|not_in:0',
 		                    'ciudad_cliente'=>'required|not_in:0',
 		                    'barrio_cliente'=>'required|not_in:0',
-		                    'direccion_cliente'=>'required',
-                        'horario_venta'=>'required',
-                        'forma_pago'=>'required'
-                        );
+		                    'direccion_cliente'=>'required');
 
 		    $messages = array( 'nombre_cliente.required'=>'Nombre del Cliente es Requerido', 
 		                       'nombre_cliente.unique' => 'El Cliente ya Existe', 
@@ -139,9 +134,7 @@ class VentasController extends Controller
 		                       'barrio_cliente.required'=> 'El Barrio del Cliente es Requerido',
 		                       'barrio_cliente.not_in'=> 'El Barrio del Cliente es Requerido',
 		                       'direccion_cliente.required'=>'La Dirección del Cliente es Requerida',
-		                       'direccion_cliente.not_in'=>'La Dirección del Cliente es Requerida',
-                           'horario_venta.required'=>'El Horario de Entrega es Requerido',
-                           'forma_pago.required'=>'La Forma de Pago es Requerida');
+		                       'direccion_cliente.not_in'=>'La Dirección del Cliente es Requerida');
 
         $validator = Validator::make($data, $rules, $messages);
 
@@ -186,10 +179,8 @@ class VentasController extends Controller
                           'departamento_cliente'=>'required|not_in:0',
                           'ciudad_cliente'=>'required|not_in:0',
                           'barrio_cliente'=>'required|not_in:0',
-                          'direccion_cliente'=>'required',
-                          'horario_venta'=>'required',
-                          'forma_pago'=>'required'
-                          );
+                          'direccion_cliente'=>'required');
+
           
           $messages = array( 'nombre_cliente.required'=>'Nombre del Cliente es Requerido', 
                              'nombre_cliente.unique' => 'El Cliente ya Existe', 
@@ -206,21 +197,19 @@ class VentasController extends Controller
                              'barrio_cliente.required'=> 'El Barrio del Cliente es Requerido',
                              'barrio_cliente.not_in'=> 'El Barrio del Cliente es Requerido',
                              'direccion_cliente.required'=>'La Dirección del Cliente es Requerida',
-                             'direccion_cliente.not_in'=>'La Dirección del Cliente es Requerida',
-                             'horario_venta.required'=>'El Horario de Entrega es Requerido',
-                             'forma_pago.required'=>'La Forma de Pago es Requerida');
+                             'direccion_cliente.not_in'=>'La Dirección del Cliente es Requerida');
 
             $validator = Validator::make($data, $rules, $messages);
 
 
-          if($validator->fails()){ 
+    if($validator->fails()){ 
 
 
-                  $errors = $validator->errors(); 
-                  
-                  return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
+            $errors = $validator->errors(); 
             
-          }elseif ($validator->passes()){ 
+            return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
+      
+    }elseif ($validator->passes()){ 
 
 
             $cliente = Clientes::find($request->id_cliente);
@@ -276,7 +265,7 @@ class VentasController extends Controller
           	$venta->importe   = $request->importe;
           	$venta->forma_pago= $request->forma_pago;
           	$venta->factura   = $request->factura;
-          	$venta->id_estado = $request->horario_venta;
+          	$venta->horario_entrega= $request->horario_venta;
             $venta->fecha_activo   = $request->fecha_activo;
           	$venta->fecha_cobro    = $request->fecha_cobro;
           	$venta->id_usuario     = $request->id_usuario;
