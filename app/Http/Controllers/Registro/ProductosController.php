@@ -139,14 +139,17 @@ public function create()
 	public function show(Request $request){
    $proveedores = proveedores::orderby('nombres')->where('id_estado',1)->get();
    $idproveedor = $request->id_proveedor;
-   if($idproveedor!=""){
+   $valor       = $request->id_producto;
+   if($idproveedor!="" && $valor==''){
      $productos=db::table('productos as a')->join('productos_proveedor as b','a.id','=','b.id_producto')->select('a.id','a.codigo_producto','a.precio_ideal','a.descripcion','a.nombre_original','b.producto')->where('id_proveedor',$idproveedor)->orderby('a.id')->paginate(20);
+     $activar=1;
    } else{
      $productos=productos::orderby('id')->paginate(20); 
+     $activar=0;
    }
    
    
-   return view('Registro.Productos.mod')->with('productos',$productos)->with('proveedores',$proveedores);
+   return view('Registro.Productos.mod')->with('productos',$productos)->with('proveedores',$proveedores)->with('activar',$activar);
 	}
 	public function update(Request $request,$id){
 		try {

@@ -24,6 +24,7 @@
         <div class="col mb-3 text-center">
           <div class="row ">
             <form class="row d-flex justify-content-end" action="{{route('productos.ajustar')}}" method="get"> 
+              <input type="hidden" id="activo" name="activo" value="{{$activar}}">
               <div class="form-group col-md-3">
                 <input class="form-control" type="text" name="id_producto" id="id_producto" placeholder="Producto">
               </div>
@@ -68,9 +69,9 @@
                 <tr >
                   <td class="" >{{$ficha->id}}</td>
                   <td>{{$ficha->codigo_producto}}</td>
-                  <td width="40%"><input type="text" class="form-control" name="descripcion[]" value="{{$ficha->descripcion}}"></td>
-                   <td width="40%"><input type="text" class="form-control" name="descripcion[]" value="{{$producto}}"></td>
-                  <td width="30%"><input type="text" class="form-control text-right" name="descripcion[]" value="{{$ficha->precio_ideal}}"></td>
+                  <td width="40%"><input type="text" class="form-control" name="descripcion[]" value="{{$ficha->descripcion}}" disabled=""></td>
+                   <td width="40%"><input type="text" class="form-control read" name="nombres[]" value="{{$producto}}" disabled=""></td>
+                  <td width="30%"><input type="text" class="form-control read text-right" name="descripcion[]" value="{{$ficha->precio_ideal}}" disabled=""></td>
                   <td class="text-center">
                     <div class="btn-group">
                       <a data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-primary" href="{{ route('productos.edit',$ficha->id) }}" ><i class="m-0 fa fa-lg fa-check"></i></a>
@@ -100,7 +101,7 @@ window.onload = load;
 function load(){
   var valor  = $("#tipom").val();
   var mensaje = $("#mensaje").val();
-  
+  var verifica = $("#activo").val();
   if(valor==1){
 
            $("#res").html(mensaje);
@@ -113,6 +114,13 @@ function load(){
             $("#rese, #res-content").css("display","block");
             $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
   }
+  if(verifica==1)
+  {     $('.read').prop('readonly', false);
+      $('.read').prop('disabled', false); }
+  else
+   {    $('.read').prop('readonly', true);
+      $('.read').prop('disabled', true);} 
+
 
 } 
   
