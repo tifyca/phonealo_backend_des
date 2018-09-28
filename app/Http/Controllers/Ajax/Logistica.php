@@ -30,5 +30,11 @@ class Logistica extends Controller
         $venta->save();
         return $venta;
     }
+    public function num_factura(Request $request){
+        $id = $request->id;
+        $num = Facturas::select('id')->where('id_venta', $id)->get();
+     
+        return $num;
+    }
 
 }

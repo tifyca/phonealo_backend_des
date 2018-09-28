@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('detalle_venta', 'Ajax\Logistica@detalle_venta')->name('detalle_venta');
     Route::get('agregar_remisa', 'Ajax\Logistica@agregar_remisa')->name('agregar_remisa');
     Route::get('quitar_remisa', 'Ajax\Logistica@quitar_remisa')->name('quitar_remisa');
-
+    Route::get('num_factura', 'Ajax\Logistica@agregar_remisa')->name('num_factura');
 
     
 
@@ -284,6 +284,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
     Route::get('procesar/logistica/remisa', 'Procesar\LogisticaController@remisa')->name('logistica.remisa');
+    Route::get('procesar/logistica/factura', 'Procesar\LogisticaController@factura')->name('logistica.factura');
+
 
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');

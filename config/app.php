@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Cornford\Googlmapper\MapperServiceProvider::class,
+         Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -229,6 +230,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Mapper'=> Cornford\Googlmapper\Facades\MapperFacade::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+
 
     ],
     's3'=>[
