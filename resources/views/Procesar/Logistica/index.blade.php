@@ -15,7 +15,8 @@
 <div class="row" >
   {{-- TABLA DE REMITOS --}}
   {{-- ESTA LISTA SE MANTIENE OCULTA, SOLO APARECE CUANDO AÑADO UNA VENTA A REMISA --}}
-  <div id="remisa" class="col-12 d-none" >
+  @if(count($remisas) > 0)
+  <div class="col-12" >
     <div class="tile ">
       <div class="d-flex justify-content-end row">
         <div class="col">
@@ -25,10 +26,7 @@
           <a href="{{ route('logistica.remisa') }}" class="btn btn-primary"><i class="m-0 fa fa-lg fa-sign-out"></i>Remisa</a>
         </div>
       </div>
-      
       <div class="tile-body ">
-        
-
         <div class="table-responsive">
               <table class="table table-hover table-bordered " id="sampleTable">
                 <thead>
@@ -47,21 +45,42 @@
                   </tr>
                 </thead>
                 <tbody>
-
-                  <tr id="respRemisa" >
-                    
+                  <tr>
+                     <!-- jgonzalez LISTADO DE VENTAS PARA REMISA-->
+                  @foreach($remisas as $remisa)
+                   <tr class="table-active">
+                      <td>{{$remisa->id}}</td>
+                      <td>{{$remisa->nombres}}</td>
+                      <td>{{$remisa->telefono}}</td>
+                      <td>{{$remisa->direccion}}</td>
+                      <td>{{$remisa->fecha}}</td>
+                      <td>{{$remisa->fecha_activo}}</td>
+                      <td>{{$remisa->ciudad}}</td>
+                      <td>{{$remisa->horario}}</td>
+                      <td>{{$remisa->forma_pago}}</td>
+                      <td>{{$remisa->importe}}</td>
+                      <td width="10%" class="text-center">
+                        <div class="btn-group">
+                         
+                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
+                        <button data-toggle="tooltip" data-placement="top" title="noremisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
+                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
+                        </div>
+                      </td>
                   </tr>
-          
                 </tbody>
               </table>
             </div>
+            @endforeach
       </div>
     </div>
   </div>
-  {{--  --}}
+  @endif
+  
   {{-- TABLA POR ATENDER --}}
   {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS POR ATENDER --}}
-  @if(!empty($enEsperas))
+  @if(count($enEsperas) > 0)
    <div class="col-12" >
     <div class="tile ">
       <h3 class="tile-title text-center text-md-left"> Ventas por Atender </h3>
@@ -88,17 +107,17 @@
                   <!-- jgonzalez LISTADO DE VENTAS EN ESPERA-->
                   
                   @foreach($enEsperas as $enEspera)
-                   <tr  
-                    @if($enEspera->id_estado==5)
-                      class="table-warning"
-                    @elseif($enEspera->id_estado==1 && $enEspera->status_v==11)
+                   <tr 
+                    @if($enEspera->id_estado = '1')
+                      class="table-active"
+                    @elseif($enEspera->id_estado = '5')
                       class="table-primary"
-                    @elseif($enEspera->id_estado==11 && $enEspera->status_v==11)
-                      class="table-primary"
-                    @elseif($enEspera->id_estado==1 && $enEspera->status_v=='')
-                    
-                    @endif
-                    >
+                    @elseif($enEspera->id_estado = '11')
+                      class="table-secondary"
+                    @elseif($enEspera->id_estado = '12')
+                      class="table-light"
+                   @endif
+                   >
                       <td>{{$enEspera->id}}</td>
                       <td>{{$enEspera->nombres}}</td>
                       <td>{{$enEspera->telefono}}</td>
@@ -112,7 +131,6 @@
                       <td width="10%" class="text-center">
                         <div class="btn-group">
                          
-
                         <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
 
                         @if($enEspera->factura==2 || $enEspera->factura==3) 
@@ -165,7 +183,7 @@
             </div>
              <div class="form-group col-md-2">
               <!-- HORARIOS-->
-              <select class="form-control read" id="id_categoria" name="id_categoria">
+              <select class="form-control read" id="id_horario" name="id_horario">
                 <option value="">Horarios</option>
                   @foreach($horarios as $horario)
                     <option value="{{$horario->id}}" 
@@ -203,18 +221,25 @@
                   <?php 
                     $total = 0;
                   ?>
+
+                  <!-- esta es la hora actual supongo que esta ajustada al pais-->
+                  {{ date("H:i") }}
                   @foreach($activas as $activa)
-                   <tr  
-                    @if($activa->id_estado==5)
-                      class="table-warning"
-                    @elseif($activa->id_estado==1 && $activa->status_v==11)
-                      class="table-primary"
-                    @elseif($activa->id_estado==11 && $activa->status_v==11)
-                      class="table-primary"
-                    @elseif($activa->id_estado==1 && $activa->status_v=='')
-                    
-                    @endif
-                    >
+                   <tr 
+                    @if(date("H:i") > "09:00" || date("H:i") > "11:59")
+                      class="table-danger"
+                    @elseif(date("H:i") > "12:00" || date("H:i") > "14:59")
+                      class="table-danger"
+                    @elseif(date("H:i") > "15:00" || date("H:i") > "17:59")
+                      class="table-danger" 
+                    @elseif(date("H:i") > "18:00:00" || date("H:i") > "20:59:59")
+                      class="table-danger"
+                    @elseif(date("H:i") > "21:00:00")
+                      class="table-danger" 
+                    @else
+                      class="table-active"
+                   @endif
+                   >
                       <td>{{$activa->id}}</td>
                       <td>{{$activa->nombres}}</td>
                       <td>{{$activa->telefono}}</td>
@@ -228,7 +253,6 @@
                       <td width="10%" class="text-center">
                         <div class="btn-group">
                          
-
                         <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
 
                          @if($activa->factura==2 || $activa->factura==3) 
@@ -356,7 +380,7 @@
           //CICLO DE LOS DATOS RECIBIDOS
           $.each(data, function(l, item) {
 
-            $("#productos_detalle").append('<tr><td>'+item.id_producto+'</td><td>'+item.descripcion+'</td><td>'+item.cantidad+'</td><td>'+item.precio+'</td><td><div class="btn-group"><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-file"></i></a><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-times"></i></a></div></td></tr>');
+            $("#productos_detalle").append('<tr><td>'+item.codigo_producto+'</td><td>'+item.descripcion+'</td><td>'+item.cantidad+'</td><td>'+item.precio+'</td><td><div class="btn-group"><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-file"></i></a><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-times"></i></a></div></td></tr>');
           });
         }
 
@@ -365,11 +389,9 @@
 
   });
 
-//<!-- Agregar Remisa -->
-
+  //<!-- Agregar a Remisa -->
   $('.remisa').click(function(){
-
-    $('#remisa').removeClass('d-none');
+    
     var id = $(this).val();  //CAPTURA EL ID  
     console.log(id);
       $.ajax({
@@ -377,39 +399,34 @@
         url: '{{ url('agregar_remisa') }}',
         dataType: "json",
         data: { id:id, _token: '{{csrf_token()}}'},
-
         success: function (data){
           
-          $("#respRemisa").html(`
-            <td>${data[0].id}</td>
-            <td>${data[0].nombres}</td>
-            <td>${data[0].telefono}</td>
-            <td>${data[0].direccion}</td>
-            <td>${data[0].fecha}</td>
-            <td>${data[0].fecha_activo}</td>
-            <td>${data[0].ciudad}</td>
-            <td>${data[0].horario}</td>
-            <td>${data[0].forma_pago}</td>
-            <td>${data[0].importe}</td>
-            <td width="10%" class="text-center">
-            <div class="btn-group">
-                <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="${data[0].id}"><i class="m-0 fa fa-lg fa-eye"></i></button>
-
-                <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
-                {{-- se retira de la remisa --}}
-                <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-minus"></i></a>
-              </div>
-            </td>
-            `);
-
-         
-          
+             $('#respAgregarRemisa').html('REMISADO');     
         }
-
     });
 
-
+    location.reload(true);
   });
+
+  //<!-- Quitar de  Remisa -->
+  $('.noremisa').click(function(){
+    
+    var id = $(this).val();  //CAPTURA EL ID  
+    console.log(id);
+      $.ajax({
+        type: "GET",
+        url: '{{ url('quitar_remisa') }}',
+        dataType: "json",
+        data: { id:id, _token: '{{csrf_token()}}'},
+        success: function (data){
+          
+             $('#respQuitarRemisa').html('NO REMISADO');     
+        }
+    });
+
+    location.reload(true);
+  });
+      
 
   $('.factura').click(function(){
 
@@ -432,11 +449,7 @@
 
 });
 
-function codeAddress() {
-            alert('ok');
-        }
 
-//html.onload = codeAddress;
 </script>
 
   
