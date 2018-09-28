@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 
 class Ventas extends Model
@@ -37,7 +38,7 @@ class Ventas extends Model
             ->get();
     }
 
-    public function scopeRemisa($query, $id_venta)
+    public function scopeRemisas($query)
     {
         return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
             ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
@@ -45,10 +46,25 @@ class Ventas extends Model
             ->join('horarios', 'ventas.id_horario', '=', 'horarios.id')
             ->join('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
                 ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
-                ->where('ventas.id', '=', $id_venta)
+                ->where('ventas.id_estado', '=', '6')
+                ->orWhere('ventas.id_estado', '=', '12')
+                ->orderby('horarios.horario', 'desc')
             ->get();
     }
 
+    public function scopeDetalleRemisa($query)
+    {
+        return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+            ->join('horarios', 'ventas.id_horario', '=', 'horarios.id')
+            ->join('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
+                ->where('ventas.id_estado', '=', '6')
+                ->orWhere('ventas.id_estado', '=', '12')
+                ->orderby('horarios.horario', 'desc')
+            ->get();
+    }
 
 
     public function scopeDetalle($query, $id_venta)

@@ -15,7 +15,7 @@ class ProductosAjax extends Controller
     	$producto = $request['producto'];
     	$cadena = $producto.'%';
 
-    	$productos = Productos::where('descripcion', 'LIKE', $cadena)->orderBy('descripcion', 'asc')->get();
+    	$productos = Productos::where('descripcion', 'LIKE', $cadena)->where('descripcion', 'NOT LIKE', '%Delivery%')->orderBy('descripcion', 'asc')->get();
 
     	return $productos;
     }
