@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Productos;
 use App\Categorias;
 use App\Subcategorias;
+use App\productos_proveedor;
 use App\auditoria;
+use App\proveedores;
 use DB;
 use File;
  @session_start();
@@ -135,8 +137,16 @@ public function create()
 
 }
 	public function show(Request $request){
-   $productos=productos::orderby('id')->paginate(20);
-   return view('Registro.Productos.mod')->with('productos',$productos);
+   $proveedores = proveedores::orderby('nombres')->where('id_estado',1)->get();
+   $idproveedor = $request->id_proveedor;
+   if($idproveedor!=""){
+     $productos=db::table('productos as a')->join('productos_proveedor as b','a.id','=','b.id_producto')->select('a.id','a.codigo_producto','a.precio_ideal','a.descripcion','a.nombre_original','b.producto')->where('id_proveedor',$idproveedor)->orderby('a.id')->paginate(20);
+   } else{
+     $productos=productos::orderby('id')->paginate(20); 
+   }
+   
+   
+   return view('Registro.Productos.mod')->with('productos',$productos)->with('proveedores',$proveedores);
 	}
 	public function update(Request $request,$id){
 		try {
@@ -202,8 +212,12 @@ public function create()
 	}
 
 public function modificar(Request $request){
-   
+   $proveedores = proveedores::orderby('nombres')->where('id_estado',1)->get();
    $productos=productos::orderby('id')->paginate(20);
-   return view('Registros.Productos.mod')->with('productos',$productos);
+   return view('Registro.Productos.mod')->with('productos',$productos)->with('proveedores',$proveedores);
 }	
+public function proveedor(Request $request)
+{
+
+}
 }

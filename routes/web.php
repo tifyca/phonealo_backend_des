@@ -145,6 +145,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('registro/productos', 'Registro\ProductosController');
    Route::get('registro/productos/ajustar','Registro\ProveedoresController@modificar')->name("productos.ajustar");
    
+   Route::get('registro/productos/proveedor','Registro\ProveedoresController@proveedor')->name("productos.proveedor");
+  
     Route::get('registro/productos/detalle/{valor}', [
         'uses' => 'Registro\ProductosController@detalle',
         'as'   => 'productos.detalle'

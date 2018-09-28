@@ -18,10 +18,31 @@
                           </div>
                       @endif   
 <div class="row">
-  <div class="col-12">
+    <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-     
+        <div class="col mb-3 text-center">
+          <div class="row ">
+            <form class="row d-flex justify-content-end" action="{{route('productos.ajustar')}}" method="get"> 
+              <div class="form-group col-md-3">
+                <input class="form-control" type="text" name="id_producto" id="id_producto" placeholder="Producto">
+              </div>
+              <div class="form-group col-md-3">
+                <select class="form-control" id="id_proveedor" name="id_proveedor" ">
+                  <option value="">Proveedor</option>
+                  @foreach($proveedores as $proveedor)
+                  <option value="{{$proveedor->id}}">{{$proveedor->nombres}}</option>
+                  @endforeach
+                </select>
+              </div>
+              
+              <div class="col-md-1 mr-md-5">
+                <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
+              </div>
+            </form>
+          </div>
+        </div>
+   
      
           <div class="table-responsive">
             <table class="table table-hover " id="sampleTable">
@@ -29,19 +50,26 @@
                 <tr>
                   <th>#</th>
                   <th>Código</th>
-                  <th>Producto</th>
-                  <th>Nombre Original</th>
+                  <th>Descripcion(Interna)</th>
+                  <th>Nombre(Según Proveedor)</th>
                   <th class="text-center">Precio Ideal</th>
                   <th class="text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
+                <?php $producto=""; ?>
                 @foreach($productos as $ficha)
+                   
+                 @if(!empty($ficha->producto))
+                   @php $producto = $ficha->producto; @endphp
+                 @endif
+                      
+                 
                 <tr >
                   <td class="" >{{$ficha->id}}</td>
                   <td>{{$ficha->codigo_producto}}</td>
                   <td width="40%"><input type="text" class="form-control" name="descripcion[]" value="{{$ficha->descripcion}}"></td>
-                   <td width="40%"><input type="text" class="form-control" name="descripcion[]" value="{{$ficha->nombre_original}}"></td>
+                   <td width="40%"><input type="text" class="form-control" name="descripcion[]" value="{{$producto}}"></td>
                   <td width="30%"><input type="text" class="form-control text-right" name="descripcion[]" value="{{$ficha->precio_ideal}}"></td>
                   <td class="text-center">
                     <div class="btn-group">
@@ -55,7 +83,7 @@
           </div>
            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
                     
-                    {{$productos->appends(Request::only(['id_categoria' , 'valor', 'id_subcategoria']))->links()}}
+                    {{$productos->appends(Request::only(['id_proveedor' , 'id_producto']))->links()}}
               </div>
         </div>
     </div>
