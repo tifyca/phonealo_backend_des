@@ -32,7 +32,7 @@ class Montos_deliveryController extends Controller
                   return response()->json(view('Configurar.Delivery.lista',compact('Montos_delivery'))->render());
               }
           
-            return view('Configurar.Delivery.index')->with('Montos_delivery',$Montos_delivery);
+            return view('Configurar.Delivery.index')->with('montos_delivery',$Montos_delivery);
 
     }
 
