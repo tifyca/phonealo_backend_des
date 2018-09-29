@@ -170,14 +170,14 @@
               <h3 class="tile-title text-center text-md-left">Listado</h3>
             </div>
             <div class="form-group col-md-2">
-              <input class="form-control" type="date" id="" name="" >
+              <input class="form-control fecha" type="date" id="fecha" name="fecha" >
             </div>
             <div class="form-group col-md-2">
               <input class="form-control" type="date" id="" name="" placeholder="ldhd">
             </div>
             <div class="form-group col-md-2">
               <!-- CIUDADES-->
-              <select class="form-control read filtrar" id="ciudad" name="ciudad">
+              <select class="form-control read ciudad" id="ciudad" name="id_ciudad">
                 <option value="">Ciudad</option>
                   @foreach($ciudades as $ciudad)
                     <option value="{{$ciudad->id}}" 
@@ -190,7 +190,7 @@
             </div>
              <div class="form-group col-md-2">
               <!-- HORARIOS-->
-              <select class="form-control read filtrar" id="id_horario" name="id_horario">
+              <select class="form-control read horario" id="horario" name="id_horario">
                 <option value="">Horarios</option>
                   @foreach($horarios as $horario)
                     <option value="{{$horario->id}}" 
@@ -232,7 +232,7 @@
                   <!-- esta es la hora actual supongo que esta ajustada al pais-->
                   {{-- date("H:i") --}}
                   @foreach($activas as $activa)
-                   <tr 
+                   <tr  
                     @if(date("H:i") > "09:00" || date("H:i") > "11:59")
                       class="table-danger"
                     @elseif(date("H:i") > "12:00" || date("H:i") > "14:59")
@@ -304,12 +304,27 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Productos</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Detalle de Venta</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Venta</th>
+                <th>Cliente</th>
+                <th>Telefono</th>
+                <th>Direccion</th>
+              </tr>
+            </thead>
+            <tbody id="cliente_detalle">
+              
+            </tbody>
+          </table>
+        </div>
         <div class="table-responsive">
           <table class="table">
             <thead>
@@ -370,7 +385,7 @@
   $('.detalle').click(function(){
 
     var id = $(this).val();  //CAPTURA EL ID
-
+    $('#cliente_detalle').html(''); //LIMPIA EL MODAL
     $('#productos_detalle').html(''); //LIMPIA EL MODAL
 
     $('#ModalProductos').modal('show'); //ABRE EL MODAL
@@ -383,7 +398,13 @@
         data: { id:id, _token: '{{csrf_token()}}'},
 
         success: function (data){
-
+          console.log(data);
+          $("#cliente_detalle").append(`<tr>
+                                          <th>${data[0].id}</th>
+                                          <th>${data[0].nombres}</th>
+                                          <th>${data[0].telefono}</th>
+                                          <th>${data[0].direccion}</th>
+                                      </tr>`);
           //CICLO DE LOS DATOS RECIBIDOS
           $.each(data, function(l, item) {
 
@@ -437,7 +458,6 @@
 
   $('.factura').click(function(){
 
-    
       var id = $(this).val();  //CAPTURA EL ID  
   
       $.ajax({
@@ -452,18 +472,41 @@
         }
 
     });
-
-
-});
+  });
 
   //<!-- Filtros -->
-  $('.filtrar').onchange(function(){
-    
-    var id = $(this).val();  //CAPTURA EL ID  
-    console.log(id);
+  $('.ciudad').change(function(){
 
-    //location.reload(true);
+      var id = $(this).val();  //CAPTURA EL ID
+      console.log(id);
+      $.ajax({
+        type: "GET",
+        url: '{{ url('filtro_ciudad') }}',
+        dataType: "json",
+        data: { id:id, _token: '{{csrf_token()}}'},
+        success: function (data){
+          console.log(data);
+              
+        }
+      });
   });
+
+  $('.horario').change(function(){
+
+      var id = $(this).val();  //CAPTURA EL ID
+      console.log(id);
+      $.ajax({
+        type: "GET",
+        url: '{{ url('filtro_horario') }}',
+        dataType: "json",
+        data: { id:id, _token: '{{csrf_token()}}'},
+        success: function (data){
+          console.log(data);
+              
+        }
+      });
+  });
+ 
 
 
 </script>

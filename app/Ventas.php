@@ -12,7 +12,7 @@ class Ventas extends Model
     protected $table = 'ventas';
     protected $fillable = ['id','status','status_v'];
 
-    public function scopeActivas($query, $fecha)
+    public function scopeActivas($query)
     {
         return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
             ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
@@ -21,7 +21,6 @@ class Ventas extends Model
             ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
                 ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
                 ->where('ventas.id_estado', '=', '1')
-                ->where('ventas.fecha', '=', $fecha)
                 ->orderby('horarios.horario', 'desc')
             ->get();
     }
@@ -34,7 +33,7 @@ class Ventas extends Model
             ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
             ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
                 ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
-                ->where('ventas.id_estado', '=', '5')
+                ->where('ventas.id_estado', '=', '5')              
                 ->orderby('horarios.horario', 'desc')
             ->get();
     }
@@ -70,10 +69,36 @@ class Ventas extends Model
     public function scopeDetalle($query, $id_venta)
     {
         return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
             ->leftjoin('detalle_pedidos', 'pedidos.id', '=', 'detalle_pedidos.id_pedido')
             ->join('productos', 'detalle_pedidos.id_producto', '=', 'productos.id')
-            ->select('productos.codigo_producto', 'productos.descripcion', 'detalle_pedidos.cantidad', 'detalle_pedidos.precio')
+            ->select('ventas.id', 'clientes.nombres', 'clientes.telefono','clientes.email', 'clientes.ruc_ci','clientes.direccion', 'productos.codigo_producto', 'productos.descripcion', 'detalle_pedidos.cantidad', 'detalle_pedidos.precio')
             ->where('ventas.id', '=', $id_venta)
+            ->get();
+    }
+
+    public function scopeFiltroCiudad($query, $id_ciudad)
+    {
+        return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
+                ->where('ventas.id_estado', '=', '1')
+                ->where('ciudades.id', '=', $id_ciudad)
+            ->get();
+    }
+    public function scopeFiltroHorario($query, $id_horario)
+    {
+        return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
+                ->where('ventas.id_estado', '=', '1')
+                ->where('horarios.id', '=', $id_horario)
             ->get();
     }
 }
