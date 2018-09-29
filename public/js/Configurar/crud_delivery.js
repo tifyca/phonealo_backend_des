@@ -1,4 +1,4 @@
-var url = "categorias";
+var url = "montos_delivery";
 
   $.ajaxSetup({
         headers: {
@@ -6,10 +6,10 @@ var url = "categorias";
         }
     });
 
-// muestra el formulario modal para la edición del categoria
+// muestra el formulario modal para la edición del monto
 $(document).on('click', '.open_modal', function () {
-    var categoria_id = $(this).val();
-    $.get(url + '/edit/' + categoria_id, function(data){
+    var monto_id = $(this).val();
+    $.get(url + '/edit/' + monto_id, function(data){
           $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -18,7 +18,7 @@ $(document).on('click', '.open_modal', function () {
         //success data
         console.log(data);
         $('#id').val(data.id);
-        $('#monto').val(data.categoria);
+        $('#monto').val(data.monto);
         
 
         $('#myModal').modal('show');
@@ -26,18 +26,18 @@ $(document).on('click', '.open_modal', function () {
     
 });
 
-// muestra modal para la confirmar eliminar   categoria
+// muestra modal para la confirmar eliminar   monto
 $(document).on('click', '.confirm-delete', function () {
-    var categoria_id = $(this).val();
+    var monto_id = $(this).val();
     $('#confirm-delete').modal('show');
-    $('#categoria-id').val(categoria_id);
+    $('#monto-id').val(monto_id);
 });
 
 
-// eliminar el categoria y eliminarlo de la lista
-$(document).on('click', '.delete-categoria', function () {
+// eliminar el monto y eliminarlo de la lista
+$(document).on('click', '.delete-monto', function () {
 
-    var categoria_id = $('#categoria-id').val();
+    var monto_id = $('#monto-id').val();
 
     $.ajaxSetup({
         headers: {
@@ -46,11 +46,11 @@ $(document).on('click', '.delete-categoria', function () {
     });
     $.ajax({
         type: "DELETE",
-        url: url + '/' + categoria_id,
+        url: url + '/' + monto_id,
          headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
-            $("#categoria" + categoria_id).remove();
+            $("#monto" + monto_id).remove();
             $('#confirm-delete').modal('hide');
             $("#res").html("Categoría Eliminada con Éxito");
             $("#res, #res-content").css("display","block");
@@ -65,7 +65,7 @@ $(document).on('click', '.delete-categoria', function () {
         }
     });
 });
-// crear nuevo categoria
+// crear nuevo monto
 $("#btn-save").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -75,10 +75,7 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
-        nombre: $('#nombreCategoria').val(),
-        tipo: $('#tipoCategoria').val(),
-        status: $('input:radio[name=statusCategoria]:checked').val(),
-        proveedor: $('input:radio[name=proveedor]:checked').val(),
+        monto: $('#monto').val(),
         id_usuario: $('#id_usuario').val(),
     }
     
@@ -91,15 +88,14 @@ $("#btn-save").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
-            var act='Activo';
-            var ina='Inactivo';
-            var categoria = '<tr id="categoria' + data.id + '"><td width="30%">' + data.categoria + '</td><td width="30%">' + data.tipo + '</td>'+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
-            categoria += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            categoria += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
-            $('#categorias-list').append(categoria);
+            var monto = '<tr id="monto' + data.id + '"><td width="30%">' + data.monto + '</td><td width="30%">';
+            monto += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            monto += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+          
+            $('#montos-list').append(monto);
             $('#frmc').trigger("reset");
-            $("#res").html("Categoría Registrada con Éxito");
+            $("#res").html("Monto Registrado con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
@@ -125,7 +121,7 @@ $("#btn-save").click(function (e) {
 });
 
 
-////actualiza categoria
+////actualiza monto
 $("#btn-save-edit").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -134,15 +130,12 @@ $("#btn-save-edit").click(function (e) {
     });
 
     e.preventDefault();
-        var categoria_id = $('#categoria_id').val();
-        var formData = { nombre: $('#nombre').val(),  
-                         tipo: $('#tipo').val(), 
-                         status: $('input:radio[name=status]:checked').val(), 
-                         proveedor: $('input:radio[name=zproveedor]:checked').val(), 
+        var monto_id = $('#monto_id').val();
+        var formData = { monto: $('#monto').val(),  
                          id_usuario: $('#id_usuario').val(), 
                        }
         var my_url = url;
-        my_url += '/mod/'+ categoria_id;
+        my_url += '/mod/'+ monto_id;
    
     console.log(formData);
     $.ajax({
@@ -152,12 +145,10 @@ $("#btn-save-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            var act='Activo';
-            var ina='Inactivo';
-            var categoria = '<tr id="categoria' + data.id + '"><td width="30%">' + data.categoria + '</td><td width="30%">' + data.tipo + '</td>'+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
-            categoria += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            categoria += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-           $("#categoria" + categoria_id).replaceWith(categoria);
+            var monto = '<tr id="monto' + data.id + '"><td width="30%">' + data.monto + '</td>';
+            monto += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            monto += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+           $("#monto" + monto_id).replaceWith(monto);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
             $("#res").html("Categoría Modificada con Éxito");
@@ -210,18 +201,18 @@ $(document).on('click','.pagination a',function(e){
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
 //console.log(page);
-    var route ="categorias";
+    var route ="montos_delivery";
     $.ajax({
         url: route,
         data: {page: page,
-               categorias: $('#buscarcategoria').val(),
+               montos: $('#buscarmonto').val(),
                status: $('#selectstatus').val(), 
                tipo: $('#selecttipo').val(),
                proveedor: $('#selectproveedor').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            $(".categorias").html(data);
+            $(".montos").html(data);
         }
     });
 });
@@ -229,10 +220,10 @@ $(document).on('click','.pagination a',function(e){
 $(document).on('click','#btnBuscar',function(e){
    
 
-    var route ="categorias";
+    var route ="montos";
     $.ajax({
         url: route,
-        data: {categorias: $('#buscarcategoria').val(),
+        data: {montos: $('#buscarmonto').val(),
                status: $('#selectstatus').val(), 
                tipo: $('#selecttipo').val(),
                proveedor: $('#selectproveedor').val()},
@@ -240,7 +231,7 @@ $(document).on('click','#btnBuscar',function(e){
         dataType: 'json',
         success: function(data){
           
-            $("#divcategorias").html(data);
+            $("#divmontos").html(data);
 
         }
     });
@@ -249,13 +240,13 @@ $(document).on('click','#btnBuscar',function(e){
 $(document).on('click','.save',function(e){
     e.preventDefault();
 
-   var route ="categorias";
+   var route ="montos";
     $.ajax({
         url: route,
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            $(".categorias").html(data);
+            $(".montos").html(data);
         }
     });
 });

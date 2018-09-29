@@ -19,7 +19,7 @@
 </div>
 @endif      
 
-<input type="hidden" name="tipom" id="tipom" value="<?php echo $tipo ?>">
+<input type="hidden" name="tipom" id="tipom" value="{{$tipo}}">
 <input type="hidden" name="mensaje" id="mensaje" value="{{$mensaje}}">  
 
 <div class="row">
@@ -216,8 +216,8 @@ function load(){
             $("#rese, #res-content").css("display","block");
             $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
   }
-  $("#tipom").val("");
-  $("#mensaje").val("");
+  $("#tipom").val(" ");
+  $("#mensaje").val(" ");
 } 
 
 
@@ -272,7 +272,9 @@ $(document).on('click', '.delete-solicitud', function () {
         }
 
         });
-
+      $("#mensaje").val(" ");
+      $('#tipom').val(" ");  
+      location.reload(true);
 
 });
 

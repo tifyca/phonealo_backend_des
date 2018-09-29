@@ -57,6 +57,10 @@
                   <label for="precio_ideal_producto">Precio Ideal</label>
                   <input class="form-control" type="text" id="precio_ideal" name="precio_ideal" placeholder="...">
                 </div>
+                 <div class="form-group col-md-3">
+                  <label for="precio_ideal_producto">Nombre Original</label>
+                  <input class="form-control" type="text" id="nombre_original" name="nombre_original" placeholder="...">
+                </div>
                 <div class="form-group col-12">
                   <label for="descripcion_producto">Descripción</label>
                   <textarea class="form-control" id="descripcion_producto" name="descripcion_producto" rows="8"></textarea>

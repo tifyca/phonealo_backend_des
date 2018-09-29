@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Inventario;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Proveedores;
+use App\productos_proveedor;
 use App\solped;
 use App\detallesolped;
 use App\auxiliar;
@@ -380,8 +381,11 @@ public function carga(Request $request)
 
   public function pdf($id)
   {
-    $solped=solped::where('id',$id)->get();
-    $proveedores = proveedores::where('id_estado','1')->get();
+    $solped = solped::where('id',$id)->get();
+    $zsolped = solped::where('id',$id)->first();
+    $idproveedor = $zsolped->id_proveedor;
+    $proveedor         = proveedores::where('id',$idproveedor)->where('id_estado','1')->first();
+    $productos_proveedor = productos_proveedor::where('id_proveedor',$idproveedor)->get();
     $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.id as idproducto','b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad','a.nombre_fiscal','a.pagado','a.cantidad_confirmada','a.precio_confirmado','a.nfactura')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
         //$detallesolped = detallesolped::where('id_solped',$id)->get();
     $deta= db::table('detalle_solped as a')->
@@ -389,7 +393,7 @@ public function carga(Request $request)
     ->select(DB::raw('count(b.id) as cantidad'))->where('a.id_solped',$id)->orderby('a.id','asc')->first();
 
     $cantidad = $deta->cantidad;  
-    $pdf = PDF::loadView('pdf.solped',compact('solped','proveedores','detallesolped'));
+    $pdf = PDF::loadView('pdf.solped',compact('solped','proveedor','detallesolped','productos_proveedor'));
     $namefile = "solped".$id.".pdf";
     return $pdf->download($namefile);
   }

@@ -34,8 +34,18 @@
 
     <li><a class="treeview-item {{ Request::is('registro/clientes*') ? 'active' : '' }}" href="{{ route('clientes.index') }}"><i class="icon fa fa-circle-o"></i>Clientes</a></li>
     <li><a class="treeview-item {{ Request::is('registro/proveedores*') ? 'active' : '' }}" href="{{ route('proveedores.index') }}"><i class="icon fa fa-circle-o"></i>Proveedores</a></li>
-    <li><a class="treeview-item {{ Request::is('registro/productos*') ? 'active' : '' }}" href="{{ route('productos.index') }}"><i class="icon fa fa-circle-o"></i>Productos</a></li>
     <li><a class="treeview-item {{ Request::is('registro/empleados*') ? 'active' : '' }}" href="{{ route('empleados.index') }}"><i class="icon fa fa-circle-o"></i>Empleados</a></li>
+
+    <li>
+      <a class="treeview-item {{ Request::is('registro/productos') ? 'active' : '' }}" href="{{ route('productos.index') }}">  <i class="icon fa fa-circle-o"></i>
+        Productos
+      </a>
+      <ul class="treeview-menu pl-3" >
+        <li><a class="treeview-item {{ Request::is('registro/productos/ajustar') ? 'active' : '' }}" href="{{ route('productos.ajustar') }}"><i class="icon fa fa-circle-o"></i>Modificación en Masa</a></li>
+      </ul>
+    </li>
+
+
   </ul>
 </li>
 

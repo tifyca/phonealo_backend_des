@@ -61,8 +61,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('configurar/montos_delivery/{id?}','Configurar\Montos_deliveryController@destroy');
 
 
-
-
     Route::resource('configurar/subcategorias', 'Configurar\SubcategoriasController');
     Route::get('configurar/subcategorias/edit/{subcategoria_id?}','Configurar\SubcategoriasController@editar');
     Route::post('configurar/subcategorias','Configurar\SubcategoriasController@store');
@@ -146,8 +144,16 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::resource('registro/productos', 'Registro\ProductosController');
-
+   Route::get('registro/productos/ajustar','Registro\ProductosController@modificar')->name("productos.ajustar");
    
+   Route::get('productos/cambiar_nombres','Registro\ProductosController@cambiar_nombres')->name("productos/cambiar_nombres");
+   
+   Route::get('productos/cambiar_precio','Registro\ProductosController@cambiar_precio')->name("productos/cambiar_precio");
+   Route::get('productos/proveedor/crear','Registro\ProductosController@crear')->name("productos/proveedor/crear");
+
+  Route::post('productos/almacenar','Registro\ProductosController@almacenar')->name("productos.almacenar");
+   Route::get('registro/productos/proveedor','Registro\ProveedoresController@proveedor')->name("productos.proveedor");
+  
     Route::get('registro/productos/detalle/{valor}', [
         'uses' => 'Registro\ProductosController@detalle',
         'as'   => 'productos.detalle'
