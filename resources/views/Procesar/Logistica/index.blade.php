@@ -223,7 +223,7 @@
                     <th>Acciones</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="ventaActiva">
                   <!-- jgonzalez LISTADO DE VENTAS ACTIVAS-->
                   <?php 
                     $total = 0;
@@ -232,19 +232,19 @@
                   <!-- esta es la hora actual supongo que esta ajustada al pais-->
                   {{-- date("H:i") --}}
                   @foreach($activas as $activa)
-                   <tr  
+                   <tr   
                     @if(date("H:i") > "09:00" || date("H:i") > "11:59")
-                      class="table-danger"
+                      class="table-danger respFiltro"
                     @elseif(date("H:i") > "12:00" || date("H:i") > "14:59")
-                      class="table-danger"
+                      class="table-danger respFiltro"
                     @elseif(date("H:i") > "15:00" || date("H:i") > "17:59")
-                      class="table-danger" 
+                      class="table-danger respFiltro" 
                     @elseif(date("H:i") > "18:00:00" || date("H:i") > "20:59:59")
-                      class="table-danger"
+                      class="table-danger respFiltro"
                     @elseif(date("H:i") > "21:00:00")
-                      class="table-danger" 
+                      class="table-danger respFiltro" 
                     @else
-                      class="table-active"
+                      class="table-active respFiltro"
                    @endif
                    >
                       <td>{{$activa->id}}</td>
@@ -477,6 +477,12 @@
   //<!-- Filtros -->
   $('.ciudad').change(function(){
 
+      var nfilas= document.getElementById("ventaActiva").rows.length;
+      console.log(nfilas);
+      
+      $('.respFiltro').addClass('d-none');
+
+      //$('#respFiltro').addClass('d-none');
       var id = $(this).val();  //CAPTURA EL ID
       console.log(id);
       $.ajax({
