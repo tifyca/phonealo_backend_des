@@ -36,7 +36,7 @@
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
-  <body class="app sidebar-mini rtl">
+  <body class="app sidebar-mini rtl" >
     <!-- Navbar-->
     <header class="app-header"><a class="app-header__logo" href="{{ route('home') }}">ERPG</a>
       <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>

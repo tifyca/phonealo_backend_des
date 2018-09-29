@@ -27,10 +27,17 @@
              
               <div class="form-group col-6">
                 <label class="control-label">Repartidores</label>
-                <select name="" class="form-control" >
-                  <option value="">Seleccione</option>
-                  <option value="">Repartidores</option>
-                </select>
+                <!-- REPARTIDORES-->
+              <select class="form-control read" id="id_empleado" name="id_empleado">
+                <option value="">Repartidor</option>
+                  @foreach($repartidores as $repartidor)
+                    <option value="{{$repartidor->id}}" 
+                      @if($repartidor->id==0) 
+                        selected=""
+                      @endif>
+                    {{$repartidor->nombres}}</option>
+                  @endforeach
+              </select>
               </div>
               <div class="tile-footer col-12 col-md-2 text-center border-0" >
                 <button class="btn btn-primary save"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Guardar</button>
@@ -59,27 +66,40 @@
                     <th>Horario</th>
                     <th>Forma Pago</th>
                     <th>Importe</th>
-                   
                   </tr>
                 </thead>
                 <tbody>
 
-                  <tr >
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Fecha</td>
-                    <td>Fecha Activo</td>
-                    <td>Ciudad</td>
-                    <td>Horario</td>
-                    <td>Forma Pago</td>
-                    <td>Importe</td>
-                    
-                  </tr>
-                  <tr class="table-active">
-                    <td colspan="9" class="text-right"><h4>Total de la Remisa:</h4></td>
-                    <td><h4>000000</h4></td>
+                   <!-- jgonzalez LISTADO DE VENTAS ACTIVAS-->
+                  <?php 
+                    $total = 0;
+                  ?>
+                  @foreach($remisas as $remisa)
+                   <tr>
+                      <td>{{$remisa->id}}</td>
+                      <td>{{$remisa->nombres}}</td>
+                      <td>{{$remisa->telefono}}</td>
+                      <td>{{$remisa->direccion}}</td>
+                      <td>{{$remisa->fecha}}</td>
+                      <td>{{$remisa->fecha_activo}}</td>
+                      <td>{{$remisa->ciudad}}</td>
+                      <td>{{$remisa->horario}}</td>
+                      <td>{{$remisa->forma_pago}}</td>
+                      <td>{{$remisa->importe}}</td>
+                    </tr>
+                    <?php 
+                      $total += $remisa->importe;
+                    ?>
+                  @endforeach
+                    <tr>
+                    <td colspan="9" class="text-right">
+                      <h4>Total:</h4>
+                    </td>
+                    <td colspan="1">
+                      <h4>
+                        {{ $total }}
+                      </h4>
+                    </td>
                   </tr>
           
                 </tbody>

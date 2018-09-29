@@ -31,7 +31,7 @@ if(isset($_SESSION["user"]))
           <div class="row">
            <div class="form-group col-12  col-md-4">
             <label class="control-label">Monto</label>
-            <input class="form-control" type="text" placeholder="..." id="nombreCategoria" name="nombreCategoria" onkeypress="return solonumeros(event)" oncopy="return false" onpaste="return false"  maxlength="50">
+            <input class="form-control" type="number" placeholder="..." id="monto" name="monto" oncopy="return false" onpaste="return false"  maxlength="50">
           </div>
                        
       
@@ -87,12 +87,12 @@ if(isset($_SESSION["user"]))
      <h4 class="modal-title" id="myModalLabel">Editar Montos Delivery</h4>
    </div>
    <div class="modal-body">
-    <form id="frmcategorias" name="frmcategorias" class="form-horizontal" novalidate="">
+    <form id="frmmontos" name="frmmontos" class="form-horizontal" novalidate="">
 
      <div class="row">
       <div class="form-group col-12  col-md-8">
-        <label class="control-label">Nombre</label>
-        <input class="form-control" type="text" placeholder="..." id="nombre" name="nombre" onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false"  maxlength="50">
+        <label class="control-label">Monto</label>
+        <input class="form-control" type="number" placeholder="..." id="monto" name="monto" oncopy="return false" onpaste="return false"  maxlength="50">
       </div>
 
 
@@ -102,7 +102,7 @@ if(isset($_SESSION["user"]))
 <div class="modal-footer">
   <button type="button" class="btn btn-primary" id="btn-save-edit" value="update">Guardar</button>
   <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
-  <input type="hidden" id="categoria_id" name="Categoria_id" value="0">
+  <input type="hidden" id="monto_id" name="monto_id" value="0">
   <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
 </div>
 
@@ -129,8 +129,8 @@ if(isset($_SESSION["user"]))
       </form> 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"></span>No</button>
-        <button type="button" class="btn btn-danger delete-categoria" >Si</button>
-        <input type="hidden" id="categoria-id" name="categoria-id" value="0">
+        <button type="button" class="btn btn-danger delete-monto" >Si</button>
+        <input type="hidden" id="monto-id" name="monto-id" value="0">
       </div>
     </div>
   </div>

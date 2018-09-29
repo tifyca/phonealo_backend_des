@@ -28,7 +28,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cargos', 'Ajax\Configurar@cargos')->name('cargos_ajax');
     Route::get('detalle_venta', 'Ajax\Logistica@detalle_venta')->name('detalle_venta');
     Route::get('agregar_remisa', 'Ajax\Logistica@agregar_remisa')->name('agregar_remisa');
-
+    Route::get('quitar_remisa', 'Ajax\Logistica@quitar_remisa')->name('quitar_remisa');
+    Route::get('num_factura', 'Ajax\Logistica@agregar_remisa')->name('num_factura');
 
     
 
@@ -58,8 +59,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('configurar/montos_delivery','Configurar\Montos_deliveryController@store');
     Route::put('configurar/montos_delivery/mod/{id?}','Configurar\Montos_deliveryController@update');
     Route::delete('configurar/montos_delivery/{id?}','Configurar\Montos_deliveryController@destroy');
-
-
 
 
     Route::resource('configurar/subcategorias', 'Configurar\SubcategoriasController');
@@ -145,8 +144,16 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::resource('registro/productos', 'Registro\ProductosController');
-
+   Route::get('registro/productos/ajustar','Registro\ProductosController@modificar')->name("productos.ajustar");
    
+   Route::get('productos/cambiar_nombres','Registro\ProductosController@cambiar_nombres')->name("productos/cambiar_nombres");
+   
+   Route::get('productos/cambiar_precio','Registro\ProductosController@cambiar_precio')->name("productos/cambiar_precio");
+   Route::get('productos/proveedor/crear','Registro\ProductosController@crear')->name("productos/proveedor/crear");
+
+  Route::post('productos/almacenar','Registro\ProductosController@almacenar')->name("productos.almacenar");
+   Route::get('registro/productos/proveedor','Registro\ProveedoresController@proveedor')->name("productos.proveedor");
+  
     Route::get('registro/productos/detalle/{valor}', [
         'uses' => 'Registro\ProductosController@detalle',
         'as'   => 'productos.detalle'
@@ -283,6 +290,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
     Route::get('procesar/logistica/remisa', 'Procesar\LogisticaController@remisa')->name('logistica.remisa');
+    Route::get('procesar/logistica/factura', 'Procesar\LogisticaController@factura')->name('logistica.factura');
+
 
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');

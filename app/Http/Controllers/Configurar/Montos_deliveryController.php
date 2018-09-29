@@ -35,12 +35,14 @@ class Montos_deliveryController extends Controller
 
     }
 
- 
+    public function show(Request $request){
+    	dd($request);
+    }
 
     public function store(Request $request){  
-
+       dd($request);
        $data=$request->all();
-
+      
        $rules = array( 'monto'=>'required|unique:Montos_delivery'); 
        $messages = array( 'monto.required'=>'Monto es requerido');
 
@@ -55,11 +57,8 @@ class Montos_deliveryController extends Controller
          }elseif ($validator->passes()){ 
 
             $monto= new Montos_delivery;
-            $montos->montos= ucwords(strtolower($request->nombre));
-            $montos->tipo     = $request->tipo;
-            $montos->status   = $request->status;
+            $montos->monto    = $request->monto;
             $montos->id_usuario=$request->id_usuario;
-            $montos->proveedor =$request->proveedor;
             $montos->save();
             return response()->json($montos);
         }  
@@ -89,7 +88,6 @@ class Montos_deliveryController extends Controller
          }elseif ($validator->passes()){ 
 
         $montos = Montos_delivery::find($montos_id);
-        //$montos->montos = ucwords(strtolower($request->nombre));
         $montos->monto     = $request->monto;
         $montos->id_usuario=$request->id_usuario;
         $montos->save();

@@ -64,19 +64,25 @@
                   <label for="precio_minimo_producto">Precio Mínimo</label>
                   <input class="form-control read" id="precio_minimo" name="precio_minimo" type="text" value="{{$productos->precio_minimo}}" readonly>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                   <label for="precio_ideal_producto">Precio Ideal</label>
                   <input class="form-control read" type="text" id="precio_ideal" name="precio_ideal" value="{{$productos->precio_ideal}}" readonly>
                 </div>
+                 <div class="form-group col-4">
+                  <label for="descripcion_producto">Nombre Original</label>
+                  <input type="text" class="form-control read" id="nombre_original" name="nombre_original" value="{{$productos->nombre_original}}" disabled>
+                </div>
+
                 <div class="form-group col-12">
                   <label for="descripcion_producto">Descripción</label>
                   <textarea class="form-control read" id="descripcion_producto" name="descripcion_producto" rows="8" disabled>{{$productos->descripcion_producto}}</textarea>
                 </div>
+               
               </div>
             </div>
             <div class="col-md-4">
-              <div class="row">
-                <label for="imagen_producto">Imagen del Producto</label>
+              <div class="row ">
+                <label for="imagen_producto" >Imagen del Producto</label>
                 <div class="form-group col-12 text-center mt-3">
                   <?php $url=$productos->img;
                        if($url)
@@ -131,7 +137,7 @@
 
       $('.read').prop('readonly', false);
       $('.read').prop('disabled', false);
-
+      
     }
     else{
       $('.read').prop('readonly', true);
