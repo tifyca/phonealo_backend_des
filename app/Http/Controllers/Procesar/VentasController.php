@@ -273,7 +273,7 @@ class VentasController extends Controller
           	$venta->fecha     = $request->fecha_venta;
           	$venta->status_v  = $id_estado_v;
           	$venta->importe   = $request->importe;
-          	$venta->forma_pago= $request->forma_pago;
+          	$venta->id_forma_pago= $request->forma_pago;
           	$venta->factura   = $request->factura;
           	$venta->id_horario= $request->horario_venta;
             $venta->fecha_activo   = $request->fecha_activo;
