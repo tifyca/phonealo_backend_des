@@ -9,7 +9,7 @@ use App\Categorias;
 use App\Subcategorias;
 use App\productos_proveedor;
 use App\auditoria;
-use App\proveedores;
+use App\Proveedores;
 use DB;
 use File;
 @session_start();
@@ -137,7 +137,7 @@ public function create()
 
 }
 public function show(Request $request){
-   $proveedores = proveedores::orderby('nombres')->where('id_estado',1)->get();
+   $proveedores = Proveedores::orderby('nombres')->where('id_estado',1)->get();
    $idproveedor = $request->id_proveedor;
    $valor       = $request->id_producto;
    if($idproveedor!="" && $valor==''){
@@ -215,7 +215,7 @@ public function detalle($id){
 }
 
 public function modificar(Request $request){
- $proveedores = proveedores::orderby('nombres')->where('id_estado',1)->get();
+ $proveedores = Proveedores::orderby('nombres')->where('id_estado',1)->get();
  $productos=productos::orderby('id')->paginate(20);
  return view('Registro.Productos.mod')->with('productos',$productos)->with('proveedores',$proveedores);
 }	
@@ -249,7 +249,7 @@ public function cambiar_precio(Request $request){
 
 public function crear()
 {
-  $proveedores = proveedores::where('id_estado','1')->get();
+  $proveedores = Proveedores::where('id_estado','1')->get();
   return view('Registro.Productos.proveedor')->with('proveedores',$proveedores);
 }
 
@@ -273,7 +273,7 @@ public function almacenar(Request $request)
       $tipo="1";
 
     }
-    $proveedores = proveedores::orderby('nombres')->where('id_estado',1)->get();
+    $proveedores = Proveedores::orderby('nombres')->where('id_estado',1)->get();
      $idproveedor = $request->id_proveedor;
      $valor       = $request->id_producto;
      if($idproveedor!="" && $valor==''){
