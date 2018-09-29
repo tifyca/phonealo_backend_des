@@ -63,16 +63,23 @@
                         <div class="btn-group">
                          
                         <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalFactura" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
+                        
+                        @if($remisa->factura==2 || $remisa->factura==3) 
+                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $remisa->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
+                        @else
+                         <button class="btn btn-primary disabled-btn factura" data-toggle="modal" data-target="#ModalFactura" id="factura" value="{{ $remisa->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
+                        @endif  
+
                         <button data-toggle="tooltip" data-placement="top" title="noremisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
                         <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
                         </div>
                       </td>
                   </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
-            @endforeach
+            
       </div>
     </div>
   </div>
@@ -170,7 +177,7 @@
             </div>
             <div class="form-group col-md-2">
               <!-- CIUDADES-->
-              <select class="form-control read" id="ciudad" name="ciudad">
+              <select class="form-control read filtrar" id="ciudad" name="ciudad">
                 <option value="">Ciudad</option>
                   @foreach($ciudades as $ciudad)
                     <option value="{{$ciudad->id}}" 
@@ -183,7 +190,7 @@
             </div>
              <div class="form-group col-md-2">
               <!-- HORARIOS-->
-              <select class="form-control read" id="id_horario" name="id_horario">
+              <select class="form-control read filtrar" id="id_horario" name="id_horario">
                 <option value="">Horarios</option>
                   @foreach($horarios as $horario)
                     <option value="{{$horario->id}}" 
@@ -223,7 +230,7 @@
                   ?>
 
                   <!-- esta es la hora actual supongo que esta ajustada al pais-->
-                  {{ date("H:i") }}
+                  {{-- date("H:i") --}}
                   @foreach($activas as $activa)
                    <tr 
                     @if(date("H:i") > "09:00" || date("H:i") > "11:59")
@@ -448,6 +455,15 @@
 
 
 });
+
+  //<!-- Filtros -->
+  $('.filtrar').onchange(function(){
+    
+    var id = $(this).val();  //CAPTURA EL ID  
+    console.log(id);
+
+    //location.reload(true);
+  });
 
 
 </script>
