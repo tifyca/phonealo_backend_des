@@ -16,10 +16,10 @@ class LogisticaController extends Controller
     	#jgonzalez 2018/09/27 
         $fecha = date("Y-m-d");
         $hora = date("H:i:s");
-        #
-    	$activas = Ventas::Activas()->where('fecha', '=', $fecha);
-        $enEsperas = Ventas::EnEspera()->where('fecha', '=', $fecha);
-        $remisas = Ventas::Remisas()->where('fecha', '=', $fecha);
+        #dd($fecha);
+    	$activas = Ventas::Activas($fecha);
+        $enEsperas = Ventas::EnEspera();
+        $remisas = Ventas::Remisas();
         $ciudades = Ciudades::get();
     	$horarios = Horarios::get();
     	return view('Procesar.Logistica.index', compact('activas','enEsperas','remisas', 'ciudades', 'horarios'));
