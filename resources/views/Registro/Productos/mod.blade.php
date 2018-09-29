@@ -6,7 +6,7 @@
 
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
-@section('display_new','d-none')  @section('link_new', '' ) 
+@section('display_new','')  @section('link_new', url('productos/proveedor/crear') )  
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
 
@@ -17,6 +17,17 @@
                            {{ Session::get('message') }} 
                           </div>
                       @endif   
+<?php
+  if(isset($tipo)) $tip=$tipo;
+  else $tip="";
+
+  if(isset($mensaje)) $men=$mensaje;
+  else $men="";
+
+?>
+<input type="hidden" name="tipom" id="tipom" value="{{$tip}}">
+<input type="hidden" name="mensaje" id="mensaje" value="{{$men}}">  
+
 <div class="row">
     <div class="col-12">
     <div class="tile">
@@ -41,11 +52,16 @@
                 <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
               </div>
             </form>
+            <br>
+
           </div>
         </div>
    
      
           <div class="table-responsive">
+
+            <p class="text-right"><small>Presione Enter para Guardar Cambios</small></p>
+       
             <table class="table table-hover " id="sampleTable">
               <thead>
                 <tr>
@@ -54,7 +70,6 @@
                   <th>Descripcion(Interna)</th>
                   <th>Nombre(Según Proveedor)</th>
                   <th class="text-center">Precio Ideal</th>
-                  <th class="text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -67,16 +82,11 @@
                       
                  
                 <tr >
-                  <td class="" >{{$ficha->id}}</td>
+                  <td class="" ><input type="hidden" id="id_proveedor2" name="id_proveedor2" value="{{$ficha->id_proveedor}}"><input type="hidden" id="id_producto2" name="id_producto2" value="{{$ficha->id}}">{{$ficha->id}}</td>
                   <td>{{$ficha->codigo_producto}}</td>
-                  <td width="40%"><input type="text" class="form-control" name="descripcion[]" value="{{$ficha->descripcion}}" disabled=""></td>
-                   <td width="40%"><input type="text" class="form-control read" name="nombres[]" value="{{$producto}}" disabled=""></td>
-                  <td width="30%"><input type="text" class="form-control read text-right" name="descripcion[]" value="{{$ficha->precio_ideal}}" disabled=""></td>
-                  <td class="text-center">
-                    <div class="btn-group">
-                      <a data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-primary" href="{{ route('productos.edit',$ficha->id) }}" ><i class="m-0 fa fa-lg fa-check"></i></a>
-                    </div>
-                  </td>
+                  <td width="40%"><input type="text" class="form-control" name="descripcion" value="{{$ficha->descripcion}}" disabled=""></td>
+                   <td width="40%"><input type="text" class="form-control read" name="nombresp" value="{{$producto}}" id="nombresp" readonly=""></td>
+                  <td width="30%"><input type="text" class="form-control read text-right" name="precio" value="{{$ficha->precio_ideal}}" readonly="" id="precio"></td>
                 </tr>
               @endforeach
               </tbody>
@@ -99,62 +109,87 @@
 <script type="text/javascript" language="javascript">
 window.onload = load;
 function load(){
-  var valor  = $("#tipom").val();
-  var mensaje = $("#mensaje").val();
+  var valor  = $("#tip").val();
+  var mensaje = $("#mens").val();
   var verifica = $("#activo").val();
+  if(verifica==1)
+  {     $('.read').prop('readonly', false);
+      $('.read').prop('disabled', false); }
+else
+ {    $('.read').prop('readonly', true);
+     $('.read').prop('disabled', true);
+   } 
+
+  
   if(valor==1){
 
-           $("#res").html(mensaje);
+           $("#res").html(mens);
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
   }
   if(valor==2){
 
-            $("#rese").html(mensaje);
+            $("#rese").html(mens);
             $("#rese, #res-content").css("display","block");
             $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
   }
-  if(verifica==1)
-  {     $('.read').prop('readonly', false);
-      $('.read').prop('disabled', false); }
-  else
-   {    $('.read').prop('readonly', true);
-      $('.read').prop('disabled', true);} 
+  $("#tipom").val(" ");
+  $("#mensaje").val(" ");
 
 
+   
 } 
-  
+</script>
+<script>  
   $ = jQuery;
   jQuery(document).ready(function () {
+     
 
-    $("select#id_categoria").bind('change', function (event) {
-      var valor = $(this).val();
-    $("#id_subcategoria").html('');
-    $("#id_subcategoria").append('<option value='+'>Subcategoria</option>');
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
-        }
-
-      });
-
-      $.ajax({
-        type: "GET",
-        url: '{{ url('mostrar_subcategorias') }}',
-        dataType: "json",
-        data: { idc: valor ,  _token: '{{csrf_token()}}' },
-        success: function (data){
-          console.log(data);
-         $.each(data, function(l, item1) {
-                     $("#id_subcategoria").append('<option value='+item1.id+'>'+item1.sub_categoria+'</option>');
-               });
-       }    
+    $("input#nombresp").bind('change', function (event) {
+      var nom = $(this).val();
+      var idproducto     = $("#id_producto2").val();
+      var idproveedor     = $("#id_proveedor2").val();
+      //alert(idproducto);
+         $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+          type: "GET",
+          url: '{{ url('productos/cambiar_nombres') }}',
+          dataType: "json",
+          data: { nombre: nom , idp: idproducto , idpp: idproveedor ,  _token: '{{csrf_token()}}' },
+          success: function (data){
+            console.log(data);
+          }});   
 
 
      });
     
-     
+   $("input#precio").bind('change', function (event) {
+      var prec = $(this).val();
+      var idproducto     = $("#id_producto2").val();
+      var idproveedor     = $("#id_proveedor2").val();
+      //alert(idproducto);
+         $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+          type: "GET",
+          url: '{{ url('productos/cambiar_precio') }}',
+          dataType: "json",
+          data: { precio: prec , idp: idproducto , idpp: idproveedor ,  _token: '{{csrf_token()}}' },
+          success: function (data){
+            console.log(data);
+          }});   
+
+
+     });
+
+
 
 
     });
@@ -163,7 +198,7 @@ function load(){
       $("form").submit();
     });
     
- });
+ 
 
 
 
