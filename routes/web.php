@@ -15,6 +15,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('barrios', 'Ajax\Direcciones@barrios')->name('barrios_ajax');
     Route::get('categoria', 'Ajax\Configurar@categorias')->name('tipocategoria');
 
+
     Route::get('productos', 'Ajax\ProductosAjax@productos_list')->name('productos_ajax');
     Route::get('mostrar_subcategorias', 'Ajax\ProductosAjax@subcategorias_list')->name('mostrar_subcategorias');
     Route::get('mostrar_solicitudes', 'Ajax\ProductosAjax@solicitudes_list')->name('mostrar_solicitudes');
@@ -30,6 +31,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('agregar_remisa', 'Ajax\Logistica@agregar_remisa')->name('agregar_remisa');
     Route::get('quitar_remisa', 'Ajax\Logistica@quitar_remisa')->name('quitar_remisa');
     Route::get('num_factura', 'Ajax\Logistica@agregar_remisa')->name('num_factura');
+
+    ///
+    Route::get('filtro_ciudad', 'Ajax\Logistica@filtro_ciudad')->name('filtro_ciudad');
+    Route::get('filtro_horario', 'Ajax\Logistica@filtro_horario')->name('filtro_horario');
+    
 
     
 

@@ -12,17 +12,15 @@ use App\Empleados;
 
 class LogisticaController extends Controller
 {
-    public function index(){
-    	#jgonzalez 2018/09/27 
-        $fecha = date("Y-m-d");
-        $hora = date("H:i:s");
-        #dd($fecha);
-    	$activas = Ventas::Activas($fecha);
+    public function index(Request $request){
+        #jgonzalez 2018/09/27 
+        $activas = Ventas::Activas()->where('fecha', '=', date("Y-m-d"));
         $enEsperas = Ventas::EnEspera();
         $remisas = Ventas::Remisas();
         $ciudades = Ciudades::get();
-    	$horarios = Horarios::get();
-    	return view('Procesar.Logistica.index', compact('activas','enEsperas','remisas', 'ciudades', 'horarios'));
+        $horarios = Horarios::get();
+        return view('Procesar.Logistica.index', compact('activas','enEsperas','remisas', 'ciudades', 'horarios'));
+    	
     }
     public function edit(){
     	return view('Procesar.Logistica.edit');
