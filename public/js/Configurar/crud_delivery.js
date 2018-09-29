@@ -206,9 +206,7 @@ $(document).on('click','.pagination a',function(e){
         url: route,
         data: {page: page,
                montos: $('#buscarmonto').val(),
-               status: $('#selectstatus').val(), 
-               tipo: $('#selecttipo').val(),
-               proveedor: $('#selectproveedor').val()},
+             
         type: 'GET',
         dataType: 'json',
         success: function(data){
@@ -220,13 +218,11 @@ $(document).on('click','.pagination a',function(e){
 $(document).on('click','#btnBuscar',function(e){
    
 
-    var route ="montos";
+    var route ="montos_delivery";
     $.ajax({
         url: route,
         data: {montos: $('#buscarmonto').val(),
-               status: $('#selectstatus').val(), 
-               tipo: $('#selecttipo').val(),
-               proveedor: $('#selectproveedor').val()},
+         
         type: 'GET',
         dataType: 'json',
         success: function(data){
@@ -240,7 +236,7 @@ $(document).on('click','#btnBuscar',function(e){
 $(document).on('click','.save',function(e){
     e.preventDefault();
 
-   var route ="montos";
+   var route ="montos_delivery";
     $.ajax({
         url: route,
         type: 'GET',
