@@ -63,7 +63,7 @@ class EntradasController extends Controller
   }
 
   public function show(){
-   $proveedores = proveedores::where('id_estado','1')->get();
+   $proveedores = Proveedores::where('id_estado','1')->get();
    $fecha = date('Y-m-d');
    return view('Inventario.Entradas.show')->with('proveedores',$proveedores)->with('fecha',$fecha);
  }
@@ -71,7 +71,7 @@ class EntradasController extends Controller
  public function vista($id)
  {
   $solped=solped::find($id);
-  $proveedores = proveedores::where('id_estado','1')->get();
+  $proveedores = Proveedores::where('id_estado','1')->get();
   $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad','a.nfactura','a.cantidad_confirmada','a.confirmacion','a.precio_confirmado','a.confirmacion')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
         //$detallesolped = detallesolped::where('id_solped',$id)->get();
   return view('Inventario.Entradas.solped')->with('solped',$solped)->with('proveedores',$proveedores)->with('detalles',$detallesolped);
@@ -172,7 +172,7 @@ public function eliminar_detalle(Request $request){
 public function confirmar($id)
 {
   $solped=solped::find($id);
-  $proveedores = proveedores::where('id_estado','1')->get();
+  $proveedores = Proveedores::where('id_estado','1')->get();
   $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.id as idproducto','b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad','a.nombre_fiscal','a.pagado','a.cantidad_confirmada','a.precio_confirmado','a.nfactura')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
         //$detallesolped = detallesolped::where('id_solped',$id)->get();
   $deta= db::table('detalle_solped as a')->
@@ -187,7 +187,7 @@ public function confirmar($id)
 public function edit($id)
 {
   $solped=solped::find($id);
-  $proveedores = proveedores::where('id_estado','1')->get();
+  $proveedores = Proveedores::where('id_estado','1')->get();
   $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.id as idproducto','b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad','a.nombre_fiscal','a.pagado','a.cantidad_confirmada','a.precio_confirmado','a.nfactura')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
         //$detallesolped = detallesolped::where('id_solped',$id)->get();
   $deta= db::table('detalle_solped as a')->
@@ -384,7 +384,7 @@ public function carga(Request $request)
     $solped = solped::where('id',$id)->get();
     $zsolped = solped::where('id',$id)->first();
     $idproveedor = $zsolped->id_proveedor;
-    $proveedor         = proveedores::where('id',$idproveedor)->where('id_estado','1')->first();
+    $proveedor         = Proveedores::where('id',$idproveedor)->where('id_estado','1')->first();
     $productos_proveedor = productos_proveedor::where('id_proveedor',$idproveedor)->get();
     $detallesolped= db::table('detalle_solped as a')->join('productos as b','a.id_producto','=','b.id')->select('b.id as idproducto','b.codigo_producto as codigo','b.descripcion as desprod','a.precio','a.cantidad','a.nombre_fiscal','a.pagado','a.cantidad_confirmada','a.precio_confirmado','a.nfactura')->where('a.id_solped',$id)->orderby('a.id','asc')->get();
         //$detallesolped = detallesolped::where('id_solped',$id)->get();
