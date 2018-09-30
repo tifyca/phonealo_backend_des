@@ -22,41 +22,63 @@ class LogisticaController extends Controller
 
         if($id_ciudad !="" && $id_horario !="" && $fecha1 != "" && $fecha2 != "" ){
             if(isset($fecha1) && isset($fecha2)){
-                    if($fecha1 <> $fecha2 && $fecha1 < $fecha2){
-                        $activas = Ventas::Activas()
+                    if($fecha1 <> $fecha2 ){
+                        if( $fecha1 < $fecha2){
+                           $activas = Ventas::Activas()
                                     ->where('fecha', '>=', $fecha1)
                                     ->where('fecha', '<=', $fecha2)
                                     ->where('id_ciudad', '=', $id_ciudad)
-                                    ->where('id_horario', '=', $id_horario);
-                    }else{
-                        return redirect()->back()
+                                    ->where('id_horario', '=', $id_horario); 
+                        }else{
+                            return redirect()->back()
                                 ->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
+                        }
+                        
+                    }elseif($fecha1 == $fecha2 ){
+                        $activas = Ventas::Activas()
+                                    ->where('fecha', '=', $fecha1)
+                                    ->where('id_ciudad', '=', $id_ciudad)
+                                    ->where('id_horario', '=', $id_horario);
                     }
             }
 
 
         }elseif($id_ciudad =="" && $id_horario !="" && $fecha1 != "" && $fecha2 != "" ){
             if(isset($fecha1) && isset($fecha2)){
-                    if($fecha1 <> $fecha2 && $fecha1 < $fecha2){
-                        $activas = Ventas::Activas()
+                    if($fecha1 <> $fecha2 ){
+                        if( $fecha1 < $fecha2){
+                           $activas = Ventas::Activas()
                                     ->where('fecha', '>=', $fecha1)
                                     ->where('fecha', '<=', $fecha2)
-                                    ->where('id_horario', '=', $id_horario);
-                    }else{
-                        return redirect()->back()
+                                    ->where('id_horario', '=', $id_horario); 
+                        }else{
+                            return redirect()->back()
                                 ->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
+                        }
+                        
+                    }elseif($fecha1 == $fecha2 ){
+                        $activas = Ventas::Activas()
+                                    ->where('fecha', '=', $fecha1)
+                                    ->where('id_horario', '=', $id_horario);
                     }
             }  
         }elseif($id_ciudad !="" && $id_horario =="" && $fecha1 != "" && $fecha2 != "" ){
             if(isset($fecha1) && isset($fecha2)){
-                    if($fecha1 <> $fecha2 && $fecha1 < $fecha2){
-                        $activas = Ventas::Activas()
+                    if($fecha1 <> $fecha2 ){
+                        if( $fecha1 < $fecha2){
+                           $activas = Ventas::Activas()
                                     ->where('fecha', '>=', $fecha1)
                                     ->where('fecha', '<=', $fecha2)
-                                    ->where('id_horario', '=', $id_ciudad);
-                    }else{
-                        return redirect()->back()
+                                    ->where('id_horario', '=', $id_ciudad); 
+                        }else{
+                            return redirect()->back()
                                 ->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
+                        }
+                        
+                    }elseif($fecha1 == $fecha2 ){
+                        $activas = Ventas::Activas()
+                                    ->where('fecha', '=', $fecha1)
+                                    ->where('id_horario', '=', $id_ciudad);
                     }
             } 
         }elseif($id_ciudad =="" && $id_horario !=""){
@@ -77,13 +99,19 @@ class LogisticaController extends Controller
             #dd($activas);
         }elseif($fecha1 != "" || $fecha2 != "" ){
             if(isset($fecha1) && isset($fecha2)){
-                    if($fecha1 <> $fecha2 && $fecha1 < $fecha2){
-                        $activas = Ventas::Activas()
+                    if($fecha1 <> $fecha2 ){
+                        if( $fecha1 < $fecha2){
+                           $activas = Ventas::Activas()
                                     ->where('fecha', '>=', $fecha1)
-                                    ->where('fecha', '<=', $fecha2);
-                    }else{
-                        return redirect()->back()
+                                    ->where('fecha', '<=', $fecha2); 
+                        }else{
+                            return redirect()->back()
                                 ->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
+                        }
+                        
+                    }elseif($fecha1 == $fecha2 ){
+                        $activas = Ventas::Activas()
+                                    ->where('fecha', '=', $fecha1);
                     }
             }elseif(isset($fecha1)){
                     $activas = Ventas::Activas()->where('fecha', '=', $fecha1);
