@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Ajax;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Facturas;
 use App\Ventas;
 class Logistica extends Controller
 {
@@ -32,7 +32,7 @@ class Logistica extends Controller
     }
     public function num_factura(Request $request){
         $id = $request->id;
-        $num = Facturas::select('id')->where('id_venta', $id)->get();
+        $num = Facturas::select('id', 'id_venta')->where('id_venta', $id)->get();
      
         return $num;
     }

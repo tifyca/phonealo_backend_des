@@ -15,6 +15,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('barrios', 'Ajax\Direcciones@barrios')->name('barrios_ajax');
     Route::get('categoria', 'Ajax\Configurar@categorias')->name('tipocategoria');
 
+
     Route::get('productos', 'Ajax\ProductosAjax@productos_list')->name('productos_ajax');
     Route::get('mostrar_subcategorias', 'Ajax\ProductosAjax@subcategorias_list')->name('mostrar_subcategorias');
     Route::get('mostrar_solicitudes', 'Ajax\ProductosAjax@solicitudes_list')->name('mostrar_solicitudes');
@@ -29,7 +30,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('detalle_venta', 'Ajax\Logistica@detalle_venta')->name('detalle_venta');
     Route::get('agregar_remisa', 'Ajax\Logistica@agregar_remisa')->name('agregar_remisa');
     Route::get('quitar_remisa', 'Ajax\Logistica@quitar_remisa')->name('quitar_remisa');
-    Route::get('num_factura', 'Ajax\Logistica@agregar_remisa')->name('num_factura');
+    Route::get('num_factura', 'Ajax\Logistica@num_factura')->name('num_factura');
+
+    ///
+    Route::get('filtro_ciudad', 'Ajax\Logistica@filtro_ciudad')->name('filtro_ciudad');
+    Route::get('filtro_horario', 'Ajax\Logistica@filtro_horario')->name('filtro_horario');
+    
 
     
 
@@ -275,6 +281,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('procesar/ventas/create', 'Procesar\VentasController@create');
     Route::get('/procesar/elimanarProdCesta/{prod?}', 'Procesar\VentasController@delventa');
     Route::get('procesar/ventas/detalle/{valor}', 'Procesar\VentasController@detalle_producto');
+    Route::get('procesar/Ventas/editar/{id_venta?}','Procesar\VentasController@editar_venta');
+    
 
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
 
@@ -288,6 +296,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
 
     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
+    Route::post('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica.submit');
     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
     Route::get('procesar/logistica/remisa', 'Procesar\LogisticaController@remisa')->name('logistica.remisa');
     Route::get('procesar/logistica/factura', 'Procesar\LogisticaController@factura')->name('logistica.factura');

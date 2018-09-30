@@ -31,17 +31,17 @@
               <table class="table table-hover table-bordered " id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Venta</th>
-                    <th>Cliente</th>
-                    <th>Teléfono</th>
-                    <th>Dirección</th>
-                    <th>Fecha</th>
-                    <th>Fecha Activo</th>
-                    <th>Ciudad</th>
-                    <th>Horario</th>
-                    <th>Forma Pago</th>
-                    <th>Importe</th>
-                    <th>Acciones</th>
+                    <th style="text-align: center">Venta</th>
+                    <th style="text-align: center">Cliente</th>
+                    <th style="text-align: center">Teléfono</th>
+                    <th style="text-align: center">Dirección</th>
+                    <th style="text-align: center">Fecha</th>
+                    <th style="text-align: center">Fecha Activo</th>
+                    <th style="text-align: center">Ciudad</th>
+                    <th style="text-align: center">Horario</th>
+                    <th style="text-align: center">Forma Pago</th>
+                    <th style="text-align: right;">Importe</th>
+                    <th style="text-align: center">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -49,16 +49,16 @@
                      <!-- jgonzalez LISTADO DE VENTAS PARA REMISA-->
                   @foreach($remisas as $remisa)
                    <tr class="table-active">
-                      <td>{{$remisa->id}}</td>
-                      <td>{{$remisa->nombres}}</td>
-                      <td>{{$remisa->telefono}}</td>
-                      <td>{{$remisa->direccion}}</td>
-                      <td>{{$remisa->fecha}}</td>
-                      <td>{{$remisa->fecha_activo}}</td>
-                      <td>{{$remisa->ciudad}}</td>
-                      <td>{{$remisa->horario}}</td>
-                      <td>{{$remisa->forma_pago}}</td>
-                      <td>{{$remisa->importe}}</td>
+                      <td style="text-align: center">{{$remisa->id}}</td>
+                      <td style="text-align: center">{{$remisa->nombres}}</td>
+                      <td style="text-align: center">{{$remisa->telefono}}</td>
+                      <td style="text-align: center">{{$remisa->direccion}}</td>
+                      <td style="text-align: center">{{$remisa->fecha}}</td>
+                      <td style="text-align: center">{{$remisa->fecha_activo}}</td>
+                      <td style="text-align: center">{{$remisa->ciudad}}</td>
+                      <td style="text-align: center">{{$remisa->horario}}</td>
+                      <td style="text-align: center">{{$remisa->forma_pago}}</td>
+                      <td style="text-align: right;">{{$remisa->importe}}</td>
                       <td width="10%" class="text-center">
                         <div class="btn-group">
                          
@@ -71,7 +71,7 @@
                         @endif  
 
                         <button data-toggle="tooltip" data-placement="top" title="noremisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
                         </div>
                       </td>
                   </tr>
@@ -96,17 +96,17 @@
               <table class="table table-hover table-bordered " id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Venta</th>
-                    <th>Cliente</th>
-                    <th>Teléfono</th>
-                    <th>Dirección</th>
-                    <th>Fecha</th>
-                    <th>Fecha Activo</th>
-                    <th>Ciudad</th>
-                    <th>Horario</th>
-                    <th>Forma Pago</th>
-                    <th>Importe</th>
-                    <th>Acciones</th>
+                    <th style="text-align: center">Venta</th>
+                    <th style="text-align: center">Cliente</th>
+                    <th style="text-align: center">Teléfono</th>
+                    <th style="text-align: center">Dirección</th>
+                    <th style="text-align: center">Fecha</th>
+                    <th style="text-align: center">Fecha Activo</th>
+                    <th style="text-align: center">Ciudad</th>
+                    <th style="text-align: center">Horario</th>
+                    <th style="text-align: center">Forma Pago</th>
+                    <th style="text-align: center">Importe</th>
+                    <th style="text-align: center">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -125,16 +125,16 @@
                       class="table-light"
                    @endif
                    >
-                      <td>{{$enEspera->id}}</td>
-                      <td>{{$enEspera->nombres}}</td>
-                      <td>{{$enEspera->telefono}}</td>
-                      <td>{{$enEspera->direccion}}</td>
-                      <td>{{$enEspera->fecha}}</td>
-                      <td>{{$enEspera->fecha_activo}}</td>
-                      <td>{{$enEspera->ciudad}}</td>
-                      <td>{{$enEspera->horario}}</td>
-                      <td>{{$enEspera->forma_pago}}</td>
-                      <td>{{$enEspera->importe}}</td>
+                      <td style="text-align: center">{{$enEspera->id}}</td>
+                      <td style="text-align: center">{{$enEspera->nombres}}</td>
+                      <td style="text-align: center">{{$enEspera->telefono}}</td>
+                      <td style="text-align: center">{{$enEspera->direccion}}</td>
+                      <td style="text-align: center">{{$enEspera->fecha}}</td>
+                      <td style="text-align: center">{{$enEspera->fecha_activo}}</td>
+                      <td style="text-align: center">{{$enEspera->ciudad}}</td>
+                      <td style="text-align: center">{{$enEspera->horario}}</td>
+                      <td style="text-align: center">{{$enEspera->forma_pago}}</td>
+                      <td style="text-align: center">{{$enEspera->importe}}</td>
                       <td width="10%" class="text-center">
                         <div class="btn-group">
                          
@@ -146,7 +146,7 @@
                          <button class="btn btn-primary disabled-btn factura" data-toggle="modal" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
                         @endif  
                         <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
                         </div>
                       </td>
                     </tr>
@@ -164,20 +164,24 @@
   {{--  --}}
   <div class="col-12">
     <div class="tile">
+      <!--Formulario para filtros -->
+      <form action="{{ route('logistica.submit') }} " method="POST">
+        {{ csrf_field() }}
       <div class="col mb-3 text-center">
           <div class="row">
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado</h3>
             </div>
+            
             <div class="form-group col-md-2">
-              <input class="form-control" type="date" id="" name="" >
+              <input class="form-control " type="date" id="fecha1" name="fecha1">
             </div>
             <div class="form-group col-md-2">
-              <input class="form-control" type="date" id="" name="" placeholder="ldhd">
+              <input class="form-control" type="date" id="fecha2" name="fecha2">
             </div>
             <div class="form-group col-md-2">
               <!-- CIUDADES-->
-              <select class="form-control read filtrar" id="ciudad" name="ciudad">
+              <select class="form-control read " id="ciudad" name="id_ciudad">
                 <option value="">Ciudad</option>
                   @foreach($ciudades as $ciudad)
                     <option value="{{$ciudad->id}}" 
@@ -190,7 +194,7 @@
             </div>
              <div class="form-group col-md-2">
               <!-- HORARIOS-->
-              <select class="form-control read filtrar" id="id_horario" name="id_horario">
+              <select class="form-control read " id="horario" name="id_horario">
                 <option value="">Horarios</option>
                   @foreach($horarios as $horario)
                     <option value="{{$horario->id}}" 
@@ -200,30 +204,35 @@
                     {{$horario->horario}}</option>
                   @endforeach
               </select>
-
-            </div>
+              </div>
+              <!-- boton filtrar -->
+              <div >
+                <input type="submit"class="btn btn-primary" value="Filtrar">      
+              </div>
           </div>
         </div>
+        </form>
+        <!---->
         <div class="tile-body ">
           <div class="tile-body">
             <div class="table-responsive">
               <table class="table table-hover table-bordered " id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Venta</th>
-                    <th>Cliente</th>
-                    <th>Teléfono</th>
-                    <th>Dirección</th>
-                    <th>Fecha</th>
-                    <th>Fecha Activo</th>
-                    <th>Ciudad</th>
-                    <th>Horario</th>
-                    <th>Forma Pago</th>
-                    <th>Importe</th>
-                    <th>Acciones</th>
+                    <th style="text-align: center">Venta</th>
+                    <th style="text-align: center">Cliente</th>
+                    <th style="text-align: center">Teléfono</th>
+                    <th style="text-align: center">Dirección</th>
+                    <th style="text-align: center">Fecha</th>
+                    <th style="text-align: center">Fecha Activo</th>
+                    <th style="text-align: center">Ciudad</th>
+                    <th style="text-align: center">Horario</th>
+                    <th style="text-align: center">Forma Pago</th>
+                    <th style="text-align: center">Importe</th>
+                    <th style="text-align: center">Acciones</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="ventaActiva">
                   <!-- jgonzalez LISTADO DE VENTAS ACTIVAS-->
                   <?php 
                     $total = 0;
@@ -232,31 +241,31 @@
                   <!-- esta es la hora actual supongo que esta ajustada al pais-->
                   {{-- date("H:i") --}}
                   @foreach($activas as $activa)
-                   <tr 
+                   <tr id="{{$activa->id}}"   
                     @if(date("H:i") > "09:00" || date("H:i") > "11:59")
-                      class="table-danger"
+                      class="table-danger respFiltro"
                     @elseif(date("H:i") > "12:00" || date("H:i") > "14:59")
-                      class="table-danger"
+                      class="table-danger respFiltro"
                     @elseif(date("H:i") > "15:00" || date("H:i") > "17:59")
-                      class="table-danger" 
+                      class="table-danger respFiltro" 
                     @elseif(date("H:i") > "18:00:00" || date("H:i") > "20:59:59")
-                      class="table-danger"
+                      class="table-danger respFiltro"
                     @elseif(date("H:i") > "21:00:00")
-                      class="table-danger" 
+                      class="table-danger respFiltro" 
                     @else
-                      class="table-active"
+                      class="table-active respFiltro"
                    @endif
                    >
-                      <td>{{$activa->id}}</td>
-                      <td>{{$activa->nombres}}</td>
-                      <td>{{$activa->telefono}}</td>
-                      <td>{{$activa->direccion}}</td>
-                      <td>{{$activa->fecha}}</td>
-                      <td>{{$activa->fecha_activo}}</td>
-                      <td>{{$activa->ciudad}}</td>
-                      <td>{{$activa->horario}}</td>
-                      <td>{{$activa->forma_pago}}</td>
-                      <td>{{$activa->importe}}</td>
+                      <td style="text-align: center">{{$activa->id}}</td>
+                      <td style="text-align: center">{{$activa->nombres}}</td>
+                      <td style="text-align: center">{{$activa->telefono}}</td>
+                      <td style="text-align: center">{{$activa->direccion}}</td>
+                      <td style="text-align: center">{{$activa->fecha}}</td>
+                      <td style="text-align: center">{{$activa->fecha_activo}}</td>
+                      <td style="text-align: center">{{$activa->ciudad}}</td>
+                      <td style="text-align: center">{{$activa->horario}}</td>
+                      <td style="text-align: center">{{$activa->forma_pago}}</td>
+                      <td style="text-align: center">{{$activa->importe}}</td>
                       <td width="10%" class="text-center">
                         <div class="btn-group">
                          
@@ -270,7 +279,7 @@
                         <!--<a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>-->
                         <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
 
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$activa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
                         </div>
                       </td>
                     </tr>
@@ -304,7 +313,7 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Productos</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Detalle de Venta</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -314,11 +323,26 @@
           <table class="table">
             <thead>
               <tr>
-                <th>Código</th>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio</th>
-                <th>Acciones</th>
+                <th style="text-align: center;">Venta</th>
+                <th style="text-align: center;">Cliente</th>
+                <th style="text-align: center;">Telefono</th>
+                <th style="text-align: center;">Direccion</th>
+              </tr>
+            </thead>
+            <tbody id="cliente_detalle">
+              
+            </tbody>
+          </table>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="text-align: center;">Código</th>
+                <th style="text-align: center;">Producto</th>
+                <th style="text-align: center;">Cantidad</th>
+                <th style="text-align: right;">Precio</th>
+                <th style="text-align: center;">Accion</th>
               </tr>
             </thead>
             <tbody id="productos_detalle">
@@ -346,6 +370,7 @@
            
           <div class="form-group col-md-6">
             <label for="">Nro. Factura</label>
+            <input type="hidden" name="id_venta" id="id_venta" value="0">
             <input class="form-control" type="text" id="num_fact" name="num_fact" >
           </div>
           <div class="tile-footer col-md-12 text-center ">
@@ -370,7 +395,7 @@
   $('.detalle').click(function(){
 
     var id = $(this).val();  //CAPTURA EL ID
-
+    $('#cliente_detalle').html(''); //LIMPIA EL MODAL
     $('#productos_detalle').html(''); //LIMPIA EL MODAL
 
     $('#ModalProductos').modal('show'); //ABRE EL MODAL
@@ -383,11 +408,24 @@
         data: { id:id, _token: '{{csrf_token()}}'},
 
         success: function (data){
-
+          console.log(data);
+          $("#cliente_detalle").append(`<tr>
+                                          <td style="text-align: center;">${data[0].id}</td>
+                                          <td style="text-align: center;">${data[0].nombres}</td>
+                                          <td style="text-align: center;">${data[0].telefono}</td>
+                                          <td style="text-align: center;">${data[0].direccion}</td>
+                                      </tr>`);
           //CICLO DE LOS DATOS RECIBIDOS
           $.each(data, function(l, item) {
 
-            $("#productos_detalle").append('<tr><td>'+item.codigo_producto+'</td><td>'+item.descripcion+'</td><td>'+item.cantidad+'</td><td>'+item.precio+'</td><td><div class="btn-group"><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-file"></i></a><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-times"></i></a></div></td></tr>');
+            $("#productos_detalle").append(`<tr>
+
+              <td style="text-align: center;">${item.codigo_producto}</td>
+              <td style="text-align: center;">${item.descripcion}</td>
+              <td style="text-align: center;">${item.cantidad}</td>
+              <td style="text-align: right;">${item.precio}</td>
+              <td style="text-align: center;"><div class="btn-group"><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
+              </tr>`);
           });
         }
 
@@ -437,7 +475,6 @@
 
   $('.factura').click(function(){
 
-    
       var id = $(this).val();  //CAPTURA EL ID  
   
       $.ajax({
@@ -448,22 +485,59 @@
 
         success: function (data){
           console.log(data);
-          $('#num_fact').val(data.id);    
+          $('#num_fact').val(data[0].id); 
+          $('#id_venta').val(data[0].id_venta);    
         }
 
     });
+  });
 
-
-});
+  $('#btn-generar').submit(function(e) { 
+    e.preventDefault(); 
+    console.log('aqui');
+    // Coding 
+    $('#ModalFactura').modal('hide'); 
+    return false; 
+}); 
 
   //<!-- Filtros -->
-  $('.filtrar').onchange(function(){
-    
-    var id = $(this).val();  //CAPTURA EL ID  
-    console.log(id);
+  $('.ciudad').change(function(){
 
-    //location.reload(true);
+      var id = $(this).val();  //CAPTURA EL ID
+      console.log(id);
+      $.ajax({
+        type: "GET",
+        url: '{{ url('filtro_ciudad') }}',
+        dataType: "json",
+        data: { id:id, _token: '{{csrf_token()}}'},
+        success: function (data){
+          console.log(data);
+          
+        }
+      });
+  
   });
+
+  $('.horario').change(function(){
+
+      var id = $(this).val();  //CAPTURA EL ID
+      console.log(id);
+      $.ajax({
+        type: "GET",
+        url: '{{ url('filtro_horario') }}',
+        dataType: "json",
+        data: { id:id, _token: '{{csrf_token()}}'},
+        success: function (data){
+            console.log(data);
+            data.forEach( function(valor, indice, array) {
+              console.log("En el índice " + indice + " hay este valor: " + valor[+indice]);
+            });
+        }
+          
+      });
+
+  });
+ 
 
 
 </script>
