@@ -71,7 +71,7 @@
                         @endif  
 
                         <button data-toggle="tooltip" data-placement="top" title="noremisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
                         </div>
                       </td>
                   </tr>
@@ -146,7 +146,7 @@
                          <button class="btn btn-primary disabled-btn factura" data-toggle="modal" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
                         @endif  
                         <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
                         </div>
                       </td>
                     </tr>
@@ -279,7 +279,7 @@
                         <!--<a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>-->
                         <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
 
-                        <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-pencil"></i></a>  
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$activa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
                         </div>
                       </td>
                     </tr>
@@ -370,6 +370,7 @@
            
           <div class="form-group col-md-6">
             <label for="">Nro. Factura</label>
+            <input type="hidden" name="id_venta" id="id_venta" value="0">
             <input class="form-control" type="text" id="num_fact" name="num_fact" >
           </div>
           <div class="tile-footer col-md-12 text-center ">
@@ -484,11 +485,20 @@
 
         success: function (data){
           console.log(data);
-          $('#num_fact').val(data.id);    
+          $('#num_fact').val(data[0].id); 
+          $('#id_venta').val(data[0].id_venta);    
         }
 
     });
   });
+
+  $('#btn-generar').submit(function(e) { 
+    e.preventDefault(); 
+    console.log('aqui');
+    // Coding 
+    $('#ModalFactura').modal('hide'); 
+    return false; 
+}); 
 
   //<!-- Filtros -->
   $('.ciudad').change(function(){
