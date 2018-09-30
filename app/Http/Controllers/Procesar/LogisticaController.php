@@ -69,7 +69,7 @@ class LogisticaController extends Controller
                            $activas = Ventas::Activas()
                                     ->where('fecha', '>=', $fecha1)
                                     ->where('fecha', '<=', $fecha2)
-                                    ->where('id_horario', '=', $id_ciudad); 
+                                    ->where('id_ciudad', '=', $id_ciudad); 
                         }else{
                             return redirect()->back()
                                 ->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
@@ -78,7 +78,7 @@ class LogisticaController extends Controller
                     }elseif($fecha1 == $fecha2 ){
                         $activas = Ventas::Activas()
                                     ->where('fecha', '=', $fecha1)
-                                    ->where('id_horario', '=', $id_ciudad);
+                                    ->where('id_ciudad', '=', $id_ciudad);
                     }
             } 
         }elseif($id_ciudad =="" && $id_horario !=""){
