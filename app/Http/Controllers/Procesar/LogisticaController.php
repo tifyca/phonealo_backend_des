@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Procesar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use PDF;
+use DB;
 use App\Ventas;
 use App\Ciudades;
 use App\Horarios;
@@ -14,7 +15,86 @@ class LogisticaController extends Controller
 {
     public function index(Request $request){
         #jgonzalez 2018/09/27 
-        $activas = Ventas::Activas()->where('fecha', '=', date("Y-m-d"));
+        $fecha1 = $request["fecha1"];
+        $fecha2 = $request["fecha2"];
+        $id_ciudad = $request["id_ciudad"];
+        $id_horario = $request["id_horario"];
+
+        if($id_ciudad !="" && $id_horario !="" && $fecha1 != "" && $fecha2 != "" ){
+            if(isset($fecha1) && isset($fecha2)){
+                    if($fecha1 <> $fecha2 && $fecha1 < $fecha2){
+                        $activas = Ventas::Activas()
+                                    ->where('fecha', '>=', $fecha1)
+                                    ->where('fecha', '<=', $fecha2)
+                                    ->where('id_ciudad', '=', $id_ciudad)
+                                    ->where('id_horario', '=', $id_horario);
+                    }else{
+                        return redirect()->back()
+                                ->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
+                    }
+            }
+
+
+        }elseif($id_ciudad =="" && $id_horario !="" && $fecha1 != "" && $fecha2 != "" ){
+            if(isset($fecha1) && isset($fecha2)){
+                    if($fecha1 <> $fecha2 && $fecha1 < $fecha2){
+                        $activas = Ventas::Activas()
+                                    ->where('fecha', '>=', $fecha1)
+                                    ->where('fecha', '<=', $fecha2)
+                                    ->where('id_horario', '=', $id_horario);
+                    }else{
+                        return redirect()->back()
+                                ->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
+                    }
+            }  
+        }elseif($id_ciudad !="" && $id_horario =="" && $fecha1 != "" && $fecha2 != "" ){
+            if(isset($fecha1) && isset($fecha2)){
+                    if($fecha1 <> $fecha2 && $fecha1 < $fecha2){
+                        $activas = Ventas::Activas()
+                                    ->where('fecha', '>=', $fecha1)
+                                    ->where('fecha', '<=', $fecha2)
+                                    ->where('id_horario', '=', $id_ciudad);
+                    }else{
+                        return redirect()->back()
+                                ->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
+                    }
+            } 
+        }elseif($id_ciudad =="" && $id_horario !=""){
+            $activas = Ventas::Activas()
+                        ->where('fecha', '=', date("Y-m-d"))
+                        ->where('id_horario', '=', $id_horario);
+            #dd($request->all());
+        }elseif($id_ciudad !="" && $id_horario ==""){
+            $activas = Ventas::Activas()
+                        ->where('fecha', '=', date("Y-m-d"))
+                        ->where('id_ciudad', '=', $id_ciudad);
+            #dd($activas);
+        }elseif($id_ciudad != "" && $id_horario != ""){
+            $activas = Ventas::Activas()
+                        ->where('fecha', '=', date("Y-m-d"))
+                        ->where('id_ciudad', '=', $id_ciudad)
+                        ->where('id_horario', '=', $id_horario);
+            #dd($activas);
+        }elseif($fecha1 != "" || $fecha2 != "" ){
+            if(isset($fecha1) && isset($fecha2)){
+                    if($fecha1 <> $fecha2 && $fecha1 < $fecha2){
+                        $activas = Ventas::Activas()
+                                    ->where('fecha', '>=', $fecha1)
+                                    ->where('fecha', '<=', $fecha2);
+                    }else{
+                        return redirect()->back()
+                                ->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
+                    }
+            }elseif(isset($fecha1)){
+                    $activas = Ventas::Activas()->where('fecha', '=', $fecha1);
+            }elseif(isset($fecha2)){
+                    $activas = Ventas::Activas()->where('fecha', '=', $fecha2);
+            }
+            #dd($activas);
+        }else{
+            $activas = Ventas::Activas()->where('fecha', '=', date("Y-m-d"));
+        }
+
         $enEsperas = Ventas::EnEspera();
         $remisas = Ventas::Remisas();
         $ciudades = Ciudades::get();
