@@ -14,7 +14,8 @@
         "intervention/image": "^2.3",
         "barryvdh/laravel-dompdf": "0.8.2",
         "maatwebsite/excel": "~2.0",
-        "cornford/googlmapper": "2.*"        
+        "cornford/googlmapper": "2.*",
+        "villca/numeros-en-letras": "^1.2"        
     },
     "require-dev": {
         "filp/whoops": "~2.0",

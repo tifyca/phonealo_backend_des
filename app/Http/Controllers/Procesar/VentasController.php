@@ -276,8 +276,8 @@ class VentasController extends Controller
           	$venta->id_forma_pago= $request->forma_pago;
           	$venta->factura   = $request->factura;
           	$venta->id_horario= $request->horario_venta;
-            $venta->fecha_activo   = $request->fecha_activo;
-          	$venta->fecha_cobro    = $request->fecha_cobro;
+            $venta->fecha_activo   = $request->fecha_entrega;
+          	$venta->fecha_cobro    = $request->fecha_entrega;
           	$venta->id_usuario     = $request->id_usuario;
           	$venta->save(); 
           	
@@ -346,6 +346,24 @@ class VentasController extends Controller
                     ->where('id_producto',$id)->get();
       
          return response()->json([ 'productos' => $productos, 'categoria' => $categoria, 'subcategoria' => $subcategoria, 'imagenes' => $imagenes ]);
+    }
+    public function editar_venta($id){
+        
+      
+         $horarios  = Horarios::all();
+           $deliverys = Montos_delivery::all();
+          $formas    = Forma_pago::all();
+          $venta=Ventas::join('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+            ->join('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+            ->join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+            ->join('departamentos', 'clientes.id_departamento', '=', 'departamentos.id')
+            ->join('horarios', 'ventas.id_horario', '=', 'horarios.id')
+            ->join('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres','clientes.ruc_ci', 'clientes.id_tipo','clientes.email','clientes.telefono', 'clientes.direccion','clientes.ubicacion','clientes.barrio', 'departamentos.nombre as departamento', 'ciudades.ciudad as ciudad','barrio', 'clientes.id_ciudad as id_ciudad', 'clientes.id_departamento as id_departamento', 'ciudades.ciudad')
+                ->where('ventas.id', $id)
+                ->get();
+        
+         return view('Procesar.Ventas.edit', compact('venta','horarios','deliverys', 'formas'));
     }
 
 }
