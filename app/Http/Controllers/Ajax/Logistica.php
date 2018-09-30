@@ -36,17 +36,5 @@ class Logistica extends Controller
      
         return $num;
     }
-    #jgonzalez
-    public function filtro_ciudad(Request $request){
-        $id_ciudad = $request['id'];
-        $ventas = Ventas::FiltroCiudad($id_ciudad);
-        return $ventas;
-    }
-    #jgonzalez
-    public function filtro_horario(Request $request){
-        $id_horario = $request['id'];
-        $ventas = Ventas::FiltroHorario($id_horario);
-        return $ventas;
-    }
 
 }
