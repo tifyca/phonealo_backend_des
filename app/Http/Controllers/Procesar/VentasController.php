@@ -26,24 +26,24 @@ class VentasController extends Controller
 {
     public function index(){
 
-    	$horarios  = Horarios::all();
+      $horarios  = Horarios::all();
       $deliverys = Montos_delivery::all();
       $formas    = Forma_pago::all();
 
-    	return view('Procesar.Ventas.index', compact('horarios','deliverys', 'formas' ));
+      return view('Procesar.Ventas.index', compact('horarios','deliverys', 'formas' ));
     }
 
     public function getcliente($tlf){
 
     
-    	$clientes=Clientes::where('telefono', $tlf)->get();
+      $clientes=Clientes::where('telefono', $tlf)->get();
 
            return $clientes;
  
          
-   	}
+    }
 
-	public function addventa(Request $request){
+  public function addventa(Request $request){
 
         $data=$request->all();
 
@@ -63,7 +63,7 @@ class VentasController extends Controller
          }elseif ($validator->passes()){ 
 
 
-    	        $addventa= new Detalle_Temporal;
+              $addventa= new Detalle_Temporal;
               $addventa->id_cliente = $request->id_cliente;
               $addventa->id_producto= $request->id_producto;
               $addventa->cantidad   = $request->cantidad;
@@ -77,16 +77,17 @@ class VentasController extends Controller
               $producto->stock_activo = $request->disponible;
               $producto->id_usuario   = $request->id_usuario;
               $producto->save();
-    	
-             	return ($addventa);
+      
+              return ($addventa);
 
       }
 
 }
 
-    public function delventa ($prod){
+    public function delventa ($prod, $cliente){
 
       $dtemporal= Detalle_Temporal::where('id_producto',$prod)
+                                  ->where('id_cliente',$cliente)
                                     ->Select('id_cliente', 'id_producto', 'cantidad', 'precio', 'espera', 'id_usuario')->first();
 
 
@@ -96,8 +97,12 @@ class VentasController extends Controller
         //$producto->id_usuario=$request->id_usuario;
         $producto->save();
 
-        $del= Detalle_Temporal::where('id_producto',$prod)->delete();
-        $espera= Detalle_Temporal::where('espera', 1)->count();
+        $del= Detalle_Temporal::where('id_producto',$prod)
+                              ->where('id_cliente',$cliente)
+                              ->delete();
+        $espera= Detalle_Temporal::where('espera', 1)
+                                 ->where('id_cliente',$cliente)
+                                 ->count();
 
         return $espera;
 
@@ -106,36 +111,36 @@ class VentasController extends Controller
 
 
 
-     	if($request->id_cliente=="")
-     	{
+      if($request->id_cliente=="")
+      {
 
-     	  $data=$request->all();
+        $data=$request->all();
 
-		    $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres', 
-		                    'email_cliente'=>'required|email|unique:clientes,email',
-		                    'telefono_cliente'=>'required|unique:clientes,telefono',
-		                    'departamento_cliente'=>'required|not_in:0',
-		                    'ciudad_cliente'=>'required|not_in:0',
-		                    'barrio_cliente'=>'required|not_in:0',
-		                    'direccion_cliente'=>'required',
+        $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres', 
+                        'email_cliente'=>'required|email|unique:clientes,email',
+                        'telefono_cliente'=>'required|unique:clientes,telefono',
+                        'departamento_cliente'=>'required|not_in:0',
+                        'ciudad_cliente'=>'required|not_in:0',
+                        'barrio_cliente'=>'required|not_in:0',
+                        'direccion_cliente'=>'required',
                         'horario_venta'=>'required',
                         'forma_pago'=>'required');
 
-		    $messages = array( 'nombre_cliente.required'=>'Nombre del Cliente es Requerido', 
-		                       'nombre_cliente.unique' => 'El Cliente ya Existe', 
-		                       'email_cliente.required'=>'El Email del Cliente es Requerido', 
-		                       'email_cliente.unique' => 'El Email del Cliente ya Existe',
-		                       'email_cliente.email' => 'El Formato de Email es Incorrecto',
-		                       'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
-		                       'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
-		                       'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',
-		                       'departamento_cliente.not_in'=> 'El Departamento del Cliente es Requerido',
-		                       'ciudad_cliente.required'=> 'La Ciudad del Cliente es Requerida',
-		                       'ciudad_cliente.not_in'=> 'La Ciudad del Cliente es Requerida',
-		                       'barrio_cliente.required'=> 'El Barrio del Cliente es Requerido',
-		                       'barrio_cliente.not_in'=> 'El Barrio del Cliente es Requerido',
-		                       'direccion_cliente.required'=>'La Dirección del Cliente es Requerida',
-		                       'direccion_cliente.not_in'=>'La Dirección del Cliente es Requerida',
+        $messages = array( 'nombre_cliente.required'=>'Nombre del Cliente es Requerido', 
+                           'nombre_cliente.unique' => 'El Nombre del Cliente ya Existe', 
+                           'email_cliente.required'=>'El Email del Cliente es Requerido', 
+                           'email_cliente.unique' => 'El Email del Cliente ya Existe',
+                           'email_cliente.email' => 'El Formato de Email es Incorrecto',
+                           'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
+                           'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
+                           'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',
+                           'departamento_cliente.not_in'=> 'El Departamento del Cliente es Requerido',
+                           'ciudad_cliente.required'=> 'La Ciudad del Cliente es Requerida',
+                           'ciudad_cliente.not_in'=> 'La Ciudad del Cliente es Requerida',
+                           'barrio_cliente.required'=> 'El Barrio del Cliente es Requerido',
+                           'barrio_cliente.not_in'=> 'El Barrio del Cliente es Requerido',
+                           'direccion_cliente.required'=>'La Dirección del Cliente es Requerida',
+                           'direccion_cliente.not_in'=>'La Dirección del Cliente es Requerida',
                            'horario_venta.required'=>'El Horario de Entrega es Requerido',
                            'forma_pago.required'=>'La Forma de Pago es Requerida');
 
@@ -169,7 +174,7 @@ class VentasController extends Controller
               $cliente->save(); 
 
               $cliente=$cliente->id;
-        }	
+        } 
 
     }else{
 
@@ -188,7 +193,7 @@ class VentasController extends Controller
 
           
           $messages = array( 'nombre_cliente.required'=>'Nombre del Cliente es Requerido', 
-                             'nombre_cliente.unique' => 'El Cliente ya Existe', 
+                             'nombre_cliente.unique' => 'El Nombre del Cliente ya Existe', 
                              'email_cliente.required'=>'El Email del Cliente es Requerido', 
                              'email_cliente.unique' => 'El Email del Cliente ya Existe',
                              'email_cliente.email' => 'El Formato de Email es Incorrecto',
@@ -266,28 +271,29 @@ class VentasController extends Controller
             $pedido->save(); 
 
 
-          	$venta= new Ventas;
-          	$venta->id_pedido = $pedido->id;
-          	$venta->id_estado = $id_estado_v;
-          	$venta->fecha     = $request->fecha_venta;
-          	$venta->status_v  = $id_estado_v;
-          	$venta->importe   = $request->importe;
-          	$venta->id_forma_pago= $request->forma_pago;
-          	$venta->factura   = $request->factura;
-          	$venta->id_horario= $request->horario_venta;
-            $venta->fecha_activo   = $request->fecha_entrega;
-          	$venta->fecha_cobro    = $request->fecha_entrega;
-          	$venta->id_usuario     = $request->id_usuario;
-          	$venta->save(); 
-          	
+            $venta= new Ventas;
+            $venta->id_pedido = $pedido->id;
+            $venta->id_estado = $id_estado_v;
+            $venta->fecha     = $request->fecha_venta;
+            $venta->status_v  = $id_estado_v;
+            $venta->importe   = $request->importe;
+            $venta->id_forma_pago= $request->forma_pago;
+            $venta->factura   = $request->factura;
+            $venta->id_horario= $request->horario_venta;
+            $venta->fecha_activo = $request->fecha_entrega;
+            $venta->fecha_cobro  = $request->fecha_entrega;
+            $venta->tipo_venta   =1;
+            $venta->id_usuario   = $request->id_usuario;
+            $venta->save(); 
+            
             if($request->factura<>1){
-          	$factura= new Facturas;
-          	$factura->id_venta  = $venta->id;                               
-          	$factura->nombres   = ucwords(strtolower($request->factura_nomb));
-          	$factura->direccion = $request->factura_dir;
-          	$factura->ruc_ci    = $request->factura_ruc;
-          	$factura->id_usuario= $request->id_usuario;
-          	$factura->save();
+            $factura= new Facturas;
+            $factura->id_venta  = $venta->id;                               
+            $factura->nombres   = ucwords(strtolower($request->factura_nomb));
+            $factura->direccion = $request->factura_dir;
+            $factura->ruc_ci    = $request->factura_ruc;
+            $factura->id_usuario= $request->id_usuario;
+            $factura->save();
             }
 
 
@@ -346,6 +352,7 @@ class VentasController extends Controller
       
          return response()->json([ 'productos' => $productos, 'categoria' => $categoria, 'subcategoria' => $subcategoria, 'imagenes' => $imagenes ]);
     }
+
     public function editar_venta($id){
         
       
@@ -359,7 +366,7 @@ class VentasController extends Controller
             ->join('facturas', 'ventas.id', '=', 'facturas.id_venta')
             ->join('horarios', 'ventas.id_horario', '=', 'horarios.id')
             ->join('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
-                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_forma_pago', 'forma_pago.forma_pago', 'ventas.factura', 'ventas.id_horario', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres','clientes.ruc_ci', 'clientes.id_tipo','clientes.email','clientes.telefono', 'clientes.direccion','clientes.ubicacion','clientes.barrio', 'departamentos.nombre as departamento', 'ciudades.ciudad as ciudad','barrio', 'clientes.id_ciudad as id_ciudad', 'clientes.id_departamento as id_departamento', 'ciudades.ciudad',  'facturas.nombres as fnombres',  'facturas.ruc_ci as fruc', 'facturas.direccion as fdireccion')
+                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_forma_pago', 'forma_pago.forma_pago', 'ventas.factura', 'ventas.id_horario', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.id as idcliente','clientes.nombres','clientes.ruc_ci', 'clientes.id_tipo','clientes.email','clientes.telefono', 'clientes.direccion','clientes.ubicacion','clientes.barrio', 'departamentos.nombre as departamento', 'ciudades.ciudad as ciudad','barrio', 'clientes.id_ciudad as id_ciudad', 'clientes.id_departamento as id_departamento', 'ciudades.ciudad',  'facturas.nombres as fnombres',  'facturas.ruc_ci as fruc', 'facturas.direccion as fdireccion')
                 ->where('ventas.id', $id)
                 ->get();
           $detalles=Ventas::join('detalle_ventas', 'detalle_ventas.id_venta', '=','ventas.id')
@@ -372,5 +379,152 @@ class VentasController extends Controller
         
          return view('Procesar.Ventas.edit', compact('venta','horarios','deliverys', 'formas', 'detalles'));
     }
+
+    
+     public function deleditventa (Request $request){
+
+      $dventa= Detalle_Ventas::where('id_producto',$request->id_producto)
+                                ->where('id_venta',$request->id_venta)
+                                ->Select('id_venta', 'id_producto', 'cantidad', 'precio')->first();
+
+
+        $producto = Productos::find($request->id_producto);
+        $producto->stock_activo = $producto->stock_activo+$dventa->cantidad;
+        //$producto->id_usuario=$request->id_usuario;
+        $producto->save();
+
+        $del= Detalle_Ventas::where('id_producto',$request->id_producto)
+                            ->where('id_venta',$request->id_venta)->delete();
+
+
+        return true;
+
+    
+
+    }
+
+    public function editar_guardar(Request $request){
+
+        $data=$request->all();
+
+        $rules = array( 'horario_venta'=>'required',
+                        'forma_pago'=>'required');
+
+        $messages = array( 'horario_venta.required'=>'El Horario de Entrega es Requerido',
+                           'forma_pago.required'=>'La Forma de Pago es Requerida');
+
+        $validator = Validator::make($data, $rules, $messages);
+
+
+        if($validator->fails()){ 
+
+
+              $errors = $validator->errors(); 
+              
+              return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
+          
+        }elseif ($validator->passes()){ 
+
+
+           $dts= Detalle_Temporal::where('espera', 1)
+                                  ->where('id_cliente', $request->id_cliente)
+                                  ->count();
+
+           if($dts>0){
+
+            $id_estado_v=5;
+          
+            
+           }else{
+
+            $id_estado_v=1;
+           
+           }
+
+            $venta= Ventas::find($request->id_venta);
+            $venta->id_estado = $id_estado_v;
+            $venta->fecha     = $request->fecha_venta;
+            $venta->status_v  = $id_estado_v;
+            $venta->importe   = $request->importe;
+            $venta->id_forma_pago= $request->forma_pago;
+            $venta->factura   = $request->factura;
+            $venta->id_horario= $request->horario_venta;
+            $venta->fecha_activo = $request->fecha_entrega;
+            $venta->fecha_cobro  = $request->fecha_entrega;
+            $venta->tipo_venta   =1;
+            $venta->id_usuario   = $request->id_usuario;
+            $venta->save(); 
+
+
+            
+            
+            if($request->factura<>1){
+
+              $fact=Facturas::where('id_venta', $request->id_venta)
+                                ->count();
+          
+
+            if($fact<0){
+
+                  $factura= new Facturas;
+                  $factura->id_venta  = $venta->id;                               
+                  $factura->nombres   = ucwords(strtolower($request->factura_nomb));
+                  $factura->direccion = $request->factura_dir;
+                  $factura->ruc_ci    = $request->factura_ruc;
+                  $factura->id_usuario= $request->id_usuario;
+                  $factura->save();
+                }
+            }
+
+             $det_temp = Detalle_Temporal::where('id_cliente', $request->id_cliente)
+                                               ->count();
+
+            if($det_temp>0){
+                  $detalle_tempora = Detalle_Temporal::where('id_cliente', $request->id_cliente)
+                                                     ->select( 'id_producto', 'cantidad', 'precio',  'id_usuario')->get();
+
+                    foreach ($detalle_tempora as $dt) {
+
+                              $result  = new Detalle_Ventas;
+                              $result->id_venta    = $venta->id;
+                              $result->id_producto = $dt->id_producto;
+                              $result->cantidad    = $dt->cantidad;
+                              $result->precio      = $dt->precio;
+                              $result->id_usuario  = $dt->id_usuario;
+                              $result->save();           
+                      
+                    }
+
+            }
+
+              if($request->monto>0){
+
+                $detvent=Detalle_Ventas::where('id_venta', $request->id_venta)
+                                       ->where('id_producto', 36)
+                                       ->count();
+                if($detvent<0){
+
+                      $deliverys=Montos_delivery::select('id', 'monto')->where('id',$request->monto)->first();
+
+                      $deliver= new Detalle_Ventas;
+                      $deliver->id_venta    = $venta->id;
+                      $deliver->id_producto = 36;
+                      $deliver->cantidad    = 1;
+                      $deliver->precio      = $deliverys->monto;
+                      $deliver->id_usuario  = $request->id_usuario;
+                      $deliver->save(); 
+                      }           
+              }
+
+              $del= Detalle_Temporal::where('id_cliente', $request->id_cliente)->delete();
+
+              $jsonres['message']="La Venta fue  Modificada con Éxito";
+               echo json_encode($jsonres);
+
+        
+        
+}
+
+}
 
 }
