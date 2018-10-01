@@ -25,9 +25,9 @@
     <h3 class="tile-title text-center text-md-left">Detalles del Cliente</h3>
       <div class="tile-body ">
         <div class="row">
-          <input type="hidden" name="id_cliente" id="id_cliente">
+          <input type="hidden" name="id_cliente" id="id_cliente" value="">
             <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
-            
+             <input type="hidden" name="id_venta" id="id_venta" value="{{$venta[0]->id}}">
           <div class="form-group col-md-4">
             <label for="telefono_cliente">Teléfono</label>
             <input class="form-control" type="text" id="telefono_cliente" name="telefono_cliente" placeholder="..." onkeypress="return soloNumeros(event);" value="{{$venta[0]->telefono}}" maxlength="15" disabled>
@@ -101,12 +101,12 @@
             </div>
              <div class="form-group col-md-4">
               <label for="">Fecha de Entrega</label>
-              <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" data-date-format="DD/MM/YYYY" >
+              <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" data-date-format="DD/MM/YYYY" value="{{date('Y-m-d', strtotime($venta[0]->fecha))}}">
             </div>
             <div class="form-group col-md-4">
               <label for="">Horario de Entrega</label>
               <select class="form-control" id="horario_venta" name="horario_venta">
-                <option value="">Seleccione</option>
+                <option value="{{$venta[0]->id_horario}}">{{$venta[0]->horario}}</option>
                @foreach($horarios as $horario)  
                       <option value="{{$horario->id}}"> {{ $horario->horario }} </option>
                  @endforeach         
@@ -116,7 +116,7 @@
             <div class="form-group col-md-4">
               <label for="">Forma de Pago</label>
               <select class="form-control" id="forma_pago" name="forma_pago">
-                <option value="">Seleccione</option>
+                  <option value="{{$venta[0]->id_forma_pago}}">{{$venta[0]->forma_pago}}</option>
                 @foreach($formas as $forma)  
                     <option value="{{$forma->id}}"> {{ $forma->forma_pago }} </option>
                  @endforeach   
@@ -125,10 +125,13 @@
             <div class="form-group col-md-4">
               <label for="">Factura</label>
               <select id="factura" class="form-control" id="factura" name="factura">
-                <option value="">Seleccione</option>
+               @if($venta[0]->factura==1)
                 <option value="1" selected>No</option>
-                <option value="2">Si</option>
-                <option value="3">Sin Nombre</option>
+               @elseif($venta[0]->factura==2)
+                <option value="2" selected>Si</option>
+               @else
+                <option value="3" selected>Sin Nombre</option>
+               @endif
               </select>
             </div>
             <div class="form-group col-md-4">
@@ -139,18 +142,29 @@
               </select>
             </div>
             {{-- ESTOS CAMPOS APARECEN CUANDO SE SELECCIONA FACTURA : SI / SIN NOMBRE   --}}
-            <div id="nombres_factura" class=" d-none form-group col-md-4">
+             @if($venta[0]->factura==2)
+            <div id="nombres_factura" class="form-group col-md-4">
               <label for="">Nombres</label>
-              <input class="form-control" type="text" id="factura_nomb" name="factura_nomb"   maxlength="50"  oncopy="return false" >
+              <input class="form-control" type="text" id="factura_nomb" name="factura_nomb"   maxlength="50"  oncopy="return false" value="{{$venta[0]->fnombres}}" >
             </div>
-            <div id="direccion_factura" class=" d-none form-group col-md-8">
+            <div id="direccion_factura" class="form-group col-md-8">
               <label for="">Direccion</label>
-              <input class="form-control" type="text" id="factura_dir" name="factura_dir" maxlength="150" >
+              <input class="form-control" type="text" id="factura_dir" name="factura_dir" maxlength="150" value="{{$venta[0]->fdireccion}}">
             </div>
-            <div id="ruc_factura" class=" d-none form-group col-md-4">
+            <div id="ruc_factura" class="form-group col-md-4">
               <label for="">RUC</label>
-              <input class="form-control" type="text" id="factura_ruc" name="factura_ruc"  onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false">
+              <input class="form-control" type="text" id="factura_ruc" name="factura_ruc"  onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false" value="{{$venta[0]->fruc}}">
             </div>
+            @elseif($venta[0]->factura==3)
+            <div id="nombres_factura" class="form-group col-md-4">
+              <label for="">Nombres</label>
+              <input class="form-control" type="text" id="factura_nomb" name="factura_nomb"   maxlength="50"  oncopy="return false" value="{{$venta[0]->fnombres}}" readonly>
+            </div>
+            <div id="ruc_factura" class="form-group col-md-4">
+              <label for="">RUC</label>
+              <input class="form-control" type="text" id="factura_ruc" name="factura_ruc"  onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false" value="{{$venta[0]->fruc}}" readonly>
+            </div>
+            @endif
             {{-- //// --}}
             
             <div class="form-group col-md-8">
@@ -158,13 +172,13 @@
               <div class="row">
                 <div class="col-3 text-right">
                   <label class="form-check-label mt-2">
-                    <input class="form-check-input" id="delivery" type="checkbox" name="monto" type="checkbox" value="1">Gratis
+                    <input class="form-check-input" id="delivery"  name="delivery" type="checkbox" >Gratis
                   </label>
                 </div>
                 <div class="col-9">
                
-              <select class="form-control" id="monto" name="monto" >
-                <option value="">Monto</option>
+              <select class="form-control monto" id="monto" name="monto" >
+                      <option value=""> Monto </option>
                @foreach($deliverys as $delivery)  
                       <option value="{{$delivery->id}}"> {{ $delivery->monto }} </option>
                  @endforeach             
@@ -175,7 +189,7 @@
             </div>
             <div class="form-group col-md-12">
               <label for="">Nota</label>
-              <textarea name="nota_venta" id="nota_venta" class="form-control" cols="5"></textarea>
+              <textarea name="nota_venta" id="nota_venta" class="form-control" cols="5">{{$venta[0]->notas}}</textarea>
             </div>
               
           </div>
@@ -284,13 +298,32 @@
                 </thead>
                 
                 <tbody>
-                  
+                  <?php $id=0; $subimporte=0; $mtotal=0;?>
+                  @foreach($detalles as $detalle) 
+                    @if($detalle->id_producto==36)
+                     <?php $id = $detalle->id_delivery; ?>
+                    @else
+                     
+                  <tr><td  width="15%" id="d-cod_producto">{{$detalle->codigo_producto}}</td>
+                  <td width="30%" id="d-descripcion">{{$detalle->descripcion}}</td>
+                  <td width="15%" id="d-cantidad" class="text-center">{{$detalle->cantidad}}</td>
+                  <td width="20%" id="d-precio" class="text-center">{{$detalle->precio}}</td>
+                    <?php $subimporte= $detalle->cantidad * $detalle->precio;
+                    $mtotal+=$subimporte;?>
+                  <td width="20%" id="d-importe" class="text-center">{{$subimporte}}</td>
+                  <td width="15%" class="text-center"><div class="btn-group">
+                  <button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="{{$detalle->id_producto}}" ><i class="m-0 fa fa-lg fa-trash"></i></button>
+                  <button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="{{$detalle->id_producto}}"><i class="m-0 fa fa-lg fa-info"></i></button></div>
+                  </td>
+                  </tr> 
+                    @endif
+                  @endforeach
                 </tbody>
 
                   
                
               </table>
-               <div class="text-right col-md-"><h3><div id='total'></div></h3>
+               <div class="text-right col-md-"><h3><div id='total'>Total Gs.:{{$mtotal}}</div></h3>
                <button class="btn btn-primary" type="submit" id="btn-save" disabled>Guardar</button></div>
             </div>
           </div>
@@ -396,7 +429,7 @@
 <script type="text/javascript" charset="utf-8" async defer>
    
 
-     window.onload = function(){
+  /*   window.onload = function(){
       var fecha = new Date(); //Fecha actual
       var mes = fecha.getMonth()+1; //obteniendo mes
       var dia = fecha.getDate(); //obteniendo dia
@@ -408,9 +441,16 @@
       document.getElementById('fecha_venta').value=ano+"-"+mes+"-"+dia;
       document.getElementById('fecha_entrega').value=ano+"-"+mes+"-"+dia;
 
-    }
-    
+    }*/ 
+  $("#btn-save").prop('disabled', false);
+  var id_delivery = '{{$id}}';
 
+  if(id_delivery!=0){
+    $('select[name=monto]').val(id_delivery);
+  }else{
+    $("#delivery").prop('checked', true);
+    $('#monto').prop('disabled', true);
+  }
   var url1 = '{{ $url1 }}';
   var url2 = '{{ $url2 }}';
 
@@ -583,7 +623,7 @@
        $('#img-prod').html('');
       $('#det-carousel').html('');
 
-    $.get('ventas/detalle/'+ id_producto, function(data){
+    $.get('../../ventas/detalle/'+ id_producto, function(data){
       console.log(data);
           $.ajaxSetup({
             headers: {

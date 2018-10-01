@@ -99,8 +99,7 @@ class VentasController extends Controller
         $del= Detalle_Temporal::where('id_producto',$prod)->delete();
         $espera= Detalle_Temporal::where('espera', 1)->count();
 
-        return $espera ;
-    
+        return $espera;
 
     }
      public function create(Request $request){
@@ -357,13 +356,21 @@ class VentasController extends Controller
             ->join('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
             ->join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
             ->join('departamentos', 'clientes.id_departamento', '=', 'departamentos.id')
+            ->join('facturas', 'ventas.id', '=', 'facturas.id_venta')
             ->join('horarios', 'ventas.id_horario', '=', 'horarios.id')
             ->join('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
-                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres','clientes.ruc_ci', 'clientes.id_tipo','clientes.email','clientes.telefono', 'clientes.direccion','clientes.ubicacion','clientes.barrio', 'departamentos.nombre as departamento', 'ciudades.ciudad as ciudad','barrio', 'clientes.id_ciudad as id_ciudad', 'clientes.id_departamento as id_departamento', 'ciudades.ciudad')
+                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_forma_pago', 'forma_pago.forma_pago', 'ventas.factura', 'ventas.id_horario', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres','clientes.ruc_ci', 'clientes.id_tipo','clientes.email','clientes.telefono', 'clientes.direccion','clientes.ubicacion','clientes.barrio', 'departamentos.nombre as departamento', 'ciudades.ciudad as ciudad','barrio', 'clientes.id_ciudad as id_ciudad', 'clientes.id_departamento as id_departamento', 'ciudades.ciudad',  'facturas.nombres as fnombres',  'facturas.ruc_ci as fruc', 'facturas.direccion as fdireccion')
                 ->where('ventas.id', $id)
                 ->get();
+          $detalles=Ventas::join('detalle_ventas', 'detalle_ventas.id_venta', '=','ventas.id')
+                         ->join('productos', 'detalle_ventas.id_producto', '=','productos.id')
+                         ->leftjoin('montos_delivery', 'montos_delivery.monto', '=','detalle_ventas.precio')
+                         ->select('detalle_ventas.cantidad', 'detalle_ventas.precio', 'detalle_ventas.id_producto','montos_delivery.id as id_delivery', 'productos.codigo_producto', 'productos.nombre_original', 'productos.descripcion')
+                         ->where('ventas.id', '=', $id)
+                         ->get();
+          
         
-         return view('Procesar.Ventas.edit', compact('venta','horarios','deliverys', 'formas'));
+         return view('Procesar.Ventas.edit', compact('venta','horarios','deliverys', 'formas', 'detalles'));
     }
 
 }
