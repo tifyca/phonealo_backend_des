@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use NumerosEnLetras;
 use PDF;
 use DB;
+use App\Detalle_Ventas;
 use App\Ventas;
 use App\Ciudades;
 use App\Horarios;
@@ -151,10 +152,9 @@ class LogisticaController extends Controller
                     ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura',  'ventas.fecha', 'ventas.notas',  'facturas.nombres',  'facturas.ruc_ci', 'clientes.telefono', 'facturas.direccion')
                     ->where('ventas.id', '=', $request->id_venta)
                     ->get();
-        $factura=Ventas::join('detalle_ventas', 'detalle_ventas.id_venta', '=','ventas.id')
-                         ->join('productos', 'detalle_ventas.id_producto', '=','productos.id')
+        $factura=Detalle_Ventas::join('productos', 'detalle_ventas.id_producto', '=','productos.id')
                          ->select('detalle_ventas.cantidad', 'detalle_ventas.precio', 'productos.nombre_original', 'productos.descripcion')
-                         ->where('ventas.id', '=', $request->id_venta)
+                         ->where('detalle_ventas.id_venta', '=', $request->id_venta)
                          ->get();
 
 
