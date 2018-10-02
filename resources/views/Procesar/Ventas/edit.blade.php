@@ -11,7 +11,8 @@
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', 'd-none') @section('link_back', '')
+@section('display_back', '') @section('link_back', url('procesar/logistica'))
+
 @section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')

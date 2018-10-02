@@ -162,11 +162,11 @@
               data: {id_ciudad: id_ciudad},
               success: function (data){
 
+                    $(".barrios").append('<option value=0> Seleccione </option>');
                  $.each(data, function(l, item2) {
 
-                    $(".ciudades").append('<option value=0> Seleccione </option>');
                    //$(".ciudades option:eq(1)").prop("selected", true);
-                   $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
+                   $(".barrios").append('<option value="'+item2.barrio+'">'+item2.barrio+'</option>');
                   });
               }
           });

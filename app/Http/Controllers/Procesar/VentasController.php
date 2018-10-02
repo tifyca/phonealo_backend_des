@@ -45,11 +45,18 @@ class VentasController extends Controller
 
   public function addventa(Request $request){
 
+        $precio_min=Productos::where('id',$request->id_producto)
+                              ->Select('precio_minimo')->first();
+        $pmin=$precio_min->precio_minimo;
+                             
         $data=$request->all();
 
-        $rules = array( 'cantidad'=>'required');
+        $rules = array( 'cantidad'=>'required',
+                        'precio'=> 'required|min:'.$pmin);
 
-        $messages = array( 'cantidad.required'=>'La Cantidad es Requerida');
+        $messages = array( 'cantidad.required'=>'La Cantidad es Requerida',
+                            'precio.required'=>'El Precio es Requerido',
+                            'precio.min'=> 'El Precio No Puede ser Menor A '.$pmin );
 
         $validator = Validator::make($data, $rules, $messages);
 

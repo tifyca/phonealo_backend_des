@@ -37,7 +37,7 @@
             <div class="form-group col-md-6">
               <label for="telefono_cliente">Teléfonos</label>
               <input class="form-control read" type="text" id="telefono_cliente" name="telefono_cliente" readonly value="{{$cliente->telefono}}" onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false">
-              <input class="form-control read"  type="text" id="telefono_cliente2" name="telefono_cliente2" placeholder="..." value="{{$cliente->telefono2}}" onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false" >
+              <input class="form-control read"  type="text" id="telefono_cliente2" name="telefono_cliente2"  readonly placeholder="..." value="{{$cliente->telefono2}}" onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false" >
             </div>
             <div class="form-group col-md-6">
               <label for="ruc_cliente">RUC</label>
@@ -195,7 +195,7 @@
                  $.each(data, function(l, item2) {
 
                    //$(".ciudades option:eq(1)").prop("selected", true);
-                   $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
+                   $(".barrios").append('<option value="'+item2.barrio+'">'+item2.barrio+'</option>');
                   });
               }
           });
