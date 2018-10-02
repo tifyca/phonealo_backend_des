@@ -756,7 +756,7 @@ console.log("Buscar: "+id_barrio_selected);
               dataType: "json",
               data: {id_departamento: id_departamento},
               success: function (data){
-                   // $(".ciudades").append('<option value=0> Seleccione </option>');
+                    $(".ciudades").append('<option value=0> Seleccione </option>');
                  $.each(data, function(l, item1) {
 
                    //$(".ciudades option:eq(1)").prop("selected", true);
@@ -779,11 +779,12 @@ console.log("Buscar: "+id_barrio_selected);
               dataType: "json",
               data: {id_ciudad: id_ciudad},
               success: function (data){
+                $(".barrios").append('<option value=0> Seleccione </option>');
 
                  $.each(data, function(l, item2) {
                  // $(".barrios").append('<option value=0> Seleccione </option>');
                    //$(".ciudades option:eq(1)").prop("selected", true);
-                   $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
+                   $(".barrios").append('<option value="'+item2.barrio+'">'+item2.barrio+'</option>');
                   });
               }
           });
