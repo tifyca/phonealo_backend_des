@@ -11,7 +11,8 @@
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', 'd-none') @section('link_back', '')
+@section('display_back', '') @section('link_back', url('procesar/logistica'))
+
 @section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
@@ -25,7 +26,7 @@
     <h3 class="tile-title text-center text-md-left">Detalles del Cliente</h3>
       <div class="tile-body ">
         <div class="row">
-          <input type="hidden" name="id_cliente" id="id_cliente" value="">
+          <input type="hidden" name="id_cliente" id="id_cliente" value="{{$venta[0]->idcliente}}">
             <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
              <input type="hidden" name="id_venta" id="id_venta" value="{{$venta[0]->id}}">
           <div class="form-group col-md-4">
@@ -264,7 +265,7 @@
             <input class="form-control" type="text" id="precio" name="precio" >
           </div>
           <div class="col-sm-12 opacity-p d-flex justify-content-between mt-4">
-            <a class="btn btn-primary " onclick="add_cesta();" id="btn-add" value="add"><i class=" fa fa-lg fa-plus"></i>Añadir</a>
+            <a class="btn btn-primary " onclick="add_cesta_edit();" id="btn-add" value="add"><i class=" fa fa-lg fa-plus"></i>Añadir</a>
             <a id="refrescar" class="btn btn-secondary " ><i class=" fa fa-lg fa-refresh"></i>Refrescar</a>
           </div>
         </div>
@@ -312,7 +313,7 @@
                     $mtotal+=$subimporte;?>
                   <td width="20%" id="d-importe" class="text-center">{{$subimporte}}</td>
                   <td width="15%" class="text-center"><div class="btn-group">
-                  <button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="{{$detalle->id_producto}}" ><i class="m-0 fa fa-lg fa-trash"></i></button>
+                  <button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary deledit" value="{{$detalle->id_producto}}" ><i class="m-0 fa fa-lg fa-trash"></i></button>
                   <button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="{{$detalle->id_producto}}"><i class="m-0 fa fa-lg fa-info"></i></button></div>
                   </td>
                   </tr> 
@@ -324,7 +325,7 @@
                
               </table>
                <div class="text-right col-md-"><h3><div id='total'>Total Gs.:{{$mtotal}}</div></h3>
-               <button class="btn btn-primary" type="submit" id="btn-save" disabled>Guardar</button></div>
+               <button class="btn btn-primary" type="submit" id="btn-edit" >Guardar</button></div>
             </div>
           </div>
       </div>

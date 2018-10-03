@@ -12,7 +12,7 @@ npm-debug.log
 yarn-error.log
 config/database.php
 .env
-
+composer.lock
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml

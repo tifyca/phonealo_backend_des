@@ -24,6 +24,8 @@
      <li><a class="treeview-item {{ Request::is('configurar/horas/horas*') ? 'active' : '' }}" href="{{ route('horas.index') }}"> <i class="icon fa fa-circle-o"></i>Horas</a></li>
      
      <li><a class="treeview-item {{ Request::is('configurar/montos_delivery*') ? 'active' : '' }}" href="{{ route('montos_delivery.index') }}"> <i class="icon fa fa-circle-o"></i>Delivery</a></li>
+
+     <li><a class="treeview-item {{ Request::is('configurar/formas*') ? 'active' : '' }}" href="{{ route('formas.index') }}"><i class="icon fa fa-circle-o"></i>Formas Pago</a></li>
      
      @endif
    </ul>

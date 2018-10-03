@@ -31,10 +31,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('agregar_remisa', 'Ajax\Logistica@agregar_remisa')->name('agregar_remisa');
     Route::get('quitar_remisa', 'Ajax\Logistica@quitar_remisa')->name('quitar_remisa');
     Route::get('num_factura', 'Ajax\Logistica@num_factura')->name('num_factura');
-
-    ///
-    Route::get('filtro_ciudad', 'Ajax\Logistica@filtro_ciudad')->name('filtro_ciudad');
-    Route::get('filtro_horario', 'Ajax\Logistica@filtro_horario')->name('filtro_horario');
+    Route::get('activar_venta', 'Ajax\Logistica@activar_venta')->name('activar_venta');
+    Route::get('asignar_remisa', 'Ajax\Logistica@asignar_remisa')->name('asignar_remisa');
+    
     
 
     
@@ -122,7 +121,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('configurar/horas/mod/{hora_id?}','Configurar\HorasController@update');
     Route::delete('configurar/horas/{hora_id?}','Configurar\HorasController@destroy');
      
-   
+    Route::resource('configurar/formas', 'Configurar\FormaPagoController');
+    Route::post('configurar/formas/create','Configurar\FormaPagoController@store');
+    Route::get('configurar/formas/edit/{forma_id?}','Configurar\FormaPagoController@editar');
+    Route::put('configurar/formas/mod/{forma_id?}','Configurar\FormaPagoController@update');
+    Route::delete('configurar/formas/{forma_id?}','Configurar\FormaPagoController@destroy');
    
 
 
@@ -279,7 +282,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('searchCliente/{tlf?}', 'Procesar\VentasController@getcliente')->name('searchCliente');
     Route::post('procesar/ventas/add', 'Procesar\VentasController@addventa');
     Route::post('procesar/ventas/create', 'Procesar\VentasController@create');
-    Route::get('/procesar/elimanarProdCesta/{prod?}', 'Procesar\VentasController@delventa');
+    Route::post('procesar/ventas/editar', 'Procesar\VentasController@editar_guardar');
+    Route::get('/procesar/elimanarProdCesta/{prod?}/{client?}', 'Procesar\VentasController@delventa');
+    Route::post('procesar/Ventas/delProdCesta/', 'Procesar\VentasController@deleditventa');
     Route::get('procesar/ventas/detalle/{valor}', 'Procesar\VentasController@detalle_producto');
     Route::get('procesar/Ventas/editar/{id_venta?}','Procesar\VentasController@editar_venta');
     
