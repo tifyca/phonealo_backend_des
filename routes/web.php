@@ -120,7 +120,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('configurar/horas/mod/{hora_id?}','Configurar\HorasController@update');
     Route::delete('configurar/horas/{hora_id?}','Configurar\HorasController@destroy');
      
-   
+    Route::resource('configurar/formas', 'Configurar\FormaPagoController');
+    Route::post('configurar/formas/create','Configurar\FormaPagoController@store');
+    Route::get('configurar/formas/edit/{forma_id?}','Configurar\FormaPagoController@editar');
+    Route::put('configurar/formas/mod/{forma_id?}','Configurar\FormaPagoController@update');
+    Route::delete('configurar/formas/{forma_id?}','Configurar\FormaPagoController@destroy');
    
 
 
