@@ -52,7 +52,7 @@ class VentasController extends Controller
         $data=$request->all();
 
         $rules = array( 'cantidad'=>'required',
-                        'precio'=> 'required|min:'.$pmin);
+                        'precio'=> 'required|numeric|min:'.$pmin);
 
         $messages = array( 'cantidad.required'=>'La Cantidad es Requerida',
                             'precio.required'=>'El Precio es Requerido',
