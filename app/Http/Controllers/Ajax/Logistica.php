@@ -60,7 +60,7 @@ class Logistica extends Controller
         $remisa->id_delivery = $id_empleado;
         $remisa->id_usuario = $id_usuario;
         $remisa->importe = $total;
-        $remisa->fecha = "2018-10-03";
+        $remisa->fecha = date("Y-m-d");
         $remisa->id_estado = 7;
         $remisa->save();
         return $remisa;
