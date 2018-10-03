@@ -23,6 +23,7 @@ class Ventas extends Model
                 ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_horario', 'ventas.factura', 'forma_pago.forma_pago', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'clientes.id_ciudad','ciudades.ciudad')
                 ->where('ventas.id_estado', '=', '1')
                 ->orWhere('ventas.id_estado', '=', '11')
+            ->orderby( 'ventas.id', 'desc')
             ->get();
     }
 
@@ -33,10 +34,10 @@ class Ventas extends Model
             ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
             ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
             ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
-                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'ventas.id_horario',  'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
-                ->where('ventas.id_estado', '=', '5') 
-                ->orWhere('ventas.id_estado', '=', '12')             
-                ->orderby('horarios.horario', 'desc')
+                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_horario', 'ventas.factura', 'forma_pago.forma_pago', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'clientes.id_ciudad','ciudades.ciudad')
+                ->where('ventas.id_estado', '=', '5')
+                ->orWhere('ventas.id_estado', '=', '12')
+            ->orderby( 'ventas.id', 'desc')
             ->get();
     }
 
@@ -49,7 +50,7 @@ class Ventas extends Model
             ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
                 ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
                 ->where('ventas.id_estado', '=', '6')
-                ->orderby('horarios.horario', 'desc')
+                ->orderby( 'ventas.id', 'desc')
             ->get();
     }
 
@@ -63,7 +64,7 @@ class Ventas extends Model
                 ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
                 ->where('ventas.id_estado', '=', '6')
                 ->orWhere('ventas.id_estado', '=', '12')
-                ->orderby('horarios.horario', 'desc')
+                ->orderby( 'ventas.id', 'desc')
             ->get();
     }
 

@@ -13,7 +13,7 @@
 @section('content')
 
 <div class="row" >
-  {{-- TABLA DE REMITOS --}}
+  {{-- TABLA DE REMISAS --}}
   {{-- ESTA LISTA SE MANTIENE OCULTA, SOLO APARECE CUANDO AÑADO UNA VENTA A REMISA --}}
   @if(count($remisas) > 0)
   <div class="col-12" >
@@ -28,7 +28,7 @@
       </div>
       <div class="tile-body ">
         <div class="table-responsive">
-              <table class="table table-hover table-bordered " id="sampleTable">
+              <table class="table table-hover table-bordered " id="remisas-list">
                 <thead>
                   <tr>
                     <th style="text-align: center">Venta</th>
@@ -48,7 +48,7 @@
                   <tr>
                      <!-- jgonzalez LISTADO DE VENTAS PARA REMISA-->
                   @foreach($remisas as $remisa)
-                   <tr class="table-active">
+                   <tr class="table-success">
                       <td style="text-align: center">{{$remisa->id}}</td>
                       <td style="text-align: center">{{$remisa->nombres}}</td>
                       <td style="text-align: center">{{$remisa->telefono}}</td>
@@ -84,93 +84,15 @@
     </div>
   </div>
   @endif
-  
-  {{-- TABLA POR ATENDER --}}
-  {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS POR ATENDER --}}
-  @if(count($enEsperas) > 0)
-   <div class="col-12" >
-    <div class="tile ">
-      <h3 class="tile-title text-center text-md-left"> Ventas por Atender </h3>
-      <div class="tile-body ">
-        <div class="table-responsive">
-              <table class="table table-hover table-bordered " id="sampleTable">
-                <thead>
-                  <tr>
-                    <th style="text-align: center">Venta</th>
-                    <th style="text-align: center">Cliente</th>
-                    <th style="text-align: center">Teléfono</th>
-                    <th style="text-align: center">Dirección</th>
-                    <th style="text-align: center">Fecha</th>
-                    <th style="text-align: center">Fecha Activo</th>
-                    <th style="text-align: center">Ciudad</th>
-                    <th style="text-align: center">Horario</th>
-                    <th style="text-align: center">Forma Pago</th>
-                    <th style="text-align: center">Importe</th>
-                    <th style="text-align: center">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
 
-                  <!-- jgonzalez LISTADO DE VENTAS EN ESPERA-->
-                  
-                  @foreach($enEsperas as $enEspera)
-                   <tr 
-                    @if($enEspera->id_estado = '1')
-                      class="table-active"
-                    @elseif($enEspera->id_estado = '5')
-                      class="table-primary"
-                    @elseif($enEspera->id_estado = '11')
-                      class="table-secondary"
-                    @elseif($enEspera->id_estado = '12')
-                      class="table-light"
-                   @endif
-                   >
-                      <td style="text-align: center">{{$enEspera->id}}</td>
-                      <td style="text-align: center">{{$enEspera->nombres}}</td>
-                      <td style="text-align: center">{{$enEspera->telefono}}</td>
-                      <td style="text-align: center">{{$enEspera->direccion}}</td>
-                      <td style="text-align: center">{{$enEspera->fecha}}</td>
-                      <td style="text-align: center">{{$enEspera->fecha_activo}}</td>
-                      <td style="text-align: center">{{$enEspera->ciudad}}</td>
-                      <td style="text-align: center">{{$enEspera->horario}}</td>
-                      <td style="text-align: center">{{$enEspera->forma_pago}}</td>
-                      <td style="text-align: center">{{$enEspera->importe}}</td>
-                      <td width="10%" class="text-center">
-                        <div class="btn-group">
-                         
-                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
-
-                        @if($enEspera->factura==2 || $enEspera->factura==3) 
-                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
-                        @else
-                         <button class="btn btn-primary disabled-btn factura" data-toggle="modal" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
-                        @endif  
-                        <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
-                        </div>
-                      </td>
-                    </tr>
-                    
-                  @endforeach
-
-                </tbody>
-              </table>
-            </div>
-      </div>
-    </div>
-  </div>
-  @endif
-  {{--  --}}
-  {{--  --}}
-  <div class="col-12">
-    <div class="tile">
-      <!--Formulario para filtros -->
+  <div>
+    <!--Formulario para filtros -->
       <form action="{{ route('logistica.submit') }} " method="POST">
         {{ csrf_field() }}
       <div class="col mb-3 text-center">
           <div class="row">
             <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado</h3>
+              <h3 class="tile-title text-center text-md-left">Busqueda</h3>
             </div>
             
             <div class="form-group col-md-2">
@@ -213,10 +135,172 @@
         </div>
         </form>
         <!---->
+  </div>
+
+    {{-- TABLA POR ATENDER --}}
+  {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS POR ATENDER --}}
+  @if(count($xatender) > 0)
+   <div class="col-12" >
+    <div class="tile ">
+      <h3 class="tile-title text-center text-md-left"> Ventas por Atender </h3>
+      <div class="tile-body ">
+        <div class="table-responsive">
+              <table class="table table-hover table-bordered " id="xatender-list">
+                <thead>
+                  <tr>
+                    <th style="text-align: center">Venta</th>
+                    <th style="text-align: center">Cliente</th>
+                    <th style="text-align: center">Teléfono</th>
+                    <th style="text-align: center">Dirección</th>
+                    <th style="text-align: center">Fecha</th>
+                    <th style="text-align: center">Fecha Activo</th>
+                    <th style="text-align: center">Ciudad</th>
+                    <th style="text-align: center">Horario</th>
+                    <th style="text-align: center">Forma Pago</th>
+                    <th style="text-align: center">Importe</th>
+                    <th style="text-align: center">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <!-- jgonzalez LISTADO DE VENTAS EN ATENDER-->
+                  
+                  @foreach($xatender as $atender)
+                   <tr class="table-danger">
+                      <td style="text-align: center">{{$atender->id}}</td>
+                      <td style="text-align: center">{{$atender->nombres}}</td>
+                      <td style="text-align: center">{{$atender->telefono}}</td>
+                      <td style="text-align: center">{{$atender->direccion}}</td>
+                      <td style="text-align: center">{{$atender->fecha}}</td>
+                      <td style="text-align: center">{{$atender->fecha_activo}}</td>
+                      <td style="text-align: center">{{$atender->ciudad}}</td>
+                      <td style="text-align: center">{{$atender->horario}}</td>
+                      <td style="text-align: center">{{$atender->forma_pago}}</td>
+                      <td style="text-align: center">{{$atender->importe}}</td>
+                      <td width="10%" class="text-center">
+                        <div class="btn-group">
+                         
+                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+
+                        @if($atender->factura==2 || $atender->factura==3) 
+                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $atender->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
+                        @else
+                         <button class="btn btn-primary disabled-btn factura" data-toggle="modal" data-target="#ModalFactura" id="factura" value="{{ $atender->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
+                        @endif  
+                        <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
+                        </div>
+                      </td>
+                    </tr>
+                    
+                  @endforeach
+
+                </tbody>
+              </table>
+            </div>
+      </div>
+    </div>
+  </div>
+  @endif
+  {{--  --}}
+  {{--  --}}
+
+
+  {{-- TABLA EN ESPERA --}}
+  {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS EN ESPERA --}}
+  @if(count($enEsperas) > 0)
+   <div class="col-12" >
+    <div class="tile ">
+      <h3 class="tile-title text-center text-md-left"> Ventas en Espera </h3>
+      <div class="tile-body ">
+        <div class="table-responsive">
+              <table class="table table-hover table-bordered " id="esperas-list">
+                <thead>
+                  <tr>
+                    <th style="text-align: center">Venta</th>
+                    <th style="text-align: center">Cliente</th>
+                    <th style="text-align: center">Teléfono</th>
+                    <th style="text-align: center">Dirección</th>
+                    <th style="text-align: center">Fecha</th>
+                    <th style="text-align: center">Fecha Activo</th>
+                    <th style="text-align: center">Ciudad</th>
+                    <th style="text-align: center">Horario</th>
+                    <th style="text-align: center">Forma Pago</th>
+                    <th style="text-align: center">Importe</th>
+                    <th style="text-align: center">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <!-- jgonzalez LISTADO DE VENTAS EN ESPERA-->
+                  
+                  @foreach($enEsperas as $enEspera)
+                   <tr 
+                    @if($enEspera->id_estado == '5')
+                      class="table-info"
+                    @elseif($enEspera->id_estado == '12')
+                      class="table-light"
+                    @endif 
+                    >
+                      <td style="text-align: center">{{$enEspera->id}}</td>
+                      <td style="text-align: center">{{$enEspera->nombres}}</td>
+                      <td style="text-align: center">{{$enEspera->telefono}}</td>
+                      <td style="text-align: center">{{$enEspera->direccion}}</td>
+                      <td style="text-align: center">{{$enEspera->fecha}}</td>
+                      <td style="text-align: center">{{$enEspera->fecha_activo}}</td>
+                      <td style="text-align: center">{{$enEspera->ciudad}}</td>
+                      <td style="text-align: center">{{$enEspera->horario}}</td>
+                      <td style="text-align: center">{{$enEspera->forma_pago}}</td>
+                      <td style="text-align: center">{{$enEspera->importe}}</td>
+                      <td width="10%" class="text-center">
+                        <div class="btn-group">
+                       
+                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+                        
+                        @if($enEspera->factura==2 || $enEspera->factura==3) 
+                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
+                        @else
+                         <button class="btn btn-primary disabled-btn factura" data-toggle="modal" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
+                        @endif 
+
+                        @if($enEspera->id_estado == 12 || $enEspera->id_estado == 5) 
+                        <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary disabled-btn remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                        @else
+                        <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary  remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                        @endif 
+
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+
+                        <button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button>   
+                        </div>
+                      </td>
+                    </tr>
+                    
+                  @endforeach
+
+                </tbody>
+              </table>
+            </div>
+      </div>
+    </div>
+  </div>
+  @endif
+  {{--  --}}
+  {{--  --}}
+  
+  <div class="col-12">
+    <div class="tile">
+      <div class="col mb-3 text-center">
+          <div class="row">
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Listado</h3>
+            </div>
+          </div>
+        </div>
         <div class="tile-body ">
           <div class="tile-body">
             <div class="table-responsive">
-              <table class="table table-hover table-bordered " id="sampleTable">
+              <table class="table table-hover table-bordered " id="activas-list">
                 <thead>
                   <tr>
                     <th style="text-align: center">Venta</th>
@@ -238,23 +322,14 @@
                     $total = 0;
                   ?>
 
-                  <!-- esta es la hora actual supongo que esta ajustada al pais-->
-                  {{-- date("H:i") --}}
+                  
                   @foreach($activas as $activa)
-                   <tr id="{{$activa->id}}"   
-                    @if(date("H:i") > "09:00" || date("H:i") > "11:59")
-                      class="table-danger respFiltro"
-                    @elseif(date("H:i") > "12:00" || date("H:i") > "14:59")
-                      class="table-danger respFiltro"
-                    @elseif(date("H:i") > "15:00" || date("H:i") > "17:59")
-                      class="table-danger respFiltro" 
-                    @elseif(date("H:i") > "18:00:00" || date("H:i") > "20:59:59")
-                      class="table-danger respFiltro"
-                    @elseif(date("H:i") > "21:00:00")
-                      class="table-danger respFiltro" 
-                    @else
-                      class="table-active respFiltro"
-                   @endif
+                   <tr 
+                   @if($activa->id_estado == '1')
+                      class="table-active"
+                    @elseif($activa->id_estado == '11')
+                      class="table-warning"
+                    @endif 
                    >
                       <td style="text-align: center">{{$activa->id}}</td>
                       <td style="text-align: center">{{$activa->nombres}}</td>
@@ -325,8 +400,8 @@
               <tr>
                 <th style="text-align: center;">Venta</th>
                 <th style="text-align: center;">Cliente</th>
-                <th style="text-align: center;">Telefono</th>
-                <th style="text-align: center;">Direccion</th>
+                <th style="text-align: center;">Teléfono</th>
+                <th style="text-align: center;">Dirección</th>
               </tr>
             </thead>
             <tbody id="cliente_detalle">
@@ -342,7 +417,6 @@
                 <th style="text-align: center;">Producto</th>
                 <th style="text-align: center;">Cantidad</th>
                 <th style="text-align: right;">Precio</th>
-                <th style="text-align: center;">Accion</th>
               </tr>
             </thead>
             <tbody id="productos_detalle">
@@ -424,7 +498,6 @@
               <td style="text-align: center;">${item.descripcion}</td>
               <td style="text-align: center;">${item.cantidad}</td>
               <td style="text-align: right;">${item.precio}</td>
-              <td style="text-align: center;"><div class="btn-group"><a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
               </tr>`);
           });
         }
@@ -500,43 +573,26 @@
     return false; 
 }); 
 
-  //<!-- Filtros -->
-  $('.ciudad').change(function(){
-
-      var id = $(this).val();  //CAPTURA EL ID
-      console.log(id);
+  //<!-- Activar venta En Espera-->
+  $('.activar').click(function(){
+    
+    var id = $(this).val();  //CAPTURA EL ID  
+    console.log(id);
       $.ajax({
         type: "GET",
-        url: '{{ url('filtro_ciudad') }}',
+        url: '{{ url('activar_venta') }}',
         dataType: "json",
         data: { id:id, _token: '{{csrf_token()}}'},
         success: function (data){
-          console.log(data);
           
+             $('#respActivarVenta').html('ACTIVADA');     
         }
-      });
+    });
+
+    location.reload(true);
+  });
+
   
-  });
-
-  $('.horario').change(function(){
-
-      var id = $(this).val();  //CAPTURA EL ID
-      console.log(id);
-      $.ajax({
-        type: "GET",
-        url: '{{ url('filtro_horario') }}',
-        dataType: "json",
-        data: { id:id, _token: '{{csrf_token()}}'},
-        success: function (data){
-            console.log(data);
-            data.forEach( function(valor, indice, array) {
-              console.log("En el índice " + indice + " hay este valor: " + valor[+indice]);
-            });
-        }
-          
-      });
-
-  });
  
 
 

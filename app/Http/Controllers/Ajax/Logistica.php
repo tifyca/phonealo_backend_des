@@ -26,7 +26,7 @@ class Logistica extends Controller
     public function quitar_remisa(Request $request){
         $id = $request['id'];
         $venta = Ventas::find($id);
-        $venta->id_estado = 5;
+        $venta->id_estado = 11;
         $venta->save();
         return $venta;
     }
@@ -35,6 +35,14 @@ class Logistica extends Controller
         $num = Facturas::select('id', 'id_venta')->where('id_venta', $id)->get();
      
         return $num;
+    }
+    #jgonzalez
+    public function activar_venta(Request $request){
+        $id = $request['id'];
+        $venta = Ventas::find($id);
+        $venta->id_estado = 11;
+        $venta->save();
+        return $venta;
     }
 
 }
