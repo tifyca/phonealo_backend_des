@@ -122,6 +122,7 @@
 
       @foreach($venta as $item)  
       <br><br><br><br><br>
+  <table class=" table table-hover" width="100%">
 
 <tr>
  <td  style="padding-left:5px; padding-top: 2px; font-size: 12px;" id="nom">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$item->nombres}}</td>
