@@ -18,8 +18,9 @@ class LogisticaController extends Controller
     public function index(Request $request){
         #jgonzalez 2018/09/27 
         $hora = strtotime(date("H:m"));
+        $fecha = date("Y-m-d");
         #06:00
-        if ($hora >= 1538546400) {
+        if ($hora >= 1538546400 || $hora < 1538546400 ) {
             $id_hora = array();
         }
         #09:00
@@ -117,8 +118,8 @@ class LogisticaController extends Controller
         }else{ 
             $enEsperas = Ventas::EnEspera();
         }
-        $xatender = Ventas::Activas()->where('fecha', '=', "2018-10-02")->whereIn('id_horario', $id_hora);
-        $activas = Ventas::Activas()->where('fecha', '=', "2018-10-02")->whereNotIn('id_horario', $id_hora);
+        $xatender = Ventas::Activas()->where('fecha', '=', $fecha)->whereIn('id_horario', $id_hora);
+        $activas = Ventas::Activas()->where('fecha', '=', $fecha)->whereNotIn('id_horario', $id_hora);
         $remisas = Ventas::Remisas();
         $ciudades = Ciudades::get();
         $horarios = Horarios::get();
