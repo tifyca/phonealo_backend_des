@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('quitar_remisa', 'Ajax\Logistica@quitar_remisa')->name('quitar_remisa');
     Route::get('num_factura', 'Ajax\Logistica@num_factura')->name('num_factura');
     Route::get('activar_venta', 'Ajax\Logistica@activar_venta')->name('activar_venta');
+    Route::get('asignar_remisa', 'Ajax\Logistica@asignar_remisa')->name('asignar_remisa');
     
     
 
