@@ -17,7 +17,7 @@
       <br><br><br><br><br>
       <table class=" table table-hover" width="100%">
 <tr>
-  <td style="font-size: 12px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  <td style="font-size: 12px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;{!! Date::now()->format('j F Y');!!} </td>
   <td></td>
 </tr>
 <tr>
@@ -45,7 +45,7 @@
               
                 <tr>
                   <td id="cantidad" align="center" style="font-size: 12px; width: 1px;">{{$item2->cantidad}}</td>
-                  <?php if($item2->nombre_original==""||$item2->nombre_original==NULL){?>     
+                  <?php if(empty($item2->nombre_original)|| is_null($item2->nombre_original)){?>     
                   <td colspan="4" id="producto" align="left" style="font-size: 12px width: 79px;">{{$item2->descricion}}</td>
                   <?php }else{?>
                   <td colspan="4" id="producto" align="left" style="font-size: 12px; width: 79px;">{{$item2->nombre_original}}</td>
@@ -93,7 +93,7 @@
       <br><br><br><br><br>
 <table class=" table table-hover" width="100%">
 <tr>
-  <td style="font-size: 12px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+  <td style="font-size: 12px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp; {!! Date::now()->format('j F Y');!!} </td>
   <td></td>
 </tr>
 <tr>
@@ -120,7 +120,7 @@
               
                 <tr>
                   <td id="cantidad" align="center" style="font-size: 12px; width: 1px;">{{$item2->cantidad}}</td>
-                  <?php if($item2->nombre_original==""||$item2->nombre_original==NULL){?>     
+                  <?php  if(empty($item2->nombre_original)|| is_null($item2->nombre_original)){?>     
                   <td colspan="4" id="producto" align="left" style="font-size: 12px width: 79px;">{{$item2->descricion}}</td>
                   <?php }else{?>
                   <td colspan="4" id="producto" align="left" style="font-size: 12px; width: 79px;">{{$item2->nombre_original}}</td>
