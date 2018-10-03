@@ -31,10 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('agregar_remisa', 'Ajax\Logistica@agregar_remisa')->name('agregar_remisa');
     Route::get('quitar_remisa', 'Ajax\Logistica@quitar_remisa')->name('quitar_remisa');
     Route::get('num_factura', 'Ajax\Logistica@num_factura')->name('num_factura');
-
-    ///
-    Route::get('filtro_ciudad', 'Ajax\Logistica@filtro_ciudad')->name('filtro_ciudad');
-    Route::get('filtro_horario', 'Ajax\Logistica@filtro_horario')->name('filtro_horario');
+    Route::get('activar_venta', 'Ajax\Logistica@activar_venta')->name('activar_venta');
+    
     
 
     
