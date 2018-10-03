@@ -5,7 +5,7 @@
 
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
-@section('icono_titulo', '')
+@section('icono_titulo', 'fa-circle')
 @section('titulo', 'Remisa')
 @section('descripcion', '')
 
@@ -20,7 +20,7 @@
 <div class="row">
   <div class="col-12">
     <div class="tile">
-          <form id="frmc" name="frmc"  novalidate="">
+          <!--<form id="frmc" name="frmc"  novalidate="">-->
             {{ csrf_field() }} 
               <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
@@ -31,19 +31,15 @@
               <select class="form-control read" id="id_empleado" name="id_empleado">
                 <option value="">Repartidor</option>
                   @foreach($repartidores as $repartidor)
-                    <option value="{{$repartidor->id}}" 
-                      @if($repartidor->id==0) 
-                        selected=""
-                      @endif>
-                    {{$repartidor->nombres}}</option>
+                    <option value="{{$repartidor->id}}">{{$repartidor->nombres}}</option>
                   @endforeach
               </select>
               </div>
               <div class="tile-footer col-12 col-md-2 text-center border-0" >
-                <button class="btn btn-primary save"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Guardar</button>
+                <button class="btn btn-primary btn-save"  id="btn-save"><i class="fa fa-fw fa-lg fa-check-circle"></i>Guardar</button>
               </div>
             </div>
-          </form>
+          <!--</form>-->
         <div class="tile-body ">
         </div>  
     </div>
@@ -53,7 +49,7 @@
   <div class="col-12">
     <div class="tile">
       <div class="table-responsive">
-              <table class="table table-hover table-bordered " id="sampleTable">
+              <table class="table table-hover table-bordered " id="ventas-list">
                 <thead>
                   <tr>
                     <th>Venta</th>
@@ -91,8 +87,12 @@
                       $total += $remisa->importe;
                     ?>
                   @endforeach
-                    <tr>
-                    <td colspan="9" class="text-right">
+                       
+                </tbody>
+              </table>
+            <table>
+              <tr>
+                    <td colspan="9" class="text-left">
                       <h4>Total:</h4>
                     </td>
                     <td colspan="1">
@@ -101,11 +101,9 @@
                       </h4>
                     </td>
                   </tr>
-          
-                </tbody>
-              </table>
+            </table>
             </div>
-       
+                     <input type="hidden" id="total" name="total" value="{{$total}}">
     </div>
   </div>
 </div>
@@ -126,6 +124,45 @@
 
 @push('scripts')
 
+<script type="text/javascript">
+  
+  //<!-- Asignar Remisa -->
+  $('#btn-save').click(function(){
+    
+    var id_empleado = $('#id_empleado').val();  //CAPTURA EL ID  
+    var id_usuario = $('#id_usuario').val();  //CAPTURA EL ID
+    var total = $('#total').val();
+    var ventas = [];
+    $("#ventas-list tbody tr").each(function () {
+      
+      ventas.push ($(this).find('td').eq(0).html());
+
+      })
+    console.log(ventas);
+    console.log(id_empleado);
+    console.log(id_usuario);
+    console.log(total)
+    $.ajax({
+        type: "GET",
+        url: '{{ url('asignar_remisa') }}',
+        dataType: "json",
+        data: { id_empleado:id_empleado,id_usuario:id_usuario,total:total, ventas:ventas, _token: '{{csrf_token()}}'},
+        success: function (data){
+          
+             $('#respAsignarRemisa').html('Confirmado');  
+
+        location.href="procesar/logistica"   
+        }
+    });  
+
+    
+  });
+
+
+
+
+
+</script>
  
 
  

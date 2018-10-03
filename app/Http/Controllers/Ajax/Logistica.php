@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Facturas;
 use App\Ventas;
+use App\Remitos;
 class Logistica extends Controller
 {
     #jgonzalez
@@ -44,5 +45,26 @@ class Logistica extends Controller
         $venta->save();
         return $venta;
     }
+    #jgonzalez
+    public function asignar_remisa(Request $request){
+        $id_empleado = $request['id_empleado'];
+        $id_usuario = $request['id_usuario'];
+        $total = $request['total'];
+        $ventas = $request['ventas'];
+        foreach ($ventas as $id) {
+            $venta = Ventas::find($id);
+            $venta->id_estado = 7;
+            $venta->save();
+        }
+        $remisa  = new Remitos;
+        $remisa->id_delivery = $id_empleado;
+        $remisa->id_usuario = $id_usuario;
+        $remisa->importe = $total;
+        $remisa->fecha = "2018-10-03";
+        $remisa->id_estado = 7;
+        $remisa->save();
+        return $remisa;
+    }
+
 
 }

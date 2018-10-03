@@ -108,15 +108,19 @@ class LogisticaController extends Controller
         #horario
         }elseif($id_ciudad =="" && $id_horario !="" && $fecha1=="" && $fecha2==""){
             $enEsperas = Ventas::EnEspera()->where('id_horario', '=', $id_horario);
+            
         #ciudad
         }elseif($id_ciudad !="" && $id_horario =="" && $fecha1=="" && $fecha2==""){
             $enEsperas = Ventas::EnEspera()->where('id_ciudad', '=', $id_ciudad);
+            
         #ciudad y horario
         }elseif($id_ciudad != "" && $id_horario != "" && $fecha1=="" && $fecha2==""){
            $enEsperas = Ventas::EnEspera()->where('id_ciudad', '=', $id_ciudad)->where('id_horario', '=', $id_horario);
+
         #sin
         }else{ 
             $enEsperas = Ventas::EnEspera();
+            
         }
         $xatender = Ventas::Activas()->where('fecha', '=', $fecha)->whereIn('id_horario', $id_hora);
         $activas = Ventas::Activas()->where('fecha', '=', $fecha)->whereNotIn('id_horario', $id_hora);
