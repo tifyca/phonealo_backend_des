@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Procesar;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use NumerosEnLetras;
+use Carbon\Carbon;
 use PDF;
 use DB;
 use App\Detalle_Ventas;
@@ -155,8 +155,11 @@ class LogisticaController extends Controller
                          ->where('detalle_ventas.id_venta', '=', $request->id_venta)
                          ->get();
 
-
-        $pdf = PDF::loadView('Procesar.Logistica.factura', compact('venta', 'factura' ));
+        
+         $fecha = Carbon::now();
+         $date = $fecha->formatLocalized('%d %B %Y');
+        
+        $pdf = PDF::loadView('Procesar.Logistica.factura', compact('venta', 'factura', 'date'));
         return $pdf->download('Factura_'.$request->num_fact.'.pdf');
       
       
