@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +16,7 @@
       <br><br><br><br><br>
       <table class=" table table-hover" width="100%">
 <tr>
-  <td style="font-size: 12px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;{!! Date::now()->format('j F Y');!!} </td>
+  <td style="font-size: 12px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $date }}</td>
   <td></td>
 </tr>
 <tr>
@@ -73,14 +72,14 @@
                   </tr>
               @endforeach 
                   <tr>
-                    <td align="center"  colspan="5" style="font-size: 12px;"> {!!NumerosEnLetras::convertir($timporte)!!}</td>
+                    <td align="center"  colspan="5" style="font-size: 12px;"> {!!($timporte)!!}</td>
                     <td style="width: 10px;"></td>
-                    <td align="center"  style="font-size: 12px;">{{$timporte}} <br><br>{!!number_format($timporte, 0, ',', '.')!!}</td>
+                    <td align="center"  style="font-size: 12px;">{{$timporte}} <br><br>{{$timporte}}</td>
                   </tr>
                   <tr>
                     <td  align="left" >&nbsp;.</td>
-                    <td align="center" colspan="4" style="width: 10px;font-size: 12px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!!number_format($timporte/11, 0, ',', '.')!!}</td>
-                    <td align="right" style="font-size: 12px;">{!!number_format($timporte/11, 0, ',', '.')!!}</td>
+                    <td align="center" colspan="4" style="width: 10px;font-size: 12px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!!$timporte/11!!}</td>
+                    <td align="right" style="font-size: 12px;">{!!$timporte/11!!}</td>
                     <td  align="center" style="font-size: 12px;">&nbsp; </td>
                   </tr>
         
@@ -93,7 +92,7 @@
       <br><br><br><br><br>
 <table class=" table table-hover" width="100%">
 <tr>
-  <td style="font-size: 12px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp; {!! Date::now()->format('j F Y');!!} </td>
+  <td style="font-size: 12px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $date }}  </td>
   <td></td>
 </tr>
 <tr>
@@ -148,14 +147,14 @@
                   </tr>
               @endforeach 
                   <tr>
-                    <td align="center"  colspan="5" style="font-size: 12px;"> {!!NumerosEnLetras::convertir($timporte)!!}</td>
+                    <td align="center"  colspan="5" style="font-size: 12px;"> {!!NumeroALetras::convertir($timporte)!!}</td>
                     <td style="width: 10px;"></td>
-                    <td align="center"  style="font-size: 12px;">{{$timporte}} <br><br>{!!number_format($timporte, 0, ',', '.')!!}</td>
+                    <td align="center"  style="font-size: 12px;">{{$timporte}} <br><br>{{$timporte}}</td>
                   </tr>
                   <tr>
                     <td  align="left" >&nbsp;.</td>
-                    <td align="center" colspan="4" style="width: 10px;font-size: 12px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!!number_format($timporte/11, 0, ',', '.')!!}</td>
-                    <td align="right" style="font-size: 12px;">{!!number_format($timporte/11, 0, ',', '.')!!}</td>
+                    <td align="center" colspan="4" style="width: 10px;font-size: 12px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!!$timporte/11!!}</td>
+                    <td align="right" style="font-size: 12px;">{!!$timporte/11!!}</td>
                     <td  align="center" style="font-size: 12px;">&nbsp; </td>
                   </tr>
         

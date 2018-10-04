@@ -179,7 +179,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Cornford\Googlmapper\MapperServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-       'Jenssegers\Date\DateServiceProvider',
+       
 
     ],
 
@@ -232,7 +232,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Mapper'=> Cornford\Googlmapper\Facades\MapperFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-        'Date' => Jenssegers\Date\Date::class,
+        
 
 
     ],
