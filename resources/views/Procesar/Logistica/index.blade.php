@@ -558,7 +558,7 @@
 
         success: function (data){
           console.log(data);
-          $('#num_fact').val(data[0].id); 
+          $('#num_fact').val(data[0].id_venta); 
           $('#id_venta').val(data[0].id_venta);    
         }
 
