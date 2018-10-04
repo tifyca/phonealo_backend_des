@@ -58,18 +58,20 @@
         </div>
    
      
-          <div class="table-responsive">
+          <div class="table-responsive" style="overflow-x: scroll;">
 
             <p class="text-right"><small>Presione Enter para Guardar Cambios</small></p>
        
-            <table class="table table-hover " id="sampleTable">
+            <table class="table table-hover table-bordered" id="sampleTable">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Código</th>
-                  <th>Descripcion(Interna)</th>
-                  <th>Nombre(Según Proveedor)</th>
-                  <th class="text-center">Precio Ideal</th>
+                  <th width="5%">#</th>
+                  <th width="10%">Código</th>
+                  <th width="30%">Descripcion(Interna)</th>
+                  <th width="30%">Nombre Original</th>
+                   <th width="30%">Nombre(Según Proveedor)</th>
+                  <th width="30%" class="text-center">Precio Ideal</th>
+                  <th width="30%" class="text-center">Precio Mínimo</th>
                 </tr>
               </thead>
               <tbody>
@@ -82,11 +84,15 @@
                       
                  
                 <tr >
-                  <td class="" ><input type="hidden" id="id_proveedor2" name="id_proveedor2" value="{{$ficha->id_proveedor}}"><input type="hidden" id="id_producto2" name="id_producto2" value="{{$ficha->id}}">{{$ficha->id}}</td>
-                  <td>{{$ficha->codigo_producto}}</td>
-                  <td width="40%"><input type="text" class="form-control" name="descripcion" value="{{$ficha->descripcion}}" disabled=""></td>
-                   <td width="40%"><input type="text" class="form-control read" name="nombresp" value="{{$producto}}" id="nombresp" readonly=""></td>
-                  <td width="30%"><input type="text" class="form-control read text-right" name="precio" value="{{$ficha->precio_ideal}}" readonly="" id="precio"></td>
+                  <td class="" width="5%"><input type="hidden" id="id_proveedor2" name="id_proveedor2" value="{{$ficha->id_proveedor}}"><input type="hidden" id="id_producto2" name="id_producto2" value="{{$ficha->id}}">{{$ficha->id}}</td>
+                  <td width="10%">{{$ficha->codigo_producto}}</td>
+                  <td width="30%"><input type="text" class="form-control" name="descripcion" value="{{$ficha->descripcion}}" disabled=""></td>
+                 
+                  <td width="40%"><input type="text" class="form-control" name="nombres_original" value="{{$ficha->nombre_original}}" id="nombres_original"></td>
+                    <td width="40%"><input type="text" class="form-control read" name="nombresp" value="{{$producto}}" id="nombresp" readonly=""></td>
+                  <td width="30%"><input type="text" class="form-control text-right" name="precio" value="{{$ficha->precio_ideal}}" id="precio" size="20"></td>
+                  <td width="30%"><input type="text" class="form-control text-right" name="precio_minimo" value="{{$ficha->precio_minimo}}" size="20" id="precio_minimo"></td>
+
                 </tr>
               @endforeach
               </tbody>
