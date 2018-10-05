@@ -15,6 +15,7 @@ use App\Productos;
 use App\Categorias;
 use App\Subcategorias;
 use App\pedido;
+use App\detalle;
 use App\Montos_delivery;
 use DB;
 use File;
@@ -277,7 +278,7 @@ class VentasController extends Controller
             $pedido->id_usuario =$request->id_usuario;
             $pedido->save(); 
 
-
+            
             $venta= new Ventas;
             $venta->id_pedido = $pedido->id;
             $venta->id_estado = $id_estado_v;
@@ -305,7 +306,7 @@ class VentasController extends Controller
 
 
             
-            $detalle_tempora = Detalle_Temporal::select( 'id_producto', 'cantidad', 'precio',  'id_usuario')->get();
+            $detalle_tempora = Detalle_Temporal::select('id_cliente', 'id_producto', 'cantidad', 'precio',  'id_usuario')->get();
 
               foreach ($detalle_tempora as $dt) {
 
@@ -315,7 +316,20 @@ class VentasController extends Controller
                         $result->cantidad    = $dt->cantidad;
                         $result->precio      = $dt->precio;
                         $result->id_usuario  = $dt->id_usuario;
-                        $result->save();           
+                        $result->save(); 
+
+                        $detallep= new detalle;
+                        $detallep->id_pedido  = $pedido->id;
+                        $detallep->id_producto= $dt->id_producto;
+                        $detallep->cantidad   = $dt->cantidad;
+                        $detallep->precio     = $dt->precio;
+                        $detallep->id_usuario = $dt->id_usuario;
+                        $detallep->save();   
+
+                        $del= Detalle_Temporal::where('id_cliente', $dt->id_cliente)
+                                              ->where('id_producto', $dt->id_producto)
+                                              ->delete();
+      
                 
               }
 
@@ -332,14 +346,13 @@ class VentasController extends Controller
                 $deliver->save();            
               }
 
-              $del= Detalle_Temporal::truncate();
-
+             
               $jsonres['message']="La Venta fue  Registrado con Éxito";
                echo json_encode($jsonres);
 
         
         
-}
+    }
 
     public function detalle_producto($id){
         $productos=productos::find($id);
@@ -353,7 +366,7 @@ class VentasController extends Controller
         $subcategoria = $subcategorias->sub_categoria;
        else
         $subcategoria="";
-       $imagenes=db::table('producto_imagenes as a')
+        $imagenes=db::table('producto_imagenes as a')
                     ->select('a.id_producto','a.imagen')
                     ->where('id_producto',$id)->get();
       
@@ -397,11 +410,17 @@ class VentasController extends Controller
 
         $producto = Productos::find($request->id_producto);
         $producto->stock_activo = $producto->stock_activo+$dventa->cantidad;
-        //$producto->id_usuario=$request->id_usuario;
         $producto->save();
 
         $del= Detalle_Ventas::where('id_producto',$request->id_producto)
                             ->where('id_venta',$request->id_venta)->delete();
+
+        
+        $detallep= detalle::join('ventas', 'detalle_pedidos.id_pedido', '=', 'ventas.id_pedido')
+                          ->where('id_producto',$request->id_producto)
+                          ->delete();
+
+                              
 
 
         return true;
@@ -439,8 +458,7 @@ class VentasController extends Controller
 
            if($dts>0){
 
-            $id_estado_v=5;
-          
+            $id_estado_v=5;  
             
            }else{
 
@@ -487,8 +505,14 @@ class VentasController extends Controller
                                                ->count();
 
             if($det_temp>0){
+
                   $detalle_tempora = Detalle_Temporal::where('id_cliente', $request->id_cliente)
-                                                     ->select( 'id_producto', 'cantidad', 'precio',  'id_usuario')->get();
+                                                     ->select( 'id_cliente','id_producto', 'cantidad', 'precio',  'id_usuario')->get();
+
+                  $pedido= Pedido::where('id_cliente', $request->id_cliente)
+                                 ->where('fecha', $request->fecha_venta )
+                                 ->first();
+          
 
                     foreach ($detalle_tempora as $dt) {
 
@@ -498,8 +522,20 @@ class VentasController extends Controller
                               $result->cantidad    = $dt->cantidad;
                               $result->precio      = $dt->precio;
                               $result->id_usuario  = $dt->id_usuario;
-                              $result->save();           
-                      
+                              $result->save(); 
+
+                              $detallep= new detalle;
+                              $detallep->id_pedido  = $pedido->id;
+                              $detallep->id_producto= $dt->id_producto;
+                              $detallep->cantidad   = $dt->cantidad;
+                              $detallep->precio     = $dt->precio;
+                              $detallep->id_usuario = $dt->id_usuario;
+                              $detallep->save();  
+
+                              $del= Detalle_Temporal::where('id_cliente', $dt->id_cliente)
+                                              ->where('id_producto', $dt->id_producto)
+                                              ->delete();
+ 
                     }
 
             }
@@ -523,7 +559,7 @@ class VentasController extends Controller
                       }           
               }
 
-              $del= Detalle_Temporal::where('id_cliente', $request->id_cliente)->delete();
+              
 
               $jsonres['message']="La Venta fue  Modificada con Éxito";
                echo json_encode($jsonres);
