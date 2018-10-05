@@ -430,27 +430,49 @@
 </div>
 {{--  --}}
 <div class="modal fade" id="ModalFactura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog  modal-dialog-centered" role="document">
+  <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
           <form name="form1" action="{{ route('logistica.factura') }}"  accept-charset="UTF-8" method="GET"  enctype="multipart/form-data">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Factura</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <div class="row d-flex justify-content-center">
-           
-          <div class="form-group col-md-6">
-            <label for="">Nro. Factura</label>
-            <input type="hidden" name="id_venta" id="id_venta" value="0">
-            <input class="form-control" type="text" id="num_fact" name="num_fact" >
-          </div>
-          <div class="tile-footer col-md-12 text-center ">
-            <button class="btn btn-primary" id="btn-generar" type="submit">Generar</button>
-          </div>
+       <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table ">
+            <tbody>
+              <tr>
+                  <th>Factura</th>
+                  <td><input class="form-control" type="text" id="num_fact" name="num_fact" ></td>
+                  <td >
+                   <button class="btn btn-primary" id="btn-generar" type="submit"><i class="m-0 fa fa-lg fa-print"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <th >Movimiento</th>
+                  <td  colspan="1"></td>
+                  <td>
+                  
+                  <button class="btn btn-primary" id="btn-generar" type="submit"><i class="m-0 fa fa-lg fa-print"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Recibo</th> 
+                   <td  colspan="1"></td>
+                    <td >
+                   <button class="btn btn-primary" id="btn-generar" type="submit"><i class="m-0 fa fa-lg fa-print"></i></button>
+              
+                  </td>
+               </tr>
+             
+            </tbody>
+          </table>
         </div>
+  
+            <input type="hidden" name="id_venta" id="id_venta" value="0">
+          
+    
     
     </form>
       </div>
