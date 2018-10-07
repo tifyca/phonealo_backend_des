@@ -31,10 +31,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('agregar_remisa', 'Ajax\Logistica@agregar_remisa')->name('agregar_remisa');
     Route::get('quitar_remisa', 'Ajax\Logistica@quitar_remisa')->name('quitar_remisa');
     Route::get('num_factura', 'Ajax\Logistica@num_factura')->name('num_factura');
-
-    ///
-    Route::get('filtro_ciudad', 'Ajax\Logistica@filtro_ciudad')->name('filtro_ciudad');
-    Route::get('filtro_horario', 'Ajax\Logistica@filtro_horario')->name('filtro_horario');
+    Route::get('activar_venta', 'Ajax\Logistica@activar_venta')->name('activar_venta');
+    Route::get('asignar_remisa', 'Ajax\Logistica@asignar_remisa')->name('asignar_remisa');
+    
     
 
     
@@ -62,9 +61,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('configurar/montos_delivery', 'Configurar\Montos_deliveryController');
     Route::get('configurar/montos_delivery/edit/{id?}','Configurar\Montos_deliveryController@editar');
-    Route::post('configurar/montos_delivery','Configurar\Montos_deliveryController@store');
+    
     Route::put('configurar/montos_delivery/mod/{id?}','Configurar\Montos_deliveryController@update');
     Route::delete('configurar/montos_delivery/{id?}','Configurar\Montos_deliveryController@destroy');
+    Route::get('configurar/montos_delivery/anular', [
+        'uses' => 'configurar\Montos_deliveryController@anular',
+        'as'   => 'montos_delivery.anular'
+    ]);
 
 
     Route::resource('configurar/subcategorias', 'Configurar\SubcategoriasController');
@@ -122,7 +125,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('configurar/horas/mod/{hora_id?}','Configurar\HorasController@update');
     Route::delete('configurar/horas/{hora_id?}','Configurar\HorasController@destroy');
      
-   
+    Route::resource('configurar/formas', 'Configurar\FormaPagoController');
+    Route::post('configurar/formas/create','Configurar\FormaPagoController@store');
+    Route::get('configurar/formas/edit/{forma_id?}','Configurar\FormaPagoController@editar');
+    Route::put('configurar/formas/mod/{forma_id?}','Configurar\FormaPagoController@update');
+    Route::delete('configurar/formas/{forma_id?}','Configurar\FormaPagoController@destroy');
    
 
 
@@ -153,8 +160,10 @@ Route::group(['middleware' => 'auth'], function () {
    Route::get('registro/productos/ajustar','Registro\ProductosController@modificar')->name("productos.ajustar");
    
    Route::get('productos/cambiar_nombres','Registro\ProductosController@cambiar_nombres')->name("productos/cambiar_nombres");
+   Route::get('productos/cambiar_nombre_original','Registro\ProductosController@cambiar_nombre_original')->name("productos/cambiar_nombre_original");
    
    Route::get('productos/cambiar_precio','Registro\ProductosController@cambiar_precio')->name("productos/cambiar_precio");
+   Route::get('productos/cambiar_precio_minimo','Registro\ProductosController@cambiar_precio_minimo')->name("productos/cambiar_precio_minimo");
    Route::get('productos/proveedor/crear','Registro\ProductosController@crear')->name("productos/proveedor/crear");
 
   Route::post('productos/almacenar','Registro\ProductosController@almacenar')->name("productos.almacenar");

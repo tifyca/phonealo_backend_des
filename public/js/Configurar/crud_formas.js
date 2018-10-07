@@ -1,4 +1,4 @@
-var url = "montos_delivery";
+var url = "formas";
 
   $.ajaxSetup({
         headers: {
@@ -6,10 +6,10 @@ var url = "montos_delivery";
         }
     });
 
-// muestra el formulario modal para la edición del monto
+// muestra el formulario modal para la edición del forma
 $(document).on('click', '.open_modal', function () {
-    var monto_id = $(this).val();
-    $.get(url + '/edit/' + monto_id, function(data){
+    var forma_id = $(this).val();
+    $.get(url + '/edit/' + forma_id, function(data){
           $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -17,27 +17,31 @@ $(document).on('click', '.open_modal', function () {
     });
         //success data
         console.log(data);
-        $('#id').val(data.id);
-        $('#monto').val(data.monto);
-        
-
+        $('#forma_id').val(data.id);
+        $('#nombre').val(data.forma_pago);
+        if (data.status==1){
+        $('input:radio[id=status]').prop("checked", true);
+        }
+        if (data.status==0){
+        $('input:radio[id=status2]').prop("checked", true);
+        }
         $('#myModal').modal('show');
     });
     
 });
 
-// muestra modal para la confirmar eliminar   monto
+// muestra modal para la confirmar eliminar   forma
 $(document).on('click', '.confirm-delete', function () {
-    var monto_id = $(this).val();
+    var forma_id = $(this).val();
     $('#confirm-delete').modal('show');
-    $('#monto-id').val(monto_id);
+    $('#forma-id').val(forma_id);
 });
 
 
-// eliminar el monto y eliminarlo de la lista
-$(document).on('click', '.delete-monto', function () {
+// eliminar el forma y eliminarlo de la lista
+$(document).on('click', '.delete-forma', function () {
 
-    var monto_id = $('#monto-id').val();
+    var forma_id = $('#forma-id').val();
 
     $.ajaxSetup({
         headers: {
@@ -46,26 +50,25 @@ $(document).on('click', '.delete-monto', function () {
     });
     $.ajax({
         type: "DELETE",
-        url: url + '/' + monto_id,
+        url: url + '/' + forma_id,
          headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
-            $("#monto" + monto_id).remove();
+            $("#forma" + forma_id).remove();
             $('#confirm-delete').modal('hide');
-            $("#res").html("Categoría Eliminada con Éxito");
+            $("#res").html("La Forma de Pago Fue Eliminada con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
         error: function (data) {
-            console.log('Error:', data);
             $('#confirm-delete').modal('hide');
-            $("#rese").html("No se pudo eliminar el monto");
-            $("#rese, #res-content").css("display","block");
-            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            $("#rese").html("No se pudo Eliminar la Forma de Pago, por que está Asociada a Ventas");
+            $("#rese, #res-content, #res-content").css("display","block");
+            $("#rese, #res-content, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
     });
 });
-// crear nuevo monto
+// crear nuevo forma
 $("#btn-save").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -75,44 +78,50 @@ $("#btn-save").click(function (e) {
 
     e.preventDefault();
     var formData = {
-        monto: $('#monto').val(),
+        nombre: $('#nombreforma').val(),
+        status: $('input:radio[name=statusforma]:checked').val(),
         id_usuario: $('#id_usuario').val(),
+
     }
     
     console.log(formData);
     $.ajax({
         type: "POST",
-        url: url,
+        url: url + '/create',
         data: formData,
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
+            var act='Activo';
+            var ina='Inactivo';
+            var forma = '<tr id="forma' + data.id + '"><td width="45%">' + data.forma_pago + '</td>'+(data.status==1 ? '<td width="45%">' + act + '</td>':'<td width="45%">' + ina + '</td>');
+            forma += '<td width="10%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            forma += ' <button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
           
-            var monto = '<tr id="monto' + data.id + '"><td width="30%">' + data.monto + '</td><td width="30%">';
-            monto += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            monto += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-          
-            $('#montos-list').append(monto);
+            $('#formas-list').append(forma);
             $('#frmc').trigger("reset");
-            $("#res").html("Monto Registrado con Éxito");
+            $("#res").html("La Forma de Pago Fue Registrada con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
-         error: function (data,estado,error) { 
+       
+          error: function (data,estado,error) { 
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
                 if(error.message.hasOwnProperty(k)){ 
                     error.message[k].forEach(function(val){
-                       
+
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
                        
+                        
                         $("#rese").html(errorsHtml);
                         $("#rese, #res-content").css("display","block");
                         $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-                         }); 
+                     
+                      }); 
                 }
             }
           errorsHtml +="</ul>"; 
@@ -121,7 +130,7 @@ $("#btn-save").click(function (e) {
 });
 
 
-////actualiza monto
+////actualiza forma
 $("#btn-save-edit").click(function (e) {
      $.ajaxSetup({
       headers: {
@@ -130,12 +139,13 @@ $("#btn-save-edit").click(function (e) {
     });
 
     e.preventDefault();
-        var monto_id = $('#monto_id').val();
-        var formData = { monto: $('#monto').val(),  
+        var forma_id = $('#forma_id').val();
+        var formData = { nombre: $('#nombre').val(), 
+                         status: $('input:radio[name=status]:checked').val(), 
                          id_usuario: $('#id_usuario').val(), 
-                       }
+                        }
         var my_url = url;
-        my_url += '/mod/'+ monto_id;
+        my_url += '/mod/'+ forma_id;
    
     console.log(formData);
     $.ajax({
@@ -145,18 +155,21 @@ $("#btn-save-edit").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-            var monto = '<tr id="monto' + data.id + '"><td width="30%">' + data.monto + '</td>';
-            monto += '<td width="15%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
-            monto += ' <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
-           $("#monto" + monto_id).replaceWith(monto);
+            console.log(data.status);
+            var act='Activo';
+            var ina='Inactivo';
+            var forma = '<tr id="forma' + data.id + '"><td width="45%" >' + data.forma_pago + '</td>'+(data.status==1 ? '<td width="45%">' + act + '</td>': '<td width="45%">' + ina + '</td>');
+            forma += '<td width="10%" class="text-center"><div class="btn-group"><button data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary btn-sm open_modal" value="' + data.id + '"><i class="fa fa-lg fa-edit"></i></button>';
+            forma += ' <button  data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="' + data.id + '"><i class="fa fa-lg fa-trash"></i></button></div></td></tr>';
+            $("#forma" + forma_id).replaceWith(forma);
             $('#frmc').trigger("reset");
             $('#myModal').modal('hide');
-            $("#res").html("Categoría Modificada con Éxito");
+            $("#res").html("La Forma de Pago Fue Modificada con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
-        error: function (data) {
-            var errorsHtml = '';
+        error: function (data,estado,error) { 
+             var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
@@ -178,7 +191,6 @@ $("#btn-save-edit").click(function (e) {
     });
 });
 
-
 function soloLetras(e) {
     key = e.keyCode || e.which;
     tecla = String.fromCharCode(key).toLowerCase();
@@ -196,21 +208,18 @@ function soloLetras(e) {
     if(letras.indexOf(tecla) == -1 && !tecla_especial)
         return false;
 }
-
 $(document).on('click','.pagination a',function(e){
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
 //console.log(page);
-    var route ="montos_delivery";
+    var route ="formas";
     $.ajax({
         url: route,
-        data: {page: page,
-               montos: $('#buscarmonto').val(),
-             
+        data: {page: page, formas: $('#buscarformas').val(), status: $('#selectstatus').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            $(".montos").html(data);
+            $(".formas").html(data);
         }
     });
 });
@@ -218,16 +227,15 @@ $(document).on('click','.pagination a',function(e){
 $(document).on('click','#btnBuscar',function(e){
    
 
-    var route ="montos_delivery";
+    var route ="formas";
     $.ajax({
         url: route,
-        data: {montos: $('#buscarmonto').val(),
-         
+        data: {formas: $('#buscarformas').val(), status: $('#selectstatus').val()},
         type: 'GET',
         dataType: 'json',
         success: function(data){
           
-            $("#divmontos").html(data);
+            $("#divformas").html(data);
 
         }
     });
@@ -236,13 +244,15 @@ $(document).on('click','#btnBuscar',function(e){
 $(document).on('click','.save',function(e){
     e.preventDefault();
 
-   var route ="montos_delivery";
+   var route ="formas";
     $.ajax({
         url: route,
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            $(".montos").html(data);
+            $(".formas").html(data);
         }
     });
 });
+
+  

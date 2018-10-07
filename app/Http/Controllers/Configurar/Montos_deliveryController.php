@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Configurar;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\montos_delivery;
-use App\SubMontos_delivery;
+use App\Montos_delivery;
 use Auth;
 use Redirect;
+use App\Detalles_Ventas;
 use Illuminate\Support\Facades\Validator;
 @session_start();
 
@@ -15,12 +15,15 @@ class Montos_deliveryController extends Controller
 {
     
     public function index(Request $request){
-    	
-          $montos    = $request["Montos"];
+
+          $tipo="";
+          $mensaje="";
+    	    $montos    = $request["buscarmonto"];
+          
          
           if($montos!="")
           {
-            $Montos_delivery= Montos_delivery::where('monto',$montos)->orderBy('montos','asc')->paginate(10);
+            $Montos_delivery= Montos_delivery::where('monto',$montos)->orderBy('monto','asc')->paginate(10);
           }
           if($montos=="")
           {
@@ -31,93 +34,74 @@ class Montos_deliveryController extends Controller
                   return response()->json(view('Configurar.Montos_delivery.lista',compact('Montos_delivery'))->render());
               }
             $id_usuario=Auth::user()->id;         
-            return view('Configurar.Delivery.index')->with('montos_delivery',$Montos_delivery)->with("id_usuario",$id_usuario);
+            return view('Configurar.Delivery.index')->with('montos_delivery',$Montos_delivery)->with("id_usuario",$id_usuario)->with("tipo",$tipo)->with("mensaje",$mensaje);
 
     }
 
-    public function show(Request $request){
-    	dd($request);
+    public function create(Request $request){
+
+
     }
 
     public function store(Request $request){  
-       dd($request);
-       $data=$request->all();
-      
-       $rules = array( 'monto'=>'required|unique:Montos_delivery'); 
-       $messages = array( 'monto.required'=>'Monto es requerido');
+       
+       
+       $monto      = $request->monto_delivery;
+       $id_usuario = $request->id_usuario;
+       
+      if(empty($monto)){
+            $mensaje = "No se pueden Registrar Montos vacios";
+            $tipo    = 2;
+      }
+      else{
 
-       $validator = Validator::make($data, $rules, $messages);
-
-
-       if($validator->fails()){ 
-
-          $errors = $validator->errors(); 
-          return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
+          $montos_delivery=Montos_delivery::where('monto',$monto)->first();
           
-         }elseif ($validator->passes()){ 
-
-            $monto= new Montos_delivery;
-            $montos->monto    = $request->monto;
-            $montos->id_usuario=$request->id_usuario;
-            $montos->save();
-            return response()->json($montos);
-        }  
-        
-    }
-
-  public function editar($montos_id){
-    $montos = Montos_delivery::find($montos_id);
-    return response()->json($montos);
-    }
-
-  public function update (Request $request,$montos_id){
-        
-        $data=$request->all();
-
-        $rules = array( 'monto'=>'required|unique:Montos_delivery,montos,'.$montos_id); 
-        $messages = array( 'monto.required'=>'Monto es requerido' );
-
-       $validator = Validator::make($data, $rules, $messages);
-
-
-       if($validator->fails()){ 
-
-          $errors = $validator->errors(); 
-          return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
-          
-         }elseif ($validator->passes()){ 
-
-        $montos = Montos_delivery::find($montos_id);
-        $montos->monto     = $request->monto;
-        $montos->id_usuario=$request->id_usuario;
-        $montos->save();
-        return response()->json($montos);
-     }
-
-   }
-
-    public function destroy($montos_id){
-
-          try
-            {
-
-              $montos = Montos_delivery::destroy($montos_id);
-              return response()->json($montos);
-
-          }catch(\Illuminate\Database\QueryException $e)
-          {
-           
-              if($e->getCode() === '23000') {
-
-                   
-                    return response()->json([ 'success' => false ], 400);
-        
-              } 
+          if($montos_delivery){
+            $mensaje = "Monto Ya Registrado";
+            $tipo    = 2;
 
           }
-
-
+          else{
+             $montos_delivery= new Montos_delivery;
+             $montos_delivery->monto = $monto;
+             $montos_delivery->id_usuario = $id_usuario;
+             $montos_delivery->created_at = date('Y-m-d');
+             $montos_delivery->updated_at = date('Y-m-d');
+             $montos_delivery->save();
+              $mensaje = "Monto Registrado con Éxito";
+            $tipo    = 1;
+                    
+          }  
+      }
+      $Montos_delivery=Montos_delivery::orderBy('monto','asc')->paginate(10);       
+      $id_usuario=Auth::user()->id;         
+      return view('Configurar.Delivery.index')->with('montos_delivery',$Montos_delivery)->with("id_usuario",$id_usuario)->with("tipo",$tipo)->with("mensaje",$mensaje);
+    
     }
+
+  public function editar($montos_id)
+  {
+    $montos = Montos_delivery::find($montos_id);
+    return response()->json($montos);
+   }
+
+public function anular($id)
+{
+   dd($id);
+   $montos = Montos_delivery::find($id);
+
+   $montos->destroy($id);
+   $Montos_delivery=Montos_delivery::orderBy('monto','asc')->paginate(10);       
+   $id_usuario=Auth::user()->id;         
+   $mensaje="Se ha Eliminado correctamente";
+   $tipo="2";
+  return $Montos_delivery;
+}
+ 
+
+   
+
    
 
 }
