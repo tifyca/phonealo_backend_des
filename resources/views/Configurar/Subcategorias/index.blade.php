@@ -80,7 +80,7 @@
               <h3 class="tile-title text-left text-md-left">Listado de Subcategorias</h3>
           
           <div class="row">
-            <!--form class="row d-flex justify-content-end" action="{{route('subcategorias.index')}}" method="get"-->
+            <form class="row d-flex justify-content-end" action="#" method="get">
              <div class="form-group col-md-2">
               <input type="text" class="form-control" id="buscarsubc" name="buscarsubc" placeholder="Buscar"  maxlength="50">
             </div>
