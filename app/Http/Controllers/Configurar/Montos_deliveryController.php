@@ -86,9 +86,13 @@ class Montos_deliveryController extends Controller
     return response()->json($montos);
    }
 
-public function anular($id)
+public function show(Request $request)
 {
-   dd($id);
+ try
+      {
+       //$id = $request->id;
+   
+   $id = $request->id;
    $montos = Montos_delivery::find($id);
 
    $montos->destroy($id);
@@ -96,7 +100,49 @@ public function anular($id)
    $id_usuario=Auth::user()->id;         
    $mensaje="Se ha Eliminado correctamente";
    $tipo="2";
-  return $Montos_delivery;
+
+       return response()->json($Montos_delivery);
+     }catch(\Illuminate\Database\QueryException $e)
+     {
+
+      if($e->getCode() === '23000') {
+
+        return response()->json([ 'success' => false ], 400);
+        
+      } 
+    }
+
+
+}
+public function anular(Request $request)
+{
+
+ //dd($id);
+ try
+      {
+       //$id = $request->id;
+
+   $montos = Montos_delivery::find($id);
+
+   $montos->destroy($id);
+   $Montos_delivery=Montos_delivery::orderBy('monto','asc')->paginate(10);       
+   $id_usuario=Auth::user()->id;         
+   $mensaje="Se ha Eliminado correctamente";
+   $tipo="2";
+
+       return response()->json($Montos_delivery);
+     }catch(\Illuminate\Database\QueryException $e)
+     {
+
+      if($e->getCode() === '23000') {
+
+        return response()->json([ 'success' => false ], 400);
+        
+      } 
+    }
+
+
+
 }
  
 

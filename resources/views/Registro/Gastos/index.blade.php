@@ -80,7 +80,7 @@
                     
                     <th>Proveedor</th>
                     <th>Fuente</th>
-                    <th class="text-right">Importe</th>
+                    <th class="text-center">Importe</th>
                     <th align="center">Fecha de Comprobante</th>
                     <th align="center">Fecha de Carga</th>
                     <th align="center">Acciones</th>
@@ -117,7 +117,7 @@
                     </td>
                     <td class="text-right">
                     <?php 
-                    $monto = number_format($gast->importe, 2, ',', '.');
+                    $monto = number_format($gast->importe, 0, ',', '.');
                     echo $monto;?>
 
                     </td>

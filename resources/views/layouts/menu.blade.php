@@ -67,7 +67,7 @@
 
     <li><a class="treeview-item {{ Request::is('procesar/ventas*') ? 'active' : '' }}" href="{{ route('ventas.index') }}"><i class="icon fa fa-circle-o"></i>Ventas</a></li>
     <li><a class="treeview-item {{ Request::is('procesar/faltantes*') ? 'active' : '' }}" href="{{ route('faltantes.index') }}"><i class="icon fa fa-circle-o"></i>Faltantes</a></li>
-    <li><a class="treeview-item {{ Request::is('procesar/faltantes*') ? 'active' : '' }}" href="{{ route('faltantes.index') }}"><i class="icon fa fa-circle-o"></i>Pedidos</a></li>
+    <li><a class="treeview-item {{ Request::is('procesar/faltantes*') ? 'active' : '' }}" href="{{ route('pedidos.index') }}"><i class="icon fa fa-circle-o"></i>Pedidos</a></li>
 
 
     <li><a class="treeview-item {{ Request::is('procesar/logistica*') ? 'active' : '' }}" href="{{ route('logistica') }}"><i class="icon fa fa-circle-o"></i>Logística</a></li>

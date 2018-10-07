@@ -1,7 +1,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Modificación en Masa de Productos')
+@section('titulo', 'Listado de Productos')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -62,10 +62,11 @@
 
             
        
-            <table class="table table-hover table-bordered" id="sampleTable">
+            <table class="table table-hover" id="sampleTable">
               <thead>
-                <tr>
-                  <th colspan="7"><p class="text-right"><small>Presione Enter para Guardar Cambios</small></p></th>
+                <tr class="table-info">
+                  <th colspan="3" class="text-left"><b>Modificación en Masa</b></th>
+                  <th colspan="6" class="text-right"><small>Presione Enter para Guardar Cambios</small></th>
                 </tr>
                 <tr>
                   <th width="1%">#</th>

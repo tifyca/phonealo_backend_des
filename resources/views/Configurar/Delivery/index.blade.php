@@ -8,7 +8,7 @@ if(isset($_SESSION["user"]))
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Montos Deliverys')
+@section('titulo', 'Delivery')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -23,7 +23,7 @@ if(isset($_SESSION["user"]))
 <div class="row">
   <div class="col-12">
     <div class="tile">
-      <h3 class="tile-title">Nuevo Montos Delivery</h3>
+      <h3 class="tile-title">Nuevo Delivery</h3>
       <div class="tile-body ">
         <input type="hidden" name="mensaje" id="mensaje" value="{{$mensaje}}">
         <input type="hidden" name="tipo" id="tipo" value="{{$tipo}}">
@@ -55,7 +55,7 @@ if(isset($_SESSION["user"]))
     <div class="col mb-6 text-center">
       <div class="row">
         
-          <h3 class="tile-title text-center text-md-left">Listado de Montos Delivery</h3>
+          <h3 class="tile-title text-center text-md-left">Listado de Delivery</h3>
       
         
         
@@ -178,6 +178,7 @@ $(document).on('click', '.eliminar_monto', function () {
 
   var id = $('#monto-id').val();
   var valor = id;
+  //alert(valor);
   $.ajaxSetup({
     headers: {
       'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -187,7 +188,6 @@ $(document).on('click', '.eliminar_monto', function () {
   $.ajax({
     type: "GET",
     url: '{{ route('montos_delivery.anular') }}',
-    dataType: "json",
     data: { id: valor ,  _token: '{{csrf_token()}}' },
     success: function (data){
       console.log(data);
