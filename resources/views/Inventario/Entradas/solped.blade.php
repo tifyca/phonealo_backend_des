@@ -95,14 +95,14 @@
                   <td  align="center">{{$det->cantidad}}</td>
                   <td align="right">{{$det->precio}}</td>
                   <td align="right"><?php $importe=$det->precio*$det->cantidad;
-                      $ztotal = number_format($importe, 2, ',', '.');
+                      $ztotal = number_format($importe, 0, ',', '.');
                       $total = $total + $importe;
                      echo $ztotal;?></td>
                   <td align="center">{{$det->nfactura}}</td>
                   <td align="center">{{$det->cantidad_confirmada}}</td>
                   <td align="right">{{$det->precio_confirmado}}</td>
                   <td align="right"><?php $importe=$det->precio_confirmado*$det->cantidad_confirmada;
-                      $ztotal = number_format($importe, 2, ',', '.');
+                      $ztotal = number_format($importe, 0, ',', '.');
                       $zztotal = $zztotal + $importe;
                      echo $ztotal;?></td>
                 </tr>
@@ -113,7 +113,7 @@
                     <td  colspan="4" class="text-right"><b>Total</b></td>
                     <td  class="table-active text-right" id="ztotal">
                     <?php 
-                      $ztotal = number_format($total, 2, ',', '.');
+                      $ztotal = number_format($total, 0, ',', '.');
                       
                      echo "<b>".$ztotal."</b>";?>
                       
@@ -122,7 +122,7 @@
                     <td  colspan="3" class="text-right "><b>Total</b></td>
                     <td  id="ztotal" class="text-right ">
                     <?php 
-                      $ztotal = number_format($zztotal, 2, ',', '.');
+                      $ztotal = number_format($zztotal, 0, ',', '.');
                       
                      echo "<b>".$ztotal."</b>";?>
                       

@@ -250,7 +250,7 @@ public function cambiar_precio_minimo(Request $request){
   //dd($request);
   $idproveedor=$request->idpp;
   $idproducto =$request->idp;
-  $precio     =$request->precio_minimo;
+  $precio     =$request->precio;
   $productos=productos::where('id',$idproducto)->first();
   $productos->precio_minimo = $precio;
   $productos->save();
@@ -261,7 +261,7 @@ public function cambiar_nombre_original(Request $request){
   //dd($request);
   $idproveedor=$request->idpp;
   $idproducto =$request->idp;
-  $nombre     =$request->nombre_original;
+  $nombre     =$request->nombre;
   $productos=productos::where('id',$idproducto)->first();
   $productos->nombre_original = $nombre;
   $productos->save();
