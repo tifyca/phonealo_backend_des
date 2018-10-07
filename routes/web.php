@@ -189,8 +189,8 @@ Route::group(['middleware' => 'auth'], function () {
 
    
 
-
-    Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
+    Route::resource('procesar/faltantes', 'Procesar\FaltantesController');
+    
 
 
 

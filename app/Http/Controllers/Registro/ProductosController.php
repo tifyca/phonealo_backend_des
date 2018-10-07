@@ -141,9 +141,22 @@ public function show(Request $request){
    $idproveedor = $request->id_proveedor;
    $valor       = $request->id_producto;
    if($idproveedor!="" && $valor==''){
-     $productos=db::table('productos as a')->join('productos_proveedor as b','a.id','=','b.id_producto')->select('a.id','b.id_proveedor','a.codigo_producto','a.precio_ideal','a.descripcion','a.nombre_original','b.producto')->where('id_proveedor',$idproveedor)->orderby('a.id')->paginate(10);
+     $productos=db::table('productos as a')->join('productos_proveedor as b','a.id','=','b.id_producto')->select('a.id','b.id_proveedor','a.codigo_producto','a.precio_ideal','a.precio_minimo','a.nombre_original','a.descripcion','a.nombre_original','b.producto')->where('id_proveedor',$idproveedor)->orderby('a.id')->paginate(10);
      $activar=1;
-   } else{
+   }
+   if($idproveedor=="" && $valor!=''){
+    $valor .= "%";
+     $productos=productos::where('codigo_producto','like',$valor)->orderby('id')->paginate(10); 
+     if($productos){
+      $activar=0;
+    }
+    else{
+      $productos=productos::where('codigo_descripcion','like',$valor)->orderby('id')->paginate(10); 
+      $activar=0;
+     }
+   }
+
+   if($idproveedor=="" && $valor==""){
      $productos=productos::orderby('id')->paginate(10); 
      $activar=0;
    }
