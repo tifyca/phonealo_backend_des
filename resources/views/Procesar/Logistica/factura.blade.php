@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
 <title>Factura</title>
   <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>

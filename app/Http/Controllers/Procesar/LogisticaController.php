@@ -13,6 +13,7 @@ use App\Ciudades;
 use App\Horarios;
 use App\Empleados;
 use App\Remitos;
+use App\Facturas;
 
 class LogisticaController extends Controller
 {
@@ -161,24 +162,79 @@ class LogisticaController extends Controller
 
       public function factura(Request $request){
 
-        $venta=Ventas::join('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
-                    ->join('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
-                    ->join('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
-                    ->join('facturas', 'ventas.id', '=', 'facturas.id_venta')
-                    ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura',  'ventas.fecha', 'ventas.notas',  'facturas.nombres',  'facturas.ruc_ci', 'clientes.telefono', 'facturas.direccion')
+        $venta=Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+                    ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+                    ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                    ->leftjoin('facturas', 'ventas.id', '=', 'facturas.id_venta')
+                    ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura',  'ventas.fecha', 'ventas.notas', 'facturas.id', 'facturas.nombres',  'facturas.ruc_ci', 'clientes.telefono', 'facturas.direccion')
                     ->where('ventas.id', '=', $request->id_venta)
                     ->get();
-        $factura=Detalle_Ventas::join('productos', 'detalle_ventas.id_producto', '=','productos.id')
+        $factura=Detalle_Ventas::leftjoin('productos', 'detalle_ventas.id_producto', '=','productos.id')
                          ->select('detalle_ventas.cantidad', 'detalle_ventas.precio', 'productos.nombre_original', 'productos.descripcion')
                          ->where('detalle_ventas.id_venta', '=', $request->id_venta)
                          ->get();
 
+        $impresion=Facturas::find($venta[0]->id);
+        $impresion->impresa=1;
+        $impresion->save();
+
         
+
          $fecha = Carbon::now();
          $date = $fecha->formatLocalized('%d %B %Y');
         
         $pdf = PDF::loadView('Procesar.Logistica.factura', compact('venta', 'factura', 'date'));
-        return $pdf->download('Factura_'.$request->num_fact.'.pdf');
+        return $pdf->download('Factura_'.$request->id_venta.'.pdf');
+      
+      
+    }
+
+     public function movimiento(Request $request){
+
+        $venta=Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+                    ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+                    ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                    ->leftjoin('facturas', 'ventas.id', '=', 'facturas.id_venta')
+                    ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+                    ->leftjoin('users', 'ventas.id_usuario', '=', 'users.id')
+                    ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'horarios.horario', 'clientes.barrio', 'ventas.fecha_activo', 'ventas.factura',  'ventas.fecha', 'ventas.notas',  'clientes.nombres',  'clientes.ruc_ci', 'clientes.telefono', 'clientes.direccion', 'users.name' )
+                    ->where('ventas.id', '=', $request->id_ventam)
+                    ->get();
+        $factura=Detalle_Ventas::join('productos', 'detalle_ventas.id_producto', '=','productos.id')
+                         ->select('detalle_ventas.cantidad', 'detalle_ventas.precio', 'productos.nombre_original', 'productos.codigo_producto', 'productos.descripcion')
+                         ->where('detalle_ventas.id_venta', '=', $request->id_ventam)
+                         ->get();
+
+       
+         $fecha = Carbon::parse($venta[0]->fecha_activo)->format('d/m/Y');
+         ///$date = $fecha->formatLocalized('%d %B %Y');
+        
+        $pdf = PDF::loadView('Procesar.Logistica.movimiento', compact('venta', 'factura', 'fecha'));
+        return $pdf->download('Movimiento_'.$request->id_ventam.'.pdf');
+      
+      
+    }
+
+     public function recibo(Request $request){
+
+        $venta=Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+                    ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+                    ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                    ->leftjoin('facturas', 'ventas.id', '=', 'facturas.id_venta')
+                    ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago',  'ventas.factura',  'ventas.fecha', 'ventas.notas',  'facturas.nombres',  'facturas.ruc_ci', 'clientes.telefono', 'facturas.direccion')
+                    ->where('ventas.id', '=', $request->id_ventar)
+                    ->get();
+        $factura=Detalle_Ventas::leftjoin('productos', 'detalle_ventas.id_producto', '=','productos.id')
+                         ->select('detalle_ventas.cantidad', 'detalle_ventas.precio', 'productos.nombre_original', 'productos.descripcion')
+                         ->where('detalle_ventas.id_venta', '=', $request->id_ventar)
+                         ->get();
+
+        
+         $fecha = Carbon::now();
+         $date = $fecha->formatLocalized("%d                    %B                                           %y");
+        
+        $pdf = PDF::loadView('Procesar.Logistica.recibo', compact('venta', 'factura', 'date'));
+        return $pdf->download('Recibo_'.$request->id_ventar.'.pdf');
       
       
     }
