@@ -12,7 +12,7 @@ class Ventas extends Model
     protected $table = 'ventas';
     protected $fillable = ['id','status','status_v'];
 
-    #·ventas en listado con id_1 y 11
+    #scope para buscar ventas con id_estado  1 o 11 (ventas activas o ventas modificadas)
     public function scopeActivas($query)
     {
         return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
@@ -26,7 +26,7 @@ class Ventas extends Model
             ->orderby( 'ventas.id_horario', 'desc')
             ->get();
     }
-
+    ##scope para buscar ventas con id_estado  5 o 12 (ventas pendientes por producto y reparando)
     public function scopeEnEspera($query)
     {
         return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
@@ -40,7 +40,7 @@ class Ventas extends Model
             ->orderby( 'ventas.id_horario', 'desc')
             ->get();
     }
-
+    #scope para buscar ventas con id_estado  6 (ventas para remisar)
     public function scopeRemisas($query)
     {
         return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
@@ -53,21 +53,24 @@ class Ventas extends Model
                 ->orderby( 'ventas.id', 'desc')
             ->get();
     }
-
+    #scope para buscar ventas con id_estado  6 (ventas para remisar), muestra detalle en listado remisa
+    #con DB::raw se hace el producto entre campos para optener importe
     public function scopeDetalleRemisa($query)
     {
         return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+            ->leftjoin('detalle_pedidos', 'ventas.id_pedido', '=', 'detalle_pedidos.id_pedido')
+            ->leftjoin('productos', 'detalle_pedidos.id_producto', '=', 'productos.id')
             ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
-            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+            ->leftjoin('users', 'pedidos.id_usuario', '=', 'users.id')
             ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
             ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
-                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
+                ->select('ventas.id', 'ventas.id_pedido', 'detalle_pedidos.id_producto', 'detalle_pedidos.cantidad','detalle_pedidos.precio' , 'productos.descripcion', 'users.id as id_usuario','ventas.id_estado', 'ventas.status_v','horarios.horario', 'forma_pago.forma_pago',
+                         DB::raw('(detalle_pedidos.cantidad*detalle_pedidos.precio) as importe'))
                 ->where('ventas.id_estado', '=', '6')
-                ->orderby( 'ventas.id', 'desc')
             ->get();
     }
 
-
+    #scope para buscar datos detalle de venta listada en vista Logistica
     public function scopeDetalle($query, $id_venta)
     {
         return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')

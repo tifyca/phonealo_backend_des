@@ -296,6 +296,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
 
+    
     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
     Route::post('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica.submit');
     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
