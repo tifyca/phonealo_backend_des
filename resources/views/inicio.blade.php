@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    
+
     
     <div class="col-md-3">
       <div class="widget-small danger coloured-icon"><i class="icon fa fa-area-chart fa-3x"></i>
@@ -79,7 +79,7 @@
         <div class="col-md-3">
           <div class="widget-small warning coloured-icon"><i class="icon fa fa-thumbs-down fa-3x"></i>
             <div class="info">
-              <h4>Rechazado: </h4>
+              <h4>Rechazada: </h4>
               <p><b>0 Gs.</b></p>
             </div>
           </div>
