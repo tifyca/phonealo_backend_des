@@ -116,12 +116,12 @@
               </td>
               <td class="text-right">
                 <?php 
-                $monto = number_format($sol->monto, 2, ',', '.');
+                $monto = number_format($sol->monto, 0, ',', '.');
                 echo $monto;?>
               </td>
               <td class="text-right">
                 <?php 
-                $monto = number_format($sol->montoc, 2, ',', '.');
+                $monto = number_format($sol->montoc, 0, ',', '.');
                 echo $monto;?>
               </td>
 
@@ -154,10 +154,10 @@
             <tr class="table-secondary">
               <td colspan="5" class="text-right"><b>Total</b></td>
               <td  class="text-right"><b><?php 
-              $ztotal = number_format($total, 2, ',', '.');
+              $ztotal = number_format($total, 0, ',', '.');
               echo $ztotal;?></b></td>
               <td  class="text-right"><b><?php 
-              $ztotal = number_format($totalc, 2, ',', '.');
+              $ztotal = number_format($totalc, 0, ',', '.');
               echo $ztotal;?></b></td>
             </tr>
           </tbody>

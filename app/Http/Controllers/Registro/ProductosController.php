@@ -141,10 +141,10 @@ public function show(Request $request){
    $idproveedor = $request->id_proveedor;
    $valor       = $request->id_producto;
    if($idproveedor!="" && $valor==''){
-     $productos=db::table('productos as a')->join('productos_proveedor as b','a.id','=','b.id_producto')->select('a.id','b.id_proveedor','a.codigo_producto','a.precio_ideal','a.descripcion','a.nombre_original','b.producto')->where('id_proveedor',$idproveedor)->orderby('a.id')->paginate(20);
+     $productos=db::table('productos as a')->join('productos_proveedor as b','a.id','=','b.id_producto')->select('a.id','b.id_proveedor','a.codigo_producto','a.precio_ideal','a.descripcion','a.nombre_original','b.producto')->where('id_proveedor',$idproveedor)->orderby('a.id')->paginate(10);
      $activar=1;
    } else{
-     $productos=productos::orderby('id')->paginate(20); 
+     $productos=productos::orderby('id')->paginate(10); 
      $activar=0;
    }
 
@@ -216,7 +216,7 @@ public function detalle($id){
 
 public function modificar(Request $request){
  $proveedores = Proveedores::orderby('nombres')->where('id_estado',1)->get();
- $productos=productos::orderby('id')->paginate(20);
+ $productos=productos::orderby('id')->paginate(10);
  return view('Registro.Productos.mod')->with('productos',$productos)->with('proveedores',$proveedores);
 }	
 public function proveedor(Request $request)
@@ -246,7 +246,28 @@ public function cambiar_precio(Request $request){
   $data="ok";
   return $data;
 }
-
+public function cambiar_precio_minimo(Request $request){
+  //dd($request);
+  $idproveedor=$request->idpp;
+  $idproducto =$request->idp;
+  $precio     =$request->precio;
+  $productos=productos::where('id',$idproducto)->first();
+  $productos->precio_minimo = $precio;
+  $productos->save();
+  $data="ok";
+  return $data;
+}
+public function cambiar_nombre_original(Request $request){
+  //dd($request);
+  $idproveedor=$request->idpp;
+  $idproducto =$request->idp;
+  $nombre     =$request->nombre;
+  $productos=productos::where('id',$idproducto)->first();
+  $productos->nombre_original = $nombre;
+  $productos->save();
+  $data="ok";
+  return $data;
+}
 public function crear()
 {
   $proveedores = Proveedores::where('id_estado','1')->get();

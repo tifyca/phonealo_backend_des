@@ -61,9 +61,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('configurar/montos_delivery', 'Configurar\Montos_deliveryController');
     Route::get('configurar/montos_delivery/edit/{id?}','Configurar\Montos_deliveryController@editar');
-    Route::post('configurar/montos_delivery','Configurar\Montos_deliveryController@store');
+    
     Route::put('configurar/montos_delivery/mod/{id?}','Configurar\Montos_deliveryController@update');
     Route::delete('configurar/montos_delivery/{id?}','Configurar\Montos_deliveryController@destroy');
+    Route::get('configurar/montos_delivery/anular', [
+        'uses' => 'configurar\Montos_deliveryController@anular',
+        'as'   => 'montos_delivery.anular'
+    ]);
 
 
     Route::resource('configurar/subcategorias', 'Configurar\SubcategoriasController');
@@ -156,8 +160,10 @@ Route::group(['middleware' => 'auth'], function () {
    Route::get('registro/productos/ajustar','Registro\ProductosController@modificar')->name("productos.ajustar");
    
    Route::get('productos/cambiar_nombres','Registro\ProductosController@cambiar_nombres')->name("productos/cambiar_nombres");
+   Route::get('productos/cambiar_nombre_original','Registro\ProductosController@cambiar_nombre_original')->name("productos/cambiar_nombre_original");
    
    Route::get('productos/cambiar_precio','Registro\ProductosController@cambiar_precio')->name("productos/cambiar_precio");
+   Route::get('productos/cambiar_precio_minimo','Registro\ProductosController@cambiar_precio_minimo')->name("productos/cambiar_precio_minimo");
    Route::get('productos/proveedor/crear','Registro\ProductosController@crear')->name("productos/proveedor/crear");
 
   Route::post('productos/almacenar','Registro\ProductosController@almacenar')->name("productos.almacenar");
