@@ -44,6 +44,9 @@
         </div>  
     </div>
   </div>
+  <div id="respAsignarRemisa">
+    
+  </div>
 
   
   <div class="col-12">
@@ -53,14 +56,10 @@
                 <thead>
                   <tr>
                     <th>Venta</th>
-                    <th>Cliente</th>
-                    <th>Teléfono</th>
-                    <th>Dirección</th>
-                    <th>Fecha</th>
-                    <th>Fecha Activo</th>
-                    <th>Ciudad</th>
-                    <th>Horario</th>
                     <th>Forma Pago</th>
+                    <th>Horario de Entrega</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
                     <th>Importe</th>
                   </tr>
                 </thead>
@@ -73,14 +72,10 @@
                   @foreach($remisas as $remisa)
                    <tr>
                       <td>{{$remisa->id}}</td>
-                      <td>{{$remisa->nombres}}</td>
-                      <td>{{$remisa->telefono}}</td>
-                      <td>{{$remisa->direccion}}</td>
-                      <td>{{$remisa->fecha}}</td>
-                      <td>{{$remisa->fecha_activo}}</td>
-                      <td>{{$remisa->ciudad}}</td>
-                      <td>{{$remisa->horario}}</td>
                       <td>{{$remisa->forma_pago}}</td>
+                      <td>{{$remisa->horario}}</td>
+                      <td>{{$remisa->descripcion}}</td>
+                      <td>{{$remisa->cantidad}}</td>
                       <td>{{$remisa->importe}}</td>
                     </tr>
                     <?php 
@@ -138,20 +133,21 @@
       ventas.push ($(this).find('td').eq(0).html());
 
       })
-    console.log(ventas);
-    console.log(id_empleado);
-    console.log(id_usuario);
-    console.log(total)
+    //console.log(ventas);
+    //console.log(id_empleado);
+    //console.log(id_usuario);
+    //console.log(total)
     $.ajax({
         type: "GET",
         url: '{{ url('asignar_remisa') }}',
         dataType: "json",
         data: { id_empleado:id_empleado,id_usuario:id_usuario,total:total, ventas:ventas, _token: '{{csrf_token()}}'},
         success: function (data){
-          
+          console.log(data);
              $('#respAsignarRemisa').html('Confirmado');  
 
-        location.href="procesar/logistica"   
+        window.location.href = "../../procesar/logistica"  + "?id_remisa=" + data.id;
+        //location.href=`../../procesar/logistica`;  
         }
     });  
 

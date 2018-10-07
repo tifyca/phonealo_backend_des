@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Facturas;
 use App\Ventas;
 use App\Remitos;
+
 class Logistica extends Controller
 {
     #jgonzalez
@@ -63,7 +64,7 @@ class Logistica extends Controller
         $remisa->fecha = date("Y-m-d");
         $remisa->id_estado = 7;
         $remisa->save();
-        return $remisa;
+        return $remisa;  
     }
 
 
