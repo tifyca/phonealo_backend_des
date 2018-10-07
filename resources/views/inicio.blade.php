@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    
+
     
     <div class="col-md-3">
       <div class="widget-small danger coloured-icon"><i class="icon fa fa-area-chart fa-3x"></i>

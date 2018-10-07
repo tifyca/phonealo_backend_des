@@ -25,10 +25,10 @@ if(isset($_SESSION["user"]))
     <div class="tile">
       <h3 class="tile-title">Nuevo Montos Delivery</h3>
       <div class="tile-body ">
-      <input type="hidden" name="mensaje" id="mensaje" value="{{$mensaje}}">
-      <input type="hidden" name="tipo" id="tipo" value="{{$tipo}}">
+        <input type="hidden" name="mensaje" id="mensaje" value="{{$mensaje}}">
+        <input type="hidden" name="tipo" id="tipo" value="{{$tipo}}">
 
-       <form id="frmc" name="frmc" action="{{route('montos_delivery.store')}}" novalidate="" method="POST">
+        <form id="frmc" name="frmc" action="{{route('montos_delivery.store')}}" novalidate="" method="POST">
           {{ csrf_field() }} 
           <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
           <div class="row">
@@ -51,20 +51,24 @@ if(isset($_SESSION["user"]))
 <div class="col-12">
   <div class="tile">
     {{-- FILTRO --}}
-    <div class="col mb-3 text-center">
-      <h3 class="tile-title text-left text-md-left">Listado de Montos Delivery</h3>
+    {{-- FILTRO --}}
+    <div class="col mb-6 text-center">
+      <div class="row">
+        
+          <h3 class="tile-title text-center text-md-left">Listado de Montos Delivery</h3>
+      
+        
+        
+        <form class="row d-flex justify-content-end" action="#" method="get">
 
-      <div class="row"> 
-        <form class="row d-flex justify-content-end" action="#" method="get"> 
+          <div class="form-group col-md-6">
+            <input type="text" class="form-control" id="buscarmonto" name="buscarmonto" placeholder="Buscar"  maxlength="50">
+          </div>
 
-        <div class="form-group col-md-6">
-          <input type="text" class="form-control" id="buscarmonto" name="buscarmonto" placeholder="Buscar"  maxlength="50">
-        </div>
-
-        <div class="col-md-1 mr-md-2">
-          <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>             
-        </div>
-        <!--/form-->
+          <div class="col-md-1 mr-md-2">
+            <button  id="btnBuscar" class="btn btn-primary">Filtrar</button>             
+          </div>
+        </form>
       </div>
     </div>
     {{-- FIN FILTRO --}}
@@ -92,7 +96,7 @@ if(isset($_SESSION["user"]))
           </table>       
 
           <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-            
+
             {{$montos_delivery->appends(Request::only(['buscarmonto']))->links()}}
           </div>      </div>
         </div>
@@ -153,86 +157,86 @@ if(isset($_SESSION["user"]))
   $("#mensaje").val(" ");
 } 
 
- $ = jQuery;
-  jQuery(document).ready(function () {
+$ = jQuery;
+jQuery(document).ready(function () {
 
 
-    
-  });
+
+});
 
 
 // muestra modal para la confirmar eliminar   categoria
 $(document).on('click', '.eliminar', function () {
-    var id = $(this).val();
-    $('#form-delete').modal('show');
-    $('#monto-id').val(id);
+  var id = $(this).val();
+  $('#form-delete').modal('show');
+  $('#monto-id').val(id);
 });
 
 
 
 $(document).on('click', '.eliminar_monto', function () {
 
-    var id = $('#monto-id').val();
-    var valor = id;
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-        }
-    });
-    
-        $.ajax({
-          type: "GET",
-          url: '{{ route('montos_delivery.anular') }}',
-          dataType: "json",
-          data: { id: valor ,  _token: '{{csrf_token()}}' },
-          success: function (data){
-            console.log(data);
-            $('#form-delete').modal('hide');
-            $("#res").html("Monto Eliminado con Éxito");
-            $("#res, #res-content").css("display","block");
-            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-          },    
-        error: function (data) {
-            console.log('Error:', data);
-            $('#form-delete').modal('hide');
-            $("#rese").html("No se pudo eliminar el monto");
-            $("#rese, #res-content").css("display","block");
-            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-        }
+  var id = $('#monto-id').val();
+  var valor = id;
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    }
+  });
 
-        });
-      $("#mensaje").val(" ");
-      $('#tipom').val(" ");  
-      location.reload(true);
+  $.ajax({
+    type: "GET",
+    url: '{{ route('montos_delivery.anular') }}',
+    dataType: "json",
+    data: { id: valor ,  _token: '{{csrf_token()}}' },
+    success: function (data){
+      console.log(data);
+      $('#form-delete').modal('hide');
+      $("#res").html("Monto Eliminado con Éxito");
+      $("#res, #res-content").css("display","block");
+      $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+    },    
+    error: function (data) {
+      console.log('Error:', data);
+      $('#form-delete').modal('hide');
+      $("#rese").html("No se pudo eliminar el monto");
+      $("#rese, #res-content").css("display","block");
+      $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+    }
+
+  });
+  $("#mensaje").val(" ");
+  $('#tipom').val(" ");  
+  location.reload(true);
 
 });
 
 
 $(document).on('click', '.btnBuscar', function () {
 
-    var id = $('#buscarmonto').val();
-    var valor = id;
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-        }
-    });
-    
-        $.ajax({
-          type: "GET",
-          url: 'montos_delivery',
-          dataType: "json",
-          data: { id: valor ,  _token: '{{csrf_token()}}' },
-          success: function (data){
-            console.log(data);
-          },    
-        error: function (data) {
-        }
+  var id = $('#buscarmonto').val();
+  var valor = id;
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    }
+  });
 
-        });
-      $("#mensaje").val(" ");
-      $('#tipom').val(" ");  
-      location.reload(true);
+  $.ajax({
+    type: "GET",
+    url: 'montos_delivery',
+    dataType: "json",
+    data: { id: valor ,  _token: '{{csrf_token()}}' },
+    success: function (data){
+      console.log(data);
+    },    
+    error: function (data) {
+    }
+
+  });
+  $("#mensaje").val(" ");
+  $('#tipom').val(" ");  
+  location.reload(true);
 
 });
 
