@@ -300,6 +300,7 @@ class VentasController extends Controller
             $factura->nombres   = ucwords(strtolower($request->factura_nomb));
             $factura->direccion = $request->factura_dir;
             $factura->ruc_ci    = $request->factura_ruc;
+            $factura->impresa   = 0;
             $factura->id_usuario= $request->id_usuario;
             $factura->save();
             }
@@ -496,6 +497,7 @@ class VentasController extends Controller
                   $factura->nombres   = ucwords(strtolower($request->factura_nomb));
                   $factura->direccion = $request->factura_dir;
                   $factura->ruc_ci    = $request->factura_ruc;
+                  $factura->impresa   = 0;
                   $factura->id_usuario= $request->id_usuario;
                   $factura->save();
                 }
