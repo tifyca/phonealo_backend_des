@@ -20,7 +20,7 @@
 <div class="row">
   <div class="col-12">
     <div class="tile">
-        <h3 class="tile-title">Nuevo Forma de Pago</h3>
+        <h3 class="tile-title">Nueva Forma de Pago</h3>
           <form id="frmc" name="frmc"  novalidate="">
             {{ csrf_field() }} 
 		          <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
@@ -152,7 +152,7 @@
                 </div>
             <form id="frmdel" name="frmdel" class="form-horizontal" novalidate="">
                 <div class="modal-body">
-                    <p>Está seguro que desea Eliminar este Forma de Pago?</p>
+                    <p>Está seguro que desea Eliminar la Forma de Pago?</p>
                     <p class="debug-url"></p>
                 </div>
               </form> 

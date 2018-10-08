@@ -153,9 +153,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('registro/proveedores/mod/{id_proveedor?}','Registro\ProveedoresController@update');
    
 
-
-
-
     Route::resource('registro/productos', 'Registro\ProductosController');
    Route::get('registro/productos/ajustar','Registro\ProductosController@modificar')->name("productos.ajustar");
    
@@ -175,8 +172,6 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
     Route::resource('registro/empleados', 'Registro\EmpleadosController');
     Route::resource('registro/empleados', 'Registro\EmpleadosController');
@@ -186,12 +181,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('registro/empleados/{id_empleado?}','Registro\EmpleadosController@destroy');
 
     Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
-
-   
-
-    Route::resource('procesar/faltantes', 'Procesar\FaltantesController');
-    
-
 
 
     //GALERIA
@@ -276,7 +265,7 @@ Route::group(['middleware' => 'auth'], function () {
         'as'   => 'gastos.anular'
     ]);
 
-    Route::get('registro/faltantes', 'Registro\FaltantesController@index')->name('faltantes');
+    
     
     ///////////
 
@@ -312,11 +301,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
     Route::get('procesar/logistica/remisa', 'Procesar\LogisticaController@remisa')->name('logistica.remisa');
     Route::get('procesar/logistica/factura', 'Procesar\LogisticaController@factura')->name('logistica.factura');
+    Route::get('procesar/logistica/movimiento', 'Procesar\LogisticaController@movimiento')->name('logistica.movimiento');
+    Route::get('procesar/logistica/recibo', 'Procesar\LogisticaController@recibo')->name('logistica.recibo');
 
 
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');
     Route::get('procesar/conversiones/show', 'Procesar\ConversionesController@show')->name('procesar.conversiones.show');
+
+    Route::resource('procesar/faltantes', 'Procesar\FaltantesController');
+    Route::resource('procesar/pedidos', 'Procesar\PedidosController');
+
+
 
     ////////////
 

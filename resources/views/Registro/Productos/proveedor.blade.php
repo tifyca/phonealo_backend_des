@@ -5,7 +5,7 @@
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', '') @section('link_back', url('productos/proveedor/crear'))
+@section('display_back', '') @section('link_back', url('registro/productos/ajustar'))
 @section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
