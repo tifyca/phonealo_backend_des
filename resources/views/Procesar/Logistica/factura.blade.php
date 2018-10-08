@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
 <title>Factura</title>
   <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
@@ -45,7 +45,7 @@
                 <tr>
                   <td id="cantidad" align="center" style="font-size: 12px; width: 1px;">{{$item2->cantidad}}</td>
                   <?php if(empty($item2->nombre_original)|| is_null($item2->nombre_original)){?>     
-                  <td colspan="4" id="producto" align="left" style="font-size: 12px width: 79px;">{{$item2->descricion}}</td>
+                  <td colspan="4" id="producto" align="left" style="font-size: 12px width: 79px;">{{$item2->descripcion}}</td>
                   <?php }else{?>
                   <td colspan="4" id="producto" align="left" style="font-size: 12px; width: 79px;">{{$item2->nombre_original}}</td>
                   <?php } ?>
@@ -120,7 +120,7 @@
                 <tr>
                   <td id="cantidad" align="center" style="font-size: 12px; width: 1px;">{{$item2->cantidad}}</td>
                   <?php  if(empty($item2->nombre_original)|| is_null($item2->nombre_original)){?>     
-                  <td colspan="4" id="producto" align="left" style="font-size: 12px width: 79px;">{{$item2->descricion}}</td>
+                  <td colspan="4" id="producto" align="left" style="font-size: 12px width: 79px;">{{$item2->descripcion}}</td>
                   <?php }else{?>
                   <td colspan="4" id="producto" align="left" style="font-size: 12px; width: 79px;">{{$item2->nombre_original}}</td>
                   <?php } ?>

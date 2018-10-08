@@ -64,15 +64,11 @@
                          
                         <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
                         
-                        @if($remisa->factura==2 || $remisa->factura==3) 
-                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $remisa->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
-                        @else
-                         <button class="btn btn-primary disabled-btn factura" data-toggle="modal" data-target="#ModalFactura" id="factura" value="{{ $remisa->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
-                        @endif  
+                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $remisa->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>  
 
-                        <button data-toggle="tooltip" data-placement="top" title="noremisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
-                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
-                        </div>
+                          <button data-toggle="tooltip" data-placement="top" title="noremisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
+                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
+                          </div>
                       </td>
                   </tr>
                   @endforeach
@@ -182,14 +178,11 @@
                          
                         <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
 
-                        @if($atender->factura==2 || $atender->factura==3) 
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $atender->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
-                        @else
-                         <button class="btn btn-primary disabled-btn factura" data-toggle="modal" data-target="#ModalFactura" id="factura" value="{{ $atender->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
-                        @endif  
-                        <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
-                        </div>
+
+                          <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
+                          </div>
                       </td>
                     </tr>
                     
@@ -257,21 +250,18 @@
                        
                         <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
                         
-                        @if($enEspera->factura==2 || $enEspera->factura==3) 
+                       
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
-                        @else
-                         <button class="btn btn-primary disabled-btn factura" data-toggle="modal" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
-                        @endif 
 
-                        @if($enEspera->id_estado == 12 || $enEspera->id_estado == 5) 
-                        <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary disabled-btn remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                        @else
-                        <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary  remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                        @endif 
+                          @if($enEspera->id_estado == 12 || $enEspera->id_estado == 5) 
+                          <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary disabled-btn remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                          @else
+                          <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary  remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                          @endif 
 
                         <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
 
-                        <button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button>   
+                        <!--button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button-->   
                         </div>
                       </td>
                     </tr>
@@ -346,11 +336,8 @@
                          
                         <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
 
-                         @if($activa->factura==2 || $activa->factura==3) 
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-print"></i></button>
-                        @else
-                         <button class="btn btn-primary disabled-btn factura" data-toggle="modal" data-target="#ModalFactura" id="factura" value="{{ $activa->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
-                        @endif 
+                
                         <!--<a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>-->
                         <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
 
@@ -430,29 +417,53 @@
 </div>
 {{--  --}}
 <div class="modal fade" id="ModalFactura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog  modal-dialog-centered" role="document">
+  <div class="modal-dialog  modal-dialog-centered " role="document">
     <div class="modal-content">
-          <form name="form1" action="{{ route('logistica.factura') }}"  accept-charset="UTF-8" method="GET"  enctype="multipart/form-data">
+        
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Factura</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <div class="row d-flex justify-content-center">
-           
-          <div class="form-group col-md-6">
-            <label for="">Nro. Factura</label>
-            <input type="hidden" name="id_venta" id="id_venta" value="0">
-            <input class="form-control" type="text" id="num_fact" name="num_fact" >
-          </div>
-          <div class="tile-footer col-md-12 text-center ">
-            <button class="btn btn-primary" id="btn-generar" type="submit">Generar</button>
-          </div>
+       <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table ">
+            <tbody>
+              <tr>
+                  <form name="form1" action="{{ route('logistica.factura') }}"  accept-charset="UTF-8" method="GET"  enctype="multipart/form-data">
+                      <input type="hidden" name="id_venta" id="id_venta" value="0">
+                      <th>Factura</th>
+                      <td><input class="form-control" type="text" id="num_fact" name="num_fact" disabled></td>
+                      <td >
+                         <button class="btn btn-primary fact" id="btn-fact" type="submit" ><i class="m-0 fa fa-lg fa-print" ></i></button>
+                      </td>
+                   </form>
+                </tr>
+                <tr>
+                  <form name="form1" action="{{ route('logistica.movimiento') }}"  accept-charset="UTF-8" method="GET"  enctype="multipart/form-data">
+                      <input type="hidden" name="id_ventam" id="id_ventam" value="0">
+                      <th >Movimiento</th>
+                      <td  colspan="1"></td>
+                      <td>
+                      <button class="btn btn-primary" id="btn-generar" type="submit"><i class="m-0 fa fa-lg fa-print"></i></button>
+                      </td>
+                   </form>
+                </tr>
+                <tr>
+                  <form name="form1" action="{{ route('logistica.recibo') }}"  accept-charset="UTF-8" method="GET"  enctype="multipart/form-data">
+                      <input type="hidden" name="id_ventar" id="id_ventar" value="0">
+                      <th>Recibo</th> 
+                      <td  colspan="1"></td>
+                      <td >
+                      <button class="btn btn-primary" id="btn-generar" type="submit"><i class="m-0 fa fa-lg fa-print"></i></button>
+                      </td>
+                   </form>
+                </tr>
+             
+            </tbody>
+          </table>
         </div>
-    
-    </form>
+   
       </div>
 
 </div>
@@ -546,8 +557,13 @@
   });
       
 
+ 
   $('.factura').click(function(){
 
+      $('#num_fact').val("");
+      $('#id_venta').val(""); 
+      $('#id_ventam').val(""); 
+      $('#id_ventar').val(""); 
       var id = $(this).val();  //CAPTURA EL ID  
   
       $.ajax({
@@ -558,23 +574,30 @@
 
         success: function (data){
           console.log(data);
-          $('#num_fact').val(data[0].id_venta); 
-          $('#id_venta').val(data[0].id_venta);    
+          $('#num_fact').val(data[0].venta);
+          $('#id_venta').val(data[0].venta); 
+          $('#id_ventam').val(data[0].venta); 
+          $('#id_ventar').val(data[0].venta); 
+
+          if (data[0].factura ==2 || data[0].factura ==3){
+            if(data[0].impresa ==0)
+              $('#btn-fact').prop('disabled', false);
+            else
+               $('#btn-fact').prop('disabled', true);
+          }else{
+              $('#btn-fact').prop('disabled', true);
+          }      
         }
+  
 
     });
   });
 
-  $('#btn-generar').submit(function(e) { 
-    e.preventDefault(); 
-    console.log('aqui');
-    // Coding 
-    $('#ModalFactura').modal('hide'); 
-    return false; 
-}); 
+
+
 
   //<!-- Activar venta En Espera-->
-  $('.activar').click(function(){
+ /* $('.activar').click(function(){
     
     var id = $(this).val();  //CAPTURA EL ID  
     console.log(id);
@@ -583,14 +606,20 @@
         url: '{{ url('activar_venta') }}',
         dataType: "json",
         data: { id:id, _token: '{{csrf_token()}}'},
-        success: function (data){
+        success: function (data){4
+
+
+            $("#res").html('Venta Activada');
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                     
           
-             $('#respActivarVenta').html('ACTIVADA');     
+            // $('#respActivarVenta').html('ACTIVADA');     
         }
     });
 
     location.reload(true);
-  });
+  });*/
 
   
  

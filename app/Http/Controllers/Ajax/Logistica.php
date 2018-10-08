@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Facturas;
 use App\Ventas;
 use App\Remitos;
+
 class Logistica extends Controller
 {
     #jgonzalez
@@ -33,18 +34,18 @@ class Logistica extends Controller
     }
     public function num_factura(Request $request){
         $id = $request->id;
-        $num = Facturas::select('id', 'id_venta')->where('id_venta', $id)->get();
+        $num = Facturas::rightjoin('ventas', 'ventas.id', '=', 'facturas.id_venta')->select('facturas.id as num_fact', 'ventas.id as venta','ventas.factura', 'facturas.impresa')->where( 'ventas.id', $id)->get();
      
         return $num;
     }
     #jgonzalez
-    public function activar_venta(Request $request){
+  /*  public function activar_venta(Request $request){
         $id = $request['id'];
         $venta = Ventas::find($id);
         $venta->id_estado = 11;
         $venta->save();
         return $venta;
-    }
+    }*/
     #jgonzalez
     public function asignar_remisa(Request $request){
         $id_empleado = $request['id_empleado'];
@@ -63,7 +64,7 @@ class Logistica extends Controller
         $remisa->fecha = date("Y-m-d");
         $remisa->id_estado = 7;
         $remisa->save();
-        return $remisa;
+        return $remisa;  
     }
 
 

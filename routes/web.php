@@ -295,11 +295,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
 
+    
     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
     Route::post('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica.submit');
     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
     Route::get('procesar/logistica/remisa', 'Procesar\LogisticaController@remisa')->name('logistica.remisa');
     Route::get('procesar/logistica/factura', 'Procesar\LogisticaController@factura')->name('logistica.factura');
+    Route::get('procesar/logistica/movimiento', 'Procesar\LogisticaController@movimiento')->name('logistica.movimiento');
+    Route::get('procesar/logistica/recibo', 'Procesar\LogisticaController@recibo')->name('logistica.recibo');
 
 
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
