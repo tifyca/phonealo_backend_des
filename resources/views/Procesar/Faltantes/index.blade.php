@@ -56,7 +56,7 @@
                 <th>Telefono</th>
                 <th>Nombres</th>
                 <th>Código</th>
-                <th class="text-rigth">Código</th>
+                {{-- <th class="text-rigth">Código</th> --}}
                 <th class="text-center">Producto</th>
                 <th class="text-center">Categoría</th>
                 <th class="text-center">Stock Actual</th>
@@ -66,18 +66,22 @@
               </tr>
             </thead>
             <tbody>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td ></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              @foreach ($pedidos as $pedido)
+              <tr>
+                <td>{{ $pedido->cliente->telefono }}</td>
+                <td>{{ $pedido->cliente->nombres }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              @endforeach
           </tbody>
         </table>
+        {!! $pedidos->render() !!}
       </div>
      <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
           <!--sección para definir paginación de laravel-->
