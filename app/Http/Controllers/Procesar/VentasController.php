@@ -262,12 +262,14 @@ class VentasController extends Controller
            if($dts>0){
 
             $id_estado_v=5;
-            $id_estado_p=1;
+            $id_estado_p=5;
+            //$id_estado_p=1;
             
            }else{
 
             $id_estado_v=1;
-            $id_estado_p=7;
+            //$id_estado_p=7;
+            $id_estado_p=1;
            }
 
 
