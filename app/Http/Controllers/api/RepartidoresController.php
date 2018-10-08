@@ -60,6 +60,7 @@ class RepartidoresController extends Controller
     public function pedidos_asignados(Request $request){
       $id_repartidor = $request->id_repartidor;  
       $remitos=Remitos::where('id_delivery',$id_repartidor)->get();
+      
     }
     
     public function total_asignados(Request $request){
