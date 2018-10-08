@@ -54,6 +54,14 @@ class PedidosController extends Controller
     {
 
     }
+    public function venta_caida($id){
 
+    }
+    public function confirmar($id){
+
+    }
+    public function agregar_nota($id){
+      
+    }
 
 }
