@@ -69,8 +69,10 @@
              <tr
               @if($pedido->id_estado==1)
                 class="table-secondary"    
+              @endif  
               @if($pedido->id_estado==5)
                class="table-primary"
+              @endif 
              > 
               <td>{{$pedido->id}}</td>
               <td>{{$pedido->name}}</td>
@@ -87,6 +89,7 @@
         </table>
       </div>
      <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+          {{$pedidos->appends(Request::only(['id_pedido' , 'telefono']))->links()}}
           <!--sección para definir paginación de laravel-->
     </div>
     </div>
