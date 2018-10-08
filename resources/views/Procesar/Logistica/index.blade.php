@@ -261,7 +261,7 @@
 
                         <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
 
-                        <button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button>   
+                        <!--button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button-->   
                         </div>
                       </td>
                     </tr>
@@ -597,7 +597,7 @@
 
 
   //<!-- Activar venta En Espera-->
-  $('.activar').click(function(){
+ /* $('.activar').click(function(){
     
     var id = $(this).val();  //CAPTURA EL ID  
     console.log(id);
@@ -606,14 +606,20 @@
         url: '{{ url('activar_venta') }}',
         dataType: "json",
         data: { id:id, _token: '{{csrf_token()}}'},
-        success: function (data){
+        success: function (data){4
+
+
+            $("#res").html('Venta Activada');
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                     
           
-             $('#respActivarVenta').html('ACTIVADA');     
+            // $('#respActivarVenta').html('ACTIVADA');     
         }
     });
 
     location.reload(true);
-  });
+  });*/
 
   
  
