@@ -380,13 +380,13 @@ class VentasController extends Controller
          $horarios  = Horarios::all();
            $deliverys = Montos_delivery::all();
           $formas    = Forma_pago::all();
-          $venta=Ventas::join('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
-            ->join('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
-            ->join('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
-            ->join('departamentos', 'clientes.id_departamento', '=', 'departamentos.id')
-            ->join('facturas', 'ventas.id', '=', 'facturas.id_venta')
-            ->join('horarios', 'ventas.id_horario', '=', 'horarios.id')
-            ->join('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+          $venta=Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+            ->leftjoin('departamentos', 'clientes.id_departamento', '=', 'departamentos.id')
+            ->leftjoin('facturas', 'ventas.id', '=', 'facturas.id_venta')
+            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
                 ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_forma_pago', 'forma_pago.forma_pago', 'ventas.factura', 'ventas.id_horario', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.id as idcliente','clientes.nombres','clientes.ruc_ci', 'clientes.id_tipo','clientes.email','clientes.telefono', 'clientes.direccion','clientes.ubicacion','clientes.barrio', 'departamentos.nombre as departamento', 'ciudades.ciudad as ciudad','barrio', 'clientes.id_ciudad as id_ciudad', 'clientes.id_departamento as id_departamento', 'ciudades.ciudad',  'facturas.nombres as fnombres',  'facturas.ruc_ci as fruc', 'facturas.direccion as fdireccion')
                 ->where('ventas.id', $id)
                 ->get();
