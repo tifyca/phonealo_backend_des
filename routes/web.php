@@ -311,9 +311,20 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('procesar/faltantes', 'Procesar\FaltantesController');
     Route::resource('procesar/pedidos', 'Procesar\PedidosController');
+    Route::get('procesar/pedidos/{id}/venta_caida', [
+        'uses' => 'Procesar\PedidosController@venta_caida',
+        'as'   => 'procesar.caida'
+    ]);
 
+    Route::get('procesar/pedidos/{id}/confirmar', [
+        'uses' => 'Procesar\PedidosController@confirmar',
+        'as'   => 'procesar.confirmar'
+    ]);
 
-
+Route::get('procesar/pedidos/{id}/nota', [
+        'uses' => 'Procesar\PedidosController@agregar_nota',
+        'as'   => 'procesar.nota'
+    ]);
     ////////////
 
 

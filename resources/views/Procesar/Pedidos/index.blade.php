@@ -83,6 +83,12 @@
               <td>{{$pedido->monto}}</td>
               <td>{{$pedido->fecha}}</td>
               <td>{{$pedido->estado}}</td>
+              <td>@if($pedido->id_estado==5) 
+                 <a class="btn btn-primary" href="{{ route('pedidos.caida',$pedido->id) }}"><i class="fa fa-lg fa-cerrar" title="venta Caida"></i></a>
+                 <a class="btn btn-primary" href="{{ route('pedidos.confirmar',$pedido->id) }}"><i class="fa fa-lg fa-call" title="Cliente a Confirmar"></i></a>
+                <a class="btn btn-primary" href="{{ route('pedidos.notas',$pedido->id) }}"><i class="fa fa-lg fa-clipboard" title="Agregar Nota"></i></a>
+                  @endif
+              </td> 
              </tr>
               @endforeach
           </tbody>
