@@ -323,7 +323,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('procesar/pedidos/{id}/nota', [
         'uses' => 'Procesar\PedidosController@agregar_nota',
-        'as'   => 'procesar.nota'
+        'as'   => 'procesar.notas'
     ]);
     ////////////
 
