@@ -59,8 +59,8 @@
                     <th>Forma Pago</th>
                     <th>Horario de Entrega</th>
                     <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Importe</th>
+                    <th style="text-align: center;">Cantidad</th>
+                    <th style="text-align: center;">Importe</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -75,8 +75,8 @@
                       <td>{{$remisa->forma_pago}}</td>
                       <td>{{$remisa->horario}}</td>
                       <td>{{$remisa->descripcion}}</td>
-                      <td>{{$remisa->cantidad}}</td>
-                      <td>{{$remisa->importe}}</td>
+                      <td style="text-align: center;">{{$remisa->cantidad}}</td>
+                      <td style="text-align: right;">{{$remisa->importe}}</td>
                     </tr>
                     <?php 
                       $total += $remisa->importe;
