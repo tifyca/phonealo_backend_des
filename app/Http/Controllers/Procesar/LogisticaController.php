@@ -140,14 +140,29 @@ class LogisticaController extends Controller
             $id_remisa = $request["id_remisa"];
             $remito = Remitos::find($id_remisa);
             $empleado = Empleados::find($remito->id_delivery);
-            #dd($empleado);
-            #no existe relacion entre entidad remito y entidad venta, en el sistema anterior existe como "detalle_remito", sin esta relacion no se puede hacer la consulta para generar el detalle de producto dejo la intruccion para que se vea la prueba sobre la vista y comentado el codigo que debe generar el pdf
-            return view('Procesar.Logistica.recibo_remisa', compact('remito', 'empleado'));
-            //$pdf = PDF::loadView('Procesar.Logistica.recibo_remisa');
+
+            $vista="Procesar.Logistica.recibo_remisa";
+        
+
+         return $this->crearPDF($remito, $vista, $empleado, $id_remisa );
+            return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios'));
+           // $pdf = PDF::loadView('Procesar.Logistica.recibo_remisa', compact('remito', 'empleado'));
             //$pdf->download('recibo_remisa'.$id_remisa.'.pdf');
         }
         return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios'));
     	
+    }
+    public function CrearPDF ($remito, $vista, $empleado, $id_remisa ){
+
+        $remito = $remito;
+        $empleado=$empleado;
+        $fecha = date('d-m-Y');
+        $view =  \View::make($vista, compact('remito','empleado', 'fecha'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream('recibo_remisa'.$id_remisa);
+
+
     }
     public function edit(){
     	return view('Procesar.Logistica.edit');
