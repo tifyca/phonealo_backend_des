@@ -15,4 +15,8 @@ class Productos extends Model
      */
     protected $fillable = ['id','codigo_producto','descripcion','id_categoria','id_subcategoria','codigo_barra','precio_minimo','precio_ideal','usuario_id','descripcion','id_estado'];
     protected $guarded  = ['id'];
+
+    public function detalles(){
+    	return $this->hasMany(detalles::class, 'id_producto');
+    }
 }

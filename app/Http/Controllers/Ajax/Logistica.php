@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Facturas;
 use App\Ventas;
 use App\Remitos;
+use App\Detalle_remito;
 
 class Logistica extends Controller
 {
@@ -52,11 +53,7 @@ class Logistica extends Controller
         $id_usuario = $request['id_usuario'];
         $total = $request['total'];
         $ventas = $request['ventas'];
-        foreach ($ventas as $id) {
-            $venta = Ventas::find($id);
-            $venta->id_estado = 7;
-            $venta->save();
-        }
+
         $remisa  = new Remitos;
         $remisa->id_delivery = $id_empleado;
         $remisa->id_usuario = $id_usuario;
@@ -64,7 +61,25 @@ class Logistica extends Controller
         $remisa->fecha = date("Y-m-d");
         $remisa->id_estado = 7;
         $remisa->save();
-        return $remisa;  
+        
+        foreach ($ventas as $item) {
+            
+            $venta = Ventas::find($item);
+            $venta->id_estado = 7;
+            $venta->save();
+
+            $detremito  = new Detalle_remito;
+            $detremito->id_remito = $remisa->id;
+            $detremito->id_venta  = $item;
+            $detremito->id_usuario= $id_usuario;
+            $detremito->save();
+        }
+
+
+        //jsonres['message']="La Venta fue  Remisada con Éxito";
+             //  echo json_encode($jsonres, );
+      
+        return $remisa;
     }
 
 

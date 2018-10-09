@@ -36,7 +36,7 @@
               </select>
               </div>
               <div class="tile-footer col-12 col-md-2 text-center border-0" >
-                <button class="btn btn-primary btn-save"  id="btn-save"><i class="fa fa-fw fa-lg fa-check-circle"></i>Guardar</button>
+                <button class="btn btn-primary btn-save"  target="_blank" id="btn-save"><i class="fa fa-fw fa-lg fa-check-circle"></i>Guardar</button>
               </div>
             </div>
           <!--</form>-->
@@ -144,10 +144,14 @@
         data: { id_empleado:id_empleado,id_usuario:id_usuario,total:total, ventas:ventas, _token: '{{csrf_token()}}'},
         success: function (data){
           console.log(data);
-             $('#respAsignarRemisa').html('Confirmado');  
 
-        window.location.href = "../../procesar/logistica"  + "?id_remisa=" + data.id;
-        //location.href=`../../procesar/logistica`;  
+            $("#res").html('La Venta fue  Remisada con Éxito');
+            $("#res, #res-content").css("display","block");
+
+            window.open(`{{ url('procesar/logistica?id_remisa=${data.id}')}} `);
+           
+            window.location.href = "../../procesar/logistica";
+        
         }
     });  
 
