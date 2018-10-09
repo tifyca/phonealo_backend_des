@@ -83,7 +83,7 @@
       </div>
      <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
           <!--sección para definir paginación de laravel-->
-        {!! $pedidos->render() !!}
+         {{ $pedidos->appends( Request::only(['producto' , 'fecha']) )->links() }}
     </div>
     </div>
   </div>

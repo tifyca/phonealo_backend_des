@@ -9,21 +9,31 @@ use DB;
 
 class FaltantesController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request){      
         $producto = $request->producto;
-        if ( $producto ) {
+        $fecha = $request->fecha;
+        if ( $producto && !$fecha) {
             $pedidos = pedido::enEspera()
                 ->where(function($query) use ($producto){
                     $query->where('productos.codigo_producto', 'like', '%'.$producto.'%')
                     ->orWhere('productos.descripcion', 'like', '%'.$producto.'%');                    
                 })
                 ->paginate(10);         
+        }elseif( $fecha && !$producto) {
+             $pedidos = pedido::enEspera()
+                ->where('ventas.fecha', $fecha)    
+                ->paginate(10);
+        }elseif ( $producto && $fecha ) {
+            $pedidos = pedido::enEspera()
+                ->where('ventas.fecha', $fecha)
+                ->where(function($query) use ($producto){
+                    $query->where('productos.codigo_producto', 'like', '%'.$producto.'%')
+                    ->orWhere('productos.descripcion', 'like', '%'.$producto.'%');                    
+                })
+                ->paginate(10);
         }else{
             $pedidos = pedido::EnEspera()->paginate(10);            
         }
-
-
-        // return dd($pedidos);
 
        return view("Procesar.Faltantes.index", compact('pedidos')); 
     }
