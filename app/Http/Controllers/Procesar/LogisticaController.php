@@ -138,14 +138,32 @@ class LogisticaController extends Controller
         $horarios = Horarios::get();
         if($request["id_remisa"]){
             $id_remisa = $request["id_remisa"];
-            $remito = Remitos::find($id_remisa);
-            $empleado = Empleados::find($remito->id_delivery);
+            $remito = Remitos::leftjoin('detalle_remito', 'detalle_remito.id_remito', '=', 'remitos.id')
+                    ->leftjoin('ventas', 'detalle_remito.id_venta', '=', 'ventas.id')
+                    ->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+                    ->leftjoin('detalle_pedidos', 'detalle_pedidos.id_pedido', '=', 'ventas.id_pedido')
+                    ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+                    ->leftjoin('productos', 'detalle_pedidos.id_producto', '=', 'productos.id')
+                    ->leftjoin('users', 'pedidos.id_usuario', '=', 'users.id')
+                    ->select('remitos.id as idremito', 'remitos.id_delivery', 'ventas.id_pedido',  'clientes.barrio', 'productos.nombre_original', 'productos.descripcion', 'users.name as usuario', 'detalle_pedidos.cantidad',
+                        DB::raw('(detalle_pedidos.cantidad*detalle_pedidos.precio) as importe'))
+                    ->where('remitos.id', $id_remisa)
+                    ->groupBy('remitos.id', 'remitos.id_delivery', 'ventas.id_pedido',  'clientes.barrio', 'productos.nombre_original', 'productos.descripcion', 'users.name', 'detalle_pedidos.cantidad')
+                    ->get();
+              
 
+            $empleado = Empleados::join('remitos', 'remitos.id_delivery', '=', 'empleados.id')
+                                  ->leftjoin('detalle_remito', 'detalle_remito.id_remito', '=', 'remitos.id')
+                                  ->leftjoin('ventas', 'detalle_remito.id_venta', '=', 'ventas.id')
+                                  ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+                                  ->select('empleados.id', 'empleados.nombres', 'horarios.horario')
+                                  ->where('remitos.id', $id_remisa)
+                                  ->first();
             $vista="Procesar.Logistica.recibo_remisa";
         
 
          return $this->crearPDF($remito, $vista, $empleado, $id_remisa );
-            return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios'));
+            //return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios'));
            // $pdf = PDF::loadView('Procesar.Logistica.recibo_remisa', compact('remito', 'empleado'));
             //$pdf->download('recibo_remisa'.$id_remisa.'.pdf');
         }

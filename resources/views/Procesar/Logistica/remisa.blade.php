@@ -147,9 +147,11 @@
 
             $("#res").html('La Venta fue  Remisada con Éxito');
             $("#res, #res-content").css("display","block");
+
+            window.open(`{{ url('procesar/logistica?id_remisa=${data.id}')}} `);
            
-        window.location.href = "../../procesar/logistica"  + "?id_remisa=" + data.id;
-        //location.href=`../../procesar/logistica`;  
+            window.location.href = "../../procesar/logistica";
+        
         }
     });  
 

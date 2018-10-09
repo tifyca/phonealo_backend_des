@@ -66,7 +66,7 @@
                         
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $remisa->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>  
 
-                          <button data-toggle="tooltip" data-placement="top" title="noremisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
+                          <button data-toggle="tooltip" data-placement="top" title="No Remisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
                           <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
                           </div>
                       </td>
@@ -180,7 +180,7 @@
 
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $atender->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
 
-                          <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                          <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
                           <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
                           </div>
                       </td>
@@ -197,86 +197,7 @@
   @endif
   {{--  --}}
   {{--  --}}
-
-
-  {{-- TABLA EN ESPERA --}}
-  {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS EN ESPERA --}}
-  @if(count($enEsperas) > 0)
-   <div class="col-12" >
-    <div class="tile ">
-      <h3 class="tile-title text-center text-md-left"> Ventas en Espera </h3>
-      <div class="tile-body ">
-        <div class="table-responsive">
-              <table class="table table-hover table-bordered " id="esperas-list">
-                <thead>
-                  <tr>
-                    <th style="text-align: center">Venta</th>
-                    <th style="text-align: center">Cliente</th>
-                    <th style="text-align: center">Teléfono</th>
-                    <th style="text-align: center">Dirección</th>
-                    <th style="text-align: center">Fecha</th>
-                    <th style="text-align: center">Fecha Activo</th>
-                    <th style="text-align: center">Ciudad</th>
-                    <th style="text-align: center">Horario</th>
-                    <th style="text-align: center">Forma Pago</th>
-                    <th style="text-align: center">Importe</th>
-                    <th style="text-align: center">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  <!-- jgonzalez LISTADO DE VENTAS EN ESPERA-->
-                  
-                  @foreach($enEsperas as $enEspera)
-                   <tr 
-                    @if($enEspera->id_estado == '5')
-                      class="table-info"
-                    @elseif($enEspera->id_estado == '12')
-                      class="table-light"
-                    @endif 
-                    >
-                      <td style="text-align: center">{{$enEspera->id}}</td>
-                      <td style="text-align: center">{{$enEspera->nombres}}</td>
-                      <td style="text-align: center">{{$enEspera->telefono}}</td>
-                      <td style="text-align: center">{{$enEspera->direccion}}</td>
-                      <td style="text-align: center">{{$enEspera->fecha}}</td>
-                      <td style="text-align: center">{{$enEspera->fecha_activo}}</td>
-                      <td style="text-align: center">{{$enEspera->ciudad}}</td>
-                      <td style="text-align: center">{{$enEspera->horario}}</td>
-                      <td style="text-align: center">{{$enEspera->forma_pago}}</td>
-                      <td style="text-align: center">{{$enEspera->importe}}</td>
-                      <td width="10%" class="text-center">
-                        <div class="btn-group">
-                       
-                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
-                        
-                       
-                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
-
-                          @if($enEspera->id_estado == 12 || $enEspera->id_estado == 5) 
-                          <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary disabled-btn remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                          @else
-                          <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary  remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                          @endif 
-
-                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-
-                        <!--button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button-->   
-                        </div>
-                      </td>
-                    </tr>
-                    
-                  @endforeach
-
-                </tbody>
-              </table>
-            </div>
-      </div>
-    </div>
-  </div>
-  @endif
-  {{--  --}}
-  {{--  --}}
+    {{--LISTADO ACTIVO  --}}
   
   <div class="col-12">
     <div class="tile">
@@ -339,7 +260,7 @@
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-print"></i></button>
                 
                         <!--<a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>-->
-                        <button data-toggle="tooltip" data-placement="top" title="aremisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                        <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
 
                         <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$activa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
                         </div>
@@ -368,8 +289,87 @@
         </div>
     </div>
   </div>
-</div>
 
+
+  {{-- TABLA EN ESPERA --}}
+  {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS EN ESPERA --}}
+  @if(count($enEsperas) > 0)
+   <div class="col-12" >
+    <div class="tile ">
+      <h3 class="tile-title text-center text-md-left"> Ventas en Espera </h3>
+      <div class="tile-body ">
+        <div class="table-responsive">
+              <table class="table table-hover table-bordered " id="esperas-list">
+                <thead>
+                  <tr>
+                    <th style="text-align: center">Venta</th>
+                    <th style="text-align: center">Cliente</th>
+                    <th style="text-align: center">Teléfono</th>
+                    <th style="text-align: center">Dirección</th>
+                    <th style="text-align: center">Fecha</th>
+                    <th style="text-align: center">Fecha Activo</th>
+                    <th style="text-align: center">Ciudad</th>
+                    <th style="text-align: center">Horario</th>
+                    <th style="text-align: center">Forma Pago</th>
+                    <th style="text-align: center">Importe</th>
+                    <th style="text-align: center">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <!-- jgonzalez LISTADO DE VENTAS EN ESPERA-->
+                  
+                  @foreach($enEsperas as $enEspera)
+                   <tr 
+                    @if($enEspera->id_estado == '5')
+                      class="table-info"
+                    @elseif($enEspera->id_estado == '12')
+                      class="table-light"
+                    @endif 
+                    >
+                      <td style="text-align: center">{{$enEspera->id}}</td>
+                      <td style="text-align: center">{{$enEspera->nombres}}</td>
+                      <td style="text-align: center">{{$enEspera->telefono}}</td>
+                      <td style="text-align: center">{{$enEspera->direccion}}</td>
+                      <td style="text-align: center">{{$enEspera->fecha}}</td>
+                      <td style="text-align: center">{{$enEspera->fecha_activo}}</td>
+                      <td style="text-align: center">{{$enEspera->ciudad}}</td>
+                      <td style="text-align: center">{{$enEspera->horario}}</td>
+                      <td style="text-align: center">{{$enEspera->forma_pago}}</td>
+                      <td style="text-align: center">{{$enEspera->importe}}</td>
+                      <td width="10%" class="text-center">
+                        <div class="btn-group">
+                       
+                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+                        
+                       
+                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
+
+                          @if($enEspera->id_estado == 12 || $enEspera->id_estado == 5) 
+                          <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary disabled-btn remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                          @else
+                          <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary  remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                          @endif 
+
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+
+                        <!--button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button-->   
+                        </div>
+                      </td>
+                    </tr>
+                    
+                  @endforeach
+
+                </tbody>
+              </table>
+            </div>
+      </div>
+    </div>
+  </div>
+  @endif
+  {{--  --}}
+
+</div>
 <!-- Modal -->
 <div class="modal fade" id="ModalProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -409,6 +409,7 @@
             <tbody id="productos_detalle">
               
             </tbody>
+           
           </table>
         </div>
       </div>
@@ -420,7 +421,8 @@
   <div class="modal-dialog  modal-dialog-centered " role="document">
     <div class="modal-content">
         
-      <div class="modal-header">
+      <div class="modal-header" align="text-center">
+         <h5 class="modal-title" id="title"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -433,7 +435,7 @@
                   <form name="form1" action="{{ route('logistica.factura') }}"  accept-charset="UTF-8" method="GET"  enctype="multipart/form-data">
                       <input type="hidden" name="id_venta" id="id_venta" value="0">
                       <th>Factura</th>
-                      <td><input class="form-control" type="text" id="num_fact" name="num_fact" disabled></td>
+                      <td><input class="form-control" type="text" id="num_fact" name="num_fact" ></td>
                       <td >
                          <button class="btn btn-primary fact" id="btn-fact" type="submit" ><i class="m-0 fa fa-lg fa-print" ></i></button>
                       </td>
@@ -452,7 +454,7 @@
                 <tr>
                   <form name="form1" action="{{ route('logistica.recibo') }}"  accept-charset="UTF-8" method="GET"  enctype="multipart/form-data">
                       <input type="hidden" name="id_ventar" id="id_ventar" value="0">
-                      <th>Recibo</th> 
+                      <th>Stikers</th> 
                       <td  colspan="1"></td>
                       <td >
                       <button class="btn btn-primary" id="btn-generar" type="submit"><i class="m-0 fa fa-lg fa-print"></i></button>
@@ -494,6 +496,7 @@
 
         success: function (data){
           console.log(data);
+          var total=0;
           $("#cliente_detalle").append(`<tr>
                                           <td style="text-align: center;">${data[0].id}</td>
                                           <td style="text-align: center;">${data[0].nombres}</td>
@@ -510,8 +513,15 @@
               <td style="text-align: center;">${item.cantidad}</td>
               <td style="text-align: right;">${item.precio}</td>
               </tr>`);
+               total+=item.cantidad*item.precio;
           });
-        }
+
+            $("#productos_detalle").append(`<tr>
+              <td colspan="4" style="text-align:  right;"><h5>Total: ${total} Gs.</h5></td>
+              </tr>`);
+         
+           
+          }
 
     });
 
@@ -573,8 +583,8 @@
         data: { id:id, _token: '{{csrf_token()}}'},
 
         success: function (data){
-          console.log(data);
-          $('#num_fact').val(data[0].venta);
+          
+          $('#title').html('Pedido: ' + data[0].venta);
           $('#id_venta').val(data[0].venta); 
           $('#id_ventam').val(data[0].venta); 
           $('#id_ventar').val(data[0].venta); 
