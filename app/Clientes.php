@@ -58,6 +58,10 @@ class Clientes extends Model
                      ->where('nombres','like', "$cliente%")
                      ->where('email','like', "$email%");
     }
+
+    public function pedidos(){
+        return $this->hasMany(pedido::class, 'id_cliente');
+    }
    
 
 
