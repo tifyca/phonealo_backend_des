@@ -74,7 +74,7 @@
                 <td class="text-center">{{ $pedido->categoria }}</td>
                 <td class="text-center">{{ $pedido->stock_activo }}</td>
                 <td class="text-center">{{ $pedido->cantidad }}</td>
-                <td class="text-center">{{ $pedido->nombresEmpleado }}</td>
+                <td class="text-center">{{ $pedido->name }}</td>
                 <td class="text-center">{{ $pedido->fecha }}</td>
               </tr>
               @endforeach
