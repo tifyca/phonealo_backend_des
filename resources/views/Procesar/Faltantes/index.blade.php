@@ -31,7 +31,7 @@
             <div class="col">
               <h4 class="tile-title text-left text-md-left">Listado de Faltantes</h4>
             </div>
-            <form class="row d-flex justify-content-end" action="{{route('entradas.index')}}" method="get"> 
+            <form class="row d-flex justify-content-end" action="{{route('faltantes.index')}}" method="get"> 
 
               <div class="form-group col-md-5">
                 <input class="form-control" type="text" name="producto" id="producto" placeholder="Buscar Producto">
