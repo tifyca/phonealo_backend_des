@@ -16,7 +16,7 @@ use App\Categorias;
 use App\Subcategorias;
 use App\pedido;
 use App\detalle;
-use App\Montos_delivery;
+use App\Monto_delivery;
 use DB;
 use File;
  @session_start();
@@ -28,7 +28,7 @@ class VentasController extends Controller
     public function index(){
 
       $horarios  = Horarios::all();
-      $deliverys = Montos_delivery::all();
+      $deliverys = Monto_delivery::all();
       $formas    = Forma_pago::all();
 
       return view('Procesar.Ventas.index', compact('horarios','deliverys', 'formas' ));
@@ -338,7 +338,7 @@ class VentasController extends Controller
 
               if($request->monto>0){
 
-                $deliverys=Montos_delivery::select('id', 'monto')->where('id',$request->monto)->first();
+                $deliverys=Monto_delivery::select('id', 'monto')->where('id',$request->monto)->first();
 
                 $deliver= new Detalle_Ventas;
                 $deliver->id_venta    = $venta->id;
@@ -346,7 +346,15 @@ class VentasController extends Controller
                 $deliver->cantidad    = 1;
                 $deliver->precio      = $deliverys->monto;
                 $deliver->id_usuario  = $dt->id_usuario;
-                $deliver->save();            
+                $deliver->save();  
+
+                 $detallep= new detalle;
+                 $detallep->id_pedido  = $pedido->id;
+                 $detallep->id_producto= 36;
+                 $detallep->cantidad   = 1;
+                 $detallep->precio     = $deliverys->monto;
+                 $detallep->id_usuario = $dt->id_usuario;
+                 $detallep->save();          
               }
 
              
@@ -380,7 +388,7 @@ class VentasController extends Controller
         
       
          $horarios  = Horarios::all();
-           $deliverys = Montos_delivery::all();
+           $deliverys = Monto_delivery::all();
           $formas    = Forma_pago::all();
           $venta=Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
             ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
@@ -422,6 +430,7 @@ class VentasController extends Controller
         $detallep= detalle::join('ventas', 'detalle_pedidos.id_pedido', '=', 'ventas.id_pedido')
                           ->where('id_producto',$request->id_producto)
                           ->delete();
+
 
                               
 
@@ -549,9 +558,17 @@ class VentasController extends Controller
                 $detvent=Detalle_Ventas::where('id_venta', $request->id_venta)
                                        ->where('id_producto', 36)
                                        ->count();
+
+
                 if($detvent<0){
 
-                      $deliverys=Montos_delivery::select('id', 'monto')->where('id',$request->monto)->first();
+
+
+                      $deliverys=Monto_delivery::select('id', 'monto')->where('id',$request->monto)->first();
+
+                      $pedido= Pedido::where('id_cliente', $request->id_cliente)
+                                 ->where('fecha', $request->fecha_venta )
+                                 ->first();
 
                       $deliver= new Detalle_Ventas;
                       $deliver->id_venta    = $venta->id;
@@ -560,7 +577,16 @@ class VentasController extends Controller
                       $deliver->precio      = $deliverys->monto;
                       $deliver->id_usuario  = $request->id_usuario;
                       $deliver->save(); 
-                      }           
+                      
+
+                      $detallep= new detalle;
+                      $detallep->id_pedido  = $pedido->id;
+                      $detallep->id_producto= 36;
+                      $detallep->cantidad   = 1;
+                      $detallep->precio     = $deliverys->monto;
+                      $detallep->id_usuario = $request->id_usuario;
+                      $detallep->save();  
+                }          
               }
 
               

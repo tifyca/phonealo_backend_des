@@ -508,20 +508,20 @@
           //CICLO DE LOS DATOS RECIBIDOS
           $.each(data, function(l, item) {
 
-               importe=item.cantidad*item.precio;
-               total+=importe;
+               importes=item.cantidad*item.precio;
+              // total+=importe;
             $("#productos_detalle").append(`<tr>
 
               <td style="text-align: left;">${item.codigo_producto}</td>
               <td style="text-align: left;">${item.descripcion}</td>
               <td style="text-align: center;">${item.cantidad}</td>
               <td style="text-align: center;">${item.precio.toLocaleString('de-DE')}</td>
-              <td style="text-align: right;">${importe.toLocaleString('de-DE')}</td>
+              <td style="text-align: right;">${importes.toLocaleString('de-DE')}</td>
               </tr>`);
           });
 
             $("#productos_detalle").append(`<tr>
-              <td colspan="5" style="text-align:  right;"><h5>Total: ${total.toLocaleString('de-DE')} Gs.</h5></td>
+              <td colspan="5" style="text-align:  right;"><h5>Total: ${data[0].importe.toLocaleString('de-DE')} Gs.</h5></td>
               </tr>`);
          
            
@@ -543,8 +543,10 @@
         dataType: "json",
         data: { id:id, _token: '{{csrf_token()}}'},
         success: function (data){
-          
-             $('#respAgregarRemisa').html('REMISADO');     
+
+              $("#res").html('La Venta fue Remisada');
+              $("#res, #res-content").css("display","block");          
+              
         }
     });
 
@@ -562,8 +564,12 @@
         dataType: "json",
         data: { id:id, _token: '{{csrf_token()}}'},
         success: function (data){
+
+
+            $("#res").html('La Venta fue  No Remisada');
+            $("#res, #res-content").css("display","block");
           
-             $('#respQuitarRemisa').html('NO REMISADO');     
+            
         }
     });
 
@@ -623,11 +629,9 @@
         success: function (data){4
 
 
-            $("#res").html('Venta Activada');
-            $("#res, #res-content").css("display","block");
-            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                      
-          
+            $("#res").html('La Venta fue Activada');
+            $("#res, #res-content").css("display","block");
             // $('#respActivarVenta').html('ACTIVADA');     
         }
     });

@@ -128,9 +128,15 @@
               <select id="factura" class="form-control" id="factura" name="factura">
                @if($venta[0]->factura==1)
                 <option value="1" selected>No</option>
+                <option value="2" >Si</option>
+                <option value="3" >Sin Nombre</option>
                @elseif($venta[0]->factura==2)
+                <option value="1" >No</option>
                 <option value="2" selected>Si</option>
+                <option value="3" >Sin Nombre</option>
                @else
+                <option value="1" >No</option>
+                <option value="2" >Si</option>
                 <option value="3" selected>Sin Nombre</option>
                @endif
               </select>
@@ -324,7 +330,7 @@
                   
                
               </table>
-               <div class="text-right col-md-"><h3><div id='total'>Total Gs.:{!!number_format($mtotal, 0, ',', '.')!!}</div></h3>
+               <div class="text-right col-md-"><h3><div id='total'>Total Gs.:{!!number_format($venta[0]->importe, 0, ',', '.')!!}</div></h3>
                <button class="btn btn-primary" type="submit" id="btn-edit" >Guardar</button></div>
             </div>
           </div>
