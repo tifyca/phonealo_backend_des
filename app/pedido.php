@@ -19,6 +19,7 @@ class pedido extends Model
             ->join('users', 'pedidos.id_usuario', 'users.id')
             ->select('clientes.nombres', 'clientes.telefono', 'productos.codigo_producto', 'productos.descripcion', 'productos.stock_activo', 'categorias.categoria', 'detalle_pedidos.cantidad', 'users.name', 'pedidos.id_usuario', 'ventas.fecha')
             ->where('ventas.id_estado', 5)
+            ->where('categorias.tipo', 'Productos')
             ->orderBy('ventas.fecha', 'DESC');
 	}
 
