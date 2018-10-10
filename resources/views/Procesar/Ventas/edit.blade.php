@@ -181,7 +181,7 @@
               <select class="form-control monto" id="monto" name="monto" >
                       <option value=""> Monto </option>
                @foreach($deliverys as $delivery)  
-                      <option value="{{$delivery->id}}"> {{ $delivery->monto }} </option>
+                      <option value="{{$delivery->id}}"> {!!number_format($delivery->monto, 0, ',', '.')!!} </option>
                  @endforeach             
               </select>
                  
@@ -308,10 +308,10 @@
                   <tr><td  width="15%" id="d-cod_producto">{{$detalle->codigo_producto}}</td>
                   <td width="30%" id="d-descripcion">{{$detalle->descripcion}}</td>
                   <td width="15%" id="d-cantidad" class="text-center">{{$detalle->cantidad}}</td>
-                  <td width="20%" id="d-precio" class="text-center">{{$detalle->precio}}</td>
+                  <td width="20%" id="d-precio" class="text-center">{!!number_format($detalle->precio, 0, ',', '.')!!}</td>
                     <?php $subimporte= $detalle->cantidad * $detalle->precio;
                     $mtotal+=$subimporte;?>
-                  <td width="20%" id="d-importe" class="text-center">{{$subimporte}}</td>
+                  <td width="20%" id="d-importe" class="text-center">{!!number_format($subimporte, 0, ',', '.')!!}</td>
                   <td width="15%" class="text-center"><div class="btn-group">
                   <button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary deledit" value="{{$detalle->id_producto}}" ><i class="m-0 fa fa-lg fa-trash"></i></button>
                   <button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="{{$detalle->id_producto}}"><i class="m-0 fa fa-lg fa-info"></i></button></div>
@@ -324,7 +324,7 @@
                   
                
               </table>
-               <div class="text-right col-md-"><h3><div id='total'>Total Gs.:{{$mtotal}}</div></h3>
+               <div class="text-right col-md-"><h3><div id='total'>Total Gs.:{!!number_format($mtotal, 0, ',', '.')!!}</div></h3>
                <button class="btn btn-primary" type="submit" id="btn-edit" >Guardar</button></div>
             </div>
           </div>
@@ -582,7 +582,7 @@
             $('#descripcion').val(data.descripcion);
             $('#cod_producto').val(data.codigo_producto);
             $('#stock').val(data.stock_activo);
-            $('#precio').val(data.precio_ideal);
+            $('#precio').val(data.precio_ideal.toLocaleString('de-DE'));
             $('#id_producto').val(data.id);
             if(data.stock_activo==0){
                $('#fecha_entrega').prop('disabled', false);

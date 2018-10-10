@@ -264,9 +264,11 @@ class LogisticaController extends Controller
 
         
          $fecha = Carbon::now();
-         $date = $fecha->formatLocalized("%d                    %B                                           %y");
+         $dated = $fecha->formatLocalized("%d");
+         $datem = $fecha->formatLocalized("%B");    
+         $datea = $fecha->formatLocalized("%y");                                                   
         
-        $pdf = PDF::loadView('Procesar.Logistica.recibo', compact('venta', 'factura', 'date'));
+        $pdf = PDF::loadView('Procesar.Logistica.recibo', compact('venta', 'factura', 'dated', 'datem', 'datea'));
         return $pdf->download('Recibo_'.$request->id_ventar.'.pdf');
       
       
