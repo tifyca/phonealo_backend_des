@@ -33,15 +33,15 @@
             </div>
             <form class="row d-flex justify-content-end" action="{{route('pedidos.index')}}" method="get"> 
 
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-4">
                 <input class="form-control" type="text" name="id_pedido" id="id_pedido" placeholder="Buscar Pedido">
               </div>
 
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-4">
                 <input class="form-control" type="text" name="telefono" id="telefono" placeholder="Buscar Teléfono">
               </div>
 
-              <div class="col-md-1 mr-md-5">
+              <div class="form-group mr-md-4">
                 <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
               </div>
             </form>
@@ -61,7 +61,7 @@
                 <th class="text-left">Importe</th>
                 <th class="text-left">Fecha</th>
                 <th class="text-center">Estado</th>
-                <th class="text-center">Acciones</th>
+                <th class="text-center" width="17%">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -83,11 +83,17 @@
               <td>{{$pedido->monto}}</td>
               <td>{{$pedido->fecha}}</td>
               <td>{{$pedido->estado}}</td>
-              <td>@if($pedido->id_estado==5) 
-                 <a class="btn btn-primary" href="{{ route('procesar.caida',$pedido->id) }}"><i class="fa fa-lg fa-cerrar" title="venta Caida"></i></a>
-                 <a class="btn btn-primary" href="{{ route('procesar.confirmar',$pedido->id) }}"><i class="fa fa-lg fa-call" title="Cliente a Confirmar"></i></a>
-                <a class="btn btn-primary" href="{{ route('procesar.notas',$pedido->id) }}"><i class="fa fa-lg fa-clipboard" title="Agregar Nota"></i></a>
-                  @endif
+              <td class="text-center" width="10%">
+                @if($pedido->id_estado==1) 
+                 <a href="{{ route('procesar.caida',$pedido->id) }}" class="btn btn-secondary" title=""><i class="fa fa-lg fa-times" title="Venta Caida"></i></a>
+                <a class="btn btn-primary" href="{{ route('procesar.notas',$pedido->id) }}"><i class="fa fa-lg fa-file" title="Agregar Nota"></i></a>
+                @endif
+
+
+                @if($pedido->id_estado==5) 
+                 <a class="btn btn-primary" href="{{ route('procesar.confirmar',$pedido->id) }}"><i class="fa fa-lg fa-phone" title="Cliente a Confirmar"></i></a>
+                <a class="btn btn-primary" href="{{ route('procesar.notas',$pedido->id) }}"><i class="fa fa-lg fa-file" title="Agregar Nota"></i></a>
+                @endif
               </td> 
              </tr>
               @endforeach
