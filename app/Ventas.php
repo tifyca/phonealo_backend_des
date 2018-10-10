@@ -77,7 +77,7 @@ class Ventas extends Model
             ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
             ->leftjoin('detalle_pedidos', 'pedidos.id', '=', 'detalle_pedidos.id_pedido')
             ->leftjoin('productos', 'detalle_pedidos.id_producto', '=', 'productos.id')
-            ->select('ventas.id', 'clientes.nombres', 'clientes.telefono','clientes.email', 'clientes.ruc_ci','clientes.direccion', 'productos.codigo_producto', 'productos.descripcion', 'detalle_pedidos.cantidad', 'detalle_pedidos.precio')
+            ->select('ventas.id', 'ventas.importe', 'clientes.nombres', 'clientes.telefono','clientes.email', 'clientes.ruc_ci','clientes.direccion', 'productos.codigo_producto', 'productos.descripcion', 'detalle_pedidos.cantidad', 'detalle_pedidos.precio')
             ->where('ventas.id', '=', $id_venta)
             ->get();
     }

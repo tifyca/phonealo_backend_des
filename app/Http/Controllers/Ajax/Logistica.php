@@ -75,11 +75,8 @@ class Logistica extends Controller
             $detremito->save();
         }
 
-
-        //jsonres['message']="La Venta fue  Remisada con Éxito";
-             //  echo json_encode($jsonres, );
-      
         return $remisa;
+     
     }
 
 

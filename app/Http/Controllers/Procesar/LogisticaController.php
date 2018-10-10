@@ -18,6 +18,7 @@ use App\Facturas;
 class LogisticaController extends Controller
 {
     public function index(Request $request){
+
         #jgonzalez 2018/09/27 
         #Con estos IF se genera variable $id_fecha que permite cambiar las ventas entre los listados "Listado" y "Ventas por Atender" de forma automatica segun el valor del campo venta.id_horario
         $hora = strtotime(date("H:m"));
@@ -51,6 +52,7 @@ class LogisticaController extends Controller
         $fecha2 = $request["fecha2"];
         $id_ciudad = $request["id_ciudad"];
         $id_horario = $request["id_horario"];
+
 
         #FILTROS CIUDAD, HORARIO, FECHA1 Y FECHA2
         #TODOS LOS CAMPOS ACTIVOS
@@ -160,6 +162,7 @@ class LogisticaController extends Controller
                                   ->where('remitos.id', $id_remisa)
                                   ->first();
             $vista="Procesar.Logistica.recibo_remisa";
+            
         
 
          return $this->crearPDF($remito, $vista, $empleado, $id_remisa );
