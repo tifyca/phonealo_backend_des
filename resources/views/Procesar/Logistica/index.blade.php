@@ -50,15 +50,15 @@
                   @foreach($remisas as $remisa)
                    <tr class="table-success">
                       <td style="text-align: center">{{$remisa->id}}</td>
-                      <td style="text-align: center">{{$remisa->nombres}}</td>
+                      <td style="text-align: left;">{{$remisa->nombres}}</td>
                       <td style="text-align: center">{{$remisa->telefono}}</td>
-                      <td style="text-align: center">{{$remisa->direccion}}</td>
+                      <td style="text-align: left;">{{$remisa->direccion}}</td>
                       <td style="text-align: center">{{$remisa->fecha}}</td>
                       <td style="text-align: center">{{$remisa->fecha_activo}}</td>
-                      <td style="text-align: center">{{$remisa->ciudad}}</td>
+                      <td style="text-align: left;">{{$remisa->ciudad}}</td>
                       <td style="text-align: center">{{$remisa->horario}}</td>
                       <td style="text-align: center">{{$remisa->forma_pago}}</td>
-                      <td style="text-align: right;">{{$remisa->importe}}</td>
+                      <td style="text-align: right;">{!!number_format($remisa->importe, 0, ',', '.')!!}</td>
                       <td width="10%" class="text-center">
                         <div class="btn-group">
                          
@@ -164,15 +164,15 @@
                   @foreach($xatender as $atender)
                    <tr class="table-danger">
                       <td style="text-align: center">{{$atender->id}}</td>
-                      <td style="text-align: center">{{$atender->nombres}}</td>
+                      <td style="text-align: left;">{{$atender->nombres}}</td>
                       <td style="text-align: center">{{$atender->telefono}}</td>
-                      <td style="text-align: center">{{$atender->direccion}}</td>
+                      <td style="text-align: left;">{{$atender->direccion}}</td>
                       <td style="text-align: center">{{$atender->fecha}}</td>
                       <td style="text-align: center">{{$atender->fecha_activo}}</td>
-                      <td style="text-align: center">{{$atender->ciudad}}</td>
+                      <td style="text-align: left;">{{$atender->ciudad}}</td>
                       <td style="text-align: center">{{$atender->horario}}</td>
                       <td style="text-align: center">{{$atender->forma_pago}}</td>
-                      <td style="text-align: center">{{$atender->importe}}</td>
+                      <td style="text-align: center">{!!number_format($atender->importe, 0, ',', '.')!!}</td>
                       <td width="10%" class="text-center">
                         <div class="btn-group">
                          
@@ -243,15 +243,15 @@
                     @endif 
                    >
                       <td style="text-align: center">{{$activa->id}}</td>
-                      <td style="text-align: center">{{$activa->nombres}}</td>
+                      <td style="text-align: left;">{{$activa->nombres}}</td>
                       <td style="text-align: center">{{$activa->telefono}}</td>
-                      <td style="text-align: center">{{$activa->direccion}}</td>
+                      <td style="text-align: left;">{{$activa->direccion}}</td>
                       <td style="text-align: center">{{$activa->fecha}}</td>
                       <td style="text-align: center">{{$activa->fecha_activo}}</td>
-                      <td style="text-align: center">{{$activa->ciudad}}</td>
+                      <td style="text-align: left;">{{$activa->ciudad}}</td>
                       <td style="text-align: center">{{$activa->horario}}</td>
                       <td style="text-align: center">{{$activa->forma_pago}}</td>
-                      <td style="text-align: center">{{$activa->importe}}</td>
+                      <td style="text-align: center">{!!number_format($activa->importe, 0,',', '.')!!}</td>
                       <td width="10%" class="text-center">
                         <div class="btn-group">
                          
@@ -276,7 +276,7 @@
                     </td>
                     <td colspan="2">
                       <h4>
-                        {{ $total }}
+                        {!!number_format($total, 0,',', '.')!!}
                       </h4>
                     </td>
                   </tr>
@@ -328,15 +328,15 @@
                     @endif 
                     >
                       <td style="text-align: center">{{$enEspera->id}}</td>
-                      <td style="text-align: center">{{$enEspera->nombres}}</td>
+                      <td style="text-align: left;">{{$enEspera->nombres}}</td>
                       <td style="text-align: center">{{$enEspera->telefono}}</td>
-                      <td style="text-align: center">{{$enEspera->direccion}}</td>
+                      <td style="text-align: left;">{{$enEspera->direccion}}</td>
                       <td style="text-align: center">{{$enEspera->fecha}}</td>
                       <td style="text-align: center">{{$enEspera->fecha_activo}}</td>
-                      <td style="text-align: center">{{$enEspera->ciudad}}</td>
+                      <td style="text-align: left;">{{$enEspera->ciudad}}</td>
                       <td style="text-align: center">{{$enEspera->horario}}</td>
                       <td style="text-align: center">{{$enEspera->forma_pago}}</td>
-                      <td style="text-align: center">{{$enEspera->importe}}</td>
+                      <td style="text-align: center">{!!number_format($enEspera->importe, 0,',', '.')!!}</td>
                       <td width="10%" class="text-center">
                         <div class="btn-group">
                        
@@ -403,7 +403,8 @@
                 <th style="text-align: center;">Código</th>
                 <th style="text-align: center;">Producto</th>
                 <th style="text-align: center;">Cantidad</th>
-                <th style="text-align: right;">Precio</th>
+                <th style="text-align: center;">Precio</th>
+                <th style="text-align: right;">Importe</th>
               </tr>
             </thead>
             <tbody id="productos_detalle">
@@ -497,27 +498,30 @@
         success: function (data){
           console.log(data);
           var total=0;
+          var importe=0;
           $("#cliente_detalle").append(`<tr>
                                           <td style="text-align: center;">${data[0].id}</td>
-                                          <td style="text-align: center;">${data[0].nombres}</td>
+                                          <td style="text-align: left;">${data[0].nombres}</td>
                                           <td style="text-align: center;">${data[0].telefono}</td>
-                                          <td style="text-align: center;">${data[0].direccion}</td>
+                                          <td style="text-align: left;">${data[0].direccion}</td>
                                       </tr>`);
           //CICLO DE LOS DATOS RECIBIDOS
           $.each(data, function(l, item) {
 
+               importes=item.cantidad*item.precio;
+              // total+=importe;
             $("#productos_detalle").append(`<tr>
 
-              <td style="text-align: center;">${item.codigo_producto}</td>
-              <td style="text-align: center;">${item.descripcion}</td>
+              <td style="text-align: left;">${item.codigo_producto}</td>
+              <td style="text-align: left;">${item.descripcion}</td>
               <td style="text-align: center;">${item.cantidad}</td>
-              <td style="text-align: right;">${item.precio}</td>
+              <td style="text-align: center;">${item.precio.toLocaleString('de-DE')}</td>
+              <td style="text-align: right;">${importes.toLocaleString('de-DE')}</td>
               </tr>`);
-               total+=item.cantidad*item.precio;
           });
 
             $("#productos_detalle").append(`<tr>
-              <td colspan="4" style="text-align:  right;"><h5>Total: ${total} Gs.</h5></td>
+              <td colspan="5" style="text-align:  right;"><h5>Total: ${data[0].importe.toLocaleString('de-DE')} Gs.</h5></td>
               </tr>`);
          
            
@@ -539,8 +543,10 @@
         dataType: "json",
         data: { id:id, _token: '{{csrf_token()}}'},
         success: function (data){
-          
-             $('#respAgregarRemisa').html('REMISADO');     
+
+              $("#res").html('La Venta fue Remisada');
+              $("#res, #res-content").css("display","block");          
+              
         }
     });
 
@@ -558,8 +564,12 @@
         dataType: "json",
         data: { id:id, _token: '{{csrf_token()}}'},
         success: function (data){
+
+
+            $("#res").html('La Venta fue  No Remisada');
+            $("#res, #res-content").css("display","block");
           
-             $('#respQuitarRemisa').html('NO REMISADO');     
+            
         }
     });
 
@@ -619,11 +629,9 @@
         success: function (data){4
 
 
-            $("#res").html('Venta Activada');
-            $("#res, #res-content").css("display","block");
-            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                      
-          
+            $("#res").html('La Venta fue Activada');
+            $("#res, #res-content").css("display","block");
             // $('#respActivarVenta').html('ACTIVADA');     
         }
     });

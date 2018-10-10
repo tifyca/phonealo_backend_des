@@ -62,7 +62,7 @@
 					                <?php } ?>   
 									
 									<td style="text-align:center;">{{$item2->cantidad}}</td>
-									<td style="text-align:center;">{{$item2->importe}}</td>
+									<td style="text-align:center;">{!!number_format($item2->importe, 0, ',', '.')!!}</td>
 									<td >{{$item2->barrio}}</td>
 									<td style="text-align:center;">{{$item2->usuario}}</td>
 							        <?php $timporte+=$item2->importe?>
@@ -71,7 +71,7 @@
 							
 								<tr>
 									<td colspan="8">
-										<p style="font-size:10pt;"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total:&nbsp;{{ $timporte}} Gs.</b></p>
+										<p style="font-size:10pt;"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total:&nbsp;{!!number_format($timporte, 0, ',', '.')!!} Gs.</b></p>
 									</td>
 								</tr>
 							</tbody>

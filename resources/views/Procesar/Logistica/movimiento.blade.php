@@ -92,9 +92,9 @@
                     <tr>
                       <th align="left" width="20%">C&oacute;digo</th>
                       <th align="left" width="50%">Producto</th>
-                      <th align="left" width="10%">Cantidad</th>
-                      <th align="left" width="10%">Precio</th>
-                      <th align="left" width="10%">Importe</th>
+                      <th align="center" width="10%">Cantidad</th>
+                      <th align="center" width="10%">Precio</th>
+                      <th align="right" width="10%">Importe</th>
                     </tr>
                   </thead>
                  <?php $l=0; $timporte=0; $subimporte=0; ?>
@@ -104,25 +104,21 @@
                       <tr>
                         <td align="left" width="20%">{{$item2->codigo_producto}}</td>
                         <?php if(empty($item2->nombre_original)|| is_null($item2->nombre_original)){?>     
-                        <td align="left" width="50%">{{$item2->descricion}}</td>
+                        <td align="left" width="50%">{{$item2->descripcion}}</td>
                         <?php }else{?>
                         <td align="left" width="50%">{{$item2->nombre_original}}</td>
                         <?php } ?>
-                        <td align="left" width="10%">{{$item2->cantidad}}</td>
-                        <td align="left" width="10%">{{$item2->precio}}</td>
+                        <td align="center" width="10%">{{$item2->cantidad}}</td>
+                        <td align="center" width="10%">{!!number_format($item2->precio, 0, ',', '.')!!}</td>
                         <?php $subimporte= $item2->cantidad * $item2->precio;
                          $timporte+=$subimporte;?>
-                        <td align="left" width="10%">{{$subimporte}}</td>
+                        <td align="right" width="10%">{!!number_format($subimporte, 0, ',', '.')!!}</td>
                       </tr>
                   </tbody>
                   <tfoot>
                 @endforeach 
                       <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td align="left"><b>Total: </b></td>
-                        <td align="left"><b>{{$timporte }}Gs</b></td>
+                        <td colspan="5" align="right"><b>Total: {!!number_format($timporte, 0, ',', '.')!!} Gs</b></td>
                       </tr>
                   </tfoot>
               </table>

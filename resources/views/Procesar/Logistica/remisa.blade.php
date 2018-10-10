@@ -76,7 +76,7 @@
                       <td>{{$remisa->horario}}</td>
                       <td>{{$remisa->descripcion}}</td>
                       <td style="text-align: center;">{{$remisa->cantidad}}</td>
-                      <td style="text-align: right;">{{$remisa->importe}}</td>
+                      <td style="text-align: right;">{!!number_format($remisa->importe, 0, ',', '.')!!}</td> 
                     </tr>
                     <?php 
                       $total += $remisa->importe;
@@ -85,14 +85,10 @@
                        
                 </tbody>
               </table>
-            <table>
-              <tr>
-                    <td colspan="9" class="text-left">
-                      <h4>Total:</h4>
-                    </td>
-                    <td colspan="1">
-                      <h4>
-                        {{ $total }}
+            <table style="text-align: right;" class="table table-hover table-bordered ">
+              <tr >
+                    <td colspan="9"  >
+                      <h4>Total: {!!number_format($total, 0, ',', '.')!!} Gs.
                       </h4>
                     </td>
                   </tr>
@@ -136,14 +132,14 @@
     //console.log(ventas);
     //console.log(id_empleado);
     //console.log(id_usuario);
-    //console.log(total)
+   //console.log(total)
     $.ajax({
         type: "GET",
         url: '{{ url('asignar_remisa') }}',
         dataType: "json",
         data: { id_empleado:id_empleado,id_usuario:id_usuario,total:total, ventas:ventas, _token: '{{csrf_token()}}'},
         success: function (data){
-          console.log(data);
+          console.log(data.id);
 
             $("#res").html('La Venta fue  Remisada con Éxito');
             $("#res, #res-content").css("display","block");
