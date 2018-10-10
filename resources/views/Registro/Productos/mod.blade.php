@@ -1,7 +1,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Listado de Productos')
+@section('titulo', 'Modificación en Masa')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -30,10 +30,14 @@
 
 <div class="row">
     <div class="col-12">
+
     <div class="tile">
       <div class="tile-body ">
+
         <div class="col mb-3 text-center">
+        
           <div class="row ">
+        <h4>Listado de Productos</h4>
             <form class="row d-flex justify-content-end" action="{{route('productos.ajustar')}}" method="get"> 
               <input type="hidden" id="activo" name="activo" value="{{$activar}}">
               <div class="form-group col-md-3">
@@ -47,7 +51,19 @@
                   @endforeach
                 </select>
               </div>
-              
+              <div class="form-group col-md-3">
+                     <select class="form-control" name="filas" id="filas">
+                         <option value="0">Nro de Filas</option>
+                         <option value="10">10</option>
+                         <option value="20">20</option>
+                         <option value="30">30</option>
+                         <option value="40">40</option>
+                         <option value="60">60</option>
+                         <option value="100">100</option>
+                         <option value="150">150</option>
+                         <option value="200">200</option>
+                       </select>
+              </div>
               <div class="col-md-1 mr-md-5">
                 <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
               </div>
@@ -65,17 +81,18 @@
             <table class="table table-hover" id="sampleTable">
               <thead>
                 <tr class="table-info">
-                  <th colspan="3" class="text-left"><b>Modificación en Masa</b></th>
-                  <th colspan="6" class="text-right"><small>Presione Enter para Guardar Cambios</small></th>
+                   <th colspan="9" class="text-right"><b><small>Presione Enter para Guardar Cambios</small></b></th>
                 </tr>
                 <tr>
                   <th width="1%">#</th>
                   <th width="2%">Código</th>
                   <th width="5%">Descripcion(Interna)</th>
                   <th width="10%">Nombre/Orig.</th>
-                   <th width="5%">Nombre(S/Proveedor)</th>
-                  <th width="3%" class="text-center">Precio.Ideal</th>
-                  <th width="3%" class="text-center">PrecioMin</th>
+                   <th width="10%">Nombre(S/Proveedor)</th>
+                  <th width="14%" class="text-center">Precio.Ideal</th>
+                  <th width="14%" class="text-center">PrecioMin</th>
+                  <th width="3%" class="text-center">Ult.Precio.Compra</th>
+                  <th width="3%" class="text-center">Ult.Precio.Venta</th>
                 </tr>
               </thead>
               <tbody>
@@ -92,11 +109,37 @@
                   <td width="2%">{{$ficha->codigo_producto}}</td>
                   <td width="5%"><input type="text" class="form-control" name="descripcion" value="{{$ficha->descripcion}}" disabled=""></td>
                  
-                  <td width="10%"><input type="text" class="form-control" name="nombres_original" value="{{$ficha->nombre_original}}" id="nombres_original"></td>
-                    <td width="5%"><input type="text" class="form-control read" name="nombresp" value="{{$producto}}" id="nombresp" readonly=""></td>
-                  <td width="3%"><input type="text" class="form-control text-right" name="precio_ideal" value="{{$ficha->precio_ideal}}" id="precio_ideal" size="20"></td>
-                  <td width="3%"><input type="text" class="form-control text-right" name="precio_minimo" value="{{$ficha->precio_minimo}}" size="20" id="precio_minimo"></td>
-
+                  <td class="col-md-18">
+                       
+                          <input type="text" class="form-control" name="nombres_original" value="{{$ficha->nombre_original}}" id="nombres_original">
+                       
+                   </td>
+                    <td width="10%"><input type="text" class="form-control read" name="nombresp" value="{{$producto}}" id="nombresp" readonly=""></td>
+                  <td width="18%"><input type="text" class="form-control col-lg-12 text-right" name="precio_ideal" value="{{$ficha->precio_ideal}}" id="precio_ideal" size="20"></td>
+                  <td width="18%"><input type="text" class="form-control col-lg-12 -right" name="precio_minimo" value="{{$ficha->precio_minimo}}" size="20" id="precio_minimo"></td>
+                 <td width="3%" class="text-right">
+                   <?php $pc="";?>
+                   @foreach($compras as $compra)
+                     @if($compra->id_producto==$ficha->id)
+                        @php
+                          $pc = $compra->precio_confirmado
+                        @endphp
+                     @endif
+                   @endforeach
+                   {{ $pc }}
+                 </td>
+                 <td width="3%" class="text-right">
+                   <?php $pv="";?>
+                   @foreach($ventas as $venta)
+                     @if($venta->id_producto==$ficha->id)
+                        @php
+                          $pv = $venta->precio
+                        @endphp
+                     @endif
+                   @endforeach
+                   {{ $pv }}
+                   
+                 </td>
                 </tr>
               @endforeach
               </tbody>

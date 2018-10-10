@@ -82,6 +82,13 @@ class Ventas extends Model
             ->get();
     }
 
+    ////////////////
+    // Relaciones //
+    ////////////////
+
+    public function pedido(){
+        return $this->belongsTo(pedido::class, 'id_pedido');
+    }
     
     
 }

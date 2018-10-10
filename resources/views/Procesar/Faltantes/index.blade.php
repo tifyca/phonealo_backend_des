@@ -31,7 +31,7 @@
             <div class="col">
               <h4 class="tile-title text-left text-md-left">Listado de Faltantes</h4>
             </div>
-            <form class="row d-flex justify-content-end" action="{{route('entradas.index')}}" method="get"> 
+            <form class="row d-flex justify-content-end" action="{{route('faltantes.index')}}" method="get"> 
 
               <div class="form-group col-md-5">
                 <input class="form-control" type="text" name="producto" id="producto" placeholder="Buscar Producto">
@@ -50,37 +50,40 @@
         </div>
 
         <div class="table-responsive">
-          <table class="table table-hover " id="sampleTable">
+          <table class="table table-hover" id="sampleTable">
             <thead>
               <tr>
-                <th>Telefono</th>
-                <th>Nombres</th>
-                <th>Código</th>
-                <th class="text-rigth">Código</th>
+                <th class="text-center">Telefono</th>
+                <th class="text-center">Nombres</th>
+                <th class="text-center">Código</th>
                 <th class="text-center">Producto</th>
                 <th class="text-center">Categoría</th>
                 <th class="text-center">Stock Actual</th>
-                <th align="center">Cantidad</th>
-                <th>Usuario</th>
-                <th>Fecha</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-center">Usuario</th>
+                <th class="text-center">Fecha</th>
               </tr>
             </thead>
             <tbody>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td ></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              @foreach ($pedidos as $pedido)
+              <tr>
+                <td class="text-center">{{ $pedido->telefono }}</td>
+                <td class="text-center">{{ $pedido->nombres }}</td>
+                <td class="text-center">{{ $pedido->codigo_producto }}</td>
+                <td class="text-center">{{ $pedido->descripcion }}</td>
+                <td class="text-center">{{ $pedido->categoria }}</td>
+                <td class="text-center">{{ $pedido->stock_activo }}</td>
+                <td class="text-center">{{ $pedido->cantidad }}</td>
+                <td class="text-center">{{ $pedido->name }}</td>
+                <td class="text-center">{{ $pedido->fecha }}</td>
+              </tr>
+              @endforeach
           </tbody>
         </table>
       </div>
      <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
           <!--sección para definir paginación de laravel-->
+         {{ $pedidos->appends( Request::only(['producto' , 'fecha']) )->links() }}
     </div>
     </div>
   </div>

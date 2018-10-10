@@ -4,11 +4,38 @@ namespace App\Http\Controllers\Procesar;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\pedido;
+use DB;
 
 class FaltantesController extends Controller
 {
-    public function index(Request $request){
-       return view("Procesar.Faltantes.index"); 
+    public function index(Request $request){      
+        $producto = $request->producto;
+        $fecha = $request->fecha;
+        if ( $producto && !$fecha) {
+            $pedidos = pedido::enEspera()
+                ->where(function($query) use ($producto){
+                    $query->where('productos.codigo_producto', 'like', '%'.$producto.'%')
+                    ->orWhere('productos.descripcion', 'like', '%'.$producto.'%');                    
+                })
+                ->paginate(10);         
+        }elseif( $fecha && !$producto) {
+             $pedidos = pedido::enEspera()
+                ->where('ventas.fecha', $fecha)    
+                ->paginate(10);
+        }elseif ( $producto && $fecha ) {
+            $pedidos = pedido::enEspera()
+                ->where('ventas.fecha', $fecha)
+                ->where(function($query) use ($producto){
+                    $query->where('productos.codigo_producto', 'like', '%'.$producto.'%')
+                    ->orWhere('productos.descripcion', 'like', '%'.$producto.'%');                    
+                })
+                ->paginate(10);
+        }else{
+            $pedidos = pedido::EnEspera()->paginate(10);            
+        }
+
+       return view("Procesar.Faltantes.index", compact('pedidos')); 
     }
     public function show($id){
 
