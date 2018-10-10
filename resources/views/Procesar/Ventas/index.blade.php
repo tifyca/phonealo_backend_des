@@ -164,7 +164,7 @@
               <select class="form-control" id="monto" name="monto" >
                 <option value="">Monto</option>
                @foreach($deliverys as $delivery)  
-                      <option value="{{$delivery->id}}"> {{ $delivery->monto }} </option>
+                      <option value="{{$delivery->id}}"> {!!number_format($delivery->monto, 0, ',', '.')!!} </option>
                  @endforeach             
               </select>
                  
@@ -539,7 +539,7 @@
             $('#descripcion').val(data.descripcion);
             $('#cod_producto').val(data.codigo_producto);
             $('#stock').val(data.stock_activo);
-            $('#precio').val(data.precio_ideal);
+            $('#precio').val(data.precio_ideal.toLocaleString('de-DE'));
             $('#id_producto').val(data.id);
             if(data.stock_activo==0){
                $('#fecha_entrega').prop('disabled', false);

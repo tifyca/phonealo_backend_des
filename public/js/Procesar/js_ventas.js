@@ -9,7 +9,7 @@ var url='ventas';
     var id_producto = $('#id_producto').val();
     var cod_producto= $('#cod_producto').val();
     var  descripcion= $('#descripcion').val();
-    var     precio  = $('#precio').val();
+    var     precio  = parseFloat($('#precio').val().replace('.', ""));
     var   cantidad  = $('#cantidad').val();
     var     stock   = $('#stock').val();
     var  delivery   = $("#monto option:selected").text();
@@ -21,6 +21,7 @@ var url='ventas';
       if(dispo>=0){
 
           var espera =0;  
+        
           var importe= cantidad*precio;
           
             $.ajaxSetup({
@@ -52,8 +53,8 @@ var url='ventas';
                 var cesta  = '<tr><td  width="15%" id="d-cod_producto">' + cod_producto + '</td>'+
                             '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
                             '<td width="15%" id="d-cantidad" class="text-center">' + cantidad + '</td>' +
-                            '<td width="20%" id="d-precio" class="text-center">' + precio + '</td>'+
-                            '<td width="20%" id="d-importe" class="text-center">' + importe+ '</td>'+
+                            '<td width="20%" id="d-precio" class="text-center">' + precio.toLocaleString('de-DE') + '</td>'+
+                            '<td width="20%" id="d-importe" class="text-center">' + importe.toLocaleString('de-DE')+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
                                  '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="'+id_producto+'" >'+
                                  '<i class="m-0 fa fa-lg fa-trash"></i></button>'+
@@ -106,7 +107,7 @@ var url='ventas';
       }else{
 
           var espera=1;
-          var importe= cantidad*precio;
+           var importe= cantidad*precio;
           
            $.ajaxSetup({
              headers: {
@@ -137,8 +138,8 @@ var url='ventas';
                   var cesta  = '<tr class="table-danger"><td  width="15%" id="d-cod_producto">' + cod_producto + '</td>'+
                             '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
                             '<td width="15%" id="d-cantidad" class="text-center">' + cantidad + '</td>' +
-                            '<td width="20%" id="d-precio" class="text-center">' + precio + '</td>'+
-                            '<td width="20%" id="d-importe" class="text-center">' + importe+ '</td>'+
+                            '<td width="20%" id="d-precio" class="text-center">' + precio.toLocaleString('de-DE') + '</td>'+
+                            '<td width="20%" id="d-importe" class="text-center">' + importe.toLocaleString('de-DE')+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
                                  '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="'+id_producto+'" >'+
                                  '<i class="m-0 fa fa-lg fa-trash"></i></a>'+
@@ -200,7 +201,7 @@ var url='ventas';
     var id_producto = $('#id_producto').val();
     var cod_producto= $('#cod_producto').val();
     var  descripcion= $('#descripcion').val();
-    var     precio  = $('#precio').val();
+    var     precio  = parseFloat($('#precio').val().replace('.', ""));
     var   cantidad  = $('#cantidad').val();
     var     stock   = $('#stock').val();
     var  delivery   = $("#monto option:selected").text();
@@ -212,7 +213,7 @@ var url='ventas';
       if(dispo>=0){
 
           var espera =0;  
-          var importe= cantidad*precio;
+           var importe= cantidad*precio;
           
             $.ajaxSetup({
              headers: {
@@ -243,8 +244,8 @@ var url='ventas';
                 var cesta  = '<tr><td  width="15%" id="d-cod_producto">' + cod_producto + '</td>'+
                             '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
                             '<td width="15%" id="d-cantidad" class="text-center">' + cantidad + '</td>' +
-                            '<td width="20%" id="d-precio" class="text-center">' + precio + '</td>'+
-                            '<td width="20%" id="d-importe" class="text-center">' + importe+ '</td>'+
+                            '<td width="20%" id="d-precio" class="text-center">' + precio.toLocaleString('de-DE') + '</td>'+
+                            '<td width="20%" id="d-importe" class="text-center">' + importe.toLocaleString('de-DE')+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
                                  '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete2" value="'+id_producto+'" >'+
                                  '<i class="m-0 fa fa-lg fa-trash"></i></button>'+
@@ -297,7 +298,7 @@ var url='ventas';
       }else{
 
           var espera=1;
-          var importe= cantidad*precio;
+         var importe= cantidad*precio;
           
            $.ajaxSetup({
              headers: {
@@ -328,8 +329,8 @@ var url='ventas';
                   var cesta  = '<tr class="table-danger"><td  width="15%" id="d-cod_producto">' + cod_producto + '</td>'+
                             '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
                             '<td width="15%" id="d-cantidad" class="text-center">' + cantidad + '</td>' +
-                            '<td width="20%" id="d-precio" class="text-center">' + precio + '</td>'+
-                            '<td width="20%" id="d-importe" class="text-center">' + importe+ '</td>'+
+                            '<td width="20%" id="d-precio" class="text-center">' + precio.toLocaleString('de-DE')+ '</td>'+
+                            '<td width="20%" id="d-importe" class="text-center">' + importe.toLocaleString('de-DE')+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
                                  '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete2" value="'+id_producto+'" >'+
                                  '<i class="m-0 fa fa-lg fa-trash"></i></a>'+
@@ -389,15 +390,16 @@ function resumen(){
           var articulos=0;
             $('#cesta-list > tbody > tr').each(function(){
             articulos +=parseFloat($(this).find("td").eq(2).html());
-            total+= parseFloat( $(this).find('td').eq(4).html());
+            total+= parseFloat( $(this).find('td').eq(4).html().replace('.', ""));
             });
             if(delivery>0){
-            mtotal=parseInt(total) + parseInt(delivery);
+            mtotal=parseFloat(total) + parseFloat(delivery.replace('.', ""));
             }else{
             mtotal=parseInt(total);
             }
+           
             $("#total_venta").val(mtotal);
-            $("#total").html('Total Gs.:'+ mtotal);
+            $("#total").html('Total Gs.:'+ mtotal.toLocaleString('de-DE'));
             if(articulos>0){
               $("#btn-save").prop('disabled', false);
               //$("#btn-cancela").prop('disabled', false);
@@ -506,7 +508,7 @@ $("#btn-save").click(function (e) {
       descripcion  = $(this).find('td').eq(1).html();
       cod_producto = $(this).find('td').eq(0).html();
       cantidad     = $(this).find('td').eq(2).html();
-      precio       = $(this).find('td').eq(3).html();
+      precio       = parseFloat($(this).find('td').eq(3).html().replace('.', ""));
       importe      = $(this).find('td').eq(4).html();
          
             });
@@ -552,7 +554,7 @@ $("#btn-save").click(function (e) {
                     cod_producto   : cod_producto,
                     cantidad       : cantidad,
                     precio         : precio,
-                    importe        : importe,
+                    importe        : $("#total_venta").val(),
                     total          : $('#total').val()
                     }
 
@@ -602,7 +604,7 @@ $("#btn-edit").click(function (e) {
       descripcion  = $(this).find('td').eq(1).html();
       cod_producto = $(this).find('td').eq(0).html();
       cantidad     = $(this).find('td').eq(2).html();
-      precio       = $(this).find('td').eq(3).html();
+      precio       = parseFloat($(this).find('td').eq(3).html().replace('.', ""));
       importe      = $(this).find('td').eq(4).html();
          
             });
@@ -638,7 +640,7 @@ $("#btn-edit").click(function (e) {
                     cod_producto   : cod_producto,
                     cantidad       : cantidad,
                     precio         : precio,
-                    importe        : importe,
+                    importe        : $("#total_venta").val(),
                     total          : $('#total').val()
                     }
 

@@ -48,7 +48,7 @@ class VentasController extends Controller
 
         $precio_min=Productos::where('id',$request->id_producto)
                               ->Select('precio_minimo')->first();
-        $pmin=$precio_min->precio_minimo;
+        $pmin=number_format($precio_min->precio_minimo, 0, ',', '.');
                              
         $data=$request->all();
 
@@ -350,7 +350,7 @@ class VentasController extends Controller
               }
 
              
-              $jsonres['message']="La Venta fue  Registrado con Éxito";
+              $jsonres['message']="La Venta fue Registrada con Éxito";
                echo json_encode($jsonres);
 
         
