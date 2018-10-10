@@ -66,7 +66,13 @@
     <li><a class="treeview-item {{ Request::is('procesar/gastos*') ? 'active' : '' }}" href="{{ route('gastos.index') }}"><i class="icon fa fa-circle-o"></i>Gastos</a></li>
 
     <li><a class="treeview-item {{ Request::is('procesar/ventas*') ? 'active' : '' }}" href="{{ route('ventas.index') }}"><i class="icon fa fa-circle-o"></i>Ventas</a></li>
-    <li><a class="treeview-item {{ Request::is('procesar/faltantes*') ? 'active' : '' }}" href="{{ route('faltantes.index') }}"><i class="icon fa fa-circle-o"></i>Faltantes</a></li>
+    <li><a class="treeview-item {{ Request::is('procesar/faltantes*') ? 'active' : '' }}" href="{{ route('faltantes.index') }}"><i class="icon fa fa-circle-o"></i>Faltantes</a>
+
+ <ul class="treeview-menu pl-3" >
+        <li><a class="treeview-item {{ Request::is('procesar/faltantes') ? 'active' : '' }}" href="#"><i class="icon fa fa-circle-o"></i>Consolidado</a></li>
+      </ul>
+    </li>
+
     <li><a class="treeview-item {{ Request::is('procesar/faltantes*') ? 'active' : '' }}" href="{{ route('pedidos.index') }}"><i class="icon fa fa-circle-o"></i>Pedidos</a></li>
 
 
@@ -112,7 +118,17 @@
 <li class="treeview {{ Request::is('seguridad/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Seguridad</span><i class="treeview-indicator fa fa-angle-right"></i></a>
   <ul class="treeview-menu">
 
-    <li><a class="treeview-item {{ Request::is('seguridad/usuarios*') ? 'active' : '' }}" href="{{url('seguridad/usuarios')}}"><i class="icon fa fa-circle-o"></i>Usuarios</a></li>
+    <li><a class="treeview-item {{ Request::is('seguridad/usuarios*') ? 'active' : '' }}" href="#"><i class="icon fa fa-circle-o"></i>Usuarios</a>
+      <ul class="treeview-menu pl-3" >
+         <li><a class="treeview-item {{ Request::is('eguridad/usuarios*') ? 'active' : '' }}" href="{{url('seguridad/usuarios')}}"><i class="icon fa fa-circle-o"></i>ERP</a></li>
+         <li><a class="treeview-item {{ Request::is('eguridad/usuarios*') ? 'active' : '' }}" href="{{url('seguridad/usuarios')}}"><i class="icon fa fa-circle-o"></i>APPDelivery</a></li>
+
+       </ul>
+
+
+    </li>
+    
+
     <li><a class="treeview-item {{ Request::is('seguridad/roles*') ? 'active' : '' }}" href="{{url('seguridad/roles')}}"><i class="icon fa fa-circle-o"></i>Perfiles</a></li>
     <li><a class="treeview-item {{ Request::is('seguridad/auditoria*') ? 'active' : '' }}" href="{{url('seguridad/auditoria')}}"><i class="icon fa fa-circle-o"></i>Auditoria</a></li>
 

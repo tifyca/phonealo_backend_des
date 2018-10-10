@@ -8,6 +8,7 @@ use App\Roles;
 use App\autorizacion;
 use App\modulo;
 use DB;
+
 class RolesController extends Controller
 {
           public function index()
@@ -17,31 +18,22 @@ class RolesController extends Controller
 	}
 	public function create()
 	{
+		$modulos = modulo::orderby("id")->get();
+		
 		$roles=Roles::orderby('id')->get();
 
-		return view('Seguridad.roles.create')->with("roles",$roles);
+		return view('Seguridad.roles.create')->with("roles",$roles)->with("autorizaciones",$modulos);
 	}
 	public function store(Request $request)
 	{
 	
 		try {
-			$validator = \Validator::make($request->all(), $rules);
-			if ($validator->fails()){
-				return back()->withErrors($validator)->withInput();
-			}
+		
 			//dd($request);
 			$roles               = new Roles($request->all());
-			$roles->name         = $request["name"];
-			$roles->email        = $request["email"];
-			$roles->password     = $request["password"];
-            $roles->rol_id       = $request["rol_id"];
-			$roles->alto_nivel   = $request["altonivel"];
-			$roles->contratados  = $request["contratados"];	
-			$roles->empleados    = $request["empleados"];	
-            $roles->obreros      = $request["obreros"];
-            $roles->jubilados    = $request["jubilados"];		
+			$roles->descripcion  = $request["descripcion"];
             $roles->save();
-			return redirect()->route('roles.edit', $roles->id)->with("notificacion","Se ha guardado correctamente su información");
+			return redirect()->route('roles.index')->with("notificacion","Se ha guardado correctamente su información");
 		} catch (Exception $e) {
 			\Log::info('Error creating item: '.$e);
 			return \Response::json(['created' => false], 500);
@@ -74,13 +66,7 @@ class RolesController extends Controller
 				return back()->withErrors($validator)->withInput();
 			}
 			$roles = Roles::find($id);
-            $roles->name        = $request->name;
-            $roles->rol_id      = $request->rol_id;
-            $roles->alto_nivel  = $alto_nivel;
-            $roles->contratados = $request->contratados;
-            $roles->empleados   = $request->empleados;
-            $roles->obreros     = $request->obreros;
-            $roles->jubilados   = $request->jubilados;
+            $roles->descripcion        = $request->descripcion;
             $roles->save();
 			return redirect()->route('roles.edit', $id)->with("notificacion","Se ha guardado correctamente su información");
 		} catch (Exception $e) {
