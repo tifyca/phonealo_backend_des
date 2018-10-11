@@ -166,9 +166,7 @@ class LogisticaController extends Controller
         
 
          return $this->crearPDF($remito, $vista, $empleado, $id_remisa );
-            //return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios'));
-           // $pdf = PDF::loadView('Procesar.Logistica.recibo_remisa', compact('remito', 'empleado'));
-            //$pdf->download('recibo_remisa'.$id_remisa.'.pdf');
+
         }
         return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios'));
     	
@@ -218,15 +216,14 @@ class LogisticaController extends Controller
          $fecha = Carbon::now();
          $date = $fecha->formatLocalized('%d %B %Y');
 
-         if( $request->tipo==2){
-            $pdf = PDF::loadView('Procesar.Logistica.factura', compact('venta', 'factura', 'date'));
-            return $pdf->download('Factura_'.$request->id_venta.'.pdf');
-         }else{
-            $pdf = PDF::loadView('Procesar.Logistica.factura', compact('venta', 'factura', 'date'));
-        return $pdf->stream('Factura_'.$request->id_venta.'.pdf');
-         }
-        
-        
+
+        $view =  \View::make('Procesar.Logistica.factura', compact('venta', 'factura', 'date'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        if( $request->tipo==1){return $pdf->stream('Factura_'.$request->id_venta.'.pdf');}
+    
+        if( $request->tipo==2){return $pdf->download('Factura_'.$request->id_venta.'.pdf');} 
       
       
     }
@@ -249,16 +246,16 @@ class LogisticaController extends Controller
 
        
          $fecha = Carbon::parse($venta[0]->fecha_activo)->format('d/m/Y');
-         ///$date = $fecha->formatLocalized('%d %B %Y');
-         if( $request->tipo==2){
-            $pdf = PDF::loadView('Procesar.Logistica.movimiento', compact('venta', 'factura', 'fecha'));
-            return $pdf->download('Movimiento_'.$request->id_ventam.'.pdf');
-         }else{
-            $pdf = PDF::loadView('Procesar.Logistica.movimiento', compact('venta', 'factura', 'fecha'));
-            return $pdf->stream('Movimiento_'.$request->id_ventam.'.pdf');
-         }
         
-      
+
+        $view =  \View::make('Procesar.Logistica.movimiento', compact('venta', 'factura', 'fecha'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        if( $request->tipo==1){return $pdf->stream('Movimiento_'.$request->id_ventam.'.pdf');}
+    
+        if( $request->tipo==2){return $pdf->download('Movimiento_'.$request->id_ventam.'.pdf');}
+
       
     }
 
@@ -287,7 +284,7 @@ class LogisticaController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
 
-         if( $request->tipo==1){return $pdf->stream('Recibo_'.$request->id_ventar.'.pdf');}
+        if( $request->tipo==1){return $pdf->stream('Recibo_'.$request->id_ventar.'.pdf');}
     
         if( $request->tipo==2){return $pdf->download('Recibo_'.$request->id_ventar.'.pdf');}
        
