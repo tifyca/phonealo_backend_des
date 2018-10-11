@@ -3,7 +3,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Faltantes')
+@section('titulo', 'Faltantes - Consolidado')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -35,17 +35,18 @@
             </div>
             <form class="row d-flex justify-content-end" action="{{route('faltantes-consolidado.index')}}" method="get"> 
 
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-7">
                 <input class="form-control" type="text" name="producto" id="producto" placeholder="Buscar Producto">
               </div>
 
-           {{--    <div class="form-group col-md-4">
-                <input class="form-control" type="date" name="fecha" id="fecha">
-              </div> --}}
+              {{-- <div class="form-group col-md-3"> --}}
+                {{-- <input class="form-control" type="date" name="fecha" id="fecha"> --}}
+              {{-- </div> --}}
 
-              <div class="col-md-1 mr-md-5">
+              <div class="col-md-1 mr-md-5 form-group">
                 <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
               </div>
+              <div class="mr-3"></div>
             </form>
           </div>
         </div>
