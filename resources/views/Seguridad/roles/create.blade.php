@@ -52,7 +52,9 @@
                       <input type="text" class="form-control" name="{{$n1}}" id="{{$n1}}" value="<?php echo $autorizar->descripcion;?>" size="16" disabled>
 
                 </td>
-                <td></td>
+                <td>
+                     <input type="checkbox" class="form-check-input" name="">
+                </td>
 
                 </tr>
                 <?php $contador++;?>

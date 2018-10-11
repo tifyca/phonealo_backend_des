@@ -6,24 +6,47 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Roles;
+use App\autorizacion;
+use App\Empleados;
+@session_start();
 
 class UsuariosController extends Controller
 {
-    public function index()
+  
+  public function index()
 	{
 		$usuarios=User::where('id','<>','1')->paginate(20);
 		return view('Seguridad.usuario.index')->with('usuarios',$usuarios);
 	}
+
+  public function appdelivery(Request $request)
+	{
+		$usuarios=User::where('id','<>','1')->where("id_rol","5")->paginate(20);
+		dd($usuarios);
+		return view('Seguridad.usuario.app')->with('usuarios',$usuarios);
+	}
+
 	public function create()
 	{
 		$roles=Roles::orderby('id')->get();
-		return view('Seguridad.usuario.create')->with("roles",$roles);
+		$empleados=Empleados::where('id_estado',1)->get();
+		return view('Seguridad.usuario.create')->with("roles",$roles)->with("empleados",$empleados);
 	}
+
+	public function crear_app()
+	{
+		$roles=Roles::orderby('id')->get();
+		$empleados=Empleados::where('id_estado',1)->get();
+		return view('Seguridad.usuario.crea_app')->with("roles",$roles)->with("empleados",$empleados);
+	}
+
+
 	public function store(Request $request)
 	{
 		$rules = [
 			'email' => 'required|email|unique:users,email',
 			'password' => 'required|string|min:6|confirmed',
+			
 		];
 		try {
 			$validator = \Validator::make($request->all(), $rules);
@@ -34,19 +57,22 @@ class UsuariosController extends Controller
 			$usuario               = new User($request->all());
 			$usuario->name         = $request["name"];
 			$usuario->email        = $request["email"];
-			$usuario->password     = $request["password"];
+			$usuario->password     = bcrypt($request->password);
             $usuario->rol_id       = $request["rol_id"];
+            $usuario->id_empleado  = $request["id_empleado"];
             $usuario->save();
-			return redirect()->route('usuarios.edit', $usuario->id)->with("notificacion","Se ha guardado correctamente su información");
+			return redirect()->route('usuarios.index')->with("notificacion","Se ha guardado correctamente su información");
 		} catch (Exception $e) {
 			\Log::info('Error creating item: '.$e);
 			return \Response::json(['created' => false], 500);
 		}
 	}
+	
 	public function show($id)
 	{
         //
 	}
+	
 	public function edit($id)
 	{
 		$roles=Roles::orderby('id')->get();
@@ -54,6 +80,7 @@ class UsuariosController extends Controller
 		return view('Seguridad.usuario.edit')->with('usuario',$usuario)
 		->with('roles',$roles);
 	}
+	
 	public function update(Request $request, $id)
 	{
 		$rules = [
@@ -74,6 +101,7 @@ class UsuariosController extends Controller
 			return \Response::json(['created' => false], 500);
 		}
 	}
+	
 	public function destroy($id)
 	{
 		
@@ -84,12 +112,14 @@ class UsuariosController extends Controller
 			return back()->with("notificacion_error","Se ha producido un error, es probable que exista contenido relacionado a este registro que impide que se elimine");
 		}
 	}
+	
 	public function cambiar($id)
 	{
         //dd($id);
 		$usuario=User::find($id);
 		return view('Seguridad.usuario.cambiarp')->with('usuario',$usuario);
 	}
+	
 	public function update_password(Request $request, $valor)
 	{
 			//dd($valor);
