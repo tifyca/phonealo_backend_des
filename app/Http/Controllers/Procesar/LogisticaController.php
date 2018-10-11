@@ -166,9 +166,7 @@ class LogisticaController extends Controller
         
 
          return $this->crearPDF($remito, $vista, $empleado, $id_remisa );
-            //return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios'));
-           // $pdf = PDF::loadView('Procesar.Logistica.recibo_remisa', compact('remito', 'empleado'));
-            //$pdf->download('recibo_remisa'.$id_remisa.'.pdf');
+
         }
         return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios'));
     	
@@ -214,13 +212,18 @@ class LogisticaController extends Controller
         $impresion->impresa=1;
         $impresion->save();
 
-        
-
+       
          $fecha = Carbon::now();
          $date = $fecha->formatLocalized('%d %B %Y');
-        
-        $pdf = PDF::loadView('Procesar.Logistica.factura', compact('venta', 'factura', 'date'));
-        return $pdf->download('Factura_'.$request->id_venta.'.pdf');
+
+
+        $view =  \View::make('Procesar.Logistica.factura', compact('venta', 'factura', 'date'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        if( $request->tipo==1){return $pdf->stream('Factura_'.$request->id_venta.'.pdf');}
+    
+        if( $request->tipo==2){return $pdf->download('Factura_'.$request->id_venta.'.pdf');} 
       
       
     }
@@ -243,11 +246,16 @@ class LogisticaController extends Controller
 
        
          $fecha = Carbon::parse($venta[0]->fecha_activo)->format('d/m/Y');
-         ///$date = $fecha->formatLocalized('%d %B %Y');
         
-        $pdf = PDF::loadView('Procesar.Logistica.movimiento', compact('venta', 'factura', 'fecha'));
-        return $pdf->download('Movimiento_'.$request->id_ventam.'.pdf');
-      
+
+        $view =  \View::make('Procesar.Logistica.movimiento', compact('venta', 'factura', 'fecha'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        if( $request->tipo==1){return $pdf->stream('Movimiento_'.$request->id_ventam.'.pdf');}
+    
+        if( $request->tipo==2){return $pdf->download('Movimiento_'.$request->id_ventam.'.pdf');}
+
       
     }
 
@@ -266,13 +274,20 @@ class LogisticaController extends Controller
                          ->get();
 
         
-         $fecha = Carbon::now();
-         $dated = $fecha->formatLocalized("%d");
-         $datem = $fecha->formatLocalized("%B");    
-         $datea = $fecha->formatLocalized("%y");                                                   
+        $fecha = Carbon::now();
+        $dated = $fecha->formatLocalized("%d");
+        $datem = $fecha->formatLocalized("%B");    
+        $datea = $fecha->formatLocalized("%y");                                                   
         
-        $pdf = PDF::loadView('Procesar.Logistica.recibo', compact('venta', 'factura', 'dated', 'datem', 'datea'));
-        return $pdf->download('Recibo_'.$request->id_ventar.'.pdf');
+            
+        $view =  \View::make('Procesar.Logistica.recibo', compact('venta', 'factura', 'dated', 'datem', 'datea'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+
+        if( $request->tipo==1){return $pdf->stream('Recibo_'.$request->id_ventar.'.pdf');}
+    
+        if( $request->tipo==2){return $pdf->download('Recibo_'.$request->id_ventar.'.pdf');}
+       
       
       
     }
