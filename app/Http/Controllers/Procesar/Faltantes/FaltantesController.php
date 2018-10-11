@@ -37,7 +37,7 @@ class FaltantesController extends Controller
        return view("Procesar.Faltantes.index", compact('pedidos')); 
     }
     public function show($id){
-        return "mierda";
+        return "show " . $id;
     }
     public function store(Request $request){
 
