@@ -311,7 +311,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');
     Route::get('procesar/conversiones/show', 'Procesar\ConversionesController@show')->name('procesar.conversiones.show');
 
-    Route::resource('procesar/faltantes', 'Procesar\FaltantesController');
+    Route::prefix('procesar')->group(function(){
+        Route::resource('faltantes', 'Procesar\Faltantes\FaltantesController');
+        Route::resource('faltantes-consolidado', 'Procesar\Faltantes\ConsolidadoController');
+    });
+
     Route::resource('procesar/pedidos', 'Procesar\PedidosController');
     Route::get('procesar/pedidos/{id}/venta_caida', [
         'uses' => 'Procesar\PedidosController@venta_caida',
