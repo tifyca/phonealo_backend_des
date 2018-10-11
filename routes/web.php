@@ -24,6 +24,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('buscar_comprobantes', 'Ajax\ProductosAjax@solped_comprobantes')->name('buscar_comprobantes');
     Route::get('buscar_factura', 'Ajax\ProductosAjax@solped_factura')->name('buscar_factura');
     Route::get('buscar_item', 'Ajax\ProductosAjax@verificar_detalle')->name('buscar_item');
+    Route::get('buscar_empleados', 'Ajax\RegistroController@empleados_list')->name('mostrar_subcategorias');
+
 
     Route::get('producto_click', 'Ajax\ProductosAjax@producto')->name('producto_click');
     Route::get('cargos', 'Ajax\Configurar@cargos')->name('cargos_ajax');
@@ -341,6 +343,10 @@ Route::get('procesar/pedidos/{id}/nota', [
         'uses' => 'Seguridad\UsuariosController@cambiar',
         'as'   => 'usuarios.cambiar'
     ]);
+    Route::get('seguridad/usuarios/crea_app', 'Seguridad\UsuariosController@crea_app')->name('usuarios.crea_app');
+    Route::get('seguridad/usuarios/appdelivery', 'Seguridad\UsuariosController@appdelivery')->name('appdelivery');
+
+
     Route::put('seguridad/usuarios/update_password/{valor}', [
         'uses' => 'Seguridad\UsuariosController@update_password',
         'as'   => 'usuarios.update_password'
