@@ -120,8 +120,8 @@
 
     <li><a class="treeview-item {{ Request::is('seguridad/usuarios*') ? 'active' : '' }}" href="#"><i class="icon fa fa-circle-o"></i>Usuarios</a>
       <ul class="treeview-menu pl-3" >
-         <li><a class="treeview-item {{ Request::is('eguridad/usuarios*') ? 'active' : '' }}" href="{{url('seguridad/usuarios')}}"><i class="icon fa fa-circle-o"></i>ERP</a></li>
-         <li><a class="treeview-item {{ Request::is('eguridad/usuarios*') ? 'active' : '' }}" href="{{url('seguridad/usuarios')}}"><i class="icon fa fa-circle-o"></i>APPDelivery</a></li>
+         <li><a class="treeview-item {{ Request::is('seguridad/usuarios*') ? 'active' : '' }}" href="{{url('seguridad/usuarios')}}"><i class="icon fa fa-circle-o"></i>ERP</a></li>
+         <li><a class="treeview-item {{ Request::is('seguridad/usuarios/appdelivery*') ? 'active' : '' }}" href="{{route('appdelivery')}}"><i class="icon fa fa-circle-o"></i>APPDelivery</a></li>
 
        </ul>
 

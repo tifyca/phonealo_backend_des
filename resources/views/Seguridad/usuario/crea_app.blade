@@ -1,7 +1,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', '')
-@section('titulo', 'Nuevo Usuario')
+@section('titulo', 'Nuevo Usuario APP')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -54,10 +54,16 @@
             <div class="form-group">
                 <label>Seleccione Rol de Usuario</label>
                 <select name="rol_id" id="rol_id" class="form-control">
-                    <option>Seleccione Rol</option>
-                 @foreach($roles as $roles)
-                 <option value="{{ $roles->id }}">{{ $roles->descripcion }}</option>
-                 @endforeach    
+                 <option value="5">Repartidor</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Seleccione Estado</label>
+                <select name="id_estado" id="id_estado" class="form-control">
+                 <option value="1">Activo</option>
                 </select>
             </div>
         </div>
