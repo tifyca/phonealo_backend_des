@@ -52,7 +52,7 @@ class RepartidoresController extends Controller
 
     }
     
-    public function iniciar_jornada(Request as $request)
+    public function iniciar_jornada(Request $request)
     {
       
     }

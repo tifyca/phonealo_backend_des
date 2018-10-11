@@ -23,6 +23,23 @@ class pedido extends Model
             ->orderBy('ventas.fecha', 'DESC');
 	}
 
+    public function scopeConsolidado($query){
+        return $query->join('ventas', 'pedidos.id', 'ventas.id_pedido')          
+            ->join('detalle_pedidos', 'pedidos.id', 'detalle_pedidos.id_pedido')
+            ->join('productos', 'detalle_pedidos.id_producto', 'productos.id')
+            ->join('categorias', 'productos.id_categoria', 'categorias.id')
+            ->groupBy('productos.codigo_producto')
+            ->orderBy('ventas.fecha', 'DESC')
+            ->select(
+                'productos.codigo_producto', 'productos.descripcion', 
+                'productos.stock_activo', 'categorias.categoria', 
+                'pedidos.id_usuario'
+            )
+            ->selectRaw('sum(detalle_pedidos.cantidad) as cantidad')
+            ->where('ventas.id_estado', 5)
+            ->where('categorias.tipo', 'Productos');
+    }
+
     ////////////////
     // Relaciones //
     ////////////////

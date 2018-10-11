@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Procesar;
+namespace App\Http\Controllers\Procesar\Faltantes;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\pedido;
-use DB;
 
 class FaltantesController extends Controller
 {
@@ -16,7 +15,7 @@ class FaltantesController extends Controller
             $pedidos = pedido::enEspera()
                 ->where(function($query) use ($producto){
                     $query->where('productos.codigo_producto', 'like', '%'.$producto.'%')
-                    ->orWhere('productos.descripcion', 'like', '%'.$producto.'%');                    
+                    ->orWhere('productos.descripcion', 'like', '%'.$producto.'%');
                 })
                 ->paginate(10);         
         }elseif( $fecha && !$producto) {
@@ -38,7 +37,7 @@ class FaltantesController extends Controller
        return view("Procesar.Faltantes.index", compact('pedidos')); 
     }
     public function show($id){
-
+        return "mierda";
     }
     public function store(Request $request){
 
