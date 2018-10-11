@@ -20,6 +20,7 @@ class pedido extends Model
             ->select('clientes.nombres', 'clientes.telefono', 'productos.codigo_producto', 'productos.descripcion', 'productos.stock_activo', 'categorias.categoria', 'detalle_pedidos.cantidad', 'users.name', 'pedidos.id_usuario', 'ventas.fecha')
             ->where('ventas.id_estado', 5)
             ->where('categorias.tipo', 'Productos')
+            ->where('productos.id', '<>', 36)
             ->orderBy('ventas.fecha', 'DESC');
 	}
 
@@ -37,7 +38,8 @@ class pedido extends Model
             )
             ->selectRaw('sum(detalle_pedidos.cantidad) as cantidad')
             ->where('ventas.id_estado', 5)
-            ->where('categorias.tipo', 'Productos');
+            ->where('categorias.tipo', 'Productos')
+            ->where('productos.id', '<>', 36);
     }
 
     ////////////////

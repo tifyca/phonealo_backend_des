@@ -433,32 +433,77 @@
           <table class="table ">
             <tbody>
               <tr>
-                  <form name="form1" action="{{ route('logistica.factura') }}"  accept-charset="UTF-8" method="GET"  enctype="multipart/form-data">
+                  <form name="form1"  action="{{ route('logistica.factura') }}">
                       <input type="hidden" name="id_venta" id="id_venta" value="0">
                       <th>Factura</th>
                       <td><input class="form-control" type="text" id="num_fact" name="num_fact" ></td>
-                      <td >
-                         <button class="btn btn-primary fact" id="btn-fact" type="submit" ><i class="m-0 fa fa-lg fa-print" ></i></button>
+                      <td>
+   
+                      <div class="col-md-12 ">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" value="1" type="radio" id="tipo" name="tipo" checked>Ver
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                           <input class="form-check-input" value="2" type="radio" id="tipo" name="tipo">Pdf
+                         </label>
+                       </div>
+                     </div>
+                    </td>
+             <td >
+                          <button class="btn btn-primary fact" id="btn-fact" formtarget="_blank"  type="submit" ><i class="m-0 fa fa-lg fa-print" ></i></button>
                       </td>
                    </form>
                 </tr>
                 <tr>
-                  <form name="form1" action="{{ route('logistica.movimiento') }}"  accept-charset="UTF-8" method="GET"  enctype="multipart/form-data">
+                  <form name="form1"  action="{{ route('logistica.movimiento') }}" >
                       <input type="hidden" name="id_ventam" id="id_ventam" value="0">
                       <th >Movimiento</th>
                       <td  colspan="1"></td>
                       <td>
-                      <button class="btn btn-primary" id="btn-generar" type="submit"><i class="m-0 fa fa-lg fa-print"></i></button>
+   
+                      <div class="col-md-12 ">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" value="1" type="radio" id="tipo" name="tipo" checked>Ver
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                           <input class="form-check-input" value="2" type="radio" id="tipo" name="tipo">Pdf
+                         </label>
+                       </div>
+                     </div>
+                    </td>
+                      <td>
+                      <button class="btn btn-primary"  formtarget="_blank"  ><i class="m-0 fa fa-lg fa-print"></i></button>
                       </td>
                    </form>
                 </tr>
                 <tr>
-                  <form name="form1" action="{{ route('logistica.recibo') }}"  accept-charset="UTF-8" method="GET"  enctype="multipart/form-data">
+                  <form name="form1" action="{{ route('logistica.recibo') }}" >
                       <input type="hidden" name="id_ventar" id="id_ventar" value="0">
                       <th>Stikers</th> 
                       <td  colspan="1"></td>
+                      <td>
+   
+                      <div class="col-md-12 ">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" value="1" type="radio" id="tipo" name="tipo" checked>Ver
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                           <input class="form-check-input" value="2" type="radio" id="tipo" name="tipo">Pdf
+                         </label>
+                       </div>
+                     </div>
+                    </td>
                       <td >
-                      <button class="btn btn-primary" id="btn-generar" type="submit"><i class="m-0 fa fa-lg fa-print"></i></button>
+                      <button class="btn btn-block btn-primary btn-xs" formtarget="_blank" ><i class="m-0 fa fa-lg fa-print" ></i></button>
                       </td>
                    </form>
                 </tr>
@@ -515,7 +560,7 @@
               <td style="text-align: left;">${item.codigo_producto}</td>
               <td style="text-align: left;">${item.descripcion}</td>
               <td style="text-align: center;">${item.cantidad}</td>
-              <td style="text-align: center;">${item.precio.toLocaleString('de-DE')}</td>
+              <td style="text-align: right;">${item.precio.toLocaleString('de-DE')}</td>
               <td style="text-align: right;">${importes.toLocaleString('de-DE')}</td>
               </tr>`);
           });
