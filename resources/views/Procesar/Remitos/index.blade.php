@@ -48,38 +48,47 @@
               <table class="table table-hover table-bordered " id="sampleTable">
                 <thead>
                   <tr>
-                    <th>Remito</th>
-                    <th>Delivery</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Importe</th>
-                    <th>Acciones</th>
+                    <th class="text-center">Remito</th>
+                    {{-- <th class="text-center">Cliente</th> --}}
+                    <th class="text-center">Delivery</th>
+                    <th class="text-center">Fecha</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Importe</th>
+                    <th class="text-center">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach ($remitos as $remito)                    
                   <tr>
-                    <td>0987</td>
-                    <td>Nombres</td>
-                    <td>00-00-0000</td>
-                    <td>Confirmado</td>
-                    <td>9876234</td>
+                    <td class="text-center">{{ $remito->id }}</td>
+                    {{-- <td class="text-center">{{ $remito->nombre_cliente }}</td> --}}
+                    <td class="text-center">{{ $remito->nombres }}</td>
+                    <td class="text-center">{{ $remito->fecha }}</td>
+                    <td class="text-center">{{ $remito->estado }}</td>
+                    <td class="importe text-right">{{ $remito->importe }}</td>
+                    {{-- <td class="importe">
+                      {!!number_format($remito->importe, 0, ',', '.')!!}
+                    </td> --}}
                     <td width="10%" class="text-center">
                       <div class="btn-group">
                         <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        
                       </div>
                     </td>
+                  @endforeach
                   </tr>
                   <tr>
                     <td colspan="4" class="text-right">
                       <h4>Total:</h4>
                     </td>
-                    <td colspan="2"><h4>0987654</h4></td>
+                    {{-- <td colspan="2"><h4>{{ $remito->sum('importe') }}</h4></td> --}}
+                    <td colspan="2"><h4 id="total"></h4></td>
                   </tr>
                 </tbody>
               </table>
+              {{-- Paginacion --}}
+              {{ $remitos->render() }}
             </div>
-            </div>
+          </div>
         </div>
     </div>
   </div>
@@ -155,7 +164,7 @@
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table>        
         </div>
       </div>
     </div>
@@ -168,5 +177,23 @@
 @endsection
 
 @push('scripts')
-  
+<script>
+$(function(){
+  let importe, total = 0; 
+  importe = $('.importe');
+  ////////////////////////////////////////////////////////////////
+  // Sumar la columnas importes por pagina y separadores de mil //
+  ////////////////////////////////////////////////////////////////
+  importe.each( function(index) {
+    // console.log( "Monto:"+$(this).text()+" Fila#"+index );  
+    // Total de importe por pagina  
+    total = total + Number( $(this).text() );
+    // Formatear a separador de mil
+    $(this).text( new Intl.NumberFormat("de-DE").format( $(this).text() ) );
+  });
+  // console.log("Total por pagina: "+total);
+  // // Formatear a separador de mil
+  $('#total').text( new Intl.NumberFormat("de-DE").format(total) );
+});
+</script>
 @endpush
