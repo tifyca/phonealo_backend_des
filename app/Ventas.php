@@ -77,7 +77,10 @@ class Ventas extends Model
             ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
             ->leftjoin('detalle_pedidos', 'pedidos.id', '=', 'detalle_pedidos.id_pedido')
             ->leftjoin('productos', 'detalle_pedidos.id_producto', '=', 'productos.id')
-            ->select('ventas.id', 'ventas.importe', 'clientes.nombres', 'clientes.telefono','clientes.email', 'clientes.ruc_ci','clientes.direccion', 'productos.codigo_producto', 'productos.descripcion', 'detalle_pedidos.cantidad', 'detalle_pedidos.precio')
+            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+            ->leftjoin('users', 'ventas.id_usuario', '=', 'users.id')
+            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+            ->select('ventas.id', 'ventas.importe', 'ventas.fecha', 'ventas.fecha_cobro', 'ventas.id_horario', 'clientes.nombres', 'clientes.telefono','clientes.email', 'clientes.ruc_ci','clientes.direccion','clientes.barrio', 'clientes.ubicacion', 'clientes.id_tipo', 'forma_pago.forma_pago','horarios.horario', 'productos.codigo_producto', 'productos.descripcion', 'detalle_pedidos.cantidad', 'detalle_pedidos.precio', 'users.name as nameuser')
             ->where('ventas.id', '=', $id_venta)
             ->get();
     }
