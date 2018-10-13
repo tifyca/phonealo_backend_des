@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Cargos;
 use App\Categorias;
+use App\Horarios;
 
 class Configurar extends Controller
 {
@@ -19,6 +20,12 @@ class Configurar extends Controller
      	$tipo=$request['tipo'];
         $categorias = Categorias::where('tipo',$tipo)->orderBy('categoria','asc')->get();
         return $categorias;
+    }
+
+
+     public function Horarios(Request $request){
+        $horarios = Horarios::orderBy('horario','asc')->get();
+        return $horarios;
     }
     
 

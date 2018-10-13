@@ -1,3 +1,7 @@
+<?php
+ @session_start();
+ $id_usuario= $_SESSION["user"];
+?>
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
@@ -375,27 +379,73 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Detalle de Venta</h5>
+        <h5 class="modal-title" id="title"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+    <form name="formd"   name="formd" class="form-horizontal" novalidate="">
       <div class="modal-body">
         <div class="table-responsive">
           <table class="table">
             <thead>
               <tr>
-                <th style="text-align: center;">Venta</th>
                 <th style="text-align: center;">Cliente</th>
+                <th style="text-align: center;">Ruc</th>
                 <th style="text-align: center;">Teléfono</th>
-                <th style="text-align: center;">Dirección</th>
+                <th style="text-align: center;">Email</th>              
               </tr>
             </thead>
-            <tbody id="cliente_detalle">
-              
+            <tbody id="cliente_detalle"> 
             </tbody>
           </table>
         </div>
+        <div class="table-responsive">
+           <table class="table">
+            <thead>
+              <tr>
+                <th style="text-align: center;">Dirección</th>             
+                <th colaspan="2" style="text-align: center;">Zona</th>
+                <th colaspan="2" style="text-align: center;">Ubicación</th>
+              </tr>
+            </thead>
+            <tbody id="cliente_detalle2">  
+            </tbody>
+          </table>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="text-align: center;">Tipo Cliente</th>
+                <th style="text-align: center;">Fecha Venta</th>
+                <th style="text-align: center;">Fecha Entrega</th>
+                <th style="text-align: center;">Forma de Pago</th>
+              </tr>
+            </thead>
+            <tbody id="cliente_detalle3">
+            </tbody>
+          </table>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="text-align: center;">Horario de Entrega</th>
+                <th style="text-align: center;">Vendedor</th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr>
+                <td style="text-align: center;"> 
+                  <select class="form-control horarios" id="idhorario" name="idhorario"> 
+                  </select>
+                </td>
+                <td style="text-align: center;" ><div class="vendedor"></div></td> 
+              </tr>
+            </tbody>
+          </table>
+        </div> 
         <div class="table-responsive">
           <table class="table">
             <thead>
@@ -407,11 +457,16 @@
                 <th style="text-align: right;">Importe</th>
               </tr>
             </thead>
-            <tbody id="productos_detalle">
-              
-            </tbody>
-           
+            <tbody id="productos_detalle">     
+          </tbody>  
           </table>
+     </form>
+            <div class="text-right col-md-">
+               <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+               <button class="btn btn-primary" id="btn-save-edit" >Guardar</button>
+               <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+               <input type="hidden" name="id_venta" id="id_venta" value="">
+            </div>
         </div>
       </div>
     </div>
@@ -420,10 +475,9 @@
 {{--  --}}
 <div class="modal fade" id="ModalFactura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog  modal-dialog-centered " role="document">
-    <div class="modal-content">
-        
-      <div class="modal-header" align="text-center">
-         <h5 class="modal-title" id="title"></h5>
+    <div class="modal-content">        
+      <div class="modal-header">
+         <h5 class="modal-title" id="titlef"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -431,15 +485,15 @@
        <div class="modal-body">
         <div class="table-responsive">
           <table class="table ">
-            <tbody>
+         <div style="display: none;" class="alert-top fixed-top col-12  text-center alert alert-danger" id="remodal"> </div>
+                      <tbody>
               <tr>
-                  <form name="form1"  action="{{ route('logistica.factura') }}">
-                      <input type="hidden" name="id_venta" id="id_venta" value="0">
+                  <form name="formfactura"  action="{{route('logistica.factura')}}" target="_blank">
+                      <input type="hidden" name="id_ventaf" id="id_ventaf" value="0">
                       <th>Factura</th>
                       <td><input class="form-control" type="text" id="num_fact" name="num_fact" ></td>
                       <td>
-   
-                      <div class="col-md-12 ">
+                        <div class="col-md-12 ">
                         <div class="form-check">
                           <label class="form-check-label">
                             <input class="form-check-input" value="1" type="radio" id="tipo" name="tipo" checked>Ver
@@ -452,8 +506,8 @@
                        </div>
                      </div>
                     </td>
-             <td >
-                          <button class="btn btn-primary fact" id="btn-fact" formtarget="_blank"  type="submit" ><i class="m-0 fa fa-lg fa-print" ></i></button>
+                      <td>
+                          <button class="btn btn-primary fact" id="btn-fact"  formtarget="_blank" ><i class="m-0 fa fa-lg fa-print" ></i></button>
                       </td>
                    </form>
                 </tr>
@@ -513,7 +567,8 @@
         </div>
    
       </div>
-
+    </div>  
+  </div>  
 </div>
 {{--  --}}
 
@@ -529,10 +584,25 @@
 
     var id = $(this).val();  //CAPTURA EL ID
     $('#cliente_detalle').html(''); //LIMPIA EL MODAL
+    $('#cliente_detalle2').html(''); 
+    $('#cliente_detalle3').html(''); 
+    $('#cliente_detalle4').html(''); 
     $('#productos_detalle').html(''); //LIMPIA EL MODAL
-
+    $(".horarios").html('');
     $('#ModalProductos').modal('show'); //ABRE EL MODAL
     
+      $.ajax({
+          type: "get",
+          url: '{{ route('horarios_ajax') }}',
+          dataType: "json",
+          success: function (datas){
+             $.each(datas, function(i, item2) {
+
+            $(".horarios").append('<option value='+item2.id+'>'+item2.horario+'</option>');
+              });
+          }
+
+      });
    
       $.ajax({
         type: "GET",
@@ -544,12 +614,38 @@
           console.log(data);
           var total=0;
           var importe=0;
+
+          $("#id_venta").val(data[0].id);
+          $('#title').html('Detalle de Venta:  ' + data[0].id);
           $("#cliente_detalle").append(`<tr>
-                                          <td style="text-align: center;">${data[0].id}</td>
-                                          <td style="text-align: left;">${data[0].nombres}</td>
+                                          <td style="text-align: center;">${data[0].nombres}</td>
+                                          <td style="text-align: center;">${data[0].ruc_ci}</td>
                                           <td style="text-align: center;">${data[0].telefono}</td>
-                                          <td style="text-align: left;">${data[0].direccion}</td>
+                                          <td style="text-align: center;">${data[0].email}</td>
                                       </tr>`);
+          $("#cliente_detalle2").append(`<tr>
+                                          <td style="text-align: center;">${data[0].direccion}</td>
+                                          <td style="text-align: center;">${data[0].barrio}</td> 
+                                          <td style="text-align: center;">${data[0].ubicacion}</td> 
+                                      </tr>`);
+           $("#cliente_detalle3").append(`<tr>
+                                          <td style="text-align: center;">${data[0].id_tipo}</td>
+                                          <td style="text-align: center;">${data[0].fecha}</td> 
+                                          <td style="text-align: center;">${data[0].fecha_cobro}</td> 
+                                          <td style="text-align: center;">${data[0].forma_pago}</td> 
+                                      </tr>`);
+          /* $("#cliente_detalle4").append(`<tr>
+                                          <td style="text-align: center;"> <select class="form-control horarios" id="horario" name="horario"> 
+                 <option value="${data[0].id_horario}"> ${data[0].horario}</option>
+                
+               </select>
+                                         </td>
+                                          <td style="text-align: center;">${data[0].fecha}</td> 
+                                      </tr>`);*/
+
+          $(".horarios").val(data[0].id_horario);
+          $(".vendedor").val(data[0].nameuser);
+
           //CICLO DE LOS DATOS RECIBIDOS
           $.each(data, function(l, item) {
 
@@ -577,6 +673,42 @@
 
   });
 
+
+  $("#btn-save-edit").click(function (e) {
+     $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+
+    e.preventDefault();
+        
+        var formData = { id_venta:   $('#id_venta').val(),  
+                         horario:    $('#idhorario').val(), 
+                         id_usuario: $('#id_usuario').val(),
+                       }
+   console.log(formData);
+    $.ajax({
+        type:"PUT",
+        url: '{{route('edithorario')}}',
+        data: formData,
+        dataType: 'json',
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        success: function (data) {
+
+     
+              
+            $('#formd').trigger("reset");
+            $('#ModalProductos').modal('hide');
+            $("#res").html("Horario de Venta Modificado con Éxito");
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+        }
+         });
+
+      location.reload(true);
+   
+});
   //<!-- Agregar a Remisa -->
   $('.remisa').click(function(){
     
@@ -626,16 +758,88 @@
   $('.factura').click(function(){
 
       $('#num_fact').val("");
-      $('#id_venta').val(""); 
+      $('#id_ventaf').val(""); 
       $('#id_ventam').val(""); 
       $('#id_ventar').val(""); 
       var id = $(this).val();  //CAPTURA EL ID  
   
       $.ajax({
         type: "GET",
-        url: '{{ url('num_factura') }}',
+        url: '{{ url('fact_venta') }}',
         dataType: "json",
         data: { id:id, _token: '{{csrf_token()}}'},
+
+        success: function (data){
+          
+        
+          $('#titlef').html('Pedido: ' + data[0].venta);
+          $('#id_ventaf').val(data[0].venta); 
+          $('#id_ventam').val(data[0].venta); 
+          $('#id_ventar').val(data[0].venta); 
+
+          if (data[0].factura ==2 || data[0].factura ==3){
+              $('#btn-fact').prop('disabled', false);
+          }else{
+              $('#btn-fact').prop('disabled', true);
+          }      
+        
+       }
+
+    });
+  });
+
+  $(document).ready(function() {
+  $('#btn-fact').click(function(){
+  event.preventDefault();
+
+    if ($('#num_fact').val()==""){
+            $("#remodal").html("El Campo Factura es Requerido");
+            $("#remodal").css("display","block");
+            $("#remodal").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            return false;
+
+    }else{
+      var id_venta=$('#id_ventaf').val();
+      var num_factura=$('#num_fact').val();
+      $.ajax({
+        type: "GET",
+        url: '{{ url('num_factura') }}',
+        dataType: "json",
+        data: { id:num_factura, _token: '{{csrf_token()}}'},
+
+        success: function (data){
+
+          if (data>0){
+           
+            $("#remodal").html("Este Numero de Factura ya fue Impreso.");
+            $("#remodal").css("display","block");
+            $("#remodal").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+          }else{
+
+               document.formfactura.submit();
+               $('#ModalFactura').modal('hide');
+     
+          }      
+        
+        }
+
+    });
+
+}
+ });
+   });
+
+
+ /*    var formData={
+        num_tya:$('#num_fact').val(),
+        id_venta:  $('#id_venta').val()
+      }
+
+  $.ajax({
+        type: "GET",
+        url: '{{ route('logistica.factura') }}',
+        dataType: "json",
+        data: {formData, _token: '{{csrf_token()}}'},
 
         success: function (data){
           
@@ -645,21 +849,16 @@
           $('#id_ventar').val(data[0].venta); 
 
           if (data[0].factura ==2 || data[0].factura ==3){
-            if(data[0].impresa ==0)
-              $('#btn-fact').prop('disabled', false);
-            else
+           
                $('#btn-fact').prop('disabled', true);
           }else{
-              $('#btn-fact').prop('disabled', true);
+              $('#btn-fact').prop('disabled', false);
           }      
-        }
+        
   
 
     });
-  });
-
-
-
+  });*/
 
   //<!-- Activar venta En Espera-->
  /* $('.activar').click(function(){

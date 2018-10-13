@@ -14,6 +14,7 @@ use App\Horarios;
 use App\Empleados;
 use App\Remitos;
 use App\Facturas;
+use Illuminate\Support\Facades\Validator;
 
 class LogisticaController extends Controller
 {
@@ -195,22 +196,25 @@ class LogisticaController extends Controller
 
 
       public function factura(Request $request){
+       
+    
 
         $venta=Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
                     ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
                     ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
                     ->leftjoin('facturas', 'ventas.id', '=', 'facturas.id_venta')
                     ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura',  'ventas.fecha', 'ventas.notas', 'facturas.id', 'facturas.nombres',  'facturas.ruc_ci', 'clientes.telefono', 'facturas.direccion')
-                    ->where('ventas.id', '=', $request->id_venta)
+                    ->where('ventas.id', '=', $request->id_ventaf)
                     ->get();
         $factura=Detalle_Ventas::leftjoin('productos', 'detalle_ventas.id_producto', '=','productos.id')
                          ->select('detalle_ventas.cantidad', 'detalle_ventas.precio', 'productos.nombre_original', 'productos.descripcion')
-                         ->where('detalle_ventas.id_venta', '=', $request->id_venta)
+                         ->where('detalle_ventas.id_venta', '=', $request->id_ventaf)
                          ->get();
 
-        $impresion=Facturas::find($venta[0]->id);
-        $impresion->impresa=1;
-        $impresion->save();
+
+        $impresion=Facturas::where('id_venta',$request->id_ventaf)
+                  ->update(array('num_factura' => $request->num_fact, 'impresa'=> 1, 'id_usuario'=>$request->id_usuario));
+
 
        
          $fecha = Carbon::now();
@@ -290,6 +294,17 @@ class LogisticaController extends Controller
        
       
       
+    }
+
+    public function edithorario(Request $request){
+        
+        $horarioventa = Ventas::find($request->id_venta);
+        $horarioventa->id_horario = $request->horario;
+        $horarioventa->id_usuario = $request->id_usuario;
+        $horarioventa->save();
+
+        return $horarioventa;
+        
     }
 
 

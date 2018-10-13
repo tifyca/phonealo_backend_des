@@ -19,6 +19,7 @@ use App\detalle;
 use App\Monto_delivery;
 use DB;
 use File;
+use Carbon\Carbon;
  @session_start();
 use Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -30,6 +31,20 @@ class VentasController extends Controller
       $horarios  = Horarios::all();
       $deliverys = Monto_delivery::all();
       $formas    = Forma_pago::all();
+
+      $fecha = Carbon::now();
+      $dated = $fecha->format("d");
+      $datem = $fecha->format("m");    
+      $datea = $fecha->format("y"); 
+
+      $id_usuario= $_SESSION["user"];
+
+      $num_venta = $datea.$datem.$dated.$id_usuario;
+     
+      //sprintf("%04d", $n);
+//$numeroConCeros = str_pad($numero, 2, "0", STR_PAD_LEFT);
+
+     // dd($num_venta);
 
       return view('Procesar.Ventas.index', compact('horarios','deliverys', 'formas' ));
     }
