@@ -33,9 +33,15 @@ class Logistica extends Controller
         $venta->save();
         return $venta;
     }
+    public function fact_venta(Request $request){
+        $id = $request->id;
+        $num = Facturas::rightjoin('ventas', 'ventas.id', '=', 'facturas.id_venta')->select('facturas.id as num_fact', 'ventas.id as venta','ventas.factura', 'facturas.impresa', 'facturas.num_factura')->where( 'ventas.id', $id)->get();
+     
+        return $num;
+    }
     public function num_factura(Request $request){
         $id = $request->id;
-        $num = Facturas::rightjoin('ventas', 'ventas.id', '=', 'facturas.id_venta')->select('facturas.id as num_fact', 'ventas.id as venta','ventas.factura', 'facturas.impresa')->where( 'ventas.id', $id)->get();
+        $num = Facturas::where( 'num_factura', $id)->count();
      
         return $num;
     }
