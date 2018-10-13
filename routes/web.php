@@ -14,7 +14,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('barriosCombo', 'Ajax\Direcciones@BarriosCombo')->name('barriosCombo');
     Route::get('barrios', 'Ajax\Direcciones@barrios')->name('barrios_ajax');
     Route::get('categoria', 'Ajax\Configurar@categorias')->name('tipocategoria');
-
+    Route::get('horarios', 'Ajax\Configurar@horarios')->name('horarios_ajax');
 
     Route::get('productos', 'Ajax\ProductosAjax@productos_list')->name('productos_ajax');
     Route::get('mostrar_subcategorias', 'Ajax\ProductosAjax@subcategorias_list')->name('mostrar_subcategorias');
@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('detalle_venta', 'Ajax\Logistica@detalle_venta')->name('detalle_venta');
     Route::get('agregar_remisa', 'Ajax\Logistica@agregar_remisa')->name('agregar_remisa');
     Route::get('quitar_remisa', 'Ajax\Logistica@quitar_remisa')->name('quitar_remisa');
+    Route::get('fact_venta', 'Ajax\Logistica@fact_venta')->name('fact_venta');
     Route::get('num_factura', 'Ajax\Logistica@num_factura')->name('num_factura');
     Route::get('activar_venta', 'Ajax\Logistica@activar_venta')->name('activar_venta');
     Route::get('asignar_remisa', 'Ajax\Logistica@asignar_remisa')->name('asignar_remisa');
@@ -305,6 +306,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('procesar/logistica/factura', 'Procesar\LogisticaController@factura')->name('logistica.factura');
     Route::get('procesar/logistica/movimiento', 'Procesar\LogisticaController@movimiento')->name('logistica.movimiento');
     Route::get('procesar/logistica/recibo', 'Procesar\LogisticaController@recibo')->name('logistica.recibo');
+    Route::put('procesar/logistica/edithorario', 'Procesar\LogisticaController@edithorario')->name('edithorario');
 
 
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
