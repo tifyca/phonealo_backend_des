@@ -17,21 +17,21 @@
   <div class="col-12 ">
     <div class="tile">
       <div class="col mb-3 text-center">
-          <div class="row">
-            <div class="col">
+          <form class="row" method="get" action="{{ route('remitos.index') }}">
+            <div class="col-md-3 p-0">
               <h3 class="tile-title text-center text-md-left">Listado de Remitos</h3>
             </div>
-            <div class="form-group col-md-2">
-              <input class="form-control" type="text" id="" name="" placeholder="Remito">
+            <div class="form-group col-md-2 p-0 pr-1">
+              <input class="form-control" type="text" name="remito" placeholder="Remito">
             </div>
-            <div class="form-group col-md-2">
-              <input class="form-control" type="text" id="" name="" placeholder="Delivery">
+            <div class="form-group col-md-2 p-0 pr-1">
+              <input class="form-control" type="text" name="delivery" placeholder="Delivery">
             </div>
-            <div class="form-group col-md-2">
-              <input class="form-control" type="date" id="" name="" >
+            <div class="form-group col-md-2 p-0 pr-1">
+              <input class="form-control" type="date" name="fecha" >
             </div>
-            <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+            <div class="form-group col-md-2 p-0 pr-1">
+              <select class="form-control" name="estado">
                 <option value="">Estado</option>
                 <option>1</option>
                 <option>2</option>
@@ -40,7 +40,10 @@
                 <option>5</option>
               </select>
             </div>
-          </div>
+             <div class="form-group col-md-1 p-0">
+              <input class="btn btn-warning" type="submit" value="Filtrar" name="filtrar">
+            </div>
+          </form>
         </div>
         <div class="tile-body ">
           <div class="tile-body">
@@ -81,7 +84,9 @@
                       <h4>Total:</h4>
                     </td>
                     {{-- <td colspan="2"><h4>{{ $remito->sum('importe') }}</h4></td> --}}
-                    <td colspan="2"><h4 id="total"></h4></td>
+                    <td colspan="2">
+                      <h4 id="total" class="text-right"></h4>
+                    </td>
                   </tr>
                 </tbody>
               </table>
