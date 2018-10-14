@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Procesar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Remitos;
-
+use App\Estados;
 class RemitosController extends Controller
 {
     public function index(Request $request){
@@ -22,6 +22,8 @@ class RemitosController extends Controller
             ->groupBy('remitos.id')
             ->paginate(10);
 
-    	return view('Procesar.Remitos.index', compact('remitos'));
+        $estados = Estados::all();
+
+    	return view('Procesar.Remitos.index', compact('remitos', 'estados'));
     }
 }
