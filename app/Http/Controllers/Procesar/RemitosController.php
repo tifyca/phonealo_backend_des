@@ -24,7 +24,7 @@ class RemitosController extends Controller
             ->paginate(10); 
         // return $remitos;  
         $remitosProductos = Remitos::Productos()
-            ->groupBy('productos.codigo_producto')
+            ->groupBy('productos.id','detalle_ventas.id_venta')
             ->get();    
 
         $estados = Estados::orderBy('id', 'ASC')
