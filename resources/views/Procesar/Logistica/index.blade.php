@@ -332,8 +332,7 @@
                       class="table-light"
                     @endif 
                     >
-                 ach
-                         <td class="venta"   data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}}
+                     <td class="venta"   data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}}
                      
                          @foreach($nota as $item)
                           @if($item->id_venta==$enEspera->id)
