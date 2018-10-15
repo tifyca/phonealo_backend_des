@@ -50,8 +50,9 @@
                 <thead>
                   <tr>
                     <th class="text-center">Remito</th>
-                    {{-- <th class="text-center">Cliente</th> --}}
                     <th class="text-center">Delivery</th>
+                    {{-- <th class="text-center">Cliente</th> --}}
+                    {{-- <th class="text-center">Teléfono</th> --}}
                     <th class="text-center">Fecha</th>
                     <th class="text-center">Estado</th>
                     <th class="text-center">Importe</th>
@@ -61,9 +62,10 @@
                 <tbody>
                   @foreach ($remitos as $remito)                    
                   <tr>
-                    <td class="text-center">{{ $remito->id }}</td>
+                    <td class="text-center id_remito">{{ $remito->id }}</td>
+                    <td class="text-center">{{ $remito->nombre_delivery}}</td>
                     {{-- <td class="text-center">{{ $remito->nombre_cliente }}</td> --}}
-                    <td class="text-center">{{ $remito->nombres }}</td>
+                    {{-- <td class="text-center">{{ $remito->telefono }}</td> --}}
                     <td class="text-center">{{ $remito->fecha }}</td>
                     <td class="text-center">{{ $remito->estado }}</td>
                     <td class="importe text-right">{{ $remito->importe }}</td>
@@ -72,7 +74,9 @@
                     </td> --}}
                     <td width="10%" class="text-center">
                       <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
+                        <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductos{{ $remito->id }}" href="#">
+                          <i class="m-0 fa fa-lg fa-eye"></i>
+                        </a>
                       </div>
                     </td>
                   @endforeach
@@ -98,13 +102,13 @@
 
  
 </div>
-
+@foreach ($remitos as $remito)
 <!-- Modal -->
-<div class="modal fade" id="ModalProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalProductos{{ $remito->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{ $remito->id }}" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ventas</h5>
+        <h5 class="modal-title" id="exampleModalLabel{{ $remito->id }}">Ventas</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -114,51 +118,53 @@
           <table class="table">
             <thead>
               <tr>
-                <th>Venta</th>
-                <th>Cliente</th>
-                <th>Teléfono</th>
-                <th>Importe</th>
-                <th>Forma de Pago</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
+                <th class="text-center">Venta</th>
+                <th class="text-center">Cliente</th>
+                <th class="text-center">Teléfono</th>
+                {{-- <th class="text-center">Importe</th> --}}
+                <th class="text-center">Forma de Pago</th>
+                {{-- <th class="text-center">Fecha</th> --}}
+                <th class="text-center">Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody>             
               <tr>
-                <td>Venta</td>
-                <td>Cliente</td>
-                <td>Teléfono</td>
-                <td>Importe</td>
-                <td>Forma de Pago</td>
-                <td>Fecha</td>
-                <td>
+                <td class="text-center">{{ $remito->id_venta }}</td>
+                <td class="text-center">{{ $remito->nombre_cliente }}</td>
+                <td class="text-center">{{ $remito->telefono }}</td>
+                {{-- <td class="text-center">Importe</td> --}}
+                <td class="text-center">{{ $remito->forma_pago }}</td>
+                {{-- <td class="text-center">Fecha</td> --}}
+                <td class="text-center">
                   <div class="btn-group">
-                    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="m-0 fa fa-lg fa-eye"></i></a>
+                    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample{{ $remito->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $remito->id }}"><i class="m-0 fa fa-lg fa-eye"></i></a>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div class="collapse table-responsive px-4" id="collapseExample" >
-          <h5 class="modal-title" id="exampleModalLabel">Productos</h5>
+        <div class="collapse table-responsive px-4" id="collapseExample{{ $remito->id }}" >
+          <h5 class="modal-title" id="exampleModalLabel{{ $remito->id }}">Productos</h5>
            <table class="table ">
             <thead>
               <tr>
-                <th>Código</th>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio</th>
-                <th>Acciones</th>
+                <th class="text-center">Código</th>
+                <th class="text-center">Producto</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-center">Precio</th>
+                <th class="text-center">Acciones</th>
               </tr>
             </thead>
             <tbody>
+              @foreach ($remitosProductos as $producto)
+              @if ( $producto->id_venta == $remito->id_venta )            
               <tr>
-                <td>Código</td>
-                <td>Producto</td>
-                <td>Cantidad</td>
-                <td>Precio</td>
-                <td>
+                <td class="text-center">{{ $producto->codigo_producto }}</td>
+                <td class="text-center">{{ $producto->descripcion }}</td>
+                <td class="text-center">{{ $producto->cantidad }}</td>
+                <td class="text-center">{{ $producto->precio }}</td>
+                <td class="text-center">
                   <div class="btn-group">
                     <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
                     <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-file"></i></a>
@@ -166,6 +172,8 @@
                   </div>
                 </td>
               </tr>
+              @endif
+              @endforeach      
             </tbody>
           </table>        
         </div>
@@ -174,15 +182,15 @@
   </div>
 </div>
 {{--  --}}
-
+@endforeach
   
 
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/Procesar/Remitos/select_estado.js') }}"></script>
 <script>
 $(function(){
+
   let importe, total = 0; 
   importe = $('.importe');
   ////////////////////////////////////////////////////////////////
@@ -198,6 +206,12 @@ $(function(){
   // console.log("Total por pagina: "+total);
   // // Formatear a separador de mil
   $('#total').text( new Intl.NumberFormat("de-DE").format(total) );
+
+  $(".acciones").click(function(e){
+    let id = $(this).parents('td').siblings('.id_remito').text();
+    // alert(id);
+  });
+
 });
 </script>
 @endpush
