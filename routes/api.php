@@ -17,9 +17,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('ingresar', 'api\RepartidoresController@iniciar');
-Route::get('pedidos/{id}', 'api\RepartidoresController@pedidos_asignados');
-Route::post('iniciar', 'api\RepartidoresController@iniciar_jornada');
-Route::get('detalle/{id}', 'api\RepartidoresController@detalle_venta');
-Route::post('entrega/{id}', 'api\RepartidoresController@marca_entrega');
-Route::post('observaciones/{id}', 'api\RepartidoresController@observaciones');
+//rutas para appdelivery
+Route::post('delivery/ingresar', 'api\delivery\RepartidoresController@ingresar');
+Route::get('delivery/iniciarjornada', 'api\delivery\RepartidoresController@iniciarjornada');
+Route::get('delivery/pedidos/{id}', 'api\delivery\RepartidoresController@pedidos_asignados');
+Route::get('delivery/detalle/{id}', 'api\delivery\RepartidoresController@detalle_venta');
+Route::post('delivery/entrega/{id}', 'api\delivery\RepartidoresController@marca_entrega');
+Route::post('delivery/observaciones/{id}', 'api\delivery\RepartidoresController@observaciones');
+
+//documentacion delivery
+Route::get('delivery/documentacion', 'api\delivery\documentacionController@index');
+Route::get('delivery/documentacion/ingresar', 'api\delivery\documentacionController@ingresar')->name('delivery.documentacion.ingresar');
+//rutas para appecommerce
