@@ -15,6 +15,7 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
+ <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo.css') }}">
 
 <div class="row" >
   {{-- TABLA DE REMISAS --}}
@@ -185,8 +186,8 @@
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $atender->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
 
                           <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
-                          </div>
+                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                         </div>
                       </td>
                     </tr>
                     
@@ -331,7 +332,20 @@
                       class="table-light"
                     @endif 
                     >
-                      <td style="text-align: center">{{$enEspera->id}}</td>
+                 ach
+                         <td class="venta"   data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}}
+                     
+                         @foreach($nota as $item)
+                          @if($item->id_venta==$enEspera->id)
+                              <div class="toolTip" id="{{$enEspera->id}}" style="display: none;">
+                               <table style="border:0px; width: 400px; font-size: 12px; ">
+                                <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
+                                <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                               </table>
+                          @endif
+                        @endforeach
+                              </div>
+                      </td>
                       <td style="text-align: left;">{{$enEspera->nombres}}</td>
                       <td style="text-align: center">{{$enEspera->telefono}}</td>
                       <td style="text-align: left;">{{$enEspera->direccion}}</td>
@@ -355,9 +369,11 @@
                           <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary  remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
                           @endif 
 
-                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
 
-                        <!--button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button-->   
+                          <!--button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button-->   
+
+                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{ $enEspera->id }}"><i class="fa fa-lg fa-file" ></i></button>
                         </div>
                       </td>
                     </tr>
@@ -572,12 +588,129 @@
 </div>
 {{--  --}}
 
+<div class="modal fade" id="ModalNota" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+             <div class="modal-dialog  modal-dialog-centered " role="document">
+                   <div style="display: none;" class="alert-top fixed-top text-center alert alert-danger remodal" id="remodal"> </div>
+                <div class="modal-content">
+                <div class="modal-header">   
+                    <h4 class="modal-title" id="myModalLabel">Agregar Nota</h4>
+                </div>
+                <form id="frmnota" name="frmnota" class="form-horizontal" novalidate="">
+                    <textarea type="text" rows="4"  class="form-control" name="nota"  id="nota"></textarea>
+                </form> 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn-nota">Guardar</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+                    <input type="hidden" id="id_venta" name="id_venta" value="0">
+                    <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+                </div>
+            </div>
+        </div>
+   </div>
+
+
+
 
 @endsection
 
 @push('scripts')
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+   
+    $('.venta').hover(function () {
+         var data_id = $(this).data('id');
+    
+
+      $('.toolTip').each(function() {
+           var div = $(this);
+
+        if(div.attr('id') == data_id){
+            div.show();
+        }else{
+            div.hide();
+        }
+      }); 
+  
+           
+    })   
+
+    $('.venta').click(function() {  
+      $('.toolTip').hide();
+      })   
+});
+
+/*$.ajax({
+        type: "GET",
+        url: '{{ url('search_notas') }}',
+        dataType: "json",
+        data: {  _token: '{{csrf_token()}}'},
+
+        success: function (data){
+           console.log(data);
+           $.each(data, function(l, item) {
+
+             var strg = item.nota.split('~');
+
+              
+          $('.a'+item.id_venta).hover(
+                function() {var data = item.name +': '+item.nota.replace(/~/g, '<br>');  $("#data"+item.id_venta).html(data).show();},
+                function() {var data = item.name +': '+ item.nota.replace(/~/g, '<br>');  $("#data"+item.id_venta).html(data).hide();}
+                      );     
+          }); 
+
+           }       
+       
+
+    });*/
+
+  $(document).on('click', '.nota', function () {
+    $('#nota').val("");
+    var idventa = $(this).val();
+    $('#ModalNota').modal('show');
+    $('#id_venta').val(idventa);
+});
+
+$('#btn-nota').click(function(){
+        var id_venta  = $('#id_venta').val();
+        var nota      = $('#nota').val();
+        var id_usuario= $('#id_usuario').val();
+     if ($('#nota').val()==""){
+
+                $(".remodal").html("Por Favor Agregue una Nota");
+                $(".remodal").css("display","block");
+                $(".remodal").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                return false;
+               
+        }else{
+  
+        var formData = {
+                    id_usuario:   id_usuario,
+                    nota      :   nota,
+                    id_venta  :   id_venta
+                    }
+            
+      $.ajax({
+        type: "GET",
+        url: '{{ url('add_notas') }}',
+        dataType: "json",
+        data: formData,
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        success: function (data){
+
+               $('#ModalNota').modal('hide');
+               $("#res").html("Se Agrego con Éxito una Nota a la Venta");
+               $("#res, #res-content").css("display","block");
+               $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+     
+  location.reload(true);
+          }      
+
+    });
+  }
+
+ });
   
 //<!-- Detalle de Venta - Vista rapida de productos en la Venta -->
   $('.detalle').click(function(){
