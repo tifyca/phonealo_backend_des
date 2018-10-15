@@ -15,6 +15,8 @@ use App\Empleados;
 use App\Remitos;
 use App\Facturas;
 use Illuminate\Support\Facades\Validator;
+use App\Notas_Ventas;
+
 
 class LogisticaController extends Controller
 {
@@ -169,7 +171,13 @@ class LogisticaController extends Controller
          return $this->crearPDF($remito, $vista, $empleado, $id_remisa );
 
         }
-        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios'));
+        $nota  =Notas_Ventas::join('users', 'notas_ventas.id_usuario', '=', 'users.id')
+                            ->select(DB::raw('GROUP_CONCAT(nota SEPARATOR "~") as nota'), 'id_venta', 'name as nombre')
+                            ->groupBy('id_venta', 'notas_ventas.id_usuario')
+                            ->get();
+
+        
+        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota'));
     	
     }
     public function CrearPDF ($remito, $vista, $empleado, $id_remisa ){
