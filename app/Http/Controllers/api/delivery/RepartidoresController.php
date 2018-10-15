@@ -71,14 +71,14 @@ class RepartidoresController extends Controller
             }
             //fin validaciones
             $idempleado = $request["idempleado"];
-            $empleados = Empleados::where('id', $id_empleado)->first();
+            $empleados = Empleados::where('id', $idempleado)->first();
             if ($empleados) {
               $pedidos= DB::table('remitos as a')
               ->join('detalle_remito as b','a.id','=','b.id_remito')
               ->join('ventas as c','b.id_venta','=','c.id')
-              ->join('pedido as d','c.id_pedido','=','d.id')
-              ->join('horario as e','c.id_horario','=','e.id')
-              ->join('clientes as f','c.id_cliente','=','f.id')
+              ->join('pedidos as d','c.id_pedido','=','d.id')
+              ->join('horarios as e','c.id_horario','=','e.id')
+              ->join('clientes as f','d.id_cliente','=','f.id')
               ->join('estados as g','a.id_estado','=','g.estado')
               ->select('b.id_venta','a.id_delivery','a.importe','a.id_estado','f.telefono','e.horario','g.estado')
               ->where('a.id_delivery',$idempleado)->where('a.id_estado','6')->get();                  
@@ -131,9 +131,9 @@ class RepartidoresController extends Controller
               $pedidos= DB::table('remitos as a')
               ->join('detalle_remito as b','a.id','=','b.id_remito')
               ->join('ventas as c','b.id_venta','=','c.id')
-              ->join('pedido as d','c.id_pedido','=','d.id')
-              ->join('horario as e','c.id_horario','=','e.id')
-              ->join('clientes as f','c.id_cliente','=','f.id')
+              ->join('pedidos as d','c.id_pedido','=','d.id')
+              ->join('horarios as e','c.id_horario','=','e.id')
+              ->join('clientes as f','d.id_cliente','=','f.id')
               ->join('estados as g','a.id_estado','=','g.estado')
               ->select('b.id_venta','a.id_delivery','a.importe','a.id_estado','f.telefono','e.horario','g.estado')
               ->where('a.id_delivery',$idempleado)->where('a.id_estado','6')->get();                  
@@ -179,9 +179,9 @@ class RepartidoresController extends Controller
             //fin validaciones
             $idventa = $request["idventa"];
               $pedidos= DB::table('ventas as c')
-              ->join('pedido as d','c.id_pedido','=','d.id')
-              ->join('horario as e','c.id_horario','=','e.id')
-              ->join('clientes as f','c.id_cliente','=','f.id')
+              ->join('pedidos as d','c.id_pedido','=','d.id')
+              ->join('horarios as e','c.id_horario','=','e.id')
+              ->join('clientes as f','d.id_cliente','=','f.id')
               ->join('estados as g','c.id_estado','=','g.estado')
               ->join('users as h','c.id_usuario','=','h.id')
               ->join('detalle_ventas as j','c.id','=','j.id_venta')
