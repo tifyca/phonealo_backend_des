@@ -16,8 +16,7 @@
 
 @section('content')
  <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo.css') }}">
-
-<div class="row" >
+  <div class="row" >
   {{-- TABLA DE REMISAS --}}
   {{-- ESTA LISTA SE MANTIENE OCULTA, SOLO APARECE CUANDO AÑADO UNA VENTA A REMISA --}}
   @if(count($remisas) > 0)
@@ -54,7 +53,19 @@
                      <!-- jgonzalez LISTADO DE VENTAS PARA REMISA-->
                   @foreach($remisas as $remisa)
                    <tr class="table-success">
-                      <td style="text-align: center">{{$remisa->id}}</td>
+                      <td class="venta" data-id="{{$remisa->id}}" style="text-align: center">{{$remisa->id}}
+                        @foreach($nota as $item)
+                          @if($item->id_venta==$remisa->id)
+                              <div class="toolTip" id="{{$remisa->id}}" style="display: none;">
+                               <table style="border:0px; width: 400px; font-size: 12px; ">
+                                <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
+                                <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                               </table>
+                          @endif
+                        @endforeach
+                              </div>
+
+                      </td>
                       <td style="text-align: left;">{{$remisa->nombres}}</td>
                       <td style="text-align: center">{{$remisa->telefono}}</td>
                       <td style="text-align: left;">{{$remisa->direccion}}</td>
@@ -72,8 +83,10 @@
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $remisa->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>  
 
                           <button data-toggle="tooltip" data-placement="top" title="No Remisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
-                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>   
+                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$remisa->id}}"><i class="fa fa-lg fa-file" ></i></button>   
                           </div>
+
                       </td>
                   </tr>
                   @endforeach
@@ -168,7 +181,18 @@
                   
                   @foreach($xatender as $atender)
                    <tr class="table-danger">
-                      <td style="text-align: center">{{$atender->id}}</td>
+                      <td class="venta" data-id="{{$atender->id}}" style="text-align: center">{{$atender->id}}
+                        @foreach($nota as $item)
+                          @if($item->id_venta==$atender->id)
+                              <div class="toolTip" id="{{$atender->id}}" style="display: none;">
+                               <table style="border:0px; width: 400px; font-size: 12px; ">
+                                <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
+                                <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                               </table>
+                            @endif
+                           @endforeach
+                              </div>
+                      </td>
                       <td style="text-align: left;">{{$atender->nombres}}</td>
                       <td style="text-align: center">{{$atender->telefono}}</td>
                       <td style="text-align: left;">{{$atender->direccion}}</td>
@@ -187,6 +211,7 @@
 
                           <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
                           <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$atender->id}}"><i class="fa fa-lg fa-file" ></i></button>
                          </div>
                       </td>
                     </tr>
@@ -247,7 +272,18 @@
                       class="table-warning"
                     @endif 
                    >
-                      <td style="text-align: center">{{$activa->id}}</td>
+                     <td class="venta" data-id="{{$activa->id}}" style="text-align: center">{{$activa->id}}
+                        @foreach($nota as $item)
+                          @if($item->id_venta==$activa->id)
+                              <div class="toolTip" id="{{$activa->id}}" style="display: none;">
+                               <table style="border:0px; width: 400px; font-size: 12px; ">
+                                <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
+                                <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                               </table>
+                            @endif
+                           @endforeach
+                              </div>
+                      </td>
                       <td style="text-align: left;">{{$activa->nombres}}</td>
                       <td style="text-align: center">{{$activa->telefono}}</td>
                       <td style="text-align: left;">{{$activa->direccion}}</td>
@@ -268,6 +304,7 @@
                         <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
 
                         <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$activa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                        <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$activa->id}}"><i class="fa fa-lg fa-file" ></i></button>
                         </div>
                       </td>
                     </tr>
@@ -332,8 +369,9 @@
                       class="table-light"
                     @endif 
                     >
-                     <td class="venta"   data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}}
-                     
+
+                         <td class="venta" data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}}
+
                          @foreach($nota as $item)
                           @if($item->id_venta==$enEspera->id)
                               <div class="toolTip" id="{{$enEspera->id}}" style="display: none;">
@@ -634,10 +672,7 @@ $(document).ready(function(){
   
            
     })   
-
-    $('.venta').click(function() {  
-      $('.toolTip').hide();
-      })   
+   
 });
 
 /*$.ajax({
@@ -760,12 +795,9 @@ $('#btn-nota').click(function(){
                                           <td style="text-align: center;">${data[0].barrio}</td> 
                                           <td style="text-align: center;">${data[0].ubicacion}</td> 
                                       </tr>`);
-           $("#cliente_detalle3").append(`<tr>
-                                          <td style="text-align: center;">${data[0].id_tipo}</td>
-                                          <td style="text-align: center;">${data[0].fecha}</td> 
-                                          <td style="text-align: center;">${data[0].fecha_cobro}</td> 
-                                          <td style="text-align: center;">${data[0].forma_pago}</td> 
-                                      </tr>`);
+           $("#cliente_detalle3").append('<tr>'+
+                                          (data[0].id_tipo==1 ? '<td style="text-align: center;">Natural</td>'
+                                           :   '<td style="text-align: center;">Jurídico</td>')+'<td style="text-align: center;">'+data[0].fecha+'</td><td style="text-align: center;">'+data[0].fecha_cobro+'</td> <td style="text-align: center;">'+data[0].forma_pago+'</td></tr>');
           /* $("#cliente_detalle4").append(`<tr>
                                           <td style="text-align: center;"> <select class="form-control horarios" id="horario" name="horario"> 
                  <option value="${data[0].id_horario}"> ${data[0].horario}</option>
