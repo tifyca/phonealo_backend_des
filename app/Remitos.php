@@ -14,17 +14,36 @@ class Remitos extends Model
     	return $query->join('detalle_remito', 'remitos.id', 'detalle_remito.id_remito')
     		->join('empleados', 'remitos.id_delivery', 'empleados.id')
     		->join('estados', 'remitos.id_estado', 'estados.id')
-    		// ->join('ventas', 'ventas.id', 'detalle_remito.id_venta')
-    		// ->join('pedidos', 'ventas.id_pedido', 'pedidos.id')
-            // ->join('clientes', 'pedidos.id_cliente', 'clientes.id')
+    		->join('ventas', 'ventas.id', 'detalle_remito.id_venta')
+    		->join('pedidos', 'ventas.id_pedido', 'pedidos.id')
+            ->join('clientes', 'pedidos.id_cliente', 'clientes.id')
+            ->join('detalle_ventas', 'detalle_ventas.id_venta', 'ventas.id')
+            ->join('productos', 'productos.id', 'detalle_ventas.id_producto')
+            ->join('forma_pago', 'forma_pago.id', 'ventas.id_forma_pago')
     		->select(
     			'remitos.id', 'remitos.fecha', 'remitos.importe',
-    			'empleados.nombres', 
-    			'estados.estado'
-    			// 'clientes.nombres as nombre_cliente'
+    			'empleados.nombres as nombre_delivery', 
+    			'estados.estado',
+    			'clientes.nombres as nombre_cliente', 'clientes.telefono',
+                'productos.id as id_producto','productos.descripcion',
+                'ventas.id as id_venta', 
+                'forma_pago.forma_pago'
     		);
     }
 
+    public function scopeProductos($query){
+        return $query->join('detalle_remito', 'remitos.id', 'detalle_remito.id_remito')
+            ->join('ventas', 'ventas.id', 'detalle_remito.id_venta')
+            ->join('detalle_ventas', 'detalle_ventas.id_venta', 'ventas.id')
+            ->join('productos', 'productos.id', 'detalle_ventas.id_producto')
+            ->select(
+                'remitos.id as id_remitos', 'productos.id as id_producto',
+                'productos.descripcion', 'productos.codigo_producto',
+                'ventas.id as id_venta',
+                'detalle_ventas.cantidad', 'detalle_ventas.precio'
+            );
+    }
+    
     public function scopeFiltroRemito($query, $remito){
         if ( $remito ) {
             return $query->where('remitos.id', $remito);            

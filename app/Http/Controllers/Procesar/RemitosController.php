@@ -20,10 +20,17 @@ class RemitosController extends Controller
             ->FiltroFecha($fecha)
             ->FiltroEstado($estado)
             ->groupBy('remitos.id')
-            ->paginate(10);
+            ->orderBy('id', 'asc')
+            ->paginate(10); 
+        // return $remitos;  
+        $remitosProductos = Remitos::Productos()
+            ->groupBy('productos.id','detalle_ventas.id_venta')
+            ->get();    
 
-        $estados = Estados::all();
+        $estados = Estados::orderBy('id', 'ASC')
+            ->select('id', 'estado')
+            ->get();
 
-    	return view('Procesar.Remitos.index', compact('remitos', 'estados'));
+    	return view('Procesar.Remitos.index', compact('remitos', 'estados', 'remitosProductos'));
     }
 }
