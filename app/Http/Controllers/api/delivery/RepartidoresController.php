@@ -102,7 +102,7 @@ class RepartidoresController extends Controller
                 $jornada->id_delivery = $idempleado;
                 $jornada->entrada = date("Y-m-d H:i:s");
                 $jornada->activo = 0;
-                return ["status" => "exito", "data" => ["idempleado"=> $id_empleado]];
+                return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
              }
             }else{
               return ['status' => 'fallo', 'error' => ["Ha ocurrido un error, por favor intenta de nuevo"]];  
@@ -126,7 +126,7 @@ class RepartidoresController extends Controller
             }
             //fin validaciones
             $idempleado = $request["idempleado"];
-            $empleados = Empleados::where('id', $id_empleado)->first();
+            $empleados = Empleados::where('id', $idempleado)->first();
             if ($empleados) {
               $pedidos= DB::table('remitos as a')
               ->join('detalle_remito as b','a.id','=','b.id_remito')
@@ -149,7 +149,7 @@ class RepartidoresController extends Controller
                 }
                 return ["status" => "exito", "data" => $data];                
              }else{
-                return ["status" => "exito", "data" => ["idempleado"=> $id_empleado]];
+                return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
              }
             }else{
               return ['status' => 'fallo', 'error' => ["Ha ocurrido un error, por favor intenta de nuevo"]];  
@@ -186,12 +186,12 @@ class RepartidoresController extends Controller
               ->join('users as h','c.id_usuario','=','h.id')
               ->join('detalle_ventas as j','c.id','=','j.id_venta')
               ->join('productos as k','j.id_producto','=','k.id')
-              ->select('c.id_venta','f.telefono','f.direccion','h.name','c.notas','k.descripcion','j.cantidad','j.precio')
-              ->where('a.id_delivery',$idempleado)->where('a.id_estado','6')->get();                  
+              ->select('c.id','f.telefono','f.direccion','h.name','c.notas','k.descripcion','j.cantidad','j.precio')
+              ->where('c.id',$idventa)->where('c.id_estado','6')->get();                  
              if($pedidos){
                 $data=[];
                 foreach($pedidos as $ped){
-                  $data["id_venta"]  = $ped->id_venta;
+                  $data["id_venta"]  = $ped->id;
                   $data["telefono"]  = $ped->telefono;
                   $data["direccion"] = $ped->direccion;
                   $data["vendedor"]  = $ped->name;
@@ -202,7 +202,7 @@ class RepartidoresController extends Controller
                 }
                 return ["status" => "exito", "data" => $data];                
              }else{
-                return ["status" => "exito", "data" => ["idempleado"=> $id_empleado]];
+                return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
              }
         } catch (Exception $e) {
             return ['status' => 'fallo', 'error' => ["Ha ocurrido un error, por favor intenta de nuevo"]];
