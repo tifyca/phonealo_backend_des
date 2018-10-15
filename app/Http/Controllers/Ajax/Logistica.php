@@ -8,6 +8,8 @@ use App\Facturas;
 use App\Ventas;
 use App\Remitos;
 use App\Detalle_remito;
+use App\Notas_Ventas;
+use DB;
 
 class Logistica extends Controller
 {
@@ -85,5 +87,27 @@ class Logistica extends Controller
      
     }
 
+    public function add_notas(Request $request){
+  
+        $notas  = new Notas_Ventas;
+        $notas->id_venta   = $request->id_venta;
+        $notas->nota       = $request->nota;
+        $notas->id_usuario = $request->id_usuario;
+        $notas->save();
+
+        return $notas;
+     
+    }
+
+    /*public function search_notas(){
+  
+        $nota  =Notas_Ventas::join('users', 'notas_ventas.id_usuario', '=', 'users.id')
+                            ->select(DB::raw('GROUP_CONCAT(nota SEPARATOR "~") as nota'), 'id_venta', 'name as nombre')
+                            ->groupBy('id_venta', 'notas_ventas.id_usuario')
+                            ->get();
+
+         return response()->json($nota);
+     
+    }*/
 
 }
