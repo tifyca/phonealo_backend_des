@@ -109,7 +109,25 @@
 </div>
 </div>
 
-
+<div class="modal fade" id="ModalNota" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+             <div class="modal-dialog  modal-dialog-centered " role="document">
+                   <div style="display: none;" class="alert-top fixed-top text-center alert alert-danger remodal" id="remodal"> </div>
+                <div class="modal-content">
+                <div class="modal-header">   
+                    <h4 class="modal-title" id="myModalLabel">Agregar Nota</h4>
+                </div>
+                <form id="frmnota" name="frmnota" class="form-horizontal" novalidate="">
+                    <textarea type="text" rows="4"  class="form-control" name="nota"  id="nota"></textarea>
+                </form> 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btn-nota">Guardar</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+                    <input type="hidden" id="id_venta" name="id_venta" value="0">
+                    <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+                </div>
+            </div>
+        </div>
+   </div>
 @endsection
 
 @push('scripts')

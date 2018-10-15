@@ -19,9 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //rutas para appdelivery
 Route::post('delivery/ingresar', 'api\delivery\RepartidoresController@ingresar');
-Route::get('delivery/iniciarjornada', 'api\delivery\RepartidoresController@iniciarjornada');
-Route::get('delivery/pedidos/{id}', 'api\delivery\RepartidoresController@pedidos_asignados');
-Route::get('delivery/detalle/{id}', 'api\delivery\RepartidoresController@detalle_venta');
+Route::post('delivery/iniciarjornada', 'api\delivery\RepartidoresController@iniciarjornada');
+Route::get('delivery/pedidos', 'api\delivery\RepartidoresController@pedidos_asignados');
+Route::get('delivery/detalle', 'api\delivery\RepartidoresController@detalle_venta');
 Route::post('delivery/entrega/{id}', 'api\delivery\RepartidoresController@marca_entrega');
 Route::post('delivery/observaciones/{id}', 'api\delivery\RepartidoresController@observaciones');
 
