@@ -1,18 +1,9 @@
-<?php   
-   @session_start();
-   $_SESSION["user"]        = Auth::user()->id;
-   $_SESSION["perfil"]      = Auth::user()->rol_id;
-   $nombre = Auth::user()->name;
-   $perfil = Auth::user()->rol_id;
-   $_SESSION["nombre"] = Auth::user()->name;
-?>
 
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
   <head>
     <meta name="description" content="ERPG">
     <!-- Twitter meta-->
-    
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="cache-control" content="no-store" />
@@ -27,7 +18,7 @@
     <meta property="og:title" content="ERPG">
     <meta property="og:url" content="http://localhost/dbeneficiot">
     <meta property="og:description" content="ERPG">
-    <title>Conexpar - Gestión Administrativa </title>
+    <title>Conexpar - APP Delivery </title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,9 +28,9 @@
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
-  <body class="app sidebar-mini rtl" >
+  <body class="app sidebar-mini rtl">
     <!-- Navbar-->
-    <header class="app-header"><a class="app-header__logo" href="{{ route('home') }}">ERPG</a>
+    <header class="app-header"><a class="app-header__logo" href="{{ route('home') }}">APP Delivery</a>
       <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
@@ -74,13 +65,13 @@
           </div>
           <div class="col-12 text-center mt-3">
 
-            <p class="app-sidebar__user-name">{{ $nombre }}</p>
-            <i class="app-sidebar__user-name">Perfil</i>
+            <p class="app-sidebar__user-name"></p>
+            <i class="app-sidebar__user-name"></i>
           </div>
         </div>
         
       </div>
-      @include('layouts.menu')
+      @include('Delivery.documentacion.layout.menu')
     </aside>
     <main class="app-content">
       <div class="app-title">

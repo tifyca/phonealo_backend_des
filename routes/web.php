@@ -391,7 +391,8 @@ Route::get('procesar/pedidos/{id}/nota', [
     Route::get('documentacion/caja', 'Documentacion\DocumentacionController@caja')->name('documentacion.caja');
     Route::get('documentacion/seguridad', 'Documentacion\DocumentacionController@seguridad')->name('documentacion.seguridad');
 
-    
+
+
 
 
 });
