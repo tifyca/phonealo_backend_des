@@ -32,15 +32,13 @@
             </div>
             <div class="form-group col-md-2 p-0 pr-1">
               <select class="form-control" name="estado">
-                <option value="">Estado</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                <option disabled selected value="0">Estado</option>
+                @foreach ($estados as $estado)
+                  <option value="{{ $estado->id }}">{{ $estado->estado }}</option>
+                @endforeach
               </select>
             </div>
-             <div class="form-group col-md-1 p-0">
+             <div class="form-group col-md-1 p-0 text-right">
               <input class="btn btn-warning" type="submit" value="Filtrar" name="filtrar">
             </div>
           </form>
@@ -182,6 +180,7 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('js/Procesar/Remitos/select_estado.js') }}"></script>
 <script>
 $(function(){
   let importe, total = 0; 
