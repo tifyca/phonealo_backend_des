@@ -99,7 +99,7 @@ class Logistica extends Controller
      
     }
 
-    /*public function search_notas(){
+    public function search_notas(){
   
         $nota  =Notas_Ventas::join('users', 'notas_ventas.id_usuario', '=', 'users.id')
                             ->select(DB::raw('GROUP_CONCAT(nota SEPARATOR "~") as nota'), 'id_venta', 'name as nombre')
@@ -108,6 +108,6 @@ class Logistica extends Controller
 
          return response()->json($nota);
      
-    }*/
+    }
 
 }
