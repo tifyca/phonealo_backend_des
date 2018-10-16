@@ -517,13 +517,23 @@ class VentasController extends Controller
 
            if($dts>0){
 
-            $id_estado_v=5;  
+            $id_estado_v=5; 
+            $id_estado_p=5;
+
             
            }else{
 
             $id_estado_v=1;
+            $id_estado_p=1;
            
            }
+
+            $idpedido= Ventas::where('id',$request->id_venta)->select('id_pedido')->first();
+
+            $pedido= Pedido::find($idpedido->id_pedido);
+            $pedido->id_estado  =$id_estado_p;
+            $pedido->id_usuario =$request->id_usuario;
+            $pedido->save();        
 
             $venta= Ventas::find($request->id_venta);
             $venta->id_estado = $id_estado_v;
