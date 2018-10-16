@@ -40,7 +40,7 @@ class RepartidoresController extends Controller
             if ($usuario) {
                 if (password_verify($pass, $usuario->password)){
                    if($usuario->rol_id==5){
-                    return ["status" => "exito", "data" => ["idusuario" => $usuario->id, "idempleado"=> $usuario->id_empleado]];
+                    return ["status" => "exito", "data" => ["token" => crea_token($idusuario),"idusuario" => $usuario->id, "idempleado"=> $usuario->id_empleado]];
                    }else{
                     return ["status" => "fallo", "error" => ["Usuario no autorizado"]];
                    }
