@@ -136,7 +136,8 @@ class LogisticaController extends Controller
             $enEsperas = Ventas::EnEspera();
             
         }
-        $xatender = Ventas::Activas()->where('fecha', '=', $fecha)->whereIn('id_horario', $id_hora);
+    
+        $xatender = Ventas::Activas()->whereIn('id_horario', $id_hora);
         $activas = Ventas::Activas()->where('fecha', '=', $fecha)->whereNotIn('id_horario', $id_hora);
         $remisas = Ventas::Remisas();
         $ciudades = Ciudades::get();
