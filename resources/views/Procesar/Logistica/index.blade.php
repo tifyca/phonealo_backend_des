@@ -659,47 +659,26 @@ $(document).ready(function(){
     $('.venta').hover(function () {
          var data_id = $(this).data('id');
     
-
-      $('.toolTip').each(function() {
+       $('.toolTip').each(function() {
            var div = $(this);
 
-        if(div.attr('id') == data_id){
-            div.show();
-        }else{
+          if(div.attr('id') == data_id){
+              div.show();
+          }else{
             div.hide();
-        }
+          }
+
       }); 
-  
            
-    })   
+    },
+
+    function () { $('.toolTip').css("display","none");}
+   );
    
 });
 
-/*$.ajax({
-        type: "GET",
-        url: '{{ url('search_notas') }}',
-        dataType: "json",
-        data: {  _token: '{{csrf_token()}}'},
 
-        success: function (data){
-           console.log(data);
-           $.each(data, function(l, item) {
-
-             var strg = item.nota.split('~');
-
-              
-          $('.a'+item.id_venta).hover(
-                function() {var data = item.name +': '+item.nota.replace(/~/g, '<br>');  $("#data"+item.id_venta).html(data).show();},
-                function() {var data = item.name +': '+ item.nota.replace(/~/g, '<br>');  $("#data"+item.id_venta).html(data).hide();}
-                      );     
-          }); 
-
-           }       
-       
-
-    });*/
-
-  $(document).on('click', '.nota', function () {
+$(document).on('click', '.nota', function () {
     $('#nota').val("");
     var idventa = $(this).val();
     $('#ModalNota').modal('show');
