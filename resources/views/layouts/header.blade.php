@@ -23,9 +23,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">   
     <!-- Open Graph Meta-->
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Vali Admin">
+    <meta property="og:site_name" content="ERPG Conexpar">
     <meta property="og:title" content="ERPG">
-    <meta property="og:url" content="http://localhost/dbeneficiot">
+    <meta property="og:url" content="http://stg.conexpar.com">
     <meta property="og:description" content="ERPG">
     <title>Conexpar - Gestión Administrativa </title>
     <meta charset="utf-8">
