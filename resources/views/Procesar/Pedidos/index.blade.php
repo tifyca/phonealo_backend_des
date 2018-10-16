@@ -67,72 +67,84 @@
             <tbody>
              @foreach($pedidos as $pedido)
              <tr
-              @if($pedido->id_estado==1)
-                class="table-secondary"    
-              @endif  
-              @if($pedido->id_estado==5)
-               class="table-primary"
-              @endif 
+             @if($pedido->id_estado==1)
+             class="table-secondary"    
+             @endif  
+             @if($pedido->id_estado==5)
+             class="table-primary"
+             @endif 
              > 
-              <td>{{$pedido->id}}</td>
-              <td>{{$pedido->name}}</td>
-              <td>{{$pedido->nombres}}</td>
-              <td>{{$pedido->telefono}}</td>
-              <td>{{$pedido->direccion}}</td>
-              <td >{{$pedido->barrio}}</td>
-              <td>{{$pedido->monto}}</td>
-              <td>{{$pedido->fecha}}</td>
-              <td>{{$pedido->estado}}</td>
-              <td class="text-center" width="10%">
-                @if($pedido->id_estado==1) 
-                 <a href="{{ route('procesar.caida',$pedido->id) }}" class="btn btn-secondary" title=""><i class="fa fa-lg fa-times" title="Venta Caida"></i></a>
-                <a class="btn btn-primary" href="{{ route('procesar.notas',$pedido->id) }}"><i class="fa fa-lg fa-file" title="Agregar Nota"></i></a>
-                @endif
+             <td>{{$pedido->id}}</td>
+             <td>{{$pedido->name}}</td>
+             <td>{{$pedido->nombres}}</td>
+             <td>{{$pedido->telefono}}</td>
+             <td>{{$pedido->direccion}}</td>
+             <td >{{$pedido->barrio}}</td>
+             <td>{{$pedido->monto}}</td>
+             <td>{{$pedido->fecha}}</td>
+             <td>{{$pedido->estado}}</td>
+             <td class="text-center" width="10%">
+              @if($pedido->id_estado==1) 
+              <a href="{{ route('procesar.caida',$pedido->id) }}" class="btn btn-secondary" title=""><i class="fa fa-lg fa-times" title="Venta Caida"></i></a>
+              <button data-toggle="tooltip" data-placement="top"  title="Agrear Nota" class="btn btn-primary nota"  value="{{$pedido->id_venta}}"><i class="fa fa-lg fa-file" ></i></button>   
+              @endif
 
 
-                @if($pedido->id_estado==5) 
-                 <a class="btn btn-primary" href="{{ route('procesar.confirmar',$pedido->id) }}"><i class="fa fa-lg fa-phone" title="Cliente a Confirmar"></i></a>
-                <a class="btn btn-primary" href="{{ route('procesar.notas',$pedido->id) }}"><i class="fa fa-lg fa-file" title="Agregar Nota"></i></a>
-                @endif
-              </td> 
-             </tr>
-              @endforeach
-          </tbody>
-        </table>
-      </div>
-     <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-          {{$pedidos->appends(Request::only(['id_pedido' , 'telefono']))->links()}}
-          <!--sección para definir paginación de laravel-->
+              @if($pedido->id_estado==5) 
+              <a class="btn btn-primary" href="{{ route('procesar.confirmar',$pedido->id) }}"><i class="fa fa-lg fa-phone" title="Cliente a Confirmar"></i></a>
+              <button data-toggle="tooltip" data-placement="top"  title="Agrear Nota" class="btn btn-primary nota"  value="{{$pedido->id_venta}}"><i class="fa fa-lg fa-file" ></i></button>   
+              @endif
+            </td> 
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
     </div>
+    <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+      {{$pedidos->appends(Request::only(['id_pedido' , 'telefono']))->links()}}
+      <!--sección para definir paginación de laravel-->
     </div>
   </div>
 </div>
 </div>
+</div>
 
 <div class="modal fade" id="ModalNota" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-             <div class="modal-dialog  modal-dialog-centered " role="document">
-                   <div style="display: none;" class="alert-top fixed-top text-center alert alert-danger remodal" id="remodal"> </div>
-                <div class="modal-content">
-                <div class="modal-header">   
-                    <h4 class="modal-title" id="myModalLabel">Agregar Nota</h4>
-                </div>
-                <form id="frmnota" name="frmnota" class="form-horizontal" novalidate="">
-                    <textarea type="text" rows="4"  class="form-control" name="nota"  id="nota"></textarea>
-                </form> 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btn-nota">Guardar</button>
-                    <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
-                    <input type="hidden" id="id_venta" name="id_venta" value="0">
-                    <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
-                </div>
-            </div>
-        </div>
-   </div>
+ <div class="modal-dialog  modal-dialog-centered " role="document">
+   <div style="display: none;" class="alert-top fixed-top text-center alert alert-danger remodal" id="remodal"> </div>
+   <div class="modal-content">
+    <div class="modal-header">   
+      <h4 class="modal-title" id="myModalLabel">Agregar Nota del Pedido</h4>
+    </div>
+    <form id="frmnota" name="frmnota" class="form-horizontal" novalidate="">
+      <textarea type="text" rows="3" cols="75" class="form-control" name="nota"  id="nota"></textarea>
+    </form> 
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="btn-nota">Guardar</button>
+      <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+      <input type="hidden" id="id_venta" name="id_venta" value="0">
+      <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+    </div>
+  </div>
+</div>
+</div>
 @endsection
 
 @push('scripts')
+<script type="text/javascript">
 
- @endpush
+  $(document).ready(function(){
+   $(document).on('click', '.nota', function () {
+    $('#nota').val("");
+    var idventa = $(this).val();
+    $('#ModalNota').modal('show');
+    $('#id_venta').val(idventa);
+  });
+
+ });
+
+</script>
+@endpush
 
 
 
