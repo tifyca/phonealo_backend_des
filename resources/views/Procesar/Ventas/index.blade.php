@@ -22,6 +22,7 @@
   {{-- DATOS DEL CLIENTE // AL MARCAR EL CELULAR SI EL CLIENTE EXISTE TRAE LOS DATOS, SI NO LO REGISTRA --}}
   <div class="col-12">
     <div class="tile">
+      <input type="hidden" name="num_venta" id="num_venta" value="{{$num_venta}}">
     <h3 class="tile-title text-center text-md-left">Detalles del Cliente</h3>
       <div class="tile-body ">
         <div class="row">
