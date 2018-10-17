@@ -22,9 +22,9 @@ class RepartidoresController extends Controller
 {
     public function ingresar(Request $request)
     {
-        //$request = json_decode($request->getContent());
+        $request = json_decode($request->getContent());
         //dd($request);
-        //$request = get_object_vars($request);
+        $request = get_object_vars($request);
         try {
             //Validaciones
             $errors = [];
@@ -60,8 +60,8 @@ class RepartidoresController extends Controller
     
     public function iniciarjornada(Request $request)
     {
-       //$request = json_decode($request->getContent());
-        //$request = get_object_vars($request);
+       $request = json_decode($request->getContent());
+       $request = get_object_vars($request);
         
         try {
             //Validaciones
@@ -116,8 +116,8 @@ class RepartidoresController extends Controller
     
     public function pedidos_asignados(Request $request){
     
-       //$request = json_decode($request->getContent());
-        //$request = get_object_vars($request);
+       $request = json_decode($request->getContent());
+       $request = get_object_vars($request);
         try {
             //Validaciones
             $errors = [];
@@ -168,8 +168,8 @@ class RepartidoresController extends Controller
     }
 
     public function detalle_venta(Request $request){
-        //$request = json_decode($request->getContent());
-        //$request = get_object_vars($request);
+        $request = json_decode($request->getContent());
+        $request = get_object_vars($request);
         try {
             //Validaciones
             $errors = [];
