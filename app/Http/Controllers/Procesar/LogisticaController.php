@@ -177,8 +177,12 @@ class LogisticaController extends Controller
                             ->groupBy('id_venta', 'notas_ventas.id_usuario')
                             ->get();
 
+        $notaventa= Notas_Ventas::join('ventas', 'notas_ventas.id_venta', '=', 'ventas.id')
+                                ->select('notas_ventas.id_venta')->get();
+
+
         
-        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota'));
+        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa'));
     	
     }
     public function CrearPDF ($remito, $vista, $empleado, $id_remisa ){

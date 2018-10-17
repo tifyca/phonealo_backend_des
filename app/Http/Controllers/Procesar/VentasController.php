@@ -43,8 +43,8 @@ class VentasController extends Controller
                           ->where('fecha', $fechas)
                           ->count();
 
-                     
-      $num_venta = $datea.$datem.$dated.$id_usuario.sprintf("%04d", $cuentaventa+1);
+                    
+      $num_venta = $datea.$datem.$dated.sprintf("%02d", $id_usuario).sprintf("%04d", $cuentaventa+1);
 
 
       return view('Procesar.Ventas.index', compact('horarios','deliverys', 'formas', 'num_venta'));

@@ -17,7 +17,13 @@ class Logistica extends Controller
    	public function detalle_venta(Request $request){
     	$id = $request['id'];
     	$venta = Ventas::Detalle($id);
-    	return $venta;
+
+         $notas  =Notas_Ventas::join('users', 'notas_ventas.id_usuario', '=', 'users.id')
+                            ->select(DB::raw('GROUP_CONCAT(nota SEPARATOR "~") as nota'), 'id_venta', 'name as nombre', 'notas_ventas.created_at as fecha')
+                            ->groupBy('id_venta', 'notas_ventas.id_usuario', 'notas_ventas.created_at')
+                            ->get();
+    	//return $venta;
+         return response()->json([ 'venta' => $venta, 'notas' => $notas ]);
     }
     #jgonzalez
     public function agregar_remisa(Request $request){
