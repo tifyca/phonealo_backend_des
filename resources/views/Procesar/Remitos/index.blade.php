@@ -73,7 +73,7 @@
                       {!!number_format($remito->importe, 0, ',', '.')!!}
                     </td> --}}
                     <td width="10%" class="text-center">
-                      <div class="btn-group">
+                      <div class="btn-group">                        
                         <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductos{{ $remito->id }}" href="#">
                           <i class="m-0 fa fa-lg fa-eye"></i>
                         </a>
@@ -137,6 +137,9 @@
                 {{-- <td class="text-center">Fecha</td> --}}
                 <td class="text-center">
                   <div class="btn-group">
+                    <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductosConfirmar{{ $remito->id }}" href="#">
+                          <i class="fa fa-check-square-o"></i>
+                        </a>
                     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample{{ $remito->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $remito->id }}"><i class="m-0 fa fa-lg fa-eye"></i></a>
                   </div>
                 </td>
@@ -177,6 +180,31 @@
             </tbody>
           </table>        
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalProductosConfirmar{{ $remito->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2{{ $remito->id }}" aria-hidden="true">
+  <div class="modal-dialog {{-- modal-dialog-centered --}}" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel2{{ $remito->id }}">Confirmar Remito</h4>
+        {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> --}}
+          {{-- <span aria-hidden="true">&times;</span> --}}
+        {{-- </button> --}}
+      </div>
+      <div class="modal-body">
+        <p>¿Está seguro de confirmar el remito?</p>
+      </div>
+      <div class="modal-footer">        
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <form action="{{ route('remitos.update', $remito->id) }}" method="post">
+          {{ csrf_field() }}
+          {{ method_field('PUT') }}
+          <button type="submit" class="btn btn-danger" name="confirmar" value="1">Si</button>
+        </form>
       </div>
     </div>
   </div>
