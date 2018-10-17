@@ -38,6 +38,7 @@ class RepartidoresController extends Controller
             $pass  = $request["password"];
             $usuario = User::where('email', $email)->first();
             if ($usuario) {
+                $idusuario=$usuario->id;
                 if (password_verify($pass, $usuario->password)){
                    if($usuario->rol_id==5){
                     return ["status" => "exito", "data" => ["token" => crea_token($idusuario),"idusuario" => $usuario->id, "idempleado"=> $usuario->id_empleado]];
