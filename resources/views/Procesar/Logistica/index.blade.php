@@ -5,7 +5,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Logistica')
+@section('titulo', 'Logística')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -106,7 +106,7 @@
       <div class="col mb-3 text-center">
           <div class="row">
             <div class="col">
-              <h3 class="tile-title text-center text-md-left">Busqueda</h3>
+              <h3 class="tile-title text-center text-md-left">Búsqueda</h3>
             </div>
             
             <div class="form-group col-md-2">
@@ -180,7 +180,14 @@
                   <!-- jgonzalez LISTADO DE VENTAS EN ATENDER-->
                   
                   @foreach($xatender as $atender)
-                   <tr class="table-danger">
+
+
+                   <tr
+                     @if($atender->fecha == date("Y-m-d"))
+                      class="table-danger"
+                    @elseif($atender->fecha != date("Y-m-d"))
+                      style="background-color:#f1d4fa;"
+                    @endif >
                       <td class="venta" data-id="{{$atender->id}}" style="text-align: center">{{$atender->id}}
                         @foreach($nota as $item)
                           @if($item->id_venta==$atender->id)
@@ -659,47 +666,26 @@ $(document).ready(function(){
     $('.venta').hover(function () {
          var data_id = $(this).data('id');
     
-
-      $('.toolTip').each(function() {
+       $('.toolTip').each(function() {
            var div = $(this);
 
-        if(div.attr('id') == data_id){
-            div.show();
-        }else{
+          if(div.attr('id') == data_id){
+              div.show();
+          }else{
             div.hide();
-        }
+          }
+
       }); 
-  
            
-    })   
+    },
+
+    function () { $('.toolTip').css("display","none");}
+   );
    
 });
 
-/*$.ajax({
-        type: "GET",
-        url: '{{ url('search_notas') }}',
-        dataType: "json",
-        data: {  _token: '{{csrf_token()}}'},
 
-        success: function (data){
-           console.log(data);
-           $.each(data, function(l, item) {
-
-             var strg = item.nota.split('~');
-
-              
-          $('.a'+item.id_venta).hover(
-                function() {var data = item.name +': '+item.nota.replace(/~/g, '<br>');  $("#data"+item.id_venta).html(data).show();},
-                function() {var data = item.name +': '+ item.nota.replace(/~/g, '<br>');  $("#data"+item.id_venta).html(data).hide();}
-                      );     
-          }); 
-
-           }       
-       
-
-    });*/
-
-  $(document).on('click', '.nota', function () {
+$(document).on('click', '.nota', function () {
     $('#nota').val("");
     var idventa = $(this).val();
     $('#ModalNota').modal('show');

@@ -33,18 +33,19 @@ class VentasController extends Controller
       $formas    = Forma_pago::all();
 
       $fecha = Carbon::now();
+      $fechas = $fecha->format("Y-m-d");
       $dated = $fecha->format("d");
       $datem = $fecha->format("m");    
       $datea = $fecha->format("y"); 
-
       $id_usuario= $_SESSION["user"];
 
-      $num_venta = $datea.$datem.$dated.$id_usuario;
-     
-      //sprintf("%04d", $n);
-//$numeroConCeros = str_pad($numero, 2, "0", STR_PAD_LEFT);
+       $cuentaventa=Ventas::where('id_usuario', $id_usuario)
+                          ->where('fecha', $fechas)
+                          ->count();
 
-     // dd($num_venta);
+                     
+      $num_venta = $datea.$datem.$dated.$id_usuario.sprintf("%04d", $cuentaventa);
+
 
       return view('Procesar.Ventas.index', compact('horarios','deliverys', 'formas' ));
     }
@@ -63,7 +64,7 @@ class VentasController extends Controller
 
         $precio_min=Productos::where('id',$request->id_producto)
                               ->Select('precio_minimo')->first();
-        $pmin=number_format($precio_min->precio_minimo, 0, ',', '.');
+        $pmin=$precio_min->precio_minimo;
                              
         $data=$request->all();
 
@@ -72,11 +73,12 @@ class VentasController extends Controller
 
         $messages = array( 'cantidad.required'=>'La Cantidad es Requerida',
                             'precio.required'=>'El Precio es Requerido',
-                            'precio.min'=> 'El Precio No Puede ser Menor A '.$pmin );
+                            'precio.min'=> 'El Precio No Puede ser Menor A '.number_format($pmin, 0, ',', '.'));
 
         $validator = Validator::make($data, $rules, $messages);
 
        if($validator->fails()){ 
+
 
 
           $errors = $validator->errors(); 
@@ -84,6 +86,34 @@ class VentasController extends Controller
           return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
           
          }elseif ($validator->passes()){ 
+
+
+          $addprod=Detalle_Temporal::where('id_cliente', $request->id_cliente)
+                                   ->where('id_producto', $request->id_producto)
+                                   ->count();
+
+          if($addprod>0){
+
+
+
+            $addupdate=Detalle_Temporal::where('id_cliente', $request->id_cliente)
+                                      ->where('id_producto', $request->id_producto)
+                                      ->increment('cantidad', $request->cantidad);
+
+            $addventa=Detalle_Temporal::where('id_cliente', $request->id_cliente)
+                                      ->where('id_producto', $request->id_producto)
+                                      ->get();
+
+            $producto = Productos::find($request->id_producto);
+            $producto->stock_activo = $request->disponible;
+            $producto->id_usuario   = $request->id_usuario;
+            $producto->save();
+            
+            $accion=1;
+
+           
+
+          }else{
 
 
               $addventa= new Detalle_Temporal;
@@ -101,7 +131,9 @@ class VentasController extends Controller
               $producto->id_usuario   = $request->id_usuario;
               $producto->save();
       
-              return ($addventa);
+              $accion=0;
+          }
+           return response()->json([ 'accion' => $accion, 'addventa' => $addventa ]);
 
       }
 
@@ -485,13 +517,23 @@ class VentasController extends Controller
 
            if($dts>0){
 
-            $id_estado_v=5;  
+            $id_estado_v=5; 
+            $id_estado_p=5;
+
             
            }else{
 
             $id_estado_v=1;
+            $id_estado_p=1;
            
            }
+
+            $idpedido= Ventas::where('id',$request->id_venta)->select('id_pedido')->first();
+
+            $pedido= Pedido::find($idpedido->id_pedido);
+            $pedido->id_estado  =$id_estado_p;
+            $pedido->id_usuario =$request->id_usuario;
+            $pedido->save();        
 
             $venta= Ventas::find($request->id_venta);
             $venta->id_estado = $id_estado_v;

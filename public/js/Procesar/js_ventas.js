@@ -50,7 +50,28 @@ var url='ventas';
               headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
               success: function (data) {
 
-                var cesta  = '<tr><td  width="15%" id="d-cod_producto">' + cod_producto + '</td>'+
+                if(data.accion==1){
+
+                  $('#d-cod_producto' + id_producto ).remove();
+
+                    var importes= data.addventa[0].cantidad *data.addventa[0].precio;
+                  var cesta  = '<tr id="d-cod_producto' + id_producto + '"><td  width="15%" >' + cod_producto + '</td>'+
+                            '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
+                            '<td width="15%" id="d-cantidad" class="text-center">' + data.addventa[0].cantidad.toLocaleString('de-DE') + '</td>' +
+                            '<td width="20%" id="d-precio" class="text-center">' + data.addventa[0].precio.toLocaleString('de-DE') + '</td>'+
+                            '<td width="20%" id="d-importe" class="text-center">' + importes.toLocaleString('de-DE')+ '</td>'+
+                            '<td width="15%" class="text-center"><div class="btn-group">'+
+                                 '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="'+data.addventa[0].id_producto+'" >'+
+                                 '<i class="m-0 fa fa-lg fa-trash"></i></button>'+
+                                 '<button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="'+data.addventa[0].id_producto+'">'+
+                                 '<i class="m-0 fa fa-lg fa-info"></i></button></div>'+
+                            '</td>'+
+                          '</tr>';
+                    
+                  }else{
+
+                    
+                      var cesta  = '<tr id="d-cod_producto' + id_producto + '"><td  width="15%">' + cod_producto + '</td>'+
                             '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
                             '<td width="15%" id="d-cantidad" class="text-center">' + cantidad + '</td>' +
                             '<td width="20%" id="d-precio" class="text-center">' + precio.toLocaleString('de-DE') + '</td>'+
@@ -62,6 +83,10 @@ var url='ventas';
                                  '<i class="m-0 fa fa-lg fa-info"></i></button></div>'+
                             '</td>'+
                           '</tr>';
+
+
+
+                  }
                  
             $('#cesta-list > tbody').append(cesta);
             $('#stock_original').val(stock);
@@ -135,18 +160,43 @@ var url='ventas';
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 success: function (data) {
 
-                  var cesta  = '<tr class="table-danger"><td  width="15%" id="d-cod_producto">' + cod_producto + '</td>'+
+                  if(data.accion==1){
+
+                  $('#d-cod_producto' + id_producto ).remove();
+
+                    var importes= data.addventa[0].cantidad *data.addventa[0].precio;
+                  var cesta  = '<tr id="d-cod_producto' + id_producto + '"><td  width="15%" >' + cod_producto + '</td>'+
+                            '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
+                            '<td width="15%" id="d-cantidad" class="text-center">' + data.addventa[0].cantidad.toLocaleString('de-DE') + '</td>' +
+                            '<td width="20%" id="d-precio" class="text-center">' + data.addventa[0].precio.toLocaleString('de-DE') + '</td>'+
+                            '<td width="20%" id="d-importe" class="text-center">' + importes.toLocaleString('de-DE')+ '</td>'+
+                            '<td width="15%" class="text-center"><div class="btn-group">'+
+                                 '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="'+data.addventa[0].id_producto+'" >'+
+                                 '<i class="m-0 fa fa-lg fa-trash"></i></button>'+
+                                 '<button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="'+data.addventa[0].id_producto+'">'+
+                                 '<i class="m-0 fa fa-lg fa-info"></i></button></div>'+
+                            '</td>'+
+                          '</tr>';
+                    
+                  }else{
+
+                    
+                      var cesta  = '<tr id="d-cod_producto' + id_producto + '"><td  width="15%">' + cod_producto + '</td>'+
                             '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
                             '<td width="15%" id="d-cantidad" class="text-center">' + cantidad + '</td>' +
                             '<td width="20%" id="d-precio" class="text-center">' + precio.toLocaleString('de-DE') + '</td>'+
                             '<td width="20%" id="d-importe" class="text-center">' + importe.toLocaleString('de-DE')+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
                                  '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="'+id_producto+'" >'+
-                                 '<i class="m-0 fa fa-lg fa-trash"></i></a>'+
-                                 '<button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="'+id_producto+'" >'+
+                                 '<i class="m-0 fa fa-lg fa-trash"></i></button>'+
+                                 '<button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="'+id_producto+'">'+
                                  '<i class="m-0 fa fa-lg fa-info"></i></button></div>'+
                             '</td>'+
                           '</tr>';
+
+
+
+                  }
            
                       $('#cesta-list > tbody').append(cesta);
                       $("#faltante, #fal-content").html(' Se agregó un producto faltante');
@@ -241,18 +291,43 @@ var url='ventas';
               headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
               success: function (data) {
 
-                var cesta  = '<tr><td  width="15%" id="d-cod_producto">' + cod_producto + '</td>'+
+                if(data.accion==1){
+
+                  $('#d-cod_producto' + id_producto ).remove();
+
+                    var importes= data.addventa[0].cantidad *data.addventa[0].precio;
+                  var cesta  = '<tr id="d-cod_producto' + id_producto + '"><td  width="15%" >' + cod_producto + '</td>'+
+                            '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
+                            '<td width="15%" id="d-cantidad" class="text-center">' + data.addventa[0].cantidad.toLocaleString('de-DE') + '</td>' +
+                            '<td width="20%" id="d-precio" class="text-center">' + data.addventa[0].precio.toLocaleString('de-DE') + '</td>'+
+                            '<td width="20%" id="d-importe" class="text-center">' + importes.toLocaleString('de-DE')+ '</td>'+
+                            '<td width="15%" class="text-center"><div class="btn-group">'+
+                                 '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="'+data.addventa[0].id_producto+'" >'+
+                                 '<i class="m-0 fa fa-lg fa-trash"></i></button>'+
+                                 '<button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="'+data.addventa[0].id_producto+'">'+
+                                 '<i class="m-0 fa fa-lg fa-info"></i></button></div>'+
+                            '</td>'+
+                          '</tr>';
+                    
+                  }else{
+
+                    
+                      var cesta  = '<tr id="d-cod_producto' + id_producto + '"><td  width="15%">' + cod_producto + '</td>'+
                             '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
                             '<td width="15%" id="d-cantidad" class="text-center">' + cantidad + '</td>' +
                             '<td width="20%" id="d-precio" class="text-center">' + precio.toLocaleString('de-DE') + '</td>'+
                             '<td width="20%" id="d-importe" class="text-center">' + importe.toLocaleString('de-DE')+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
-                                 '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete2" value="'+id_producto+'" >'+
+                                 '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="'+id_producto+'" >'+
                                  '<i class="m-0 fa fa-lg fa-trash"></i></button>'+
                                  '<button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="'+id_producto+'">'+
                                  '<i class="m-0 fa fa-lg fa-info"></i></button></div>'+
                             '</td>'+
                           '</tr>';
+
+
+
+                  }
                  
             $('#cesta-list > tbody').append(cesta);
             $('#stock_original').val(stock);
@@ -326,18 +401,43 @@ var url='ventas';
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 success: function (data) {
 
-                  var cesta  = '<tr class="table-danger"><td  width="15%" id="d-cod_producto">' + cod_producto + '</td>'+
+                  if(data.accion==1){
+
+                  $('#d-cod_producto' + id_producto ).remove();
+
+                    var importes= data.addventa[0].cantidad *data.addventa[0].precio;
+                  var cesta  = '<tr id="d-cod_producto' + id_producto + '"><td  width="15%" >' + cod_producto + '</td>'+
                             '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
-                            '<td width="15%" id="d-cantidad" class="text-center">' + cantidad + '</td>' +
-                            '<td width="20%" id="d-precio" class="text-center">' + precio.toLocaleString('de-DE')+ '</td>'+
-                            '<td width="20%" id="d-importe" class="text-center">' + importe.toLocaleString('de-DE')+ '</td>'+
+                            '<td width="15%" id="d-cantidad" class="text-center">' + data.addventa[0].cantidad.toLocaleString('de-DE') + '</td>' +
+                            '<td width="20%" id="d-precio" class="text-center">' + data.addventa[0].precio.toLocaleString('de-DE') + '</td>'+
+                            '<td width="20%" id="d-importe" class="text-center">' + importes.toLocaleString('de-DE')+ '</td>'+
                             '<td width="15%" class="text-center"><div class="btn-group">'+
-                                 '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete2" value="'+id_producto+'" >'+
-                                 '<i class="m-0 fa fa-lg fa-trash"></i></a>'+
-                                 '<button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="'+id_producto+'" >'+
+                                 '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="'+data.addventa[0].id_producto+'" >'+
+                                 '<i class="m-0 fa fa-lg fa-trash"></i></button>'+
+                                 '<button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="'+data.addventa[0].id_producto+'">'+
                                  '<i class="m-0 fa fa-lg fa-info"></i></button></div>'+
                             '</td>'+
                           '</tr>';
+                    
+                  }else{
+
+                    
+                      var cesta  = '<tr id="d-cod_producto' + id_producto + '"><td  width="15%">' + cod_producto + '</td>'+
+                            '<td width="30%" id="d-descripcion">' + descripcion + '</td>'+
+                            '<td width="15%" id="d-cantidad" class="text-center">' + cantidad + '</td>' +
+                            '<td width="20%" id="d-precio" class="text-center">' + precio.toLocaleString('de-DE') + '</td>'+
+                            '<td width="20%" id="d-importe" class="text-center">' + importe.toLocaleString('de-DE')+ '</td>'+
+                            '<td width="15%" class="text-center"><div class="btn-group">'+
+                                 '<button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary delete" value="'+id_producto+'" >'+
+                                 '<i class="m-0 fa fa-lg fa-trash"></i></button>'+
+                                 '<button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="'+id_producto+'">'+
+                                 '<i class="m-0 fa fa-lg fa-info"></i></button></div>'+
+                            '</td>'+
+                          '</tr>';
+
+
+
+                  }
            
                       $('#cesta-list > tbody').append(cesta);
                       $("#faltante, #fal-content").html(' Se agregó un producto faltante');
