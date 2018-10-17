@@ -67,13 +67,15 @@ class Logistica extends Controller
         $remisa->id_usuario = $id_usuario;
         $remisa->importe = $total;
         $remisa->fecha = date("Y-m-d");
-        $remisa->id_estado = 7;
+//      $venta->id_estado = 7;
+        $remisa->id_estado = 6;
         $remisa->save();
         
         foreach ($ventas as $item) {
             
             $venta = Ventas::find($item);
-            $venta->id_estado = 7;
+//         $venta->id_estado = 7;
+            $venta->id_estado = 6;
             $venta->save();
 
             $detremito  = new Detalle_remito;
