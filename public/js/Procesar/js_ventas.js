@@ -514,9 +514,8 @@ function resumen(){
 $(document).on('click', '.delete', function (e) {
     e.preventDefault();
       $(this).closest('tr').remove();
-      resumen();
-     var id_producto = $(this).val();
-    var   id_cliente = $('#id_cliente').val();
+      var id_producto = $(this).val();
+      var   id_cliente = $('#id_cliente').val();
            $.ajaxSetup({
              headers: {
                   'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -620,9 +619,10 @@ $("#btn-save").click(function (e) {
       }
     });
 
-    e.preventDefault();
+      e.preventDefault();
      //var cliente_id =$('#cliente_id').val();
     var formData = {
+                    num_venta      : $('#num_venta').val(),
                     id_cliente     : $('#id_cliente').val(),
                     nombre_cliente : $('#nombre_cliente').val(), 
                     telefono_cliente: $('#telefono_cliente').val(),
@@ -658,7 +658,7 @@ $("#btn-save").click(function (e) {
                     total          : $('#total').val()
                     }
 
-    console.log(formData);
+  
    
      
     $.ajax({
@@ -668,7 +668,8 @@ $("#btn-save").click(function (e) {
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
-           $("#res").html(data.message);
+
+            $("#res").html(data.message);
             $("#res, #res-content").css("display","block");
         
             location.href="/procesar/ventas";

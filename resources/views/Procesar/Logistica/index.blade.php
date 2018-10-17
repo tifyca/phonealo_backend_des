@@ -520,6 +520,22 @@
             <tbody id="productos_detalle">     
           </tbody>  
           </table>
+
+
+           <table class="table" border="1">
+            <thead>
+              <tr >
+                <th  colaspan="5" style="text-align: center;">Historico de Notas</th>
+              </tr>
+              <tr>
+                <th style="text-align: center;">Vendedor</th>
+                <th  colaspan="2"  style="text-align: center;">Nota</th>
+                <th style="text-align: center;">Fecha</th>
+              </tr>
+            </thead>
+            <tbody>     
+          </tbody>  
+          </table>
      </form>
             <div class="text-right col-md-">
                <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
@@ -928,7 +944,13 @@ $('#btn-nota').click(function(){
           $('#id_ventar').val(data[0].venta); 
 
           if (data[0].factura ==2 || data[0].factura ==3){
+
+            if(data[0].impresa==1){
+              $('#btn-fact').prop('disabled', true);
+            }else{
               $('#btn-fact').prop('disabled', false);
+            }
+            
           }else{
               $('#btn-fact').prop('disabled', true);
           }      

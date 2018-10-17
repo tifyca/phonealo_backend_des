@@ -44,10 +44,10 @@ class VentasController extends Controller
                           ->count();
 
                      
-      $num_venta = $datea.$datem.$dated.$id_usuario.sprintf("%04d", $cuentaventa);
+      $num_venta = $datea.$datem.$dated.$id_usuario.sprintf("%04d", $cuentaventa+1);
 
 
-      return view('Procesar.Ventas.index', compact('horarios','deliverys', 'formas' ));
+      return view('Procesar.Ventas.index', compact('horarios','deliverys', 'formas', 'num_venta'));
     }
 
     public function getcliente($tlf){
@@ -169,6 +169,7 @@ class VentasController extends Controller
       if($request->id_cliente=="")
       {
 
+
         $data=$request->all();
 
         $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres', 
@@ -213,7 +214,7 @@ class VentasController extends Controller
 
 
               $cliente= new Clientes; 
-              $cliente->nombres   = $request->nombre_cliente; 
+              $cliente->nombres   = $request->nombre_cliente;
               $cliente->telefono  = $request->telefono_cliente; 
               $cliente->direccion = $request->direccion_cliente;
               $cliente->barrio    = $request->barrio_cliente;
@@ -329,6 +330,7 @@ class VentasController extends Controller
 
             
             $venta= new Ventas;
+            $venta->id        = $request->num_venta;
             $venta->id_pedido = $pedido->id;
             $venta->id_estado = $id_estado_v;
             $venta->fecha     = $request->fecha_venta;
@@ -345,7 +347,7 @@ class VentasController extends Controller
             
             if($request->factura<>1){
             $factura= new Facturas;
-            $factura->id_venta  = $venta->id;                               
+            $factura->id_venta  = $request->num_venta;                               
             $factura->nombres   = ucwords(strtolower($request->factura_nomb));
             $factura->direccion = $request->factura_dir;
             $factura->ruc_ci    = $request->factura_ruc;
@@ -361,7 +363,7 @@ class VentasController extends Controller
               foreach ($detalle_tempora as $dt) {
 
                         $result  = new Detalle_Ventas;
-                        $result->id_venta    = $venta->id;
+                        $result->id_venta    = $request->num_venta;
                         $result->id_producto = $dt->id_producto;
                         $result->cantidad    = $dt->cantidad;
                         $result->precio      = $dt->precio;
@@ -388,7 +390,7 @@ class VentasController extends Controller
                 $deliverys=Monto_delivery::select('id', 'monto')->where('id',$request->monto)->first();
 
                 $deliver= new Detalle_Ventas;
-                $deliver->id_venta    = $venta->id;
+                $deliver->id_venta    = $request->num_venta;
                 $deliver->id_producto = 36;
                 $deliver->cantidad    = 1;
                 $deliver->precio      = $deliverys->monto;
