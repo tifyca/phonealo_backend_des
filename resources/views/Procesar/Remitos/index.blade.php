@@ -168,7 +168,7 @@
                 <td class="text-center">{{ $producto->codigo_producto }}</td>
                 <td class="text-center">{{ $producto->descripcion }}</td>
                 <td class="text-center">{{ $producto->cantidad }}</td>
-                <td class="text-center">{{ $producto->precio }}</td>
+                <td class="text-center precio_producto">{{ $producto->precio }}</td>
                 <td class="text-center">
                   <div class="btn-group">
                     <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
@@ -223,6 +223,7 @@ $(function(){
 
   let importe, total = 0; 
   importe = $('.importe');
+  precio_producto = $('.precio_producto');
   ////////////////////////////////////////////////////////////////
   // Sumar la columnas importes por pagina y separadores de mil //
   ////////////////////////////////////////////////////////////////
@@ -240,6 +241,10 @@ $(function(){
   $(".acciones").click(function(e){
     let id = $(this).parents('td').siblings('.id_remito').text();
     // alert(id);
+  });
+
+  precio_producto.each( function(index) {
+    $(this).text( new Intl.NumberFormat("de-DE").format( $(this).text() ) );
   });
 
   //////////////////////////////////
