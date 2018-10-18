@@ -77,6 +77,11 @@
                         <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductos{{ $remito->id }}" href="#">
                           <i class="m-0 fa fa-lg fa-eye"></i>
                         </a>
+                        @if ( $remito->estado == "Delivery" )
+                        <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductosConfirmar{{ $remito->id }}" href="#">
+                          <i class="fa fa-check-square-o"></i>
+                        </a>                          
+                        @endif
                       </div>
                     </td>
                   @endforeach
@@ -136,10 +141,7 @@
                 <td class="text-center">{{ $remito->forma_pago }}</td>
                 {{-- <td class="text-center">Fecha</td> --}}
                 <td class="text-center">
-                  <div class="btn-group">
-                    <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductosConfirmar{{ $remito->id }}" href="#">
-                          <i class="fa fa-check-square-o"></i>
-                        </a>
+                  <div class="btn-group">                    
                     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample{{ $remito->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $remito->id }}"><i class="m-0 fa fa-lg fa-eye"></i></a>
                   </div>
                 </td>
@@ -239,6 +241,14 @@ $(function(){
     let id = $(this).parents('td').siblings('.id_remito').text();
     // alert(id);
   });
+
+  //////////////////////////////////
+  // Mensaje notificacion success //
+  //////////////////////////////////
+  // const mensaje = "Hola mundo";
+  // $("#res").html(mensaje);
+  // $("#res, #res-content").css("display","block");
+  // $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
 });
 </script>
