@@ -221,7 +221,7 @@
 <script>
 $(function(){
 
-  let importe, total = 0; 
+  let importe, total = 0, precio_producto, boton_confirmar, mensaje_confirmacion; 
   importe = $('.importe');
   precio_producto = $('.precio_producto');
   boton_confirmar = $('button[name=confirmar]');
