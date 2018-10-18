@@ -55,29 +55,48 @@
           <table class="table table-hover" id="sampleTable">
             <thead>
               <tr>
-               {{--  <th class="text-center">Telefono</th>
-                <th class="text-center">Nombres</th> --}}
                 <th class="text-center">Código</th>
                 <th class="text-center">Producto</th>
                 <th class="text-center">Categoría</th>
                 <th class="text-center">Stock Actual</th>
                 <th class="text-center">Cantidad</th>
-                {{-- <th class="text-center">Usuario</th> --}}
-                {{-- <th class="text-center">Fecha</th> --}}
+                <th class="text-center">Detalles</th>
               </tr>
             </thead>
             <tbody>
               @foreach ($pedidos as $pedido)
               <tr>
-                {{-- <td class="text-center"></td>
-                <td class="text-center"></td> --}}
                 <td class="text-center">{{ $pedido->codigo_producto }}</td>
                 <td class="text-center">{{ $pedido->descripcion }}</td>
                 <td class="text-center">{{ $pedido->categoria }}</td>
                 <td class="text-center">{{ $pedido->stock_activo }}</td>
                 <td class="text-center">{{ $pedido->cantidad }}</td>
-                {{-- <td class="text-center"></td> --}}
-                {{-- <td class="text-center"></td> --}}
+                <td class="text-center">
+                  <div class="action-buttons">
+                    <a href="#" class="detalles">
+                      <i class="fa fa-angle-double-down"></i>
+                      <span class="sr-only">Details</span>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              <tr class="detalles oculto no-hover">
+                <td colspan="6" class="no-hover">
+                  <table width="100%" class="table-bordered no-hover">
+                    <thead>
+                      <th class="text-center">Fecha</th>
+                      <th class="text-center">Teléfono</th>
+                      <th class="text-center">Cliente</th>
+                      <th class="text-center">Cantidad</th>
+                    </thead>
+                    <tbody>
+                      <td class="text-center">X</td>                      
+                      <td class="text-center">X</td>                      
+                      <td class="text-center">X</td>                      
+                      <td class="text-center">X</td>                      
+                    </tbody>
+                  </table>
+                </td>
               </tr>
               @endforeach
           </tbody>
@@ -96,8 +115,17 @@
 @endsection
 
 @push('scripts')
-
- @endpush
+<script>
+  $(function(){
+    $('a.detalles').on('click', function(e){
+      e.preventDefault();
+      $(this).children('i.fa').toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up')
+        .parents('tr').toggleClass('bg-primary').toggleClass('font-weight-bold')
+        .next('tr.detalles').toggleClass('oculto');
+    });
+  });
+</script>
+@endpush
 
 
 

@@ -14,7 +14,7 @@ use App\Estados;
 use App\Pedidos;
 use App\detalle;
 use App\Clientes;
-use App\Delivery_horario;
+use App\delivery_horario;
 use App\Detalle_remito;
 use App\User;
 
