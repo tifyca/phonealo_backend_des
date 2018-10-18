@@ -10,6 +10,7 @@ class Ventas extends Model
 {
 	
     protected $table = 'ventas';
+    protected $keyType = 'varchar';
     protected $fillable = ['id','status','status_v'];
 
     #scope para buscar ventas con id_estado  1 o 11 (ventas activas o ventas modificadas)

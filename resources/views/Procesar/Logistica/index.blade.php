@@ -53,9 +53,11 @@
                      <!-- jgonzalez LISTADO DE VENTAS PARA REMISA-->
                   @foreach($remisas as $remisa)
                    <tr class="table-success">
-                      <td class="venta" data-id="{{$remisa->id}}" style="text-align: center">{{$remisa->id}}
+                  @if($remisa->id==$notaventa[0]->id_venta)
+                      <td class="venta" data-id="{{$remisa->id}}" style="text-align: center">{{$remisa->id}} &spades;
                         @foreach($nota as $item)
                           @if($item->id_venta==$remisa->id)
+
                               <div class="toolTip" id="{{$remisa->id}}" style="display: none;">
                                <table style="border:0px; width: 400px; font-size: 12px; ">
                                 <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
@@ -64,7 +66,11 @@
                           @endif
                         @endforeach
                               </div>
-
+                          </td>
+                      @else
+                         <td class="venta" data-id="{{$remisa->id}}" style="text-align: center">{{$remisa->id}}            
+                          </td>
+                      @endif
                       </td>
                       <td style="text-align: left;">{{$remisa->nombres}}</td>
                       <td style="text-align: center">{{$remisa->telefono}}</td>
@@ -188,17 +194,24 @@
                     @elseif($atender->fecha != date("Y-m-d"))
                       style="background-color:#f1d4fa;"
                     @endif >
-                      <td class="venta" data-id="{{$atender->id}}" style="text-align: center">{{$atender->id}}
+                     @if($atender->id==$notaventa[0]->id_venta)
+                      <td class="venta" data-id="{{$atender->id}}" style="text-align: center">{{$atender->id}} &spades;
                         @foreach($nota as $item)
                           @if($item->id_venta==$atender->id)
+
                               <div class="toolTip" id="{{$atender->id}}" style="display: none;">
                                <table style="border:0px; width: 400px; font-size: 12px; ">
                                 <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
                                 <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
                                </table>
-                            @endif
-                           @endforeach
+                          @endif
+                        @endforeach
                               </div>
+                          </td>
+                      @else
+                         <td class="venta" data-id="{{$atender->id}}" style="text-align: center">{{$atender->id}}            
+                          </td>
+                      @endif
                       </td>
                       <td style="text-align: left;">{{$atender->nombres}}</td>
                       <td style="text-align: center">{{$atender->telefono}}</td>
@@ -279,17 +292,24 @@
                       class="table-warning"
                     @endif 
                    >
-                     <td class="venta" data-id="{{$activa->id}}" style="text-align: center">{{$activa->id}}
+                      @if($activa->id==$notaventa[0]->id_venta)
+                      <td class="venta" data-id="{{$activa->id}}" style="text-align: center">{{$activa->id}} &spades;
                         @foreach($nota as $item)
                           @if($item->id_venta==$activa->id)
+
                               <div class="toolTip" id="{{$activa->id}}" style="display: none;">
                                <table style="border:0px; width: 400px; font-size: 12px; ">
                                 <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
                                 <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
                                </table>
-                            @endif
-                           @endforeach
+                          @endif
+                        @endforeach
                               </div>
+                          </td>
+                      @else
+                         <td class="venta" data-id="{{$activa->id}}" style="text-align: center">{{$activa->id}}            
+                          </td>
+                      @endif
                       </td>
                       <td style="text-align: left;">{{$activa->nombres}}</td>
                       <td style="text-align: center">{{$activa->telefono}}</td>
@@ -376,11 +396,11 @@
                       class="table-light"
                     @endif 
                     >
-
-                         <td class="venta" data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}}
-
-                         @foreach($nota as $item)
+                    @if($enEspera->id==$notaventa[0]->id_venta)
+                      <td class="venta" data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}} &spades;
+                        @foreach($nota as $item)
                           @if($item->id_venta==$enEspera->id)
+
                               <div class="toolTip" id="{{$enEspera->id}}" style="display: none;">
                                <table style="border:0px; width: 400px; font-size: 12px; ">
                                 <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
@@ -389,6 +409,11 @@
                           @endif
                         @endforeach
                               </div>
+                          </td>
+                      @else
+                         <td class="venta" data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}}            
+                          </td>
+                      @endif
                       </td>
                       <td style="text-align: left;">{{$enEspera->nombres}}</td>
                       <td style="text-align: center">{{$enEspera->telefono}}</td>
@@ -520,6 +545,22 @@
             <tbody id="productos_detalle">     
           </tbody>  
           </table>
+        </div>  
+        <div class="table-responsive">
+           <table class="table" >
+              <tr >
+                <th colspan="5" style="text-align: center; font-size: 14px;">Historico de Notas</th>
+              </tr>
+              <tr>
+                <th style="text-align: center;">Vendedor</th>
+                <th  colspan="3"  style="text-align: center;">Nota</th>
+                <th style="text-align: center;">Fecha</th>
+              </tr>
+            <tbody id="historico_notas">  
+
+            </tbody>  
+          </table>
+        </div>
      </form>
             <div class="text-right col-md-">
                <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
@@ -768,22 +809,22 @@ $('#btn-nota').click(function(){
           var total=0;
           var importe=0;
 
-          $("#id_venta").val(data[0].id);
-          $('#title').html('Detalle de Venta:  ' + data[0].id);
+          $("#id_venta").val(data.venta[0].id);
+          $('#title').html('Detalle de Venta:  ' + data.venta[0].id);
           $("#cliente_detalle").append(`<tr>
-                                          <td style="text-align: center;">${data[0].nombres}</td>
-                                          <td style="text-align: center;">${data[0].ruc_ci}</td>
-                                          <td style="text-align: center;">${data[0].telefono}</td>
-                                          <td style="text-align: center;">${data[0].email}</td>
+                                          <td style="text-align: center;">${data.venta[0].nombres}</td>
+                                          <td style="text-align: center;">${data.venta[0].ruc_ci}</td>
+                                          <td style="text-align: center;">${data.venta[0].telefono}</td>
+                                          <td style="text-align: center;">${data.venta[0].email}</td>
                                       </tr>`);
           $("#cliente_detalle2").append(`<tr>
-                                          <td style="text-align: center;">${data[0].direccion}</td>
-                                          <td style="text-align: center;">${data[0].barrio}</td> 
-                                          <td style="text-align: center;">${data[0].ubicacion}</td> 
+                                          <td style="text-align: center;">${data.venta[0].direccion}</td>
+                                          <td style="text-align: center;">${data.venta[0].barrio}</td> 
+                                          <td style="text-align: center;">${data.venta[0].ubicacion}</td> 
                                       </tr>`);
            $("#cliente_detalle3").append('<tr>'+
-                                          (data[0].id_tipo==1 ? '<td style="text-align: center;">Natural</td>'
-                                           :   '<td style="text-align: center;">Jurídico</td>')+'<td style="text-align: center;">'+data[0].fecha+'</td><td style="text-align: center;">'+data[0].fecha_cobro+'</td> <td style="text-align: center;">'+data[0].forma_pago+'</td></tr>');
+                                          (data.venta[0].id_tipo==1 ? '<td style="text-align: center;">Natural</td>'
+                                           :   '<td style="text-align: center;">Jurídico</td>')+'<td style="text-align: center;">'+data.venta[0].fecha+'</td><td style="text-align: center;">'+data.venta[0].fecha_cobro+'</td> <td style="text-align: center;">'+data.venta[0].forma_pago+'</td></tr>');
           /* $("#cliente_detalle4").append(`<tr>
                                           <td style="text-align: center;"> <select class="form-control horarios" id="horario" name="horario"> 
                  <option value="${data[0].id_horario}"> ${data[0].horario}</option>
@@ -792,12 +833,22 @@ $('#btn-nota').click(function(){
                                          </td>
                                           <td style="text-align: center;">${data[0].fecha}</td> 
                                       </tr>`);*/
+            
+            $.each(data.notas, function(l, item2)
+             {
+                  if(item2.id_venta==data.venta[0].id){
+                    $("#historico_notas").append(`<tr><td style="text-align: left;">${item2.nombre}</td>
+                                                   <td  colspan="3" style="text-align: left;">${item2.nota.replace(/~/g, '<br >' )}</td>
+                                                   <td style="text-align: left;">${item2.fecha}</td></tr>`);
+                  }
+                 
+             });
 
-          $(".horarios").val(data[0].id_horario);
-          $(".vendedor").val(data[0].nameuser);
+          $(".horarios").val(data.venta[0].id_horario);
+          $(".vendedor").val(data.venta[0].nameuser);
 
           //CICLO DE LOS DATOS RECIBIDOS
-          $.each(data, function(l, item) {
+          $.each(data.venta, function(l, item) {
 
                importes=item.cantidad*item.precio;
               // total+=importe;
@@ -812,7 +863,7 @@ $('#btn-nota').click(function(){
           });
 
             $("#productos_detalle").append(`<tr>
-              <td colspan="5" style="text-align:  right;"><h5>Total: ${data[0].importe.toLocaleString('de-DE')} Gs.</h5></td>
+              <td colspan="5" style="text-align:  right;"><h5>Total: ${data.venta[0].importe.toLocaleString('de-DE')} Gs.</h5></td>
               </tr>`);
          
            
@@ -928,7 +979,13 @@ $('#btn-nota').click(function(){
           $('#id_ventar').val(data[0].venta); 
 
           if (data[0].factura ==2 || data[0].factura ==3){
+
+            if(data[0].impresa==1){
+              $('#btn-fact').prop('disabled', true);
+            }else{
               $('#btn-fact').prop('disabled', false);
+            }
+            
           }else{
               $('#btn-fact').prop('disabled', true);
           }      

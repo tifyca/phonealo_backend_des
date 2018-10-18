@@ -78,9 +78,10 @@
 						</table>
 						
 					<table width="80%" style="font-size:7pt;padding-bottom:-10px; border:1px solid black;border-radius:7px;margin-top:5px;" align="center">
-						<br>
-						<td style="text-align:center; font-size:13pt; margin-top:10px;"><b>FIRMA DE AUTORIZACIÓN Y RECEPCIÓN POR PARTE DEL REPARTIDOR</b><br />
+						<br><br><br><br>
+						<td style="text-align:center; font-size:13pt; margin-top:10px;"><b>FIRMA DE AUTORIZACIÓN Y RECEPCIÓN POR PARTE DEL REPARTIDOR</b><br /></b><br /></b><br /></b><br />
 						<p style="font-size:9pt;">Autorizado por: _________________________ Repartidor: _________________________</p>
+						</b><br />
 					</td>
 					</table>
 					
