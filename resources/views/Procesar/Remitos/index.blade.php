@@ -224,6 +224,8 @@ $(function(){
   let importe, total = 0; 
   importe = $('.importe');
   precio_producto = $('.precio_producto');
+  boton_confirmar = $('button[name=confirmar]');
+  mensaje_confirmacion = "{{ session('mensaje') }}";  
   ////////////////////////////////////////////////////////////////
   // Sumar la columnas importes por pagina y separadores de mil //
   ////////////////////////////////////////////////////////////////
@@ -249,11 +251,12 @@ $(function(){
 
   //////////////////////////////////
   // Mensaje notificacion success //
-  //////////////////////////////////
-  // const mensaje = "Hola mundo";
-  // $("#res").html(mensaje);
-  // $("#res, #res-content").css("display","block");
-  // $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  //////////////////////////////////   
+  if ( mensaje_confirmacion ) {
+    $("#res").html(mensaje_confirmacion);
+    $("#res, #res-content").css("display","block");
+    $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  }  
 
 });
 </script>
