@@ -73,10 +73,15 @@
                       {!!number_format($remito->importe, 0, ',', '.')!!}
                     </td> --}}
                     <td width="10%" class="text-center">
-                      <div class="btn-group">
+                      <div class="btn-group">                        
                         <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductos{{ $remito->id }}" href="#">
                           <i class="m-0 fa fa-lg fa-eye"></i>
                         </a>
+                        @if ( $remito->estado == "Delivery" )
+                        <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductosConfirmar{{ $remito->id }}" href="#">
+                          <i class="fa fa-check-square-o"></i>
+                        </a>                          
+                        @endif
                       </div>
                     </td>
                   @endforeach
@@ -136,7 +141,7 @@
                 <td class="text-center">{{ $remito->forma_pago }}</td>
                 {{-- <td class="text-center">Fecha</td> --}}
                 <td class="text-center">
-                  <div class="btn-group">
+                  <div class="btn-group">                    
                     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample{{ $remito->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $remito->id }}"><i class="m-0 fa fa-lg fa-eye"></i></a>
                   </div>
                 </td>
@@ -163,7 +168,7 @@
                 <td class="text-center">{{ $producto->codigo_producto }}</td>
                 <td class="text-center">{{ $producto->descripcion }}</td>
                 <td class="text-center">{{ $producto->cantidad }}</td>
-                <td class="text-center">{{ $producto->precio }}</td>
+                <td class="text-center precio_producto">{{ $producto->precio }}</td>
                 <td class="text-center">
                   <div class="btn-group">
                     <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
@@ -181,6 +186,31 @@
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalProductosConfirmar{{ $remito->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2{{ $remito->id }}" aria-hidden="true">
+  <div class="modal-dialog {{-- modal-dialog-centered --}}" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel2{{ $remito->id }}">Confirmar Remito</h4>
+        {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> --}}
+          {{-- <span aria-hidden="true">&times;</span> --}}
+        {{-- </button> --}}
+      </div>
+      <div class="modal-body">
+        <p>¿Está seguro de confirmar el remito?</p>
+      </div>
+      <div class="modal-footer">        
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <form action="{{ route('remitos.update', $remito->id) }}" method="post">
+          {{ csrf_field() }}
+          {{ method_field('PUT') }}
+          <button type="submit" class="btn btn-danger" name="confirmar" value="1">Si</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {{--  --}}
 @endforeach
   
@@ -193,6 +223,7 @@ $(function(){
 
   let importe, total = 0; 
   importe = $('.importe');
+  precio_producto = $('.precio_producto');
   ////////////////////////////////////////////////////////////////
   // Sumar la columnas importes por pagina y separadores de mil //
   ////////////////////////////////////////////////////////////////
@@ -211,6 +242,18 @@ $(function(){
     let id = $(this).parents('td').siblings('.id_remito').text();
     // alert(id);
   });
+
+  precio_producto.each( function(index) {
+    $(this).text( new Intl.NumberFormat("de-DE").format( $(this).text() ) );
+  });
+
+  //////////////////////////////////
+  // Mensaje notificacion success //
+  //////////////////////////////////
+  // const mensaje = "Hola mundo";
+  // $("#res").html(mensaje);
+  // $("#res, #res-content").css("display","block");
+  // $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
 });
 </script>
