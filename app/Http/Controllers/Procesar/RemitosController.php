@@ -33,7 +33,8 @@ class RemitosController extends Controller
         if ( isset($confirmar) ){
             // Pasar de estado "delivery(6)" a estado "cobrado(3)"
             $estado = 3;
-            $this->modificaEstadoRemito($id, $estado);
+            $this->modificaEstadoRemito($id, $estado);            
+            session()->flash('mensaje', 'Remito confirmado exitosamente');
         }
 
         return back();
