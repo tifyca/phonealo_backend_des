@@ -81,7 +81,8 @@ class Logistica extends Controller
             
             $venta = Ventas::find($item);
 //         $venta->id_estado = 7;
-            $venta->id_estado = 6;
+            //Cuando se asigna a delivery la venta queda confirmada en 7 y el remito en 6
+            $venta->id_estado = 7;  
             $venta->save();
 
             $detremito  = new Detalle_remito;
