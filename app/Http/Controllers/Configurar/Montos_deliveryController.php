@@ -123,7 +123,7 @@ public function anular(Request $request)
        //$id = $request->id;
 
    $montos = Montos_delivery::find($id);
-
+   
    $montos->destroy($id);
    $Montos_delivery=Montos_delivery::orderBy('monto','asc')->paginate(10);       
    $id_usuario=Auth::user()->id;         
