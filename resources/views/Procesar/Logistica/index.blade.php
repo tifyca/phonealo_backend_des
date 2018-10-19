@@ -844,6 +844,7 @@ $('#btn-nota').click(function(){
           console.log(data);
           var total=0;
           var importe=0;
+          var x=0;
 
           $("#id_venta").val(data.venta[0].id);
           $('#title').html('Detalle de Venta:  ' + data.venta[0].id);
@@ -869,14 +870,27 @@ $('#btn-nota').click(function(){
                                          </td>
                                           <td style="text-align: center;">${data[0].fecha}</td> 
                                       </tr>`);*/
-                    $("#historico_n").append(`<tr>
-                                                <th colspan="5" style="text-align: center; font-size: 14px;">Historico de Notas</th>
-                                              </tr>
-                                              <tr>
-                                                <th style="text-align: center;">Vendedor</th>
-                                                <th  colspan="3"  style="text-align: center;">Nota</th>
-                                                <th style="text-align: center;">Fecha</th>
-                                              </tr>`);
+            for (var i = 0; i < data.notas.length; i++) {
+
+
+
+              if(data.notas[i].id_venta==data.venta[0].id){
+                 x=x+1
+
+                if(x==1){
+                       $("#historico_n").append(`<tr>
+                                        <th colspan="5" style="text-align: center; font-size: 14px;">Historico de Notas</th>
+                                      </tr>
+                                      <tr>
+                                        <th style="text-align: center;">Vendedor</th>
+                                        <th  colspan="3"  style="text-align: center;">Nota</th>
+                                        <th style="text-align: center;">Fecha</th>
+                                      </tr>`);
+                }
+
+              }
+          }
+            
             $.each(data.notas, function(l, item2)
              {
                   if(item2.id_venta==data.venta[0].id){

@@ -412,7 +412,7 @@ class VentasController extends Controller
               $auditoria->fecha      = date('Y-m-d');
               $auditoria->accion     = "Registrando Venta";
             // $auditoria->id_producto = $productos->id;
-              $auditoria->id_venta   = $$request->num_venta;   
+              $auditoria->id_venta   = $request->num_venta;   
               $auditoria->save(); 
 
              
