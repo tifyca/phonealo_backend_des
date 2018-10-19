@@ -54,7 +54,8 @@ class pedido extends Model
                 'clientes.nombres', 'clientes.telefono',
                 'detalle_ventas.cantidad'
 
-            );            
+            )
+            ->where('ventas.id_estado', 5);            
     }
     ////////////////
     // Relaciones //
