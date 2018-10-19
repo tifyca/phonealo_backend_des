@@ -40,10 +40,10 @@
 	opacity: .6
 }
 
-tr.oculto{
-	display:none;
+/*.oculto{
+	display:none !important;
 }
 
 .no-hover:hover{
 	background-color: white !important;  
-}
+}*/

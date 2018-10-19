@@ -74,7 +74,7 @@
                 <td class="text-center">
                   <div class="action-buttons">
                     <a href="#" class="detalles">
-                      <i class="fa fa-angle-double-down"></i>
+                      <i class="fa fa-angle-double-down fa-2x text-dark"></i>
                       <span class="sr-only">Details</span>
                     </a>
                   </div>
@@ -90,10 +90,16 @@
                       <th class="text-center">Cantidad</th>
                     </thead>
                     <tbody>
-                      <td class="text-center">X</td>                      
-                      <td class="text-center">X</td>                      
-                      <td class="text-center">X</td>                      
-                      <td class="text-center">X</td>                      
+                      @foreach ($ventas as $venta)
+                      @if ( $venta->codigo_producto == $pedido->codigo_producto  )
+                      <tr>                        
+                        <td class="text-center">{{ $venta->fecha }}</td>                      
+                        <td class="text-center">{{ $venta->telefono }}</td>                      
+                        <td class="text-center">{{ $venta->nombres }}</td>                      
+                        <td class="text-center">{{ $venta->cantidad }}</td>                      
+                      </tr>
+                      @endif                 
+                      @endforeach
                     </tbody>
                   </table>
                 </td>
@@ -119,7 +125,7 @@
   $(function(){
     $('a.detalles').on('click', function(e){
       e.preventDefault();
-      $(this).children('i.fa').toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up')
+      $(this).children('i').toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up')
         .parents('tr').toggleClass('bg-primary').toggleClass('font-weight-bold')
         .next('tr.detalles').toggleClass('oculto');
     });
