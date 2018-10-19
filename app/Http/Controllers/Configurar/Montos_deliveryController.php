@@ -123,8 +123,10 @@ public function anular(Request $request)
        //$id = $request->id;
 
    $montos = Montos_delivery::find($id);
-   
-   $montos->destroy($id);
+   $detalle = Detalles_Ventas::where('id_producto',36)->where('precio',$montos->monto)->first();
+   if(!$detalle){
+      $montos->destroy($id);  
+   }
    $Montos_delivery=Montos_delivery::orderBy('monto','asc')->paginate(10);       
    $id_usuario=Auth::user()->id;         
    $mensaje="Se ha Eliminado correctamente";

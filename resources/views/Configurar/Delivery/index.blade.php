@@ -87,7 +87,10 @@ if(isset($_SESSION["user"]))
               @foreach($montos_delivery as $montos)           
               <tr id="categoria{{$montos->id}}">
                 <td width="30%">{{$montos->id}}</td>
-                <td width="30%">{{$montos->monto}}</td>
+                <?php 
+                    $monto = number_format($montos->monto, 0, ',', '.');
+                ?>
+                <td width="30%">{{$monto}}</td>
                 <td class="text-center"> <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm eliminar" value="{{$montos->id}}"><i class="fa fa-lg fa-trash"></i></button></td>
               </tr>
               @endforeach
