@@ -54,13 +54,15 @@ class Logistica extends Controller
         return $num;
     }
     #jgonzalez
-  /*  public function activar_venta(Request $request){
+    public function activar_venta(Request $request){
         $id = $request['id'];
-        $venta = Ventas::find($id);
-        $venta->id_estado = 11;
-        $venta->save();
+        $venta = Ventas::where('id_estado',5)
+                       ->where('fecha', date("Y-m-d"))
+                       ->update(array('id_estado' => 11));
+
+      
         return $venta;
-    }*/
+    }
     #jgonzalez
     public function asignar_remisa(Request $request){
         $id_empleado = $request['id_empleado'];
