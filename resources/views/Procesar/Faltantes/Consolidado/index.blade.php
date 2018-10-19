@@ -90,10 +90,16 @@
                       <th class="text-center">Cantidad</th>
                     </thead>
                     <tbody>
-                      <td class="text-center">X</td>                      
-                      <td class="text-center">X</td>                      
-                      <td class="text-center">X</td>                      
-                      <td class="text-center">X</td>                      
+                      @foreach ($ventas as $venta)
+                      @if ( $venta->codigo_producto == $pedido->codigo_producto  )
+                      <tr>                        
+                        <td class="text-center">{{ $venta->fecha }}</td>                      
+                        <td class="text-center">{{ $venta->telefono }}</td>                      
+                        <td class="text-center">{{ $venta->nombres }}</td>                      
+                        <td class="text-center">{{ $venta->cantidad }}</td>                      
+                      </tr>
+                      @endif                 
+                      @endforeach
                     </tbody>
                   </table>
                 </td>
