@@ -42,6 +42,20 @@ class pedido extends Model
             ->where('productos.id', '<>', 36);
     }
 
+    public function scopeVentasEnEspera($query){
+        return $query->join('ventas', 'pedidos.id', 'ventas.id_pedido')          
+            ->join('detalle_ventas', 'ventas.id', 'detalle_ventas.id_venta')
+            ->join('productos', 'detalle_ventas.id_producto', 'productos.id')
+            ->join('categorias', 'productos.id_categoria', 'categorias.id')
+            ->join('clientes', 'clientes.id', 'pedidos.id_cliente')
+            ->select(
+                'productos.codigo_producto',
+                'ventas.fecha',
+                'clientes.nombres', 'clientes.telefono',
+                'detalle_ventas.cantidad'
+
+            );            
+    }
     ////////////////
     // Relaciones //
     ////////////////
