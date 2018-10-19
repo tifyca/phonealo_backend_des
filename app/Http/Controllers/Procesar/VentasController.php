@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Procesar;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\auditoria;
 use App\Clientes;
 use App\Horarios;
 use App\Ventas;
@@ -406,6 +407,14 @@ class VentasController extends Controller
                  $detallep->save();          
               }
 
+              $auditoria = new auditoria();
+              $auditoria->id_usuario =  $_SESSION["user"];
+              $auditoria->fecha      = date('Y-m-d');
+              $auditoria->accion     = "Registrando Venta";
+            // $auditoria->id_producto = $productos->id;
+              $auditoria->id_venta   = $$request->num_venta;   
+              $auditoria->save(); 
+
              
               $jsonres['message']="La Venta fue Registrada con Éxito";
                echo json_encode($jsonres);
@@ -525,8 +534,8 @@ class VentasController extends Controller
             
            }else{
 
-            $id_estado_v=1;
-            $id_estado_p=1;
+            $id_estado_v=11;
+            $id_estado_p=11;
            
            }
 
@@ -589,7 +598,12 @@ class VentasController extends Controller
                     foreach ($detalle_tempora as $dt) {
 
                               $result  = new Detalle_Ventas;
-                              $result->id_venta    = $venta->id;
+                              $result->id_venta    =  $auditoria = new auditoria();
+              $auditoria->id_usuario =  $_SESSION["user"];
+              $auditoria->fecha      = date('Y-m-d');
+              $auditoria->accion     = "Registrando Venta";
+            // $auditoria->id_producto = $productos->id;
+              $auditoria->save();
                               $result->id_producto = $dt->id_producto;
                               $result->cantidad    = $dt->cantidad;
                               $result->precio      = $dt->precio;
@@ -647,6 +661,13 @@ class VentasController extends Controller
                       $detallep->save();  
                 }          
               }
+
+              $auditoria = new auditoria();
+              $auditoria->id_usuario =  $_SESSION["user"];
+              $auditoria->fecha      = date('Y-m-d');
+              $auditoria->accion     = "Registrando Venta";
+              $auditoria->id_venta   = $request->id_venta;
+              $auditoria->save();
 
               
 

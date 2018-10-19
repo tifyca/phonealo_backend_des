@@ -36,7 +36,7 @@
               <table class="table table-hover table-bordered " id="remisas-list">
                 <thead>
                   <tr>
-                    <th style="text-align: center"  width="17%">Venta</th>
+                    <th style="text-align: center">Venta</th>
                     <th style="text-align: center">Cliente</th>
                     <th style="text-align: center">Teléfono</th>
                     <th style="text-align: center">Dirección</th>
@@ -54,10 +54,14 @@
                      <!-- jgonzalez LISTADO DE VENTAS PARA REMISA-->
                  @foreach($remisas as $remisa)
                    <tr class="table-success">
-                   <td class="venta" data-id="{{$remisa->id}}" style="text-align: center;" width="17%">{{$remisa->id}} 
+                   <td class="venta" data-id="{{$remisa->id}}" style="text-align: center;">{{$remisa->id}} 
+                    <?php $e=0; ?>
                       @for($i=0; $i<$longitud; $i++)
                         @if($remisa->id==$notaventa[$i]->id_venta)
-                          &spades;
+                            <?php $e=$e+1; ?>
+                            @if($e==1)
+                              &spades;
+                            @endif
                         @endif
                       @endfor
                             @foreach($nota as $item)
@@ -169,7 +173,7 @@
               <table class="table table-hover table-bordered " id="xatender-list">
                 <thead>
                   <tr>
-                    <th style="text-align: center;" width="17%">Venta</th>
+                    <th style="text-align: center;">Venta</th>
                     <th style="text-align: center">Cliente</th>
                     <th style="text-align: center">Teléfono</th>
                     <th style="text-align: center">Dirección</th>
@@ -193,14 +197,16 @@
                      @elseif($atender->fecha != date("Y-m-d"))
                       style="background-color:#f1d4fa;"
                      @endif>
-                        <td class="venta" data-id="{{$atender->id}}" style="text-align: center;" width="17%">{{$atender->id}} 
-
-                          @for($i=0; $i<$longitud; $i++)
-                            @if($atender->id==$notaventa[$i]->id_venta)
-                             &spades;
-                            @endif
-                          @endfor
-
+                        <td class="venta" data-id="{{$atender->id}}" style="text-align: center;">{{$atender->id}} 
+                            <?php $b=0; ?>
+                            @for($i=0; $i<$longitud; $i++)
+                              @if($atender->id==$notaventa[$i]->id_venta)
+                                  <?php $b=$b+1; ?>
+                                  @if($b==1)
+                                    &spades;
+                                  @endif
+                              @endif
+                            @endfor
                             @foreach($nota as $item)
                               @if($item->id_venta==$atender->id)
 
@@ -266,7 +272,7 @@
               <table class="table table-hover table-bordered " id="activas-list">
                 <thead>
                   <tr>
-                    <th style="text-align: center" width="17%">Venta</th>
+                    <th style="text-align: center">Venta</th>
                     <th style="text-align: center">Cliente</th>
                     <th style="text-align: center">Teléfono</th>
                     <th style="text-align: center">Dirección</th>
@@ -294,14 +300,17 @@
                       class="table-warning"
                     @endif 
                    >
-                      <td class="venta" data-id="{{$activa->id}}" style="text-align: center;" width="17%">{{$activa->id}}
-
+                      <td class="venta" data-id="{{$activa->id}}" style="text-align: center;">{{$activa->id}}
+                         <?php $y=0; ?>
                           @for($i=0; $i<$longitud; $i++)
                             @if($activa->id==$notaventa[$i]->id_venta)
-                             &spades;
+                                <?php $y=$y+1; ?>
+                                @if($y==1)
+                                  &spades;
+                                @endif
                             @endif
                           @endfor
-                          
+                                               
                           @foreach($nota as $item)
                               @if($item->id_venta==$activa->id)
 
@@ -376,7 +385,7 @@
               <table class="table table-hover table-bordered " id="esperas-list">
                 <thead>
                   <tr>
-                    <th style="text-align: center" width="17%">Venta</th>
+                    <th style="text-align: center">Venta</th>
                     <th style="text-align: center">Cliente</th>
                     <th style="text-align: center">Teléfono</th>
                     <th style="text-align: center">Dirección</th>
@@ -401,13 +410,16 @@
                       class="table-light"
                     @endif 
                     >
-                      <td class="venta" data-id="{{$enEspera->id}}" style="text-align: center" width="17%">{{$enEspera->id}}
-
-                        @for($i=0; $i<$longitud; $i++)
+                      <td class="venta" data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}}
+                          <?php $x=0; ?>
+                          @for($i=0; $i<$longitud; $i++)
                             @if($enEspera->id==$notaventa[$i]->id_venta)
-                             &spades;
+                                <?php $x=$x+1; ?>
+                                @if($x==1)
+                                  &spades;
+                                @endif
                             @endif
-                        @endfor
+                          @endfor
 
                             @foreach($nota as $item)
                               @if($item->id_venta==$enEspera->id)
@@ -533,7 +545,7 @@
                   <select class="form-control horarios" id="idhorario" name="idhorario"> 
                   </select>
                 </td>
-                <td style="text-align: center;" ><div class="vendedor"></div></td> 
+                <td style="text-align: center;" class="vendedor"></td> 
               </tr>
             </tbody>
           </table>
@@ -555,6 +567,8 @@
         </div>  
         <div class="table-responsive">
            <table class="table" >
+            <thead id="historico_n">
+            </thead>
              <tbody id="historico_notas">  
 
              
@@ -780,12 +794,14 @@ $('#btn-nota').click(function(){
         type: "GET",
         url: '{{ url('activar_venta') }}',
         dataType: "json",
-        data: { id:id, _token: '{{csrf_token()}}'},
+        data: {  _token: '{{csrf_token()}}'},
         success: function (data){
       
             $("#res").html('La Venta fue Activada');
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 ); 
+
+            location.reload(true);
         }
     });
 
@@ -801,6 +817,7 @@ $('#btn-nota').click(function(){
     $('#cliente_detalle4').html(''); 
     $('#productos_detalle').html(''); //LIMPIA EL MODAL
     $(".horarios").html('');
+    $("#historico_n").html('');
     $("#historico_notas").html('');
     $('#ModalProductos').modal('show'); //ABRE EL MODAL
     
@@ -852,19 +869,19 @@ $('#btn-nota').click(function(){
                                          </td>
                                           <td style="text-align: center;">${data[0].fecha}</td> 
                                       </tr>`);*/
-            
+                    $("#historico_n").append(`<tr>
+                                                <th colspan="5" style="text-align: center; font-size: 14px;">Historico de Notas</th>
+                                              </tr>
+                                              <tr>
+                                                <th style="text-align: center;">Vendedor</th>
+                                                <th  colspan="3"  style="text-align: center;">Nota</th>
+                                                <th style="text-align: center;">Fecha</th>
+                                              </tr>`);
             $.each(data.notas, function(l, item2)
              {
                   if(item2.id_venta==data.venta[0].id){
 
-                    $("#historico_notas").append(` <tr >
-                                                     <th colspan="5" style="text-align: center; font-size: 14px;">Historico de Notas</th>
-                                                   </tr>
-                                                  <tr>
-                                                    <th style="text-align: center;">Vendedor</th>
-                                                    <th  colspan="3"  style="text-align: center;">Nota</th>
-                                                    <th style="text-align: center;">Fecha</th>
-                                                  </tr>
+                    $("#historico_notas").append(` 
                                                   <tr>
                                                     <td style="text-align: center;">${item2.nombre}</td>
                                                     <td  colspan="3" style="text-align: left;">${item2.nota.replace(/~/g, '<br >' )}</td>
@@ -875,7 +892,7 @@ $('#btn-nota').click(function(){
              });
 
           $(".horarios").val(data.venta[0].id_horario);
-          $(".vendedor").val(data.venta[0].nameuser);
+          $(".vendedor").html(data.venta[0].nameuser);
 
           //CICLO DE LOS DATOS RECIBIDOS
           $.each(data.venta, function(l, item) {

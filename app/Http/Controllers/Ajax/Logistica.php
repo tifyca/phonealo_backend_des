@@ -55,10 +55,10 @@ class Logistica extends Controller
     }
     #jgonzalez
     public function activar_venta(Request $request){
-        $id = $request['id'];
+       
         $venta = Ventas::where('id_estado',5)
-                       ->where('fecha', date("Y-m-d"))
-                       ->update(array('id_estado' => 11));
+                       ->where('fecha_activo', date("Y-m-d"))
+                       ->update(array('id_estado' => 1));
 
       
         return $venta;
@@ -103,6 +103,7 @@ class Logistica extends Controller
         $notas  = new Notas_Ventas;
         $notas->id_venta   = $request->id_venta;
         $notas->nota       = $request->nota;
+        $notas->nota       = ucwords(strtolower($request->nota));
         $notas->id_usuario = $request->id_usuario;
         $notas->save();
 
