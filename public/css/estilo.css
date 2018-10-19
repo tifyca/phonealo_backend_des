@@ -26,5 +26,9 @@
 .toolTip {}
 
 .oculto{
-	display:none;
+	display:none !important;
+}
+
+.no-hover:hover{
+	background-color: white !important;  
 }
