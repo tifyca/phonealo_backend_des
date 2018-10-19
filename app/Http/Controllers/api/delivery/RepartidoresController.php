@@ -74,15 +74,19 @@ class RepartidoresController extends Controller
             $idempleado = $request["idempleado"];
             $empleados = Empleados::where('id', $idempleado)->first();
             if ($empleados) {
+
               $pedidos= DB::table('remitos as a')
               ->join('detalle_remito as b','a.id','=','b.id_remito')
               ->join('ventas as c','b.id_venta','=','c.id')
               ->join('pedidos as d','c.id_pedido','=','d.id')
-              ->join('horarios as e','c.id_horario','=','e.id')
-              ->join('clientes as f','d.id_cliente','=','f.id')
-              ->join('estados as g','a.id_estado','=','g.estado')
-              ->select('b.id_venta','a.id_delivery','a.importe','a.id_estado','f.telefono','e.horario','g.estado')
+              ->join('clientes as e','d.id_cliente','=','e.id')
+              ->join('horarios as f','c.id_horario','=','f.id')
+              ->join('estados as g','a.id_estado','=','g.id')
+//              ->select('b.id_venta','a.id_delivery','a.importe','a.id_estado','f.telefono','e.horario','g.estado')
+               ->select('b.id_venta','a.id_delivery','a.importe','a.id_estado','d.id_cliente','e.telefono','f.horario','g.estado')
+
               ->where('a.id_delivery',$idempleado)->where('a.id_estado','6')->get();                  
+             
              if($pedidos){
                 $jornada= new delivery_horario();
                 $jornada->id_delivery = $idempleado;
@@ -90,12 +94,12 @@ class RepartidoresController extends Controller
                 $jornada->activo = 1;
                 $data=[];
                 foreach($pedidos as $ped){
-                  $data["id_venta"]=$ped->id_venta;
+                  $data["id_venta"]    = $ped->id_venta;
                   $data["id_empleado"] = $ped->id_delivery;
-                  $data["telefono"]=$ped->telefono;
-                  $data["horario"]=$ped->horario;
-                  $data["id_estado"]=$ped->id_estado;
-                  $data["estado"]=$ped->estado;
+                  $data["telefono"]    = $ped->telefono;
+                  $data["horario"]     = $ped->horario;
+                  $data["id_estado"]   = $ped->id_estado;
+                  $data["estado"]      = $ped->estado;
                 }
                 return ["status" => "exito", "data" => $data];                
              }else{
