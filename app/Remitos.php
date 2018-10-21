@@ -27,7 +27,8 @@ class Remitos extends Model
     			'clientes.nombres as nombre_cliente', 'clientes.telefono',
                 'productos.id as id_producto','productos.descripcion',
                 'ventas.id as id_venta', 
-                'forma_pago.forma_pago'
+                'forma_pago.forma_pago',
+                'detalle_remito.id_venta as dr_id_venta'
     		);
     }
 
@@ -41,6 +42,26 @@ class Remitos extends Model
                 'productos.descripcion', 'productos.codigo_producto',
                 'ventas.id as id_venta',
                 'detalle_ventas.cantidad', 'detalle_ventas.precio'
+            );
+    }
+
+    public function scopeVentas($query){
+        return $query->join('detalle_remito', 'remitos.id', 'detalle_remito.id_remito')
+            ->join('ventas', 'ventas.id', 'detalle_remito.id_venta')
+            ->join('detalle_ventas', 'detalle_ventas.id_venta', 'ventas.id')
+            ->join('productos', 'productos.id', 'detalle_ventas.id_producto')
+            ->join('pedidos', 'ventas.id_pedido', 'pedidos.id')
+            ->join('clientes', 'pedidos.id_cliente', 'clientes.id')
+            ->join('forma_pago', 'forma_pago.id', 'ventas.id_forma_pago')
+            ->select(
+                'remitos.id as id_remito', 
+                // 'productos.id as id_producto',
+                // 'productos.descripcion', 'productos.codigo_producto',
+                'ventas.id', 
+                'detalle_ventas.cantidad', 'detalle_ventas.precio',
+                'detalle_remito.id_remito as dr_id_remito', 'detalle_remito.id_venta as dr_id_venta',
+                'clientes.nombres as nombre_cliente', 'clientes.telefono',
+                'forma_pago.forma_pago'
             );
     }
     
