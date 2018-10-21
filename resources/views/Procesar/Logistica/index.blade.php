@@ -95,7 +95,7 @@
 
                           <button data-toggle="tooltip" data-placement="top" title="No Remisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
                           <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$remisa->id}}"><i class="fa fa-lg fa-file" ></i></button>   
+                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$remisa->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>   
                           </div>
 
                       </td>
@@ -239,7 +239,7 @@
 
                           <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
                           <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$atender->id}}"><i class="fa fa-lg fa-file" ></i></button>
+                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$atender->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>
                          </div>
                       </td>
                     </tr>
@@ -344,7 +344,7 @@
                         <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
 
                         <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$activa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                        <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$activa->id}}"><i class="fa fa-lg fa-file" ></i></button>
+                        <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$activa->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>
                         </div>
                       </td>
                     </tr>
@@ -461,7 +461,7 @@
 
                           <!--button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button-->   
 
-                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{ $enEspera->id }}"><i class="fa fa-lg fa-file" ></i></button>
+                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{ $enEspera->id }}"><i class="fa fa-lg fa-comment-o" ></i></button>
                         </div>
                       </td>
                     </tr>
