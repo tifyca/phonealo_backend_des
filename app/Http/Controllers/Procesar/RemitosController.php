@@ -15,11 +15,11 @@ class RemitosController extends Controller
             ->FiltroFecha($request->fecha)->FiltroEstado($request->estado)
             // Agrupar por id remito y ordenar por id ascendentemente
             ->groupBy('remitos.id')
-            ->orderBy('id', 'asc')
+            ->orderBy('id', 'desc')
             ->paginate(10); 
 
         $remitosVentas = Remitos::Ventas()
-            ->groupBy('id')
+            ->groupBy('ventas.id')
             ->get();
 
         // Productos asociados a la venta, se muestra en modal
@@ -29,7 +29,9 @@ class RemitosController extends Controller
         $estados = Estados::orderBy('id', 'ASC')
             ->select('id', 'estado')->get();
 
-    	return view('Procesar.Remitos.index', compact('remitos', 'estados', 'remitosProductos', 'remitosVentas'));
+    	return view('Procesar.Remitos.index', 
+            compact('remitos', 'estados', 'remitosProductos', 'remitosVentas')
+        );
     }
 
     public function update(Request $request, $id){
