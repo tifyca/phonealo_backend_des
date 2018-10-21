@@ -15,6 +15,7 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
+@php $longitud=count($notaventa); @endphp
  <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo.css') }}">
   <div class="row" >
   {{-- TABLA DE REMISAS --}}
@@ -51,28 +52,32 @@
                 <tbody>
                   <tr>
                      <!-- jgonzalez LISTADO DE VENTAS PARA REMISA-->
-                  @foreach($remisas as $remisa)
+                 @foreach($remisas as $remisa)
                    <tr class="table-success">
-                  @if($remisa->id==$notaventa[0]->id_venta)
-                      <td class="venta" data-id="{{$remisa->id}}" style="text-align: center">{{$remisa->id}} &spades;
-                        @foreach($nota as $item)
-                          @if($item->id_venta==$remisa->id)
-
-                              <div class="toolTip" id="{{$remisa->id}}" style="display: none;">
-                               <table style="border:0px; width: 400px; font-size: 12px; ">
-                                <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
-                                <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
-                               </table>
-                          @endif
-                        @endforeach
-                              </div>
-                          </td>
-                      @else
-                         <td class="venta" data-id="{{$remisa->id}}" style="text-align: center">{{$remisa->id}}            
-                          </td>
-                      @endif
+                   <td class="venta" data-id="{{$remisa->id}}" style="text-align: center;">{{$remisa->id}} 
+                    <?php $e=0; ?>
+                      @for($i=0; $i<$longitud; $i++)
+                        @if($remisa->id==$notaventa[$i]->id_venta)
+                            <?php $e=$e+1; ?>
+                            @if($e==1)
+                              &spades;
+                            @endif
+                        @endif
+                      @endfor
+                            @foreach($nota as $item)
+                              @if($item->id_venta==$remisa->id)
+                                  <div class="toolTip" id="{{$remisa->id}}" style="display: none;">
+                                   <table style="border:0px; width: 400px; font-size: 12px; ">
+                                    <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
+                                    <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                                   </table>
+                                  </div>
+                              @endif
+                            @endforeach
+                          </td>               
+                       
                       </td>
-                      <td style="text-align: left;">{{$remisa->nombres}}</td>
+                      <td style="text-align: left; width: 70px;">{{$remisa->nombres}}</td>
                       <td style="text-align: center">{{$remisa->telefono}}</td>
                       <td style="text-align: left;">{{$remisa->direccion}}</td>
                       <td style="text-align: center">{{$remisa->fecha}}</td>
@@ -90,7 +95,7 @@
 
                           <button data-toggle="tooltip" data-placement="top" title="No Remisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
                           <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$remisa->id}}"><i class="fa fa-lg fa-file" ></i></button>   
+                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$remisa->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>   
                           </div>
 
                       </td>
@@ -168,7 +173,7 @@
               <table class="table table-hover table-bordered " id="xatender-list">
                 <thead>
                   <tr>
-                    <th style="text-align: center">Venta</th>
+                    <th style="text-align: center;">Venta</th>
                     <th style="text-align: center">Cliente</th>
                     <th style="text-align: center">Teléfono</th>
                     <th style="text-align: center">Dirección</th>
@@ -186,32 +191,35 @@
                   <!-- jgonzalez LISTADO DE VENTAS EN ATENDER-->
                   
                   @foreach($xatender as $atender)
-
-
                    <tr
                      @if($atender->fecha == date("Y-m-d"))
                       class="table-danger"
-                    @elseif($atender->fecha != date("Y-m-d"))
+                     @elseif($atender->fecha != date("Y-m-d"))
                       style="background-color:#f1d4fa;"
-                    @endif >
-                     @if($atender->id==$notaventa[0]->id_venta)
-                      <td class="venta" data-id="{{$atender->id}}" style="text-align: center">{{$atender->id}} &spades;
-                        @foreach($nota as $item)
-                          @if($item->id_venta==$atender->id)
+                     @endif>
+                        <td class="venta" data-id="{{$atender->id}}" style="text-align: center;">{{$atender->id}} 
+                            <?php $b=0; ?>
+                            @for($i=0; $i<$longitud; $i++)
+                              @if($atender->id==$notaventa[$i]->id_venta)
+                                  <?php $b=$b+1; ?>
+                                  @if($b==1)
+                                    &spades;
+                                  @endif
+                              @endif
+                            @endfor
+                            @foreach($nota as $item)
+                              @if($item->id_venta==$atender->id)
 
-                              <div class="toolTip" id="{{$atender->id}}" style="display: none;">
-                               <table style="border:0px; width: 400px; font-size: 12px; ">
-                                <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
-                                <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
-                               </table>
-                          @endif
-                        @endforeach
-                              </div>
-                          </td>
-                      @else
-                         <td class="venta" data-id="{{$atender->id}}" style="text-align: center">{{$atender->id}}            
-                          </td>
-                      @endif
+                                  <div class="toolTip" id="{{$atender->id}}"  style="display: none;">
+                                   <table style="border:0px; width: 400px; font-size: 12px; ">
+                                    <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
+                                    <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                                   </table>
+                                  </div>
+                              @endif
+                            @endforeach
+                              </td>
+                     
                       </td>
                       <td style="text-align: left;">{{$atender->nombres}}</td>
                       <td style="text-align: center">{{$atender->telefono}}</td>
@@ -231,7 +239,7 @@
 
                           <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
                           <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$atender->id}}"><i class="fa fa-lg fa-file" ></i></button>
+                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$atender->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>
                          </div>
                       </td>
                     </tr>
@@ -292,24 +300,29 @@
                       class="table-warning"
                     @endif 
                    >
-                      @if($activa->id==$notaventa[0]->id_venta)
-                      <td class="venta" data-id="{{$activa->id}}" style="text-align: center">{{$activa->id}} &spades;
-                        @foreach($nota as $item)
-                          @if($item->id_venta==$activa->id)
+                      <td class="venta" data-id="{{$activa->id}}" style="text-align: center;">{{$activa->id}}
+                         <?php $y=0; ?>
+                          @for($i=0; $i<$longitud; $i++)
+                            @if($activa->id==$notaventa[$i]->id_venta)
+                                <?php $y=$y+1; ?>
+                                @if($y==1)
+                                  &spades;
+                                @endif
+                            @endif
+                          @endfor
+                                               
+                          @foreach($nota as $item)
+                              @if($item->id_venta==$activa->id)
 
-                              <div class="toolTip" id="{{$activa->id}}" style="display: none;">
-                               <table style="border:0px; width: 400px; font-size: 12px; ">
-                                <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
-                                <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
-                               </table>
-                          @endif
-                        @endforeach
-                              </div>
-                          </td>
-                      @else
-                         <td class="venta" data-id="{{$activa->id}}" style="text-align: center">{{$activa->id}}            
-                          </td>
-                      @endif
+                                  <div class="toolTip" id="{{$activa->id}}" style="display: none;">
+                                   <table style="border:0px; width: 400px; font-size: 12px; ">
+                                    <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
+                                    <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                                   </table>
+                                  </div>
+                              @endif
+                            @endforeach
+                              </td>
                       </td>
                       <td style="text-align: left;">{{$activa->nombres}}</td>
                       <td style="text-align: center">{{$activa->telefono}}</td>
@@ -331,7 +344,7 @@
                         <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
 
                         <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$activa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                        <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$activa->id}}"><i class="fa fa-lg fa-file" ></i></button>
+                        <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$activa->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>
                         </div>
                       </td>
                     </tr>
@@ -365,7 +378,8 @@
   @if(count($enEsperas) > 0)
    <div class="col-12" >
     <div class="tile ">
-      <h3 class="tile-title text-center text-md-left"> Ventas en Espera </h3>
+      <h3 class="tile-title text-center text-md-left"> Ventas en Espera </h3> 
+       <div align="right"><button class="btn btn-primary"  id="btn-activar" ><i class="fa fa-fw fa-lg fa-check-circle"></i>Activar</button></div>
       <div class="tile-body ">
         <div class="table-responsive">
               <table class="table table-hover table-bordered " id="esperas-list">
@@ -396,24 +410,29 @@
                       class="table-light"
                     @endif 
                     >
-                    @if($enEspera->id==$notaventa[0]->id_venta)
-                      <td class="venta" data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}} &spades;
-                        @foreach($nota as $item)
-                          @if($item->id_venta==$enEspera->id)
+                      <td class="venta" data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}}
+                          <?php $x=0; ?>
+                          @for($i=0; $i<$longitud; $i++)
+                            @if($enEspera->id==$notaventa[$i]->id_venta)
+                                <?php $x=$x+1; ?>
+                                @if($x==1)
+                                  &spades;
+                                @endif
+                            @endif
+                          @endfor
 
-                              <div class="toolTip" id="{{$enEspera->id}}" style="display: none;">
-                               <table style="border:0px; width: 400px; font-size: 12px; ">
-                                <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
-                                <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
-                               </table>
-                          @endif
-                        @endforeach
-                              </div>
-                          </td>
-                      @else
-                         <td class="venta" data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}}            
-                          </td>
-                      @endif
+                            @foreach($nota as $item)
+                              @if($item->id_venta==$enEspera->id)
+
+                                  <div class="toolTip" id="{{$enEspera->id}}" style="display: none;">
+                                   <table style="border:0px; width: 400px; font-size: 12px; ">
+                                    <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
+                                    <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                                   </table>
+                                  </div>
+                              @endif
+                            @endforeach
+                        </td>
                       </td>
                       <td style="text-align: left;">{{$enEspera->nombres}}</td>
                       <td style="text-align: center">{{$enEspera->telefono}}</td>
@@ -442,7 +461,7 @@
 
                           <!--button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button-->   
 
-                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{ $enEspera->id }}"><i class="fa fa-lg fa-file" ></i></button>
+                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{ $enEspera->id }}"><i class="fa fa-lg fa-comment-o" ></i></button>
                         </div>
                       </td>
                     </tr>
@@ -526,7 +545,7 @@
                   <select class="form-control horarios" id="idhorario" name="idhorario"> 
                   </select>
                 </td>
-                <td style="text-align: center;" ><div class="vendedor"></div></td> 
+                <td style="text-align: center;" class="vendedor"></td> 
               </tr>
             </tbody>
           </table>
@@ -548,16 +567,12 @@
         </div>  
         <div class="table-responsive">
            <table class="table" >
-              <tr >
-                <th colspan="5" style="text-align: center; font-size: 14px;">Historico de Notas</th>
-              </tr>
-              <tr>
-                <th style="text-align: center;">Vendedor</th>
-                <th  colspan="3"  style="text-align: center;">Nota</th>
-                <th style="text-align: center;">Fecha</th>
-              </tr>
-            <tbody id="historico_notas">  
+            <thead id="historico_n">
+            </thead>
+             <tbody id="historico_notas">  
 
+             
+           
             </tbody>  
           </table>
         </div>
@@ -773,6 +788,25 @@ $('#btn-nota').click(function(){
 
  });
   
+  $('#btn-activar').click(function(){
+   
+       $.ajax({
+        type: "GET",
+        url: '{{ url('activar_venta') }}',
+        dataType: "json",
+        data: {  _token: '{{csrf_token()}}'},
+        success: function (data){
+      
+            $("#res").html('La Venta fue Activada');
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 ); 
+
+            location.reload(true);
+        }
+    });
+
+
+ });
 //<!-- Detalle de Venta - Vista rapida de productos en la Venta -->
   $('.detalle').click(function(){
 
@@ -783,6 +817,8 @@ $('#btn-nota').click(function(){
     $('#cliente_detalle4').html(''); 
     $('#productos_detalle').html(''); //LIMPIA EL MODAL
     $(".horarios").html('');
+    $("#historico_n").html('');
+    $("#historico_notas").html('');
     $('#ModalProductos').modal('show'); //ABRE EL MODAL
     
       $.ajax({
@@ -808,6 +844,7 @@ $('#btn-nota').click(function(){
           console.log(data);
           var total=0;
           var importe=0;
+          var x=0;
 
           $("#id_venta").val(data.venta[0].id);
           $('#title').html('Detalle de Venta:  ' + data.venta[0].id);
@@ -833,19 +870,43 @@ $('#btn-nota').click(function(){
                                          </td>
                                           <td style="text-align: center;">${data[0].fecha}</td> 
                                       </tr>`);*/
+            for (var i = 0; i < data.notas.length; i++) {
+
+
+
+              if(data.notas[i].id_venta==data.venta[0].id){
+                 x=x+1
+
+                if(x==1){
+                       $("#historico_n").append(`<tr>
+                                        <th colspan="5" style="text-align: center; font-size: 14px;">Historico de Notas</th>
+                                      </tr>
+                                      <tr>
+                                        <th style="text-align: center;">Vendedor</th>
+                                        <th  colspan="3"  style="text-align: center;">Nota</th>
+                                        <th style="text-align: center;">Fecha</th>
+                                      </tr>`);
+                }
+
+              }
+          }
             
             $.each(data.notas, function(l, item2)
              {
                   if(item2.id_venta==data.venta[0].id){
-                    $("#historico_notas").append(`<tr><td style="text-align: left;">${item2.nombre}</td>
-                                                   <td  colspan="3" style="text-align: left;">${item2.nota.replace(/~/g, '<br >' )}</td>
-                                                   <td style="text-align: left;">${item2.fecha}</td></tr>`);
+
+                    $("#historico_notas").append(` 
+                                                  <tr>
+                                                    <td style="text-align: center;">${item2.nombre}</td>
+                                                    <td  colspan="3" style="text-align: left;">${item2.nota.replace(/~/g, '<br >' )}</td>
+                                                    <td style="text-align: center;">${item2.fecha}</td>
+                                                   </tr>`);
                   }
                  
              });
 
           $(".horarios").val(data.venta[0].id_horario);
-          $(".vendedor").val(data.venta[0].nameuser);
+          $(".vendedor").html(data.venta[0].nameuser);
 
           //CICLO DE LOS DATOS RECIBIDOS
           $.each(data.venta, function(l, item) {

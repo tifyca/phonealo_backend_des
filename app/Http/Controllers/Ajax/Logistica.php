@@ -54,13 +54,15 @@ class Logistica extends Controller
         return $num;
     }
     #jgonzalez
-  /*  public function activar_venta(Request $request){
-        $id = $request['id'];
-        $venta = Ventas::find($id);
-        $venta->id_estado = 11;
-        $venta->save();
+    public function activar_venta(Request $request){
+       
+        $venta = Ventas::where('id_estado',5)
+                       ->where('fecha_activo', date("Y-m-d"))
+                       ->update(array('id_estado' => 1));
+
+      
         return $venta;
-    }*/
+    }
     #jgonzalez
     public function asignar_remisa(Request $request){
         $id_empleado = $request['id_empleado'];
@@ -81,7 +83,8 @@ class Logistica extends Controller
             
             $venta = Ventas::find($item);
 //         $venta->id_estado = 7;
-            $venta->id_estado = 6;
+            //Cuando se asigna a delivery la venta queda confirmada en 7 y el remito en 6
+            $venta->id_estado = 7;  
             $venta->save();
 
             $detremito  = new Detalle_remito;
@@ -100,6 +103,7 @@ class Logistica extends Controller
         $notas  = new Notas_Ventas;
         $notas->id_venta   = $request->id_venta;
         $notas->nota       = $request->nota;
+        $notas->nota       = ucwords(strtolower($request->nota));
         $notas->id_usuario = $request->id_usuario;
         $notas->save();
 

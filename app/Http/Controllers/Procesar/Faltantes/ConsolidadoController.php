@@ -21,7 +21,12 @@ class ConsolidadoController extends Controller
             $pedidos = pedido::Consolidado()->paginate(10);            
         }
 
-        return view('Procesar.Faltantes.Consolidado.index', compact('pedidos'));
+        $ventas = pedido::VentasEnEspera()->get();
+
+        // return $pedidos;
+        // return $ventas;
+
+        return view('Procesar.Faltantes.Consolidado.index', compact('pedidos', 'ventas'));
     }
 
     public function create()

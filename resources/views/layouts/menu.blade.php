@@ -63,50 +63,42 @@
 
 <li class="treeview {{ Request::is('procesar/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-check"></i><span class="app-menu__label">Procesar</span><i class="treeview-indicator fa fa-angle-right"></i></a>
   <ul class="treeview-menu">
-    <li><a class="treeview-item {{ Request::is('procesar/gastos*') ? 'active' : '' }}" href="{{ route('gastos.index') }}"><i class="icon fa fa-circle-o"></i>Gastos</a></li>
+      <li><a class="treeview-item {{ Request::is('procesar/gastos*') ? 'active' : '' }}" href="{{ route('gastos.index') }}"><i class="icon fa fa-circle-o"></i>Gastos</a></li>
 
-    <li><a class="treeview-item {{ Request::is('procesar/ventas*') ? 'active' : '' }}" href="{{ route('ventas.index') }}"><i class="icon fa fa-circle-o"></i>Ventas</a></li>
-    <li><a class="treeview-item {{ Request::is('procesar/faltantes') ? 'active' : '' }}" href="{{ route('faltantes.index') }}"><i class="icon fa fa-circle-o"></i>Faltantes</a>
+        <li><a class="treeview-item {{ Request::is('procesar/ventas*') ? 'active' : '' }}" href="{{ route('ventas.index') }}"><i class="icon fa fa-circle-o"></i>Ventas</a></li>
+        <li><a class="treeview-item {{ Request::is('procesar/faltantes') ? 'active' : '' }}" href="{{ route('faltantes.index') }}"><i class="icon fa fa-circle-o"></i>Faltantes</a>
+           <ul class="treeview-menu pl-3" >
+              <li><a class="treeview-item {{ Request::is('procesar/faltantes-consolidado') ? 'active' : '' }}" href="{{ route('faltantes-consolidado.index') }}"><i class="icon fa fa-circle-o"></i>Consolidado</a></li>
+            </ul>
+        </li>
+        <li><a class="treeview-item {{ Request::is('procesar/pedidos*') ? 'active' : '' }}" href="{{ route('pedidos.index') }}"><i class="icon fa fa-circle-o"></i>Pedidos</a></li>
 
- <ul class="treeview-menu pl-3" >
-        <li><a class="treeview-item {{ Request::is('procesar/faltantes-consolidado') ? 'active' : '' }}" href="{{ route('faltantes-consolidado.index') }}"><i class="icon fa fa-circle-o"></i>Consolidado</a></li>
-      </ul>
-    </li>
+            <a class="treeview-item {{ Request::is('procesar/descompuestos') ? 'active' : '' }}" href="{{ route('descompuestos') }}">  <i class="icon fa fa-circle-o"></i>Descompuestos </a>
+            <ul class="treeview-menu pl-3" >
+              <li><a class="treeview-item {{ Request::is('procesar/descompuestos/soporte') ? 'active' : '' }}" href="{{ route('descompuestos.soporte') }}"><i class="icon fa fa-circle-o"></i>Soporte</a></li>
+          </ul>
+        
+          <li><a class="treeview-item {{ Request::is('procesar/aconfirmar*') ? 'active' : '' }}" href="{{ route('aconfirmar.index') }}"><i class="icon fa fa-circle-o"></i>A confirmar</a></li> 
 
-    <li><a class="treeview-item {{ Request::is('procesar/pedidos*') ? 'active' : '' }}" href="{{ route('pedidos.index') }}"><i class="icon fa fa-circle-o"></i>Pedidos</a></li>
+           <li><a class="treeview-item {{ Request::is('procesar/conversiones*') ? 'active' : '' }}" href="{{ route('procesar.conversiones') }}"><i class="icon fa fa-circle-o"></i>Conversiones</a></li>
+     </ul>
+   </li>
 
-      <a class="treeview-item {{ Request::is('procesar/descompuestos') ? 'active' : '' }}" href="{{ route('descompuestos') }}">  <i class="icon fa fa-circle-o"></i>
-        Descompuestos
-      </a>
-      <ul class="treeview-menu pl-3" >
-        <li><a class="treeview-item {{ Request::is('procesar/descompuestos/soporte') ? 'active' : '' }}" href="{{ route('descompuestos.soporte') }}"><i class="icon fa fa-circle-o"></i>Soporte</a></li>
-      </ul>
-    </li>
-    <li><a class="treeview-item {{ Request::is('procesar/aconfirmar*') ? 'active' : '' }}" href="{{ route('aconfirmar.index') }}"><i class="icon fa fa-circle-o"></i>A confirmar</a></li> 
-    
-    <li><a class="treeview-item {{ Request::is('procesar/conversiones*') ? 'active' : '' }}" href="{{ route('procesar.conversiones') }}"><i class="icon fa fa-circle-o"></i>Conversiones</a></li>
-  </ul>
-</li>
+    <li class="treeview {{ Request::is('logistica/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-list"></i><span class="app-menu__label">Logística</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+           <ul class="treeview-menu">
 
-
-
-<li class="treeview {{ Request::is('procesar/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-list"></i><span class="app-menu__label">Logística</span><i class="treeview-indicator fa fa-angle-right"></i></a>
- <ul class="treeview-menu pl-3" > 
-    <li><a class="treeview-item {{ Request::is('procesar/logistica*') ? 'active' : '' }}" href="{{ route('logistica') }}"><i class="icon fa fa-circle-o"></i>Administrar Flujos</a></li>
-   
-    <li><a class="treeview-item {{ Request::is('procesar/remitos*') ? 'active' : '' }}" href="{{ route('remitos.index') }}"><i class="icon fa fa-circle-o"></i>Recepción/Remitos</a></li>            
-  
-   <li><a class="treeview-item {{ Request::is('procesar/remitos*') ? 'active' : '' }}" href="{{ route('remitos.index') }}"><i class="icon fa fa-circle-o"></i>Monitoreo de Repartidores</a></li>   
-
-    <li><a class="treeview-item {{ Request::is('procesar/remitos*') ? 'active' : '' }}" href="{{ route('remitos.index') }}"><i class="icon fa fa-circle-o"></i>Historial de Repartidores</a></li>            
-  </ul>
-</li>
+          <li><a class="treeview-item {{ Request::is('logistica/logistica*') ? 'active' : '' }}" href="{{ route('logistica') }}"><i class="icon fa fa-circle-o"></i>Administrar Flujos</a></li>
+          <li><a class="treeview-item {{ Request::is('logistica/remitos*') ? 'active' : '' }}" href="{{ route('remitos.index') }}"><i class="icon fa fa-circle-o"></i>Recepción/Remitos</a></li>
+          <li><a class="treeview-item {{ Request::is('logistica/monitoreo*') ? 'active' : '' }}" href="#"><i class="icon fa fa-circle-o"></i>Monitoreo de Repartidores</a></li>
+          <li>
+              <a class="treeview-item {{ Request::is('logistica/historial') ? 'active' : '' }}" href="#">  <i class="icon fa fa-circle-o"></i>
+        Historial de Repartidores</a>
+     
+         </li>
 
 
-
-
-
-
+         </ul>
+     </li>
 
 @endif
 
@@ -118,6 +110,8 @@
     <li><a class="treeview-item {{ Request::is('caja/historial*') ? 'active' : '' }}" href="{{ route('caja.historial') }}"><i class="icon fa fa-circle-o"></i>Historial de POS/otros ingresos</a></li>
   </ul>
 </li>
+
+
 
 
 <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-download"></i><span class="app-menu__label">Generar</span><i class="treeview-indicator fa fa-angle-right"></i></a>
