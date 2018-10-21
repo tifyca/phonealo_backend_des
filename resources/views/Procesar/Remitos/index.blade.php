@@ -132,25 +132,32 @@
                 <th class="text-center">Acciones</th>
               </tr>
             </thead>
-            <tbody>             
+            <tbody>
+              @foreach ($remitosVentas as $venta)
+              @if ( $venta->dr_id_remito == $remito->id)              
               <tr>
-                <td class="text-center">{{ $remito->id_venta }}</td>
-                <td class="text-center">{{ $remito->nombre_cliente }}</td>
-                <td class="text-center">{{ $remito->telefono }}</td>
+                <td class="text-center">{{ $venta->id }}</td>
+                <td class="text-center">{{ $venta->nombre_cliente }}</td>
+                <td class="text-center">{{ $venta->telefono }}</td>
                 {{-- <td class="text-center">Importe</td> --}}
-                <td class="text-center">{{ $remito->forma_pago }}</td>
+                <td class="text-center">{{ $venta->forma_pago }}</td>
                 {{-- <td class="text-center">Fecha</td> --}}
                 <td class="text-center">
                   <div class="btn-group">                    
-                    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample{{ $remito->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $remito->id }}"><i class="m-0 fa fa-lg fa-eye"></i></a>
+                    <a class="btn btn-primary boton-accion-venta" data-toggle="collapse" href="#collapseExample{{ $venta->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $venta->id }}"><i class="m-0 fa fa-lg fa-eye"></i>
+                    </a>
                   </div>
                 </td>
               </tr>
+              @endif
+              @endforeach
             </tbody>
           </table>
         </div>
-        <div class="collapse table-responsive px-4" id="collapseExample{{ $remito->id }}" >
-          <h5 class="modal-title" id="exampleModalLabel{{ $remito->id }}">Productos</h5>
+        @foreach ($remitosVentas as $venta)
+        @if ( $venta->dr_id_remito == $remito->id) 
+        <div class="collapse table-responsive px-4" id="collapseExample{{ $venta->id }}" >
+          <h5 class="modal-title" id="exampleModalLabel{{ $venta->id }}">Productos - Venta #{{ $venta->id }}</h5>
            <table class="table ">
             <thead>
               <tr>
@@ -163,7 +170,7 @@
             </thead>
             <tbody>
               @foreach ($remitosProductos as $producto)
-              @if ( $producto->id_venta == $remito->id_venta )            
+              @if ( $producto->id_venta == $venta->id )            
               <tr>
                 <td class="text-center">{{ $producto->codigo_producto }}</td>
                 <td class="text-center">{{ $producto->descripcion }}</td>
@@ -182,6 +189,8 @@
             </tbody>
           </table>        
         </div>
+        @endif
+        @endforeach
       </div>
     </div>
   </div>
@@ -221,11 +230,12 @@
 <script>
 $(function(){
 
-  let importe, total = 0; 
+  let importe, total = 0, precio_producto, boton_confirmar, mensaje_confirmacion; 
   importe = $('.importe');
   precio_producto = $('.precio_producto');
   boton_confirmar = $('button[name=confirmar]');
-  mensaje_confirmacion = "{{ session('mensaje') }}";  
+  mensaje_confirmacion = "{{ session('mensaje') }}";
+  boton_accion_venta = $('a.boton-accion-venta');  
   ////////////////////////////////////////////////////////////////
   // Sumar la columnas importes por pagina y separadores de mil //
   ////////////////////////////////////////////////////////////////
@@ -249,6 +259,10 @@ $(function(){
     $(this).text( new Intl.NumberFormat("de-DE").format( $(this).text() ) );
   });
 
+  boton_accion_venta.on('click', function(){
+    $(this).toggleClass('btn-primary').toggleClass('btn-dark')    
+      .children().toggleClass('text-primary');
+  });
   //////////////////////////////////
   // Mensaje notificacion success //
   //////////////////////////////////   
@@ -257,6 +271,7 @@ $(function(){
     $("#res, #res-content").css("display","block");
     $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
   }  
+
 
 });
 </script>

@@ -17,6 +17,11 @@ class RemitosController extends Controller
             ->groupBy('remitos.id')
             ->orderBy('id', 'asc')
             ->paginate(10); 
+
+        $remitosVentas = Remitos::Ventas()
+            ->groupBy('id')
+            ->get();
+
         // Productos asociados a la venta, se muestra en modal
         $remitosProductos = Remitos::Productos()
             ->groupBy('productos.id','detalle_ventas.id_venta')->get();    
@@ -24,7 +29,7 @@ class RemitosController extends Controller
         $estados = Estados::orderBy('id', 'ASC')
             ->select('id', 'estado')->get();
 
-    	return view('Procesar.Remitos.index', compact('remitos', 'estados', 'remitosProductos'));
+    	return view('Procesar.Remitos.index', compact('remitos', 'estados', 'remitosProductos', 'remitosVentas'));
     }
 
     public function update(Request $request, $id){
