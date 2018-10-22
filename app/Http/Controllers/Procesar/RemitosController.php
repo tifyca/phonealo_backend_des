@@ -17,14 +17,15 @@ class RemitosController extends Controller
             ->groupBy('remitos.id')
             ->orderBy('id', 'desc')
             ->paginate(10); 
-
+            
+        // Agrupa las ventas asociadas a los remitos, se muestra en modal
         $remitosVentas = Remitos::Ventas()
-            ->groupBy('ventas.id')
-            ->get();
+            ->groupBy('ventas.id')->get();
 
         // Productos asociados a la venta, se muestra en modal
         $remitosProductos = Remitos::Productos()
-            ->groupBy('productos.id','detalle_ventas.id_venta')->get();    
+            ->groupBy('productos.id','detalle_ventas.id_venta')->get();  
+
         // Select que muestra los elementos que se encuentran en la tabla "estados"
         $estados = Estados::orderBy('id', 'ASC')
             ->select('id', 'estado')->get();
@@ -41,7 +42,7 @@ class RemitosController extends Controller
             // Pasar de estado "delivery(6)" a estado "cobrado(3)"
             $estado = 3;
             $this->modificaEstadoRemito($id, $estado);            
-            session()->flash('mensaje', 'Remito confirmado exitosamente');
+            session()->flash('mensaje', 'El Remito fue confirmado exitosamente');
         }
 
         return back();
