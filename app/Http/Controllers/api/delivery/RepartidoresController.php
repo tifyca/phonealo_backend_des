@@ -144,7 +144,7 @@ class RepartidoresController extends Controller
               ->select('b.id_venta','a.id_delivery','a.importe','a.id_estado','f.telefono','e.horario','g.estado')
               ->where('a.id_delivery',$idempleado)->where('a.id_estado','6')->get();                  
              if($pedidos){
-                dd($pedidos);
+               
                 $data=[];
                 foreach($pedidos as $ped){
                   $data["id_venta"]=$ped->id_venta;
