@@ -120,7 +120,7 @@
       </div>
       <div class="modal-body">
         <div class="table-responsive">
-          <table class="table">
+          <table class="table" width="100%">
             <thead>
               <tr>
                 <th class="text-center">Venta</th>
@@ -128,6 +128,7 @@
                 <th class="text-center">Teléfono</th>
                 {{-- <th class="text-center">Importe</th> --}}
                 <th class="text-center">Forma de Pago</th>
+                <th class="text-center">Estado</th>
                 {{-- <th class="text-center">Fecha</th> --}}
                 <th class="text-center">Acciones</th>
               </tr>
@@ -141,10 +142,20 @@
                 <td class="text-center">{{ $venta->telefono }}</td>
                 {{-- <td class="text-center">Importe</td> --}}
                 <td class="text-center">{{ $venta->forma_pago }}</td>
+                <td class="text-center">{{ $venta->estado }}</td>
                 {{-- <td class="text-center">Fecha</td> --}}
                 <td class="text-center">
                   <div class="btn-group">                    
-                    <a class="btn btn-primary boton-accion-venta" data-toggle="collapse" href="#collapseExample{{ $venta->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $venta->id }}"><i class="m-0 fa fa-lg fa-eye"></i>
+                    <a class="btn btn-primary boton-accion-venta" data-toggle="collapse" href="#collapseExample{{ $venta->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $venta->id }}"><i class="m-0 fa fa-eye"></i>
+                    </a>
+                    <a class="btn btn-primary" href="#">
+                      <i class="fa fa-share-square-o"></i>
+                    </a>
+                    <a class="btn btn-primary" href="#">
+                      <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                    </a>
+                    <a class="btn btn-primary" href="#">
+                      <i class="fa fa-ban"></i>
                     </a>
                   </div>
                 </td>
@@ -161,11 +172,11 @@
            <table class="table ">
             <thead>
               <tr>
-                <th class="text-center">Código</th>
-                <th class="text-center">Producto</th>
-                <th class="text-center">Cantidad</th>
-                <th class="text-center">Precio</th>
-                <th class="text-center">Acciones</th>
+                <th class="text-center col col-md-2">Código</th>
+                <th class="text-center col col-md-4">Producto</th>
+                <th class="text-center col col-md-1">Cantidad</th>
+                <th class="text-center col col-md-2">Precio</th>
+                <th class="text-center col col-md-3">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -178,7 +189,7 @@
                 <td class="text-center precio_producto">{{ $producto->precio }}</td>
                 <td class="text-center">
                   <div class="btn-group">
-                    <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-print"></i></a>
+                    <a class="btn btn-primary" href="##"><i class="m-0 fa fa-lg fa-print"></i></a>
                     <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-file"></i></a>
                     <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-times"></i></a>
                   </div>

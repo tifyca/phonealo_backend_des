@@ -53,11 +53,10 @@ class Remitos extends Model
             ->join('pedidos', 'ventas.id_pedido', 'pedidos.id')
             ->join('clientes', 'pedidos.id_cliente', 'clientes.id')
             ->join('forma_pago', 'forma_pago.id', 'ventas.id_forma_pago')
+            ->join('estados', 'ventas.id_estado', 'estados.id')
             ->select(
                 'remitos.id as id_remito', 
-                // 'productos.id as id_producto',
-                // 'productos.descripcion', 'productos.codigo_producto',
-                'ventas.id', 
+                'ventas.id', 'estados.estado',
                 'detalle_ventas.cantidad', 'detalle_ventas.precio',
                 'detalle_remito.id_remito as dr_id_remito', 'detalle_remito.id_venta as dr_id_venta',
                 'clientes.nombres as nombre_cliente', 'clientes.telefono',
