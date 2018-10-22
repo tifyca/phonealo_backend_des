@@ -32,3 +32,7 @@
 .no-hover:hover{
 	background-color: white !important;  
 }
+
+a > i.selected{
+	color: green;
+}

@@ -22,11 +22,11 @@
   {{-- DATOS DEL CLIENTE // AL MARCAR EL CELULAR SI EL CLIENTE EXISTE TRAE LOS DATOS, SI NO LO REGISTRA --}}
   <div class="col-12">
     <div class="tile">
-      <input type="hidden" name="num_venta" id="num_venta" value="{{$num_venta}}">
     <h3 class="tile-title text-center text-md-left">Detalles del Cliente</h3>
       <div class="tile-body ">
         <div class="row">
           <input type="hidden" name="id_cliente" id="id_cliente">
+      <input type="hidden" name="num_venta" id="num_venta" value="{{$num_venta}}">
             <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             
           <div class="form-group col-md-4">
@@ -104,7 +104,7 @@
             </div>
             <div class="form-group col-md-4">
               <label for="">Horario de Entrega</label>
-              <select class="form-control" id="horario_venta" name="horario_venta">
+              <select class="form-control" id="horario_venta" name="horario_venta" required>
                 <option value="">Seleccione</option>
                @foreach($horarios as $horario)  
                       <option value="{{$horario->id}}"> {{ $horario->horario }} </option>
