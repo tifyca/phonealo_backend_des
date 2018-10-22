@@ -49,7 +49,7 @@ var url='ventas';
               dataType: 'json',
               headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
               success: function (data) {
-
+                $('#cantidad, #precio').css("border-color", ""); 
                 if(data.accion==1){
 
                   $('#d-cod_producto' + id_producto ).remove();
@@ -107,6 +107,7 @@ var url='ventas';
           },
        
           error: function (data,estado,error) { 
+            $('#cantidad, #precio').css("border-color", ""); 
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
@@ -114,17 +115,17 @@ var url='ventas';
                 if(error.message.hasOwnProperty(k)){ 
                     error.message[k].forEach(function(val){
 
+                       $('#'+k).css("border-color", "#FC8496"); 
                        errorsHtml +="<li class='text-danger'>" + val +"</li>";
-                       
+                       $("#rese").html(errorsHtml);
+                       $("#rese, #res-content").css("display","block");
                         
-                        $("#rese").html(errorsHtml);
-                        $("#rese, #res-content").css("display","block");
-                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                      
                       }); 
                 }
             }
           errorsHtml +="</ul>"; 
+          $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
        
         
@@ -159,7 +160,7 @@ var url='ventas';
                 dataType: 'json',
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 success: function (data) {
-
+                   $('#cantidad, #precio').css("border-color", ""); 
                   if(data.accion==1){
 
                   $('#d-cod_producto' + id_producto ).remove();
@@ -216,24 +217,26 @@ var url='ventas';
                       $('#eye').addClass('d-none');
               },    
           error: function (data,estado,error) { 
+             $('#cantidad, #precio').css("border-color", ""); 
              var errorsHtml = '';
              var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
              for(var k in error.message){ 
                 if(error.message.hasOwnProperty(k)){ 
                     error.message[k].forEach(function(val){
+                     
+                      
 
-                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
-                       
-                        
+                      $('#'+k).css("border-color", "#FC8496"); 
+                      errorsHtml +="<li class='text-danger'>" + val +"</li>";
                       $("#rese").html(errorsHtml);
                       $("#rese, #res-content").css("display","block");
-                      $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                      
                       }); 
                 }
             }
           errorsHtml +="</ul>"; 
+          $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },     
             
           })  
@@ -290,7 +293,7 @@ var url='ventas';
               dataType: 'json',
               headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
               success: function (data) {
-
+                 $('#cantidad, #precio').css("border-color", ""); 
                 if(data.accion==1){
 
                   $('#d-cod_producto' + id_producto ).remove();
@@ -348,6 +351,7 @@ var url='ventas';
           },
        
           error: function (data,estado,error) { 
+             $('#cantidad, #precio').css("border-color", ""); 
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
@@ -355,17 +359,17 @@ var url='ventas';
                 if(error.message.hasOwnProperty(k)){ 
                     error.message[k].forEach(function(val){
 
-                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
-                       
+                        $('#'+k).css("border-color", "#FC8496"); 
+                       errorsHtml +="<li class='text-danger'>" + val +"</li>";             
+                       $("#rese").html(errorsHtml);
+                       $("#rese, #res-content").css("display","block");
                         
-                        $("#rese").html(errorsHtml);
-                        $("#rese, #res-content").css("display","block");
-                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                      
                       }); 
                 }
             }
           errorsHtml +="</ul>"; 
+          $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },
        
         
@@ -401,6 +405,7 @@ var url='ventas';
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 success: function (data) {
 
+                  $('#cantidad, #precio').css("border-color", ""); 
                   if(data.accion==1){
 
                   $('#d-cod_producto' + id_producto ).remove();
@@ -457,6 +462,7 @@ var url='ventas';
                       $('#eye').addClass('d-none');
               },    
           error: function (data,estado,error) { 
+             $('#cantidad, #precio').css("border-color", ""); 
              var errorsHtml = '';
              var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
@@ -464,17 +470,16 @@ var url='ventas';
                 if(error.message.hasOwnProperty(k)){ 
                     error.message[k].forEach(function(val){
 
-                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
-                       
-                        
+                      $('#'+k).css("border-color", "#FC8496"); 
+                      errorsHtml +="<li class='text-danger'>" + val +"</li>";
                       $("#rese").html(errorsHtml);
                       $("#rese, #res-content").css("display","block");
-                      $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                      
                       }); 
                 }
             }
           errorsHtml +="</ul>"; 
+          $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         },     
             
           })  
@@ -490,12 +495,12 @@ function resumen(){
           var articulos=0;
             $('#cesta-list > tbody > tr').each(function(){
             articulos +=parseFloat($(this).find("td").eq(2).html());
-            total+= parseFloat( $(this).find('td').eq(4).html().replace('.', ""));
+            total+= parseFloat($(this).find('td').eq(4).html().replace(/\./g, ""));
             });
             if(delivery>0){
-            mtotal=parseFloat(total) + parseFloat(delivery.replace('.', ""));
+            mtotal=parseFloat(total) + parseFloat(delivery.replace(/\./g, ""));
             }else{
-            mtotal=parseInt(total);
+            mtotal=parseFloat(total);
             }
            
             $("#total_venta").val(mtotal);
@@ -505,6 +510,7 @@ function resumen(){
               //$("#btn-cancela").prop('disabled', false);
             }else{
               $("#btn-save").prop('disabled', true);
+              $("#total").html('Total Gs.: 0');
               //$("#btn-cancela").prop('disabled', true);
             }
             })
@@ -522,8 +528,8 @@ $(document).on('click', '.delete', function (e) {
              }
              });
              $.get('elimanarProdCesta/' + id_producto +'/'+ id_cliente, function(data){
-console.log(data);
-              
+//console.log(data);
+              resumen();
                   
                if(data==0){
                  $('#fal-content').css("display","none");
@@ -537,7 +543,7 @@ console.log(data);
 $(document).on('click', '.delete2', function (e) {
     e.preventDefault();
       $(this).closest('tr').remove();
-      resumen();
+   
       var id_producto = $(this).val();
       var id_cliente = $('#id_cliente').val();
 
@@ -548,9 +554,9 @@ $(document).on('click', '.delete2', function (e) {
              }
              });
              $.get('../../elimanarProdCesta/' +  id_producto +'/'+ id_cliente, function(data){
-console.log(data);
+//console.log(data);
               
-                  
+              resumen();    
                if(data==0){
                  $('#fal-content').css("display","none");
                  $('#spacio').css("display","block");
@@ -564,7 +570,7 @@ $(document).on('click', '.deledit', function (e) {
     e.preventDefault();
  
     $(this).closest('tr').remove();
-       resumen();
+    
        var formData = {
                     id_venta : $('#id_venta').val(),  
                     id_producto: $(this).val(),
@@ -585,7 +591,7 @@ $(document).on('click', '.deledit', function (e) {
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 success: function (data) {
 
-                  
+                resumen();
              /*  if(data==0){
                  $('#fal-content').css("display","none");
                  $('#spacio').css("display","block");
@@ -603,14 +609,7 @@ $(document).on('click', '.deledit', function (e) {
 
 
 $("#btn-save").click(function (e) {
-    $('#cesta-list > tbody > tr').each(function(){
-      descripcion  = $(this).find('td').eq(1).html();
-      cod_producto = $(this).find('td').eq(0).html();
-      cantidad     = $(this).find('td').eq(2).html();
-      precio       = parseFloat($(this).find('td').eq(3).html().replace('.', ""));
-      importe      = $(this).find('td').eq(4).html();
-         
-            });
+
 
    
      $.ajaxSetup({
@@ -649,11 +648,7 @@ $("#btn-save").click(function (e) {
                     delivery       : $('#delivery').val(),
                     monto          : $('#monto').val(),
                     nota_venta     : $('#nota_venta').val(),
-                    descripcion    :  descripcion,
                     id_producto    : $('#id_producto').val(),
-                    cod_producto   : cod_producto,
-                    cantidad       : cantidad,
-                    precio         : precio,
                     importe        : $("#total_venta").val(),
                     total          : $('#total').val()
                     }
@@ -677,27 +672,28 @@ $("#btn-save").click(function (e) {
        },
        
           error: function (data,estado,error) { 
-            console.log(error);
+              $('#telefono_cliente, #nombre_cliente, #email_cliente, #ruc_cliente, #departamento_cliente, #ciudad_cliente, #barrio_cliente, #direccion_cliente, #horario_venta, #forma_pago' ).css("border-color", ""); 
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
+        
              errorsHtml +="<ul style='list-style:none;'>";
-             for(var k in error.message){ 
-                if(error.message.hasOwnProperty(k)){ 
-                    error.message[k].forEach(function(val){
 
-                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
-                       
+             $.each(error.message, function(index, value)
+             {
+              
+                $('#'+index).css("border-color", "#FC8496"); 
+                errorsHtml +="<li class='text-danger'>" + value +"</li>";
+                $("#rese").html(errorsHtml);
+                $("#rese, #res-content").css("display","block");
                         
-                        $("#rese").html(errorsHtml);
-                        $("#rese, #res-content").css("display","block");
-                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-                     
-                      }); 
-                }
+                })
+          errorsHtml +="</ul>";
+          $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
             }
-          errorsHtml +="</ul>"; 
-        },
-    });
+               
+
+             });
+   
 });
 
 $("#btn-edit").click(function (e) {
@@ -745,7 +741,7 @@ $("#btn-edit").click(function (e) {
                     total          : $('#total').val()
                     }
 
-    console.log(formData);
+    //console.log(formData);
    
      
     $.ajax({
@@ -763,7 +759,7 @@ $("#btn-edit").click(function (e) {
        },
        
           error: function (data,estado,error) { 
-            console.log(error);
+           // console.log(error);
              var errorsHtml = '';
            var error = jQuery.parseJSON(data.responseText);
              errorsHtml +="<ul style='list-style:none;'>";
@@ -771,16 +767,15 @@ $("#btn-edit").click(function (e) {
                 if(error.message.hasOwnProperty(k)){ 
                     error.message[k].forEach(function(val){
 
-                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
-                       
-                        
+                       $('#'+k).css("border-color", "#FC8496"); 
+                       errorsHtml +="<li class='text-danger'>" + val +"</li>";                     
                         $("#rese").html(errorsHtml);
                         $("#rese, #res-content").css("display","block");
-                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                      
                       }); 
                 }
             }
+          $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
           errorsHtml +="</ul>"; 
         },
     });
@@ -817,7 +812,7 @@ return /\d/.test(String.fromCharCode(keynum));
 $(document).on('click','.pagination a',function(e){
     e.preventDefault();
     var page = $(this).attr('href').split('page=')[1];
-console.log(page);
+//console.log(page);
     var route ="clientes";
     $.ajax({
         url: route,

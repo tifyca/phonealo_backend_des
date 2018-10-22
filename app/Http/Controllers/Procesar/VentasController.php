@@ -44,7 +44,6 @@ class VentasController extends Controller
                           ->where('fecha', $fechas)
                           ->count();
 
-                    
       $num_venta = $datea.$datem.$dated.sprintf("%02d", $id_usuario).sprintf("%04d", $cuentaventa+1);
 
 
@@ -176,6 +175,7 @@ class VentasController extends Controller
         $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres', 
                         'email_cliente'=>'required|email|unique:clientes,email',
                         'telefono_cliente'=>'required|unique:clientes,telefono',
+                        'ruc_cliente'=>'required',
                         'departamento_cliente'=>'required|not_in:0',
                         'ciudad_cliente'=>'required|not_in:0',
                         'barrio_cliente'=>'required|not_in:0',
@@ -190,6 +190,7 @@ class VentasController extends Controller
                            'email_cliente.email' => 'El Formato de Email es Incorrecto',
                            'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
                            'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
+                           'ruc_cliente.required'=>'El Ruc del Cliente es Requerido',
                            'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',
                            'departamento_cliente.not_in'=> 'El Departamento del Cliente es Requerido',
                            'ciudad_cliente.required'=> 'La Ciudad del Cliente es Requerida',
@@ -240,7 +241,8 @@ class VentasController extends Controller
           $rules = array( 'nombre_cliente'=>'required|unique:clientes,nombres,' .$request->id_cliente,  
                           'email_cliente'=>'required|email|unique:clientes,email,' .$request->id_cliente,
                           'telefono_cliente'=>'required|unique:clientes,telefono,' .$request->id_cliente,
-                          //'telefono_cliente2'=>'unique:clientes,telefono,'.$cliente_id,
+                          //'telefono_cliente2'=>'unique:clientes,telefono,'.$cliente_id, 
+                          'ruc_cliente'=>'required',
                           'departamento_cliente'=>'required|not_in:0',
                           'ciudad_cliente'=>'required|not_in:0',
                           'barrio_cliente'=>'required|not_in:0',
@@ -257,6 +259,7 @@ class VentasController extends Controller
                              'telefono_cliente.required'=>'El Teléfono del Cliente es Requerido', 
                              'telefono_cliente.unique' => 'El Teléfono del Cliente ya Existe',
                             // 'telefono_cliente2.unique' => 'El Teléfono del Cliente ya Existe',
+                             'ruc_cliente.required'=>'El Ruc del Cliente es Requerido',
                              'departamento_cliente.required'=>'El Departamento del Cliente es Requerido',
                              'departamento_cliente.not_in'=> 'El Departamento del Cliente es Requerido',
                              'ciudad_cliente.required'=> 'La Ciudad del Cliente es Requerida',
