@@ -23,7 +23,7 @@
         <div class="info">
           <h4>Mañana</h4>
           <div class="onoffswitch">
-            <input type="checkbox" name="h1" class="onoffswitch-checkbox" value="1" id="h1" @if($totalhorario[0]->status==1) checked @else ''@endif>
+            <input type="checkbox" name="h1" class="onoffswitch-checkbox horario" value="1" id="h1" @if($totalhorario[0]->status_v==1) checked @else ''@endif>
               <label class="onoffswitch-label" for="h1">
                <span class="onoffswitch-inner"></span>
                <span class="onoffswitch-switch"></span>
@@ -42,7 +42,7 @@
             <div class="info">
               <h4>Tarde </h4>
             <div class="onoffswitch">
-            <input type="checkbox" name="h2" class="onoffswitch-checkbox" id="h2" checked>
+            <input type="checkbox" name="h2" class="onoffswitch-checkbox horario" id="h2" value="2" @if($totalhorario[1]->status_v==1) checked @else '' @endif>
               <label class="onoffswitch-label" for="h2">
                <span class="onoffswitch-inner"></span>
                <span class="onoffswitch-switch"></span>
@@ -59,7 +59,7 @@
             <div class="info">
               <h4>Todo el día </h4>
               <div class="onoffswitch">
-            <input type="checkbox" name="h3" class="onoffswitch-checkbox" id="h3" checked>
+            <input type="checkbox" name="h3" class="onoffswitch-checkbox horario" id="h3" value="3" @if($totalhorario[2]->status_v==1) checked @else '' @endif>
               <label class="onoffswitch-label" for="h3">
                <span class="onoffswitch-inner"></span>
                <span class="onoffswitch-switch"></span>
@@ -76,7 +76,7 @@
         <div class="info">
           <h4>09:00-12:00 </h4>
           <div class="onoffswitch">
-            <input type="checkbox" name="h4" class="onoffswitch-checkbox" id="h4" checked>
+            <input type="checkbox" name="h4" class="onoffswitch-checkbox horario" id="h4" value="4" @if($totalhorario[3]->status_v==1) checked @else '' @endif>
               <label class="onoffswitch-label" for="h4">
                <span class="onoffswitch-inner"></span>
                <span class="onoffswitch-switch"></span>
@@ -93,7 +93,7 @@
             <div class="info">
               <h4>12:00-15:00</h4>
                <div class="onoffswitch">
-            <input type="checkbox" name="h5" class="onoffswitch-checkbox" id="h5" checked>
+            <input type="checkbox" name="h5" class="onoffswitch-checkbox horario" id="h5" value="5" @if($totalhorario[4]->status_v==1) checked @else '' @endif>
               <label class="onoffswitch-label" for="h5">
                <span class="onoffswitch-inner"></span>
                <span class="onoffswitch-switch"></span>
@@ -110,7 +110,7 @@
             <div class="info">
               <h4>15:00-18:00</h4>
                 <div class="onoffswitch">
-            <input type="checkbox" name="h6" class="onoffswitch-checkbox" id="h6" checked>
+            <input type="checkbox" name="h6" class="onoffswitch-checkbox horario" id="h6" value="6" @if($totalhorario[5]->status_v==1) checked @else '' @endif>
               <label class="onoffswitch-label" for="h6">
                <span class="onoffswitch-inner"></span>
                <span class="onoffswitch-switch"></span>
@@ -127,7 +127,7 @@
             <div class="info">
               <h4>18:00-21:00</h4>
               <div class="onoffswitch">
-                <input type="checkbox" name="h7" class="onoffswitch-checkbox" id="h7" checked>
+                <input type="checkbox" name="h7" class="onoffswitch-checkbox horario" id="h7" value="7" @if($totalhorario[6]->status_v==1) checked @else '' @endif>
                   <label class="onoffswitch-label" for="h7">
                    <span class="onoffswitch-inner"></span>
                    <span class="onoffswitch-switch"></span>
@@ -862,7 +862,7 @@ $(document).ready(function(){
    
 });
 
-$('#h1').click(function(){
+$('.horario').click(function(){
 
   var option=this.checked;
   var id= $(this).val();

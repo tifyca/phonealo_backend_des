@@ -46,7 +46,7 @@ a > i.selected{
 }
 .onoffswitch-label {
     display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid ; border-radius: 9px;
+    border: 1px solid #999999; border-radius: 9px;
 }
 .onoffswitch-inner {
     display: block; width: 200%; margin-left: -100%;
@@ -73,7 +73,7 @@ a > i.selected{
     background: #FFFFFF;
     position: absolute; top: 0; bottom: 0;
     right: 62px;
-    border: 2px solid ; border-radius: 9px;
+    border: 1px solid #999999; border-radius: 9px;
     transition: all 0.3s ease-in 0s; 
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {

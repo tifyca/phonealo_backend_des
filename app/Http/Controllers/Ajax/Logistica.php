@@ -156,12 +156,12 @@ class Logistica extends Controller
         {
 
               $horario  =Horarios::find($request->id);
-              $horario->status = 2;
+              $horario->status_v = 0;
               $horario->save();
         }else{
 
               $horario  =Horarios::find($request->id);
-              $horario->status = 1;
+              $horario->status_v = 1;
               $horario->save();
 
         }

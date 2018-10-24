@@ -94,7 +94,7 @@ $("#btn-save").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data);
-            var esp='Espera';
+            var esp='Inactivo';
             var act='Activo';
             var ina='Inactivo';
             var hora = '<tr id="hora' + data.id + '"><td width="30%">' + data.horario + '</td>'+(data.status_v==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + esp + '</td>')+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
@@ -159,7 +159,7 @@ $("#btn-save-edit").click(function (e) {
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
             console.log(data.status);
-            var esp='Espera';
+            var esp='Inactivo';
             var act='Activo';
             var ina='Inactivo';
             var hora = '<tr id="hora' + data.id + '"><td width="30%">' + data.horario + '</td>'+(data.status_v==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + esp + '</td>')+(data.status==1 ? '<td width="25%">' + act + '</td>':'<td width="25%">' + ina + '</td>');
