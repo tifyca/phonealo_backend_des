@@ -10,6 +10,7 @@ use App\Remitos;
 use App\Detalle_remito;
 use App\Notas_Ventas;
 use App\Productos;
+use App\Horarios;
 use DB;
 
 class Logistica extends Controller
@@ -145,6 +146,28 @@ class Logistica extends Controller
                             ->get();
 
          return response()->json($nota);
+     
+    }
+
+
+    public function onoffhorario(Request $request){
+
+        if($request->option=='false')
+        {
+
+              $horario  =Horarios::find($request->id);
+              $horario->status = 2;
+              $horario->save();
+        }else{
+
+              $horario  =Horarios::find($request->id);
+              $horario->status = 1;
+              $horario->save();
+
+        }
+
+        return $horario;
+        
      
     }
 

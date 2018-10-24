@@ -17,7 +17,129 @@
 @section('content')
 @php $longitud=count($notaventa); @endphp
  <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo.css') }}">
-  <div class="row" >
+   <div class="row" >
+    <div class="col-md-3">
+      <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o"></i>
+        <div class="info">
+          <h4>Mañana</h4>
+          <div class="onoffswitch">
+            <input type="checkbox" name="h1" class="onoffswitch-checkbox" value="1" id="h1" @if($totalhorario[0]->status==1) checked @else ''@endif>
+              <label class="onoffswitch-label" for="h1">
+               <span class="onoffswitch-inner"></span>
+               <span class="onoffswitch-switch"></span>
+              </label>
+         </div>
+          @if($totalhorario[0]->id_horario==1)
+          <p><b>{!!number_format($totalhorario[0]->total, 0, ',', '.')!!} Gs.</b></p>
+          @endif
+        </div>
+      </div>
+    </div>
+        
+ 
+        <div class="col-md-3">
+          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o"></i>
+            <div class="info">
+              <h4>Tarde </h4>
+            <div class="onoffswitch">
+            <input type="checkbox" name="h2" class="onoffswitch-checkbox" id="h2" checked>
+              <label class="onoffswitch-label" for="h2">
+               <span class="onoffswitch-inner"></span>
+               <span class="onoffswitch-switch"></span>
+              </label>
+         </div>
+            @if($totalhorario[1]->id_horario==2)
+              <p><b>{!!number_format($totalhorario[1]->total, 0, ',', '.')!!} Gs.</b></p>
+            @endif
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o"></i>
+            <div class="info">
+              <h4>Todo el día </h4>
+              <div class="onoffswitch">
+            <input type="checkbox" name="h3" class="onoffswitch-checkbox" id="h3" checked>
+              <label class="onoffswitch-label" for="h3">
+               <span class="onoffswitch-inner"></span>
+               <span class="onoffswitch-switch"></span>
+              </label>
+         </div>
+               @if($totalhorario[2]->id_horario==3)
+              <p><b>{!!number_format($totalhorario[2]->total, 0, ',', '.')!!} Gs.</b></p>
+              @endif
+            </div>
+          </div>
+        </div>
+      <div class="col-md-3">
+      <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x"></i>
+        <div class="info">
+          <h4>09:00-12:00 </h4>
+          <div class="onoffswitch">
+            <input type="checkbox" name="h4" class="onoffswitch-checkbox" id="h4" checked>
+              <label class="onoffswitch-label" for="h4">
+               <span class="onoffswitch-inner"></span>
+               <span class="onoffswitch-switch"></span>
+              </label>
+         </div>
+          @if($totalhorario[3]->id_horario==4)
+          <p><b>{!!number_format($totalhorario[3]->total, 0, ',', '.')!!} Gs.</b></p>
+          @endif
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x"></i>
+            <div class="info">
+              <h4>12:00-15:00</h4>
+               <div class="onoffswitch">
+            <input type="checkbox" name="h5" class="onoffswitch-checkbox" id="h5" checked>
+              <label class="onoffswitch-label" for="h5">
+               <span class="onoffswitch-inner"></span>
+               <span class="onoffswitch-switch"></span>
+              </label>
+         </div>
+               @if($totalhorario[4]->id_horario==5)
+              <p><b>{!!number_format($totalhorario[4]->total, 0, ',', '.')!!} Gs.</b></p>
+               @endif
+            </div>
+          </div>
+        </div>
+      <div class="col-md-3">
+          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x"></i>
+            <div class="info">
+              <h4>15:00-18:00</h4>
+                <div class="onoffswitch">
+            <input type="checkbox" name="h6" class="onoffswitch-checkbox" id="h6" checked>
+              <label class="onoffswitch-label" for="h6">
+               <span class="onoffswitch-inner"></span>
+               <span class="onoffswitch-switch"></span>
+              </label>
+         </div>
+              @if($totalhorario[5]->id_horario==6)
+              <p><b>{!!number_format($totalhorario[5]->total, 0, ',', '.')!!} Gs.</b></p>
+                @endif
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x"></i>
+            <div class="info">
+              <h4>18:00-21:00</h4>
+              <div class="onoffswitch">
+                <input type="checkbox" name="h7" class="onoffswitch-checkbox" id="h7" checked>
+                  <label class="onoffswitch-label" for="h7">
+                   <span class="onoffswitch-inner"></span>
+                   <span class="onoffswitch-switch"></span>
+                  </label>
+         </div>
+          @if($totalhorario[6]->id_horario==7)
+              <p><b>{!!number_format($totalhorario[6]->total, 0, ',', '.')!!} Gs.</b></p>
+                @endif
+            </div>
+          </div>
+        </div>
+    
   {{-- TABLA DE REMISAS --}}
   {{-- ESTA LISTA SE MANTIENE OCULTA, SOLO APARECE CUANDO AÑADO UNA VENTA A REMISA --}}
   @if(count($remisas) > 0)
@@ -738,6 +860,37 @@ $(document).ready(function(){
     function () { $('.toolTip').css("display","none");}
    );
    
+});
+
+$('#h1').click(function(){
+
+  var option=this.checked;
+  var id= $(this).val();
+ 
+  $.ajax({
+        type: "GET",
+        url: '{{ url('onoffhorario') }}',
+        dataType: "json",
+        data: { option:option, id:id, _token: '{{csrf_token()}}'},
+
+        success: function (data){
+
+           if(option==true)
+           {
+            $("#res").html("Horario Activo.");
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+           }else{
+            $("#res").html("Horario Inactivo.");
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+
+           }
+        
+        }
+
+    });
+
 });
 
 
