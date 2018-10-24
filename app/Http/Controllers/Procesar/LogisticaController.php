@@ -181,7 +181,7 @@ class LogisticaController extends Controller
                                 ->select('notas_ventas.id_venta')->get();
 
         $totalhorario= Ventas::join('horarios', 'horarios.id', '=', 'ventas.id_horario')
-                            ->select('id_horario', 'status', DB::raw('SUM(importe) as total'))
+                            ->select('id_horario', 'horarios.status_v', DB::raw('SUM(importe) as total'))
                             ->groupBy('id_horario')->get();
 
         

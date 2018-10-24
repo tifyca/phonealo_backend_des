@@ -32,7 +32,7 @@
                 <select class="form-control" id="statusVenta" name="statusVenta">
                   <option value="">Seleccione</option> 
                    <option value="1">Activo</option> 
-                   <option value="5">Espera</option> 
+                   <option value="0">Inactivo</option> 
                 </select>
               </div>
               <div class="form-group col-12  col-md-4">
@@ -81,7 +81,7 @@
               <select class="form-control" id="selectven" name="selectven">
                 <option value="">Estatus de Venta</option>
                 <option value="1">Activo</option> 
-                <option value="5">Espera</option> 
+                <option value="0">Inactivo</option> 
               </select>
             </div>
             <div class="form-group col-md-2">
@@ -128,7 +128,7 @@
                 <select class="form-control" id="statusventa" name="statusventa">
                   <option value="">Seleccione</option>  
                   <option value="1">Activo</option> 
-                   <option value="5">Espera</option>           
+                   <option value="0">Inactivo</option>           
                 </select>
               </div>
               <div class="form-group col-12  col-md-8">

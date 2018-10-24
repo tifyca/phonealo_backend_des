@@ -74,7 +74,7 @@ class HorasController extends Controller
       $data=$request->all();
 
       $rules = array( 'nombre'=>'required|unique:horarios,horario',
-                      'status_v'=> 'required|not_in:0',
+                      'status_v'=> 'required|not_in:""',
                       'status'=>'required'); 
       $messages = array( 'nombre.required'=>'El Horario  es Requerido', 
                       'nombre.unique' => 'El Horario ya Existe', 
@@ -115,7 +115,7 @@ class HorasController extends Controller
 
       $data=$request->all();
       $rules = array( 'nombre'=>'required|unique:horarios,horario,' .$hora_id ,
-                      'status_v'=> 'required|not_in:0',
+                      'status_v'=> 'required|not_in:""',
                       'status'=>'required'); 
       $messages = array( 'nombre.required'=>'El Horario  es Requerido', 
                       'nombre.unique' => 'El Horario ya Existe', 
