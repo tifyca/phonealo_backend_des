@@ -198,7 +198,7 @@
                     
 
                     <input type="number" class="form-control text-center" name="{{$n6}}" id="{{$name}}" disabled="" value="{{$cantconf}}" size="2"></td>
-                  <td>
+                  <td width="10%">
                    
                     <input type="number" size="4" class="form-control text-rigth" name="{{$n7}}"  id="{{$name2}}" disabled="" value="{{$precioconf}}"></td>
                  
