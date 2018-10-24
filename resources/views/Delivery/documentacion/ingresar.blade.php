@@ -32,7 +32,7 @@
 						Parámetros => array(<br>
 							"email" => "varchar(100) / requerido / único",<br>
 							"password" => "varchar(20) / requerido",),<br>
-							"Éxito" => "token, idusuario, idempleado",<br>
+							"Éxito" => "token, idusuario, idempleado, nombre",<br>
 							"Falla" => array(<br>
 							"error" => array("Error en validación de datos", "Usuario o password incorrectos","Usuario no autorizado")<br>
 						)
@@ -56,7 +56,7 @@
 						Método => "POST"<br>
 						Parámetros => array(<br>
 							"idempleado" => integer / requerido / único",<br>
-							"Éxito" => "id_venta,id_empleado,telefono,horario,id_estado,estado",<br>
+							"Éxito" => "id_venta,id_empleado,telefono,horario,id_estado,estado,contador",<br>
 							"Falla" => array(<br>
 							"error" => array("Error en validación de datos")<br>
 						)

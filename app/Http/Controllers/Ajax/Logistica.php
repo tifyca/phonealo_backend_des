@@ -9,6 +9,8 @@ use App\Ventas;
 use App\Remitos;
 use App\Detalle_remito;
 use App\Notas_Ventas;
+use App\Productos;
+use App\Horarios;
 use DB;
 
 class Logistica extends Controller
@@ -55,11 +57,36 @@ class Logistica extends Controller
     }
     #jgonzalez
     public function activar_venta(Request $request){
-       
-        $venta = Ventas::where('id_estado',5)
-                       ->where('fecha_activo', date("Y-m-d"))
-                       ->update(array('id_estado' => 1));
 
+        /*$vent_ped= Ventas::join('detalle_pedidos', 'ventas.id_pedido', '=', 'detalle_pedidos.id_pedido')
+                       ->join('productos', 'detalle_pedidos.id_producto', '=', 'productos.id')
+                       ->where('ventas.id_estado',5)
+                       ->where('fecha_activo', date("Y-m-d"))
+                       ->where( 'productos.id', '<>', 36)
+                       ->select('ventas.id',  'ventas.id_pedido', 'cantidad', 'detalle_pedidos.id_producto', 'productos.stock_activo', DB::raw('(CASE when cantidad>=stock_activo THEN 0 ELSE 1 END) as result'))
+                       ->get();*/
+
+        $row=Ventas::join('detalle_pedidos', 'ventas.id_pedido', '=', 'detalle_pedidos.id_pedido')
+                       ->join('productos', 'detalle_pedidos.id_producto', '=', 'productos.id')
+                       ->where('ventas.id_estado',5)
+                       ->where('fecha_activo', date("Y-m-d"))
+                       ->where( 'productos.id', '<>', 36)
+                       ->select( 'ventas.id', 'ventas.id_pedido',   DB::raw(' COUNT(1) AS cantprod, SUM((CASE when cantidad<=stock_activo THEN 1 ELSE 0 END)) as result'))
+                       ->groupBy('ventas.id_pedido')
+                       ->get();
+
+
+        foreach ($row as $item)
+        {
+        
+         if($item->cantprod==$item->result)
+            {
+                $venta = Ventas::find($item->id);
+                $venta->id_estado = 1;
+                $venta->save();
+            }
+        
+        }
       
         return $venta;
     }
@@ -119,6 +146,28 @@ class Logistica extends Controller
                             ->get();
 
          return response()->json($nota);
+     
+    }
+
+
+    public function onoffhorario(Request $request){
+
+        if($request->option=='false')
+        {
+
+              $horario  =Horarios::find($request->id);
+              $horario->status_v = 0;
+              $horario->save();
+        }else{
+
+              $horario  =Horarios::find($request->id);
+              $horario->status_v = 1;
+              $horario->save();
+
+        }
+
+        return $horario;
+        
      
     }
 

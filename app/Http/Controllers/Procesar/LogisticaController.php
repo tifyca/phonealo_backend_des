@@ -180,9 +180,12 @@ class LogisticaController extends Controller
         $notaventa= Notas_Ventas::join('ventas', 'notas_ventas.id_venta', '=', 'ventas.id')
                                 ->select('notas_ventas.id_venta')->get();
 
+        $totalhorario= Ventas::join('horarios', 'horarios.id', '=', 'ventas.id_horario')
+                            ->select('id_horario', 'horarios.status_v', DB::raw('SUM(importe) as total'))
+                            ->groupBy('id_horario')->get();
 
         
-        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa'));
+        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario'));
     	
     }
     public function CrearPDF ($remito, $vista, $empleado, $id_remisa ){

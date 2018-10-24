@@ -17,33 +17,44 @@
     <div class="tile">
       <div class="tile-body ">
         <div class="col mb-3 text-center">
-          <div class="row">
+          <div class="row ">
             <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado</h3>
+              <h4 class="tile-title text-center text-md-left">Listado</h4>
             </div>
-            <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
-                <option value="">Categoría</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
-                <option value="">Subcategoria</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </div>
-            <div class="col-md-1 mr-md-3">
-              <button class="btn btn-primary" type="">Ver Todo</button>
-            </div>
+            <form class="row d-flex justify-content-end" action="{{route('consolidado.index')}}" method="get"> 
+              <div class="form-group col-md-2">
+                <input class="form-control" type="text" name="valor" id="valor" placeholder="Producto">
+              </div>
+              <div class="form-group col-md-3">
+                <select class="form-control" id="id_categoria" name="id_categoria" ">
+                  <option value="">Categoría</option>
+                  @foreach($categorias as $cate)
+                  <option value="{{$cate->id}}">{{$cate->categoria}}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="form-group col-md-3">
+                <select class="form-control" id="id_subcategoria" name="id_subcategoria">
+                  <option value="">Subcategoria</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                     <select class="form-control" name="filas" id="filas">
+                         <option value="0">Filas</option>
+                         <option value="10">10</option>
+                         <option value="20">20</option>
+                         <option value="30">30</option>
+                         <option value="40">40</option>
+                         <option value="60">60</option>
+                         <option value="100">100</option>
+                         <option value="150">150</option>
+                         <option value="200">200</option>
+                       </select>
+              </div>              
+              <div class="col-md-1 mr-md-5">
+                <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
+              </div>
+          </form>
           </div>
         </div>
           <div class="table-responsive">
@@ -61,43 +72,32 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>00</td>
-                  <td>0898</td>
-                  <td>System Architect</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td>0987654</td>
-                  {{-- <td class="text-center">
-                    <div class="btn-group">
-                      <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                      <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
-                      <a class="btn btn-primary" href="{{ route('galeria.index',2) }}"><i class="m-0 fa fa-lg fa-image"></i></a>
-                    </div>
-                  </td> --}}
+                @foreach($productos as $producto)
+                <tr> 
+                  <td>{{$producto->id}}</td>
+                  <td>{{$producto->codigo_producto}}</td>
+                  <td>{{$producto->descripcion}}</td>
+                  <td>
+                     @foreach($categorias as $categoria)
+                      @if($categoria->id==$producto->id_categoria)
+                         {{$categoria->categoria}}
+                      @endif
+                     @endforeach
+
+                  </td>
+                  <td>{{$producto->descompuesto}}</td>
+                  <td>{{$producto->stock_activo}}</td>
+                  <td>{{$producto->precio_ideal}}</td>
+                  <td>{{$producto->precio_ideal}}</td>
                 </tr>
-                <tr>
-                  <td>00</td>
-                  <td>0898</td>
-                  <td>System Architect</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td>Lorem</td>
-                  <td>0987654</td>
-                  {{-- <td class="text-center">
-                    <div class="btn-group">
-                      <a class="btn btn-primary" href="{{ route('productos.update',2) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                      <a class="btn btn-primary" href="{{ route('productos.detalle',2) }}"><i class="m-0 fa fa-lg fa-info"></i></a>
-                      <a class="btn btn-primary" href="{{ route('galeria.index',2) }}"><i class="m-0 fa fa-lg fa-image"></i></a>
-                    </div>
-                  </td> --}}
-                </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
+            <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+                    
+                    {{$productos->appends(Request::only(['id_categoria' , 'valor', 'id_subcategoria']))->links()}}
+              </div>
         </div>
     </div>
   </div>
@@ -109,4 +109,69 @@
 
 @push('scripts')
 
+<script type="text/javascript" language="javascript">
+window.onload = load;
+function load(){
+  var valor  = $("#tipom").val();
+  var mensaje = $("#mensaje").val();
+  
+  if(valor==1){
+
+           $("#res").html(mensaje);
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  }
+  if(valor==2){
+
+            $("#rese").html(mensaje);
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  }
+
+} 
+  
+  $ = jQuery;
+  jQuery(document).ready(function () {
+
+    $("select#id_categoria").bind('change', function (event) {
+      var valor = $(this).val();
+    $("#id_subcategoria").html('');
+    $("#id_subcategoria").append('<option value='+'>Subcategoria</option>');
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        }
+
+      });
+
+      $.ajax({
+        type: "GET",
+        url: '{{ url('mostrar_subcategorias') }}',
+        dataType: "json",
+        data: { idc: valor ,  _token: '{{csrf_token()}}' },
+        success: function (data){
+          console.log(data);
+         $.each(data, function(l, item1) {
+                     $("#id_subcategoria").append('<option value='+item1.id+'>'+item1.sub_categoria+'</option>');
+               });
+       }    
+
+
+     });
+    
+     
+
+
+    });
+
+    $("input#boton").bind('click', function (event) {
+      $("form").submit();
+    });
+    
+ });
+
+
+
+</script>
 @endpush
