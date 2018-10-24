@@ -8,7 +8,5 @@ use App\Remitos;
 
 class RemitosController extends Controller
 {
-    public function detallesRemito($remito){
-    	
-    }
+	
 }
