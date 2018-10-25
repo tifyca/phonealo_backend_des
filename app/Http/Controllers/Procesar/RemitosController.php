@@ -8,6 +8,7 @@ use App\Remitos;
 use App\Estados;
 use App\pedido;
 use App\Ventas;
+use App\Detalle_remito;
 class RemitosController extends Controller
 {
     public function index(Request $request){
@@ -44,8 +45,9 @@ class RemitosController extends Controller
             return back();
         }
         if ( $request->accion == 'devolver_venta' ) {
-            $venta = $this->modificaEstadoVenta($id, 1);
-            $this->modificaEstadoPedido($venta->id_pedido, 1);
+            $venta = $this->modificaEstadoVenta($id, 2);
+            $this->modificaEstadoDetalleRemito($id, 2);
+            $this->modificaEstadoPedido($venta->id_pedido, 2);
             return  response()->json([
                 'mensaje' => 'La venta fue devuelta exitosamente',
                 'estado' => Estados::where('id', $venta->id_estado)->first()
@@ -84,5 +86,12 @@ class RemitosController extends Controller
         $pedido->save();
         $pedido->touch();
         return $pedido;
+    }
+    private function modificaEstadoDetalleRemito($id, $estado = ''){
+        $detalle_remito = Detalle_remito::where('id_venta', $id)->first();
+        $detalle_remito->id_estado = $estado;
+        $detalle_remito->save();
+        $detalle_remito->touch();
+        return $detalle_remito;
     }
 }
