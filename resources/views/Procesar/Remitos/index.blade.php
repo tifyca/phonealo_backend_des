@@ -74,11 +74,11 @@
                     </td> --}}
                     <td width="10%" class="text-center">
                       <div class="btn-group">                        
-                        <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductos{{ $remito->id }}" href="#">
+                        <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductos{{ $remito->id }}" href="#" data-title="tooltip" title="Ver">
                           <i class="m-0 fa fa-lg fa-eye"></i>
                         </a>
                         @if ( $remito->estado == "Delivery" )
-                        <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductosConfirmar{{ $remito->id }}" href="#">
+                        <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductosConfirmar{{ $remito->id }}" href="#" data-title="tooltip" title="Confirmar">
                           <i class="fa fa-check-square-o"></i>
                         </a>                          
                         @endif
@@ -149,17 +149,19 @@
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
                     <div class="btn-group">                    
-                      <a class="btn btn-primary boton-accion-venta" data-toggle="collapse" href="#collapseExample{{ $venta->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $venta->id }}"><i class="m-0 fa fa-eye"></i>
+                      <a class="btn btn-primary boton-accion-venta" data-toggle="collapse" href="#collapseExample{{ $venta->id }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $venta->id }}" data-title="tooltip" title="Detalles"><i class="m-0 fa fa-eye"></i>
                       </a>
-                      <button class="btn btn-primary" type="submit" name="accion" value="devolver_venta" data-id={{ $venta->id }}>
+                      @if ( $remito->estado <> 'Cobrado' )                        
+                      <button class="btn btn-primary" type="submit" name="accion" value="devolver_venta" data-id="{{ $venta->id }}" data-title="tooltip" title="Devolver">
                         <i class="fa fa-share-square-o"></i>
                       </button>
-                      <button class="btn btn-primary" type="submit" name="accion" value="confirmar_venta" data-id={{ $venta->id }}>
+                      <button class="btn btn-primary" type="submit" name="accion" value="confirmar_venta" data-id="{{ $venta->id }}" data-title="tooltip" title="Confirmar">
                         <i class="fa fa-check-square-o" aria-hidden="true"></i>
                       </button>
-                      <button class="btn btn-primary" type="submit" name="accion" value="rechazar_venta" data-id={{ $venta->id }}>
+                      <button class="btn btn-primary" type="submit" name="accion" value="rechazar_venta" data-id="{{ $venta->id }}" data-title="tooltip" title="Rechazar">
                         <i class="fa fa-ban"></i>
                       </button>
+                      @endif
                     </div>
                   </form>
                 </td>
@@ -246,6 +248,10 @@
 @push('scripts')
 <script>
 $(function(){
+  $('button[value="rechazar_venta"]').click(function(e) {
+    e.preventDefault();
+  });
+
   $('button[value="devolver_venta"], button[value=confirmar_venta]').click(function(e){
     e.preventDefault();
     const boton = $(this);
@@ -325,7 +331,12 @@ $(function(){
     $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
   }  
 
+  $('[data-title="tooltip"]').tooltip();
 
+
+  $('[data-title="tooltip"]').click(function() {
+    $(this).tooltip('hide');
+  });
 });
 </script>
 @endpush
