@@ -181,11 +181,24 @@ class LogisticaController extends Controller
                                 ->select('notas_ventas.id_venta')->get();
 
     
-                          
-                              
+        $first=DB::table('horarios')->Select('horarios.id','horarios.status_v', DB::raw('0 as total'))->whereNotIn('horarios.id', function($q){
 
-        $totalhorario= DB::select( DB::raw("SELECT h.id, h.status_v, COUNT(*) as total FROM horarios h INNER join ventas v on h.id=v.id_horario where v.fecha='2018-10-21' GROUP by id_horario UNION SELECT h.id, h.status_v, 0 as total FROM horarios h where h.id NOT IN(SELECT id_horario FROM ventas v where h.id=v.id_horario and v.fecha='2018-10-21') ORDER by id"));
-                         
+                         $q->Select('id_horario')
+                           ->from('ventas')
+                           ->where('horarios.id', '=', 'ventas.id_horario')
+                           ->where('ventas.fecha', date('Y-m-d'));
+                        });  
+
+
+        $totalhorario=DB::table('horarios')->Select('horarios.id','horarios.status_v', DB::raw('COUNT(*) as total'))
+                                           ->join('ventas', 'horarios.id','=','ventas.id_horario')
+                                           ->where('ventas.fecha', date('Y-m-d'))
+                                           ->groupby('id_horario')
+                                           ->UNION($first)
+                                           ->orderBy('id')
+                                           ->get();
+
+dd($totalhorario);
         
         return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario'));
     	
