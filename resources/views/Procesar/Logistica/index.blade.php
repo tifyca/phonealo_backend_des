@@ -29,8 +29,8 @@
                <span class="onoffswitch-switch"></span>
               </label>
          </div>
-          @if($totalhorario[0]->id_horario==1)
-          <p><b>{!!number_format($totalhorario[0]->total, 0, ',', '.')!!} Gs.</b></p>
+          @if($totalhorario[0]->id==1)
+          <p><b>Total: {!!number_format($totalhorario[0]->total, 0, ',', '.')!!} </b></p>
           @endif
         </div>
       </div>
@@ -48,8 +48,8 @@
                <span class="onoffswitch-switch"></span>
               </label>
          </div>
-            @if($totalhorario[1]->id_horario==2)
-              <p><b>{!!number_format($totalhorario[1]->total, 0, ',', '.')!!} Gs.</b></p>
+            @if($totalhorario[1]->id==2)
+              <p><b>Total: {!!number_format($totalhorario[1]->total, 0, ',', '.')!!} </b></p>
             @endif
             </div>
           </div>
@@ -65,8 +65,8 @@
                <span class="onoffswitch-switch"></span>
               </label>
          </div>
-               @if($totalhorario[2]->id_horario==3)
-              <p><b>{!!number_format($totalhorario[2]->total, 0, ',', '.')!!} Gs.</b></p>
+               @if($totalhorario[2]->id==3)
+              <p><b>Total: {!!number_format($totalhorario[2]->total, 0, ',', '.')!!}</b></p>
               @endif
             </div>
           </div>
@@ -82,8 +82,8 @@
                <span class="onoffswitch-switch"></span>
               </label>
          </div>
-          @if($totalhorario[3]->id_horario==4)
-          <p><b>{!!number_format($totalhorario[3]->total, 0, ',', '.')!!} Gs.</b></p>
+          @if($totalhorario[3]->id==4)
+          <p><b>Total: {!!number_format($totalhorario[3]->total, 0, ',', '.')!!}</b></p>
           @endif
         </div>
       </div>
@@ -99,8 +99,8 @@
                <span class="onoffswitch-switch"></span>
               </label>
          </div>
-               @if($totalhorario[4]->id_horario==5)
-              <p><b>{!!number_format($totalhorario[4]->total, 0, ',', '.')!!} Gs.</b></p>
+               @if($totalhorario[4]->id==5)
+              <p><b>Total: {!!number_format($totalhorario[4]->total, 0, ',', '.')!!}</b></p>
                @endif
             </div>
           </div>
@@ -116,8 +116,8 @@
                <span class="onoffswitch-switch"></span>
               </label>
          </div>
-              @if($totalhorario[5]->id_horario==6)
-              <p><b>{!!number_format($totalhorario[5]->total, 0, ',', '.')!!} Gs.</b></p>
+              @if($totalhorario[5]->id==6)
+              <p><b>Total: {!!number_format($totalhorario[5]->total, 0, ',', '.')!!}</b></p>
                 @endif
             </div>
           </div>
@@ -133,8 +133,8 @@
                    <span class="onoffswitch-switch"></span>
                   </label>
          </div>
-          @if($totalhorario[6]->id_horario==7)
-              <p><b>{!!number_format($totalhorario[6]->total, 0, ',', '.')!!} Gs.</b></p>
+          @if($totalhorario[6]->id==7)
+              <p><b>Total: {!!number_format($totalhorario[6]->total, 0, ',', '.')!!}</b></p>
                 @endif
             </div>
           </div>
