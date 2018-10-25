@@ -52,93 +52,96 @@ $id_usuario= $_SESSION["user"];
             </form>
           </div>
         </div>
+        <div class="tile-body ">
+          <div class="table-responsive">
+            <table class="table table-hover " id="sampleTable">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th class="text-left">Venta</th>
+                  <th class="text-left">Vendedor</th>
+                  <th class="text-left">Cliente</th>
+                  <th class="text-left">Teléfono</th>
+                  <th class="text-left">Dirección</th>
+                  <th class="text-left">Barrio</th>
+                  <th class="text-left">Importe</th>
+                  <th class="text-left">Fecha</th>
+                  <th class="text-center">Estado</th>
+                  <th class="text-center" width="20%">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+               @foreach($pedidos as $pedido)
+               <tr
+               @if($pedido->id_estado==1)
+               class="table-secondary"    
+               @endif  
+               @if($pedido->id_estado==5)
+               class="table-primary"
+               @endif 
+               > 
+               <td class="venta" data-id="{{$pedido->id_venta}}" style="text-align: center;">
+                <?php $x=0;?>
 
-        <div class="table-responsive">
-          <table class="table table-hover " id="sampleTable">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th class="text-left">Venta</th>
-                <th class="text-left">Vendedor</th>
-                <th class="text-left">Cliente</th>
-                <th class="text-left">Teléfono</th>
-                <th class="text-left">Dirección</th>
-                <th class="text-left">Barrio</th>
-                <th class="text-left">Importe</th>
-                <th class="text-left">Fecha</th>
-                <th class="text-center">Estado</th>
-                <th class="text-center" width="17%">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-             @foreach($pedidos as $pedido)
-             <tr
-             @if($pedido->id_estado==1)
-             class="table-secondary"    
-             @endif  
-             @if($pedido->id_estado==5)
-             class="table-primary"
-             @endif 
-             > 
-             <td class="venta" data-id="{{$pedido->id_venta}}" style="text-align: center;">
-              <?php $x=0;?>
+
+                @foreach($notas as $not)
+                @if($not->id_venta==$pedido->id_venta)
+                <?php $x++;?>
+                @endif
+                @endforeach
+                @if($x>0)
+                <i class="fa fa-lg fa-commenting-o"></i>
+                @endif
+                @foreach($notas as $not)
+                @if($not->id_venta==$pedido->id_venta)
+                <div class="toolTip" id="{{$pedido->id_venta}}"  style="display: none;">
+                 <table style="border:0px; width: 400px; font-size: 12px; ">
+                   <td style="border:0px; text-align: left; width: 120px;">{{$not->name}}</td>
+                   <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$not->nota)!!}</td>
+                 </table>
+               </div>
+
+               @endif
+               @endforeach
+             </td>
+             <td>{{$pedido->id}}</td>
+             <td>{{$pedido->name}}
 
 
-              @foreach($notas as $not)
-              @if($not->id_venta==$pedido->id_venta)
-              <?php $x++;?>
+             </td>
+             <td>{{$pedido->nombres}}</td>
+             <td>{{$pedido->telefono}}</td>
+             <td>{{$pedido->direccion}}</td>
+             <td >{{$pedido->barrio}}</td>
+             <td>{{$pedido->monto}}</td>
+             <td>{{$pedido->fecha}}</td>
+             <td>{{$pedido->estado}}</td>
+             <td class="text-center" width="10%">
+              <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+              @if($pedido->id_estado==1) 
+              <a href="{{ route('procesar.caida',$pedido->id) }}" class="btn btn-secondary" title=""><i class="fa fa-lg fa-times" title="Venta Caida"></i></a>
+              <button data-toggle="tooltip" data-placement="top"  title="Agrear Nota" class="btn btn-primary nota"  value="{{$pedido->id_venta}}"><i class="fa fa-lg fa-comment-o" ></i></button>   
               @endif
-              @endforeach
-              @if($x>0)
-              <i class="fa fa-lg fa-commenting-o"></i>
+
+
+              @if($pedido->id_estado==5) 
+              <a class="btn btn-primary" href="{{ route('procesar.confirmar',$pedido->id) }}"><i class="fa fa-lg fa-phone" title="Cliente a Confirmar"></i></a>
+              <button data-toggle="tooltip" data-placement="top"  title="Agrear Nota" class="btn btn-primary nota"  value="{{$pedido->id_venta}}"><i class="fa fa-lg fa-comment-o" ></i></button>   
               @endif
-              @foreach($notas as $not)
-              @if($not->id_venta==$pedido->id_venta)
-              <div class="toolTip" id="{{$pedido->id_venta}}"  style="display: none;">
-               <table style="border:0px; width: 400px; font-size: 12px; ">
-                 <td style="border:0px; text-align: left; width: 120px;">{{$not->name}}</td>
-                 <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$not->nota)!!}</td>
-               </table>
-             </div>
-
-             @endif
-             @endforeach
-           </td>
-           <td>{{$pedido->id}}</td>
-           <td>{{$pedido->name}}
-
-
-           </td>
-           <td>{{$pedido->nombres}}</td>
-           <td>{{$pedido->telefono}}</td>
-           <td>{{$pedido->direccion}}</td>
-           <td >{{$pedido->barrio}}</td>
-           <td>{{$pedido->monto}}</td>
-           <td>{{$pedido->fecha}}</td>
-           <td>{{$pedido->estado}}</td>
-           <td class="text-center" width="10%">
-            <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
-            @if($pedido->id_estado==1) 
-            <a href="{{ route('procesar.caida',$pedido->id) }}" class="btn btn-secondary" title=""><i class="fa fa-lg fa-times" title="Venta Caida"></i></a>
-            <button data-toggle="tooltip" data-placement="top"  title="Agrear Nota" class="btn btn-primary nota"  value="{{$pedido->id_venta}}"><i class="fa fa-lg fa-comment-o" ></i></button>   
-            @endif
-
-
-            @if($pedido->id_estado==5) 
-            <a class="btn btn-primary" href="{{ route('procesar.confirmar',$pedido->id) }}"><i class="fa fa-lg fa-phone" title="Cliente a Confirmar"></i></a>
-            <button data-toggle="tooltip" data-placement="top"  title="Agrear Nota" class="btn btn-primary nota"  value="{{$pedido->id_venta}}"><i class="fa fa-lg fa-comment-o" ></i></button>   
-            @endif
-          </td> 
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
+               @if($pedido->id_estado!=5) 
+              <button data-toggle="tooltip" data-placement="top" title="Descompuesto" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-ban"></i></button>
+              @endif
+            </td> 
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+    <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+      {{$pedidos->appends(Request::only(['id_pedido' , 'telefono']))->links()}}
+      <!--sección para definir paginación de laravel-->
+    </div>
   </div>
-  <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-    {{$pedidos->appends(Request::only(['id_pedido' , 'telefono']))->links()}}
-    <!--sección para definir paginación de laravel-->
-  </div>
-</div>
 </div>
 </div>
 </div>
@@ -176,80 +179,80 @@ $id_usuario= $_SESSION["user"];
       </button>
     </div>
     
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th style="text-align: center;">Cliente</th>
-                <th style="text-align: center;">Ruc</th>
-                <th style="text-align: center;">Teléfono</th>
-                <th style="text-align: center;">Email</th>              
-              </tr>
-            </thead>
-            <tbody id="cliente_detalle"> 
-            </tbody>
-          </table>
-        </div>
-        <div class="table-responsive">
-           <table class="table">
-            <thead>
-              <tr>
-                <th style="text-align: center;">Dirección</th>             
-                <th colaspan="2" style="text-align: center;">Zona</th>
-                <th colaspan="2" style="text-align: center;">Ubicación</th>
-              </tr>
-            </thead>
-            <tbody id="cliente_detalle2">  
-            </tbody>
-          </table>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th style="text-align: center;">Tipo Cliente</th>
-                <th style="text-align: center;">Fecha Venta</th>
-                <th style="text-align: center;">Fecha Entrega</th>
-                <th style="text-align: center;">Forma de Pago</th>
-              </tr>
-            </thead>
-            <tbody id="cliente_detalle3">
-            </tbody>
-          </table>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="text-center">Horario de Entrega</th>
-                <th class="text-center">Vendedor</th>
-              </tr>
-            </thead>
-            <tbody id="horario_detalle">
-            </tbody>
-          </table>
-        </div> 
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th style="text-align: center;">Código</th>
-                <th style="text-align: center;">Producto</th>
-                <th style="text-align: center;">Cantidad</th>
-                <th style="text-align: center;">Precio</th>
-                <th style="text-align: right;">Importe</th>
-              </tr>
-            </thead>
-            <tbody id="productos_detalle">     
-          </tbody>  
-          </table>
-    
-    </div>        
-    <div class="modal-footer">
-
-      <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="text-align: center;">Cliente</th>
+            <th style="text-align: center;">Ruc</th>
+            <th style="text-align: center;">Teléfono</th>
+            <th style="text-align: center;">Email</th>              
+          </tr>
+        </thead>
+        <tbody id="cliente_detalle"> 
+        </tbody>
+      </table>
     </div>
+    <div class="table-responsive">
+     <table class="table">
+      <thead>
+        <tr>
+          <th style="text-align: center;">Dirección</th>             
+          <th colaspan="2" style="text-align: center;">Zona</th>
+          <th colaspan="2" style="text-align: center;">Ubicación</th>
+        </tr>
+      </thead>
+      <tbody id="cliente_detalle2">  
+      </tbody>
+    </table>
   </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="text-align: center;">Tipo Cliente</th>
+          <th style="text-align: center;">Fecha Venta</th>
+          <th style="text-align: center;">Fecha Entrega</th>
+          <th style="text-align: center;">Forma de Pago</th>
+        </tr>
+      </thead>
+      <tbody id="cliente_detalle3">
+      </tbody>
+    </table>
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">Horario de Entrega</th>
+          <th class="text-center">Vendedor</th>
+        </tr>
+      </thead>
+      <tbody id="horario_detalle">
+      </tbody>
+    </table>
+  </div> 
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="text-align: center;">Código</th>
+          <th style="text-align: center;">Producto</th>
+          <th style="text-align: center;">Cantidad</th>
+          <th style="text-align: center;">Precio</th>
+          <th style="text-align: right;">Importe</th>
+        </tr>
+      </thead>
+      <tbody id="productos_detalle">     
+      </tbody>  
+    </table>
+    
+  </div>        
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+  </div>
+</div>
 </div>
 </div>
 
@@ -288,56 +291,56 @@ $id_usuario= $_SESSION["user"];
     $('#id_venta').val(idventa);
 
     $.ajax({
-        type: "GET",
-        url: '{{ url('detalle_venta') }}',
-        dataType: "json",
-        data: { id:idventa, _token: '{{csrf_token()}}'},
+      type: "GET",
+      url: '{{ url('detalle_venta') }}',
+      dataType: "json",
+      data: { id:idventa, _token: '{{csrf_token()}}'},
 
-        success: function (data){
-          console.log(data);
-          $("#cliente_detalle").append(`<tr>
-                 <td style="text-align: center;">${data.venta[0].nombres}</td>
-                 <td style="text-align: center;">${data.venta[0].ruc_ci}</td>
-                 <td style="text-align: center;">${data.venta[0].telefono}</td>
-                 <td style="text-align: center;">${data.venta[0].email}</td>
-              </tr>`);
-          $("#cliente_detalle2").append(`<tr>
-                                          <td style="text-align: center;">${data.venta[0].direccion}</td>
-                                          <td style="text-align: center;">${data.venta[0].barrio}</td> 
-                                          <td style="text-align: center;">${data.venta[0].ubicacion}</td> 
-                                      </tr>`);
-           $("#cliente_detalle3").append('<tr>'+
-                                          (data.venta[0].id_tipo==1 ? '<td style="text-align: center;">Natural</td>'
-                                           :   '<td style="text-align: center;">Jurídico</td>')+'<td style="text-align: center;">'+data.venta[0].fecha+'</td><td style="text-align: center;">'+data.venta[0].fecha_cobro+'</td> <td style="text-align: center;">'+data.venta[0].forma_pago+'</td></tr>');
+      success: function (data){
+        console.log(data);
+        $("#cliente_detalle").append(`<tr>
+         <td style="text-align: center;">${data.venta[0].nombres}</td>
+         <td style="text-align: center;">${data.venta[0].ruc_ci}</td>
+         <td style="text-align: center;">${data.venta[0].telefono}</td>
+         <td style="text-align: center;">${data.venta[0].email}</td>
+         </tr>`);
+        $("#cliente_detalle2").append(`<tr>
+          <td style="text-align: center;">${data.venta[0].direccion}</td>
+          <td style="text-align: center;">${data.venta[0].barrio}</td> 
+          <td style="text-align: center;">${data.venta[0].ubicacion}</td> 
+          </tr>`);
+        $("#cliente_detalle3").append('<tr>'+
+          (data.venta[0].id_tipo==1 ? '<td style="text-align: center;">Natural</td>'
+           :   '<td style="text-align: center;">Jurídico</td>')+'<td style="text-align: center;">'+data.venta[0].fecha+'</td><td style="text-align: center;">'+data.venta[0].fecha_cobro+'</td> <td style="text-align: center;">'+data.venta[0].forma_pago+'</td></tr>');
 
-          $("#horario_detalle").append(`<tr>
-                 <td colspan="2" style="text-align: center;">${data.venta[0].horario}</td>
-                 <td colspan="2" style="text-align: center;">${data.venta[0].nameuser}</td>
-              </tr>`);
+        $("#horario_detalle").append(`<tr>
+         <td colspan="2" style="text-align: center;">${data.venta[0].horario}</td>
+         <td colspan="2" style="text-align: center;">${data.venta[0].nameuser}</td>
+         </tr>`);
 
           //CICLO DE LOS DATOS RECIBIDOS
           $.each(data.venta, function(l, item) {
 
-               importes=item.cantidad*item.precio;
+           importes=item.cantidad*item.precio;
               // total+=importe;
-            $("#productos_detalle").append(`<tr>
+              $("#productos_detalle").append(`<tr>
 
-              <td style="text-align: left;">${item.codigo_producto}</td>
-              <td style="text-align: left;">${item.descripcion}</td>
-              <td style="text-align: center;">${item.cantidad}</td>
-              <td style="text-align: right;">${item.precio.toLocaleString('de-DE')}</td>
-              <td style="text-align: right;">${importes.toLocaleString('de-DE')}</td>
-              </tr>`);
-          });
+                <td style="text-align: left;">${item.codigo_producto}</td>
+                <td style="text-align: left;">${item.descripcion}</td>
+                <td style="text-align: center;">${item.cantidad}</td>
+                <td style="text-align: right;">${item.precio.toLocaleString('de-DE')}</td>
+                <td style="text-align: right;">${importes.toLocaleString('de-DE')}</td>
+                </tr>`);
+            });
 
- $("#productos_detalle").append(`<tr>
-              <td colspan="5" style="text-align:  right;"><h5>Total: ${data.venta[0].importe.toLocaleString('de-DE')} Gs.</h5></td>
-              </tr>`);
+          $("#productos_detalle").append(`<tr>
+            <td colspan="5" style="text-align:  right;"><h5>Total: ${data.venta[0].importe.toLocaleString('de-DE')} Gs.</h5></td>
+            </tr>`);
 
 
 
         }
-    });
+      });
 
 
 

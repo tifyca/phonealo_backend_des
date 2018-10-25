@@ -36,12 +36,14 @@ class RepartidoresController extends Controller
             //fin validaciones
             $email = $request["email"];
             $pass  = $request["password"];
+
             $usuario = User::where('email', $email)->first();
             if ($usuario) {
                 $idusuario=$usuario->id;
+                $nombre   = $usuario->name;
                 if (password_verify($pass, $usuario->password)){
                    if($usuario->rol_id==5){
-                    return ["status" => "exito", "data" => ["token" => crea_token($idusuario),"idusuario" => $usuario->id, "idempleado"=> $usuario->id_empleado]];
+                    return ["status" => "exito", "data" => ["token" => crea_token($idusuario),"idusuario" => $usuario->id, "idempleado"=> $usuario->id_empleado, "nombre" => $nombre]];
                    }else{
                     return ["status" => "fallo", "error" => ["Usuario no autorizado"]];
                    }
@@ -62,7 +64,8 @@ class RepartidoresController extends Controller
     {
        $request = json_decode($request->getContent());
        $request = get_object_vars($request);
-        
+       $contador = 0; 
+       $total++;
         try {
             //Validaciones
             $errors = [];
@@ -101,7 +104,7 @@ class RepartidoresController extends Controller
                   $data["id_estado"]   = $ped->id_estado;
                   $data["estado"]      = $ped->estado;
                 }
-                return ["status" => "exito", "data" => $data];                
+                return ["status" => "exito", "data" => $data, "total_asignados" => $total_asignados];                
              }else{
                 $jornada= new delivery_horario();
                 $jornada->id_delivery = $idempleado;
@@ -130,6 +133,7 @@ class RepartidoresController extends Controller
                 return ["status" => "fallo", "error" => $errors];
             }
             //fin validaciones
+            $total = 0;
             $idempleado = $request["idempleado"];
             $empleados = Empleados::where('id', $idempleado)->first();
 
@@ -153,8 +157,9 @@ class RepartidoresController extends Controller
                   $data["horario"]=$ped->horario;
                   $data["id_estado"]=$ped->id_estado;
                   $data["estado"]=$ped->estado;
+                  $total++;
                 }
-                return ["status" => "exito", "data" => $data];                
+                return ["status" => "exito", "data" => $data,"total_asignados" => $total];                
              }else{
                 return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
              }
