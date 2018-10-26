@@ -18,6 +18,7 @@
 @php $longitud=count($notaventa); @endphp
  <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo.css') }}">
    <div class="row" >
+      {{--Botones Horarios--}}
     <div class="col-md-3">
       <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o"></i>
         <div class="info">
@@ -139,7 +140,10 @@
             </div>
           </div>
         </div>
-    
+    {{--fin Botones Horarios--}}
+    {{--Indice de  Karma--}}
+    <div  class="col-12  text-center alert alert-danger"> <h4>Índice de Karma Total: {{ $karma }}</h4></div>
+
   {{-- TABLA DE REMISAS --}}
   {{-- ESTA LISTA SE MANTIENE OCULTA, SOLO APARECE CUANDO AÑADO UNA VENTA A REMISA --}}
   @if(count($remisas) > 0)
