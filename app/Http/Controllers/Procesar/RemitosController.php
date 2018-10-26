@@ -45,9 +45,9 @@ class RemitosController extends Controller
             return back();
         }
         if ( $request->accion == 'devolver_venta' ) {
-            $venta = $this->modificaEstadoVenta($id, 2);
+            $venta = $this->modificaEstadoVenta($id, 1);
             $this->modificaEstadoDetalleRemito($id, 2);
-            $this->modificaEstadoPedido($venta->id_pedido, 2);
+            // $this->modificaEstadoPedido($venta->id_pedido, 2);
             return  response()->json([
                 'mensaje' => 'La venta fue devuelta exitosamente',
                 'estado' => Estados::where('id', $venta->id_estado)->first()
