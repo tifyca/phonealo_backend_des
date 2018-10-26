@@ -180,12 +180,40 @@ class LogisticaController extends Controller
         $notaventa= Notas_Ventas::join('ventas', 'notas_ventas.id_venta', '=', 'ventas.id')
                                 ->select('notas_ventas.id_venta')->get();
 
-        $totalhorario= Ventas::join('horarios', 'horarios.id', '=', 'ventas.id_horario')
-                            ->select('id_horario', 'horarios.status_v', DB::raw('SUM(importe) as total'))
-                            ->groupBy('id_horario')->get();
+    
+       /* $first=DB::table('horarios')->Select('horarios.id','horarios.status_v', DB::raw('0 as total'))->whereNotIn('horarios.id', function($q){
 
-        
-        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario'));
+                         $q->Select('id_horario')
+                           ->from('ventas')
+                           ->where('horarios.id', '=', 'ventas.id_horario')
+                           ->where('ventas.fecha', date('Y-m-d'));
+                        });  
+
+
+        $totalhorario=DB::table('horarios')->Select('shorarios.id','horarios.status_v', DB::raw('COUNT(*) as total'))
+                                           ->join('ventas', 'horarios.id','=','ventas.id_horario')
+                                           ->where('ventas.fecha', date('Y-m-d'))
+                                           ->groupby('id_horario')
+                                           ->UNION($first)
+                                           ->orderBy('id')
+                                           ->get();*/
+
+        $totalhorario= DB::select( DB::raw('select `horarios`.`id`, `horarios`.`status_v`, COUNT(*) as total from `horarios` inner join `ventas` on `horarios`.`id` = `ventas`.`id_horario` where `ventas`.`fecha` = "'.date('Y-m-d').'" group by `id_horario` union (select `horarios`.`id`, `horarios`.`status_v`, 0 as total from `horarios` where `horarios`.`id` not in (select `id_horario` from `ventas` where `horarios`.`id` = ventas.id_horario and `ventas`.`fecha` = "'.date('Y-m-d').'")) order by `id` asc'));
+
+
+
+        $first = strtotime('last Sunday');
+        $first =  date('Y-m-d', $first);
+        $last  = strtotime('next Saturday');
+        $last  = date('Y-m-d', $last);
+
+
+        $karma= Ventas::Activas()->where('fecha', '>=', $first)
+                                 ->where('fecha', '<=', $last)
+                                 ->count();
+
+
+        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario', 'karma'));
     	
     }
     public function CrearPDF ($remito, $vista, $empleado, $id_remisa ){

@@ -61,7 +61,7 @@ class Remitos extends Model
             // );
             ->select(
                 'remitos.id as id_remito', 
-                'ventas.id', 'estados.estado',
+                'ventas.id as id_venta', 'estados.estado',
                 'detalle_ventas.cantidad', 'detalle_ventas.precio',
                 'detalle_remito.id_remito as dr_id_remito', 'detalle_remito.id_venta as dr_id_venta',
                 'clientes.nombres as nombre_cliente', 'clientes.telefono',
