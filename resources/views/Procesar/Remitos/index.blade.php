@@ -67,7 +67,9 @@
                     {{-- <td class="text-center">{{ $remito->nombre_cliente }}</td> --}}
                     {{-- <td class="text-center">{{ $remito->telefono }}</td> --}}
                     <td class="text-center">{{ $remito->fecha }}</td>
-                    <td class="text-center">{{ $remito->estado }}</td>
+                    <td class="text-center" data-id="{{ $remito->id_estado }}">
+                      {{ $remito->estado }}
+                    </td>
                     <td class="importe text-right">{{ $remito->importe }}</td>
                     {{-- <td class="importe">
                       {!!number_format($remito->importe, 0, ',', '.')!!}
@@ -77,7 +79,8 @@
                         <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductos{{ $remito->id }}" href="#" data-title="tooltip" title="Ver">
                           <i class="m-0 fa fa-lg fa-eye"></i>
                         </a>
-                        @if ( $remito->estado == "Delivery" )
+                        {{-- @if ( $remito->estado == "Delivery" ) --}}
+                        @if ( $remito->id_estado == 6 )
                         <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductosConfirmar{{ $remito->id }}" href="#" data-title="tooltip" title="Confirmar">
                           <i class="fa fa-check-square-o"></i>
                         </a>                          
@@ -136,13 +139,16 @@
             <tbody>
               @foreach ($remitosVentas as $venta)
               @if ( $venta->dr_id_remito == $remito->id)              
+              {{-- @if ( $venta->dr_id_remito == 14463)               --}}
               <tr>
                 <td class="text-center">{{ $venta->id_venta }}</td>
                 <td class="text-center">{{ $venta->nombre_cliente }}</td>
                 <td class="text-center">{{ $venta->telefono }}</td>
                 {{-- <td class="text-center">Importe</td> --}}
                 <td class="text-center">{{ $venta->forma_pago }}</td>
-                <td class="text-center estado_venta">{{ $venta->estado }}</td>
+                <td class="text-center estado_venta" data-id="{{ $venta->id_estado }}">
+                  {{ $venta->estado }}
+                </td>
                 {{-- <td class="text-center">Fecha</td> --}}
                 <td class="text-center">
                   <form action="{{ route('remitos.update', $venta->id_venta) }}" method="post">
@@ -151,7 +157,8 @@
                     <div class="btn-group">                    
                       <a class="btn btn-primary boton-accion-venta" data-toggle="collapse" href="#collapseExample{{ $venta->id_venta }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $venta->id_venta }}" data-title="tooltip" title="Detalles"><i class="m-0 fa fa-eye"></i>
                       </a>
-                      @if ( $remito->estado <> 'Cobrado' && $remito->estado <> 'Baja' )                        
+                      {{-- @if ( $remito->estado <> 'Cobrado' && $remito->estado <> 'Baja' )        --}}
+                      @if ( $remito->id_estado <> 3 && $remito->id_estado <> 2 && $venta->dr_id_estado <> 2)
                       <button class="btn btn-primary" type="submit" name="accion" value="devolver_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Devolver">
                         <i class="fa fa-share-square-o"></i>
                       </button>
@@ -160,7 +167,7 @@
                       </button>
                       <button class="btn btn-primary" type="submit" name="accion" value="rechazar_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Rechazar" data-target="#ModalNota{{ $venta->id_venta }}" data-toggle="modal">
                         <i class="fa fa-ban"></i>
-                      </button>
+                      </button>            
                       @endif
                     </div>
                   </form>
@@ -240,8 +247,9 @@
   </div>
 </div>
   @foreach ($remitosVentas as $venta)
+  @if ( $venta->dr_id_remito == $remito->id) 
   <!--Ventana Modal de Notas  -->
-  <div class="modal fade" id="ModalNota{{ $venta->id_venta }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel{{ $venta->id_venta }}" aria-hidden="true" style="z-index: 1080 !important;">
+  <div class="modal fade " id="ModalNota{{ $venta->id_venta }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel{{ $venta->id_venta }}" aria-hidden="true" style="z-index: 1080 !important;">
     <div class="modal-dialog  modal-dialog-centered " role="document">
       <div style="display: none;" class="alert-top fixed-top text-center alert alert-danger remodal" id="remodal">      
       </div>
@@ -261,6 +269,7 @@
       </div>
     </div>
   </div>
+  @endif
   @endforeach
 @endforeach
   
@@ -301,7 +310,7 @@ $(function(){
           
           guardar_nota.modal('hide');
           $("#res").html("Se Agrego con Éxito una Nota a la Venta");
-          $("#res, #res-content").css("display","block");
+          $("#res, #res-content").css("display","block").css('z-index','1100');
           $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
           // location.reload(true);
         } 
@@ -343,7 +352,11 @@ $(function(){
     })
     .done(function(data) {
       boton.children('i.fa').toggleClass('fa fa-refresh fa-spin').toggleClass(icono_accion);
-      boton.parents('tr').children('td.estado_venta').text(data.estado.estado);
+      boton.parents('tr').children('td.estado_venta').text(data.estado.estado)
+        .attr("data-id", data.estado.id);
+      if ( data.estado.id == 1 ) {
+        boton.parent().children('button[name="accion"]').css('display', 'none');
+      }
     })
     .fail(function(a,b,c) {
       alert("error");

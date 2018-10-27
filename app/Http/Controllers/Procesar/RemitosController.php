@@ -22,7 +22,10 @@ class RemitosController extends Controller
             ->paginate(10);             
         // Agrupa las ventas asociadas a los remitos, se muestra en modal
         $remitosVentas = Remitos::Ventas()
-            ->groupBy('ventas.id')->get();
+            // ->distinct()
+            ->groupBy('ventas.id', 'remitos.id')
+            // ->where('id_remito', 14463)
+            ->get();
 
         // Productos asociados a la venta, se muestra en modal
         $remitosProductos = Remitos::Productos()
@@ -50,7 +53,7 @@ class RemitosController extends Controller
             // $this->modificaEstadoPedido($venta->id_pedido, 2);
             return  response()->json([
                 'mensaje' => 'La venta fue devuelta exitosamente',
-                'estado' => Estados::where('id', $venta->id_estado)->first()
+                'estado' => Estados::where('id', $venta->id_estado)->first(),
             ]);
         }
         if ( $request->accion == 'confirmar_venta' ) {
@@ -88,7 +91,8 @@ class RemitosController extends Controller
         return $pedido;
     }
     private function modificaEstadoDetalleRemito($id, $estado = ''){
-        $detalle_remito = Detalle_remito::where('id_venta', $id)->first();
+        $detalle_remito = Detalle_remito::orderBy('created_at', 'desc')
+            ->where('id_venta', $id)->first();
         $detalle_remito->id_estado = $estado;
         $detalle_remito->save();
         $detalle_remito->touch();

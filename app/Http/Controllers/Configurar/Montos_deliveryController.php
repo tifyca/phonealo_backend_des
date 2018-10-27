@@ -120,8 +120,7 @@ public function anular(Request $request)
  //dd($id);
  try
       {
-       //$id = $request->id;
-
+     
    $montos = Montos_delivery::find($id);
    $detalle = Detalles_Ventas::where('id_producto',36)->where('precio',$montos->monto)->first();
    if(!$detalle){
