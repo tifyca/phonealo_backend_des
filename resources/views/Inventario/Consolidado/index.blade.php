@@ -85,10 +85,27 @@
                      @endforeach
 
                   </td>
-                  <td>{{$producto->descompuesto}}</td>
-                  <td>{{$producto->stock_activo}}</td>
-                  <td>{{$producto->precio_ideal}}</td>
-                  <td>{{$producto->precio_ideal}}</td>
+                  <td class="text-center">{{$producto->descompuesto}}</td>
+                  <td class="text-center">{{$producto->stock_activo}}</td>
+                   <?php $monto2 = number_format($producto->precio_ideal, 0, ',', '.');?>
+                  <td class="text-right">{{$monto2}}</td>
+                           @php
+                       $precio_compra = 0
+                      @endphp
+                  @foreach($precios as $prec)
+                  <?php
+                     $precio_compra = 0;
+                     if($prec["id_producto"]== $producto->id){
+                       if(!empty($prec["precioc"]))
+                        $precio_compra = $prec["precioc"];
+                      else
+                        $precio_compra = $prec["precio"];                  
+
+                     }else{$precio_compra=$producto->precio_ideal;}
+                   ?>
+                  @endforeach 
+                  <?php $monto = number_format($precio_compra, 0, ',', '.');?>
+                  <td class="text-right">{{$monto}}</td>
                 </tr>
                 @endforeach
               </tbody>
