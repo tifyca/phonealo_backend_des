@@ -23,7 +23,7 @@ class Remitos extends Model
     		->select(
     			'remitos.id', 'remitos.fecha', 'remitos.importe',
     			'empleados.nombres as nombre_delivery', 
-    			'estados.estado',
+    			'estados.estado', 'estados.id as id_estado',
     			'clientes.nombres as nombre_cliente', 'clientes.telefono',
                 'productos.id as id_producto','productos.descripcion',
                 'ventas.id as id_venta', 
@@ -61,11 +61,11 @@ class Remitos extends Model
             // );
             ->select(
                 'remitos.id as id_remito', 
-                'ventas.id as id_venta', 'estados.estado',
+                'ventas.id as id_venta', 'estados.estado', 'estados.id as id_estado',
                 'detalle_ventas.cantidad', 'detalle_ventas.precio',
                 'detalle_remito.id_remito as dr_id_remito', 'detalle_remito.id_venta as dr_id_venta',
-                'clientes.nombres as nombre_cliente', 'clientes.telefono',
-                'forma_pago.forma_pago'
+                'detalle_remito.id_estado as dr_id_estado','forma_pago.forma_pago',
+                'clientes.nombres as nombre_cliente', 'clientes.telefono'                
             );
     }
     
