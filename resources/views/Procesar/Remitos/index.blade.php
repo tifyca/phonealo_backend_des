@@ -247,6 +247,7 @@
   </div>
 </div>
   @foreach ($remitosVentas as $venta)
+  @if ( $venta->dr_id_remito == $remito->id) 
   <!--Ventana Modal de Notas  -->
   <div class="modal fade " id="ModalNota{{ $venta->id_venta }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel{{ $venta->id_venta }}" aria-hidden="true" style="z-index: 1080 !important;">
     <div class="modal-dialog  modal-dialog-centered " role="document">
@@ -268,6 +269,7 @@
       </div>
     </div>
   </div>
+  @endif
   @endforeach
 @endforeach
   
