@@ -147,7 +147,7 @@
                 {{-- <td class="text-center">Importe</td> --}}
                 <td class="text-center">{{ $venta->forma_pago }}</td>
                 <td class="text-center estado_venta" data-id="{{ $venta->id_estado }}">
-                  {{ $venta->dr_id_estado }}/{{ $venta->estado }}
+                  {{ $venta->estado }}
                 </td>
                 {{-- <td class="text-center">Fecha</td> --}}
                 <td class="text-center">
