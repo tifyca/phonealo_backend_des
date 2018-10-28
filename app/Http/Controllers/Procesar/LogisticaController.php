@@ -173,9 +173,11 @@ class LogisticaController extends Controller
 
         }
         $nota  =Notas_Ventas::join('users', 'notas_ventas.id_usuario', '=', 'users.id')
-                            ->select(DB::raw('GROUP_CONCAT(nota SEPARATOR "~") as nota'), 'id_venta', 'name as nombre')
-                            ->groupBy('id_venta', 'notas_ventas.id_usuario')
+                            ->select('nota', 'id_venta', 'name as nombre', 'notas_ventas.created_at as fecha')
+                            ->groupBy('id_venta', 'notas_ventas.id_usuario', 'notas_ventas.created_at')
+                            ->orderBy('id_venta')
                             ->get();
+ 
 
         $notaventa= Notas_Ventas::join('ventas', 'notas_ventas.id_venta', '=', 'ventas.id')
                                 ->select('notas_ventas.id_venta')->get();

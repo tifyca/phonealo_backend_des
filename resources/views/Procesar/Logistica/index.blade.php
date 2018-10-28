@@ -19,9 +19,9 @@
  <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo.css') }}">
    <div class="row" >
       {{--Botones Horarios--}}
-    <div class="col-md-3">
-      <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o"></i>
-        <div class="info">
+    <div class="col-md-3" >
+      <div class="widget-small primary coloured-icon" ><i class="icon fa fa-clock-o hora" id="1" style="cursor:pointer;"></i>
+        <div class="info" >
           <h4>Mañana</h4>
           <div class="onoffswitch">
             <input type="checkbox" name="h1" class="onoffswitch-checkbox horario" value="1" id="h1" @if($totalhorario[0]->status_v==1) checked @else ''@endif>
@@ -39,7 +39,7 @@
         
  
         <div class="col-md-3">
-          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o"></i>
+          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o hora" id="2" style="cursor:pointer;"></i>
             <div class="info">
               <h4>Tarde </h4>
             <div class="onoffswitch">
@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o"></i>
+          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o hora" id="3" style="cursor:pointer;"></i>
             <div class="info">
               <h4>Todo el día </h4>
               <div class="onoffswitch">
@@ -73,7 +73,7 @@
           </div>
         </div>
       <div class="col-md-3">
-      <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x"></i>
+      <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x hora" id="4" style="cursor:pointer;"></i>
         <div class="info">
           <h4>09:00-12:00 </h4>
           <div class="onoffswitch">
@@ -90,7 +90,7 @@
       </div>
     </div>
     <div class="col-md-3">
-          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x"></i>
+          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x hora" id="5" style="cursor:pointer;"></i>
             <div class="info">
               <h4>12:00-15:00</h4>
                <div class="onoffswitch">
@@ -107,7 +107,7 @@
           </div>
         </div>
       <div class="col-md-3">
-          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x"></i>
+          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x hora" id="6" style="cursor:pointer;"></i>
             <div class="info">
               <h4>15:00-18:00</h4>
                 <div class="onoffswitch">
@@ -124,7 +124,7 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x"></i>
+          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x hora" id="7" style="cursor:pointer;""></i>
             <div class="info">
               <h4>18:00-21:00</h4>
               <div class="onoffswitch">
@@ -140,9 +140,17 @@
             </div>
           </div>
         </div>
+        <div class="col-md-3">
+          <div class="widget-small danger"><i class="icon fa fa-exclamation-circle fa-3x"></i>
+            <div class="info">
+              <h4>Karma</h4>
+               <h3><b>Total: {{ $karma }}</b></h3>
+            </div>
+          </div>
+        </div>
     {{--fin Botones Horarios--}}
     {{--Indice de  Karma--}}
-    <div  class="col-12  text-center alert alert-danger"> <h4>Índice de Karma Total: {{ $karma }}</h4></div>
+    <!--div  class="col-12  text-center alert alert-danger"> <h4>Índice de Karma Total: {{ $karma }}</h4></div-->
 
   {{-- TABLA DE REMISAS --}}
   {{-- ESTA LISTA SE MANTIENE OCULTA, SOLO APARECE CUANDO AÑADO UNA VENTA A REMISA --}}
@@ -180,26 +188,34 @@
                      <!-- jgonzalez LISTADO DE VENTAS PARA REMISA-->
                  @foreach($remisas as $remisa)
                    <tr class="table-success">
-                   <td class="venta" data-id="{{$remisa->id}}" style="text-align: center;">{{$remisa->id}} 
-                    <?php $e=0; ?>
-                      @for($i=0; $i<$longitud; $i++)
-                        @if($remisa->id==$notaventa[$i]->id_venta)
-                            <?php $e=$e+1; ?>
-                            @if($e==1)
-                              &spades;
-                            @endif
-                        @endif
-                      @endfor
-                            @foreach($nota as $item)
-                              @if($item->id_venta==$remisa->id)
+                   <td class="venta" <?php $x=0; ?>
+                                          @for($i=0; $i<$longitud; $i++)
+                                            @if($remisa->id==$notaventa[$i]->id_venta)
+                                               <?php $x=$x+1; ?>
+                                                  @if($x==1)
+                                                     data-id="{{$remisa->id}}"
+                                                  @endif
+                                            @endif
+                                          @endfor  style="text-align: center;">{{$remisa->id}}    
+                                     <?php $x=0; ?>
+                                  @for($i=0; $i<$longitud; $i++)
+                                    @if($remisa->id==$notaventa[$i]->id_venta)
+                                     <?php $x=$x+1; ?>
+                                     @if($x==1)
+                                       &spades;
+                                     @endif
+                                    @endif
+                                  @endfor
                                   <div class="toolTip" id="{{$remisa->id}}" style="display: none;">
-                                   <table style="border:0px; width: 400px; font-size: 12px; ">
-                                    <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
-                                    <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                              @foreach($nota as $item)
+                                @if($item->id_venta==$remisa->id)
+                                   <table style="border:0px; width: 850px; font-size: 12px; ">
+                                    <td style="border:0px; text-align: left; width: 140px;">{{$item->nombre}}</td>
+                                    <td style="border:0px; text-align: left; width: 110px;">{{$item->nota}}</td>
                                    </table>
+                                @endif
+                              @endforeach
                                   </div>
-                              @endif
-                            @endforeach
                           </td>               
                        
                       </td>
@@ -323,27 +339,35 @@
                      @elseif($atender->fecha != date("Y-m-d"))
                       style="background-color:#f1d4fa;"
                      @endif>
-                        <td class="venta" data-id="{{$atender->id}}" style="text-align: center;">{{$atender->id}} 
-                            <?php $b=0; ?>
-                            @for($i=0; $i<$longitud; $i++)
-                              @if($atender->id==$notaventa[$i]->id_venta)
-                                  <?php $b=$b+1; ?>
-                                  @if($b==1)
-                                    &spades;
-                                  @endif
-                              @endif
-                            @endfor
-                            @foreach($nota as $item)
-                              @if($item->id_venta==$atender->id)
-
+                        <td class="venta" <?php $x=0; ?>
+                                          @for($i=0; $i<$longitud; $i++)
+                                            @if($atender->id==$notaventa[$i]->id_venta)
+                                               <?php $x=$x+1; ?>
+                                                  @if($x==1)
+                                                     data-id="{{$atender->id}}"
+                                                  @endif
+                                            @endif
+                                          @endfor  style="text-align: center;">{{$atender->id}}    
+                                     <?php $x=0; ?>
+                                  @for($i=0; $i<$longitud; $i++)
+                                    @if($atender->id==$notaventa[$i]->id_venta)
+                                     <?php $x=$x+1; ?>
+                                     @if($x==1)
+                                       &spades;
+                                     @endif
+                                    @endif
+                                  @endfor
                                   <div class="toolTip" id="{{$atender->id}}"  style="display: none;">
-                                   <table style="border:0px; width: 400px; font-size: 12px; ">
-                                    <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
-                                    <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                              @foreach($nota as $item)
+                                @if($item->id_venta==$atender->id)
+                                   <table style="border:0px; width: 850px; font-size: 12px; ">
+                                    <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
+                                    <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
+                                    <td style="border:0px; text-align: left;">{{$item->nota}}</td>
                                    </table>
+                                @endif
+                              @endforeach
                                   </div>
-                              @endif
-                            @endforeach
                               </td>
                      
                       </td>
@@ -426,28 +450,35 @@
                       class="table-warning"
                     @endif 
                    >
-                      <td class="venta" data-id="{{$activa->id}}" style="text-align: center;">{{$activa->id}}
-                         <?php $y=0; ?>
-                          @for($i=0; $i<$longitud; $i++)
-                            @if($activa->id==$notaventa[$i]->id_venta)
-                                <?php $y=$y+1; ?>
-                                @if($y==1)
-                                  &spades;
-                                @endif
-                            @endif
-                          @endfor
+                      <td class="venta" <?php $x=0; ?>
+                                          @for($i=0; $i<$longitud; $i++)
+                                            @if($activa->id==$notaventa[$i]->id_venta)
+                                               <?php $x=$x+1; ?>
+                                                  @if($x==1)
+                                                     data-id="{{$activa->id}}"
+                                                  @endif
+                                            @endif
+                                          @endfor  style="text-align: center;">{{$activa->id}}    
+                                     <?php $x=0; ?>
+                                  @for($i=0; $i<$longitud; $i++)
+                                    @if($activa->id==$notaventa[$i]->id_venta)
+                                     <?php $x=$x+1; ?>
+                                     @if($x==1)
+                                       &spades;
+                                     @endif
+                                    @endif
+                                  @endfor
                                                
-                          @foreach($nota as $item)
-                              @if($item->id_venta==$activa->id)
-
                                   <div class="toolTip" id="{{$activa->id}}" style="display: none;">
-                                   <table style="border:0px; width: 400px; font-size: 12px; ">
-                                    <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
-                                    <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                              @foreach($nota as $item)
+                                @if($item->id_venta==$activa->id)
+                                    <table style="border:0px; width: 850px; font-size: 12px; ">
+                                      <td style="border:0px; text-align: left; width: 140px;">{{$item->nombre}}</td>
+                                      <td style="border:0px; text-align: left; width: 110px;">{{$item->nota}}</td>
                                    </table>
+                                @endif
+                              @endforeach
                                   </div>
-                              @endif
-                            @endforeach
                               </td>
                       </td>
                       <td style="text-align: left;">{{$activa->nombres}}</td>
@@ -511,17 +542,17 @@
               <table class="table table-hover table-bordered " id="esperas-list">
                 <thead>
                   <tr>
-                    <th style="text-align: center">Venta</th>
-                    <th style="text-align: center">Cliente</th>
-                    <th style="text-align: center">Teléfono</th>
-                    <th style="text-align: center">Dirección</th>
+                    <th style="text-align: center;">Venta</th>
+                    <th style="text-align: center;">Cliente</th>
+                    <th style="text-align: center;">Teléfono</th>
+                    <th style="text-align: center;">Dirección</th>
                     <th style="text-align: center">Fecha</th>
-                    <th style="text-align: center">Fecha Activo</th>
-                    <th style="text-align: center">Ciudad</th>
-                    <th style="text-align: center">Horario</th>
-                    <th style="text-align: center">Forma Pago</th>
-                    <th style="text-align: center">Importe</th>
-                    <th style="text-align: center">Acciones</th>
+                    <th style="text-align: center;">Fecha Activo</th>
+                    <th style="text-align: center;">Ciudad</th>
+                    <th style="text-align: center;">Horario</th>
+                    <th style="text-align: center;">Forma Pago</th>
+                    <th style="text-align: center;">Importe</th>
+                    <th style="text-align: center;">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -536,28 +567,36 @@
                       class="table-light"
                     @endif 
                     >
-                      <td class="venta" data-id="{{$enEspera->id}}" style="text-align: center">{{$enEspera->id}}
+                      <td class="venta" <?php $x=0; ?>
+                                          @for($i=0; $i<$longitud; $i++)
+                                            @if($enEspera->id==$notaventa[$i]->id_venta)
+                                               <?php $x=$x+1; ?>
+                                                  @if($x==1)
+                                                     data-id="{{$enEspera->id}}"
+                                                  @endif
+                                            @endif
+                                          @endfor  style="text-align: center; width:15%">{{$enEspera->id}}    
                           <?php $x=0; ?>
-                          @for($i=0; $i<$longitud; $i++)
-                            @if($enEspera->id==$notaventa[$i]->id_venta)
+                            @for($i=0; $i<$longitud; $i++)
+                                   @if($enEspera->id==$notaventa[$i]->id_venta)
                                 <?php $x=$x+1; ?>
-                                @if($x==1)
-                                  &spades;
+                                 @if($x==1)
+                                   &spades;
+                                 @endif
                                 @endif
-                            @endif
                           @endfor
 
+                                  <div class="toolTip" id="{{$enEspera->id}}" style="display: none;">
                             @foreach($nota as $item)
                               @if($item->id_venta==$enEspera->id)
-
-                                  <div class="toolTip" id="{{$enEspera->id}}" style="display: none;">
-                                   <table style="border:0px; width: 400px; font-size: 12px; ">
-                                    <td style="border:0px; text-align: left; width: 120px;">{{$item->nombre}}</td>
-                                    <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$item->nota)!!}</td>
+                                   <table style="border:0px; width: 850px; font-size: 12px; ">
+                                    <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
+                                    <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
+                                    <td style="border:0px; text-align: left;">{{$item->nota}}</td>
                                    </table>
-                                  </div>
                               @endif
                             @endforeach
+                                  </div>
                         </td>
                       </td>
                       <td style="text-align: left;">{{$enEspera->nombres}}</td>
@@ -822,7 +861,7 @@
                     <h4 class="modal-title" id="myModalLabel">Agregar Nota</h4>
                 </div>
                 <form id="frmnota" name="frmnota" class="form-horizontal" novalidate="">
-                    <textarea type="text" rows="4"  class="form-control" name="nota"  id="nota"></textarea>
+                    <textarea type="text" rows="4" maxlength="100" class="form-control" name="nota"  id="nota"></textarea>
                 </form> 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="btn-nota">Guardar</button>
@@ -847,6 +886,7 @@ $(document).ready(function(){
    
     $('.venta').hover(function () {
          var data_id = $(this).data('id');
+
     
        $('.toolTip').each(function() {
            var div = $(this);
