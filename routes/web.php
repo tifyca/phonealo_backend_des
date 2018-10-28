@@ -314,6 +314,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('procesar/logistica/edithorario', 'Procesar\LogisticaController@edithorario')->name('edithorario');
 
 
+
+
+//logistica
+    Route::get('logistica', 'Procesar\LogisticaController@index')->name('logistica');
+    Route::post('logistica', 'Procesar\LogisticaController@index')->name('logistica.submit');
+    Route::get('logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
+    Route::get('logistica/remisa', 'Procesar\LogisticaController@remisa')->name('logistica.remisa');
+    Route::get('logistica/factura', 'Procesar\LogisticaController@factura')->name('logistica.factura');
+    Route::get('logistica/movimiento', 'Procesar\LogisticaController@movimiento')->name('logistica.movimiento');
+    Route::get('logistica/recibo', 'Procesar\LogisticaController@recibo')->name('logistica.recibo');
+    Route::put('logistica/edithorario', 'Procesar\LogisticaController@edithorario')->name('edithorario');
+    
+    Route::resource('logistica/remitos', 'Procesar\RemitosController');
+    Route::get('logistica/monitoreo', 'Procesar\RemitosController@monitoreo')->name('logistica.monitoreo');
+///    
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');
     Route::get('procesar/conversiones/show', 'Procesar\ConversionesController@show')->name('procesar.conversiones.show');

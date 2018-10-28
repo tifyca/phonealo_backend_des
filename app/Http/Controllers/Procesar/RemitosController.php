@@ -6,9 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Remitos;
 use App\Estados;
+use App\Empleados;
 use App\pedido;
 use App\Ventas;
 use App\Detalle_remito;
+
+@session_start();
+
 class RemitosController extends Controller
 {
     public function index(Request $request){
@@ -75,6 +79,11 @@ class RemitosController extends Controller
         $remito->save();
         $remito->touch();
         return $remito;
+    }
+
+    public function monitoreo(Request $request){
+         $repartidores = Empleados::where('id_cargo', 4)->where('id_estado',1)->get();
+        return view('logistica.monitoreo');
     }
     private function modificaEstadoVenta($id, $estado = ''){
         $venta = Ventas::find($id);
