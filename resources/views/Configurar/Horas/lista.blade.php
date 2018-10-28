@@ -4,7 +4,7 @@
                     <th>Nombre</th>
                     <th>Estatus Venta</th>
                     <th>Estatus</th>
-                    <th>Acciones</th>
+                    <th class="text-center">Acciones</th>
                   </tr>
                 </thead>
              
@@ -15,7 +15,7 @@
                 <?php if ($horario->status_v==1){ ?>
                       <td width="25%"><?=  'Activo' ?></td>
                 <?php }else{ ?> 
-                      <td width="25%"><?='Espera' ?></td>
+                      <td width="25%"><?='Inactivo' ?></td>
                 <?php } ?> 
                 <?php if ($horario->status==1){ ?>
                       <td width="25%"><?=  'Activo' ?></td>

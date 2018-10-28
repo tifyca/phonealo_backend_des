@@ -7,7 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Remitos;
 use App\Estados;
 use App\Empleados;
+use App\pedido;
+use App\Ventas;
+use App\Detalle_remito;
+
 @session_start();
+
 class RemitosController extends Controller
 {
     public function index(Request $request){
@@ -18,11 +23,13 @@ class RemitosController extends Controller
             // Agrupar por id remito y ordenar por id ascendentemente
             ->groupBy('remitos.id')
             ->orderBy('id', 'desc')
-            ->paginate(10); 
-            
+            ->paginate(10);             
         // Agrupa las ventas asociadas a los remitos, se muestra en modal
         $remitosVentas = Remitos::Ventas()
-            ->groupBy('ventas.id')->get();
+            // ->distinct()
+            ->groupBy('ventas.id', 'remitos.id')
+            // ->where('id_remito', 14463)
+            ->get();
 
         // Productos asociados a la venta, se muestra en modal
         $remitosProductos = Remitos::Productos()
@@ -38,20 +45,32 @@ class RemitosController extends Controller
     }
 
     public function update(Request $request, $id){
-        $confirmar = $request->confirmar;
-        $estado;
-        if ( isset($confirmar) ){
+        if ( $request->accion == 'confirmar_remito' ){
             // Pasar de estado "delivery(6)" a estado "cobrado(3)"
-            $estado = 3;
-            $this->modificaEstadoRemito($id, $estado);            
-            session()->flash('mensaje', 'El Remito fue confirmado exitosamente');
+            $this->modificaEstadoRemito($id, 3);            
+            session()->flash('mensaje', 'El remito fue confirmado exitosamente');
+            return back();
         }
-
-        return back();
+        if ( $request->accion == 'devolver_venta' ) {
+            $venta = $this->modificaEstadoVenta($id, 1);
+            $this->modificaEstadoDetalleRemito($id, 2);
+            // $this->modificaEstadoPedido($venta->id_pedido, 2);
+            return  response()->json([
+                'mensaje' => 'La venta fue devuelta exitosamente',
+                'estado' => Estados::where('id', $venta->id_estado)->first(),
+            ]);
+        }
+        if ( $request->accion == 'confirmar_venta' ) {
+            $venta = $this->modificaEstadoVenta($id, 7);
+            return  response()->json([
+                'mensaje' => 'La venta fue confirmada exitosamente',
+                'estado' => Estados::where('id', $venta->id_estado)->first()
+            ]);
+        }        
     }
 
     public function show($id){
-        return "hola";
+        return Remitos::Ventas()->where('remitos.id', $id)->first();
     }
 
     private function modificaEstadoRemito($id, $estado){
@@ -61,8 +80,31 @@ class RemitosController extends Controller
         $remito->touch();
         return $remito;
     }
+
     public function monitoreo(Request $request){
          $repartidores = Empleados::where('id_cargo', 4)->where('id_estado',1)->get();
         return view('logistica.monitoreo');
+    }
+    private function modificaEstadoVenta($id, $estado = ''){
+        $venta = Ventas::find($id);
+        $venta->id_estado = $estado;
+        $venta->save();
+        $venta->touch();
+        return $venta;
+    }
+    private function modificaEstadoPedido($id, $estado = ''){
+        $pedido = pedido::find($id);
+        $pedido->id_estado = $estado;
+        $pedido->save();
+        $pedido->touch();
+        return $pedido;
+    }
+    private function modificaEstadoDetalleRemito($id, $estado = ''){
+        $detalle_remito = Detalle_remito::orderBy('created_at', 'desc')
+            ->where('id_venta', $id)->first();
+        $detalle_remito->id_estado = $estado;
+        $detalle_remito->save();
+        $detalle_remito->touch();
+        return $detalle_remito;
     }
 }

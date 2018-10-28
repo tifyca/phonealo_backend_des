@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('asignar_remisa', 'Ajax\Logistica@asignar_remisa')->name('asignar_remisa');
     Route::get('search_notas', 'Ajax\Logistica@search_notas')->name('search_notas');
      Route::get('add_notas', 'Ajax\Logistica@add_notas')->name('add_notas');
+     Route::get('onoffhorario', 'Ajax\Logistica@onoffhorario')->name('onoffhorario');
     
 
     

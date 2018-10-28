@@ -29,7 +29,9 @@ class VentasController extends Controller
 {
     public function index(){
 
-      $horarios  = Horarios::all();
+      $horarios  = Horarios::Select('id','status', 'status_v', 'horario')
+                              ->where('status_v', 1)
+                              ->get();
       $deliverys = Monto_delivery::all();
       $formas    = Forma_pago::all();
 
