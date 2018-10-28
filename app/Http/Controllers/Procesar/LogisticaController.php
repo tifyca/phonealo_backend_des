@@ -236,7 +236,7 @@ class LogisticaController extends Controller
     public function remisa(){
         #jgonzalez 2018/09/27
         $remisas = Ventas::DetalleRemisa();
-        $repartidores = Empleados::where('id_cargo', 4)->get();
+        $repartidores = Empleados::where('id_cargo', 4)->where('id_estado',1)->get();
         return view('Procesar.Logistica.remisa', compact( 'remisas', 'repartidores'));
     }
 

@@ -87,9 +87,9 @@
     <li class="treeview {{ Request::is('logistica/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-list"></i><span class="app-menu__label">Logística</span><i class="treeview-indicator fa fa-angle-right"></i></a>
            <ul class="treeview-menu">
 
-          <li><a class="treeview-item {{ Request::is('logistica/logistica*') ? 'active' : '' }}" href="{{ route('logistica') }}"><i class="icon fa fa-circle-o"></i>Administrar Flujos</a></li>
+          <li><a class="treeview-item {{ Request::is('logistica*') ? 'active' : '' }}" href="{{ route('logistica') }}"><i class="icon fa fa-circle-o"></i>Administrar Flujos</a></li>
           <li><a class="treeview-item {{ Request::is('logistica/remitos*') ? 'active' : '' }}" href="{{ route('remitos.index') }}"><i class="icon fa fa-circle-o"></i>Recepción/Remitos</a></li>
-          <li><a class="treeview-item {{ Request::is('logistica/monitoreo*') ? 'active' : '' }}" href="#"><i class="icon fa fa-circle-o"></i>Monitoreo de Repartidores</a></li>
+          <li><a class="treeview-item {{ Request::is('logistica/monitoreo*') ? 'active' : '' }}" href="{{ route('logistica.monitoreo')}}"><i class="icon fa fa-circle-o"></i>Monitoreo de Repartidores</a></li>
           <li>
               <a class="treeview-item {{ Request::is('logistica/historial') ? 'active' : '' }}" href="#">  <i class="icon fa fa-circle-o"></i>
         Historial de Repartidores</a>
