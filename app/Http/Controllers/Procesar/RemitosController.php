@@ -81,10 +81,7 @@ class RemitosController extends Controller
         return $remito;
     }
 
-    public function monitoreo(Request $request){
-         $repartidores = Empleados::where('id_cargo', 4)->where('id_estado',1)->get();
-        return view('logistica.monitoreo');
-    }
+  
     private function modificaEstadoVenta($id, $estado = ''){
         $venta = Ventas::find($id);
         $venta->id_estado = $estado;
@@ -106,5 +103,17 @@ class RemitosController extends Controller
         $detalle_remito->save();
         $detalle_remito->touch();
         return $detalle_remito;
+    }
+
+
+      public function monitoreo(Request $request){
+        $repartidores = Remitos::join('empleados','id_delivery','=','empleados.id')->select('remitos.id_delivery','empleados.nombres')->where('remitos.id_estado','6')->groupby('remitos.id_delivery')->get();
+        //dd($repartidores);
+        $remitos = Remitos::join('detalle_remito','remitos.id','=','detalle_remito.id_remito')->where('remitos.id_estado','6')->orderby('remitos.id','asc')->get();
+        $gremitos = Remitos::where('id_estado','6')->select('id as id_remito','id_delivery','importe')->get();
+
+         //$repartidores = Empleados::where('id_cargo', 4)->where('id_estado',1)->get();
+      
+        return view('logistica.monitoreo')->with('repartidores',$repartidores)->with('remitos',$remitos)->with('gremitos',$gremitos);
     }
 }
