@@ -11,6 +11,7 @@ use App\Detalle_remito;
 use App\Notas_Ventas;
 use App\Productos;
 use App\Horarios;
+use App\pedido;
 use DB;
 
 class Logistica extends Controller
@@ -96,6 +97,7 @@ class Logistica extends Controller
         $id_usuario = $request['id_usuario'];
         $total = $request['total'];
         $ventas = $request['ventas'];
+      
 
         $remisa  = new Remitos;
         $remisa->id_delivery = $id_empleado;
@@ -105,21 +107,40 @@ class Logistica extends Controller
 //      $venta->id_estado = 7;
         $remisa->id_estado = 6;
         $remisa->save();
+
+        $datos=0;
         
         foreach ($ventas as $item) {
-            
+
+            if($item!==$datos){   
+           
             $venta = Ventas::find($item);
-//         $venta->id_estado = 7;
+//          $venta->id_estado = 7;
             //Cuando se asigna a delivery la venta queda confirmada en 7 y el remito en 6
             $venta->id_estado = 7;  
             $venta->save();
+
+            $idpedido=pedido::join('ventas', 'pedidos.id', '=', 'ventas.id_pedido')
+                          ->where('ventas.id',$item )
+                         ->select('id_pedido')->first();
+                 
+            $pedido= pedido::find($idpedido->id_pedido);
+            $pedido->id_estado = 7;  
+            $pedido->save();
 
             $detremito  = new Detalle_remito;
             $detremito->id_remito = $remisa->id;
             $detremito->id_venta  = $item;
             $detremito->id_usuario= $id_usuario;
             $detremito->save();
+
+            $datos=$item;
+
+            }
+
         }
+
+      
 
         return $remisa;
      
