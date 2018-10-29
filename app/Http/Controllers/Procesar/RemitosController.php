@@ -43,7 +43,13 @@ class RemitosController extends Controller
     public function update(Request $request, $id){
         if ( $request->accion == 'confirmar_remito' ){
             // Pasar de estado "delivery(6)" a estado "cobrado(3)"
-            $this->modificaEstadoRemito($id, 3);            
+            $remito = $this->modificaEstadoRemito($id, 3);
+            $ventas = Remitos::Ventas()
+                ->where('detalle_remito.id_remito', $id)
+                ->get();
+            foreach ($ventas as $venta) {
+                $this->modificaEstadoVenta($venta->dr_id_venta, 8);
+            }
             session()->flash('mensaje', 'El remito fue confirmado exitosamente');
             return back();
         }
