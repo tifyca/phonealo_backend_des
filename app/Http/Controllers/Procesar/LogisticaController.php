@@ -109,7 +109,8 @@ class LogisticaController extends Controller
                             ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_horario', 'ventas.factura', 'forma_pago.forma_pago', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'clientes.id_ciudad','ciudades.ciudad')
                             ->where(function ($q) {
                                     $q->where('ventas.id_estado', '=', '1')
-                                      ->orWhere('ventas.id_estado', '=', '11');
+                                      ->orWhere('ventas.id_estado', '=', '11')
+                                      ->orWhere('ventas.id_estado', '=', '7');
                             })->Where(function($q )use ($buscador){
                                     $q->where('ciudades.ciudad', 'like', $buscador.'%')
                                           ->orWhere('clientes.nombres', 'like', $buscador.'%')
