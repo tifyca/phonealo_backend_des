@@ -56,8 +56,15 @@ class PedidosController extends Controller
     {
 
     }
-    public function venta_caida($id){
-
+    public function venta_caida(Request $request){
+       $ventas=Ventas::find($request->id);
+       $id = $ventas->id_pedido;
+       $ventas->id_estado=2;
+       $ventas->save();
+       $pedidos=pedido::where('id',$id)->first();
+       $pedidos->id_estado=2;
+       $pedidos->save();
+       return $pedidos;
     }
     public function confirmar($id){
 

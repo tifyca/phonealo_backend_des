@@ -339,10 +339,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::resource('procesar/pedidos', 'Procesar\PedidosController');
-    Route::get('procesar/pedidos/{id}/venta_caida', [
-        'uses' => 'Procesar\PedidosController@venta_caida',
-        'as'   => 'procesar.caida'
-    ]);
+    Route::get('caida', 'Procesar\PedidosController@venta_caida')->name('caida');
+
 
     Route::get('procesar/pedidos/{id}/confirmar', [
         'uses' => 'Procesar\PedidosController@confirmar',
