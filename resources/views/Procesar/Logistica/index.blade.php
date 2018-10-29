@@ -277,8 +277,9 @@
                               @foreach($nota as $item)
                                 @if($item->id_venta==$remisa->id)
                                    <table style="border:0px; width: 850px; font-size: 12px; ">
-                                    <td style="border:0px; text-align: left; width: 140px;">{{$item->nombre}}</td>
-                                    <td style="border:0px; text-align: left; width: 110px;">{{$item->nota}}</td>
+                                    <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
+                                    <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
+                                    <td style="border:0px; text-align: left;">{{$item->nota}}</td>
                                    </table>
                                 @endif
                               @endforeach
@@ -463,6 +464,8 @@
                       class="table-active"
                     @elseif($activa->id_estado == '11')
                       class="table-warning"
+                     @elseif($activa->id_estado == '7')
+                      style="background-color:#F5CBA7;"
                     @endif 
                    >
                       <td class="venta" <?php $x=0; ?>
@@ -488,8 +491,9 @@
                               @foreach($nota as $item)
                                 @if($item->id_venta==$activa->id)
                                     <table style="border:0px; width: 850px; font-size: 12px; ">
-                                      <td style="border:0px; text-align: left; width: 140px;">{{$item->nombre}}</td>
-                                      <td style="border:0px; text-align: left; width: 110px;">{{$item->nota}}</td>
+                                        <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
+                                        <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
+                                        <td style="border:0px; text-align: left;">{{$item->nota}}</td>
                                    </table>
                                 @endif
                               @endforeach
@@ -510,12 +514,24 @@
                          
                         <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
 
+
+                        @if($activa->id_estado == '7')
+
+                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $activa->id }}" disabled><i class="m-0 fa fa-lg fa-print"></i></button>
+                
+                        <!--<a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>-->
+                        <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}" disabled><i class="m-0 fa fa-lg fa-plus" ></i></button>
+
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$activa->id}}" disabled><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                        @else
+
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-print"></i></button>
                 
                         <!--<a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>-->
                         <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
 
                         <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$activa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                        @endif
                         <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$activa->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>
                         </div>
                       </td>
