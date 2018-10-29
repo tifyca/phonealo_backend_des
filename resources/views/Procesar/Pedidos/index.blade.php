@@ -119,7 +119,7 @@ $id_usuario= $_SESSION["user"];
              <td class="text-center" width="10%">
               <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
               @if($pedido->id_estado==1) 
-              <a href="{{ route('procesar.caida',$pedido->id) }}" class="btn btn-secondary" title=""><i class="fa fa-lg fa-times" title="Venta Caida"></i></a>
+              
               <button data-toggle="tooltip" data-placement="top"  title="Agrear Nota" class="btn btn-primary nota"  value="{{$pedido->id_venta}}"><i class="fa fa-lg fa-comment-o" ></i></button>   
               @endif
 
@@ -127,22 +127,33 @@ $id_usuario= $_SESSION["user"];
               @if($pedido->id_estado==5) 
               <a class="btn btn-primary" href="{{ route('procesar.confirmar',$pedido->id) }}"><i class="fa fa-lg fa-phone" title="Cliente a Confirmar"></i></a>
               <button data-toggle="tooltip" data-placement="top"  title="Agrear Nota" class="btn btn-primary nota"  value="{{$pedido->id_venta}}"><i class="fa fa-lg fa-comment-o" ></i></button>   
-              @endif
-               @if($pedido->id_estado!=5) 
-              <button data-toggle="tooltip" data-placement="top" title="Descompuesto" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-ban"></i></button>
-              @endif
-            </td> 
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
-    </div>
-    <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-      {{$pedidos->appends(Request::only(['id_pedido' , 'telefono']))->links()}}
-      <!--sección para definir paginación de laravel-->
+              <button data-toggle="tooltip" data-placement="top"  title="Venta Caida" class="btn btn-primary ventacaida"  value="{{$pedido->id_venta}}"><i class="fa fa-lg fa-times" ></i></button>   
+
+                @endif
+                @if($pedido->id_estado!=5) 
+                <!--<button data-toggle="tooltip" data-placement="top" title="Descompuesto" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-ban"></i></button>-->
+
+                @endif
+
+                @if($pedido->id_estado==7) 
+                <!--<button data-toggle="tooltip" data-placement="top" title="Descompuesto" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-ban"></i></button>-->
+              <button class="btn btn-primary" type="submit" name="accion" value="devolver_venta" data-id="{{ $pedido->id_venta }}" data-title="tooltip" title="Devolver Venta">
+                <i class="fa fa-share-square-o"></i>
+
+                @endif
+
+              </td> 
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+      <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+        {{$pedidos->appends(Request::only(['id_pedido' , 'telefono']))->links()}}
+        <!--sección para definir paginación de laravel-->
+      </div>
     </div>
   </div>
-</div>
 </div>
 </div>
 
@@ -152,13 +163,14 @@ $id_usuario= $_SESSION["user"];
    <div style="display: none;" class="alert-top fixed-top text-center alert alert-danger remodal" id="remodal"> </div>
    <div class="modal-content">
     <div class="modal-header">   
-      <h4 class="modal-title" id="myModalLabel">Agregar Nota del Pedido</h4>
+      <h4 class="modal-title" id="myModalLabel"><input type="text" class="form-control-plaintext" name="lnota" id="lnota"></h4>
     </div>
     <form id="frmnota" name="frmnota" class="form-horizontal" novalidate="">
       <textarea type="text" rows="3" cols="75" class="form-control" name="nota"  id="nota"></textarea>
     </form> 
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" id="btn-nota">Guardar</button>
+      <input type="hidden" id="tipo" name="tipo">
       <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
       <input type="hidden" id="id_venta" name="id_venta" value="0">
       <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
@@ -352,9 +364,23 @@ $id_usuario= $_SESSION["user"];
    $(document).on('click', '.nota', function () {
     $('#nota').val("");
     var idventa = $(this).val();
+    $('#lnota').val('Agregar Nota Pedido');
+    $('#tipo').val('1');
     $('#ModalNota').modal('show');
     $('#id_venta').val(idventa);
+    
 
+
+  });
+
+   $(document).on('click', '.ventacaida', function () {
+    $('#nota').val("");
+    var idventa = $(this).val();
+    $('#lnota').val('Venta Caida. Motivo');
+    $('#tipo').val('2');
+    $('#ModalNota').modal('show');
+    $('#id_venta').val(idventa);
+    
 
 
   });
@@ -364,6 +390,7 @@ $id_usuario= $_SESSION["user"];
   $('#btn-nota').click(function(){
     var id_venta  = $('#id_venta').val();
     var nota      = $('#nota').val();
+
     var id_usuario= $('#id_usuario').val();
     if ($('#nota').val()==""){
 
@@ -379,7 +406,8 @@ $id_usuario= $_SESSION["user"];
         nota      :   nota,
         id_venta  :   id_venta
       }
-
+      valor=0;
+      tipo = $("#tipo").val();
       $.ajax({
         type: "GET",
         url: '{{ url('add_notas') }}',
@@ -392,12 +420,36 @@ $id_usuario= $_SESSION["user"];
          $("#res").html("Se Agrego con Éxito una Nota a la Venta");
          $("#res, #res-content").css("display","block");
          $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+         valor=1;
+       }      
 
+     });
+
+    }
+
+     if(tipo=='2' || valor == 1)
+     {
+    
+      var formData = {
+        id  :   id_venta
+      }
+      $.ajax({
+        type: "GET",
+        url: '{{ url('caida') }}',
+        dataType: "json",
+        data: formData,
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        success: function (data){
+         $("#res").html("Se ha dado de baja a la venta");
+         $("#res, #res-content").css("display","block");
+         $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
          location.reload(true);
        }      
 
      });
-    }
+
+     } 
+
 
   });
 
