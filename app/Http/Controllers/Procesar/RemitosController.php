@@ -114,6 +114,6 @@ class RemitosController extends Controller
 
          //$repartidores = Empleados::where('id_cargo', 4)->where('id_estado',1)->get();
       
-        return view('logistica.monitoreo')->with('repartidores',$repartidores)->with('remitos',$remitos)->with('gremitos',$gremitos);
+        return view('Logistica.monitoreo')->with('repartidores',$repartidores)->with('remitos',$remitos)->with('gremitos',$gremitos);
     }
 }
