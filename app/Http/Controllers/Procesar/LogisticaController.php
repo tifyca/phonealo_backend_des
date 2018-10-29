@@ -51,95 +51,104 @@ class LogisticaController extends Controller
             $id_hora = array(1,2,4,5,6,7);
         }
         ###################################################################
-        $fecha1 = $request["fecha1"];
-        $fecha2 = $request["fecha2"];
-        $id_ciudad = $request["id_ciudad"];
         $id_horario = $request["id_horario"];
+        $buscador = $request["buscador"];
 
 
-        #FILTROS CIUDAD, HORARIO, FECHA1 Y FECHA2
-        #TODOS LOS CAMPOS ACTIVOS
-        if($id_ciudad !="" && $id_horario !="" && $fecha1 != "" && $fecha2 != "" ){
-            if($fecha1 <> $fecha2 ){
-                if( $fecha1 < $fecha2){
-                    $enEsperas = Ventas::EnEspera()->where('fecha', '>=', $fecha1)
-                                        ->where('fecha', '<=', $fecha2)
-                                        ->where('id_ciudad', '=', $id_ciudad)
-                                        ->where('id_horario', '=', $id_horario);
-                }else{
-                    return redirect()->back()->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
-                }
-                        
-            }elseif($fecha1 == $fecha2 ){
-                $enEsperas = Ventas::EnEspera()->where('fecha', '=', $fecha1)
-                                    ->where('id_ciudad', '=', $id_ciudad)
-                                    ->where('id_horario', '=', $id_horario);
-            }
-        #ACTIVOS: HORARIOS, FECHA1 Y FECHA2
-        }elseif($id_ciudad =="" && $id_horario !="" && $fecha1 != "" && $fecha2 != "" ){
-            if($fecha1 <> $fecha2 ){
-                if( $fecha1 < $fecha2){
-                    $enEsperas = Ventas::EnEspera()->where('fecha', '>=', $fecha1)
-                                       ->where('fecha', '<=', $fecha2)
-                                        ->where('id_horario', '=', $id_horario);
-                }else{
-                    return redirect()->back()->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
-                }
-                        
-            }elseif($fecha1 == $fecha2 ){
-                        $enEsperas = Ventas::EnEspera()->where('fecha', '=', $fecha1)
-                                           ->where('id_horario', '=', $id_horario);
-            } 
-        #ACTIVOS CIUDAD, FECHA1 Y FECHA2
-        }elseif($id_ciudad !="" && $id_horario =="" && $fecha1 != "" && $fecha2 != "" ){
-            if($fecha1 <> $fecha2 ){
-                if( $fecha1 < $fecha2){
-                    $enEsperas = Ventas::EnEspera()->where('fecha', '>=', $fecha1)
-                                         ->where('fecha', '<=', $fecha2)->where('id_ciudad', '=', $id_ciudad);
-                }else{
-                    return redirect()->back()->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
-                }
-            }elseif($fecha1 == $fecha2 ){
-                $enEsperas = Ventas::EnEspera()->where('fecha', '=', $fecha1)->where('id_ciudad', '=', $id_ciudad);
-            }   
-        #ACTIVOS FECHA1 Y FECHA2
-        }elseif($id_ciudad =="" && $id_horario =="" && $fecha1 !="" && $fecha2 !=""){
-            if($fecha1 <> $fecha2 ){
-                if( $fecha1 < $fecha2){
-                    $enEsperas = Ventas::EnEspera()->where('fecha', '>=', $fecha1)
-                                         ->where('fecha', '<=', $fecha2);
-                }else{
-                    return redirect()->back()->with('messaje','Seleccione un rango de fecha 0000-00-01 al 0000-00-30 ');
-                }
-            }elseif($fecha1 == $fecha2 ){
-                $enEsperas = Ventas::EnEspera()->where('fecha', '=', $fecha1);
-            }
-        #ACTIVO HORARIO
-        }elseif($id_ciudad =="" && $id_horario !="" && $fecha1=="" && $fecha2==""){
-            $enEsperas = Ventas::EnEspera()->where('id_horario', '=', $id_horario);
-            
-        #ACTIVO CIUDAD
-        }elseif($id_ciudad !="" && $id_horario =="" && $fecha1=="" && $fecha2==""){
-            $enEsperas = Ventas::EnEspera()->where('id_ciudad', '=', $id_ciudad);
-            
-        #ACTIVOS CIUDAD Y HORARIO
-        }elseif($id_ciudad != "" && $id_horario != "" && $fecha1=="" && $fecha2==""){
-           $enEsperas = Ventas::EnEspera()->where('id_ciudad', '=', $id_ciudad)->where('id_horario', '=', $id_horario);
+        if( $id_horario !="" ){
+        $enEsperas = Ventas::EnEspera()->where('id_horario', '=', $id_horario);
+        $xatender = Ventas::Activas()->where('id_horario', '=', $id_horario);
+        $activas = Ventas::Activas()->where('id_horario', '=', $id_horario);
+        $remisas = Ventas::Remisas()->where('id_horario', '=', $id_horario);
+        $class=1;
+        $busca=0;
+              
+        }elseif($buscador!=""){
 
-        #TODOS LOS FILTROS VACIOS
-        /*LOS FILTROS SOLO APLICAN SOBRE LAS VENTAS EN ESPERA, YA QUE:
-            *LISTADO
-            *VENTAS POR ATENDER
-            *REMISA
-        DEBEN MOSTRAR LAS VENTAS DEL DIA*/
+        $enEsperas = Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+                            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+                            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+                            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+                            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                            ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_horario', 'ventas.factura', 'forma_pago.forma_pago', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'clientes.id_ciudad','ciudades.ciudad')
+                            ->where(function ($q) {
+                                    $q->where('ventas.id_estado', '=', '5')
+                                      ->orWhere('ventas.id_estado', '=', '12');
+                            })->Where(function($q) use ($buscador) {
+                                    $q->where('ciudades.ciudad', 'like', $buscador.'%')
+                                          ->orWhere('clientes.nombres', 'like', $buscador.'%')
+                                          ->orWhere('clientes.telefono', '=', $buscador)
+                                          ->orWhere('horarios.horario', '=', $buscador);
+
+                                    })->orderby( 'ventas.id_horario', 'desc')
+                                      ->get();
+        
+        $xatender = Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+                            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+                            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+                            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+                            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                            ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_horario', 'ventas.factura', 'forma_pago.forma_pago', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'clientes.id_ciudad','ciudades.ciudad')
+                            ->where(function ($q) {
+                                    $q->where('ventas.id_estado', '=', '1')
+                                      ->orWhere('ventas.id_estado', '=', '11');
+                            })->Where(function($q) use ($buscador) {
+                                    $q->where('ciudades.ciudad', 'like', $buscador.'%')
+                                          ->orWhere('clientes.nombres', 'like', $buscador.'%')
+                                          ->orWhere('clientes.telefono', '=', $buscador)
+                                          ->orWhere('horarios.horario', '=', $buscador);
+
+                                    })->orderby( 'ventas.id_horario', 'desc')
+                                      ->get();
+        
+        $activas = Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+                            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+                            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+                            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+                            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                            ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_horario', 'ventas.factura', 'forma_pago.forma_pago', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'clientes.id_ciudad','ciudades.ciudad')
+                            ->where(function ($q) {
+                                    $q->where('ventas.id_estado', '=', '1')
+                                      ->orWhere('ventas.id_estado', '=', '11');
+                            })->Where(function($q )use ($buscador){
+                                    $q->where('ciudades.ciudad', 'like', $buscador.'%')
+                                          ->orWhere('clientes.nombres', 'like', $buscador.'%')
+                                          ->orWhere('clientes.telefono', '=', $buscador)
+                                          ->orWhere('horarios.horario', '=', $buscador);
+
+                                    })->orderby( 'ventas.id_horario', 'desc')
+                                      ->get();
+
+        $remisas = Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+                            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+                            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+                            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+                            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                            ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
+                            ->where(function ($q) {
+                                    $q->where('ventas.id_estado', '=', '6');
+                            })->Where(function($q ) use ($buscador) {
+                                    $q->where('ciudades.ciudad', 'like', $buscador.'%')
+                                          ->orWhere('clientes.nombres', 'like', $buscador.'%')
+                                          ->orWhere('clientes.telefono', '=', $buscador)
+                                          ->orWhere('horarios.horario', '=', $buscador);
+
+                                    })->orderby( 'ventas.id_horario', 'desc')
+                                      ->get();
+
+       $class=1;
+       $busca=1;
+
         }else{ 
-            $enEsperas = Ventas::EnEspera();
-            
-        }
-    
+        $enEsperas = Ventas::EnEspera();
         $xatender = Ventas::Activas()->whereIn('id_horario', $id_hora);
         $activas = Ventas::Activas()->where('fecha', '=', $fecha)->whereNotIn('id_horario', $id_hora);
         $remisas = Ventas::Remisas();
+        $class=0;
+        $busca=0;
+        }
+
+
         $ciudades = Ciudades::get();
         $horarios = Horarios::get();
         if($request["id_remisa"]){
@@ -183,24 +192,7 @@ class LogisticaController extends Controller
                                 ->select('notas_ventas.id_venta')->get();
 
     
-       /* $first=DB::table('horarios')->Select('horarios.id','horarios.status_v', DB::raw('0 as total'))->whereNotIn('horarios.id', function($q){
-
-                         $q->Select('id_horario')
-                           ->from('ventas')
-                           ->where('horarios.id', '=', 'ventas.id_horario')
-                           ->where('ventas.fecha', date('Y-m-d'));
-                        });  
-
-
-        $totalhorario=DB::table('horarios')->Select('shorarios.id','horarios.status_v', DB::raw('COUNT(*) as total'))
-                                           ->join('ventas', 'horarios.id','=','ventas.id_horario')
-                                           ->where('ventas.fecha', date('Y-m-d'))
-                                           ->groupby('id_horario')
-                                           ->UNION($first)
-                                           ->orderBy('id')
-                                           ->get();*/
-
-        $totalhorario= DB::select( DB::raw('select `horarios`.`id`, `horarios`.`status_v`, COUNT(*) as total from `horarios` inner join `ventas` on `horarios`.`id` = `ventas`.`id_horario` where `ventas`.`fecha` = "'.date('Y-m-d').'" group by `id_horario` union (select `horarios`.`id`, `horarios`.`status_v`, 0 as total from `horarios` where `horarios`.`id` not in (select `id_horario` from `ventas` where `horarios`.`id` = ventas.id_horario and `ventas`.`fecha` = "'.date('Y-m-d').'")) order by `id` asc'));
+       $totalhorario= DB::select( DB::raw('select `horarios`.`id`, `horarios`.`status_v`, COUNT(*) as total from `horarios` inner join `ventas` on `horarios`.`id` = `ventas`.`id_horario` where `ventas`.`fecha` = "'.date('Y-m-d').'" group by `id_horario` union (select `horarios`.`id`, `horarios`.`status_v`, 0 as total from `horarios` where `horarios`.`id` not in (select `id_horario` from `ventas` where `horarios`.`id` = ventas.id_horario and `ventas`.`fecha` = "'.date('Y-m-d').'")) order by `id` asc'));
 
 
 
@@ -214,8 +206,9 @@ class LogisticaController extends Controller
                                  ->where('fecha', '<=', $last)
                                  ->count();
 
+       
 
-        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario', 'karma'));
+        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario', 'karma', 'class', 'id_horario', 'busca'));
     	
     }
     public function CrearPDF ($remito, $vista, $empleado, $id_remisa ){
@@ -271,9 +264,9 @@ class LogisticaController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
 
-        if( $request->tipo==1){return $pdf->stream('Factura_'.$request->id_venta.'.pdf');}
+        if( $request->tipof==1){return $pdf->stream('Factura_'.$request->id_venta.'.pdf');}
     
-        if( $request->tipo==2){return $pdf->download('Factura_'.$request->id_venta.'.pdf');} 
+        if( $request->tipof==2){return $pdf->download('Factura_'.$request->id_venta.'.pdf');} 
       
       
     }
@@ -352,6 +345,5 @@ class LogisticaController extends Controller
         return $horarioventa;
         
     }
-
 
 }

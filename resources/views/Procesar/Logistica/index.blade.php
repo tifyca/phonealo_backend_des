@@ -16,11 +16,18 @@
 
 @section('content')
 @php $longitud=count($notaventa); @endphp
- <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo.css') }}">
+
    <div class="row" >
       {{--Botones Horarios--}}
     <div class="col-md-3" >
-      <div class="widget-small primary coloured-icon" ><i class="icon fa fa-clock-o hora" id="1" style="cursor:pointer;"></i>
+  <form id="form1" name="form1" action="{{ route('logistica.submit') }} " method="POST">
+      <input type="hidden" name="id_horario" id="id_horario" value=""/>
+      {{ csrf_field() }} 
+      <div @if($class==1 && $id_horario==1) 
+              class="widget-small info coloured-icon" 
+              @else  
+              class="widget-small primary coloured-icon"
+              @endif ><i class="icon fa fa-clock-o"  onClick="SetToHidden('1');" style="cursor:pointer;"></i>
         <div class="info" >
           <h4>Mañana</h4>
           <div class="onoffswitch">
@@ -39,7 +46,12 @@
         
  
         <div class="col-md-3">
-          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o hora" id="2" style="cursor:pointer;"></i>
+          <div @if($class==1 && $id_horario==2) 
+              class="widget-small info coloured-icon" 
+              @else  
+              class="widget-small primary coloured-icon"
+              @endif
+              ><i class="icon fa fa-clock-o"  onClick="SetToHidden('2');" style="cursor:pointer;"></i>
             <div class="info">
               <h4>Tarde </h4>
             <div class="onoffswitch">
@@ -56,7 +68,11 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o hora" id="3" style="cursor:pointer;"></i>
+          <div @if($class==1 && $id_horario==3) 
+              class="widget-small info coloured-icon" 
+              @else  
+              class="widget-small primary coloured-icon"
+              @endif><i class="icon fa fa-clock-o"  onClick="SetToHidden('3');" style="cursor:pointer;"></i>
             <div class="info">
               <h4>Todo el día </h4>
               <div class="onoffswitch">
@@ -73,7 +89,11 @@
           </div>
         </div>
       <div class="col-md-3">
-      <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x hora" id="4" style="cursor:pointer;"></i>
+      <div @if($class==1 && $id_horario==4) 
+              class="widget-small info coloured-icon" 
+              @else  
+              class="widget-small primary coloured-icon"
+              @endif><i class="icon fa fa-clock-o"  onClick="SetToHidden('4');" style="cursor:pointer;"></i>
         <div class="info">
           <h4>09:00-12:00 </h4>
           <div class="onoffswitch">
@@ -90,7 +110,11 @@
       </div>
     </div>
     <div class="col-md-3">
-          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x hora" id="5" style="cursor:pointer;"></i>
+          <div @if($class==1 && $id_horario==5) 
+              class="widget-small info coloured-icon" 
+              @else  
+              class="widget-small primary coloured-icon"
+              @endif><i class="icon fa fa-clock-o"  onClick="SetToHidden('5');" style="cursor:pointer;"></i>
             <div class="info">
               <h4>12:00-15:00</h4>
                <div class="onoffswitch">
@@ -107,7 +131,11 @@
           </div>
         </div>
       <div class="col-md-3">
-          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x hora" id="6" style="cursor:pointer;"></i>
+          <div @if($class==1 && $id_horario==6) 
+              class="widget-small info coloured-icon" 
+              @else  
+              class="widget-small primary coloured-icon"
+              @endif><i class="icon fa fa-clock-o"  onClick="SetToHidden('6');" style="cursor:pointer;"></i>
             <div class="info">
               <h4>15:00-18:00</h4>
                 <div class="onoffswitch">
@@ -124,7 +152,11 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="widget-small primary coloured-icon"><i class="icon fa fa-clock-o fa-3x hora" id="7" style="cursor:pointer;""></i>
+          <div @if($class==1 && $id_horario==7) 
+              class="widget-small info coloured-icon" 
+              @else  
+              class="widget-small primary coloured-icon"
+              @endif><i class="icon fa fa-clock-o"  onClick="SetToHidden('7');" style="cursor:pointer;"></i>
             <div class="info">
               <h4>18:00-21:00</h4>
               <div class="onoffswitch">
@@ -140,6 +172,7 @@
             </div>
           </div>
         </div>
+       </form>
         <div class="col-md-3">
           <div class="widget-small danger"><i class="icon fa fa-exclamation-circle fa-3x"></i>
             <div class="info">
@@ -149,9 +182,43 @@
           </div>
         </div>
     {{--fin Botones Horarios--}}
-    {{--Indice de  Karma--}}
-    <!--div  class="col-12  text-center alert alert-danger"> <h4>Índice de Karma Total: {{ $karma }}</h4></div-->
+{{--  Buscador--}}
+    <div class="col-12">
+    <!--Formulario para filtros -->
+      <form action="{{ route('logistica.submit') }} " method="POST">
+        {{ csrf_field() }}
+        
+          <div class="row">  
+            <!--form class="row d-flex justify-content-end" action="{{route('cargos.index')}}" method="get"-->
+            <div class="col">
+              <h3 class="tile-title text-center text-md-left">Búsqueda</h3>
+            </div>
+             <div class="form-group col-md-6">
+              <input  type="text" @if($class==1 && $busca==1) 
+                                      style="border-color:#3056bf" 
+                                      @else  
+                                      style="border-color:"" 
+                                      @endif  class="form-control" name="buscador" id="buscador"   maxlength="50">
+            </div>
+           
+            <div class="form-group  col-md-4">
+              <button  id="btnBuscar" @if($class==1 && $busca==1 ) 
+                                      class="btn btn-info" 
+                                      @else  
+                                      class="btn btn-primary"
+                                      @endif >Filtrar</button> 
+              <button  id="reset" class="btn btn-primary">Limpiar</button> 
+            </div>
+        
+        </div>
+ 
+        </form>
+        <!---->
+</div>
 
+{{-- fin  Buscador--}}
+  
+ <div  id="divlogistica">
   {{-- TABLA DE REMISAS --}}
   {{-- ESTA LISTA SE MANTIENE OCULTA, SOLO APARECE CUANDO AÑADO UNA VENTA A REMISA --}}
   @if(count($remisas) > 0)
@@ -251,58 +318,6 @@
     </div>
   </div>
   @endif
-
-  <div>
-    <!--Formulario para filtros -->
-      <form action="{{ route('logistica.submit') }} " method="POST">
-        {{ csrf_field() }}
-      <div class="col mb-3 text-center">
-          <div class="row">
-            <div class="col">
-              <h3 class="tile-title text-center text-md-left">Búsqueda</h3>
-            </div>
-            
-            <div class="form-group col-md-2">
-              <input class="form-control " type="date" id="fecha1" name="fecha1">
-            </div>
-            <div class="form-group col-md-2">
-              <input class="form-control" type="date" id="fecha2" name="fecha2">
-            </div>
-            <div class="form-group col-md-2">
-              <!-- CIUDADES-->
-              <select class="form-control read " id="ciudad" name="id_ciudad">
-                <option value="">Ciudad</option>
-                  @foreach($ciudades as $ciudad)
-                    <option value="{{$ciudad->id}}" 
-                      @if($ciudad->id==0) 
-                        selected=""
-                      @endif>
-                    {{$ciudad->ciudad}}</option>
-                  @endforeach
-              </select>
-            </div>
-             <div class="form-group col-md-2">
-              <!-- HORARIOS-->
-              <select class="form-control read " id="horario" name="id_horario">
-                <option value="">Horarios</option>
-                  @foreach($horarios as $horario)
-                    <option value="{{$horario->id}}" 
-                      @if($horario->id==0) 
-                        selected=""
-                      @endif>
-                    {{$horario->horario}}</option>
-                  @endforeach
-              </select>
-              </div>
-              <!-- boton filtrar -->
-              <div >
-                <input type="submit"class="btn btn-primary" value="Filtrar">      
-              </div>
-          </div>
-        </div>
-        </form>
-        <!---->
-  </div>
 
     {{-- TABLA POR ATENDER --}}
   {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS POR ATENDER --}}
@@ -640,6 +655,7 @@
     </div>
   </div>
   @endif
+</div>
   {{--  --}}
 
 </div>
@@ -777,12 +793,12 @@
                         <div class="col-md-12 ">
                         <div class="form-check">
                           <label class="form-check-label">
-                            <input class="form-check-input" value="1" type="radio" id="tipo" name="tipo" checked>Ver
+                            <input class="form-check-input" value="1" type="radio" id="tipof" name="tipof" checked>Ver
                           </label>
                         </div>
                         <div class="form-check">
                           <label class="form-check-label">
-                           <input class="form-check-input" value="2" type="radio" id="tipo" name="tipo">Pdf
+                           <input class="form-check-input" value="2" type="radio" id="tipof2" name="tipof">Pdf
                          </label>
                        </div>
                      </div>
@@ -875,7 +891,6 @@
 
 
 
-
 @endsection
 
 @push('scripts')
@@ -937,6 +952,12 @@ $('.horario').click(function(){
 
 });
 
+function SetToHidden(valor) {
+var obj = document.getElementById("id_horario");
+obj.value = valor;
+
+$("#form1").submit();
+}
 
 $(document).on('click', '.nota', function () {
     $('#nota').val("");
@@ -1240,8 +1261,17 @@ $('#btn-nota').click(function(){
 
             if(data[0].impresa==1){
               $('#btn-fact').prop('disabled', true);
+              $('#num_fact').prop('disabled', true);
+              $('#tipof').prop('disabled', true);
+              $('#tipof2').prop('disabled', true);
+              
+
+
             }else{
               $('#btn-fact').prop('disabled', false);
+              $('#num_fact').prop('disabled', false);
+              $('#tipof').prop('disabled', false);
+              $('#tipof2').prop('disabled', false);
             }
             
           }else{
