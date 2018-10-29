@@ -90,16 +90,27 @@ public function show(Request $request)
 {
  try
       {
-       //$id = $request->id;
-   
-   $id = $request->id;
+     
    $montos = Montos_delivery::find($id);
+   $zmonto = $montos->monto;
+   $detalle = Detalles_Ventas::where('id_producto',36)->where('precio',$zmonto)->first();
+  
+   if($detalle)
+   {
+   $mensaje="No se puede eliminar";
+   $tipo="1";
 
-   $montos->destroy($id);
-   $Montos_delivery=Montos_delivery::orderBy('monto','asc')->paginate(10);       
-   $id_usuario=Auth::user()->id;         
+   }
+   else
+   {
+    $montos->destroy($id);  
    $mensaje="Se ha Eliminado correctamente";
    $tipo="2";
+   } 
+      
+   
+   $Montos_delivery=Montos_delivery::orderBy('monto','asc')->paginate(10);       
+   $id_usuario=Auth::user()->id;         
 
        return response()->json($Montos_delivery);
      }catch(\Illuminate\Database\QueryException $e)
@@ -122,14 +133,25 @@ public function anular(Request $request)
       {
      
    $montos = Montos_delivery::find($id);
-   $detalle = Detalles_Ventas::where('id_producto',36)->where('precio',$montos->monto)->first();
-   if(!$detalle){
-      $montos->destroy($id);  
+   $zmonto = $montos->monto;
+   $detalle = Detalles_Ventas::where('id_producto',36)->where('precio',$zmonto)->first();
+   
+   if($detalle)
+   {
+   $mensaje="No se puede eliminar";
+   $tipo="1";
+
    }
-   $Montos_delivery=Montos_delivery::orderBy('monto','asc')->paginate(10);       
-   $id_usuario=Auth::user()->id;         
+   else
+   {
+    $montos->destroy($id);  
    $mensaje="Se ha Eliminado correctamente";
    $tipo="2";
+   } 
+      
+   
+   $Montos_delivery=Montos_delivery::orderBy('monto','asc')->paginate(10);       
+   $id_usuario=Auth::user()->id;         
 
        return response()->json($Montos_delivery);
      }catch(\Illuminate\Database\QueryException $e)

@@ -16,6 +16,8 @@ class ConsolidadoController extends Controller
 	public function index(Request $request){
 		$idcategoria    = $request->id_categoria;
 		$idsubcategoria = $request->id_subcategoria;
+		$valor          = $request->valor;
+
 		$filas = $request->filas;
     	////////////////////////////////////////////////////////////////7/
 		if(empty($valor) && empty($idcategoria) && empty($idsubcategoria)){
@@ -26,16 +28,21 @@ class ConsolidadoController extends Controller
 		}
     	///////////////////filtro por producto//////////////////////////////////
 		if(!empty($valor) && empty($idcategoria) && empty($idsubcategoria)){
+
 			if(empty($filas)){	
+
 				$productos = Productos::where('codigo_producto',$valor)->orderby('codigo_producto','asc')->paginate(10);	
-				if(!$productos){
+                
+				if($productos->isEmpty()){
+                   
 					$val = $valor."%";
-					$productos = Productos::where('descripcion','like',$val)->orderby('codigo_producto','asc')->paginate(10);	
+					
+					$productos = Productos::where('descripcion','like',$val)->orderby('descripcion','asc')->paginate(10);	
 				}
 
 			}else{
 				$productos = Productos::where('codigo_producto',$valor)->where('id_categoria',$idcategoria)->where('id_subcategoria',$idsubcategoria)->orderby('codigo_producto','asc')->paginate($filas);	
-				if(!$productos){
+				if($productos->isEmpty()){
 					$val = $valor."%";
 					$productos = Productos::where('descripcion','like',$val)->where('id_categoria',$idcategoria)->where('id_subcategoria',$idsubcategoria)->orderby('codigo_producto','asc')->paginate($filas);	
 				}
@@ -45,14 +52,14 @@ class ConsolidadoController extends Controller
 		if(!empty($valor) && !empty($idcategoria) && empty($idsubcategoria)){
 			if(empty($filas)){	
 				$productos = Productos::where('codigo_producto',$valor)->where('id_categoria',$idcategoria)->where('id_subcategoria',$idsubcategoria)->orderby('codigo_producto','asc')->paginate(10);	
-				if(!$productos){
+				if($productos->isEmpty()){
 					$val = $valor."%";
 					$productos = Productos::where('descripcion','like',$val)->where('id_categoria',$idcategoria)->orderby('codigo_producto','asc')->paginate(10);	
 				}
 
 			}else{
 				$productos = Productos::where('codigo_producto',$valor)->where('id_categoria',$idcategoria)->orderby('codigo_producto','asc')->paginate($filas);	
-				if(!$productos){
+				if($productos->isEmpty()){
 					$val = $valor."%";
 					$productos = Productos::where('descripcion','like',$val)->where('id_categoria',$idcategoria)->where('id_subcategoria',$idsubcategoria)->orderby('codigo_producto','asc')->paginate($filas);	}
 				}
@@ -61,14 +68,14 @@ class ConsolidadoController extends Controller
 			if(!empty($valor) && !empty($idcategoria) && !empty($idsubcategoria)){
 				if(empty($filas)){	
 					$productos = Productos::where('codigo_producto',$valor)->where('id_categoria',$idcategoria)->where('id_subcategoria',$idsubcategoria)->orderby('codigo_producto','asc')->paginate(10);	
-					if(!$productos){
+					if($productos->isEmpty()){
 						$val = $valor."%";
 						$productos = Productos::where('descripcion','like',$val)->where('id_categoria',$idcategoria)->where('id_subcategoria',$idsubcategoria)->orderby('codigo_producto','asc')->paginate(10);	
 					}
 
 				}else{
 					$productos = Productos::where('codigo_producto',$valor)->where('id_categoria',$idcategoria)->where('id_subcategoria',$idsubcategoria)->orderby('codigo_producto','asc')->paginate($filas);	
-					if(!$productos){
+					if($productos->isEmpty()){
 						$val = $valor."%";
 						$productos = Productos::where('descripcion','like',$val)->where('id_categoria',$idcategoria)->where('id_subcategoria',$idsubcategoria)->orderby('codigo_producto','asc')->paginate($filas);	}
 					}
@@ -81,13 +88,14 @@ class ConsolidadoController extends Controller
 						$productos = Productos::where('id_categoria',$idcategoria)->where('id_subcategoria',$idsubcategoria)->orderby('codigo_producto','asc')->paginate($filas);		
 				}
         //////////////////////////filtro categoria///////////////////////////
-				if(!empty($valor) && !empty($idcategoria) && empty($idsubcategoria)){
+				if(empty($valor) && !empty($idcategoria) && empty($idsubcategoria)){
+					
 					if(empty($filas))	
 						$productos = Productos::where('id_categoria',$idcategoria)->orderby('codigo_producto','asc')->paginate(10);	
 					else
 						$productos = Productos::where('id_categoria',$idcategoria)->orderby('codigo_producto','asc')->paginate($filas);		
 				}
-
+                 
 				$precioc = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')->select('b.id_producto',DB::raw('MAX(a.fecha) as ultima'))->where('a.id_estado',8)->orwhere('id_estado',7)->groupby('b.id_producto')->get();
 
 				$data=[];
