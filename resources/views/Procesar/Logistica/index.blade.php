@@ -17,6 +17,12 @@
 @section('content')
 @php $longitud=count($notaventa); @endphp
 
+@if($mensaje!==0)
+  <div class="alert-top fixed-top col-6 offset-md-4  " >
+     <div  class="col-12  text-center alert alert-info" >{{$mensaje}} </div>  
+  </div>
+@endif
+
    <div class="row" >
       {{--Botones Horarios--}}
     <div class="col-md-3" >
@@ -194,20 +200,23 @@
               <h3 class="tile-title text-center text-md-left">Búsqueda</h3>
             </div>
              <div class="form-group col-md-6">
-              <input  type="text" @if($class==1 && $busca==1) 
-                                      style="border-color:#3056bf" 
-                                      @else  
-                                      style="border-color:"" 
-                                      @endif  class="form-control" name="buscador" id="buscador"   maxlength="50">
+                         @if($class==1 && $busca!==0) 
+                          
+                           <input  type="text"style="border-color:#3056bf"   class="form-control" name="buscador" id="buscador" value="{{ $busca}}"   maxlength="50">
+
+                          @else  
+                                      
+                            <input  type="text" style="border-color:''"  class="form-control" name="buscador" id="buscador"  value="" maxlength="50">
+                          @endif 
             </div>
            
             <div class="form-group  col-md-4">
-              <button  id="btnBuscar" @if($class==1 && $busca==1 ) 
+              <button  id="btnBuscar" @if($class==1 && $busca!==0) 
                                       class="btn btn-info" 
                                       @else  
                                       class="btn btn-primary"
                                       @endif >Filtrar</button> 
-              <button  id="reset" class="btn btn-primary">Limpiar</button> 
+              <button  id="reset"  class="btn btn-primary reset">Limpiar</button> 
             </div>
         
         </div>
@@ -518,11 +527,11 @@
                         @if($activa->id_estado == '7')
 
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $activa->id }}" disabled><i class="m-0 fa fa-lg fa-print"></i></button>
-                
-                        <!--<a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>-->
+      
                         <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}" disabled><i class="m-0 fa fa-lg fa-plus" ></i></button>
 
-                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$activa->id}}" disabled><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                        <button data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary"  href="Ventas/editar/{{$activa->id}}"  disabled><i class="m-0 fa fa-lg fa-pencil"></i></button>
+
                         @else
 
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-print"></i></button>
@@ -912,6 +921,14 @@
 @push('scripts')
 
 <script type="text/javascript">
+
+ $('.reset').click(function(){
+   
+       $('#buscador').val('');
+            location.reload(true);
+  
+
+ });
 
 $(document).ready(function(){
    

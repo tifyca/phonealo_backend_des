@@ -62,6 +62,7 @@ class LogisticaController extends Controller
         $remisas = Ventas::Remisas()->where('id_horario', '=', $id_horario);
         $class=1;
         $busca=0;
+        $mensaje="Se Realizo Busqueda con los  Filtros de Horarios";
               
         }elseif($buscador!=""){
 
@@ -78,6 +79,8 @@ class LogisticaController extends Controller
                                     $q->where('ciudades.ciudad', 'like', $buscador.'%')
                                           ->orWhere('clientes.nombres', 'like', $buscador.'%')
                                           ->orWhere('clientes.telefono', '=', $buscador)
+                                          ->orWhere('ventas.id', '=', $buscador)
+                                          ->orWhere('ventas.fecha', '=', $buscador)
                                           ->orWhere('horarios.horario', '=', $buscador);
 
                                     })->orderby( 'ventas.id_horario', 'desc')
@@ -96,6 +99,8 @@ class LogisticaController extends Controller
                                     $q->where('ciudades.ciudad', 'like', $buscador.'%')
                                           ->orWhere('clientes.nombres', 'like', $buscador.'%')
                                           ->orWhere('clientes.telefono', '=', $buscador)
+                                          ->orWhere('ventas.id', '=', $buscador)
+                                          ->orWhere('ventas.fecha', '=', $buscador)
                                           ->orWhere('horarios.horario', '=', $buscador);
 
                                     })->orderby( 'ventas.id_horario', 'desc')
@@ -115,6 +120,8 @@ class LogisticaController extends Controller
                                     $q->where('ciudades.ciudad', 'like', $buscador.'%')
                                           ->orWhere('clientes.nombres', 'like', $buscador.'%')
                                           ->orWhere('clientes.telefono', '=', $buscador)
+                                          ->orWhere('ventas.id', '=', $buscador)
+                                          ->orWhere('ventas.fecha', '=', $buscador)
                                           ->orWhere('horarios.horario', '=', $buscador);
 
                                     })->orderby( 'ventas.id_horario', 'desc')
@@ -132,13 +139,16 @@ class LogisticaController extends Controller
                                     $q->where('ciudades.ciudad', 'like', $buscador.'%')
                                           ->orWhere('clientes.nombres', 'like', $buscador.'%')
                                           ->orWhere('clientes.telefono', '=', $buscador)
+                                          ->orWhere('ventas.id', '=', $buscador)
+                                          ->orWhere('ventas.fecha', '=', $buscador)
                                           ->orWhere('horarios.horario', '=', $buscador);
 
                                     })->orderby( 'ventas.id_horario', 'desc')
                                       ->get();
 
        $class=1;
-       $busca=1;
+       $busca=$buscador;
+       $mensaje="Se Realizó Búsqueda en General";
 
         }else{ 
         $enEsperas = Ventas::EnEspera();
@@ -147,6 +157,7 @@ class LogisticaController extends Controller
         $remisas = Ventas::Remisas();
         $class=0;
         $busca=0;
+        $mensaje=0;
         }
 
 
@@ -209,7 +220,7 @@ class LogisticaController extends Controller
 
        
 
-        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario', 'karma', 'class', 'id_horario', 'busca'));
+        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario', 'karma', 'class', 'id_horario', 'busca', 'mensaje'));
     	
     }
     public function CrearPDF ($remito, $vista, $empleado, $id_remisa ){
