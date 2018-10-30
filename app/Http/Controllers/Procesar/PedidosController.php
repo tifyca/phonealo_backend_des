@@ -68,7 +68,30 @@ class PedidosController extends Controller
     }
     public function confirmar($id){
 
+       $ventas=Ventas::find($id);
+       $idp = $ventas->id_pedido;
+       $ventas->id_estado=9;
+       $ventas->save();
+       $pedidos=pedido::where('id',$idp)->first();
+       $pedidos->id_estado=9;
+       $pedidos->save();
+       return redirect()->route('pedidos.index');
     }
+
+    public function venta_devuelta(Request $request){
+       $ventas=Ventas::find($request->id);
+       $id = $ventas->id_pedido;
+       $ventas->id_estado=4;
+       $ventas->save();
+       $pedidos=pedido::where('id',$id)->first();
+       $pedidos->id_estado=4;
+       $pedidos->save();
+       return $pedidos;
+    }
+
+
+
+
     public function agregar_nota($id){
       
     }

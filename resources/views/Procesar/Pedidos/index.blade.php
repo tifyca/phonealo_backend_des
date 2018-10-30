@@ -74,11 +74,23 @@ $id_usuario= $_SESSION["user"];
                @foreach($pedidos as $pedido)
                <tr
                @if($pedido->id_estado==1)
-               class="table-secondary"    
+               class="alert alert-success"    
                @endif  
                @if($pedido->id_estado==5)
                class="table-primary"
                @endif 
+                @if($pedido->id_estado==2)
+               class="alert alert-danger"
+               @endif 
+
+                @if($pedido->id_estado==7)
+               class="alert alert-info"
+               @endif 
+
+                @if($pedido->id_estado==9)
+               class="alert alert-dark"
+               @endif 
+               
                > 
                <td class="venta" data-id="{{$pedido->id_venta}}" style="text-align: center;">
                 <?php $x=0;?>
@@ -137,8 +149,9 @@ $id_usuario= $_SESSION["user"];
 
                 @if($pedido->id_estado==7) 
                 <!--<button data-toggle="tooltip" data-placement="top" title="Descompuesto" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-ban"></i></button>-->
-              <button class="btn btn-primary" type="submit" name="accion" value="devolver_venta" data-id="{{ $pedido->id_venta }}" data-title="tooltip" title="Devolver Venta">
-                <i class="fa fa-share-square-o"></i>
+              <button data-toggle="tooltip" data-placement="top"  title="Devolver Pedido" class="btn btn-primary ventadevuelta"  value="{{$pedido->id_venta}}"><i class="fa fa-share-square-o" ></i></button>   
+
+
 
                 @endif
 
@@ -385,6 +398,19 @@ $id_usuario= $_SESSION["user"];
 
   });
 
+   $(document).on('click', '.ventadevuelta', function () {
+    $('#nota').val("");
+    var idventa = $(this).val();
+    $('#lnota').val('Venta Devuelta. Motivo');
+    $('#tipo').val('3');
+    $('#ModalNota').modal('show');
+    $('#id_venta').val(idventa);
+    
+
+
+  });
+
+
  });
 
   $('#btn-nota').click(function(){
@@ -441,6 +467,28 @@ $id_usuario= $_SESSION["user"];
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data){
          $("#res").html("Se ha dado de baja a la venta");
+         $("#res, #res-content").css("display","block");
+         $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+         location.reload(true);
+       }      
+
+     });
+
+     } 
+     if(tipo=='3' || valor == 1)
+     {
+    
+      var formData = {
+        id  :   id_venta
+      }
+      $.ajax({
+        type: "GET",
+        url: '{{ url('venta/devuelta') }}',
+        dataType: "json",
+        data: formData,
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        success: function (data){
+         $("#res").html("Se ha devuelto la venta");
          $("#res, #res-content").css("display","block");
          $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
          location.reload(true);
