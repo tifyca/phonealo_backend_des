@@ -42,9 +42,17 @@ class PedidosController extends Controller
        $pedidos = DB::table('pedidos as a')->join('detalle_pedidos as b','a.id','=','b.id_pedido')->join('clientes as c','a.id_cliente','=','c.id')->join('estados as d','a.id_estado','=','d.id')->leftjoin('users as e','a.id_usuario','=','e.id')->join('ventas as f','a.id','=','f.id_pedido')->select('a.id','f.id as id_venta','a.fecha','a.id_estado','a.id_cliente','c.nombres','c.telefono','c.barrio','c.direccion',DB::raw('sum(b.precio * b.cantidad) as monto'),'a.id_usuario','d.estado','e.name')->where('c.telefono',$telefono)->where('f.id',$id_pedido)->groupBy('a.id')->orderby('a.fecha','desc')->paginate(10);
 
       }
-      $notas=DB::table('notas_ventas as a')->join('users as b','a.id_usuario','=','b.id')->select('a.id_venta','a.nota','b.name')->orderby('a.id_venta')->get();
+     $nota  =Notas_Ventas::join('users', 'notas_ventas.id_usuario', '=', 'users.id')
+                            ->select('nota', 'id_venta', 'name as nombre', 'notas_ventas.created_at as fecha')
+                            ->groupBy('id_venta', 'notas_ventas.id_usuario', 'notas_ventas.created_at')
+                            ->orderBy('id_venta')
+                            ->get();
+ 
 
-       return view('Procesar.Pedidos.index')->with('pedidos',$pedidos)->with('id_usuario',$id_usuario)->with('notas',$notas);
+        $notaventa= Notas_Ventas::join('ventas', 'notas_ventas.id_venta', '=', 'ventas.id')
+                                ->select('notas_ventas.id_venta')->get();
+
+       return view('Procesar.Pedidos.index')->with('pedidos',$pedidos)->with('id_usuario',$id_usuario)->with('nota',$nota)->with('notaventa',$notaventa);
     }
 
     public function show(Request $request)
