@@ -65,7 +65,8 @@ class RepartidoresController extends Controller
        $request = json_decode($request->getContent());
        $request = get_object_vars($request);
        $contador = 0; 
-       $total++;
+       $total=0;
+      $total_entregado = 0;
         try {
             //Validaciones
             $errors = [];
@@ -103,8 +104,10 @@ class RepartidoresController extends Controller
                   $data["horario"]     = $ped->horario;
                   $data["id_estado"]   = $ped->id_estado;
                   $data["estado"]      = $ped->estado;
+                  $total++;
+                  $total_entregado    = $total_entregado + $ped->importe;
                 }
-                return ["status" => "exito", "data" => $data, "total_asignados" => $total_asignados];                
+                return ["status" => "exito", "data" => $data, "total_asignados" => $total, "total_entregado" => $total_entregado];                
              }else{
                 $jornada= new delivery_horario();
                 $jornada->id_delivery = $idempleado;
@@ -137,7 +140,8 @@ class RepartidoresController extends Controller
             
             $idempleado = $request["idempleado"];
             $empleados = Empleados::where('id', $idempleado)->first();
-
+            $importe=0;
+            $total_entregado=0;
             if ($empleados) {
               $pedidos= DB::table('remitos as a')
               ->join('detalle_remito as b','a.id','=','b.id_remito')
@@ -151,6 +155,7 @@ class RepartidoresController extends Controller
              if($pedidos){
                
                 $data=[];
+                
                 foreach($pedidos as $ped){
                   $data["id_venta"]    = $ped->id_venta;
                   $data["id_empleado"] = $ped->id_delivery;
@@ -159,8 +164,9 @@ class RepartidoresController extends Controller
                   $data["id_estado"]   = $ped->id_estado;
                   $data["estado"]      = $ped->estado;
                   $total++;
+                  $total_entregado    = $total_entregado + $ped->importe;
                 }
-                return ["status" => "exito", "data" => $data,"total_asignados" => $total];                
+                return ["status" => "exito", "data" => $data,"total_asignados" => $total,"total_entregado"=>$total_entregado];                
              }else{
                 return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
              }
