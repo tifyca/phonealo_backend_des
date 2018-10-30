@@ -313,7 +313,7 @@
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $remisa->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>  
 
                           <button data-toggle="tooltip" data-placement="top" title="No Remisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
-                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
                           <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$remisa->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>   
                           </div>
 
@@ -413,7 +413,7 @@
                          <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $atender->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
 
                           <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
                           <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$atender->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>
                          </div>
                       </td>
@@ -530,7 +530,7 @@
       
                         <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}" disabled><i class="m-0 fa fa-lg fa-plus" ></i></button>
 
-                        <button data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary"  href="Ventas/editar/{{$activa->id}}"  disabled><i class="m-0 fa fa-lg fa-pencil"></i></button>
+                        <button data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary"  href="logistica/Ventas/editar/{{$activa->id}}"  disabled><i class="m-0 fa fa-lg fa-pencil"></i></button>
 
                         @else
 
@@ -539,7 +539,7 @@
                         <!--<a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>-->
                         <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
 
-                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$activa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$activa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
                         @endif
                         <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$activa->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>
                         </div>
@@ -662,7 +662,7 @@
                           <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary  remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
                           @endif 
 
-                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
 
                           <!--button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button-->   
 
@@ -1047,12 +1047,35 @@ $('#btn-nota').click(function(){
         dataType: "json",
         data: {  _token: '{{csrf_token()}}'},
         success: function (data){
+          console.log(data.msjact);
+
+          if(data.msjact==1){
+
+            $("#rese").html('No Hay Ventas para Activar a la Fecha');
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 ); 
+
+
+          }
+
+            if(data.msjcant==1){
+
+            $("#rese").html('Hay Ventas que poseen Productos sin Stock');
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+
+            } else{
+
+
+
       
             $("#res").html('La Venta fue Activada');
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 ); 
 
             location.reload(true);
+          }
+          
         }
     });
 

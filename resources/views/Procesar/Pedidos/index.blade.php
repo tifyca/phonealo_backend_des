@@ -21,7 +21,7 @@ $id_usuario= $_SESSION["user"];
 
  {{ Session::get('message') }} 
 </div>
-@php $longitud=count($notas); @endphp
+@php $longitud = count($notaventa); @endphp
 <link rel="stylesheet" type="text/css" href="{{ asset('css/estilo.css') }}">
 @endif      
 
@@ -58,7 +58,6 @@ $id_usuario= $_SESSION["user"];
               <thead>
                 <tr>
                   <th>#</th>
-                  <th class="text-left">Venta</th>
                   <th class="text-left">Vendedor</th>
                   <th class="text-left">Cliente</th>
                   <th class="text-left">Teléfono</th>
@@ -79,56 +78,70 @@ $id_usuario= $_SESSION["user"];
                @if($pedido->id_estado==5)
                class="table-primary"
                @endif 
-                @if($pedido->id_estado==2)
+               @if($pedido->id_estado==2)
                class="alert alert-danger"
                @endif 
 
-                @if($pedido->id_estado==7)
+               @if($pedido->id_estado==7)
                class="alert alert-info"
                @endif 
 
-                @if($pedido->id_estado==9)
+               @if($pedido->id_estado==9)
                class="alert alert-dark"
                @endif 
                
                > 
-               <td class="venta" data-id="{{$pedido->id_venta}}" style="text-align: center;">
-                <?php $x=0;?>
-
-
-                @foreach($notas as $not)
-                @if($not->id_venta==$pedido->id_venta)
-                <?php $x++;?>
+               <td class="venta" 
+               <?php $x=0; 
+               $longitud = count($notaventa);
+               ?>
+               @for($i=0; $i<$longitud; $i++)
+               @if($pedido->id_venta==$notaventa[$i]->id_venta)
+               <?php $x=$x+1; ?>
+               @if($x==1)
+               data-id="{{$pedido->id_venta}}"
+               @endif
+               @endif
+               @endfor  style="text-align: center;">{{$pedido->id_venta}}    
+               <?php $x=0; ?>
+               @for($i=0; $i<$longitud; $i++)
+               @if($pedido->id_venta==$notaventa[$i]->id_venta)
+               <?php $x=$x+1; ?>
+               @if($x==1)
+               &spades;
+               @endif
+               @endif
+               @endfor
+               <div class="toolTip" id="{{$pedido->id_venta}}"  style="display: none;">
+                @foreach($nota as $item)
+                @if($item->id_venta==$pedido->id_venta)
+                <table style="border:0px; width: 850px; font-size: 12px; ">
+                  <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
+                  <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
+                  <td style="border:0px; text-align: left;">{{$item->nota}}</td>
+                </table>
                 @endif
                 @endforeach
-                @if($x>0)
-                <i class="fa fa-lg fa-commenting-o"></i>
-                @endif
-                @foreach($notas as $not)
-                @if($not->id_venta==$pedido->id_venta)
-                <div class="toolTip" id="{{$pedido->id_venta}}"  style="display: none;">
-                 <table style="border:0px; width: 400px; font-size: 12px; ">
-                   <td style="border:0px; text-align: left; width: 120px;">{{$not->name}}</td>
-                   <td style="border:0px; text-align: left;">{!!str_replace( "~",'<br >',$not->nota)!!}</td>
-                 </table>
-               </div>
-
-               @endif
-               @endforeach
-             </td>
-             <td>{{$pedido->id_venta}}</td>
-             <td>{{$pedido->name}}
+              </div>
+            </td>
 
 
-             </td>
-             <td>{{$pedido->nombres}}</td>
-             <td>{{$pedido->telefono}}</td>
-             <td>{{$pedido->direccion}}</td>
-             <td >{{$pedido->barrio}}</td>
-             <td>{{$pedido->monto}}</td>
-             <td>{{$pedido->fecha}}</td>
-             <td>{{$pedido->estado}}</td>
-             <td class="text-center" width="15%">
+            
+          </td>
+          
+          <td>{{$pedido->name}}
+
+
+          </td>
+          <td>{{$pedido->nombres}}</td>
+          <td>{{$pedido->telefono}}</td>
+          <td>{{$pedido->direccion}}</td>
+          <td >{{$pedido->barrio}}</td>
+          <td>{{$pedido->monto}}</td>
+          <td>{{$pedido->fecha}}</td>
+          <td>{{$pedido->estado}}</td>
+          <td width="10%" class="text-center">
+            <div class="btn-group">
               <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
               @if($pedido->id_estado==1) 
               
@@ -141,32 +154,32 @@ $id_usuario= $_SESSION["user"];
               <button data-toggle="tooltip" data-placement="top"  title="Agrear Nota" class="btn btn-primary nota"  value="{{$pedido->id_venta}}"><i class="fa fa-lg fa-comment-o" ></i></button>   
               <button data-toggle="tooltip" data-placement="top"  title="Venta Caida" class="btn btn-primary ventacaida"  value="{{$pedido->id_venta}}"><i class="fa fa-lg fa-times" ></i></button>   
 
-                @endif
-                @if($pedido->id_estado!=5) 
-                <!--<button data-toggle="tooltip" data-placement="top" title="Descompuesto" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-ban"></i></button>-->
+              @endif
+              @if($pedido->id_estado!=5) 
+              <!--<button data-toggle="tooltip" data-placement="top" title="Descompuesto" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-ban"></i></button>-->
 
-                @endif
+              @endif
 
-                @if($pedido->id_estado==7) 
-                <!--<button data-toggle="tooltip" data-placement="top" title="Descompuesto" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-ban"></i></button>-->
+              @if($pedido->id_estado==7) 
+              <!--<button data-toggle="tooltip" data-placement="top" title="Descompuesto" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-ban"></i></button>-->
               <button data-toggle="tooltip" data-placement="top"  title="Devolver Pedido" class="btn btn-primary ventadevuelta"  value="{{$pedido->id_venta}}"><i class="fa fa-share-square-o" ></i></button>   
 
 
 
-                @endif
-
-              </td> 
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-      <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-        {{$pedidos->appends(Request::only(['id_pedido' , 'telefono']))->links()}}
-        <!--sección para definir paginación de laravel-->
-      </div>
-    </div>
+              @endif
+            </div>
+          </td> 
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
   </div>
+  <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
+    {{$pedidos->appends(Request::only(['id_pedido' , 'telefono']))->links()}}
+    <!--sección para definir paginación de laravel-->
+  </div>
+</div>
+</div>
 </div>
 </div>
 
@@ -288,60 +301,81 @@ $id_usuario= $_SESSION["user"];
 @push('scripts')
 <script type="text/javascript">
 
+ $('.reset').click(function(){
+   
+   $('#buscador').val('');
+   location.reload(true);
+   
+
+ });
+
+ $(document).ready(function(){
+   
+  $('.venta').hover(function () {
+   var data_id = $(this).data('id');
+
+   
+   $('.toolTip').each(function() {
+     var div = $(this);
+
+     if(div.attr('id') == data_id){
+      div.show();
+    }else{
+      div.hide();
+    }
+
+  }); 
+   
+ },
+
+ function () { $('.toolTip').css("display","none");}
+ );
+  
+});
+
+
+</script>
+
+<script type="text/javascript">
+
   $(document).ready(function(){
+   
+    $(document).on('click', '.detalle', function () {
+      $('#detalle').val("");
+      var idventa = $(this).val();
+      $('#ModalVenta').modal('show');
+      $('#id_venta').val(idventa);
+      $("#cliente_detalle").html('');
+      $("#cliente_detalle2").html('');
+      $("#cliente_detalle3").html('');
+      $("#horario_detalle").html('');
+      $("#productos_detalle").html('');
+      $.ajax({
+        type: "GET",
+        url: '{{ url('detalle_venta') }}',
+        dataType: "json",
+        data: { id:idventa, _token: '{{csrf_token()}}'},
+        success: function (data){
+          console.log(data);
+          $("#cliente_detalle").append(`<tr>
+           <td style="text-align: center;">${data.venta[0].nombres}</td>
+           <td style="text-align: center;">${data.venta[0].ruc_ci}</td>
+           <td style="text-align: center;">${data.venta[0].telefono}</td>
+           <td style="text-align: center;">${data.venta[0].email}</td>
+           </tr>`);
+          $("#cliente_detalle2").append(`<tr>
+            <td style="text-align: center;">${data.venta[0].direccion}</td>
+            <td style="text-align: center;">${data.venta[0].barrio}</td> 
+            <td style="text-align: center;">${data.venta[0].ubicacion}</td> 
+            </tr>`);
+          $("#cliente_detalle3").append('<tr>'+
+            (data.venta[0].id_tipo==1 ? '<td style="text-align: center;">Natural</td>'
+             :   '<td style="text-align: center;">Jurídico</td>')+'<td style="text-align: center;">'+data.venta[0].fecha+'</td><td style="text-align: center;">'+data.venta[0].fecha_cobro+'</td> <td style="text-align: center;">'+data.venta[0].forma_pago+'</td></tr>');
 
-   $('.venta').hover(function () {
-     var data_id = $(this).data('id');
-
-     $('.toolTip').each(function() {
-       var div = $(this);
-
-       if(div.attr('id') == data_id){
-        div.show();
-      }else{
-        div.hide();
-      }
-
-    }); 
-
-   },
-
-   function () { $('.toolTip').css("display","none");}
-   );
-
-   $(document).on('click', '.detalle', function () {
-    $('#detalle').val("");
-    var idventa = $(this).val();
-    $('#ModalVenta').modal('show');
-    $('#id_venta').val(idventa);
-
-    $.ajax({
-      type: "GET",
-      url: '{{ url('detalle_venta') }}',
-      dataType: "json",
-      data: { id:idventa, _token: '{{csrf_token()}}'},
-
-      success: function (data){
-        console.log(data);
-        $("#cliente_detalle").append(`<tr>
-         <td style="text-align: center;">${data.venta[0].nombres}</td>
-         <td style="text-align: center;">${data.venta[0].ruc_ci}</td>
-         <td style="text-align: center;">${data.venta[0].telefono}</td>
-         <td style="text-align: center;">${data.venta[0].email}</td>
-         </tr>`);
-        $("#cliente_detalle2").append(`<tr>
-          <td style="text-align: center;">${data.venta[0].direccion}</td>
-          <td style="text-align: center;">${data.venta[0].barrio}</td> 
-          <td style="text-align: center;">${data.venta[0].ubicacion}</td> 
-          </tr>`);
-        $("#cliente_detalle3").append('<tr>'+
-          (data.venta[0].id_tipo==1 ? '<td style="text-align: center;">Natural</td>'
-           :   '<td style="text-align: center;">Jurídico</td>')+'<td style="text-align: center;">'+data.venta[0].fecha+'</td><td style="text-align: center;">'+data.venta[0].fecha_cobro+'</td> <td style="text-align: center;">'+data.venta[0].forma_pago+'</td></tr>');
-
-        $("#horario_detalle").append(`<tr>
-         <td colspan="2" style="text-align: center;">${data.venta[0].horario}</td>
-         <td colspan="2" style="text-align: center;">${data.venta[0].nameuser}</td>
-         </tr>`);
+          $("#horario_detalle").append(`<tr>
+           <td colspan="2" style="text-align: center;">${data.venta[0].horario}</td>
+           <td colspan="2" style="text-align: center;">${data.venta[0].nameuser}</td>
+           </tr>`);
 
           //CICLO DE LOS DATOS RECIBIDOS
           $.each(data.venta, function(l, item) {
@@ -369,49 +403,49 @@ $id_usuario= $_SESSION["user"];
 
 
 
+    });
+
+
+
+
+    $(document).on('click', '.nota', function () {
+      $('#nota').val("");
+      var idventa = $(this).val();
+      $('#lnota').val('Agregar Nota Pedido');
+      $('#tipo').val('1');
+      $('#ModalNota').modal('show');
+      $('#id_venta').val(idventa);
+      
+
+
+    });
+
+    $(document).on('click', '.ventacaida', function () {
+      $('#nota').val("");
+      var idventa = $(this).val();
+      $('#lnota').val('Venta Caida. Motivo');
+      $('#tipo').val('2');
+      $('#ModalNota').modal('show');
+      $('#id_venta').val(idventa);
+      
+
+
+    });
+
+    $(document).on('click', '.ventadevuelta', function () {
+      $('#nota').val("");
+      var idventa = $(this).val();
+      $('#lnota').val('Venta Devuelta. Motivo');
+      $('#tipo').val('3');
+      $('#ModalNota').modal('show');
+      $('#id_venta').val(idventa);
+      
+
+
+    });
+
+
   });
-
-
-
-
-   $(document).on('click', '.nota', function () {
-    $('#nota').val("");
-    var idventa = $(this).val();
-    $('#lnota').val('Agregar Nota Pedido');
-    $('#tipo').val('1');
-    $('#ModalNota').modal('show');
-    $('#id_venta').val(idventa);
-    
-
-
-  });
-
-   $(document).on('click', '.ventacaida', function () {
-    $('#nota').val("");
-    var idventa = $(this).val();
-    $('#lnota').val('Venta Caida. Motivo');
-    $('#tipo').val('2');
-    $('#ModalNota').modal('show');
-    $('#id_venta').val(idventa);
-    
-
-
-  });
-
-   $(document).on('click', '.ventadevuelta', function () {
-    $('#nota').val("");
-    var idventa = $(this).val();
-    $('#lnota').val('Venta Devuelta. Motivo');
-    $('#tipo').val('3');
-    $('#ModalNota').modal('show');
-    $('#id_venta').val(idventa);
-    
-
-
-  });
-
-
- });
 
   $('#btn-nota').click(function(){
     var id_venta  = $('#id_venta').val();
@@ -453,9 +487,9 @@ $id_usuario= $_SESSION["user"];
 
     }
 
-     if(tipo=='2' || valor == 1)
-     {
-    
+    if(tipo=='2' || valor == 1)
+    {
+      
       var formData = {
         id  :   id_venta
       }
@@ -474,10 +508,10 @@ $id_usuario= $_SESSION["user"];
 
      });
 
-     } 
-     if(tipo=='3' || valor == 1)
-     {
-    
+    } 
+    if(tipo=='3' || valor == 1)
+    {
+      
       var formData = {
         id  :   id_venta
       }
@@ -496,7 +530,7 @@ $id_usuario= $_SESSION["user"];
 
      });
 
-     } 
+    } 
 
 
   });

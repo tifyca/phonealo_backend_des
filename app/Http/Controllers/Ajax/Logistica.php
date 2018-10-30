@@ -66,6 +66,14 @@ class Logistica extends Controller
                        ->where( 'productos.id', '<>', 36)
                        ->select('ventas.id',  'ventas.id_pedido', 'cantidad', 'detalle_pedidos.id_producto', 'productos.stock_activo', DB::raw('(CASE when cantidad>=stock_activo THEN 0 ELSE 1 END) as result'))
                        ->get();*/
+        $act=Ventas::join('detalle_pedidos', 'ventas.id_pedido', '=', 'detalle_pedidos.id_pedido')
+                       ->join('productos', 'detalle_pedidos.id_producto', '=', 'productos.id')
+                       ->where('ventas.id_estado',5)
+                       ->where('fecha_activo', date("Y-m-d"))
+                       ->where( 'productos.id', '<>', 36)
+                       ->select( DB::raw(' COUNT(1) AS cantprod'))
+                       ->first();
+
 
         $row=Ventas::join('detalle_pedidos', 'ventas.id_pedido', '=', 'detalle_pedidos.id_pedido')
                        ->join('productos', 'detalle_pedidos.id_producto', '=', 'productos.id')
@@ -77,6 +85,17 @@ class Logistica extends Controller
                        ->get();
 
 
+
+        if($act->cantprod==0){
+
+            $msjact=1;
+            $msjcant=1;
+        }else{
+            $msjact=0;
+            $msjcant=0;
+        }
+
+
         foreach ($row as $item)
         {
         
@@ -85,11 +104,16 @@ class Logistica extends Controller
                 $venta = Ventas::find($item->id);
                 $venta->id_estado = 1;
                 $venta->save();
+                $msjcant=0;
+            }else{
+
+               $msjcant=0;
             }
         
         }
       
-        return $venta;
+       // return $venta;
+         return response()->json([ 'msjact' => $msjact, 'msjcant' => $msjcant  ]);
     }
     #jgonzalez
     public function asignar_remisa(Request $request){
