@@ -67,7 +67,7 @@
                     {{-- <td class="text-center">{{ $remito->nombre_cliente }}</td> --}}
                     {{-- <td class="text-center">{{ $remito->telefono }}</td> --}}
                     <td class="text-center">{{ $remito->fecha }}</td>
-                    <td class="text-center" data-id="{{ $remito->id_estado }}">
+                    <td class="text-center estado_remito" data-id="{{ $remito->id_estado }}">
                       {{ $remito->estado }}
                     </td>
                     <td class="importe text-right">{{ $remito->importe }}</td>
@@ -75,8 +75,8 @@
                       {!!number_format($remito->importe, 0, ',', '.')!!}
                     </td> --}}
                     <td width="10%" class="text-center">
-                      <div class="btn-group">                        
-                        <a class="btn btn-primary acciones" data-toggle="modal" data-target="#ModalProductos{{ $remito->id }}" href="#" data-title="tooltip" title="Ver">
+                      <div class="btn-group">                      
+                        <a class="btn btn-primary acciones confirmar_remito" data-toggle="modal" data-target="#ModalProductos{{ $remito->id }}" href="#" data-title="tooltip" title="Ver">
                           <i class="m-0 fa fa-lg fa-eye"></i>
                         </a>
                         {{-- @if ( $remito->estado == "Delivery" ) --}}
@@ -356,6 +356,12 @@ $(function(){
         .attr("data-id", data.estado.id);
       if ( data.estado.id == 1 ) {
         boton.parent().children('button[name="accion"]').css('display', 'none');
+      }
+      if (data.baja == true) {
+        const id_fila_remito = boton.parents('div.modal.fade').attr('id');        
+        const boton_ver = $('a.confirmar_remito[data-target="#'+id_fila_remito+'"]');
+        boton_ver.siblings('a.acciones').hide();
+        boton_ver.parents('tr').children('td.estado_remito').text('Baja');
       }
     })
     .fail(function(a,b,c) {
