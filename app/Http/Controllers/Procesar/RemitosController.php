@@ -58,12 +58,33 @@ class RemitosController extends Controller
             return back();
         }
         if ( $request->accion == 'devolver_venta' ) {
-            $venta = $this->modificaEstadoVenta($id, 1);
-            $this->modificaEstadoDetalleRemito($id, 2);
-            // $this->modificaEstadoPedido($venta->id_pedido, 2);
+            $venta1 = $this->modificaEstadoVenta($id, 1);
+            $this->modificaEstadoDetalleRemito($id, 2); 
+
+            $detalle = Detalle_remito::where('id_venta', $id)->first(); 
+            $remito = $detalle->id_remito;
+
+            $cantidadVentas = Detalle_remito::where('id_remito', $remito)->count();
+            $ventasAsociadas = Detalle_remito::where('id_remito', $remito)->get();
+
+            $cont = 0;
+            foreach ($ventasAsociadas as $venta) {
+                $v = Ventas::find($venta->id_venta);
+                if ( $v->id_estado == 1 ) {
+                    $cont += 1;
+                }                
+            }
+            if ( $cont == $cantidadVentas) {
+                $baja = true; 
+                $this->modificaEstadoRemito($remito, 2);       
+            }else{
+                $baja = false;
+            }
+            
             return  response()->json([
                 'mensaje' => 'La venta fue devuelta exitosamente',
-                'estado' => Estados::where('id', $venta->id_estado)->first(),
+                'estado' => Estados::where('id', $venta1->id_estado)->first(),
+                'baja' => $baja
             ]);
         }
         if ( $request->accion == 'confirmar_venta' ) {

@@ -1,3 +1,4 @@
+{{-- CABECERA DE SECCION --}}
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
@@ -6,7 +7,7 @@
 
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
-@section('display_new','')  @section('link_new', url('registro/productos/show') ) 
+@section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
 
