@@ -19,7 +19,7 @@
 
 @if($mensaje!==0)
   <div class="alert-top fixed-top col-6 offset-md-4  " >
-     <div  class="col-12  text-center alert alert-danger" >{{$mensaje}} </div>  
+     <div  class="col-12  text-center alert alert-info" >{{$mensaje}} </div>  
   </div>
 @endif
 
