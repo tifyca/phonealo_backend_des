@@ -289,7 +289,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/procesar/elimanarProdCesta/{prod?}/{client?}', 'Procesar\VentasController@delventa');
     Route::post('procesar/Ventas/delProdCesta/', 'Procesar\VentasController@deleditventa');
     Route::get('procesar/ventas/detalle/{valor}', 'Procesar\VentasController@detalle_producto');
-    Route::get('procesar/Ventas/editar/{id_venta?}','Procesar\VentasController@editar_venta');
+    Route::get('logistica/Ventas/editar/{id_venta?}','Procesar\VentasController@editar_venta');
     
 
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
