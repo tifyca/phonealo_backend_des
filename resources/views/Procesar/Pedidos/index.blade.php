@@ -58,7 +58,6 @@ $id_usuario= $_SESSION["user"];
               <thead>
                 <tr>
                   <th>#</th>
-                  <th class="text-left">Id</th>
                   <th class="text-left">Venta</th>
                   <th class="text-left">Vendedor</th>
                   <th class="text-left">Cliente</th>
@@ -117,7 +116,6 @@ $id_usuario= $_SESSION["user"];
                @endif
                @endforeach
              </td>
-             <td>{{$pedido->id}}</td>
              <td>{{$pedido->id_venta}}</td>
              <td>{{$pedido->name}}
 
@@ -130,7 +128,7 @@ $id_usuario= $_SESSION["user"];
              <td>{{$pedido->monto}}</td>
              <td>{{$pedido->fecha}}</td>
              <td>{{$pedido->estado}}</td>
-             <td class="text-center" width="10%">
+             <td class="text-center" width="15%">
               <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
               @if($pedido->id_estado==1) 
               

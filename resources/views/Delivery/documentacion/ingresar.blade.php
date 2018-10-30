@@ -80,7 +80,7 @@
 						Método => "GET"<br>
 						Parámetros => array(<br>
 							"idempleado" => integer / requerido / único",<br>
-							"Éxito" => "id_venta,id_empleado,telefono,horario,id_estado,estado",<br>
+							"Éxito" => "id_venta,id_empleado,telefono,horario,id_estado,estado","total_asignado","total_entregado"<br>
 							"Falla" => array(<br>
 							"error" => array("Error en validación de datos")<br>
 						)
