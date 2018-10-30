@@ -88,7 +88,7 @@ class RemitosController extends Controller
             ]);
         }
         if ( $request->accion == 'confirmar_venta' ) {
-            $venta = $this->modificaEstadoVenta($id, 7);
+            $venta = $this->modificaEstadoVenta($id, 8);
             return  response()->json([
                 'mensaje' => 'La venta fue confirmada exitosamente',
                 'estado' => Estados::where('id', $venta->id_estado)->first()
