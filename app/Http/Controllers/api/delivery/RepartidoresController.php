@@ -142,6 +142,7 @@ class RepartidoresController extends Controller
             $empleados = Empleados::where('id', $idempleado)->first();
             $importe=0;
             $total_entregado=0;
+            $promedio = 0;
             if ($empleados) {
               $pedidos= DB::table('remitos as a')
               ->join('detalle_remito as b','a.id','=','b.id_remito')
@@ -166,7 +167,7 @@ class RepartidoresController extends Controller
                   $total++;
                   $total_entregado    = $total_entregado + $ped->importe;
                 }
-                return ["status" => "exito", "data" => $data,"total_asignados" => $total,"total_entregado"=>$total_entregado];                
+                return ["status" => "exito", "data" => $data,"total_asignados" => $total,"total_entregado"=>$total_entregado, "promedio"=>$promedio];                
              }else{
                 return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
              }
