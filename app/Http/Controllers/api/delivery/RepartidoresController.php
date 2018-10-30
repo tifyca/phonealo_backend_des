@@ -125,6 +125,7 @@ class RepartidoresController extends Controller
     
        //$request = json_decode($request->getContent());
        //$request = get_object_vars($request);
+        $total = 0;
         try {
             //Validaciones
             $errors = [];
@@ -133,7 +134,7 @@ class RepartidoresController extends Controller
                 return ["status" => "fallo", "error" => $errors];
             }
             //fin validaciones
-            $total = 0;
+            
             $idempleado = $request["idempleado"];
             $empleados = Empleados::where('id', $idempleado)->first();
 
@@ -151,12 +152,12 @@ class RepartidoresController extends Controller
                
                 $data=[];
                 foreach($pedidos as $ped){
-                  $data["id_venta"]=$ped->id_venta;
+                  $data["id_venta"]    = $ped->id_venta;
                   $data["id_empleado"] = $ped->id_delivery;
-                  $data["telefono"]=$ped->telefono;
-                  $data["horario"]=$ped->horario;
-                  $data["id_estado"]=$ped->id_estado;
-                  $data["estado"]=$ped->estado;
+                  $data["telefono"]    = $ped->telefono;
+                  $data["horario"]     = $ped->horario;
+                  $data["id_estado"]   = $ped->id_estado;
+                  $data["estado"]      = $ped->estado;
                   $total++;
                 }
                 return ["status" => "exito", "data" => $data,"total_asignados" => $total];                
@@ -189,7 +190,7 @@ class RepartidoresController extends Controller
                 return ["status" => "fallo", "error" => $errors];
             }
             //fin validaciones
-            $idventa = $request["idventa"];
+              $idventa = $request["idventa"];
               $pedidos= DB::table('ventas as c')
               ->join('pedidos as d','c.id_pedido','=','d.id')
               ->join('horarios as e','c.id_horario','=','e.id')
@@ -202,6 +203,7 @@ class RepartidoresController extends Controller
               ->where('c.id',$idventa)->where('c.id_estado','6')->get();                  
              if($pedidos){
                 $data=[];
+                $cantidad=0;
                 foreach($pedidos as $ped){
                   $data["id_venta"]  = $ped->id;
                   $data["telefono"]  = $ped->telefono;
@@ -211,8 +213,9 @@ class RepartidoresController extends Controller
                   $data["cantidad"]  = $ped->cantidad;
                   $data["precio"]    = $ped->precio;
                   $data["observaciones"]    = $ped->notas;
+                  $cantidad++;
                 }
-                return ["status" => "exito", "data" => $data];                
+                return ["status" => "exito", "data" => $data, "total" => $cantidad];                
              }else{
                 return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
              }
