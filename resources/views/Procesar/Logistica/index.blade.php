@@ -1047,34 +1047,33 @@ $('#btn-nota').click(function(){
         dataType: "json",
         data: {  _token: '{{csrf_token()}}'},
         success: function (data){
-          console.log(data.msjact);
+     
 
-          if(data.msjact==1){
+          if(data.msjact==0 && data.msjcant==0){
 
-            $("#rese").html('No Hay Ventas para Activar a la Fecha');
-            $("#rese, #res-content").css("display","block");
-            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 ); 
-
-
-          }
-
-            if(data.msjcant==1){
-
-            $("#rese").html('Hay Ventas que poseen Productos sin Stock');
-            $("#rese, #res-content").css("display","block");
-            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-
-            } else{
-
-
-
-      
             $("#res").html('La Venta fue Activada');
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 ); 
 
             location.reload(true);
           }
+
+          if(data.msjact==1 && data.msjcant==1){
+
+            $("#rese").html('No Hay Ventas para Activar a la Fecha');
+            $("#rese, #res-content").css("display","block");
+            
+
+          }
+
+          if(data.msjact==0 && data.msjcant==1){
+
+            $("#rese").html('Hay Ventas que poseen Productos sin Stock');
+            $("#rese, #res-content").css("display","block");
+
+            } 
+
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
           
         }
     });

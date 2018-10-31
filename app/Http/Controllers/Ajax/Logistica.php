@@ -12,6 +12,7 @@ use App\Notas_Ventas;
 use App\Productos;
 use App\Horarios;
 use App\pedido;
+use App\detalle;
 use DB;
 
 class Logistica extends Controller
@@ -90,11 +91,8 @@ class Logistica extends Controller
 
             $msjact=1;
             $msjcant=1;
-        }else{
-            $msjact=0;
-            $msjcant=0;
+           
         }
-
 
         foreach ($row as $item)
         {
@@ -104,10 +102,24 @@ class Logistica extends Controller
                 $venta = Ventas::find($item->id);
                 $venta->id_estado = 1;
                 $venta->save();
+
+                $pedido=detalle::select('id_pedido', 'id_producto', 'cantidad')
+                               ->where( 'id_producto', '<>', 36)
+                               ->where('id_pedido',$item->id_pedido)
+                               ->get();
+                foreach ($pedido as $item2)
+                {
+                $producto = Productos::find($item2->id_producto);
+                $producto->stock_activo = $producto->stock_activo-$item2->cantidad;
+                $producto->save();
+                }
                 $msjcant=0;
+                $msjact=0;
+
             }else{
 
-               $msjcant=0;
+               $msjcant=1;
+               $msjact=0;
             }
         
         }
@@ -156,6 +168,7 @@ class Logistica extends Controller
             $detremito->id_remito = $remisa->id;
             $detremito->id_venta  = $item;
             $detremito->id_usuario= $id_usuario;
+            $detremito->id_estado = 1;
             $detremito->save();
 
             $datos=$item;
