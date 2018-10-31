@@ -66,10 +66,11 @@
                   <th>Código</th>
                   <th>Producto</th>
                   <th>Categoría</th>
-                  <th>Descompuesto</th>
                   <th>Stock</th>
                   <th>Precio Ideal</th>
                   <th>Precio Compra </th>
+                  <th class="alert-warning text-center">Vendido</th>
+                  <th class="alert-info text-center">Cargado</th>
                 </tr>
               </thead>
               <tbody>
@@ -86,7 +87,7 @@
                      @endforeach
 
                   </td>
-                  <td class="text-center">{{$producto->descompuesto}}</td>
+                  
                   <td class="text-center">{{$producto->stock_activo}}</td>
                    <?php $monto2 = number_format($producto->precio_ideal, 0, ',', '.');?>
                   <td class="text-right">{{$monto2}}</td>
@@ -105,8 +106,25 @@
                      }else{$precio_compra=$producto->precio_ideal;}
                    ?>
                   @endforeach 
-                  <?php $monto = number_format($precio_compra, 0, ',', '.');?>
+                  <?php $monto = number_format($precio_compra, 0, ',', '.'); $canventas=0; $cansol=0;?>
                   <td class="text-right">{{$monto}}</td>
+                  @foreach($ventas as $venta)
+                    @if($venta->id_producto == $producto->id)
+                        @php
+                          $canventas=$canventas+$ventas->cantidad;
+                        @endphp
+                    @endif
+                  @endforeach
+                  <td class="text-center">{{$canventas}}</td>
+                  @foreach($solped as $sol)
+                    @if($sol->id_producto == $producto->id)
+                        @php
+                          $cansol=$cansol+$sol->cantidad;
+                        @endphp
+                    @endif
+                  @endforeach
+
+                  <td class="text-center">{{$cansol}}</td>
                 </tr>
                 @endforeach
               </tbody>

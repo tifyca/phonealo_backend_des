@@ -168,6 +168,7 @@ class Logistica extends Controller
             $detremito->id_remito = $remisa->id;
             $detremito->id_venta  = $item;
             $detremito->id_usuario= $id_usuario;
+            $detremito->id_estado = 1;
             $detremito->save();
 
             $datos=$item;
