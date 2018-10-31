@@ -128,9 +128,10 @@ class ConsolidadoController extends Controller
 	  public function venta($id)
 	  {
 	  			$ventas = Ventas::join('pedidos','ventas.id_pedido','pedidos.id')->join('detalle_ventas','ventas.id','=','detalle_ventas.id_venta')->join('clientes','pedidos.id_cliente','=','clientes.id')
-	  			->whereIn('ventas.id_estado',['7','8'])
+	  			->whereIn('ventas.id_estado',['7','8'])->leftjoin('detalle_remito','ventas.id','=','detalle_remito.id_venta')
 	  			->where('detalle_ventas.id_producto',$id)
 	  			->orderby('detalle_ventas.id_producto')->get();
+	  			
 		    return view("Inventario.Consolidado.ventas")->with('ventas',$ventas);
 	  }
 
