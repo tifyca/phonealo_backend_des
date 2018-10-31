@@ -285,7 +285,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('searchCliente/{tlf?}', 'Procesar\VentasController@getcliente')->name('searchCliente');
     Route::post('procesar/ventas/add', 'Procesar\VentasController@addventa');
     Route::post('procesar/ventas/create', 'Procesar\VentasController@create');
-    Route::post('procesar/ventas/editar', 'Procesar\VentasController@editar_guardar');
     Route::post('logistica/ventas/editar', 'Procesar\VentasController@editar_guardar');
     Route::get('/procesar/elimanarProdCesta/{prod?}/{client?}', 'Procesar\VentasController@delventa');
     Route::post('procesar/Ventas/delProdCesta/', 'Procesar\VentasController@deleditventa');
