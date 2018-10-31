@@ -286,6 +286,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('procesar/ventas/add', 'Procesar\VentasController@addventa');
     Route::post('procesar/ventas/create', 'Procesar\VentasController@create');
     Route::post('procesar/ventas/editar', 'Procesar\VentasController@editar_guardar');
+    Route::post('logistica/ventas/editar', 'Procesar\VentasController@editar_guardar');
     Route::get('/procesar/elimanarProdCesta/{prod?}/{client?}', 'Procesar\VentasController@delventa');
     Route::post('procesar/Ventas/delProdCesta/', 'Procesar\VentasController@deleditventa');
     Route::get('procesar/ventas/detalle/{valor}', 'Procesar\VentasController@detalle_producto');
@@ -321,8 +322,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('logistica', 'Procesar\LogisticaController@index')->name('logistica.submit');
     Route::get('logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
 
-    Route::get('logistica/venta/editar', 'Procesar\LogisticaController@edit')->name('editar_logistica');
     
+
     Route::get('logistica/remisa', 'Procesar\LogisticaController@remisa')->name('logistica.remisa');
     Route::get('logistica/factura', 'Procesar\LogisticaController@factura')->name('logistica.factura');
     Route::get('logistica/movimiento', 'Procesar\LogisticaController@movimiento')->name('logistica.movimiento');
