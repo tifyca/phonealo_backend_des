@@ -2,11 +2,11 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Inventario - Consolidado')
+@section('titulo', 'Relación de Ventas por Producto')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', 'd-none') @section('link_back', '')
+@section('display_back', '') @section('link_back', url('inventario/consolidado'))
 @section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
@@ -25,19 +25,6 @@
             <form class="row d-flex justify-content-end" action="{{route('consolidado.index')}}" method="get"> 
               <div class="form-group col-md-2">
                 <input class="form-control" type="text" name="valor" id="valor" placeholder="Producto">
-              </div>
-              <div class="form-group col-md-3">
-                <select class="form-control" id="id_categoria" name="id_categoria" ">
-                  <option value="">Categoría</option>
-                  @foreach($categorias as $cate)
-                  <option value="{{$cate->id}}">{{$cate->categoria}}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="form-group col-md-3">
-                <select class="form-control" id="id_subcategoria" name="id_subcategoria">
-                  <option value="">Subcategoria</option>
-                </select>
               </div>
               <div class="form-group col-md-2">
                <select class="form-control" name="filas" id="filas">
@@ -62,80 +49,23 @@
         <table class="table table-hover table-bordered" id="sampleTable">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Código</th>
-              <th>Producto</th>
-              <th>Categoría</th>
-              <th>Stock</th>
-              <th>Precio Ideal</th>
-              <th>Precio Compra </th>
-              <th class="alert-warning text-center">Vendido</th>
-              <th class="alert-info text-center">Cargado</th>
+              
+              <th>Id</th>
+              <th>Fecha</th>
+              <th>Cliente</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              
             </tr>
           </thead>
           <tbody>
-            @foreach($productos as $producto)
+            @foreach($ventas as $sol)
             <tr> 
-              <td>{{$producto->id}}</td>
-              <td>{{$producto->codigo_producto}}</td>
-              <td>{{$producto->descripcion}}</td>
-              <td>
-               @foreach($categorias as $categoria)
-               @if($categoria->id==$producto->id_categoria)
-               {{$categoria->categoria}}
-               @endif
-               @endforeach
-
-             </td>
-
-             <td class="text-center">{{$producto->stock_activo}}</td>
-             <?php $monto2 = number_format($producto->precio_ideal, 0, ',', '.');?>
-             <td class="text-right">{{$monto2}}</td>
-             @php
-             $precio_compra = 0
-             @endphp
-             @foreach($precios as $prec)
-             <?php
-             $precio_compra = 0;
-             if($prec["id_producto"]== $producto->id){
-               if(!empty($prec["precioc"]))
-                $precio_compra = $prec["precioc"];
-              else
-                $precio_compra = $prec["precio"];                  
-
-            }else{$precio_compra=$producto->precio_ideal;}
-            ?>
-            @endforeach 
-            <?php $monto = number_format($precio_compra, 0, ',', '.'); $canventas=0; $cansol=0;?>
-            <td class="text-right">{{$monto}}</td>
-            @foreach($ventas as $venta)
-            @if($venta->id_producto == $producto->id)
-            @php
-            $canventas=$canventas+$venta->cantidad;
-            @endphp
-            @endif
-            @endforeach
-            <td class="text-center">
-              @if($canventas>0)
-              <a href="{{route('consolidado.ventas',$producto->id)}}" title="Ver Ventas">{{$canventas}}</a>
-              @else
-              {{$canventas}}
-              @endif
-            </td>
-            @foreach($solped as $sol)
-            @if($sol->id_producto == $producto->id)
-            @php
-            $cansol=$cansol+$sol->cantidad;
-            @endphp
-            @endif
-            @endforeach
-
-            <td class="text-center">
-              @if($cansol>0)
-              <a href="{{route('consolidado.entradas',$producto->id)}}" title="Ver Entradas de Inventario">{{$cansol}}</a>
-              @else
-              {{$cansol}}
-              @endif
+              <td>{{$sol->id}}</td>
+              <td>{{$sol->fecha}}</td>
+              <td>{{$sol->nombres}}</td>
+              <td>{{$sol->cantidad}} </td>
+              <td>{{$sol->precio}} </td>
             </td>
           </tr>
           @endforeach
@@ -144,7 +74,7 @@
     </div>
     <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
 
-      {{$productos->appends(Request::only(['id_categoria' , 'valor', 'id_subcategoria']))->links()}}
+      
     </div>
   </div>
 </div>
