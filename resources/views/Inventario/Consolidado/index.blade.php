@@ -111,7 +111,7 @@
                   @foreach($ventas as $venta)
                     @if($venta->id_producto == $producto->id)
                         @php
-                          $canventas=$canventas+$ventas->cantidad;
+                          $canventas=$canventas+$venta->cantidad;
                         @endphp
                     @endif
                   @endforeach
