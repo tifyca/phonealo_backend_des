@@ -9,6 +9,8 @@ use App\Categorias;
 use App\Subcategorias;
 use App\detallesolped;
 use App\solped;
+use App\Ventas;
+use App\Detalle_Ventas;
 use DB;
 @session_start();
 class ConsolidadoController extends Controller
@@ -117,8 +119,10 @@ class ConsolidadoController extends Controller
 
 				}
 				//dd($data);
+				$solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')->select('b.id_producto','b.cantidad','b.precio')->where('a.id_estado',8)->get();
+				$ventas = Ventas::join('detalle_ventas','ventas.id','=','detalle_ventas.id_venta')->where('id_estado',8)->orderby('detalle_ventas.id_producto')->get();
 				$categorias=categorias::where('tipo','Productos')->orderby('categoria','asc')->get();
-				return view('Inventario.Consolidado.index')->with('productos',$productos)->with('categorias',$categorias)->with('precios',$data);
+				return view('Inventario.Consolidado.index')->with('productos',$productos)->with('categorias',$categorias)->with('precios',$data)->with('solped',$solped)->with('ventas',$ventas);
 
 			}
 		}
