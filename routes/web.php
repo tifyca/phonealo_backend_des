@@ -255,6 +255,17 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('inventario/consolidado', 'Inventario\ConsolidadoController');
 
+    Route::get('inventario/consolidado/ventas/{id}', [
+        'uses' => 'Inventario\ConsolidadoController@venta',
+        'as'   => 'consolidado.ventas'
+    ]);
+
+    Route::get('inventario/consolidado/entradas/{id}', [
+        'uses' => 'Inventario\ConsolidadoController@entradas',
+        'as'   => 'consolidado.entradas'
+    ]);
+
+
      // //////////
 
     Route::resource('registro/empleados', 'Registro\EmpleadosController');

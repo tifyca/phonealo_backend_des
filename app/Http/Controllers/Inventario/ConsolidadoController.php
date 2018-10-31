@@ -120,9 +120,25 @@ class ConsolidadoController extends Controller
 				}
 				//dd($data);
 				$solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')->select('b.id_producto','b.cantidad','b.precio')->where('a.id_estado',8)->get();
-				$ventas = Ventas::join('detalle_ventas','ventas.id','=','detalle_ventas.id_venta')->where('id_estado',8)->orderby('detalle_ventas.id_producto')->get();
+				$ventas = Ventas::join('detalle_ventas','ventas.id','=','detalle_ventas.id_venta')->whereIn('ventas.id_estado',['7','8'])->orderby('detalle_ventas.id_producto')->get();
 				$categorias=categorias::where('tipo','Productos')->orderby('categoria','asc')->get();
 				return view('Inventario.Consolidado.index')->with('productos',$productos)->with('categorias',$categorias)->with('precios',$data)->with('solped',$solped)->with('ventas',$ventas);
 
 			}
-		}
+	  public function venta($id)
+	  {
+	  			$ventas = Ventas::join('pedidos','ventas.id_pedido','pedidos.id')->join('detalle_ventas','ventas.id','=','detalle_ventas.id_venta')->join('clientes','pedidos.id_cliente','=','clientes.id')
+	  			->whereIn('ventas.id_estado',['7','8'])
+	  			->where('detalle_ventas.id_producto',$id)
+	  			->orderby('detalle_ventas.id_producto')->get();
+		    return view("Inventario.Consolidado.ventas")->with('ventas',$ventas);
+	  }
+
+	  public function entradas($id)
+	  {
+		$solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')->where('a.id_estado',8)->where('b.id_producto',$id)->get();
+		    return view("Inventario.Consolidado.entradas")->with('solped',$solped);
+	  }
+
+
+	}
