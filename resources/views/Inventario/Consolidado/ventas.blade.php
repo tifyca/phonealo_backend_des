@@ -55,17 +55,18 @@
               <th>Cliente</th>
               <th>Cantidad</th>
               <th>Precio</th>
-              
+              <th>Remito</th>
             </tr>
           </thead>
           <tbody>
             @foreach($ventas as $sol)
             <tr> 
-              <td>{{$sol->id}}</td>
+              <td>{{$sol->id_venta}}</td>
               <td>{{$sol->fecha}}</td>
               <td>{{$sol->nombres}}</td>
               <td>{{$sol->cantidad}} </td>
               <td>{{$sol->precio}} </td>
+              <td>{{$sol->id_remito}} </td>
             </td>
           </tr>
           @endforeach
