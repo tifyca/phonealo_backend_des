@@ -320,6 +320,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('logistica', 'Procesar\LogisticaController@index')->name('logistica');
     Route::post('logistica', 'Procesar\LogisticaController@index')->name('logistica.submit');
     Route::get('logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
+
+    Route::get('logistica/venta/editar', 'Procesar\LogisticaController@edit')->name('editar_logistica');
+    
     Route::get('logistica/remisa', 'Procesar\LogisticaController@remisa')->name('logistica.remisa');
     Route::get('logistica/factura', 'Procesar\LogisticaController@factura')->name('logistica.factura');
     Route::get('logistica/movimiento', 'Procesar\LogisticaController@movimiento')->name('logistica.movimiento');
