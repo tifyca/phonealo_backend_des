@@ -159,13 +159,9 @@ $id_usuario= $_SESSION["user"];
               <!--<button data-toggle="tooltip" data-placement="top" title="Descompuesto" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-ban"></i></button>-->
 
               @endif
-
-              @if($pedido->id_estado==7) 
-              <!--<button data-toggle="tooltip" data-placement="top" title="Descompuesto" class="btn btn-primary detalle"  value="{{ $pedido->id_venta }}"><i class="m-0 fa fa-lg fa-ban"></i></button>-->
-              <button data-toggle="tooltip" data-placement="top"  title="Devolver Pedido" class="btn btn-primary ventadevuelta"  value="{{$pedido->id_venta}}"><i class="fa fa-share-square-o" ></i></button>   
-
-
-
+            @if($pedido->id_estado==1 || $pedido->id_estado==5) 
+                           <a class="btn btn-primary" href="{{ route('pedidos.editar',$pedido->id_venta) }}"><i class="fa fa-lg fa-pencil" title="Editar Venta"></i></a>
+  
               @endif
             </div>
           </td> 

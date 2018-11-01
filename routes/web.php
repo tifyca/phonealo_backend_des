@@ -355,11 +355,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('procesar/pedidos', 'Procesar\PedidosController');
     Route::get('caida', 'Procesar\PedidosController@venta_caida')->name('caida');
     Route::get('venta/devuelta', 'Procesar\PedidosController@venta_caida')->name('venta/devuelta');
+    
 
     Route::get('procesar/pedidos/{id}/confirmar', [
         'uses' => 'Procesar\PedidosController@confirmar',
         'as'   => 'procesar.confirmar'
     ]);
+
+Route::get('procesar/pedidos/{id}/editar', [
+        'uses' => 'Procesar\PedidosController@editar_venta',
+        'as'   => 'pedidos.editar'
+    ]);
+
 
 Route::get('procesar/pedidos/{id}/nota', [
         'uses' => 'Procesar\PedidosController@agregar_nota',
