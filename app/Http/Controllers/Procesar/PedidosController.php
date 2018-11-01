@@ -90,6 +90,7 @@ class PedidosController extends Controller
          }
        }
        $auditoria = new auditoria();
+       $auditoria->id_venta   = $id;
        $auditoria->id_usuario =  $_SESSION["user"];
        $auditoria->fecha      = date('Y-m-d');
        $auditoria->accion     = "Procesando Venta Caida: Venta Nro".$request->id;
@@ -105,6 +106,7 @@ class PedidosController extends Controller
        $pedidos->id_estado=9;
        $pedidos->save();
        $auditoria = new auditoria();
+       $auditoria->id_venta   = $id;
        $auditoria->id_usuario =  $_SESSION["user"];
        $auditoria->fecha      = date('Y-m-d');
        $auditoria->accion     = "Confirmando Pedido: Venta Nro".$id;
@@ -167,9 +169,11 @@ public function update(Request $request,$id)
   }
     $auditoria = new auditoria();
     $auditoria->id_usuario =  $_SESSION["user"];
+    $auditoria->id_venta   = $id;
     $auditoria->fecha      = date('Y-m-d');
     $auditoria->accion     = "Modificación de Pedido: Venta Nro".$id;
     $auditoria->save();  
+    return redirect()->route('pedidos.index');
  }
 
 }

@@ -266,8 +266,6 @@
                     $mtotal+=$subimporte;?>
                   <td width="20%" id="d-importe" class="text-center">{!!number_format($subimporte, 0, ',', '.')!!}</td>
                   <td width="15%" class="text-center"><div class="btn-group">
-                  <button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary deledit" value="{{$detalle->id_producto}}" ><i class="m-0 fa fa-lg fa-trash"></i></button>
-                  <button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="{{$detalle->id_producto}}"><i class="m-0 fa fa-lg fa-info"></i></button></div>
                   </td>
                   </tr> 
                     @endif
