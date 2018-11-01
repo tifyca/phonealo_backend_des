@@ -9,8 +9,14 @@ use App\Detalles_Ventas;
 use App\detalle;
 use App\pedido;
 use App\Estados;
+use App\Facturas;
+use App\Horarios;
+use App\Monto_delivery;
+use App\Forma_pago;
 use App\Notas_Ventas;
-use App\Http\User;
+use App\User;
+use App\auditoria;
+use App\Productos;
 use DB;
 @session_start();
 
@@ -72,7 +78,22 @@ class PedidosController extends Controller
        $pedidos=pedido::where('id',$id)->first();
        $pedidos->id_estado=2;
        $pedidos->save();
-       return $pedidos;
+       $detalles= Detalles_Ventas::where("id_venta",$request->id)->get();
+       foreach($detalles as $detalle){
+         $id_producto = $detalles->id_producto;
+         $cantidad    = $detalles->cantidad;
+         $productos= Productos::where('id',$id_producto)->first();
+         if($productos->isEmpty()){ 
+         }else{
+          $productos->stock = $productos->stock + $cantidad;
+          $productos->save();
+         }
+       }
+       $auditoria = new auditoria();
+       $auditoria->id_usuario =  $_SESSION["user"];
+       $auditoria->fecha      = date('Y-m-d');
+       $auditoria->accion     = "Procesando Venta Caida: Venta Nro".$request->id;
+       $auditoria->save(); 
     }
     public function confirmar($id){
 
@@ -83,19 +104,14 @@ class PedidosController extends Controller
        $pedidos=pedido::where('id',$idp)->first();
        $pedidos->id_estado=9;
        $pedidos->save();
+       $auditoria = new auditoria();
+       $auditoria->id_usuario =  $_SESSION["user"];
+       $auditoria->fecha      = date('Y-m-d');
+       $auditoria->accion     = "Confirmando Pedido: Venta Nro".$id;
+       $auditoria->save(); 
        return redirect()->route('pedidos.index');
     }
 
-    public function venta_devuelta(Request $request){
-       $ventas=Ventas::find($request->id);
-       $id = $ventas->id_pedido;
-       $ventas->id_estado=4;
-       $ventas->save();
-       $pedidos=pedido::where('id',$id)->first();
-       $pedidos->id_estado=4;
-       $pedidos->save();
-       return $pedidos;
-    }
 
 
 
@@ -103,5 +119,57 @@ class PedidosController extends Controller
     public function agregar_nota($id){
       
     }
+
+
+    public function editar_venta($id){
+        
+      
+         $horarios  = Horarios::all();
+           $deliverys = Monto_delivery::all();
+          $formas    = Forma_pago::all();
+          $venta=Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+            ->leftjoin('departamentos', 'clientes.id_departamento', '=', 'departamentos.id')
+            ->leftjoin('facturas', 'ventas.id', '=', 'facturas.id_venta')
+            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_forma_pago', 'forma_pago.forma_pago', 'ventas.factura', 'ventas.id_horario', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.id as idcliente','clientes.nombres','clientes.ruc_ci', 'clientes.id_tipo','clientes.email','clientes.telefono', 'clientes.direccion','clientes.ubicacion','clientes.barrio', 'departamentos.nombre as departamento', 'ciudades.ciudad as ciudad','barrio', 'clientes.id_ciudad as id_ciudad', 'clientes.id_departamento as id_departamento', 'ciudades.ciudad',  'facturas.nombres as fnombres',  'facturas.ruc_ci as fruc', 'facturas.direccion as fdireccion')
+                ->where('ventas.id', $id)
+                ->get();
+          $detalles=Ventas::join('detalle_ventas', 'detalle_ventas.id_venta', '=','ventas.id')
+                         ->join('productos', 'detalle_ventas.id_producto', '=','productos.id')
+                         ->leftjoin('montos_delivery', 'montos_delivery.monto', '=','detalle_ventas.precio')
+                         ->select('detalle_ventas.cantidad', 'detalle_ventas.precio', 'detalle_ventas.id_producto','montos_delivery.id as id_delivery', 'productos.codigo_producto', 'productos.nombre_original', 'productos.descripcion')
+                         ->where('ventas.id', '=', $id)
+                         ->get();
+          
+        
+         return view('Procesar.Pedidos.edit', compact('venta','horarios','deliverys', 'formas', 'detalles'));
+    }
+
+public function update(Request $request,$id)
+{
+  $ventas=Ventas::find($id);
+  $horario = $ventas->id_horario;
+  $zhorario = $request->horario_venta;
+  if($horario!=$zhorario)
+  {
+    $ventas->horario = $zhorario;
+    
+  } 
+  $facturas=Facturas::where("id_venta",$id)->first();
+  if(empty($facturas)){
+
+  }else{
+    $facturas->direccion = $request->factura_dir;
+
+  }
+    $auditoria = new auditoria();
+    $auditoria->id_usuario =  $_SESSION["user"];
+    $auditoria->fecha      = date('Y-m-d');
+    $auditoria->accion     = "Modificación de Pedido: Venta Nro".$id;
+    $auditoria->save();  
+ }
 
 }
