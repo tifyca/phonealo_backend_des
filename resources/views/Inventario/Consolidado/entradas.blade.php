@@ -2,7 +2,10 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Relación de Entradas por Producto')
+<?php 
+  $titulo = "Relación de Entradas por Producto: ".$productos->descripcion;
+?>
+@section('titulo', $titulo)
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -20,13 +23,16 @@
         <div class="col mb-3 text-center">
           <div class="row ">
             <div class="col">
+              
               <h4 class="tile-title text-center text-md-left">Listado</h4>
             </div>
-            <form class="row d-flex justify-content-end" action="{{route('consolidado.index')}}" method="get"> 
-              <div class="form-group col-md-2">
-                <input class="form-control" type="text" name="valor" id="valor" placeholder="Producto">
+            <form class="row d-flex justify-content-end" action="{{route('consolidado.entradas',$productos->id)}}" method="get"> 
+              
+              <div class="form-group col-md-6">
+                <input class="form-control" type="date" id="fecha" name="fecha" data-date-format="DD/MM/YYYY" >
               </div>
-              <div class="form-group col-md-2">
+              <input type="hidden" id="id_producto" name="id_producto" value="{{$id}}">
+              <div class="form-group col-md-3">
                <select class="form-control" name="filas" id="filas">
                  <option value="0">Filas</option>
                  <option value="10">10</option>
@@ -51,10 +57,10 @@
             <tr>
               
               <th>Id</th>
-              <th>Fecha</th>
+              <th class="text-center">Fecha</th>
               <th>Proveedor</th>
-              <th>Cantidad</th>
-              <th>Precio</th>
+              <th class="text-center">Cantidad</th>
+              <th class="text-center">Precio</th>
               
             </tr>
           </thead>
@@ -62,10 +68,11 @@
             @foreach($solped as $sol)
             <tr> 
               <td>{{$sol->id}}</td>
-              <td>{{$sol->fecha}}</td>
-              <td>{{$sol->id_proveedor}}</td>
-              <td>{{$sol->cantidad}} </td>
-              <td>{{$sol->precio}} </td>
+              <td class="text-center">{{$sol->fecha}}</td>
+              <td>{{$sol->nombres}}</td>
+              <td class="text-center">{{$sol->cantidad}} </td>
+              <?php $monto = number_format($sol->precio, 0, ',', '.');?>
+              <td class="text-right">{{$monto}} </td>
             </td>
           </tr>
           @endforeach
@@ -74,7 +81,7 @@
     </div>
     <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
 
-      
+      {{$solped->appends(Request::only(['fecha']))->links()}}
     </div>
   </div>
 </div>
