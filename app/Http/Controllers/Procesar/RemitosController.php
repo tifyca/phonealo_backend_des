@@ -23,7 +23,7 @@ class RemitosController extends Controller
             // Agrupar por id remito y ordenar por id ascendentemente
             ->groupBy('remitos.id')
             ->orderBy('id', 'desc')
-            ->paginate(10);             
+            ->paginate(6);             
         // Agrupa las ventas asociadas a los remitos, se muestra en modal
         $remitosVentas = Remitos::Ventas()
             // ->distinct()
