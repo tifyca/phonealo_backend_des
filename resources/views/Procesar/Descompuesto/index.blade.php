@@ -20,7 +20,6 @@
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Listado de Descompuestos</h3>
             </div>
-
             <div class="col-md-2 mr-md-3">
               <button class="btn btn-primary" data-toggle="modal" data-target="#ModalDescompuesto" type=""><i class="fa fa-lg fa-eye"></i>Enviar Seleccionados</button>
             </div>
@@ -32,7 +31,7 @@
               <table class="table table-hover table-bordered " id="sampleTable">
                 <thead>
                   <tr>
-                    <th><input type="checkbox" class="form-control" name="" value="" placeholder=""></th>
+                    <th><input type="checkbox" class="form-control select-all" name="" value="" ></th>
                     <th>N° Caso</th>
                     <th>Fecha Cambio</th>
                     <th>Fecha Pedido</th>
@@ -45,7 +44,22 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><input type="checkbox" class="form-control" name="" value="" placeholder=""></td>
+                    <td><input type="checkbox" class="form-control chk-box" name="" value="" placeholder=""></td>
+                    <td> 0987</td>
+                    <td>00-00-0000</td>
+                    <td>00-00-0000</td>
+                    <td>Nombre Producto</td>
+                    <td>Nota</td>
+                    <td>123456787654</td>
+                    <td width="10%" class="text-center">
+                      <div class="btn-group">
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalDescompuesto" href="#"><i class="m-0 fa fa-lg fa-wrench"></i></a>
+                        
+                      </div>
+                    </td>
+                  </tr
+                  <tr>
+                    <td><input type="checkbox" class="form-control chk-box" name="" value="" placeholder=""></td>
                     <td> 0987</td>
                     <td>00-00-0000</td>
                     <td>00-00-0000</td>
@@ -59,7 +73,51 @@
                       </div>
                     </td>
                   </tr>
-                 
+                  <tr>
+                    <td><input type="checkbox" class="form-control chk-box" name="" value="" placeholder=""></td>
+                    <td> 0987</td>
+                    <td>00-00-0000</td>
+                    <td>00-00-0000</td>
+                    <td>Nombre Producto</td>
+                    <td>Nota</td>
+                    <td>123456787654</td>
+                    <td width="10%" class="text-center">
+                      <div class="btn-group">
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalDescompuesto" href="#"><i class="m-0 fa fa-lg fa-wrench"></i></a>
+                        
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="form-control chk-box" name="" value="" placeholder=""></td>
+                    <td> 0987</td>
+                    <td>00-00-0000</td>
+                    <td>00-00-0000</td>
+                    <td>Nombre Producto</td>
+                    <td>Nota</td>
+                    <td>123456787654</td>
+                    <td width="10%" class="text-center">
+                      <div class="btn-group">
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalDescompuesto" href="#"><i class="m-0 fa fa-lg fa-wrench"></i></a>
+                        
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="form-control chk-box" name="" value="" placeholder=""></td>
+                    <td> 0987</td>
+                    <td>00-00-0000</td>
+                    <td>00-00-0000</td>
+                    <td>Nombre Producto</td>
+                    <td>Nota</td>
+                    <td>123456787654</td>
+                    <td width="10%" class="text-center">
+                      <div class="btn-group">
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalDescompuesto" href="#"><i class="m-0 fa fa-lg fa-wrench"></i></a>
+                        
+                      </div>
+                    </td>
+                  </tr>                 
                 </tbody>
               </table>
             </div>
@@ -91,5 +149,22 @@
 @endsection
 
 @push('scripts')
+<script type="text/javascript">
   
+  $('document').ready(function(){
+ 
+    $(".select-all").click(function (){
+          $('.chk-box').attr('checked', this.checked)
+         });
+  
+     $(".chk-box").click(function(){
+        if($(".chk-box").length == $(".chk-box:checked").length) 
+        {
+         $(".select-all").attr("checked", "checked");
+        }else{
+         $(".select-all").removeAttr("checked");
+        }
+    });
+});
+</script>
 @endpush
