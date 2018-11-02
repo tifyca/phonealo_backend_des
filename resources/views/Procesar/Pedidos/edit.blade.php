@@ -177,15 +177,15 @@
             @endif
             {{-- //// --}}
             
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-6">
               <label for="">Delivery</label>
               <div class="row">
-                <div class="col-3 text-right">
+                <div class="col-2 text-right">
                   <label class="form-check-label mt-2">
                     <input class="form-check-input" id="delivery"  name="delivery" type="checkbox" disabled="">Gratis
                   </label>
                 </div>
-                <div class="col-9">
+                <div class="col-8">
                
               <select class="form-control monto" id="monto" name="monto" disabled>
                       <option value=""> Monto </option>
@@ -199,7 +199,7 @@
             </div>
             <div class="form-group col-md-12">
               <label for="">Nota</label>
-              <textarea name="nota_venta" id="nota_venta" class="form-control" cols="5">{{$venta[0]->notas}}</textarea>
+              <textarea name="nota_venta" id="nota_venta" class="form-control" cols="5" disabled="">{{$venta[0]->notas}}</textarea>
             </div>
               
           </div>

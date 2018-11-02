@@ -90,6 +90,9 @@ $id_usuario= $_SESSION["user"];
                class="alert alert-dark"
                @endif 
                
+               @if($pedido->id_estado==3)
+               class="alert alert-success"
+               @endif 
                > 
                <td class="venta" 
                <?php $x=0; 
@@ -162,6 +165,9 @@ $id_usuario= $_SESSION["user"];
             @if($pedido->id_estado==1 || $pedido->id_estado==5) 
                            <a class="btn btn-primary" href="{{ route('pedidos.editar',$pedido->id_venta) }}"><i class="fa fa-lg fa-pencil" title="Editar Venta"></i></a>
   
+              @endif
+              @if($pedido->id_estado==3)
+                <a class="btn btn-primary" href="{{ route('pedidos.editar',$pedido->id_venta) }}"><i class="fa fa-lg fas fa-asterisk" title="Enviar a Descompuesto"></i></a>
               @endif
             </div>
           </td> 
