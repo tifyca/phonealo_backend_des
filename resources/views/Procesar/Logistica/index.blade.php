@@ -1062,18 +1062,19 @@ $('#btn-nota').click(function(){
 
             $("#rese").html('No Hay Ventas para Activar a la Fecha');
             $("#rese, #res-content").css("display","block");
-            
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
           }
 
           if(data.msjact==0 && data.msjcant==1){
 
-            $("#rese").html('Hay Ventas que poseen Productos sin Stock');
+            $("#rese").html('Hay Ventas que Poseen Productos sin Stock');
             $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
             } 
 
-            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            
           
         }
     });
