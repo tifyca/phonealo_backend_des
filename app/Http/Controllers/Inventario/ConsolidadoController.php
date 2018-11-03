@@ -125,20 +125,76 @@ class ConsolidadoController extends Controller
 				return view('Inventario.Consolidado.index')->with('productos',$productos)->with('categorias',$categorias)->with('precios',$data)->with('solped',$solped)->with('ventas',$ventas);
 
 			}
-	  public function venta($id)
+	  public function venta(Request $request, $id)
 	  {
+	  	$filas=$request->filas;
+	  	$fecha=$request->fecha;
+	  	if(empty($filas) && empty($fecha))
+	  	{
+
 	  			$ventas = Ventas::join('pedidos','ventas.id_pedido','pedidos.id')->join('detalle_ventas','ventas.id','=','detalle_ventas.id_venta')->join('clientes','pedidos.id_cliente','=','clientes.id')
 	  			->whereIn('ventas.id_estado',['7','8'])->leftjoin('detalle_remito','ventas.id','=','detalle_remito.id_venta')
 	  			->where('detalle_ventas.id_producto',$id)
-	  			->orderby('detalle_ventas.id_producto')->get();
-	  			
-		    return view("Inventario.Consolidado.ventas")->with('ventas',$ventas);
+        	  			->orderby('detalle_ventas.id_producto')->paginate(10);
+	  	}
+	  	if(!empty($filas) && empty($fecha))
+	  	{
+
+	  			$ventas = Ventas::join('pedidos','ventas.id_pedido','pedidos.id')->join('detalle_ventas','ventas.id','=','detalle_ventas.id_venta')->join('clientes','pedidos.id_cliente','=','clientes.id')
+	  			->whereIn('ventas.id_estado',['7','8'])->leftjoin('detalle_remito','ventas.id','=','detalle_remito.id_venta')
+	  			->where('detalle_ventas.id_producto',$id)
+        	  			->orderby('detalle_ventas.id_producto')->paginate($filas);
+	  	}
+	  	if(empty($filas) && !empty($fecha))
+	  	{
+
+	  			$ventas = Ventas::join('pedidos','ventas.id_pedido','pedidos.id')->join('detalle_ventas','ventas.id','=','detalle_ventas.id_venta')->join('clientes','pedidos.id_cliente','=','clientes.id')
+	  			->whereIn('ventas.id_estado',['7','8'])->leftjoin('detalle_remito','ventas.id','=','detalle_remito.id_venta')
+	  			->where('detalle_ventas.id_producto',$id)->where('ventas.fecha',$fecha)
+        	  			->orderby('detalle_ventas.id_producto')->paginate(10);
+	  	}
+
+	  	if(!empty($filas) && !empty($fecha))
+	  	{
+
+	  			$ventas = Ventas::join('pedidos','ventas.id_pedido','pedidos.id')->join('detalle_ventas','ventas.id','=','detalle_ventas.id_venta')->join('clientes','pedidos.id_cliente','=','clientes.id')
+	  			->whereIn('ventas.id_estado',['7','8'])->leftjoin('detalle_remito','ventas.id','=','detalle_remito.id_venta')
+	  			->where('detalle_ventas.id_producto',$id)->where('ventas.fecha',$fecha)
+        	  			->orderby('detalle_ventas.id_producto')->paginate($filas);
+	  	}
+
+		$productos = Productos::where('id',$id)->first();
+	    return view("Inventario.Consolidado.ventas")->with('ventas',$ventas)->with('productos',$productos);
 	  }
 
-	  public function entradas($id)
+	  public function entradas(Request $request,$id)
 	  {
-		$solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')->where('a.id_estado',8)->where('b.id_producto',$id)->get();
-		    return view("Inventario.Consolidado.entradas")->with('solped',$solped);
+	  	$filas=$request->filas;
+	  	$fecha=$request->fecha;
+	  	if(empty($filas) && empty($fecha))
+	  	{
+			$solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')->join('proveedores as c','a.id_proveedor','=','c.id')->where('a.id_estado',8)->where('b.id_producto',$id)->paginate(10);
+
+	  	}
+
+	  	if(!empty($filas) && empty($fecha))
+	  	{
+			$solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')->join('proveedores as c','a.id_proveedor','=','c.id')->where('a.id_estado',8)->where('b.id_producto',$id)->paginate($filas);
+	  		
+	  	}
+	  	if(empty($filas) && !empty($fecha))
+	  	{
+			$solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')->join('proveedores as c','a.id_proveedor','=','c.id')->where('a.id_estado',8)->where('b.id_producto',$id)->where('fecha',$fecha)->paginate(10);
+	  		
+	  	}
+	  	if(!empty($filas) && !empty($fecha))
+	  	{
+			$solped = DB::table('solped as a')->join('detalle_solped as b','a.id','=','b.id_solped')->join('proveedores as c','a.id_proveedor','=','c.id')->where('a.id_estado',8)->where('b.id_producto',$id)->where('fecha',$fecha)->paginate($filas);
+	  		
+	  	}
+
+		$productos = Productos::where('id',$id)->first();
+		    return view("Inventario.Consolidado.entradas")->with('solped',$solped)->with('id',$id)->with('productos',$productos);
 	  }
 
 

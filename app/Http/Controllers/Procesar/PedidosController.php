@@ -72,8 +72,10 @@ class PedidosController extends Controller
     }
     public function venta_caida(Request $request){
        $ventas=Ventas::find($request->id);
-       $id = $ventas->id_pedido;
-       $ventas->id_estado=2;
+        if($ventas->isEmpty()){}
+      else{
+          $id = $ventas->id_pedido;
+         $ventas->id_estado=2;
        $ventas->save();
        $pedidos=pedido::where('id',$id)->first();
        $pedidos->id_estado=2;
@@ -95,10 +97,15 @@ class PedidosController extends Controller
        $auditoria->fecha      = date('Y-m-d');
        $auditoria->accion     = "Procesando Venta Caida: Venta Nro".$request->id;
        $auditoria->save(); 
+
+        }  
     }
     public function confirmar($id){
 
        $ventas=Ventas::find($id);
+              if($ventas->isEmpty()){}
+        else{
+ 
        $idp = $ventas->id_pedido;
        $ventas->id_estado=9;
        $ventas->save();
@@ -110,7 +117,7 @@ class PedidosController extends Controller
        $auditoria->id_usuario =  $_SESSION["user"];
        $auditoria->fecha      = date('Y-m-d');
        $auditoria->accion     = "Confirmando Pedido: Venta Nro".$id;
-       $auditoria->save(); 
+       $auditoria->save(); }
        return redirect()->route('pedidos.index');
     }
 

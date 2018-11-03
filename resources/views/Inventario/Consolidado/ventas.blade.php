@@ -2,7 +2,10 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Relación de Ventas por Producto')
+<?php 
+  $titulo = "Relación de Ventas por Producto: ".$productos->descripcion;
+?>
+@section('titulo', $titulo)
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -22,11 +25,11 @@
             <div class="col">
               <h4 class="tile-title text-center text-md-left">Listado</h4>
             </div>
-            <form class="row d-flex justify-content-end" action="{{route('consolidado.index')}}" method="get"> 
-              <div class="form-group col-md-2">
-                <input class="form-control" type="text" name="valor" id="valor" placeholder="Producto">
+            <form class="row d-flex justify-content-end" action="{{route('consolidado.ventas',$productos->id)}}" method="get"> 
+              <div class="form-group col-md-6">
+                <input class="form-control" type="date" id="fecha_venta" name="fecha_venta" data-date-format="DD/MM/YYYY" value="{{date('Y-m-d')}}">
               </div>
-              <div class="form-group col-md-2">
+              <div class="form-group col-md-4">
                <select class="form-control" name="filas" id="filas">
                  <option value="0">Filas</option>
                  <option value="10">10</option>
@@ -39,7 +42,7 @@
                  <option value="200">200</option>
                </select>
              </div>              
-             <div class="col-md-1 mr-md-5">
+             <div class="col-md-1 mr-md-4">
               <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
             </div>
           </form>
@@ -53,20 +56,21 @@
               <th>Id</th>
               <th>Fecha</th>
               <th>Cliente</th>
-              <th>Cantidad</th>
-              <th>Precio</th>
-              <th>Remito</th>
+              <th class="text-center">Cantidad</th>
+              <th class="text-center">Precio</th>
+              <th class="text-center">Remito</th>
             </tr>
           </thead>
           <tbody>
             @foreach($ventas as $sol)
             <tr> 
               <td>{{$sol->id_venta}}</td>
-              <td>{{$sol->fecha}}</td>
+              <td class="text-center">{{$sol->fecha}}</td>
               <td>{{$sol->nombres}}</td>
-              <td>{{$sol->cantidad}} </td>
-              <td>{{$sol->precio}} </td>
-              <td>{{$sol->id_remito}} </td>
+              <td class="text-center">{{$sol->cantidad}} </td>
+              <?php $monto = number_format($sol->precio, 0, ',', '.');?>
+              <td class="text-right">{{$monto}} </td>
+              <td class="text-center">{{$sol->id_remito}} </td>
             </td>
           </tr>
           @endforeach
@@ -75,7 +79,7 @@
     </div>
     <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
 
-      
+      {{$ventas->appends(Request::only(['fecha']))->links()}}
     </div>
   </div>
 </div>

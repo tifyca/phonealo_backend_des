@@ -10,6 +10,7 @@ use App\Empleados;
 use App\pedido;
 use App\Ventas;
 use App\Detalle_remito;
+use App\auditoria;
 
 @session_start();
 
@@ -23,7 +24,7 @@ class RemitosController extends Controller
             // Agrupar por id remito y ordenar por id ascendentemente
             ->groupBy('remitos.id')
             ->orderBy('id', 'desc')
-            ->paginate(10);             
+            ->paginate(6);             
         // Agrupa las ventas asociadas a los remitos, se muestra en modal
         $remitosVentas = Remitos::Ventas()
             // ->distinct()
@@ -47,7 +48,9 @@ class RemitosController extends Controller
     public function update(Request $request, $id){
         if ( $request->accion == 'confirmar_remito' ){
             // Pasar de estado "delivery(6)" a estado "cobrado(3)"
-            $remito = $this->modificaEstadoRemito($id, 3);
+            $estado = 3; //Estado cobrado
+            $remito = $this->modificaEstadoRemito($id, $estado);
+            $this->auditoriaEstadoRemito($id, $estado);
             $ventas = Remitos::Ventas()
                 ->where('detalle_remito.id_remito', $id)
                 ->get();
@@ -58,7 +61,7 @@ class RemitosController extends Controller
             return back();
         }
         if ( $request->accion == 'devolver_venta' ) {
-            $venta1 = $this->modificaEstadoVenta($id, 1);
+            $venta_devuelta = $this->modificaEstadoVenta($id, 1);
             $this->modificaEstadoDetalleRemito($id, 2); 
 
             $detalle = Detalle_remito::where('id_venta', $id)->first(); 
@@ -83,7 +86,7 @@ class RemitosController extends Controller
             
             return  response()->json([
                 'mensaje' => 'La venta fue devuelta exitosamente',
-                'estado' => Estados::where('id', $venta1->id_estado)->first(),
+                'estado' => Estados::where('id', $venta_devuelta->id_estado)->first(),
                 'baja' => $baja
             ]);
         }
@@ -130,6 +133,16 @@ class RemitosController extends Controller
         $detalle_remito->save();
         $detalle_remito->touch();
         return $detalle_remito;
+    }
+
+    public function auditoriaEstadoRemito($id, $estado){
+        $estado = Estados::where('id', $estado)->first();
+        $auditoria = new auditoria();
+        // $auditoria->id_venta   = $id;
+        $auditoria->id_usuario =  $_SESSION["user"];
+        $auditoria->fecha      = date('Y-m-d');
+        $auditoria->accion     = "Procesando Remito Nro.".$id.", cambiado a estado ".$estado->estado;
+        $auditoria->save();
     }
 
 
