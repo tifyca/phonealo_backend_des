@@ -32,36 +32,37 @@
                   </tr>
                 </thead>
                 <tbody>
+               @foreach($soporte as $item) 
                   <tr>
-                    <td>0987</td>
-                    <td>00-00-0000</td>
-                    <td>00-00-0000</td>
-                    <td>Soporte portable flexible p/ celular - blanco</td>
-                    <td>123456787654</td>
-                    <td>Nota</td>
+                    <td>{{$item->idsoporte}}</td>
+                    <td>{{$item->fecha}}</td>
+                      <td>{{$item->fecha_activo}}</td>
+                      <td>{{$item->descripcion}}</td>
+                      <td>{!!number_format($item->precio_compra, 0, ',', '.')!!}</td>
+                      <td>{{$item->nota}}</td>
                     <form action="">
                       <td width="20%">
                         <div class="row">
                           <div class="form-group col-7 m-0">
                               <div class="form-check">
                                 <label class="form-check-label">
-                                  <input class="form-check-input" value="1" type="radio" id="EstatusCargo" name="rep">Sin reparar
+                                  <input class="form-check-input" value="3" type="radio" name="status_sop" id="status_sop">Sin reparar
                                 </label>
                               </div>
                               <div class="form-check">
                                 <label class="form-check-label">
-                                   <input class="form-check-input" value="0" type="radio" id="EstatusCargo2" name="rep">Reparado
+                                   <input class="form-check-input" value="4" type="radio" name="status_sop" id="status_sop">Reparado
                                 </label>
                               </div>
                             </div>
                           <div class="btn-group col-3">
-                            <button  class="btn btn-primary" type="submit"><i class="m-0 fa fa-lg fa-check"></i></button>
+                            <button  class="btn btn-primary" type="submit"  onclick="reparado({!!$item->idsoporte!!})"><i class="m-0 fa fa-lg fa-check"></i></button>
                           </div>
                         </div>
                       </td>
                     </form>
                   </tr>
-                 
+                 @endforeach
                 </tbody>
               </table>
             </div>
@@ -77,5 +78,59 @@
 @endsection
 
 @push('scripts')
+  <script type="text/javascript">
+    
+function reparado(id_soporte){
+    var id = id_soporte;
+    var status_sop = document.getElementById('status_sop').value;
+
+    alert(id);
+    alert(status_sop);
+}
+/*
+    new Ajax.Request('update_rep.php', {method:'post', parameters: 
+        {
+            id: id, 
+            status_sop: status_sop
+        },
+        onSuccess: function(resp){
+            if(status_sop == 3){
+                alert("Este producto no se pudo reparar");    
+            }else if(status_sop == 4){
+                alert("Este producto ha sido reparado");
+                
+            }
+       
+                // location.reload();
+                soporte();
+        }
+    });
+
+
+id = $_POST['id'];
+$status = $_POST['status_sop'];
+$cantidad="1";
+$precio="0";
+$hoy=date('Y-m-d');
+$id_usuario = isset($_SESSION['id_usu']) ? $_SESSION['id_usu'] : '';
+        $db = new Database(); 
+
+          $db->query("SELECT id_producto FROM soporte WHERE id_soporte = '$id'");
+          $result = $db->resultset();
+
+          $id_producto= $result[0]['id_producto'];
+
+          $db->query("UPDATE soporte SET status_soporte = '$status', fecha_eg='$hoy' WHERE id_soporte = '$id'");
+          $db->execute();
+
+
   
+  $db->query("UPDATE productos a SET a.stock_activo = a.stock_activo+1, a.descompuesto = a.descompuesto-1 wERE a.id_producto = '$id_producto' ")
+      
+  $db->execute();
+
+
+   $db->query("INSERT INTO carga_producto (id_usuario, id_producto, cantidad, precio, fecha,estado) VALUES ('$id_usuario', '$id_producto', '$cantidad', '$precio', CURDATE(), 'Reparado')");
+   */
+  </script>
 @endpush
