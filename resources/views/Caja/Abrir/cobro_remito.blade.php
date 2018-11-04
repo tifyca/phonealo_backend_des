@@ -34,12 +34,12 @@
             <table class="table">
               <thead>
                 <tr >
-                  <th class="text-center">N° Venta</th>
-                  <th class="text-center">Cliente</th>
-                  <th class="text-center">Teléfono</th>
-                  <th class="text-center">Importe</th>
-                  <th class="text-center">Estado</th>
-                  <th class="text-center" width="10%">Acciones</th>
+                  <th class="text-center" >N° Venta</th>
+                  <th class="text-center" >Cliente</th>
+                  <th class="text-center" >Teléfono</th>
+                  <th class="text-center" >Importe</th>
+                  <th class="text-center" >Estado</th>
+                  <th class="text-center"  width="10%">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -97,7 +97,7 @@
                       <td class="text-center">{{ $producto->descripcion }}</td>
                       <td class="text-center">{{ $producto->cantidad }}</td>
                       <td class="text-center precio_producto">
-                        {!!number_format($venta->precio, 0, ',', '.')!!}
+                        {!!number_format($producto->precio, 0, ',', '.')!!}
                       </td>
                     {{--   <td class="text-center">
                         <div class="btn-group">
