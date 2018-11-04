@@ -39,7 +39,7 @@ class AbrirController extends Controller
 
         // Productos asociados a la venta, se muestra en modal
         $remitosProductos = Remitos::Productos()
-            ->groupBy('productos.id','detalle_ventas.id_venta')
+            // ->groupBy('productos.id','detalle_ventas.id_venta')
             ->where('id_remito', $id)
             ->get();        
 
