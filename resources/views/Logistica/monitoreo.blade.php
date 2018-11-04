@@ -63,56 +63,102 @@
 							<small>Horario de Entrada: 00:00:00</small><br>
 							<small>Promedio: 00</small><br>
 							<small><a class="card-link" href="#">Informe</a><br><a class="card-link" href="#">Ver Recorrido</a></small>
-							</h5>
-						</div>
+						</h5>
+					</div>
 
-						<div id="{{$label2}}" class="collapse show" aria-labelledby="{{$label1}}" data-parent="#accordion">
-							<div class="card-body">
-								<div class="card-body table-responsive">
-									<table class="table table-hover">
+					<div id="{{$label2}}" class="collapse show" aria-labelledby="{{$label1}}" data-parent="#accordion">
+						<div class="card-body">
+							<div class="card-body table-responsive">
+								<table class="table table-hover">
 
-										@foreach($data as $data)
-										<thead class="text-warning">
-											<tr>
-												<th>Remito</th>	
-												<th colspan="4">{{ $data["id_remito"] }}</th>
-											</tr>
-											<tr>
-												<th>Pedido</th>
-												<th>Situacion</th>
-												<th>Horario </th>
-												<th>Importe</th>
-												<th>Chat</th>
-											</tr>
-										</thead>
-										<tbody>
-											@foreach($ventas as $venta)
-											@if($data["id_remito"]==$venta["id_remito"])
-											<tr>
-												<td>{{ $venta["id_venta"] }}</td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-											</tr>
-											@endif	
-										</tbody>
-										@endforeach	
-										@endforeach	
-									</table>
-								</div>				</div>
-							</div>
-						</div>
+									@foreach($data as $data)
+									<thead class="text-warning">
+										<tr>
+											<th>Remito</th>	
+											<th colspan="4">{{ $data["id_remito"] }}</th>
+										</tr>
+										<tr>
+											<th>Pedido</th>
+											<th class="text-center">Situacion</th>
+											<th>Horario </th>
+											<th>Importe</th>
+											<th class="text-center">Chat</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach($ventas as $venta)
+										@if($data["id_remito"]==$venta["id_remito"])
+										<tr>
+											<input type="hidden" id="idventa" >
+											<td>{{ $venta["id_venta"] }}</td>
+											<td class="text-center">{{ $venta["id_estado"]}}</td>
+											<td></td>
+											<td></td>
+											<td>
+
+												<button data-toggle="tooltip" data-placement="top"  title="Chat" class="btn btn-success chatbutton"  value="{{ $venta["id_venta"] }}">Chat</button>
+
+											</div>
+
+										</td>
+									</tr>
+									@endif	
+								</tbody>
+								@endforeach	
+								@endforeach	
+							</table>
+						</div>				
 					</div>
 				</div>
-				<?php $valor++;?>
-				@endforeach
-
-
 			</div>
+		</div>
+	</div>
+	<?php $valor++;?>
+	@endforeach
+
+
+</div>
+
+@include('Logistica.chat')
 
 
 
+@endsection
+
+@push('scripts')
+
+<script type="text/javascript" language="javascript">
+	$(document).on('click', '.chatbutton', function () {
+		var idventa = $(this).val();
+		
+		$('#mchat').modal('show');
+		$('#id_venta').val(idventa);
+      $.ajax({
+        type: "GET",
+        url: '{{ url('buscar_remito') }}',
+        dataType: "json",
+        data: { id:idventa, _token: '{{csrf_token()}}'},
+
+        success: function (data){
+
+           
+            $("#id_remito").val(data.id_remito);
+            $("#id_delivery").val(data.id_delivery);
+            $("#delivery").val(data.nombres);
+        
+        }
+
+    });
 
 
-			@endsection
+
+	});
+
+	$(document).on('click', '.enviar', function () {
+		var id = $(this).val();
+		alert("prueba");
+
+	});
+
+</script>
+@endpush
