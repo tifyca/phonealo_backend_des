@@ -27,44 +27,32 @@
             <table class="table">
               <thead>
                 <tr class="table-secondary">
-                  <th>Remitos en Delivery</th>
-                  <th>Delivery</th>
-                  <th>Importe total</th>
-                  <th>Fecha</th>
-                  <th>Cobrar</th>
+                  <th class="text-center">Remitos en Delivery</th>
+                  <th class="text-center">Delivery</th>
+                  <th class="text-center">Importe total</th>
+                  <th class="text-center">Fecha</th>
+                  {{-- <th class="text-center">Estado</th> --}}
+                  <th class="text-center">Cobrar</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>13001</td>
-                  <td>Hector Cuellar</td>
-                  <td>100000</td>
-                  <td>27/8/18</td>
-                  <td><a href="{{ route('caja.cobro_remito') }}" class="btn btn-primary confirm-delete"><i class="fa m-0 fa-money"></i></a></td>
-                </tr>
-                <tr>
-                  <td>13002</td>
-                  <td>Victor Almiron</td>
-                  <td>134000</td>
-                  <td>27/8/18</td>
-                  <td><a href="{{ route('caja.cobro_remito') }}" class="btn btn-primary confirm-delete"><i class="fa m-0 fa-money"></i></a></td>
-                </tr>
-                <tr>
-                  <td>13003</td>
-                  <td>Horacio Cuellar</td>
-                  <td>300000</td>
-                  <td>27/8/18</td>
-                  <td><a href="{{ route('caja.cobro_remito') }}" class="btn btn-primary confirm-delete"><i class="fa m-0 fa-money"></i></a></td>
-                </tr>
-                <tr>
-                  <td>13004</td>
-                  <td>David Gauto</td>
-                  <td>280000</td>
-                  <td>27/8/18</td>
-                  <td><a href="{{ route('caja.cobro_remito') }}" class="btn btn-primary confirm-delete"><i class="fa m-0 fa-money"></i></a></td>
-                </tr>
+                @foreach ($remitos as $remito)
+                  <tr>
+                    <td class="text-center">{{ $remito->id }}</td>
+                    <td class="text-center">{{ $remito->nombre_delivery }}</td>
+                    <td class="text-center">{!!number_format($remito->importe, 0, ',', '.')!!}</td>
+                    <td class="text-center">{{ $remito->fecha }}</td>
+                    {{-- <td class="text-center">{{ $remito->estado }}</td> --}}
+                    <td class="text-center">
+                      <a href="{{ route('caja.cobro_remito', $remito->id) }}" class="btn btn-primary confirm-delete">
+                        <i class="fa m-0 fa-money"></i>
+                      </a>
+                    </td>
+                  </tr>
+                @endforeach
               </tbody>
             </table>
+            {{ $remitos->render() }}
           </div>
         </div>
     </div>
