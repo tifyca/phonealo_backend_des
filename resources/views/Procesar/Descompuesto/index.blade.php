@@ -42,6 +42,8 @@
                   </tr>
                 </thead>
                 <tbody>
+
+               
                 @foreach($descompuesto as $item)       
                  
                  @if($item->status_soporte == 3)
@@ -66,13 +68,13 @@
                     <td>{!!number_format($item->precio_compra, 0, ',', '.')!!}</td>
                     <td width="10%" class="text-center">
                     <div class="btn-group">
-                      <a class="btn btn-primary" title="Soporte" data-toggle="modal" data-target="#ModalDescompuesto" href="#" onclick="reparar({!!$item->idsoporte!!})"><i class="m-0 fa fa-lg fa-wrench"></i></a> 
+                      <button class="btn btn-primary reparar" title="Soporte"  value="{{$item->idsoporte}}"><i class="m-0 fa fa-lg fa-wrench"></i></button> 
                     </div>
                     </td>
                   </tr>
                   @endif
                   @endforeach
-
+             
                 </tbody>
               </table>
             </div>
@@ -82,7 +84,7 @@
   </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="ModalDescompuesto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--div class="modal fade" id="ModalDescompuesto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -96,7 +98,7 @@
       </div>
     </div>
   </div>
-</div>
+</div -->
 {{--  --}}
 
   
@@ -127,87 +129,78 @@ function reparartodo(){
         var cb = [];
         var n=0,cuales="";
         cb = document.getElementsByName('ch');
-        // alert('El total de checkbox de name = ' + f1 + ' es: ' + cb.length);
-            for (var i = 0; i < cb.length; i++){
+       
+          for (var i = 0; i < cb.length; i++){
             var e = parseInt(i);
-            // alert('Valor del checkbox ' + (e+1) + ': ' + cb[i].value);
                 if(cb[i].checked == true){
-                cuales += cb[i].value;
+                 cuales += cb[i].value;
                 n++;
 
 
                 id.push(cb[i].value);
                 }
-            } // fin loop
-var data = JSON.stringify(id);
-alert(data);
-/*
-  new Ajax.Request('update_desctodos.php', {method:'post', parameters: {data: data//capturo array 
-  },
-        onSuccess: function(resp){
-            alert("Este producto ha sido enviado a reparación");
-                window.open("rpt_soportetodos.php?id="+data, "_blank");
-               location.reload();
-        
-        }*/
+            } 
+      var dato = JSON.stringify(id);
+      var option=2;
+      $.ajax({
+              type: "GET",
+              url: '{{ route('addSoporte') }}',
+              dataType: "json",
+              data: { option:option, dato:dato, _token: '{{csrf_token()}}'},
+
+              success: function (data){
+
+              
+                  $("#res").html("Productos Enviados a Reparación.");
+                  $("#res, #res-content").css("display","block");
+                  $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+
+          window.setTimeout(function(){
+              window.open(`{{ url('procesar/descompuestos/add?id_soportes=${dato}&opt=2')}}`, '_blank');
+            },1000);
+              
+             window.setTimeout(function(){
+              location.reload()
+            },3000);
+                
+              
+              }
+
+          });
 
    };
 
-function reparar(id_soporte){
-    var id = id_soporte;
 
-    alert(id);
+  $('.reparar').click(function(){
+    var id = $(this).val(); 
+    var option=1;
 
-  /*  new Ajax.Request('update_desc.php', {method:'post', parameters: {id: id},
-        onSuccess: function(resp){
-            id = resp.request.body;
-            // window.location.href = "rpt_soporte.php?id="+id;
+    $.ajax({
+        type: "GET",
+        url: '{{ route('addSoporte') }}',
+        dataType: "json",
+        data: { option:option, id:id, _token: '{{csrf_token()}}'},
 
-            alert("Este producto ha sido enviado a reparación");
-             window.open('rpt_soporte.php?id='+id, '_blank');
-             // location.reload();
-             ver_descompuestos();
+        success: function (data){
         
+            $("#res").html("Producto Enviado a Reparación.");
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 200 ).delay( 3000 ).fadeOut( 5000 );
+
+      
+            window.setTimeout(function(){
+              window.open(`{{ url('procesar/descompuestos/add?id_soporte=${id}&opt=1')}}`, '_blank');
+            },1000);
+              
+             window.setTimeout(function(){
+              location.reload()
+            },3000);
+             
         }
-    });*/
 
-}
-/*
-  $id_soportea = $_POST['id'];
-// var_dump($_POST['id'];
-// var_dump($_POST['n']);
- $id=array();
+    });
 
-$data = json_decode($_POST['data']);
-// $a= count($_POST['data'];
-// var_dump($a);
+});
 
-for ($i=0; $i < count($data); $i++) { 
-          
-  $id_soporte= $data[$i];
-  $db = new Database(); 
-  $db->query("UPDATE soporte SET status_soporte = '2' WHERE id_soporte = '$id_soporte'");
-  $db->execute();
-  $id=$id_soporte;
-
-}
-
-$prueba = serialize($id);
-
-
-header("location:rpt_soportetodos.php?id=$prueba");
-
-
-
-
-}
-
-$id_soporte = $_POST['id'];
-        $db = new Database(); 
-
-
-          $db->query("UPDATE soporte SET status_soporte = '2' WHERE id_soporte = '$id_soporte'");
-          $db->execute();
-*/
 </script>
 @endpush
