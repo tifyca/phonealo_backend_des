@@ -311,6 +311,8 @@ Route::group(['middleware' => 'auth'], function () {
             'as'   => 'descompuestos.soporte'
         ]);
     Route::get('procesar/descompuestos/add', 'Procesar\DescompuestoController@addSoporte')->name('addSoporte');
+    Route::get('procesar/descompuestos/reparar', 'Procesar\DescompuestoController@getSoporte')->name('getSoporte');
+
 
     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
 
