@@ -168,23 +168,36 @@
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <div class="modal-body  py-5">
+                    <form class="modal-body  py-5" method="post" action="{{ route('remitos.update', $venta->id_venta) }}">
+                      {{ csrf_field() }}
+                      {{ method_field('PUT') }}   
+                      <input type="hidden" name="accion2" value="modificar_pago">   
                       <div class="col-12 d-flex justify-content-around">
-                        <button type="button" class="btn btn-primary col-2" data-dismiss="modal">Efectivo</button>                        
+                        <button type="submit" class="btn btn-primary col-2" {{-- data-dismiss="modal" --}} value="modo_pago_efectivo" name="accion">
+                          Efectivo
+                        </button>                        
                       </div>
                       <div class="col-12 mt-4">
                         <div class="row d-flex justify-content-center">
-                          <input type="text" class="form-control col-8" name="" placeholder="Nombre">
-                          <button type="button" class="btn btn-primary col-2" data-dismiss="modal">Otros</button>
+                          <input type="text" class="form-control col-8" name="input_otros" placeholder="Nombre">
+                          <button type="submit" class="btn btn-primary col-2" {{-- data-dismiss="modal" --}} value="modo_pago_otros" name="accion">
+                            Otros
+                          </button>
                         </div>
                       </div>
                       <div class="col-12 mt-4">
                         <div class="row d-flex justify-content-center">
-                          <input type="text" class="form-control col-8" name="" placeholder="Referencia">
-                          <button type="button" class="btn btn-primary col-2" data-dismiss="modal">POS</button>
+                          <input type="text" class="form-control col-6" name="input_pos" placeholder="Referencia">
+                          <button type="submit" class="btn btn-primary col-2" {{-- data-dismiss="modal" --}} value="modo_pago_tarjeta" name="accion">
+                            Tarjeta
+                          </button>  
+                          <button type="submit" class="btn btn-primary col-2" {{-- data-dismiss="modal" --}} value="modo_pago_debito" name="accion">
+                            T. Debito
+                          </button>
+
                         </div>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -347,10 +360,10 @@ $(function(){
 });
 </script>
 <script>
-// $(function(){
-//   $('button[value="rechazar_venta"]').click(function(e) {
-//     e.preventDefault();
-//   });
+$(function(){
+  $('button[value="rechazar_venta"]').click(function(e) {
+    e.preventDefault();
+  });
 
 //   $('button[value="devolver_venta"]').click(function(e){
 //     e.preventDefault();
@@ -401,7 +414,7 @@ $(function(){
 //     // });
     
 //   });
-// });
+});
 $(function(){
 
   let boton_confirmar, mensaje_confirmacion, boton_accion_venta; 

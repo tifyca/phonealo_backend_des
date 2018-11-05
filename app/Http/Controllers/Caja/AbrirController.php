@@ -37,6 +37,7 @@ class AbrirController extends Controller
             ->groupBy('ventas.id', 'remitos.id')
             ->where('id_remito', $id)
             ->get();
+
         $importe_venta = Remitos::Ventas()
             ->where('id_remito', $id)
             ->get();
@@ -48,12 +49,12 @@ class AbrirController extends Controller
             ->where('id_remito', $id)
             ->get();        
 
-        $delivery = Remitos::Consulta()->findOrfail($id)->nombre_delivery;
-        
+        $delivery = Remitos::Consulta()->findOrfail($id)->nombre_delivery; 
+       
         $total_efectivo = $this->totalEfectivo($id);
         $total_pos = $this->totalPOS($id);
         $total_otros = $this->totalOtros($id);     
-        
+
     	return view('Caja.Abrir.cobro_remito', 
             compact('remito','remitosVentas', 'importe_venta','remitosProductos','delivery', 'total_efectivo', 'total_pos', 'total_otros')
         );
@@ -98,7 +99,9 @@ class AbrirController extends Controller
         $total_otros = 0;
         $otros = Remitos::Ventas()
             ->where('id_remito', $id)
-            ->where('id_forma_pago', 2)//giro tigo
+            ->where('id_forma_pago', '<>', 1)
+            ->where('id_forma_pago', '<>', 3)
+            ->where('id_forma_pago', '<>', 4)
             ->get();
         foreach ($otros as $total) {
             $total_otros += $total->precio*$total->cantidad;
