@@ -60,7 +60,13 @@
 								Repartidor: {{$repartidor->nombres}}</h4>
 
 							</button><br>
-							<small>Horario de Entrada: 00:00:00</small><br>
+							<?php $entrada="";?>
+							@foreach($jornadas as $jornada)
+							  @if($jornada->id_delivery==$repartidor->id)
+							  <?php $entrada=$jornada->entrada;?>
+							  @endif
+							@endforeach
+							<small>Horario de Entrada: {{$entrada}}</small><br>
 							<small>Promedio: 00</small><br>
 							<small><a class="card-link" href="#">Informe</a><br><a class="card-link" href="#">Ver Recorrido</a></small>
 						</h5>
