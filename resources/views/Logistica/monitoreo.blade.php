@@ -91,9 +91,27 @@
 										<tr>
 											<input type="hidden" id="idventa" >
 											<td>{{ $venta["id_venta"] }}</td>
-											<td class="text-center">{{ $venta["id_estado"]}}</td>
-											<td></td>
-											<td></td>
+											<?php $estado=""; $horario = ""; $importe=0;
+                                                  $id =$venta["id_venta"];
+											?>
+											
+											@foreach($estados as $est)
+											  @if($est->id == $id)
+											     <?php $estado = $est->descripcion;?>
+											  @endif
+											@endforeach
+											<td class="text-center">{{ $estado}}</td>
+											@foreach($zventas as $zventa)
+											@if($venta["id_venta"]==$zventa->id_venta)
+											   <?php 
+											     $horario = $zventa->horario;
+                                                 $importe = $zventa->importe;     
+											   ?>
+											
+											@endif 
+											@endforeach
+											<td>{{$horario}}</td>
+											<td>{{$importe}}</td>
 											<td>
 
 												<button data-toggle="tooltip" data-placement="top"  title="Chat" class="btn btn-success chatbutton"  value="{{ $venta["id_venta"] }}">Chat</button>
