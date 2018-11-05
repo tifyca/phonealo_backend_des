@@ -32,36 +32,37 @@
                   </tr>
                 </thead>
                 <tbody>
+               @foreach($soporte as $item) 
                   <tr>
-                    <td>0987</td>
-                    <td>00-00-0000</td>
-                    <td>00-00-0000</td>
-                    <td>Soporte portable flexible p/ celular - blanco</td>
-                    <td>123456787654</td>
-                    <td>Nota</td>
+                    <td>{{$item->idsoporte}}</td>
+                    <td>{{$item->fecha}}</td>
+                      <td>{{$item->fecha_activo}}</td>
+                      <td>{{$item->descripcion}}</td>
+                      <td>{!!number_format($item->precio_compra, 0, ',', '.')!!}</td>
+                      <td>{{$item->nota}}</td>
                     <form action="">
                       <td width="20%">
                         <div class="row">
                           <div class="form-group col-7 m-0">
                               <div class="form-check">
                                 <label class="form-check-label">
-                                  <input class="form-check-input" value="1" type="radio" id="EstatusCargo" name="rep">Sin reparar
+                                  <input class="form-check-input" value="3" type="radio" name="status_sop" id="status_sop">Sin reparar
                                 </label>
                               </div>
                               <div class="form-check">
                                 <label class="form-check-label">
-                                   <input class="form-check-input" value="0" type="radio" id="EstatusCargo2" name="rep">Reparado
+                                   <input class="form-check-input" value="4" type="radio" name="status_sop" id="status_sop2">Reparado
                                 </label>
                               </div>
                             </div>
                           <div class="btn-group col-3">
-                            <button  class="btn btn-primary" type="submit"><i class="m-0 fa fa-lg fa-check"></i></button>
+                            <button class="btn btn-primary soporte" value="{{$item->idsoporte}}"><i class="m-0 fa fa-lg fa-check"></i></button> 
                           </div>
                         </div>
                       </td>
                     </form>
                   </tr>
-                 
+                 @endforeach
                 </tbody>
               </table>
             </div>
@@ -77,5 +78,48 @@
 @endsection
 
 @push('scripts')
-  
+  <script type="text/javascript">
+    
+ $('.soporte').click(function(e){
+    var id = $(this).val(); 
+    var status_sop = $('input:radio[name=status_sop]:checked').val();
+   
+  e.preventDefault();
+
+    $.ajax({
+        type: "GET",
+        url: '{{ route('getSoporte') }}',
+        dataType: "json",
+        data: { status_sop:status_sop, id:id, _token: '{{csrf_token()}}'},
+
+        success: function (data){
+       
+      
+            if(data.status_soporte == 3){
+
+              $("#res").html("Producto No Se Pudo Reparar.");
+              $("#res, #res-content").css("display","block");
+              $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                   
+            }else if(data.status_soporte == 4){
+
+               $("#res").html("Producto Ha Sido Reparado.");
+               $("#res, #res-content").css("display","block");
+               $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                
+            }
+            window.setTimeout(function(){
+              location.reload()
+            },2000);
+        }
+
+    });
+
+
+
+
+
+});
+
+  </script>
 @endpush

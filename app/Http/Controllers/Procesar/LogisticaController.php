@@ -153,6 +153,11 @@ class LogisticaController extends Controller
         }else{ 
         $enEsperas = Ventas::EnEspera();
         $xatender = Ventas::Activas()->whereIn('id_horario', $id_hora);
+        foreach ($xatender as $item) {
+            $karma=ventas::find($item->id);
+            $karma->karma=1;
+            $karma->save();      
+        }
         $activas = Ventas::Activas()->where('fecha', '=', $fecha)->whereNotIn('id_horario', $id_hora);
         $remisas = Ventas::Remisas();
         $class=0;
@@ -209,14 +214,15 @@ class LogisticaController extends Controller
 
 
         $first = strtotime('last Sunday');
-        $first =  date('Y-m-d', $first);
+        $first = date('Y-m-d', $first);
         $last  = strtotime('next Saturday');
         $last  = date('Y-m-d', $last);
 
 
-        $karma= Ventas::Activas()->where('fecha', '>=', $first)
-                                 ->where('fecha', '<=', $last)
-                                 ->count();
+        $karma= Ventas::where('fecha', '>=', $first)
+                      ->where('fecha', '<=', $last)
+                      ->where('karma', 1)
+                      ->count();
 
        
 

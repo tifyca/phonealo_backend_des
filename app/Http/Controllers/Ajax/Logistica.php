@@ -229,4 +229,9 @@ class Logistica extends Controller
      
     }
 
+    public function Remito(Request $request){
+      $idventa= $request->id;
+      $detalle_remito = detalle_remito::join('remitos','detalle_remito.id_remito','=','remitos.id')->join('empleados','remitos.id_delivery','=','empleados.id')->where('id_venta',$idventa)->first();
+      return $detalle_remito;
+    }
 }

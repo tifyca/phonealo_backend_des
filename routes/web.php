@@ -306,11 +306,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
 
     Route::get('procesar/descompuestos', 'Procesar\DescompuestoController@index')->name('descompuestos');
-
     Route::get('procesar/descompuestos/soporte', [
             'uses' => 'Procesar\DescompuestoController@soporte',
             'as'   => 'descompuestos.soporte'
         ]);
+    Route::get('procesar/descompuestos/add', 'Procesar\DescompuestoController@addSoporte')->name('addSoporte');
+    Route::get('procesar/descompuestos/reparar', 'Procesar\DescompuestoController@getSoporte')->name('getSoporte');
+
 
     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
 
@@ -341,8 +343,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('logistica/edithorario', 'Procesar\LogisticaController@edithorario')->name('edithorario');
     
     Route::resource('logistica/remitos', 'Procesar\RemitosController');
-    Route::get('logistica/monitoreo', 'Procesar\RemitosController@monitoreo')->name('logistica.monitoreo');
-///    
+    Route::get('logistica/monitoreo', 'Logistica\MonitoreoController@index')->name('logistica.monitoreo');
+   
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');
     Route::get('procesar/conversiones/show', 'Procesar\ConversionesController@show')->name('procesar.conversiones.show');
@@ -437,8 +439,11 @@ Route::get('procesar/pedidos/{id}/nota', [
     Route::get('documentacion/caja', 'Documentacion\DocumentacionController@caja')->name('documentacion.caja');
     Route::get('documentacion/seguridad', 'Documentacion\DocumentacionController@seguridad')->name('documentacion.seguridad');
 
+/////////////////////////////////////////////////////////////////
+    //Pusher
+    Route::get('chat',"ChatsController@index")->name('chat');
+    Route::post('enviar_chat','ChatsController@sendMessage')->name('enviar_chat');
 
-
-
+    Route::get('buscar_remito', 'Ajax\Logistica@remito')->name('buscar_remito');
 
 });

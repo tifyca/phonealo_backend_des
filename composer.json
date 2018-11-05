@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "arielcr/numero-a-letras": "dev-master",
         "aws/aws-sdk-php": "^3.36",
         "barryvdh/laravel-dompdf": "0.8.2",
         "cornford/googlmapper": "2.*",
@@ -15,7 +16,9 @@
         "laravel/tinker": "~1.0",
         "maatwebsite/excel": "~2.0",
         "nesbot/carbon": "~1.14",
-        "arielcr/numero-a-letras": "dev-master"
+        "predis/predis": "^1.1",
+        "pusher/pusher-php-server": "^3.2",
+        "infobip/infobip-api-php-client": "2.0.1"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
