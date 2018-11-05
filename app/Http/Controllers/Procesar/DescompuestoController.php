@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Procesar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Soporte;
+use App\Productos;
 use PDF;
 class DescompuestoController extends Controller
 {
@@ -113,12 +114,48 @@ class DescompuestoController extends Controller
 
 
     	$soporte=Soporte::join('productos', 'productos.id', '=', 'soporte.id_producto')
-    						 ->whereIn('status_soporte', [2])
-    						//->join('ventas', 'ventas.id_pedido', '=', 'soporte.id_pedido')
+    						 ->where('status_soporte', 2)
+    						 ->join('ventas', 'ventas.id_pedido', '=', 'soporte.id_pedido')
     						 ->select('soporte.id as idsoporte', 'soporte.id_producto', 'soporte.id_remito','soporte.id_pedido','soporte.nota','soporte.fecha_ing','soporte.fecha_eg','soporte.status_soporte', 'productos.id', 'productos.descripcion','productos.precio_compra')
     					     ->get();
 
 
     	return view('Procesar.Descompuesto.soporte', compact('soporte'));
+    }
+
+    public function getSoporte(Request $request){
+
+
+        $id = $request->id;
+        $status = $request->status_sop;
+        $cantidad="1";
+        $precio="0";
+        $hoy=date('Y-m-d');
+
+      
+        $prod=Soporte::where('id', $id)
+                        ->select('id_producto')
+                        ->first();
+        
+
+        $id_producto= $prod->id_producto;
+
+        $soporte=Soporte::find($id);
+        $soporte->status_soporte=$status;
+        $soporte->fecha_eg=$hoy;
+        $soporte->save();
+
+       if($status==4){
+
+        $producto=Productos::find($id_producto);
+        $producto->stock_activo= $producto->stock_activo+1;
+        $producto->descompuesto= $producto->descompuesto-1;
+        $producto->save();
+
+       }
+        return $soporte;
+  
+   /*("INSERT INTO carga_producto (id_usuario, id_producto, cantidad, precio, fecha,estado) VALUES ('$id_usuario', '$id_producto', '$cantidad', '$precio', CURDATE(), 'Reparado')");*/
+
     }
 }

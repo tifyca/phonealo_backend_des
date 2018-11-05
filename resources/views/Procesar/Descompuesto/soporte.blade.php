@@ -51,12 +51,12 @@
                               </div>
                               <div class="form-check">
                                 <label class="form-check-label">
-                                   <input class="form-check-input" value="4" type="radio" name="status_sop" id="status_sop">Reparado
+                                   <input class="form-check-input" value="4" type="radio" name="status_sop" id="status_sop2">Reparado
                                 </label>
                               </div>
                             </div>
                           <div class="btn-group col-3">
-                            <button  class="btn btn-primary" type="submit"  onclick="reparado({!!$item->idsoporte!!})"><i class="m-0 fa fa-lg fa-check"></i></button>
+                            <button class="btn btn-primary soporte" value="{{$item->idsoporte}}"><i class="m-0 fa fa-lg fa-check"></i></button> 
                           </div>
                         </div>
                       </td>
@@ -80,57 +80,46 @@
 @push('scripts')
   <script type="text/javascript">
     
-function reparado(id_soporte){
-    var id = id_soporte;
-    var status_sop = document.getElementById('status_sop').value;
+ $('.soporte').click(function(e){
+    var id = $(this).val(); 
+    var status_sop = $('input:radio[name=status_sop]:checked').val();
+   
+  e.preventDefault();
 
-    alert(id);
-    alert(status_sop);
-}
-/*
-    new Ajax.Request('update_rep.php', {method:'post', parameters: 
-        {
-            id: id, 
-            status_sop: status_sop
-        },
-        onSuccess: function(resp){
-            if(status_sop == 3){
-                alert("Este producto no se pudo reparar");    
-            }else if(status_sop == 4){
-                alert("Este producto ha sido reparado");
+    $.ajax({
+        type: "GET",
+        url: '{{ route('getSoporte') }}',
+        dataType: "json",
+        data: { status_sop:status_sop, id:id, _token: '{{csrf_token()}}'},
+
+        success: function (data){
+       
+      
+            if(data.status_soporte == 3){
+
+              $("#res").html("Producto No Se Pudo Reparar.");
+              $("#res, #res-content").css("display","block");
+              $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                   
+            }else if(data.status_soporte == 4){
+
+               $("#res").html("Producto Ha Sido Reparado.");
+               $("#res, #res-content").css("display","block");
+               $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
                 
             }
-       
-                // location.reload();
-                soporte();
+            window.setTimeout(function(){
+              location.reload()
+            },2000);
         }
+
     });
 
 
-id = $_POST['id'];
-$status = $_POST['status_sop'];
-$cantidad="1";
-$precio="0";
-$hoy=date('Y-m-d');
-$id_usuario = isset($_SESSION['id_usu']) ? $_SESSION['id_usu'] : '';
-        $db = new Database(); 
-
-          $db->query("SELECT id_producto FROM soporte WHERE id_soporte = '$id'");
-          $result = $db->resultset();
-
-          $id_producto= $result[0]['id_producto'];
-
-          $db->query("UPDATE soporte SET status_soporte = '$status', fecha_eg='$hoy' WHERE id_soporte = '$id'");
-          $db->execute();
 
 
-  
-  $db->query("UPDATE productos a SET a.stock_activo = a.stock_activo+1, a.descompuesto = a.descompuesto-1 wERE a.id_producto = '$id_producto' ")
-      
-  $db->execute();
 
+});
 
-   $db->query("INSERT INTO carga_producto (id_usuario, id_producto, cantidad, precio, fecha,estado) VALUES ('$id_usuario', '$id_producto', '$cantidad', '$precio', CURDATE(), 'Reparado')");
-   */
   </script>
 @endpush
