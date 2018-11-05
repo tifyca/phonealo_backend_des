@@ -306,11 +306,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('procesar/remitos', 'Procesar\RemitosController');
 
     Route::get('procesar/descompuestos', 'Procesar\DescompuestoController@index')->name('descompuestos');
-
     Route::get('procesar/descompuestos/soporte', [
             'uses' => 'Procesar\DescompuestoController@soporte',
             'as'   => 'descompuestos.soporte'
         ]);
+    Route::get('procesar/descompuestos/add', 'Procesar\DescompuestoController@addSoporte')->name('addSoporte');
 
     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
 
