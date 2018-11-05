@@ -73,9 +73,12 @@
 
 									@foreach($data as $data)
 									<thead class="text-warning">
-										<tr>
+										<tr class="alert alert-primary">
 											<th>Remito</th>	
-											<th colspan="4">{{ $data["id_remito"] }}</th>
+											<th>{{ $data["id_remito"] }}</th>
+											<th>Monto:</th>
+											<?php $monto2 = number_format($data["importe"], 0, ',', '.');?>
+											<th colspan="2">{{ $monto2 }}</th>
 										</tr>
 										<tr>
 											<th>Pedido</th>
@@ -92,7 +95,7 @@
 											<input type="hidden" id="idventa" >
 											<td>{{ $venta["id_venta"] }}</td>
 											<?php $estado=""; $horario = ""; $importe=0;
-                                                  $id =$venta["id_venta"];
+                                                  $id =$venta["id_venta"];$monto3=0;
 											?>
 											
 											@foreach($estados as $est)
@@ -105,13 +108,14 @@
 											@if($venta["id_venta"]==$zventa->id_venta)
 											   <?php 
 											     $horario = $zventa->horario;
-                                                 $importe = $zventa->importe;     
+                                                 $importe = $zventa->importe;  
+                                                 $monto3 = number_format($importe, 0, ',', '.');   
 											   ?>
 											
 											@endif 
 											@endforeach
 											<td>{{$horario}}</td>
-											<td>{{$importe}}</td>
+											<td class="text-right">{{$monto3}}</td>
 											<td>
 
 												<button data-toggle="tooltip" data-placement="top"  title="Chat" class="btn btn-success chatbutton"  value="{{ $venta["id_venta"] }}">Chat</button>
