@@ -95,7 +95,7 @@
 											<input type="hidden" id="idventa" >
 											<td>{{ $venta["id_venta"] }}</td>
 											<?php $estado=""; $horario = ""; $importe=0;
-                                                  $id =$venta["id_venta"];$monto3=0;
+                                                  $id =$venta["id_estado"];$monto3=0;
 											?>
 											
 											@foreach($estados as $est)
