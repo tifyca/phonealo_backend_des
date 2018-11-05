@@ -47,6 +47,7 @@ class RemitosController extends Controller
 
     public function update(Request $request, $id){
         if ( $request->accion == 'confirmar_remito' ){
+            dd($request->all());
             // Pasar de estado "delivery(6)" a estado "cobrado(3)"
             $estado = 3; //Estado cobrado
             $remito = $this->modificaEstadoRemito($id, $estado);
@@ -61,6 +62,7 @@ class RemitosController extends Controller
             return back();
         }
         if ( $request->accion == 'devolver_venta' ) {
+            // dd($request->all());
             $venta_devuelta = $this->modificaEstadoVenta($id, 1);
             $this->modificaEstadoDetalleRemito($id, 2); 
 
@@ -70,33 +72,36 @@ class RemitosController extends Controller
             $cantidadVentas = Detalle_remito::where('id_remito', $remito)->count();
             $ventasAsociadas = Detalle_remito::where('id_remito', $remito)->get();
 
-            $cont = 0;
-            foreach ($ventasAsociadas as $venta) {
-                $v = Ventas::find($venta->id_venta);
-                if ( $v->id_estado == 1 ) {
-                    $cont += 1;
-                }                
-            }
-            if ( $cont == $cantidadVentas) {
-                $baja = true; 
-                $this->modificaEstadoRemito($remito, 2);       
-            }else{
-                $baja = false;
-            }
+            // $cont = 0;
+            // foreach ($ventasAsociadas as $venta) {
+            //     $v = Ventas::find($venta->id_venta);
+            //     if ( $v->id_estado == 1 ) {
+            //         $cont += 1;
+            //     }                
+            // }
+            // if ( $cont == $cantidadVentas) {
+            //     $baja = true; 
+            //     $this->modificaEstadoRemito($remito, 2);       
+            // }else{
+            //     $baja = false;
+            // }
+            // return  response()->json([
+            //     'mensaje' => 'La venta fue devuelta exitosamente',
+            //     'estado' => Estados::where('id', $venta_devuelta->id_estado)->first(),
+            //     'baja' => $baja
+            // ]);
             
-            return  response()->json([
-                'mensaje' => 'La venta fue devuelta exitosamente',
-                'estado' => Estados::where('id', $venta_devuelta->id_estado)->first(),
-                'baja' => $baja
-            ]);
+            return back()->with('mensaje', 'La venta fue devuelta exitosamente');
         }
+
         if ( $request->accion == 'confirmar_venta' ) {
             $venta = $this->modificaEstadoVenta($id, 8);
-            return  response()->json([
-                'mensaje' => 'La venta fue confirmada exitosamente',
-                'estado' => Estados::where('id', $venta->id_estado)->first()
-            ]);
-        }        
+            return back()->with('mensaje', 'La venta fue confirmada exitosamente');
+            // return  response()->json([
+            //     'mensaje' => 'La venta fue confirmada exitosamente',
+            //     'estado' => Estados::where('id', $venta->id_estado)->first()
+            // ]);
+        }       
     }
 
     public function show($id){
