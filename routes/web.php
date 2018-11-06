@@ -450,4 +450,13 @@ Route::get('procesar/pedidos/{id}/nota', [
 
     Route::get('buscar_remito', 'Ajax\Logistica@remito')->name('buscar_remito');
 
+
+///////////////////////////////////////////////////////////////////
+    //Ecommerce
+    Route::resource('ecommerce/slider', 'ecommerce\sliderController');
+    Route::get('ecommerce/slider/create','ecommerce\sliderController@create')->name('slider.create');
+    Route::get('ecommerce/slider/{id}/destroy', [
+        'uses' => 'ecommerce\sliderController@destroy',
+        'as'   => 'slider.destroy'
+    ]);
 });

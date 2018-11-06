@@ -116,6 +116,16 @@
     <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Estadístico</a></li>
   </ul>
 </li>
+@if($perfil==1 || $perfil==6)
+<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-id-card"></i><span class="app-menu__label">Ecommerce</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+  <ul class="treeview-menu">
+
+     <li><a class="treeview-item" href="{{url('ecommerce/slider')}}"><i class="icon fa fa-circle-o"></i>Sliders</a></li>
+      <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Ofertas</a></li>
+  </ul>
+</li>
+
+@endif
 <li class="treeview {{ Request::is('seguridad/*') ? 'is-expanded' : '' }}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Seguridad</span><i class="treeview-indicator fa fa-angle-right"></i></a>
   <ul class="treeview-menu">
 
