@@ -167,7 +167,7 @@ $id_usuario= $_SESSION["user"];
   
               @endif
               @if($pedido->id_estado==3)
-                <a class="btn btn-primary" href="{{ route('pedidos.editar',$pedido->id_venta) }}"><i class="fa fa-lg fas fa-asterisk" title="Enviar a Descompuesto"></i></a>
+                <a class="btn btn-primary" href="{{ route('pedidos.cambiarm',$pedido->id_venta) }}"><i class="fa fa-lg fas fa-asterisk" title="Cambiar por el Mismo Producto"></i></a>
               @endif
             </div>
           </td> 

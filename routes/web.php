@@ -367,6 +367,10 @@ Route::get('procesar/pedidos/{id}/editar', [
         'as'   => 'pedidos.editar'
     ]);
 
+Route::get('procesar/pedidos/{id}/cambiar_mismo', [
+        'uses' => 'Procesar\PedidosController@cambiar_mismo',
+        'as'   => 'pedidos.cambiarm'
+    ]);
 
 Route::get('procesar/pedidos/{id}/nota', [
         'uses' => 'Procesar\PedidosController@agregar_nota',

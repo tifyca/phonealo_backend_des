@@ -157,6 +157,36 @@ class PedidosController extends Controller
          return view('Procesar.Pedidos.edit', compact('venta','horarios','deliverys', 'formas', 'detalles'));
     }
 
+
+    public function cambiar_mismo($id){
+        
+      
+         $horarios  = Horarios::all();
+           $deliverys = Monto_delivery::all();
+          $formas    = Forma_pago::all();
+          $venta=Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+            ->leftjoin('departamentos', 'clientes.id_departamento', '=', 'departamentos.id')
+            ->leftjoin('facturas', 'ventas.id', '=', 'facturas.id_venta')
+            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_forma_pago', 'forma_pago.forma_pago', 'ventas.factura', 'ventas.id_horario', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.id as idcliente','clientes.nombres','clientes.ruc_ci', 'clientes.id_tipo','clientes.email','clientes.telefono', 'clientes.direccion','clientes.ubicacion','clientes.barrio', 'departamentos.nombre as departamento', 'ciudades.ciudad as ciudad','barrio', 'clientes.id_ciudad as id_ciudad', 'clientes.id_departamento as id_departamento', 'ciudades.ciudad',  'facturas.nombres as fnombres',  'facturas.ruc_ci as fruc', 'facturas.direccion as fdireccion')
+                ->where('ventas.id', $id)
+                ->get();
+          $detalles=Ventas::join('detalle_ventas', 'detalle_ventas.id_venta', '=','ventas.id')
+                         ->join('productos', 'detalle_ventas.id_producto', '=','productos.id')
+                         ->leftjoin('montos_delivery', 'montos_delivery.monto', '=','detalle_ventas.precio')
+                         ->select('detalle_ventas.cantidad', 'detalle_ventas.precio', 'detalle_ventas.id_producto','montos_delivery.id as id_delivery', 'productos.codigo_producto', 'productos.nombre_original', 'productos.descripcion')
+                         ->where('ventas.id', '=', $id)
+                         ->get();
+          
+        
+         return view('Procesar.Pedidos.cambiar', compact('venta','horarios','deliverys', 'formas', 'detalles'));
+    }
+
+
+
 public function update(Request $request,$id)
 {
   $ventas=Ventas::find($id);

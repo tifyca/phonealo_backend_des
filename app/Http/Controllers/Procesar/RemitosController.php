@@ -38,7 +38,7 @@ class RemitosController extends Controller
         // Select que muestra los elementos que se encuentran en la tabla "estados"
         $estados = Estados::orderBy('id', 'ASC')
             ->select('id', 'estado')->get();
-
+       
     	return view('Procesar.Remitos.index', 
             compact('remitos', 'estados', 'remitosProductos', 'remitosVentas')
         );
