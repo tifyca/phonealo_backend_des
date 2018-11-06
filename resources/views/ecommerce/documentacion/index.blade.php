@@ -1,4 +1,4 @@
-@extends ('Delivery.documentacion.layout.layout')
+@extends ('ecommerce.documentacion.layout.layout')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-home')
 @section('titulo', 'App Delivery')
