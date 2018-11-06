@@ -70,7 +70,7 @@
         </div>
         
       </div>
-      @include('eccomerce.documentacion.layout.menu')
+      @include('ecommerce.documentacion.layout.menu')
     </aside>
     <main class="app-content">
       <div class="app-title">
