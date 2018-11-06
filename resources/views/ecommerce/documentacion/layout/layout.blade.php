@@ -71,6 +71,7 @@
         
       </div>
       @include('ecommerce.documentacion.layout.menu')
+      
     </aside>
     <main class="app-content">
       <div class="app-title">
