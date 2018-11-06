@@ -30,3 +30,9 @@ Route::post('delivery/observaciones/{id}', 'api\delivery\RepartidoresController@
 Route::get('delivery/documentacion', 'api\delivery\documentacionController@index');
 Route::get('delivery/documentacion/ingresar', 'api\delivery\documentacionController@ingresar')->name('delivery.documentacion.ingresar');
 //rutas para appecommerce
+Route::post('ecommerce/registrar','api\ecommerce\UsuariosController@registrar');
+Route::get('ecommerce/validar','api\ecommerce\UsuariosController@validarpin');
+Route::post('ecommerce/ingresar','api\ecommerce\UsuariosController@ingresar');
+
+Route::get('ecommerce/documentacion', 'api\ecommerce\documentacionController@index');
+Route::get('ecommerce/documentacion/ingresar', 'api\ecommerce\documentacionController@ingresar')->name('ecommerce.documentacion.ingresar');
