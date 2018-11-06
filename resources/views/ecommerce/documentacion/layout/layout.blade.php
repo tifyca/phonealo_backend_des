@@ -29,7 +29,7 @@
   </head>
   <body class="app sidebar-mini rtl">
     <!-- Navbar-->
-    <header class="app-header"><a class="app-header__logo" href="{{ route('home') }}">APP Delivery</a>
+    <header class="app-header"><a class="app-header__logo" href="{{ route('home') }}">APP Ecommerce</a>
       <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
@@ -70,7 +70,7 @@
         </div>
         
       </div>
-      @include('Delivery.documentacion.layout.menu')
+      @include('eccomerce.documentacion.layout.menu')
     </aside>
     <main class="app-content">
       <div class="app-title">
