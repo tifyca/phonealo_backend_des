@@ -142,6 +142,8 @@
     <script src="{{asset('datePicker/js/bootstrap-datepicker.js')}}"></script>
     <!-- Languaje -->
     <script src="{{asset('datePicker/locales/bootstrap-datepicker.es.min.js')}}"></script>
+ 
+    <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
 
 <script type="text/javascript">
     $('.datepicker').datepicker({
