@@ -25,11 +25,10 @@
         <div class="col">
           <h3 class="tile-title text-center text-md-left">Ventas </h3>
         </div>
-        <div class="col-4 text-right">
+       {{--  <div class="col-4 text-right">
            <a  class="btn btn-primary open_modal" href="" ><i class="fa m-0 fa-check"  ></i> Confirmar Todo</a>
-        </div>
-      </div>
-       
+        </div> --}}
+      </div>       
         <div class="tile-body">
             <table class="table">
               <thead>
@@ -71,7 +70,7 @@
                     <div class="btn-group">                    
                       <a class="btn btn-primary boton-accion-venta" data-toggle="collapse" href="#collapseExample{{ $venta->id_venta }}" role="button" aria-expanded="false" aria-controls="collapseExample{{ $venta->id_venta }}" data-title="tooltip" title="Detalles"><i class="m-0 fa fa-eye"></i>
                       </a> 
-                      <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary open_modal" href="" ><i class="fa m-0 fa-edit"  ></i></a>                 
+                     {{--  <a data-toggle="tooltip" data-placement="top" title="Editar" class="btn btn-primary open_modal" href="" ><i class="fa m-0 fa-edit"  ></i></a> --}}                 
                     {{--   <button class="btn btn-primary" type="submit" name="accion" value="devolver_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Devolver">
                         <i class="fa fa-share-square-o"></i>
                       </button>
@@ -108,8 +107,9 @@
                   </div>
                   <div class="col col-md-4 pr-0 pl-1 text-right">
                     <form class="btn-group" method="post" action="{{ route('remitos.update', $venta->id_venta) }}">
-                    {{ csrf_field() }}
-                    {{ method_field('PUT') }}                 
+                      {{ csrf_field() }}
+                      {{ method_field('PUT') }} 
+                      @if ( $venta->v_id_estado <> 8 && $venta->v_id_estado <> 1)                                             
                       <button class="btn btn-primary" type="submit" name="accion" value="devolver_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Devolver">
                         <i class="fa fa-share-square-o"></i>
                       </button>
@@ -121,7 +121,8 @@
                       </button>
                       <button class="btn btn-primary" type="submit" name="accion" value="rechazar_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Rechazar" data-target="#ModalNota{{ $venta->id_venta }}" data-toggle="modal">
                         <i class="fa fa-ban"></i>
-                      </button>           
+                      </button>
+                      @endif             
                     </form>
                   </div>
                 </div>  
