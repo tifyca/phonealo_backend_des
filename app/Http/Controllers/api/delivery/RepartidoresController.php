@@ -137,7 +137,15 @@ public function pedidos_asignados(Request $request){
     $empleados = Empleados::where('id', $idempleado)->first();
     $importe=0;
     $total_entregado=0;
+    $total_asignado=0;
+    $total_pendiente=0;
     $promedio = 0;
+    $lunes=10;
+    $martes=20;
+    $miercoles=30;
+    $jueves=35;
+    $viernes=40;
+    
     if ($empleados) {
       $pedidos= DB::table('remitos as a')
       ->join('detalle_remito as b','a.id','=','b.id_remito')
@@ -146,7 +154,7 @@ public function pedidos_asignados(Request $request){
       ->join('horarios as e','c.id_horario','=','e.id')
       ->join('clientes as f','d.id_cliente','=','f.id')
       ->join('estados as g','a.id_estado','=','g.id')
-      ->join('estados_remito as h','b.id_estado','=','h.id')
+      ->join('estados_remitos as h','b.id_estado','=','h.id')
       ->select('b.id_venta','a.id_delivery','a.importe','b.id_estado','f.telefono','e.horario','h.descripcion as estadoremito','g.estado')
       ->where('a.id_delivery',$idempleado)->where('a.id_estado','6')->get();                  
       if($pedidos){
@@ -154,16 +162,28 @@ public function pedidos_asignados(Request $request){
         $data=[];
 
         foreach($pedidos as $ped){
-          $data["id_venta"]    = $ped->id_venta;
-          $data["id_empleado"] = $ped->id_delivery;
-          $data["telefono"]    = $ped->telefono;
-          $data["horario"]     = $ped->horario;
-          $data["id_estado"]   = $ped->id_estado;
-          $data["estado"]      = $ped->estadoremito;
+          $data[]=[
+          "id_venta"    => $ped->id_venta,
+          "id_empleado" => $ped->id_delivery,
+          "telefono"    => $ped->telefono,
+          "horario"     => $ped->horario,
+          "id_estado"   => $ped->id_estado,
+          "estado"      => $ped->estadoremito];
           $total++;
-          $total_entregado    = $total_entregado + $ped->importe;
-        }
-        return ["status" => "exito", "data" => $data,"total_asignados" => $total,"total_entregado"=>$total_entregado, "promedio"=>$promedio];                
+          $total_asignado    = $total_asignado + $ped->importe;
+          if($ped->id_estado=='1') $total_pendiente = $total_entregado + $ped->importe;
+          if($ped->id_estado=='2') $total_entregado    = $total_entregado + $ped->importe;
+          if($ped->id_estado=='3') $total_pendiente = $total_entregado + $ped->importe;
+          }
+
+          $grafica[]=[
+            "lunes"=>$lunes,
+            "martes"=>$martes,
+            "miercoles"=>$miercoles,
+            "jueves"=>$jueves,
+            "viernes"=>$viernes 
+          ];
+        return ["status" => "exito", "data" => $data,"grafica"=>$grafica,"total_asignados" => $total,"total_entregado"=>$total_entregado, "total_pendiente"=>$total_pendiente,"promedio"=>$promedio];                
       }else{
         return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
       }
@@ -191,31 +211,46 @@ public function detalle_venta(Request $request){
     }
             //fin validaciones
     $idventa = $request["idventa"];
-    $pedidos= DB::table('ventas as c')
-    ->join('pedidos as d','c.id_pedido','=','d.id')
-    ->join('horarios as e','c.id_horario','=','e.id')
-    ->join('clientes as f','d.id_cliente','=','f.id')
-    ->join('estados as g','c.id_estado','=','g.estado')
-    ->join('users as h','c.id_usuario','=','h.id')
-    ->join('detalle_ventas as j','c.id','=','j.id_venta')
-    ->join('productos as k','j.id_producto','=','k.id')
-    ->select('c.id','f.telefono','f.direccion','h.name','c.notas','k.descripcion','j.cantidad','j.precio')
-    ->where('c.id',$idventa)->where('c.id_estado','6')->get();                  
+
+$pedidos = Ventas::join('pedidos as d','ventas.id_pedido','=','d.id')
+                    ->join('detalle_ventas as j','ventas.id','=','j.id_venta')
+                    ->join('productos as k','j.id_producto','=','k.id')
+                    ->select('ventas.id','k.codigo_producto','k.descripcion','j.cantidad','j.precio')
+                    ->where('ventas.id',$idventa)->get();                  
+
+$maestro = Ventas::join('pedidos as d','ventas.id_pedido','=','d.id')
+          ->join('detalle_remito as b','ventas.id','b.id_venta')
+          ->join('horarios as e','ventas.id_horario','=','e.id')
+          ->join('clientes as f','d.id_cliente','=','f.id')
+          ->join('estados as g','ventas.id_estado','=','g.id')
+          ->join('estados_remitos as h','b.id_estado','=','h.id')
+          ->join('users','ventas.id_usuario','=','users.id')
+          ->select('ventas.id','f.telefono','f.direccion','users.name','ventas.notas')
+           ->where('ventas.id',$idventa)->get();                  
+
     if($pedidos){
+      
       $data=[];
       $cantidad=0;
-      foreach($pedidos as $ped){
-        $data["id_venta"]  = $ped->id;
-        $data["telefono"]  = $ped->telefono;
-        $data["direccion"] = $ped->direccion;
-        $data["vendedor"]  = $ped->name;
-        $data["producto"]  = $ped->descripcion;
-        $data["cantidad"]  = $ped->cantidad;
-        $data["precio"]    = $ped->precio;
-        $data["observaciones"]    = $ped->notas;
-        $cantidad++;
+      foreach($maestro as $ped){
+        $data[]=[
+        "id_venta"  => $ped->id,
+        "telefono"  => $ped->telefono,
+        "direccion" => $ped->direccion,
+        "vendedor"  => $ped->name,
+        "observaciones" => $ped->notas];
       }
-      return ["status" => "exito", "data" => $data, "total" => $cantidad];                
+      $detallev=[];
+      $cantidad=0;
+      foreach($pedidos as $ped){
+        $detallev[]=["codigo_producto" => $ped->codigo_producto,
+        "descripcion"  => $ped->descripcion,
+        "cantidad" => $ped->cantidad,
+        "precio"  => $ped->precio,
+        "importe"    => $ped->cantidad * $ped->precio];
+      }
+
+      return ["status" => "exito", "data" => $data, "detallev" => $detallev];                
     }else{
       return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
     }
@@ -241,7 +276,7 @@ public function marca_entrega(Request $request){
       if($ventas){
         $ventas->id_estado=8;
         $ventas->save();
-        return ["status" => "exito"];
+        return ["status" => "Exito","mensaje"=>"Pedido Entregado"];
       }
     }else{
       return ['status' => 'fallo', 'error' => ["Ha ocurrido un error, por favor intenta de nuevo"]];

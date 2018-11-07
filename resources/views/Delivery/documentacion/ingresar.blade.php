@@ -30,11 +30,11 @@
 						Ruta:/api/delivery/ingresar<br>
 						Método => "POST"<br>
 						Parámetros => array(<br>
-							"email" => "varchar(100) / requerido / único",<br>
-							"password" => "varchar(20) / requerido",),<br>
-							"Éxito" => "token, idusuario, idempleado, nombre",<br>
-							"Falla" => array(<br>
-							"error" => array("Error en validación de datos", "Usuario o password incorrectos","Usuario no autorizado")<br>
+						"email" => "varchar(100) / requerido / único",<br>
+						"password" => "varchar(20) / requerido",),<br>
+						"Éxito" => "token, idusuario, idempleado, nombre",<br>
+						"Falla" => array(<br>
+						"error" => array("Error en validación de datos", "Usuario o password incorrectos","Usuario no autorizado")<br>
 						)
 					</div>
 				</div>
@@ -55,10 +55,10 @@
 						Ruta:/api/delivery/iniciarjornada<br>
 						Método => "POST"<br>
 						Parámetros => array(<br>
-							"idempleado" => integer / requerido / único",<br>
-							"Éxito" => "id_empleado",<br>
-							"Falla" => array(<br>
-							"error" => array("Error en validación de datos")<br>
+						"idempleado" => integer / requerido / único",<br>
+						"Éxito" => "id_empleado",<br>
+						"Falla" => array(<br>
+						"error" => array("Error en validación de datos")<br>
 						)
 					</div>
 				</div>
@@ -79,10 +79,10 @@
 						Ruta:/api/delivery/home<br>
 						Método => "GET"<br>
 						Parámetros => array(<br>
-							"idempleado" => integer / requerido / único",<br>
-							"Éxito" => "id_venta,id_empleado,telefono,horario,id_estado,estado","total_asignado","total_entregado", "total_pendiente", "total_cancelado"<br>
-							"Falla" => array(<br>
-							"error" => array("Error en validación de datos")<br>
+						"idempleado" => integer / requerido / único",<br>
+						"Éxito" => "id_venta,id_empleado,telefono,horario,id_estado,estado","total_asignado","total_entregado", "total_pendiente", "total_cancelado"<br>
+						"Falla" => array(<br>
+						"error" => array("Error en validación de datos")<br>
 						)
 					</div>
 				</div>
@@ -103,10 +103,10 @@
 						Ruta:/api/delivery/detalle<br>
 						Método => "GET"<br>
 						Parámetros => array(<br>
-							"idventa" => integer / requerido / único",<br>
-							"Éxito" => "id_venta,telefono,direccion,vendedor,producto,cantidad,precio",<br>
-							"Falla" => array(<br>
-							"error" => array("Error en validación de datos")<br>
+						"idventa" => integer / requerido / único",<br>
+						"Éxito" => "{id_venta,telefono,direccion,vendedor,observaciones}",detallev:"{codigo_producto,descripcion,cantidad,precio,importe}",<br>
+						"Falla" => array(<br>
+						"error" => array("Error en validación de datos")<br>
 						)
 					</div>
 				</div>
@@ -122,7 +122,16 @@
 				</div>
 				<div id="collapseFuentes" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
 					<div class="card-body">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						Entrega<br>
+						Nombre de Endpoint: Entrega<br>
+						Ruta:/api/delivery/entrega<br>
+						Método => "POST"<br>
+						Parámetros => array(<br>
+						"idventa" => integer / requerido / único",<br>
+						"Éxito" => "Pedido Entregado",<br>
+						"Falla" => array(<br>
+						"error" => array("Error en validación de datos")<br>
+						)
 					</div>
 				</div>
 			</div>
@@ -137,11 +146,48 @@
 				</div>
 				<div id="collapsePaises" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
 					<div class="card-body">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						Observaciones de la Venta<br>
+						Nombre de Endpoint: Observaciones<br>
+						Ruta:/api/delivery/observaciones<br>
+						Método => "POST"<br>
+						Parámetros => array(<br>
+						"idventa" => integer / requerido / único",<br>
+						"idempleado" => integer / requerido / único",<br>
+						"observaciones" => text / requerido / único",<br>
+						"Status" => "Éxito",<br>
+						"Falla" => array(<br>
+						"error" => array("Error en validación de datos")<br>
+						)
 					</div>
+
 				</div>
 			</div>
 			{{--  --}}
+			<div class="card">
+				<div class="card-header" id="headingThree">
+					<h5 class="mb-0">
+						<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseEntrega" aria-expanded="false" aria-controls="collapseThree">
+							Pedido No Entregado
+						</button>
+					</h5>
+				</div>
+				<div id="collapseEntrega" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+					<div class="card-body">
+						Pedido y/o Venta no Entregado<br>
+						Nombre de Endpoint: No Entregado<br>
+						Ruta:/api/delivery/noentregado<br>
+						Método => "POST"<br>
+						Parámetros => array(<br>
+						"idventa" => integer / requerido / único",<br>
+						"Status" => "Éxito",<br>
+						"Falla" => array(<br>
+						"error" => array("Error en validación de datos")<br>
+						)
+					</div>
+
+				</div>
+			</div>
+
 		</div>
 	</div>
 </div>
