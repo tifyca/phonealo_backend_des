@@ -73,7 +73,8 @@ class AbrirController extends Controller
         $total_efectivo = 0;
         $efectivo = Remitos::Ventas()
             ->where('id_remito', $id)
-            ->where('id_forma_pago', 1)//Efecitvo
+            ->where('id_forma_pago', 1)//Efectivo
+            ->where('ventas.id_estado', 8)
             ->get();
         foreach ($efectivo as $total) {
             $total_efectivo += $total->precio*$total->cantidad;
@@ -85,6 +86,7 @@ class AbrirController extends Controller
         $total_pos = 0;
         $pos = Remitos::Ventas()
             ->where('id_remito', $id)
+            ->where('ventas.id_estado', 8)
             ->where(function($query){
                 $query->where('id_forma_pago',3)->orWhere('id_forma_pago',4);
             })
@@ -99,6 +101,7 @@ class AbrirController extends Controller
         $total_otros = 0;
         $otros = Remitos::Ventas()
             ->where('id_remito', $id)
+            ->where('ventas.id_estado', 8)
             ->where('id_forma_pago', '<>', 1)
             ->where('id_forma_pago', '<>', 3)
             ->where('id_forma_pago', '<>', 4)

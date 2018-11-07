@@ -56,14 +56,17 @@ class RemitosController extends Controller
             $estado = 3; //Estado cobrado
             $remito = $this->modificaEstadoRemito($id, $estado);
             $this->auditoriaEstadoRemito($id, $estado);
-            $ventas = Remitos::Ventas()
-                ->where('detalle_remito.id_remito', $id)
-                ->get();
-            foreach ($ventas as $venta) {
-                $this->modificaEstadoVenta($venta->dr_id_venta, 8);
-            }
+            ///////////////////////////////////////////
+            // MODIFICAR ESTADOS DE VENTAS ASOCIADAS //
+            ///////////////////////////////////////////
+            // $ventas = Remitos::Ventas()
+            //     ->where('detalle_remito.id_remito', $id)
+            //     ->get();
+            // foreach ($ventas as $venta) {
+            //     $this->modificaEstadoVenta($venta->dr_id_venta, 8);
+            // }
             session()->flash('mensaje', 'El remito fue confirmado exitosamente');
-            return back();
+            return redirect()->route('caja.remitos');
         }
         if ( $request->accion == 'devolver_venta' ) {
             // dd($request->all());
@@ -109,7 +112,8 @@ class RemitosController extends Controller
         if ( $request->accion2 = 'modificar_pago' ) {
             // METODO QUE VALIDA EL TIPO DE PAGO Y LO MODIFICA
             $modificar_pago = $this->modoDePago($id,$request);
-            if ( $modificar_pago == true ) {            
+            if ( $modificar_pago == true ) { 
+                $this->modificaEstadoVenta($id, 8);           
                 return back()->with('mensaje', 'El modo de pago fue confirmado exitosamente');
             }else{
                 return back()->with('mensaje', 'Campo del modo de pago requerido');
