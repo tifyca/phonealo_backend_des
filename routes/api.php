@@ -22,9 +22,11 @@ Route::post('delivery/ingresar', 'api\delivery\RepartidoresController@ingresar')
 Route::post('delivery/iniciarjornada', 'api\delivery\RepartidoresController@iniciarjornada');
 Route::get('delivery/pedidos', 'api\delivery\RepartidoresController@pedidos_asignados');
 Route::get('delivery/home', 'api\delivery\RepartidoresController@pedidos_asignados');
+
 Route::get('delivery/detalle', 'api\delivery\RepartidoresController@detalle_venta');
-Route::post('delivery/entrega/{id}', 'api\delivery\RepartidoresController@marca_entrega');
-Route::post('delivery/observaciones/{id}', 'api\delivery\RepartidoresController@observaciones');
+Route::post('delivery/entrega', 'api\delivery\RepartidoresController@marca_entrega');
+Route::post('delivery/observaciones', 'api\delivery\RepartidoresController@observaciones');
+Route::post('delivery/noentregado', 'api\delivery\RepartidoresController@pedido_noentregado');
 
 //documentacion delivery
 Route::get('delivery/documentacion', 'api\delivery\documentacionController@index');

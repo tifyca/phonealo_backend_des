@@ -50,7 +50,7 @@ class Ventas extends Model
             ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
             ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
                 ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
-                ->where('ventas.id_estado', '=', '6')
+                ->where('ventas.id_estado', '=', '7')
                 ->orderby( 'ventas.id', 'desc')
             ->get();
     }
