@@ -28,6 +28,7 @@
         <div class="col">
               <h4 class="tile-title text-center text-md-left">Listado de Gastos</h4>
             </div>
+            <br>
           <div class="row">
             
                <form class="row" action="{{route('gastos.index')}}" method="get"> 
