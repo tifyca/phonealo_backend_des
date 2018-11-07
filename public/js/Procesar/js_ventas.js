@@ -706,7 +706,7 @@ $("#btn-edit").click(function (e) {
          
             });
 
-
+alert($("#total_venta").val());
      $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -754,7 +754,7 @@ $("#btn-edit").click(function (e) {
            $("#res").html(data.message);
             $("#res, #res-content").css("display","block");
         
-            location.href="/procesar/logistica";
+            location.href="/logistica";
         
        },
        

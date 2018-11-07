@@ -291,7 +291,7 @@
         <h3 class="tile-title text-center text-md-left">Productos en la Cesta</h3>
           <div class="tile-body ">
             <div class="table-responsive">
-              <input type='hidden' id='total_venta' value="">
+              <input type='text' id='total_venta' value="{{$venta[0]->importe}}">
               <table class="table"  id="cesta-list" name="cesta-list">
                 <thead>
                   <tr>

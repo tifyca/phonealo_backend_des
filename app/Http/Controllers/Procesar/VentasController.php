@@ -498,7 +498,7 @@ class VentasController extends Controller
                               
 
 
-        return true;
+       return response()->json(['success' => true]);
 
     
 
@@ -548,7 +548,7 @@ class VentasController extends Controller
             $id_estado_v=5; 
             $id_estado_p=5;
 
-            
+
            }else{
 
             $id_estado_v=11;
@@ -559,7 +559,7 @@ class VentasController extends Controller
              foreach ($detalle_tempora as $dt) {
 
                               $result  = new Detalle_Ventas;
-                              $result->id_venta    = $request->id_venta
+                              $result->id_venta    = $request->id_venta;
                               $result->id_producto = $dt->id_producto;
                               $result->cantidad    = $dt->cantidad;
                               $result->precio      = $dt->precio;
@@ -578,54 +578,51 @@ class VentasController extends Controller
                                               ->where('id_producto', $dt->id_producto)
                                               ->delete();
  
-                    }                 
+                    } 
+                    $pedido= Pedido::find($pedido->id);
+                    $pedido->id_estado  =$id_estado_p;
+                    $pedido->id_usuario =$request->id_usuario;
+                    $pedido->save();    
 
-            }
+                    $venta= Ventas::find($request->id_venta);
+                    $venta->id_estado = $id_estado_v;
+                    $venta->status_v  = $id_estado_v;
+                    $venta->tipo_venta   =1;
+                    $venta->id_usuario   = $request->id_usuario;
+                    $venta->save(); 
+            
+
+            }else{
 
             $ventas= Ventas::find($request->id_venta);
+
             if($ventas->fecha_activo<>$request->fecha_entrega){
-              $venta= Ventas::find($request->id_venta);
-              $venta->fecha_activo = $request->fecha_entrega;
+               $venta= Ventas::find($request->id_venta);
+               $venta->fecha_activo = $request->fecha_entrega;
                $venta->save(); 
 
-
             }
 
-            if($venta->id_horario<>$request->horario_venta){
+            if($ventas->id_horario<>$request->horario_venta){
                 $venta= Ventas::find($request->id_venta);
                 $venta->id_horario= $request->horario_venta;
-               $venta->save();
+                $venta->save();
 
             }
 
-            if($venta->id_forma_pago<> $request->forma_pago){
+            if($ventas->id_forma_pago<> $request->forma_pago){
                 $venta= Ventas::find($request->id_venta);
                 $venta->id_forma_pago= $request->forma_pago;
                 $venta->save();
 
             }
 
+            if($ventas->importe<> $request->importe){
+                $venta= Ventas::find($request->id_venta);
+                $venta->importe   = $request->importe;
+                $venta->save();
 
-            $idpedido= Ventas::where('id',$request->id_venta)->select('id_pedido')->first();
-
-            $pedido= Pedido::find($idpedido->id_pedido);
-            $pedido->id_estado  =$id_estado_p;
-            $pedido->id_usuario =$request->id_usuario;
-            $pedido->save();        
-
-          /*  $venta= Ventas::find($request->id_venta);
-            $venta->id_estado = $id_estado_v;
-            $venta->fecha     = $request->fecha_venta;
-            $venta->status_v  = $id_estado_v;
-            $venta->importe   = $request->importe;
-            $venta->id_forma_pago= $request->forma_pago;
-            $venta->factura   = $request->factura;
-            $venta->id_horario= $request->horario_venta;
-            $venta->fecha_activo = $request->fecha_entrega;
-            $venta->fecha_cobro  = $request->fecha_entrega;
-            $venta->tipo_venta   =1;
-            $venta->id_usuario   = $request->id_usuario;
-            $venta->save(); */
+            }
 
 
             
@@ -649,13 +646,7 @@ class VentasController extends Controller
                 }
             }
 
-
             
-
-                  
-
-
-
               if($request->monto>0){
 
                 $detvent=Detalle_Ventas::where('id_venta', $request->id_venta)
@@ -691,6 +682,8 @@ class VentasController extends Controller
                       $detallep->save();  
                 }          
               }
+
+            }
 
               $auditoria = new auditoria();
               $auditoria->id_usuario =  $_SESSION["user"];
