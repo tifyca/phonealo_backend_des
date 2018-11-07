@@ -17,7 +17,9 @@ use App\Clientes;
 use App\delivery_horario;
 use App\Detalle_remito;
 use App\User;
+use App\Estados_remitos;
 use App\Notas_Ventas;
+use App\Delivery_recorrido;
 
 class RepartidoresController extends Controller
 {
@@ -97,18 +99,7 @@ public function iniciarjornada(Request $request)
       $jornada->id_delivery = $idempleado;
       $jornada->entrada = date("Y-m-d H:i:s");
       $jornada->activo = 1;
-      $data=[];
-      foreach($pedidos as $ped){
-        $data["id_venta"]    = $ped->id_venta;
-        $data["id_empleado"] = $ped->id_delivery;
-        $data["telefono"]    = $ped->telefono;
-        $data["horario"]     = $ped->horario;
-        $data["id_estado"]   = $ped->id_estado;
-        $data["estado"]      = $ped->estado;
-        $total++;
-        $total_entregado    = $total_entregado + $ped->importe;
-      }
-      return ["status" => "exito", "data" => $data, "total_asignados" => $total, "total_entregado" => $total_entregado];                
+      return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
     }else{
       $jornada= new delivery_horario();
       $jornada->id_delivery = $idempleado;
@@ -125,6 +116,9 @@ public function iniciarjornada(Request $request)
 
 }
 
+////////////////////////////////////////////////////////////////
+// Endpoint de HOME de APPDelivery
+//////////////////////////////////////////////////////////
 public function pedidos_asignados(Request $request){
 
        //$request = json_decode($request->getContent());
@@ -152,7 +146,8 @@ public function pedidos_asignados(Request $request){
       ->join('horarios as e','c.id_horario','=','e.id')
       ->join('clientes as f','d.id_cliente','=','f.id')
       ->join('estados as g','a.id_estado','=','g.id')
-      ->select('b.id_venta','a.id_delivery','a.importe','a.id_estado','f.telefono','e.horario','g.estado')
+      ->join('estados_remito as h','b.id_estado','=','h.id')
+      ->select('b.id_venta','a.id_delivery','a.importe','b.id_estado','f.telefono','e.horario','h.descripcion as estadoremito','g.estado')
       ->where('a.id_delivery',$idempleado)->where('a.id_estado','6')->get();                  
       if($pedidos){
 
@@ -164,7 +159,7 @@ public function pedidos_asignados(Request $request){
           $data["telefono"]    = $ped->telefono;
           $data["horario"]     = $ped->horario;
           $data["id_estado"]   = $ped->id_estado;
-          $data["estado"]      = $ped->estado;
+          $data["estado"]      = $ped->estadoremito;
           $total++;
           $total_entregado    = $total_entregado + $ped->importe;
         }
@@ -183,9 +178,6 @@ public function pedidos_asignados(Request $request){
 
 }
 
-public function total_asignados(Request $request){
-
-}
 
 public function detalle_venta(Request $request){
         //$request = json_decode($request->getContent());
@@ -340,6 +332,40 @@ public function pedido_noentregado(Request $request){
   }      
 
 }
+
+
+public function recorrido(Request $request){
+ $request = json_decode($request->getContent());
+ $request = get_object_vars($request);
+ try {
+            //Validaciones
+  $errors = [];
+  if (!isset($request["idempleado"])) $errors[] = "El Id del Repartidor es requerido";
+  if (!isset($request["recorrido"])) $errors[] = "El Recorrido es requerido";
+  if (count($errors) > 0) {
+    return ["status" => "fallo", "error" => $errors];
+  }
+            //fin validaciones
+      $idempleado=$request["idempleado"];
+      $recorrido=$request["recorrido"];
+      $delivery_recorrido= new Delivery_Recorrido();
+      $delivery_recorrido->id_delivery = $idempleado;
+      $delivery_recorrido->recorrido  = $recorrido;
+      $delivery_recorrido->fecha = date("Y-m-d H:i:s");
+      $delivery_recorrido->created_at = date("Y-m-d H:i:s");
+      $delivery_recorrido->updated_at = date("Y-m-d H:i:s");
+      $delivery_recorrido->save();
+      return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
+   }
+  
+ catch (Exception $e) {
+  return ['status' => 'fallo', 'error' => ["Ha ocurrido un error, por favor intenta de nuevo"]];
+}
+   
+
+
+}
+
 
 
 

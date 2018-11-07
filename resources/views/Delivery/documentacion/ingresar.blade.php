@@ -56,7 +56,7 @@
 						Método => "POST"<br>
 						Parámetros => array(<br>
 							"idempleado" => integer / requerido / único",<br>
-							"Éxito" => "id_venta,id_empleado,telefono,horario,id_estado,estado,contador",<br>
+							"Éxito" => "id_empleado",<br>
 							"Falla" => array(<br>
 							"error" => array("Error en validación de datos")<br>
 						)
@@ -68,19 +68,19 @@
 				<div class="card-header" id="headingThree">
 					<h5 class="mb-0">
 						<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSubcategorias" aria-expanded="false" aria-controls="collapseThree">
-							Pedidos Asignados
+							Home
 						</button>
 					</h5>
 				</div>
 				<div id="collapseSubcategorias" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
 					<div class="card-body">
-						Pedidos Asignados<br>
-						Nombre de Endpoint: Pedidos<br>
-						Ruta:/api/delivery/pedidos<br>
+						Home<br>
+						Nombre de Endpoint: home<br>
+						Ruta:/api/delivery/home<br>
 						Método => "GET"<br>
 						Parámetros => array(<br>
 							"idempleado" => integer / requerido / único",<br>
-							"Éxito" => "id_venta,id_empleado,telefono,horario,id_estado,estado","total_asignado","total_entregado"<br>
+							"Éxito" => "id_venta,id_empleado,telefono,horario,id_estado,estado","total_asignado","total_entregado", "total_pendiente", "total_cancelado"<br>
 							"Falla" => array(<br>
 							"error" => array("Error en validación de datos")<br>
 						)
