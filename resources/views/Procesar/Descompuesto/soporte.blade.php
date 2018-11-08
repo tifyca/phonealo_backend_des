@@ -80,9 +80,6 @@
   </div>
 </div>
 
-
-  
-
 @endsection
 
 @push('scripts')

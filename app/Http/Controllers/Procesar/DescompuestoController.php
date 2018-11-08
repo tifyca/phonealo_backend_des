@@ -59,7 +59,8 @@ class DescompuestoController extends Controller
           
           return $this->crearPDF($report, $vista, $opt);
           
-        }
+        } 
+        
         if($option==1){
 
              
