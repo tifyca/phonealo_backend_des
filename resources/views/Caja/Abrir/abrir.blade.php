@@ -22,7 +22,7 @@
   <div class="col-12 col-md-7">
     <div class="tile">
         <div class="d-flex justify-content-between">
-          <h5 class=" text-left">Nombre Usuario</h5>
+          <h5 class=" text-left">{{ auth()->user()->name }}</h5>
           <h5 class="text-right">08/08/2018</h5>
         </div>
         <hr>
@@ -63,7 +63,7 @@
   <div class="col-12 col-md-5">
     <div class="row ">
       <div class="col-12">
-        <a href="{{ route('caja.remitos') }}" title="" class="link-card">
+        <a href="{{ route('caja.remitos', ['caja' => $caja->id]) }}" title="" class="link-card">
           <div class="widget-small primary"><i class="icon fa fa-file fa-3x"></i>
             <div class="info">
               <h4>Registrar Cobro de Remitos</h4>
@@ -99,7 +99,7 @@
         </a>
       </div>
       <div class="col-6">
-        <a href="{{ route('caja.cerrar') }}" title="" class="link-card">
+        <a href="{{ route('caja.cerrar', $caja->id) }}" title="" class="link-card">
           <div class="widget-small danger "><i class="icon fa fa-close fa-3x"></i>
             <div class="info">
               <h4>Cerrar Caja</h4>

@@ -10,7 +10,7 @@
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', '') @section('link_back', url('caja/abrir'))
+@section('display_back', '') @section('link_back', route('caja.index'))
 @section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
@@ -22,8 +22,8 @@
   <div class="col-12 col-md-7">
     <div class="tile">
         <div class="d-flex justify-content-between">
-          <h5 class=" text-left">Nombre Usuario</h5>
-          <h5 class="text-right">08/08/2018</h5>
+          <h5 class=" text-left">{{ auth()->user()->name }}</h5>
+          <h5 class="text-right">{{ $fecha }}</h5>
         </div>
         <hr>
         <div class="tile-body ">
@@ -59,11 +59,12 @@
           </div>
           <hr>
           <div class="col-12">
-            <form action="">
-              <textarea name="" class="form-control" rows="4" placeholder="Obersaciones"></textarea>
-              
+            <form action="{{ route('caja.cerrarCaja') }}" method="post">
+              {{ csrf_field() }}    
+              <input type="hidden" name="id" value="{{ $caja->id }}">
+              <textarea name="observaciones" class="form-control" rows="4" placeholder="Observaciones" required></textarea>
               <div class="col-12 text-center mt-4">
-                <a href="" class="btn btn-primary" title="">Confirmar Cierre</a>
+                <button type="submit" class="btn btn-primary">Confirmar Cierre</button>
               </div>
               
             </form>
