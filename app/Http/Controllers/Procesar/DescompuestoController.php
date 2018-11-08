@@ -13,7 +13,7 @@ class DescompuestoController extends Controller
 
         $descompuesto=Soporte::join('productos', 'productos.id', '=', 'soporte.id_producto')
                              ->whereIn('status_soporte', [1,3])
-                             ->join('ventas', 'ventas.id_pedido', '=', 'soporte.id_pedido')
+                             ->leftjoin('ventas', 'ventas.id_pedido', '=', 'soporte.id_pedido')
                              ->select('soporte.id as idsoporte', 'soporte.id_producto', 'soporte.id_remito','soporte.id_pedido','soporte.nota','soporte.fecha_ing','soporte.fecha_eg','soporte.status_soporte', 'productos.id', 'productos.descripcion','productos.precio_compra')
                              ->orderBy('soporte.id', 'DESC')
                              ->get();
@@ -59,8 +59,8 @@ class DescompuestoController extends Controller
           
           return $this->crearPDF($report, $vista, $opt);
           
+        } 
         
-        }
         if($option==1){
 
              
@@ -115,7 +115,7 @@ class DescompuestoController extends Controller
 
     	$soporte=Soporte::join('productos', 'productos.id', '=', 'soporte.id_producto')
     						 ->where('status_soporte', 2)
-    						 ->join('ventas', 'ventas.id_pedido', '=', 'soporte.id_pedido')
+    						 ->leftjoin('ventas', 'ventas.id_pedido', '=', 'soporte.id_pedido')
     						 ->select('soporte.id as idsoporte', 'soporte.id_producto', 'soporte.id_remito','soporte.id_pedido','soporte.nota','soporte.fecha_ing','soporte.fecha_eg','soporte.status_soporte', 'productos.id', 'productos.descripcion','productos.precio_compra')
     					     ->get();
 

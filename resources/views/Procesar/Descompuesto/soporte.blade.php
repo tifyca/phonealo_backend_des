@@ -35,8 +35,16 @@
                @foreach($soporte as $item) 
                   <tr>
                     <td>{{$item->idsoporte}}</td>
-                    <td>{{$item->fecha}}</td>
+                    @if($item->fecha=="")
+                      <td>-----------</td>
+                      @else
+                      <td>{{$item->fecha}}</td>
+                      @endif
+                      @if($item->fecha_activo=="")
+                      <td>----------</td>
+                      @else
                       <td>{{$item->fecha_activo}}</td>
+                      @endif
                       <td>{{$item->descripcion}}</td>
                       <td>{!!number_format($item->precio_compra, 0, ',', '.')!!}</td>
                       <td>{{$item->nota}}</td>
@@ -71,9 +79,6 @@
     </div>
   </div>
 </div>
-
-
-  
 
 @endsection
 
