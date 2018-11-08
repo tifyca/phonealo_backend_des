@@ -102,7 +102,7 @@
             </div>
              <div class="form-group col-md-4">
               <label for="">Fecha de Entrega</label>
-              <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" data-date-format="DD/MM/YYYY" value="{{date('Y-m-d', strtotime($venta[0]->fecha))}}">
+              <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" data-date-format="DD/MM/YYYY" value="{{date('Y-m-d', strtotime($venta[0]->fecha_activo))}}">
             </div>
             <div class="form-group col-md-4">
               <label for="">Horario de Entrega</label>
@@ -291,7 +291,7 @@
         <h3 class="tile-title text-center text-md-left">Productos en la Cesta</h3>
           <div class="tile-body ">
             <div class="table-responsive">
-              <input type='text' id='total_venta' value="{{$venta[0]->importe}}">
+              <input type='hidden' id='total_venta' value="{{$venta[0]->importe}}">
               <table class="table"  id="cesta-list" name="cesta-list">
                 <thead>
                   <tr>
