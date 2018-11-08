@@ -47,11 +47,19 @@
                 @foreach($descompuesto as $item)       
                  
                  @if($item->status_soporte == 3)
-                    <tr style="background-color: orange;" >
+                    <tr style="background-color: #F7906A;" >
                       <td width="5%" class="text-center"></td>
                       <td>{{$item->idsoporte}}</td>
+                      @if($item->fecha=="")
+                      <td>---------</td>
+                      @else
                       <td>{{$item->fecha}}</td>
+                      @endif
+                      @if($item->fecha_activo=="")
+                      <td>----------</td>
+                      @else
                       <td>{{$item->fecha_activo}}</td>
+                      @endif
                       <td>{{$item->descripcion}}</td>
                       <td>{{$item->nota}}</td>
                       <td>{!!number_format($item->precio_compra, 0, ',', '.')!!}</td>
@@ -61,8 +69,16 @@
                   <tr>
                     <td width="5%" class="text-center"><input type="checkbox" class="form-control chk-box" name="ch"   value="{{$item->idsoporte}}"></td>
                     <td>{{$item->idsoporte}}</td>
-                    <td>{{$item->fecha}}</td>
-                    <td>{{$item->fecha_activo}}</td>
+                    @if($item->fecha=="")
+                      <td>---------</td>
+                      @else
+                      <td>{{$item->fecha}}</td>
+                      @endif
+                      @if($item->fecha_activo=="")
+                      <td>----------</td>
+                      @else
+                      <td>{{$item->fecha_activo}}</td>
+                      @endif
                     <td>{{$item->descripcion}}</td>
                     <td>{{$item->nota}}</td>
                     <td>{!!number_format($item->precio_compra, 0, ',', '.')!!}</td>
@@ -189,7 +205,7 @@ function reparartodo(){
 
       
             window.setTimeout(function(){
-              window.open(`{{ url('procesar/descompuestos/add?id_soporte=${id}&opt=1')}}`, '_blank');
+              window.open('../procesar/descompuestos/add?id_soporte='+id+'&opt=1', '_blank');
             },1000);
               
              window.setTimeout(function(){
