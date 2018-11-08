@@ -36,7 +36,7 @@
                   <tr>
                     <td>{{$item->idsoporte}}</td>
                     @if($item->fecha=="")
-                      <td>---------</td>
+                      <td>-----------</td>
                       @else
                       <td>{{$item->fecha}}</td>
                       @endif

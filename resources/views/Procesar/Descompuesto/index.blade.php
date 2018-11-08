@@ -47,7 +47,7 @@
                 @foreach($descompuesto as $item)       
                  
                  @if($item->status_soporte == 3)
-                    <tr style="background-color: #F7906A;" >
+                    <tr style="background-color: #F7906A;">
                       <td width="5%" class="text-center"></td>
                       <td>{{$item->idsoporte}}</td>
                       @if($item->fecha=="")
