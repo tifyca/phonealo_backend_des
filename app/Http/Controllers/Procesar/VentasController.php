@@ -587,6 +587,7 @@ class VentasController extends Controller
                     $venta= Ventas::find($request->id_venta);
                     $venta->id_estado = $id_estado_v;
                     $venta->status_v  = $id_estado_v;
+                    $venta->importe   = $request->importe;
                     $venta->tipo_venta   =1;
                     $venta->id_usuario   = $request->id_usuario;
                     $venta->save(); 
@@ -596,36 +597,28 @@ class VentasController extends Controller
 
             $ventas= Ventas::find($request->id_venta);
 
-            if($ventas->fecha_activo<>$request->fecha_entrega){
+            if($ventas->fecha_activo!=$request->fecha_entrega){
+              dd($ventas->fecha_activo);
                $venta= Ventas::find($request->id_venta);
                $venta->fecha_activo = $request->fecha_entrega;
                $venta->save(); 
 
             }
 
-            if($ventas->id_horario<>$request->horario_venta){
+            if($ventas->id_horario!=$request->horario_venta){
                 $venta= Ventas::find($request->id_venta);
                 $venta->id_horario= $request->horario_venta;
                 $venta->save();
 
             }
 
-            if($ventas->id_forma_pago<> $request->forma_pago){
+            if($ventas->id_forma_pago!=$request->forma_pago){
                 $venta= Ventas::find($request->id_venta);
                 $venta->id_forma_pago= $request->forma_pago;
                 $venta->save();
 
             }
-
-            if($ventas->importe<> $request->importe){
-                $venta= Ventas::find($request->id_venta);
-                $venta->importe   = $request->importe;
-                $venta->save();
-
-            }
-
-
-            
+         
            
             if($request->factura<>1){
 
