@@ -188,6 +188,64 @@
 				</div>
 			</div>
 
+			<div class="card">
+				<div class="card-header" id="headingThree">
+					<h5 class="mb-0">
+						<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseCerrar" aria-expanded="false" aria-controls="collapseThree">
+							Cancelar Pedido
+						</button>
+					</h5>
+				</div>
+				<div id="collapseCerrar" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+					<div class="card-body">
+						Cancelar Pedido<br>
+						Nombre de Endpoint: Cancelar Pedido<br>
+						Ruta:/api/delivery/cancelar<br>
+						Método => "POST"<br>
+						Parámetros => array(<br>
+						"idventa" => integer / requerido / único",<br>
+						"informe" => text / requerido / único",<br>
+						"Status" => "Éxito","Mensaje"=>"Pedido Cancelado"<br>
+						"Falla" => array(<br>
+						"error" => array("Error en validación de datos")<br>
+						)
+					</div>
+
+				</div>
+			</div>
+
+
+		</div>
+
+
+
+
+			<div class="card">
+				<div class="card-header" id="headingThree">
+					<h5 class="mb-0">
+						<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseCerrar" aria-expanded="false" aria-controls="collapseThree">
+							Cerrar Jornada
+						</button>
+					</h5>
+				</div>
+				<div id="collapseCerrar" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+					<div class="card-body">
+						Finalizar la Jornada<br>
+						Nombre de Endpoint: Cerrar Jornada<br>
+						Ruta:/api/delivery/cerrarjornada<br>
+						Método => "POST"<br>
+						Parámetros => array(<br>
+						"idventa" => integer / requerido / único",<br>
+						"Status" => "Éxito",<br>
+						"Falla" => array(<br>
+						"error" => array("Error en validación de datos")<br>
+						)
+					</div>
+
+				</div>
+			</div>
+
+
 		</div>
 	</div>
 </div>

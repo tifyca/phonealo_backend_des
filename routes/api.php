@@ -27,7 +27,8 @@ Route::get('delivery/detalle', 'api\delivery\RepartidoresController@detalle_vent
 Route::post('delivery/entrega', 'api\delivery\RepartidoresController@marca_entrega');
 Route::post('delivery/observaciones', 'api\delivery\RepartidoresController@observaciones');
 Route::post('delivery/noentregado', 'api\delivery\RepartidoresController@pedido_noentregado');
-
+Route::post('delivery/cancelar', 'api\delivery\RepartidoresController@cancelar');
+Route::post('delivery/cerrarjornada', 'api\delivery\RepartidoresController@cerrar_jornada');
 //documentacion delivery
 Route::get('delivery/documentacion', 'api\delivery\documentacionController@index');
 Route::get('delivery/documentacion/ingresar', 'api\delivery\documentacionController@ingresar')->name('delivery.documentacion.ingresar');

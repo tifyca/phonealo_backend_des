@@ -139,6 +139,7 @@ public function pedidos_asignados(Request $request){
     $total_entregado=0;
     $total_asignado=0;
     $total_pendiente=0;
+    $total_cancelado=0;
     $promedio = 0;
     $lunes=10;
     $martes=20;
@@ -158,32 +159,41 @@ public function pedidos_asignados(Request $request){
       ->select('b.id_venta','a.id_delivery','a.importe','b.id_estado','f.telefono','e.horario','h.descripcion as estadoremito','g.estado')
       ->where('a.id_delivery',$idempleado)->where('a.id_estado','6')->get();                  
       if($pedidos){
-
-        $data=[];
-
-        foreach($pedidos as $ped){
-          $data[]=[
-          "id_venta"    => $ped->id_venta,
-          "id_empleado" => $ped->id_delivery,
-          "telefono"    => $ped->telefono,
-          "horario"     => $ped->horario,
-          "id_estado"   => $ped->id_estado,
-          "estado"      => $ped->estadoremito];
-          $total++;
-          $total_asignado    = $total_asignado + $ped->importe;
-          if($ped->id_estado=='1') $total_pendiente = $total_entregado + $ped->importe;
-          if($ped->id_estado=='2') $total_entregado    = $total_entregado + $ped->importe;
-          if($ped->id_estado=='3') $total_pendiente = $total_entregado + $ped->importe;
-          }
-
-          $grafica[]=[
+     $grafica[]=[
             "lunes"=>$lunes,
             "martes"=>$martes,
             "miercoles"=>$miercoles,
             "jueves"=>$jueves,
             "viernes"=>$viernes 
           ];
-        return ["status" => "exito", "data" => $data,"grafica"=>$grafica,"total_asignados" => $total,"total_entregado"=>$total_entregado, "total_pendiente"=>$total_pendiente,"promedio"=>$promedio];                
+        $data=[];
+
+        foreach($pedidos as $ped){
+          $data1[]=[
+          "id_venta"    => $ped->id_venta,
+          "id_empleado" => $ped->id_delivery,
+          "telefono"    => $ped->telefono,
+          "horario"     => $ped->horario,
+          "id_estado"   => $ped->id_estado,
+          "estado"      => $ped->estadoremito];
+          
+          $total++;
+          $total_asignado    = $total_asignado + $ped->importe;
+          if($ped->id_estado=='1') $total_pendiente = $total_entregado + $ped->importe;
+          if($ped->id_estado=='2') $total_entregado    = $total_entregado + $ped->importe;
+          if($ped->id_estado=='3') $total_pendiente = $total_entregado + $ped->importe;
+          if($ped->id_estado=='4') $total_cancelado = $total_cancelado + $ped->importe;
+          }
+
+         $data[]=[
+          "pedidos" =>$data1,
+          "grafica" =>$grafica,
+          "total_entregado" =>$total_entregado,
+          "total_asignado" => $total_asignado,
+          "total_cancelado" =>$total_cancelado,
+          "total_pendiente" =>$total_pendiente
+         ];
+        return ["status" => "exito", "data" => $data];                
       }else{
         return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
       }
@@ -219,11 +229,9 @@ $pedidos = Ventas::join('pedidos as d','ventas.id_pedido','=','d.id')
                     ->where('ventas.id',$idventa)->get();                  
 
 $maestro = Ventas::join('pedidos as d','ventas.id_pedido','=','d.id')
-          ->join('detalle_remito as b','ventas.id','b.id_venta')
           ->join('horarios as e','ventas.id_horario','=','e.id')
           ->join('clientes as f','d.id_cliente','=','f.id')
           ->join('estados as g','ventas.id_estado','=','g.id')
-          ->join('estados_remitos as h','b.id_estado','=','h.id')
           ->join('users','ventas.id_usuario','=','users.id')
           ->select('ventas.id','f.telefono','f.direccion','users.name','ventas.notas')
            ->where('ventas.id',$idventa)->get();                  
@@ -232,14 +240,6 @@ $maestro = Ventas::join('pedidos as d','ventas.id_pedido','=','d.id')
       
       $data=[];
       $cantidad=0;
-      foreach($maestro as $ped){
-        $data[]=[
-        "id_venta"  => $ped->id,
-        "telefono"  => $ped->telefono,
-        "direccion" => $ped->direccion,
-        "vendedor"  => $ped->name,
-        "observaciones" => $ped->notas];
-      }
       $detallev=[];
       $cantidad=0;
       foreach($pedidos as $ped){
@@ -250,7 +250,19 @@ $maestro = Ventas::join('pedidos as d','ventas.id_pedido','=','d.id')
         "importe"    => $ped->cantidad * $ped->precio];
       }
 
-      return ["status" => "exito", "data" => $data, "detallev" => $detallev];                
+      foreach($maestro as $ped){
+        $data[]=[
+        "id_venta"  => $ped->id,
+        "telefono"  => $ped->telefono,
+        "direccion" => $ped->direccion,
+        "vendedor"  => $ped->name,
+        "observaciones" => $ped->notas];
+      }
+      $data1[]=[
+        "venta" => $data,
+        "detalle" => $detallev
+      ];
+      return ["status" => "exito", "data" => $data1];                
     }else{
       return ["status" => "exito", "data" => ["idempleado"=> $idempleado]];
     }
@@ -401,7 +413,75 @@ public function recorrido(Request $request){
 
 }
 
+public function cerrar_jornada(Request $request){
+ try {
+            //Validaciones
+    $errors = [];
+    if (!isset($request["idempleado"])) $errors[] = "El Id de Repartidor es requerido";
+    if (count($errors) > 0) {
+      return ["status" => "fallo", "error" => $errors];
+    }
+    $remitos=Remitos::join('detalle_remito as b','remitos.id','=','b.id_remito')->where('id_estado',1)->where('remitos.id_delivery',$idempleado)->get();
+    if($remitos){
+      $errors[]="Tiene Pedidos Pendientes, No se puede cerrar la Jornada";
+     return ["status" => "fallo", "error" => $errors]; 
+    }else{
+      $jornada=delivery_horario::where('id_delivery',$id_empleado)->where('activo',1)->first();
+      if($jornada){
+        $jornada->salida=date("Y-m-d H:i:s");
+        $jornada->activo = 0;
+        $jornada->save();
+        return ["status" => "exito", "data" => ["Mensaje"=> "Jornada Cerrada"]];
+      }else{
+      $errors[]="Ha ocurrido un error de validación de datos";
+       return ["status" => "fallo", "error" => $errors];    
+      }
+    }
 
 
+}catch (Exception $e) {
+    return ['status' => 'fallo', 'error' => ["Ha ocurrido un error, por favor intenta de nuevo"]];
+  }    
+}
+
+public function cancelar(Request $request){
+  try {
+            //Validaciones
+    $errors = [];
+    if (!isset($request["idventa"])) $errors[] = "El Id de Venta es requerido";
+    if (!isset($request["informe"])) $errors[] = "El Informe es requerido";
+    if (count($errors) > 0) {
+      return ["status" => "fallo", "error" => $errors];
+    }
+    $idventa=$request["idventa"];
+    $informe=$request["informe"];
+    $detalle_remito=Detalle_remito::where('id_venta',$idventa)->first();
+    if($detalle_remito){
+      $detalle_remito->id_estado = 3;
+      $detalle_remito->observaciones=$informe;
+      $detalle_remito->save();
+      $ventas=Ventas::where('id',$idventa)->first();
+      if($ventas){
+        $ventas->id_estado=8;
+        $ventas->save();
+        return ["status" => "Exito","mensaje"=>"Pedido Cancelado"];
+      }
+    }else{
+      return ['status' => 'fallo', 'error' => ["Ha ocurrido un error, por favor intenta de nuevo"]];
+    }
+  } catch (Exception $e) {
+    return ['status' => 'fallo', 'error' => ["Ha ocurrido un error, por favor intenta de nuevo"]];
+  }      
+
+
+}
+public function recordinado(Request $request){
+if (!isset($request["idventa"])) $errors[] = "El Id de Venta es requerido"; 
+
+}
+
+public function solucionar(Request $request){
+
+}
 
 }
