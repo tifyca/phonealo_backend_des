@@ -754,7 +754,7 @@ $("#btn-edit").click(function (e) {
            $("#res").html(data.message);
             $("#res, #res-content").css("display","block");
         
-            location.href="/procesar/logistica";
+            location.href="/logistica";
         
        },
        

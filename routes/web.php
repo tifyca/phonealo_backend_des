@@ -295,11 +295,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('procesar/ventas', 'Procesar\VentasController');
     Route::get('searchCliente/{tlf?}', 'Procesar\VentasController@getcliente')->name('searchCliente');
     Route::post('procesar/ventas/add', 'Procesar\VentasController@addventa');
+    Route::post('logistica/ventas/add', 'Procesar\VentasController@addventa');
     Route::post('procesar/ventas/create', 'Procesar\VentasController@create');
     Route::post('logistica/ventas/editar', 'Procesar\VentasController@editar_guardar');
     Route::get('/procesar/elimanarProdCesta/{prod?}/{client?}', 'Procesar\VentasController@delventa');
+    Route::get('logistica/Ventas/editar/elimanarProdCesta/{prod?}/{client?}', 'Procesar\VentasController@delventa');
     Route::post('procesar/Ventas/delProdCesta/', 'Procesar\VentasController@deleditventa');
+    Route::post('logistica/Ventas/delProdCesta/', 'Procesar\VentasController@deleditventa');
     Route::get('procesar/ventas/detalle/{valor}', 'Procesar\VentasController@detalle_producto');
+    Route::get('logistica/ventas/detalle/{valor}', 'Procesar\VentasController@detalle_producto');
     Route::get('logistica/Ventas/editar/{id_venta?}','Procesar\VentasController@editar_venta');
     
 
