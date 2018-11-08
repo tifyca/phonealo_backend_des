@@ -498,7 +498,7 @@ class VentasController extends Controller
                               
 
 
-        return true;
+       return response()->json(['success' => true]);
 
     
 
@@ -527,47 +527,99 @@ class VentasController extends Controller
         }elseif ($validator->passes()){ 
 
 
-           $dts= Detalle_Temporal::where('espera', 1)
-                                  ->where('id_cliente', $request->id_cliente)
-                                  ->count();
+          $det_temp = Detalle_Temporal::where('id_cliente', $request->id_cliente)
+                                      ->count();
+          if($det_temp>0){
+
+            $detalle_tempora = Detalle_Temporal::where('id_cliente', $request->id_cliente)
+                                              ->select( 'id_cliente','id_producto', 'cantidad', 'precio',  'id_usuario')
+                                              ->get();
+
+            $pedido= Pedido::where('id_cliente', $request->id_cliente)
+                           ->where('fecha', $request->fecha_venta)
+                           ->first();
+
+            $dts= Detalle_Temporal::where('espera', 1)
+                                 ->where('id_cliente', $request->id_cliente)
+                                 ->count();
 
            if($dts>0){
 
             $id_estado_v=5; 
             $id_estado_p=5;
 
-            
+
            }else{
 
             $id_estado_v=11;
             $id_estado_p=11;
            
            }
+          
+             foreach ($detalle_tempora as $dt) {
 
-            $idpedido= Ventas::where('id',$request->id_venta)->select('id_pedido')->first();
+                              $result  = new Detalle_Ventas;
+                              $result->id_venta    = $request->id_venta;
+                              $result->id_producto = $dt->id_producto;
+                              $result->cantidad    = $dt->cantidad;
+                              $result->precio      = $dt->precio;
+                              $result->id_usuario  = $dt->id_usuario;
+                              $result->save(); 
 
-            $pedido= Pedido::find($idpedido->id_pedido);
-            $pedido->id_estado  =$id_estado_p;
-            $pedido->id_usuario =$request->id_usuario;
-            $pedido->save();        
+                              $detallep= new detalle;
+                              $detallep->id_pedido  = $pedido->id;
+                              $detallep->id_producto= $dt->id_producto;
+                              $detallep->cantidad   = $dt->cantidad;
+                              $detallep->precio     = $dt->precio;
+                              $detallep->id_usuario = $dt->id_usuario;
+                              $detallep->save();  
 
-            $venta= Ventas::find($request->id_venta);
-            $venta->id_estado = $id_estado_v;
-            $venta->fecha     = $request->fecha_venta;
-            $venta->status_v  = $id_estado_v;
-            $venta->importe   = $request->importe;
-            $venta->id_forma_pago= $request->forma_pago;
-            $venta->factura   = $request->factura;
-            $venta->id_horario= $request->horario_venta;
-            $venta->fecha_activo = $request->fecha_entrega;
-            $venta->fecha_cobro  = $request->fecha_entrega;
-            $venta->tipo_venta   =1;
-            $venta->id_usuario   = $request->id_usuario;
-            $venta->save(); 
+                              $del= Detalle_Temporal::where('id_cliente', $dt->id_cliente)
+                                              ->where('id_producto', $dt->id_producto)
+                                              ->delete();
+ 
+                    } 
+                    $pedido= Pedido::find($pedido->id);
+                    $pedido->id_estado  =$id_estado_p;
+                    $pedido->id_usuario =$request->id_usuario;
+                    $pedido->save();    
 
-
+                    $venta= Ventas::find($request->id_venta);
+                    $venta->id_estado = $id_estado_v;
+                    $venta->status_v  = $id_estado_v;
+                    $venta->importe   = $request->importe;
+                    $venta->tipo_venta   =1;
+                    $venta->id_usuario   = $request->id_usuario;
+                    $venta->save(); 
             
-            
+
+            }else{
+
+            $ventas= Ventas::find($request->id_venta);
+
+            if($ventas->fecha_activo!=$request->fecha_entrega){
+              dd($ventas->fecha_activo);
+               $venta= Ventas::find($request->id_venta);
+               $venta->fecha_activo = $request->fecha_entrega;
+               $venta->save(); 
+
+            }
+
+            if($ventas->id_horario!=$request->horario_venta){
+                $venta= Ventas::find($request->id_venta);
+                $venta->id_horario= $request->horario_venta;
+                $venta->save();
+
+            }
+
+            if($ventas->id_forma_pago!=$request->forma_pago){
+                $venta= Ventas::find($request->id_venta);
+                $venta->id_forma_pago= $request->forma_pago;
+                $venta->save();
+
+            }
+         
+           
             if($request->factura<>1){
 
               $fact=Facturas::where('id_venta', $request->id_venta)
@@ -587,50 +639,7 @@ class VentasController extends Controller
                 }
             }
 
-             $det_temp = Detalle_Temporal::where('id_cliente', $request->id_cliente)
-                                               ->count();
-
-            if($det_temp>0){
-
-                  $detalle_tempora = Detalle_Temporal::where('id_cliente', $request->id_cliente)
-                                                     ->select( 'id_cliente','id_producto', 'cantidad', 'precio',  'id_usuario')->get();
-
-                  $pedido= Pedido::where('id_cliente', $request->id_cliente)
-                                 ->where('fecha', $request->fecha_venta )
-                                 ->first();
-          
-
-                    foreach ($detalle_tempora as $dt) {
-
-                              $result  = new Detalle_Ventas;
-                              $result->id_venta    =  $auditoria = new auditoria();
-              $auditoria->id_usuario =  $_SESSION["user"];
-              $auditoria->fecha      = date('Y-m-d');
-              $auditoria->accion     = "Registrando Venta";
-            // $auditoria->id_producto = $productos->id;
-              $auditoria->save();
-                              $result->id_producto = $dt->id_producto;
-                              $result->cantidad    = $dt->cantidad;
-                              $result->precio      = $dt->precio;
-                              $result->id_usuario  = $dt->id_usuario;
-                              $result->save(); 
-
-                              $detallep= new detalle;
-                              $detallep->id_pedido  = $pedido->id;
-                              $detallep->id_producto= $dt->id_producto;
-                              $detallep->cantidad   = $dt->cantidad;
-                              $detallep->precio     = $dt->precio;
-                              $detallep->id_usuario = $dt->id_usuario;
-                              $detallep->save();  
-
-                              $del= Detalle_Temporal::where('id_cliente', $dt->id_cliente)
-                                              ->where('id_producto', $dt->id_producto)
-                                              ->delete();
- 
-                    }
-
-            }
-
+            
               if($request->monto>0){
 
                 $detvent=Detalle_Ventas::where('id_venta', $request->id_venta)
@@ -645,8 +654,8 @@ class VentasController extends Controller
                       $deliverys=Monto_delivery::select('id', 'monto')->where('id',$request->monto)->first();
 
                       $pedido= Pedido::where('id_cliente', $request->id_cliente)
-                                 ->where('fecha', $request->fecha_venta )
-                                 ->first();
+                                     ->where('fecha', $request->fecha_venta )
+                                     ->first();
 
                       $deliver= new Detalle_Ventas;
                       $deliver->id_venta    = $venta->id;
@@ -666,6 +675,8 @@ class VentasController extends Controller
                       $detallep->save();  
                 }          
               }
+
+            }
 
               $auditoria = new auditoria();
               $auditoria->id_usuario =  $_SESSION["user"];
