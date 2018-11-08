@@ -415,12 +415,14 @@ Route::get('procesar/pedidos/{id}/nota', [
     ///CAJA
 
     Route::get('caja/index', 'Caja\AbrirController@index')->name('caja.index');
-    Route::get('caja/abrir', 'Caja\AbrirController@abrir')->name('caja.abrir');
+    Route::post('caja/index', 'Caja\AbrirController@crear')->name('caja.crear');
+    Route::get('caja/abrir/{id}', 'Caja\AbrirController@abrir')->name('caja.abrir');
     Route::get('caja/remitos', 'Caja\AbrirController@remitos')->name('caja.remitos');
     Route::get('caja/cobro_remito/{id}', 'Caja\AbrirController@cobro_remito')
         ->name('caja.cobro_remito');
     Route::get('caja/salida', 'Caja\AbrirController@salida')->name('caja.salida');
-    Route::get('caja/cerrar', 'Caja\AbrirController@cerrar')->name('caja.cerrar');
+    Route::get('caja/cerrar/{id}', 'Caja\AbrirController@cerrar')->name('caja.cerrar');
+    Route::post('caja/cerrar', 'Caja\AbrirController@cerrarCaja')->name('caja.cerrarCaja');
     Route::get('caja/detalle', 'Caja\AbrirController@detalle')->name('caja.detalle');
 
 

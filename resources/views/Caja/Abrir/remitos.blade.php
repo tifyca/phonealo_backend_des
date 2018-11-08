@@ -10,7 +10,7 @@
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', '') @section('link_back', url('caja/abrir') )
+@section('display_back', '') @section('link_back', route('caja.abrir', $caja->id) )
 @section('display_new','d-none')  @section('link_new', '') 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
@@ -44,7 +44,8 @@
                     <td class="text-center">{{ $remito->fecha }}</td>
                     {{-- <td class="text-center">{{ $remito->estado }}</td> --}}
                     <td class="text-center">
-                      <a href="{{ route('caja.cobro_remito', $remito->id) }}" class="btn btn-primary confirm-delete">
+                      <a href="{{ route('caja.cobro_remito', [$remito->id, 'caja' => $caja->id]) }}" class="btn btn-primary confirm-delete">
+                      {{-- <a href="{{ route('caja.cobro_remito', $remito->id, $caja->id) }}" class="btn btn-primary confirm-delete"> --}}
                         <i class="fa m-0 fa-money"></i>
                       </a>
                     </td>

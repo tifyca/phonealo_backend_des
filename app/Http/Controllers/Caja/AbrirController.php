@@ -11,25 +11,53 @@ use App\pedido;
 use App\Ventas;
 use App\Detalle_remito;
 use App\auditoria;
+use App\Caja;
+use App\DetalleCaja;
+use App\EstadoCaja;
+use App\TipoMovimiento;
+use App\TipoTransaccion;
+use Carbon\Carbon;
 
 class AbrirController extends Controller
 {
     public function index(){
-    	return view('Caja.Abrir.index');
+        $caja = Caja::orderBy('fecha', 'desc')
+            ->where('id_usuario', auth()->user()->id)
+            ->first();
+        if ( $caja ) {
+            $fecha = new Carbon($caja->fecha);
+            $fecha = $fecha->format('d/m/Y');        
+        }
+    	return view('Caja.Abrir.index', compact('caja', 'fecha'));
     }
-    public function abrir(){
-    	return view('Caja.Abrir.abrir');
+    public function crear(Request $request){      
+        
+        $nueva_caja = new Caja;
+        $nueva_caja->monto_apertura = $request->monto_apertura;
+        $nueva_caja->observaciones = "Caja aperturada";
+        $nueva_caja->id_estado = 1;//Estado abierto
+        $nueva_caja->id_usuario = auth()->user()->id;
+        $nueva_caja->fecha = Carbon::now();
+        $nueva_caja->save();
+        return redirect()->route('caja.abrir', ['id' => $nueva_caja->id]);
     }
-    public function remitos(){
+
+    public function abrir($id){
+        $caja = Caja::find($id);
+    	return view('Caja.Abrir.abrir', compact('caja'));
+    }
+    public function remitos(Request $request){
+        $caja = Caja::find($request->caja);
         $remitos = Remitos::Consulta()
             ->groupBy('remitos.id')
             ->orderBy('id', 'desc')
             ->where('estados.id', 6) //Estado "Delivery"            
             ->paginate(6);           
        
-    	return view('Caja.Abrir.remitos', compact('remitos'));
+    	return view('Caja.Abrir.remitos', compact('caja','remitos'));
     }
-    public function cobro_remito($id){     
+    public function cobro_remito(Request $request,$id){     
+        $caja = Caja::find($request->caja);
         $remito = Remitos::findOrFail($id);
         // Agrupa las ventas asociadas a los remitos, se muestra en modal
         $remitosVentas = Remitos::Ventas()
@@ -56,11 +84,23 @@ class AbrirController extends Controller
         $total_otros = $this->totalOtros($id);     
 
     	return view('Caja.Abrir.cobro_remito', 
-            compact('remito','remitosVentas', 'importe_venta','remitosProductos','delivery', 'total_efectivo', 'total_pos', 'total_otros')
+            compact('remito','remitosVentas', 'importe_venta','remitosProductos','delivery', 'total_efectivo', 'total_pos', 'total_otros', 'caja')
         );
     }
-    public function cerrar(){
-    	return view('Caja.Abrir.cerrar');
+    public function cerrar($id){
+        $caja = Caja::find($id);
+        $fecha = new Carbon($caja->fecha);
+        $fecha = $fecha->format('d/m/Y');
+    	return view('Caja.Abrir.cerrar', compact('caja','fecha'));
+    }
+    public function cerrarCaja(Request $request){
+        // dd( $request->all() );
+        $caja = Caja::find($request->id);
+        $caja->id_estado = 2;//Cerrada
+        $caja->observaciones = $request->observaciones;
+        $caja->save();
+        $caja->touch();
+        return redirect()->route('caja.index');
     }
     public function salida(){
     	return view('Caja.Abrir.salida');

@@ -10,7 +10,7 @@
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', '') @section('link_back', url('caja/remitos'))
+@section('display_back', '') @section('link_back', route('caja.remitos', ['caja' => $caja->id]))
 @section('display_new','d-none')  @section('link_new',  '') 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
