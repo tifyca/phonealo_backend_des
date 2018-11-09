@@ -551,8 +551,8 @@ class VentasController extends Controller
 
            }else{
 
-            $id_estado_v=11;
-            $id_estado_p=11;
+            $id_estado_v=1;
+            $id_estado_p=1;
            
            }
           
