@@ -11,6 +11,7 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
+@php $longitud=count($notaventa); @endphp
 
 <div class="row">
   <div class="col-12">
@@ -55,42 +56,7 @@
                       </div>
                     </td>
                   </tr>  
-                  <tr class="table-danger">
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Barrio</td>
-                    <td>Fecha</td>
-                    <td>Estado</td>
-                    <td>Vendedor</td>
-                    <td>Importe</td>
-                    
-                     <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#modalCliente" href="#"><i class="m-0 fa fa-lg fa-phone"></i></a>
-                      </div>
-                    </td>
-                  </tr>  
-                  <tr class="table-danger">
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Barrio</td>
-                    <td>Fecha</td>
-                    <td>Estado</td>
-                    <td>Vendedor</td>
-                    <td>Importe</td>
-                    
-                     <td width="10%" class="text-center">
-                      <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#modalCliente" href="#"><i class="m-0 fa fa-lg fa-phone"></i></a>
-                      </div>
-                    </td>
-                  </tr>         
+                  
                 </tbody>
               </table>
             </div>
@@ -111,13 +77,11 @@
               <input class="form-control" type="date" id="" name="" >
             </div>
             <div class="form-group col-md-2">
-              <select class="form-control" id="" name="">
+               <select class="form-control" id="vendedor" name="vendedor" >  
                 <option value="">Vendedor</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                @foreach($vendedor as $item2)
+                <option value="{{$item2->id}}">{{$item2->name }}</option>     
+                @endforeach        
               </select>
             </div>
           </div>
@@ -143,32 +107,63 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php $total = 0; ?>
+                  @foreach($aconfirmar as $item)
                   <tr>
-                    <td>Venta</td>
-                    <td>Cliente</td>
-                    <td>Teléfono</td>
-                    <td>Dirección</td>
-                    <td>Barrio</td>
-                    <td>Fecha</td>
-                    <td>Estado</td>
-                    <td>Vendedor</td>
-                    <td>Importe</td>
+                    <td class="venta"   <?php $x=0; ?>
+                                          @for($i=0; $i<$longitud; $i++)
+                                            @if($item->id==$notaventa[$i]->id_venta)
+                                               <?php $x=$x+1; ?>
+                                                  @if($x==1)
+                                                     data-id="{{$item->id}}"
+                                                  @endif
+                                            @endif
+                                          @endfor  style="text-align: center;">{{$item->id}}    
+                                     <?php $x=0; ?>
+                                  @for($i=0; $i<$longitud; $i++)
+                                    @if($item->id==$notaventa[$i]->id_venta)
+                                     <?php $x=$x+1; ?>
+                                     @if($x==1)
+                                       &spades;
+                                     @endif
+                                    @endif
+                                  @endfor
+                                  <div class="toolTip" id="{{$item->id}}" style="display: none;">
+                              @foreach($nota as $itemn)
+                                @if($itemn->id_venta==$item->id)
+                                   <table style="border:0px; width: 850px; font-size: 12px; ">
+                                    <td style="border:0px; text-align: left; width: 140px;">{{$itemn->fecha}}</td>
+                                    <td style="border:0px; text-align: left; width: 110px;">{{$itemn->nombre}}</td>
+                                    <td style="border:0px; text-align: left;">{{$itemn->nota}}</td>
+                                   </table>
+                                @endif
+                              @endforeach
+                                  </div>
+                                          </td>
+                    <td>{{$item->nombres}}</td>
+                    <td>{{$item->telefono}}</td>
+                    <td>{{$item->direccion}}</td>
+                    <td>{{$item->barrio}}</td>
+                    <td>{{$item->fecha}}</td>
+                    <td>{{$item->estado}}</td>
+                    <td>{{$item->name}}</td>
+                    <td>{!!number_format($item->importe, 0,',', '.')!!}</td>
                     
                      <td width="10%" class="text-center">
                       <div class="btn-group">
                         <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
                         <a class="btn btn-primary" data-toggle="modal" data-target="#modalCliente" href="#"><i class="m-0 fa fa-lg fa-phone"></i></a>
                       </div>
-                    </td>
-                    
-                    
+                    </td>    
                   </tr>
+                  <?php $total += $item->importe; ?>
+                  @endforeach
                   <tr>
                     <td colspan="8" class="text-right">
-                      <h4>Total:</h4>
+                      <h4>Total Gs.:</h4>
                     </td>
                     <td colspan="2">
-                      <h4>0987654346</h4>
+                     <h4>{!!number_format($total, 0,',', '.')!!}</h4>
                     </td>
                   </tr>
         
@@ -323,5 +318,33 @@
 @endsection
 
 @push('scripts')
-  
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+   
+    $('.venta').hover(function () {
+         var data_id = $(this).data('id');
+
+    
+       $('.toolTip').each(function() {
+           var div = $(this);
+
+          if(div.attr('id') == data_id){
+              div.show();
+          }else{
+            div.hide();
+          }
+
+      }); 
+           
+    },
+
+    function () { $('.toolTip').css("display","none");}
+   );
+   
+});
+
+</script>
+
 @endpush
