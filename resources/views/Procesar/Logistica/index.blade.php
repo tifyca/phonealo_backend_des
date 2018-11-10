@@ -1434,8 +1434,6 @@ $('#btn-nota').click(function(){
     location.reload(true);
   });*/
 
-  
- 
 
 
 </script>

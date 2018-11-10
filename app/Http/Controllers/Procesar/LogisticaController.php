@@ -348,8 +348,7 @@ class LogisticaController extends Controller
         if( $request->tipo==1){return $pdf->stream('Recibo_'.$request->id_ventar.'.pdf');}
     
         if( $request->tipo==2){return $pdf->download('Recibo_'.$request->id_ventar.'.pdf');}
-       
-      
+            
       
     }
 
