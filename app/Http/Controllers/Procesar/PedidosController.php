@@ -123,8 +123,45 @@ class PedidosController extends Controller
 
 
 
-
-
+    public function cambiar(Request $request,$id){
+      $id=$request->id;
+      $idusuario = $request->id_usuario;
+      $ventas=Ventas::where('id',$id)->first();
+      if($ventas){
+        $ventas->id_estado = 11;
+        $fechaanterior= $ventas->fecha_activo;
+        $ventas->fecha_activo=date('Y-m-d');
+        $ventas->status_v = 11;
+        $ventas->notas   = $request->notas;
+        $ventas->id_horario = $request->horario_venta;
+        $idpedido=$ventas->id_pedido
+        $ventas->save();
+        $pedido=Pedido::where('id',$idpedido)->first();
+        if($pedido){
+          $pedido->id_estado=11;
+          $pedido->fecha = date('Y-m-d');
+          $pedido->save();
+        }
+        $monto = $request->monto;
+        if($monto)>0
+        {
+          $detalle_ventas=new Detalles_venta();
+          $detalle_ventas->id_venta = $id;
+          $detalle_ventas->id_producto = 36;
+          $detalle_ventas->precio = $monto;
+          $detalle_ventas->cantidad = 1;
+          $detalle_ventas->created_at = date('Y-m-d');
+          $detalle_ventas->updated_at = date('Y-m-d');
+        }
+         $auditoria = new auditoria();
+         $auditoria->id_venta   = $id;
+         $auditoria->id_usuario =  $_SESSION["user"];
+         $auditoria->fecha      = date('Y-m-d');
+         $auditoria->accion     = "Cambio de Producto por el mismo".$id;
+         $auditoria->save(); }
+       return redirect()->route('pedidos.index');
+      }
+    }
     public function agregar_nota($id){
       
     }
