@@ -101,7 +101,6 @@ class PedidosController extends Controller
         }  
     }
     public function confirmar($id){
-
        $ventas=Ventas::find($id);
               if($ventas->isEmpty()){}
         else{
