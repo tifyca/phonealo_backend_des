@@ -92,7 +92,6 @@ class Ventas extends Model
 
     public function pedido(){
         return $this->belongsTo(pedido::class, 'id_pedido');
-    }
-    
+    }  
     
 }
