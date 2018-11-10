@@ -7,11 +7,11 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Cambiar Venta por el Mismo Producto')
+@section('titulo', 'Cambiar por el mismo producto')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', '') @section('link_back', url('logistica'))
+@section('display_back', '') @section('link_back', url('procesar/pedidos'))
 
 @section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
@@ -21,6 +21,9 @@
 
 <div class="row">
   {{-- DATOS DEL CLIENTE // AL MARCAR EL CELULAR SI EL CLIENTE EXISTE TRAE LOS DATOS, SI NO LO REGISTRA --}}
+<form name="form1" action="{{ route('pedidos.cambiar', ($venta[0]->id)) }}"  accept-charset="UTF-8" method="post"  enctype="multipart/form-data">
+        {{ csrf_field() }}
+               {{ method_field('PUT') }}  
   <div class="col-12">
     <div class="tile">
     <h3 class="tile-title text-center text-md-left">Detalles del Cliente</h3>
@@ -79,7 +82,7 @@
           </div>
           <div class="form-group col-md-12">
             <label for="direccion_cliente">Dirección</label>
-            <input class="form-control" type="text" id="direccion_cliente" name="direccion_cliente" placeholder="..." maxlength="150" value="{{$venta[0]->direccion}}" disabled>
+            <input class="form-control" type="text" id="direccion_cliente" name="direccion_cliente" placeholder="..." maxlength="150" value="{{$venta[0]->direccion}}" disabled="">
           </div>
         </div>
       </div>
@@ -89,22 +92,22 @@
 </div>
 <div class="row">
     {{-- DATOS DE LA VENTA --}}
-  <div class="col-7 d-flex" >
+  <div class="col-12 d-flex" >
 
     <div class="tile flex-fill m-0" >
       <h3 class="tile-title text-center text-md-left opacity-x">Detalles de la Venta</h3>
         <div class="tile-body ">
           <div class="row opacity-x" >
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <label for="">Fecha de Venta</label>
-              <input class="form-control" type="date" id="fecha_venta" name="fecha_venta" data-date-format="DD/MM/YYYY" value="{{date('Y-m-d', strtotime($venta[0]->fecha))}}" >
+              <input class="form-control" type="date" id="fecha_venta" name="fecha_venta" data-date-format="DD/MM/YYYY" value="{{date('Y-m-d', strtotime($venta[0]->fecha))}}" disabled="">
             </div>
-             <div class="form-group col-md-4">
+             <div class="form-group col-md-3">
               <label for="">Fecha de Entrega</label>
               <input class="form-control" type="date" id="fecha_entrega" name="fecha_entrega" data-date-format="DD/MM/YYYY" value="{{date('Y-m-d', strtotime($venta[0]->fecha))}}">
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <label for="">Horario de Entrega</label>
               <select class="form-control" id="horario_venta" name="horario_venta">
                 <option value="{{$venta[0]->id_horario}}">{{$venta[0]->horario}}</option>
@@ -114,18 +117,18 @@
                     
               </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <label for="">Forma de Pago</label>
-              <select class="form-control" id="forma_pago" name="forma_pago">
+              <select class="form-control" id="forma_pago" name="forma_pago" disabled="">
                   <option value="{{$venta[0]->id_forma_pago}}">{{$venta[0]->forma_pago}}</option>
                 @foreach($formas as $forma)  
                     <option value="{{$forma->id}}"> {{ $forma->forma_pago }} </option>
                  @endforeach   
               </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <label for="">Factura</label>
-              <select id="factura" class="form-control" id="factura" name="factura">
+              <select id="factura" class="form-control" id="factura" name="factura" disabled="">
                @if($venta[0]->factura==1)
                 <option value="1" selected>No</option>
                 <option value="2" >Si</option>
@@ -141,7 +144,7 @@
                @endif
               </select>
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-3">
               <label for="">Vendedor</label>
               <select class="form-control" id="vendedor" name="vendedor" disabled>
                 <option value="{{$id_usuario}}">{{$name_user }}</option>
@@ -150,7 +153,7 @@
             </div>
             {{-- ESTOS CAMPOS APARECEN CUANDO SE SELECCIONA FACTURA : SI / SIN NOMBRE   --}}
              @if($venta[0]->factura==2)
-            <div id="nombres_factura" class="form-group col-md-4">
+            <div id="nombres_factura" class="form-group col-md-3">
               <label for="">Nombres</label>
               <input class="form-control" type="text" id="factura_nomb" name="factura_nomb"   maxlength="50"  oncopy="return false" value="{{$venta[0]->fnombres}}" >
             </div>
@@ -167,24 +170,24 @@
               <label for="">Nombres</label>
               <input class="form-control" type="text" id="factura_nomb" name="factura_nomb"   maxlength="50"  oncopy="return false" value="{{$venta[0]->fnombres}}" readonly>
             </div>
-            <div id="ruc_factura" class="form-group col-md-4">
+            <div id="ruc_factura" class="form-group col-md-3">
               <label for="">RUC</label>
               <input class="form-control" type="text" id="factura_ruc" name="factura_ruc"  onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false" value="{{$venta[0]->fruc}}" readonly>
             </div>
             @endif
             {{-- //// --}}
             
-            <div class="form-group col-md-8">
+            <div class="form-group col-md-6">
               <label for="">Delivery</label>
               <div class="row">
-                <div class="col-3 text-right">
+                <div class="col-2 text-right">
                   <label class="form-check-label mt-2">
-                    <input class="form-check-input" id="delivery"  name="delivery" type="checkbox" >Gratis
+                    <input class="form-check-input" id="delivery"  name="delivery" type="checkbox" disabled="">Gratis
                   </label>
                 </div>
-                <div class="col-9">
+                <div class="col-8">
                
-              <select class="form-control monto" id="monto" name="monto" >
+              <select class="form-control monto" id="monto" name="monto">
                       <option value=""> Monto </option>
                @foreach($deliverys as $delivery)  
                       <option value="{{$delivery->id}}"> {!!number_format($delivery->monto, 0, ',', '.')!!} </option>
@@ -222,62 +225,6 @@
   {{-- /// --}}
   {{-- SELECCION DE PRODUCTOS --}}
  
-  <div class="col-md-5 d-flex">
-    <div class="tile flex-fill m-0">
-    <h3 class="tile-title text-center text-md-left">Selección de Productos</h3>
-      <div class="tile-body">
-        <div class="row">
-          <div class="form-group col-md-12">
-            <div class="row">
-              <div class="col">
-                <label for="descripcion">Descripción</label>
-                <input class="form-control" autocomplete="off" type="text" id="descripcion" name="descripcion" >
-                {{-- ESTE SE LLENA CON EL ID DEL PRODUCTO --}}
-                <input type="hidden" id="id_producto"  name="id_producto">
-                {{-- //// --}}
-              </div>
-              
-                <div class="col-2 align-items-end row d-none" id="eye">
-                  <div class="row align-items-end">
-                    <span id="eye-hover" class="btn " ><i class="m-0 fa fa-lg fa-eye "></i></span>
-                  </div>
-                </div>
-              
-              
-              <div class="selec_productos col-12 d-none">
-                <ul class="list-group " id="list-productos">
-                   {{-- ESTE ESPACIO APARECE Y SE LLENA CON AJAX, SE ACATUALIZA CADA QUE SUELTAS LA TECLA --}}
-                </ul>
-              </div>
-              {{-- //// --}}
-            </div>
-          </div>
-          
-          
-          <div class="form-group col-md-6 opacity-p">
-            <label for="">Cod. Producto</label>
-            <input class="form-control" type="text" id="cod_producto" name="cod_producto" readonly>
-          </div>
-          <div class="form-group col-md-6 opacity-p">
-            <label for="">Stock</label>
-            <input class="form-control" type="text" id="stock" name="stock"  readonly>
-          </div>
-          <div class="form-group col-md-6 opacity-p">
-            <label for="">Cantidad</label>
-            <input class="form-control" type="text" id="cantidad" name="cantidad"  onkeypress="return soloNumeros(event);"  >
-          </div>
-          <div class="form-group col-md-6 opacity-p">
-            <label for="">Precio</label>
-            <input class="form-control" type="text" id="precio" name="precio" >
-          </div>
-          <div class="col-sm-12 opacity-p d-flex justify-content-between mt-4">
-            <a class="btn btn-primary " onclick="add_cesta_edit();" id="btn-add" value="add"><i class=" fa fa-lg fa-plus"></i>Añadir</a>
-            <a id="refrescar" class="btn btn-secondary " ><i class=" fa fa-lg fa-refresh"></i>Refrescar</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   {{-- FIN SELECCION DE PRODUCTOS --}}
 </div>
 <div id="spacio" style="display: block;">&nbsp;</div>
@@ -319,8 +266,6 @@
                     $mtotal+=$subimporte;?>
                   <td width="20%" id="d-importe" class="text-center">{!!number_format($subimporte, 0, ',', '.')!!}</td>
                   <td width="15%" class="text-center"><div class="btn-group">
-                  <button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary deledit" value="{{$detalle->id_producto}}" ><i class="m-0 fa fa-lg fa-trash"></i></button>
-                  <button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="{{$detalle->id_producto}}"><i class="m-0 fa fa-lg fa-info"></i></button></div>
                   </td>
                   </tr> 
                     @endif
@@ -335,10 +280,11 @@
             </div>
           </div>
       </div>
+    </div>
       {{-- FIN CESTA DE COMPRA --}}
    </div>
 </div>
-
+</form>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -432,23 +378,10 @@
 
 @push('scripts')
  <meta name="_token" content="{!! csrf_token() !!}" />
- <script src="{{asset('js/Procesar/js_ventas.js')}}"></script>
+ <!--<script src="{{asset('js/Procesar/js_ventas.js')}}"></script>-->
 <script type="text/javascript" charset="utf-8" async defer>
    
 
-  /*   window.onload = function(){
-      var fecha = new Date(); //Fecha actual
-      var mes = fecha.getMonth()+1; //obteniendo mes
-      var dia = fecha.getDate(); //obteniendo dia
-      var ano = fecha.getFullYear(); //obteniendo año
-      if(dia<10)
-        dia='0'+dia; //agrega cero si el menor de 10
-      if(mes<10)
-        mes='0'+mes //agrega cero si el menor de 10
-      document.getElementById('fecha_venta').value=ano+"-"+mes+"-"+dia;
-      document.getElementById('fecha_entrega').value=ano+"-"+mes+"-"+dia;
-
-    }*/ 
   $("#btn-save").prop('disabled', false);
   var id_delivery = '{{$id}}';
 
