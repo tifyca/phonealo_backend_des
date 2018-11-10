@@ -134,7 +134,7 @@ class PedidosController extends Controller
         $ventas->status_v = 11;
         $ventas->notas   = $request->notas;
         $ventas->id_horario = $request->horario_venta;
-        $idpedido=$ventas->id_pedido
+        $idpedido=$ventas->id_pedido;
         $ventas->save();
         $pedido=Pedido::where('id',$idpedido)->first();
         if($pedido){
