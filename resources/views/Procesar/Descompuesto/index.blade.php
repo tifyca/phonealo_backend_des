@@ -18,7 +18,9 @@
 
 @section('content')
 
+
 <div class="row">
+
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Nuevo Descompuesto</h3>
@@ -61,8 +63,7 @@
                 <button class="btn btn-primary save"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
               </div>
           </form>
-        <div class="tile-body ">
-        </div>  
+    >  
             </div>
     </div>
   </div>
