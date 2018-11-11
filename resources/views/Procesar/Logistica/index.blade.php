@@ -664,9 +664,107 @@
 
                           <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
 
-                          <!--button data-toggle="tooltip" data-placement="top" title="activar" class="btn btn-primary activar"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-asterisk"></i></button-->   
-
                           <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{ $enEspera->id }}"><i class="fa fa-lg fa-comment-o" ></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                    
+                  @endforeach
+
+                </tbody>
+              </table>
+            </div>
+      </div>
+    </div>
+  </div>
+  @endif
+  {{--  --}}
+
+
+  {{-- TABLA PROCESADA --}}
+  {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS ESTADO 3 Y 8 --}}
+  @if(count($procesadas) > 0)
+   <div class="col-12" >
+    <div class="tile ">
+      <h3 class="tile-title text-center text-md-left"> Ventas Procesadas </h3> 
+       <div class="tile-body ">
+        <div class="table-responsive">
+              <table class="table table-hover table-bordered " id="esperas-list">
+                <thead>
+                  <tr>
+                    <th style="text-align: center;">Venta</th>
+                    <th style="text-align: center;">Cliente</th>
+                    <th style="text-align: center;">Teléfono</th>
+                    <th style="text-align: center;">Dirección</th>
+                    <th style="text-align: center">Fecha</th>
+                    <th style="text-align: center;">Fecha Activo</th>
+                    <th style="text-align: center;">Ciudad</th>
+                    <th style="text-align: center;">Horario</th>
+                    <th style="text-align: center;">Forma Pago</th>
+                    <th style="text-align: center;">Importe</th>
+                    <th style="text-align: center;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <!-- jgonzalez LISTADO DE VENTAS EN ESPERA-->
+                  
+                  @foreach($procesadas as $procesada)
+                   <tr>
+                      <td class="venta" <?php $x=0; ?>
+                                          @for($i=0; $i<$longitud; $i++)
+                                            @if($procesada->id==$notaventa[$i]->id_venta)
+                                               <?php $x=$x+1; ?>
+                                                  @if($x==1)
+                                                     data-id="{{$procesada->id}}"
+                                                  @endif
+                                            @endif
+                                          @endfor  style="text-align: center; width:15%">{{$procesada->id}}    
+                          <?php $x=0; ?>
+                            @for($i=0; $i<$longitud; $i++)
+                                   @if($procesada->id==$notaventa[$i]->id_venta)
+                                <?php $x=$x+1; ?>
+                                 @if($x==1)
+                                   &spades;
+                                 @endif
+                                @endif
+                          @endfor
+
+                                  <div class="toolTip" id="{{$procesada->id}}" style="display: none;">
+                            @foreach($nota as $item)
+                              @if($item->id_venta==$procesada->id)
+                                   <table style="border:0px; width: 850px; font-size: 12px; ">
+                                    <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
+                                    <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
+                                    <td style="border:0px; text-align: left;">{{$item->nota}}</td>
+                                   </table>
+                              @endif
+                            @endforeach
+                                  </div>
+                        </td>
+                      </td>
+                      <td style="text-align: left;">{{$procesada->nombres}}</td>
+                      <td style="text-align: center">{{$procesada->telefono}}</td>
+                      <td style="text-align: left;">{{$procesada->direccion}}</td>
+                      <td style="text-align: center">{{$procesada->fecha}}</td>
+                      <td style="text-align: center">{{$procesada->fecha_activo}}</td>
+                      <td style="text-align: left;">{{$procesada->ciudad}}</td>
+                      <td style="text-align: center">{{$procesada->horario}}</td>
+                      <td style="text-align: center">{{$procesada->forma_pago}}</td>
+                      <td style="text-align: center">{!!number_format($procesada->importe, 0,',', '.')!!}</td>
+                      <td width="10%" class="text-center">
+                        <div class="btn-group">
+                       
+                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $procesada->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+                        
+                       
+                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $procesada->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
+
+                         <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary  remisa"  value="{{ $procesada->id }}" disabled><i class="m-0 fa fa-lg fa-plus"></i></button>
+                       
+                          <button  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" disabled><i class="m-0 fa fa-lg fa-pencil"></i></button>
+
+                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{ $procesada->id }}"><i class="fa fa-lg fa-comment-o" ></i></button>
                         </div>
                       </td>
                     </tr>
@@ -1434,8 +1532,6 @@ $('#btn-nota').click(function(){
     location.reload(true);
   });*/
 
-  
- 
 
 
 </script>

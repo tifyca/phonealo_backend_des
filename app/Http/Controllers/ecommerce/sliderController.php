@@ -20,7 +20,7 @@ class sliderController extends Controller
       return view('ecommerce.slider.create');
     }
     public function edit($id){
-
+        return view('ecommerce.slider.edit');
     }
      public function destroy($id)
     {

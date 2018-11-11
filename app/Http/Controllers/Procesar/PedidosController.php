@@ -101,7 +101,6 @@ class PedidosController extends Controller
         }  
     }
     public function confirmar($id){
-
        $ventas=Ventas::find($id);
               if($ventas->isEmpty()){}
         else{
@@ -134,7 +133,7 @@ class PedidosController extends Controller
         $ventas->status_v = 11;
         $ventas->notas   = $request->notas;
         $ventas->id_horario = $request->horario_venta;
-        $idpedido=$ventas->id_pedido
+        $idpedido=$ventas->id_pedido;
         $ventas->save();
         $pedido=Pedido::where('id',$idpedido)->first();
         if($pedido){
@@ -143,7 +142,7 @@ class PedidosController extends Controller
           $pedido->save();
         }
         $monto = $request->monto;
-        if($monto)>0
+        if($monto>0)
         {
           $detalle_ventas=new Detalles_venta();
           $detalle_ventas->id_venta = $id;
@@ -158,9 +157,11 @@ class PedidosController extends Controller
          $auditoria->id_usuario =  $_SESSION["user"];
          $auditoria->fecha      = date('Y-m-d');
          $auditoria->accion     = "Cambio de Producto por el mismo".$id;
-         $auditoria->save(); }
+         $auditoria->save(); 
+       }
+
        return redirect()->route('pedidos.index');
-      }
+      
     }
     public function agregar_nota($id){
       

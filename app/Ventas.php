@@ -11,7 +11,7 @@ class Ventas extends Model
 	
     protected $table = 'ventas';
     protected $keyType = 'varchar';
-    protected $fillable = ['id','status','status_v'];
+    protected $fillable = ['id','status','id_cliente', 'fecha', 'factura'];
 
     #scope para buscar ventas con id_estado  1 o 11 (ventas activas o ventas modificadas)
     public function scopeActivas($query)
@@ -50,7 +50,7 @@ class Ventas extends Model
             ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
             ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
                 ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
-                ->where('ventas.id_estado', '=', '7')
+                ->where('ventas.id_estado', '=', '6')
                 ->orderby( 'ventas.id', 'desc')
             ->get();
     }
@@ -67,7 +67,21 @@ class Ventas extends Model
             ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
                 ->select('ventas.id', 'ventas.id_pedido', 'detalle_pedidos.id_producto', 'detalle_pedidos.cantidad','detalle_pedidos.precio' , 'productos.descripcion', 'users.id as id_usuario','ventas.id_estado', 'ventas.status_v','horarios.horario', 'forma_pago.forma_pago',
                          DB::raw('(detalle_pedidos.cantidad*detalle_pedidos.precio) as importe'))
-                ->where('ventas.id_estado', '=', '6')
+                ->where('ventas.id_estado', '=', '7')
+            ->get();
+    }
+
+    public function scopeProcesada($query)
+    {
+        return $query->leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_horario', 'ventas.factura', 'forma_pago.forma_pago', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'clientes.id_ciudad','ciudades.ciudad')
+                ->where('ventas.id_estado', '=', '3')
+                ->orWhere('ventas.id_estado', '=', '8')
+            ->orderby( 'ventas.id_horario', 'desc')
             ->get();
     }
 
@@ -92,7 +106,6 @@ class Ventas extends Model
 
     public function pedido(){
         return $this->belongsTo(pedido::class, 'id_pedido');
-    }
-    
+    }  
     
 }
