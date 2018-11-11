@@ -6,7 +6,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Cobro de Remitos')
+@section('titulo', 'Cobro de Remitosss')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -109,7 +109,8 @@
                     <form class="btn-group" method="post" action="{{ route('remitos.update', $venta->id_venta) }}">
                       {{ csrf_field() }}
                       {{ method_field('PUT') }} 
-                      @if ( $venta->v_id_estado <> 8 && $venta->v_id_estado <> 1)                                             
+                      {{-- @if ( $venta->v_id_estado <> 8 && $venta->v_id_estado <> 1)                                             --}}
+                      @if ( $venta->dr_id_estado == 1)                                            
                       <button class="btn btn-primary" type="submit" name="accion" value="devolver_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Devolver">
                         <i class="fa fa-share-square-o"></i>
                       </button>
@@ -119,7 +120,7 @@
                       <button class="btn btn-primary" type="button" name="accion" value="confirmar_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Confirmar" data-target="#Confirmar{{ $venta->id_venta }}" data-toggle="modal">
                         <i class="fa fa-check-square-o" aria-hidden="true"></i>
                       </button>
-                      <button class="btn btn-primary" type="submit" name="accion" value="rechazar_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Rechazar" data-target="#ModalNota{{ $venta->id_venta }}" data-toggle="modal">
+                      <button class="btn btn-primary" type="button" {{-- name="accion" value="rechazar_venta" --}} data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Rechazar" data-target="#ModalNota{{ $venta->id_venta }}" data-toggle="modal">
                         <i class="fa fa-ban"></i>
                       </button>
                       @endif             
@@ -208,18 +209,22 @@
                   <div style="display: none;" class="alert-top fixed-top text-center alert alert-danger remodal" id="remodal">      
                   </div>
                   <div class="modal-content">
-                    <div class="modal-header">   
-                      <h4 class="modal-title" id="myModalLabel{{ $venta->id_venta }}">Agregar Nota del Pedido</h4>
-                    </div>
-                    <form id="frmnota" name="frmnota" class="form-horizontal form_nota" novalidate="">
-                      <textarea type="text" rows="3" cols="75" class="form-control" name="nota" class="nota" id="nota"></textarea>
+
+                     <form method="post" action="{{ route('remitos.update', $venta->id_venta) }}">
+                      {{ csrf_field() }}
+                      {{ method_field('PUT') }}
+                      <div class="modal-header">   
+                        <h4 class="modal-title" id="myModalLabel{{ $venta->id_venta }}">Agregar Nota del Pedido</h4>
+                      </div>
+                        <textarea type="text" rows="3" cols="75" class="form-control" name="nota" class="nota" id="nota"></textarea>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary {{-- btn-nota --}}" id="btn-nota"  name="accion" value="rechazar_venta">Guardar</button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+                        <input type="hidden" id="id_venta" class="id_venta" name="id_venta" value="{{ $venta->id_venta }}">
+                        <input type="hidden" id="id_usuario" class="id_usuario" name="id_usuario" value="{{ Auth::user()->id }}">
+                      </div>
                     </form> 
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-primary btn-nota" id="btn-nota" >Guardar</button>
-                      <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
-                      <input type="hidden" id="id_venta" class="id_venta" name="id_venta" value="{{ $venta->id_venta }}">
-                      <input type="hidden" id="id_usuario" class="id_usuario" name="id_usuario" value="{{ Auth::user()->id }}">
-                    </div>
+
                   </div>
                 </div>
               </div>
@@ -317,7 +322,7 @@
 @endsection
 
 @push('scripts')
-  <script>
+{{-- <script>
 $(function(){
   $('button.btn-nota').click(function(e){
     e.preventDefault();
@@ -359,11 +364,11 @@ $(function(){
   });
 
 });
-</script>
+</script> --}}
 <script>
 $(function(){
   $('button[value="rechazar_venta"]').click(function(e) {
-    e.preventDefault();
+    // e.preventDefault();
   });
 
 //   $('button[value="devolver_venta"]').click(function(e){
