@@ -314,12 +314,14 @@ Route::group(['middleware' => 'auth'], function () {
             'uses' => 'Procesar\DescompuestoController@soporte',
             'as'   => 'descompuestos.soporte'
         ]);
+    Route::post('procesar/descompuestos/create', 'Procesar\DescompuestoController@create');
     Route::get('procesar/descompuestos/add', 'Procesar\DescompuestoController@addSoporte')->name('addSoporte');
     Route::get('procesar/descompuestos/reparar', 'Procesar\DescompuestoController@getSoporte')->name('getSoporte');
 
 
     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
-
+    Route::post('procesar/aconfirmar', 'Procesar\AconfirmarController@index')->name('aconfirmar.submit');
+    Route::post('procesar/aconfirmar/reactivar', 'Procesar\AconfirmarController@reactivar');
     
     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
     Route::post('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica.submit');

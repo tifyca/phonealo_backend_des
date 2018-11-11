@@ -66,15 +66,17 @@
   <div class="col-12">
     <div class="tile">
       <div class="col mb-3 text-center">
+             <form action="{{ route('aconfirmar.submit') }} " method="POST">
+               {{ csrf_field() }}
           <div class="row">
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Clientes por Confirmar</h3>
             </div>
             <div class="form-group col-md-2">
-              <input class="form-control" type="text" id="" name="" placeholder="Venta">
+              <input class="form-control" type="text" id="venta" name="venta" placeholder="Venta">
             </div>
             <div class="form-group col-md-2">
-              <input class="form-control" type="date" id="" name="" >
+              <input class="form-control" type="date" id="fecha" name="fecha" >
             </div>
             <div class="form-group col-md-2">
                <select class="form-control" id="vendedor" name="vendedor" >  
@@ -84,8 +86,12 @@
                 @endforeach        
               </select>
             </div>
-          </div>
+        <div class="form-group col-md-1 p-0 text-right">
+              <input class="btn btn-warning" type="submit" value="Filtrar" name="filtrar">
+            </div>
+        </form>
         </div>
+          </div>
         <div class="tile-body ">
             <div class="table-responsive">
               <table class="table table-hover table-bordered " id="sampleTable">
@@ -151,8 +157,8 @@
                     
                      <td width="10%" class="text-center">
                       <div class="btn-group">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" href="#"><i class="m-0 fa fa-lg fa-eye"></i></a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#modalCliente" href="#"><i class="m-0 fa fa-lg fa-phone"></i></a>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#ModalProductos" value="{{$item->id}}" ><i class="m-0 fa fa-lg fa-eye"></i></button>
+                        <button class="btn btn-primary acciones" data-toggle="modal" data-target="#modalCliente" value="{{$item->id}}"><i class="m-0 fa fa-lg fa-phone"></i></button>
                       </div>
                     </td>    
                   </tr>
@@ -286,11 +292,12 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <input type="text" name="idventa" id="idventa" value="">
       <div class="modal-body">
         <div class="row">
           <div class="col-12 d-flex justify-content-between">
-            <a href="#" class="btn btn-secondary" title=""><i class="fa fa-lg fa-times"></i>Venta Caida</a>
-            <a href="#" class="btn btn-primary" title=""><i class="fa fa-lg fa-check"></i>Venta Confirmada</a>
+            <button class="btn btn-secondary" title=""><i class="fa fa-lg fa-times"></i>Venta Caida</button>
+            <button class="btn btn-primary" onclick="reactivar();"><i class="fa fa-lg fa-check"></i>Venta Confirmada</button>
           </div>
           <div class="col-12 mt-3 border-top">
             <form action="" method="get" accept-charset="utf-8">
@@ -344,6 +351,39 @@ $(document).ready(function(){
    );
    
 });
+
+$('.acciones').click(function(){
+
+      $('#idventa').val("");
+      var id = $(this).val(); 
+      $('#idventa').val(id); 
+
+})
+
+
+function reactivar(){
+  var id = $('#idventa').val(); 
+
+  var url="aconfirmar";
+
+  $.ajax({
+        type: "POST",
+        url: url + '/reactivar',
+        data: id,
+        dataType: 'json',
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        success: function (data) {
+                       
+            $("#res").html("Venta Confirmada con Éxito");
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+
+              location.reload(true);
+  
+        }
+ })
+
+}
 
 </script>
 

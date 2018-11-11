@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Soporte;
 use App\Productos;
 use PDF;
+use Illuminate\Support\Facades\Validator;
 class DescompuestoController extends Controller
 {
     public function index(){
@@ -20,6 +21,44 @@ class DescompuestoController extends Controller
     
 
         return view('Procesar.Descompuesto.index', compact('descompuesto'));
+    }
+
+    public function create(Request $request){
+
+       $data=$request->all();
+
+       $rules = array( 'descripcion'=>'required', 
+                       'nota'=>'required'); 
+       $messages = array( 'descripcion.required'=>'Nombre del Producto es Requerido', 
+                          'nota.required'=>'La Nota es Requerida' );
+
+        $validator = Validator::make($data, $rules, $messages);
+
+
+   if($validator->fails()){ 
+
+      $errors = $validator->errors(); 
+      return response()->json([ 'success' => false, 'message' => json_decode($errors) ], 400);
+      
+     }elseif ($validator->passes()){      
+      
+          $descompuesto= new Soporte; 
+          $descompuesto->id_producto = $request->id_producto; 
+          $descompuesto->status_soporte =1;
+          $descompuesto->nota =$request->nota; 
+          $descompuesto->id_usuario=$request->id_usuario;
+          $descompuesto->save(); 
+          return response()->json($descompuesto);
+
+          $producto=Productos::find($request->id_producto);
+          $producto->stock_activo= $producto->stock_activo-1;
+          $producto->descompuesto= $producto->descompuesto+1;
+          $producto->save();
+
+
+
+      }  
+        
     }
 
     public function addSoporte(Request $request){

@@ -20,39 +20,46 @@
 
 
 <div class="row">
-
   <div class="col-12">
     <div class="tile">
         <h3 class="tile-title">Nuevo Descompuesto</h3>
-          <form id="frmc" name="frmc"  novalidate="">
-            {{ csrf_field() }} 
-              <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
+            <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
             <div class="row">
-              <div class="form-group col-12  col-md-4">
-               <label for="descripcion">Nombre</label>
-                <input class="form-control" autocomplete="off" type="text" id="descripcion" name="descripcion" >
+              <div class="form-group col-md-4">
+                 <div class="row">
+                  <div class="col">
+                   <label for="descripcion">Producto</label>
+                     <input class="form-control" autocomplete="off" type="text" id="descripcion" name="descripcion" >
+                            {{-- ESTE SE LLENA CON EL ID DEL PRODUCTO --}}
+                      <input type="hidden" id="id_producto"  name="id_producto">
+
+                            {{-- //// --}}
+                   </div>
+              
+                    <div class="col-2 align-items-end row d-none" id="eye">
+                      <div class="row align-items-end">
+                        <span id="eye-hover" class="btn " ><i class="m-0 fa fa-lg fa-eye "></i></span>
+                      </div>
+                    </div>           
+                    <div class="selec_productos col-12 d-none">
+                      <ul class="list-group " id="list-productos">
+                         {{-- ESTE ESPACIO APARECE Y SE LLENA CON AJAX, SE ACATUALIZA CADA QUE SUELTAS LA TECLA --}}
+                      </ul>
+                    </div>
+                        {{-- //// --}}
+                </div>
+              </div>
+     <div class="d-none" id="img-product">
+      <div  class="col-12 d-flex justify-content-center align-items-center" style="position: absolute; z-index: 999; left: 0; height: 100%">
+          <div id="img-p" class="col-6">
            
-                <input type="hidden" id="id_producto"  name="id_producto">
-                {{-- //// --}}
-              </div>
-              
-              <!--div class="col-2 align-items-end row d-none" id="eye">
-                  <div class="row align-items-end">
-                    <span id="eye-hover" class="btn " ><i class="m-0 fa fa-lg fa-eye "></i></span>
-                  </div>
-                </div-->
-              
-              <div class="selec_productos col-md-4 d-none">
-                <ul class="list-group " id="list-productos">
-                   {{-- ESTE ESPACIO APARECE Y SE LLENA CON AJAX, SE ACATUALIZA CADA QUE SUELTAS LA TECLA --}}
-                </ul>
-              </div>
-              {{-- //// --}}
-              
+          </div>   
+      </div>
+    </div>
               <div class="form-group  opacity-p">
-            <label for="">Cod. Producto</label>
-            <input class="form-control" type="text" id="cod_producto" name="cod_producto" readonly>
-          </div>
+                <label for="">Cod. Producto</label>
+                <input class="form-control" type="text" id="cod_producto" name="cod_producto" readonly>
+              </div>
               <div class="form-group row col-12 col-md-4">
                   <label class="control-label col-md-12">Nota</label>
                   <div class="col-md-12 ">
@@ -61,12 +68,13 @@
             </div>
               <div class="tile-footer col-12 col-md-2 text-center border-0" >
                 <button class="btn btn-primary save"  id="btn-save" value="add"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>
-              </div>
-          </form>
-    >  
-            </div>
+                 <a id="refrescar" class="btn btn-secondary " ><i class=" fa fa-lg fa-refresh"></i></a>
+             </div>        
+        </div>
+      </div>
     </div>
   </div>
+
 
   <div class="col-12">
     <div class="tile">
@@ -154,28 +162,25 @@
     </div>
   </div>
 </div>
-<!-- Modal -->
-<!--div class="modal fade" id="ModalDescompuesto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Reporte de Descompuestos</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <iframe width="100%" height="500px" src="{{ asset('archivos/pdf.pdf') }}"></iframe>
-      </div>
-    </div>
-  </div>
-</div -->
- 
+
 
 @endsection
 
+@php
+
+   
+      $url1 = config('app.url') . '/productos/';
+    
+      $url2 = 'img/img-default.png';
+    
+
+@endphp
+
 @push('scripts')
 <script type="text/javascript">
+
+    var url1 = '{{ $url1 }}';
+    var url2 = '{{ $url2 }}';
   
   $('document').ready(function(){
  
@@ -376,7 +381,62 @@ function reparartodo(){
     });
 
 
+$("#btn-save").click(function (e) {
+  var url="descompuestos";
+     $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
 
+    e.preventDefault();
+    var formData = {
+        id_producto: $('#id_producto').val(),
+        nota: $('#nota').val(),
+        descripcion: $('#descripcion').val(),
+        cod_producto: $('#cod_producto').val(),
+        id_usuario: $('#id_usuario').val(),
+
+    }
+    
+       $.ajax({
+        type: "POST",
+        url: url + '/create',
+        data: formData,
+        dataType: 'json',
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        success: function (data) {
+                       
+            $("#res").html("Producto Descompuesto Fue Registrado  con Éxito");
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+
+              location.reload(true);
+  
+        },
+       
+          error: function (data,estado,error) { 
+             var errorsHtml = '';
+           var error = jQuery.parseJSON(data.responseText);
+             errorsHtml +="<ul style='list-style:none;'>";
+             for(var k in error.message){ 
+                if(error.message.hasOwnProperty(k)){ 
+                    error.message[k].forEach(function(val){
+
+                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
+                       
+                        
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                      }); 
+                }
+            }
+          errorsHtml +="</ul>"; 
+                        $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+                     
+        },
+    });
+});
 
 </script>
 @endpush
