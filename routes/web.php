@@ -465,4 +465,5 @@ Route::get('procesar/pedidos/{id}/nota', [
         'uses' => 'ecommerce\sliderController@destroy',
         'as'   => 'slider.destroy'
     ]);
+    Route::get('ecommerce/slider/edit','ecommerce\sliderController@edit')->name('slider.edit');
 });

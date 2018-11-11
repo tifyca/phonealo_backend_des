@@ -1,75 +1,67 @@
-@extends ('backend.layout.layout')
+@extends ('layouts.header')
+{{-- CABECERA DE SECCION --}}
+@section('icono_titulo', '')
+@section('titulo', 'Editar Slider')
+@section('descripcion', '')
 
-@section ('title', 'Administrador')
-
-{{-- CABECERA : TITULO/ ICONOS DE ACCIONES --}}
-
-@section ('title_seccion', 'Editar Slider')
-
-@section ('back_seccion', 'back_slider')
-
-@section ('action_seccion', 'Volver')
-
-@section ('icon_seccion', 'arrow-left')
-
-{{-- //////////////////////////////////// --}}
+{{-- ACCIONES --}}
+@section('display_back', '') @section('link_back', url('ecommerce/slider'))
+@section('display_new','d-none')  @section('link_new', '') 
+@section('display_edit', 'd-none')    @section('link_edit', '')
+@section('display_trash','d-none')    @section('link_trash')
 
 @section ('content')
+<div class="row">
 
-	<div class="uk-margin-medium-top uk-card uk-card-default uk-card-body uk-width-1-1">
-		
-		<form class=" uk-margin-bottom" uk-grid>
-			<div class="uk-width-1-4 uk-child-width-auto">
-		    	<p>Público</p>
-	            <label><input class="uk-radio" type="radio" name="radio2" checked> Si</label>
-	            <label><input class="uk-radio" type="radio" name="radio2"> No</label>
-	        </div>
-            <div class="uk-width-3-4"  uk-grid>
-                <div class="uk-width-1-1">
-                    <b>Adjuntar </b><small>(opcional)</small>
-                </div>
-                <div class="js-upload  uk-margin-small-top" uk-form-custom>
-                    <input type="file" multiple>
-                    <button class="uk-button uk-button-default an-button-select" type="button" tabindex="-1">Archivo</button>
-                </div>
-                <div class="uk-flex uk-flex-center uk-margin-small-top">
-                    O
-                </div>
-                 <div class="uk-width-expand uk-margin-small-top">
-                    <input class="uk-input" placeholder="Enlace">
-                </div>
+  <div class="col-12">
+    <div class="tile">
+      <div class="tile-body ">
+                <form name="form2" action="#" accept-charset="UTF-8"  method="post">
+                    {{ csrf_field() }}
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="form-group col-md-1">
+                               <label class="uk-form-label"><b>Público</b></label>
+                                 <div class="animated-radio-button">
+                                  <label><input class="form-group" type="radio" name="publico" id="publico1" checked value="1" required><span class="label-text"> Si</span></label>
+                                  <label><input class="form-group" type="radio" name="publico" id="publico2" value="0" required><span class="label-text"> No</span></label>
+                               </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="form-group">
+                                  <label class="control-label"><b>Adjuntar</b><small>(opcional)</small></label>
+                                  <input class="form-control" type="file">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-2">
+                            <label for="enlace" class="uk-form-label">O <b>Enlace</b></label>
+                              <input type="text" name="enlace" id="enlace" class="form-control" placeholder="Enlace">
+                         </div>
+                         <div class="col-lg-8">
+                        <label for="titulo" ><b>Título</b></label>
+                        <input class="form-control" placeholder="Título" name="titulo" id="titulo"  required>
+                        <textarea name="texto" id="texto" placeholder="Texto" class="form-control" cols="5"></textarea>
+                        <select class="form-control" id="posicion" name="posicion">
+                          <option value="0">Posición</option>
+                        </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                                <div class="form-group">
+                                  <label class="control-label"><b>Arrastra y suelta la imagen </b><small>O seleccionala aqui</small></label>
+                                  <input class="form-control" type="file">
+                                </div>
+                            </div>
+                        <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+                        <div class="tile-footer col-md-12">
+                          <button class="btn btn-primary" name="guardar" type="submit">Guardar</button>
+                        </div>     
+                        </div>
+                    </div>
+                </form>
             </div>
-	        
-            
-		    <div class="uk-width-1-1">
-				<input class="uk-input  uk-paddin-left" placeholder="Título">
-		    </div>
-		   
-
-		    <div class="uk-width-1-1">
-				<textarea name="" class="uk-textarea" rows="5" placeholder="Texto" ></textarea>
-		    </div>
-            <div class="uk-width-1-4">
-                <select class="uk-select uk-paddin-left ">
-                    <option>Posición</option>
-                </select>
-            </div>
-		    
-		    <div class=" uk-width-1-1 uk-margin-medium-left js-upload uk-placeholder uk-text-center">
-			    <span uk-icon="icon: cloud-upload"></span>
-			    <span class="uk-text-middle">Arrasta y suelta la imagen o </span>
-			    <div uk-form-custom>
-			        <input type="file" multiple>
-			        <span class="uk-link">seleccionala aquí </span>
-			    </div>
-			</div>
-
-			<progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
-					    <div class="uk-width-auto">
-					    	<input class="uk-button uk-button-primary uk-form-width-small" type="" name="" value="Guardar">
-					    </div>
-		</form>
-	</div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
