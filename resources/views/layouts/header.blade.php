@@ -38,6 +38,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/panel.css') }}">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+  <script>
+
+  </script>
   </head>
   <body class="app sidebar-mini rtl" >
     <!-- Navbar-->
@@ -144,6 +150,9 @@
     <script src="{{asset('datePicker/locales/bootstrap-datepicker.es.min.js')}}"></script>
  
     <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
+      <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 <script type="text/javascript">
     $('.datepicker').datepicker({

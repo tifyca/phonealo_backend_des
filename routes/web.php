@@ -4,6 +4,10 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 
+    Route::get('remisanew', function () {
+    return view('Logistica.remisa');
+})->name('remisanew');
+
    
 
     // AJAX
