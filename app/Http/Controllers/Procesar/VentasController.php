@@ -141,7 +141,7 @@ class VentasController extends Controller
 
 }
 
-    public function delventa ($prod, $cliente){
+    public function delventa ($prod, $cliente, $user){
 
       $dtemporal= Detalle_Temporal::where('id_producto',$prod)
                                   ->where('id_cliente',$cliente)
@@ -150,13 +150,14 @@ class VentasController extends Controller
 
       
         $producto = Productos::find($prod);
-        $producto->stock_activo = $producto->stock_activo+$dtemporal->cantidad;
-        //$producto->id_usuario=$request->id_usuario;
+        $producto->stock_activo = $producto->stock_activo+$dtemporal['cantidad'];
         $producto->save();
 
         $del= Detalle_Temporal::where('id_producto',$prod)
-                              ->where('id_cliente',$cliente)
-                              ->delete();
+                               ->where(function ($q )use ($cliente, $user) {
+                                    $q->where('id_cliente',$cliente)
+                                      ->orwhere('id_usuario',$user);
+                               })->delete();
         $espera= Detalle_Temporal::where('espera', 1)
                                  ->where('id_cliente',$cliente)
                                  ->count();

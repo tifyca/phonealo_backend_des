@@ -109,7 +109,8 @@
                     <form class="btn-group" method="post" action="{{ route('remitos.update', $venta->id_venta) }}">
                       {{ csrf_field() }}
                       {{ method_field('PUT') }} 
-                      @if ( $venta->v_id_estado <> 8 && $venta->v_id_estado <> 1)                                             
+                      {{-- @if ( $venta->v_id_estado <> 8 && $venta->v_id_estado <> 1)                                             --}}
+                      @if ( $venta->dr_id_estado == 1)                                            
                       <button class="btn btn-primary" type="submit" name="accion" value="devolver_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Devolver">
                         <i class="fa fa-share-square-o"></i>
                       </button>
@@ -119,7 +120,7 @@
                       <button class="btn btn-primary" type="button" name="accion" value="confirmar_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Confirmar" data-target="#Confirmar{{ $venta->id_venta }}" data-toggle="modal">
                         <i class="fa fa-check-square-o" aria-hidden="true"></i>
                       </button>
-                      <button class="btn btn-primary" type="submit" name="accion" value="rechazar_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Rechazar" data-target="#ModalNota{{ $venta->id_venta }}" data-toggle="modal">
+                      <button class="btn btn-primary" type="button" {{-- name="accion" value="rechazar_venta" --}} data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Rechazar" data-target="#ModalNota{{ $venta->id_venta }}" data-toggle="modal">
                         <i class="fa fa-ban"></i>
                       </button>
                       @endif             
@@ -208,18 +209,22 @@
                   <div style="display: none;" class="alert-top fixed-top text-center alert alert-danger remodal" id="remodal">      
                   </div>
                   <div class="modal-content">
-                    <div class="modal-header">   
-                      <h4 class="modal-title" id="myModalLabel{{ $venta->id_venta }}">Agregar Nota del Pedido</h4>
-                    </div>
-                    <form id="frmnota" name="frmnota" class="form-horizontal form_nota" novalidate="">
-                      <textarea type="text" rows="3" cols="75" class="form-control" name="nota" class="nota" id="nota"></textarea>
+
+                     <form method="post" action="{{ route('remitos.update', $venta->id_venta) }}">
+                      {{ csrf_field() }}
+                      {{ method_field('PUT') }}
+                      <div class="modal-header">   
+                        <h4 class="modal-title" id="myModalLabel{{ $venta->id_venta }}">Agregar Nota del Pedido</h4>
+                      </div>
+                        <textarea type="text" rows="3" cols="75" class="form-control" name="nota" class="nota" id="nota"></textarea>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary {{-- btn-nota --}}" id="btn-nota"  name="accion" value="rechazar_venta">Guardar</button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
+                        <input type="hidden" id="id_venta" class="id_venta" name="id_venta" value="{{ $venta->id_venta }}">
+                        <input type="hidden" id="id_usuario" class="id_usuario" name="id_usuario" value="{{ Auth::user()->id }}">
+                      </div>
                     </form> 
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-primary btn-nota" id="btn-nota" >Guardar</button>
-                      <button type="button" class="btn btn-warning" data-dismiss="modal"> Cancel</button>
-                      <input type="hidden" id="id_venta" class="id_venta" name="id_venta" value="{{ $venta->id_venta }}">
-                      <input type="hidden" id="id_usuario" class="id_usuario" name="id_usuario" value="{{ Auth::user()->id }}">
-                    </div>
+
                   </div>
                 </div>
               </div>
@@ -251,7 +256,7 @@
               </tbody>
             </table>            
             <div class="col-12 text-center pt-4">
-              <a href="#" class="btn btn-primary" title="" data-target="#ConfirmarRemito" data-toggle="modal">Confirmar Remito</a>
+              <button href="#" class="btn btn-primary habilita" title="" data-target="#ConfirmarRemito" data-toggle="modal" disabled >Confirmar Remito</button>
             </div>
         </div>
     </div>
@@ -306,6 +311,7 @@
           {{ csrf_field() }}
           {{ method_field('PUT') }}
           <button type="submit" class="btn btn-danger" name="accion" value="confirmar_remito">
+          <input type="hidden" name="caja" value={{ $caja->id }}>
             Si
           </button>
         </form>
@@ -317,7 +323,38 @@
 @endsection
 
 @push('scripts')
-  <script>
+<script>
+  $(function(){
+  if( "{{ $habilitaConfirmacionRemito }}" ){
+    $('button.habilita').attr('disabled', false);
+  }
+
+  let boton_confirmar, mensaje_confirmacion, boton_accion_venta; 
+  boton_confirmar = $('button[name=confirmar]');
+  mensaje_confirmacion = "{{ session('mensaje') }}";
+  boton_accion_venta = $('a.boton-accion-venta');  
+
+  boton_accion_venta.on('click', function(){
+    $(this).toggleClass('btn-primary').toggleClass('btn-dark')    
+      .children().toggleClass('text-primary');
+  });
+  //////////////////////////////////
+  // Mensaje notificacion success //
+  //////////////////////////////////   
+  if ( mensaje_confirmacion ) {
+    $("#res").html(mensaje_confirmacion);
+    $("#res, #res-content").css("display","block");
+    $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  }  
+
+  $('[data-title="tooltip"]').tooltip();
+
+  $('[data-title="tooltip"]').click(function() {
+    $(this).tooltip('hide');
+  });
+});
+</script>
+{{-- <script>
 $(function(){
   $('button.btn-nota').click(function(e){
     e.preventDefault();
@@ -359,89 +396,63 @@ $(function(){
   });
 
 });
-</script>
-<script>
+</script> --}}
+{{-- <script>
 $(function(){
-  $('button[value="rechazar_venta"]').click(function(e) {
+   $('button[value="rechazar_venta"]').click(function(e) {
+    // e.preventDefault();
+  });
+
+  $('button[value="devolver_venta"]').click(function(e){
     e.preventDefault();
-  });
-
-//   $('button[value="devolver_venta"]').click(function(e){
-//     e.preventDefault();
-//     const boton = $(this);
-//     const id = $(this).data('id');
-//     const url = $(this).parents('form').attr('action');
-//     const accion = $(this).val();
-//     const icono_accion = $(this).children('i').attr('class');
-//     $.ajaxSetup({
-//       headers: {
-//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//       }
-//     });
-//     $.ajax({
-//       url: url,
-//       type: 'put',
-//       dataType: 'json',
-//       data: {
-//         id:  id,
-//         accion: accion
-//       },
-//       beforeSend: function(){
-//         boton.children('i.fa').toggleClass(icono_accion).toggleClass('fa fa-refresh fa-spin');
-//       }
-//     })
-//     .done(function(data) {
-//       boton.children('i.fa').toggleClass('fa fa-refresh fa-spin').toggleClass(icono_accion);
-//       boton.parents('tr').children('td.estado_venta').text(data.estado.estado)
-//         .attr("data-id", data.estado.id);
-//       if ( data.estado.id == 1 ) {
-//         boton.parent().children('button[name="accion"]').css('display', 'none');
-//       }
-//       if (data.baja == true) {
-//         const id_fila_remito = boton.parents('div.modal.fade').attr('id');        
-//         const boton_ver = $('a.confirmar_remito[data-target="#'+id_fila_remito+'"]');
-//         boton_ver.siblings('a.acciones').hide();
-//         boton_ver.parents('tr').children('td.estado_remito').text('Baja');
-//       }
-//     })
-//     .fail(function(a,b,c) {
-//       alert("error");
-//       console.log(a);
-//       console.log(b);
-//       console.log(c);
-//     });
-//     // .always(function() {
-//     //   console.log("complete");
-//     // });
+    const boton = $(this);
+    const id = $(this).data('id');
+    const url = $(this).parents('form').attr('action');
+    const accion = $(this).val();
+    const icono_accion = $(this).children('i').attr('class');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      url: url,
+      type: 'put',
+      dataType: 'json',
+      data: {
+        id:  id,
+        accion: accion
+      },
+      beforeSend: function(){
+        boton.children('i.fa').toggleClass(icono_accion).toggleClass('fa fa-refresh fa-spin');
+      }
+    })
+    .done(function(data) {
+      boton.children('i.fa').toggleClass('fa fa-refresh fa-spin').toggleClass(icono_accion);
+      boton.parents('tr').children('td.estado_venta').text(data.estado.estado)
+        .attr("data-id", data.estado.id);
+      if ( data.estado.id == 1 ) {
+        boton.parent().children('button[name="accion"]').css('display', 'none');
+      }
+      if (data.baja == true) {
+        const id_fila_remito = boton.parents('div.modal.fade').attr('id');        
+        const boton_ver = $('a.confirmar_remito[data-target="#'+id_fila_remito+'"]');
+        boton_ver.siblings('a.acciones').hide();
+        boton_ver.parents('tr').children('td.estado_remito').text('Baja');
+      }
+    })
+    .fail(function(a,b,c) {
+      alert("error");
+      console.log(a);
+      console.log(b);
+      console.log(c);
+    });
+    // .always(function() {
+    //   console.log("complete");
+    // });
     
-//   });
-});
-$(function(){
-
-  let boton_confirmar, mensaje_confirmacion, boton_accion_venta; 
-  boton_confirmar = $('button[name=confirmar]');
-  mensaje_confirmacion = "{{ session('mensaje') }}";
-  boton_accion_venta = $('a.boton-accion-venta');  
-
-  boton_accion_venta.on('click', function(){
-    $(this).toggleClass('btn-primary').toggleClass('btn-dark')    
-      .children().toggleClass('text-primary');
   });
-  //////////////////////////////////
-  // Mensaje notificacion success //
-  //////////////////////////////////   
-  if ( mensaje_confirmacion ) {
-    $("#res").html(mensaje_confirmacion);
-    $("#res, #res-content").css("display","block");
-    $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-  }  
 
-  $('[data-title="tooltip"]').tooltip();
-
-  $('[data-title="tooltip"]').click(function() {
-    $(this).tooltip('hide');
-  });
 });
-</script>
-
+</script> --}}
 @endpush
