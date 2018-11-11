@@ -11,6 +11,7 @@ use App\pedido;
 use App\Ventas;
 use App\Detalle_remito;
 use App\auditoria;
+use App\Notas_Ventas;
 
 @session_start();
 
@@ -70,8 +71,8 @@ class RemitosController extends Controller
         }
         if ( $request->accion == 'devolver_venta' ) {
             // dd($request->all());
-            $venta_devuelta = $this->modificaEstadoVenta($id, 1);
-            $this->modificaEstadoDetalleRemito($id, 2); 
+            $venta_devuelta = $this->modificaEstadoVenta($id, 1);//Estado Activo
+            $this->modificaEstadoDetalleRemito($id, 3);//Estado Cancelado
 
             $detalle = Detalle_remito::where('id_venta', $id)->first(); 
             $remito = $detalle->id_remito;
@@ -103,12 +104,18 @@ class RemitosController extends Controller
 
         if ( $request->accion == 'confirmar_venta' ) {
             $venta = $this->modificaEstadoVenta($id, 8);
+            $this->modificaEstadoDetalleRemito($id, 2);//Estado entregado
             return back()->with('mensaje', 'La venta fue confirmada exitosamente');
             // return  response()->json([
             //     'mensaje' => 'La venta fue confirmada exitosamente',
             //     'estado' => Estados::where('id', $venta->id_estado)->first()
             // ]);
-        }        
+        } 
+        if ( $request->accion == 'rechazar_venta' ) {
+            $this->add_notas($request);
+            $this->modificaEstadoDetalleRemito($id, 4);//Estado Recordinado
+            return back()->with('mensaje', 'La venta ha sido devuelta exitosamente');
+        }       
         if ( $request->accion2 = 'modificar_pago' ) {
             // METODO QUE VALIDA EL TIPO DE PAGO Y LO MODIFICA
             $modificar_pago = $this->modoDePago($id,$request);
@@ -119,6 +126,7 @@ class RemitosController extends Controller
                 return back()->with('mensaje', 'Campo del modo de pago requerido');
             }      
         }
+
     }
 
     public function show($id){
@@ -147,21 +155,21 @@ class RemitosController extends Controller
         $remito->touch();
         return $remito;
     }  
-    private function modificaEstadoVenta($id, $estado = ''){
+    private function modificaEstadoVenta($id, $estado){
         $venta = Ventas::find($id);
         $venta->id_estado = $estado;
         $venta->save();
         $venta->touch();
         return $venta;
     }
-    private function modificaEstadoPedido($id, $estado = ''){
+    private function modificaEstadoPedido($id, $estado){
         $pedido = pedido::find($id);
         $pedido->id_estado = $estado;
         $pedido->save();
         $pedido->touch();
         return $pedido;
     }
-    private function modificaEstadoDetalleRemito($id, $estado = ''){
+    private function modificaEstadoDetalleRemito($id, $estado){
         $detalle_remito = Detalle_remito::orderBy('created_at', 'desc')
             ->where('id_venta', $id)->first();
         $detalle_remito->id_estado = $estado;
@@ -207,5 +215,16 @@ class RemitosController extends Controller
         $venta->save();
         $venta->touch();
         return true;
+    }
+
+    private function add_notas($request){  
+        $notas  = new Notas_Ventas;
+        $notas->id_venta   = $request->id_venta;
+        $notas->nota       = $request->nota;
+        $notas->nota       = ucwords(strtolower($request->nota));
+        $notas->id_usuario = $request->id_usuario;
+        $notas->save();
+        return $notas;
+     
     }     
 }
