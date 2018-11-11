@@ -31,7 +31,7 @@
                   <th class="text-center">Delivery</th>
                   <th class="text-center">Importe total</th>
                   <th class="text-center">Fecha</th>
-                  {{-- <th class="text-center">Estado</th> --}}
+                  <th class="text-center">Estado</th>
                   <th class="text-center">Cobrar</th>
                 </tr>
               </thead>
@@ -42,7 +42,7 @@
                     <td class="text-center">{{ $remito->nombre_delivery }}</td>
                     <td class="text-center">{!!number_format($remito->importe, 0, ',', '.')!!}</td>
                     <td class="text-center">{{ $remito->fecha }}</td>
-                    {{-- <td class="text-center">{{ $remito->estado }}</td> --}}
+                    <td class="text-center">{{ $remito->estado }}</td>
                     <td class="text-center">
                       <a href="{{ route('caja.cobro_remito', [$remito->id, 'caja' => $caja->id]) }}" class="btn btn-primary confirm-delete">
                       {{-- <a href="{{ route('caja.cobro_remito', $remito->id, $caja->id) }}" class="btn btn-primary confirm-delete"> --}}

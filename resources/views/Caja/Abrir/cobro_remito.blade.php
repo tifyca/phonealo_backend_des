@@ -6,7 +6,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Cobro de Remitosss')
+@section('titulo', 'Cobro de Remitos')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -256,7 +256,7 @@
               </tbody>
             </table>            
             <div class="col-12 text-center pt-4">
-              <a href="#" class="btn btn-primary" title="" data-target="#ConfirmarRemito" data-toggle="modal">Confirmar Remito</a>
+              <button href="#" class="btn btn-primary habilita" title="" data-target="#ConfirmarRemito" data-toggle="modal" disabled >Confirmar Remito</button>
             </div>
         </div>
     </div>
@@ -311,6 +311,7 @@
           {{ csrf_field() }}
           {{ method_field('PUT') }}
           <button type="submit" class="btn btn-danger" name="accion" value="confirmar_remito">
+          <input type="hidden" name="caja" value={{ $caja->id }}>
             Si
           </button>
         </form>
@@ -322,6 +323,37 @@
 @endsection
 
 @push('scripts')
+<script>
+  $(function(){
+  if( "{{ $habilitaConfirmacionRemito }}" ){
+    $('button.habilita').attr('disabled', false);
+  }
+
+  let boton_confirmar, mensaje_confirmacion, boton_accion_venta; 
+  boton_confirmar = $('button[name=confirmar]');
+  mensaje_confirmacion = "{{ session('mensaje') }}";
+  boton_accion_venta = $('a.boton-accion-venta');  
+
+  boton_accion_venta.on('click', function(){
+    $(this).toggleClass('btn-primary').toggleClass('btn-dark')    
+      .children().toggleClass('text-primary');
+  });
+  //////////////////////////////////
+  // Mensaje notificacion success //
+  //////////////////////////////////   
+  if ( mensaje_confirmacion ) {
+    $("#res").html(mensaje_confirmacion);
+    $("#res, #res-content").css("display","block");
+    $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  }  
+
+  $('[data-title="tooltip"]').tooltip();
+
+  $('[data-title="tooltip"]').click(function() {
+    $(this).tooltip('hide');
+  });
+});
+</script>
 {{-- <script>
 $(function(){
   $('button.btn-nota').click(function(e){
@@ -365,88 +397,62 @@ $(function(){
 
 });
 </script> --}}
-<script>
+{{-- <script>
 $(function(){
-  $('button[value="rechazar_venta"]').click(function(e) {
+   $('button[value="rechazar_venta"]').click(function(e) {
     // e.preventDefault();
   });
 
-//   $('button[value="devolver_venta"]').click(function(e){
-//     e.preventDefault();
-//     const boton = $(this);
-//     const id = $(this).data('id');
-//     const url = $(this).parents('form').attr('action');
-//     const accion = $(this).val();
-//     const icono_accion = $(this).children('i').attr('class');
-//     $.ajaxSetup({
-//       headers: {
-//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//       }
-//     });
-//     $.ajax({
-//       url: url,
-//       type: 'put',
-//       dataType: 'json',
-//       data: {
-//         id:  id,
-//         accion: accion
-//       },
-//       beforeSend: function(){
-//         boton.children('i.fa').toggleClass(icono_accion).toggleClass('fa fa-refresh fa-spin');
-//       }
-//     })
-//     .done(function(data) {
-//       boton.children('i.fa').toggleClass('fa fa-refresh fa-spin').toggleClass(icono_accion);
-//       boton.parents('tr').children('td.estado_venta').text(data.estado.estado)
-//         .attr("data-id", data.estado.id);
-//       if ( data.estado.id == 1 ) {
-//         boton.parent().children('button[name="accion"]').css('display', 'none');
-//       }
-//       if (data.baja == true) {
-//         const id_fila_remito = boton.parents('div.modal.fade').attr('id');        
-//         const boton_ver = $('a.confirmar_remito[data-target="#'+id_fila_remito+'"]');
-//         boton_ver.siblings('a.acciones').hide();
-//         boton_ver.parents('tr').children('td.estado_remito').text('Baja');
-//       }
-//     })
-//     .fail(function(a,b,c) {
-//       alert("error");
-//       console.log(a);
-//       console.log(b);
-//       console.log(c);
-//     });
-//     // .always(function() {
-//     //   console.log("complete");
-//     // });
+  $('button[value="devolver_venta"]').click(function(e){
+    e.preventDefault();
+    const boton = $(this);
+    const id = $(this).data('id');
+    const url = $(this).parents('form').attr('action');
+    const accion = $(this).val();
+    const icono_accion = $(this).children('i').attr('class');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      url: url,
+      type: 'put',
+      dataType: 'json',
+      data: {
+        id:  id,
+        accion: accion
+      },
+      beforeSend: function(){
+        boton.children('i.fa').toggleClass(icono_accion).toggleClass('fa fa-refresh fa-spin');
+      }
+    })
+    .done(function(data) {
+      boton.children('i.fa').toggleClass('fa fa-refresh fa-spin').toggleClass(icono_accion);
+      boton.parents('tr').children('td.estado_venta').text(data.estado.estado)
+        .attr("data-id", data.estado.id);
+      if ( data.estado.id == 1 ) {
+        boton.parent().children('button[name="accion"]').css('display', 'none');
+      }
+      if (data.baja == true) {
+        const id_fila_remito = boton.parents('div.modal.fade').attr('id');        
+        const boton_ver = $('a.confirmar_remito[data-target="#'+id_fila_remito+'"]');
+        boton_ver.siblings('a.acciones').hide();
+        boton_ver.parents('tr').children('td.estado_remito').text('Baja');
+      }
+    })
+    .fail(function(a,b,c) {
+      alert("error");
+      console.log(a);
+      console.log(b);
+      console.log(c);
+    });
+    // .always(function() {
+    //   console.log("complete");
+    // });
     
-//   });
-});
-$(function(){
-
-  let boton_confirmar, mensaje_confirmacion, boton_accion_venta; 
-  boton_confirmar = $('button[name=confirmar]');
-  mensaje_confirmacion = "{{ session('mensaje') }}";
-  boton_accion_venta = $('a.boton-accion-venta');  
-
-  boton_accion_venta.on('click', function(){
-    $(this).toggleClass('btn-primary').toggleClass('btn-dark')    
-      .children().toggleClass('text-primary');
   });
-  //////////////////////////////////
-  // Mensaje notificacion success //
-  //////////////////////////////////   
-  if ( mensaje_confirmacion ) {
-    $("#res").html(mensaje_confirmacion);
-    $("#res, #res-content").css("display","block");
-    $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-  }  
 
-  $('[data-title="tooltip"]').tooltip();
-
-  $('[data-title="tooltip"]').click(function() {
-    $(this).tooltip('hide');
-  });
 });
-</script>
-
+</script> --}}
 @endpush
