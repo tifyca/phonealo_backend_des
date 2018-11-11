@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Procesar;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use App\Remitos;
 use App\Estados;
 use App\Empleados;
@@ -12,6 +13,11 @@ use App\Ventas;
 use App\Detalle_remito;
 use App\auditoria;
 use App\Notas_Ventas;
+use App\Caja;
+use App\DetalleCaja;
+use App\EstadoCaja;
+use App\TipoMovimiento;
+use App\TipoTransaccion;
 
 @session_start();
 
@@ -50,24 +56,27 @@ class RemitosController extends Controller
         );
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id){        
         if ( $request->accion == 'confirmar_remito' ){
             // dd($request->all());
             // Pasar de estado "delivery(6)" a estado "cobrado(3)"
             $estado = 3; //Estado cobrado
-            $remito = $this->modificaEstadoRemito($id, $estado);
+            $this->modificaEstadoRemito($id,$estado);
             $this->auditoriaEstadoRemito($id, $estado);
+
             ///////////////////////////////////////////
             // MODIFICAR ESTADOS DE VENTAS ASOCIADAS //
             ///////////////////////////////////////////
-            // $ventas = Remitos::Ventas()
-            //     ->where('detalle_remito.id_remito', $id)
-            //     ->get();
-            // foreach ($ventas as $venta) {
-            //     $this->modificaEstadoVenta($venta->dr_id_venta, 8);
-            // }
+            $ventas = Remitos::Ventas()
+                ->where('detalle_remito.id_remito', $id)
+                ->where('detalle_remito.id_estado', 2)
+                ->get();
+            foreach ($ventas as $venta) {
+                $this->modificaEstadoVenta($venta->dr_id_venta, 3);
+                // $this->creaDetalleCaja($request->caja,$id, $venta->dr_id_venta);
+            }
             session()->flash('mensaje', 'El remito fue confirmado exitosamente');
-            return redirect()->route('caja.remitos');
+            return redirect()->route('caja.remitos', ['caja' => $request->caja]);
         }
         if ( $request->accion == 'devolver_venta' ) {
             // dd($request->all());
@@ -102,15 +111,15 @@ class RemitosController extends Controller
             return back()->with('mensaje', 'La venta fue devuelta exitosamente');
         }
 
-        if ( $request->accion == 'confirmar_venta' ) {
-            $venta = $this->modificaEstadoVenta($id, 8);
-            $this->modificaEstadoDetalleRemito($id, 2);//Estado entregado
-            return back()->with('mensaje', 'La venta fue confirmada exitosamente');
+        // if ( $request->accion == 'confirmar_venta' ) {
+        //     $venta = $this->modificaEstadoVenta($id, 8);
+        //     $this->modificaEstadoDetalleRemito($id, 2);//Estado entregado
+        //     return back()->with('mensaje', 'La venta fue confirmada exitosamente');
             // return  response()->json([
             //     'mensaje' => 'La venta fue confirmada exitosamente',
             //     'estado' => Estados::where('id', $venta->id_estado)->first()
             // ]);
-        } 
+        // } 
         if ( $request->accion == 'rechazar_venta' ) {
             $this->add_notas($request);
             $this->modificaEstadoDetalleRemito($id, 4);//Estado Recordinado
@@ -120,8 +129,10 @@ class RemitosController extends Controller
             // METODO QUE VALIDA EL TIPO DE PAGO Y LO MODIFICA
             $modificar_pago = $this->modoDePago($id,$request);
             if ( $modificar_pago == true ) { 
-                $this->modificaEstadoVenta($id, 8);           
-                return back()->with('mensaje', 'El modo de pago fue confirmado exitosamente');
+                $this->modificaEstadoVenta($id, 8);   
+                $this->modificaEstadoDetalleRemito($id, 2);//Estado entregado        
+                // return back()->with('mensaje', 'El modo de pago fue confirmado exitosamente');
+                return back()->with('mensaje', 'La venta fue confirmada exitosamente');
             }else{
                 return back()->with('mensaje', 'Campo del modo de pago requerido');
             }      
@@ -170,12 +181,21 @@ class RemitosController extends Controller
         return $pedido;
     }
     private function modificaEstadoDetalleRemito($id, $estado){
-        $detalle_remito = Detalle_remito::orderBy('created_at', 'desc')
-            ->where('id_venta', $id)->first();
-        $detalle_remito->id_estado = $estado;
-        $detalle_remito->save();
-        $detalle_remito->touch();
-        return $detalle_remito;
+        // $detalle_remito = Detalle_remito::orderBy('created_at', 'desc')
+        //     ->where('id_venta', $id)->first();
+        // $detalle_remito->id_estado = $estado;
+        // $detalle_remito->save();
+        // $detalle_remito->touch();
+        // return $detalle_remito;
+
+        // PROVISIONAL MIENTRAS SOLVENTAN LOS DUPLICADOS DE DETALLE_REMITO
+        $detalle_remitos = Detalle_remito::orderBy('created_at', 'desc')
+            ->where('id_venta', $id)->get();
+        foreach ($detalle_remitos as $detalle_remito) {
+            $detalle_remito->id_estado = $estado;
+            $detalle_remito->save();
+            $detalle_remito->touch();
+        }
     }
 
     private function auditoriaEstadoRemito($id, $estado){
@@ -226,5 +246,20 @@ class RemitosController extends Controller
         $notas->save();
         return $notas;
      
-    }     
+    }
+
+    // private function creaDetalleCaja($id_caja, $id_remito, $id_venta){
+    //     $detalle_caja = new DetalleCaja;
+    //     $detalle_caja->id_caja = $id_caja;
+    //     $detalle_caja->fecha = Carbon::now();
+    //     $detalle_caja-> = 
+    //     // $detalle_caja->fecha = Carbon::now();
+    //     // $detalle_caja->fecha = Carbon::now();
+    //     // $detalle_caja->fecha = Carbon::now();
+    //     // $detalle_caja->fecha = Carbon::now();
+    //     // $detalle_caja->fecha = Carbon::now();
+    //     // $detalle_caja->fecha = Carbon::now();
+
+        
+    // }
 }
