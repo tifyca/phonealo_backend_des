@@ -11,7 +11,7 @@ $id_usuario= $_SESSION["user"];
 {{-- ACCIONES --}}
 @section('display_back', 'd-none') @section('link_back', '')
 @section('display_new','')  @section('link_new', route('slider.create') ) 
-@section('display_edit', 'd-none')    @section('link_edit', '')
+@section('display_edit', 'd-none')    @section('link_edit', route('slider.edit',auth()->user()->id))
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
@@ -89,8 +89,7 @@ $id_usuario= $_SESSION["user"];
          <td class="text-center">13-10-2018</td>
          <td width="10%" class="text-center">
             <div class="btn-group">
-              <button data-toggle="tooltip" data-placement="top" title="Ver/Editar" class="btn btn-primary"><i class="m-0 fa fa-lg fa-edit"></i></button>
-              
+              <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver/Editar" href="{{ URL::to('ecommerce/slider/' . auth()->user()->id . '/edit') }}"><i class="m-0 fa fa-lg fa-edit"></i></a>
               <button data-toggle="tooltip" data-placement="top"  title="Eliminar" class="btn btn-primary nota"  value=""><i class="fa fa-lg fa-trash" ></i></button>   
           </div>
       </td> 
