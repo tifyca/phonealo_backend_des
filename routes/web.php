@@ -10,6 +10,8 @@ Route::group(['middleware' => 'auth'], function () {
         'as'   => 'saveRemisa'
     ]);
 
+    Route::get('remisa0','Logistica\RemisaController@remisa0')->name('remisa0');
+
    
 
     // AJAX

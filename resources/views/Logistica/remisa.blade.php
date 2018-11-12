@@ -96,10 +96,7 @@ ul {
         </div>
         
         <ul class="sortable ui-sortable" id="empleado0" data-empleado-id="0">
-            @foreach ($ventas as $venta)
-                <li class="text-row ui-sortable-handle" data-importe='{{ $venta->importe }}' data-venta-id="{{ $venta->id }}">{{ $venta->id }} --- {{ $venta->importe }}</li>
-            @endforeach
-            
+           @include('Logistica.remisa.ventas6');
         </ul>
     </div>
     
@@ -112,37 +109,20 @@ ul {
             <ul class="sortable ui-sortable empleado{{ $empleado->id }}" id="empleado{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}">
                 @foreach ($remisa as $item)
                    @if ($item->id_delivery == $empleado->id)
-
-                   @foreach ($ventas as $venta)
-
-                        @if ($venta->id == $item->id_venta)
-                            <li class="text-row ui-sortable-handle" data-importe='{{ $venta->importe }}' data-venta-id="{{ $venta->id }}">{{ $venta->id }}---{{ $venta->importe }}</li>
-                        @endif
-                       
-                   @endforeach
-                  
-                        
-
+                       @foreach ($ventasAsignadas as $ventaA)
+                            @if ($ventaA->id == $item->id_venta)
+                                <li class="text-row ui-sortable-handle" data-importe='{{ $ventaA->importe }}' data-venta-id="{{ $ventaA->id }}">{{ $ventaA->id }}---{{ $ventaA->importe }}
+                                    
+                                </li>
+                            @endif
+                       @endforeach
                    @endif
                 @endforeach
-
-
-
-                
             </ul>
             <div class="col-12 text-right mb-3">
-                   {{--  @foreach ($remisa as $item)
-                    @if ($item->id_delivery == $empleado->id)
-                    @foreach ($ventas as $venta)
-                    @if ($venta->id == $item->id_venta)
-                          
-                    @endforeach
-                    @endif
-                    @endforeach --}}
-
-                    <p><b>Total: <span id="total{{ $empleado->id }}"></span> Gs.</b></p>
-                    <button type="button" id="btnSaveRemito{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}" class="btn btn-primary ">Confirmar</button>
-                </div>
+                <p><b>Total: <span id="total{{ $empleado->id }}"></span> Gs.</b></p>
+                <button type="button" id="btnSaveRemito{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}" class="btn btn-primary ">Confirmar</button>
+            </div>
         </div>
     @endforeach
 </div>
@@ -158,19 +138,17 @@ $(function() {
         var url = '{{ route('saveRemisa') }}';
         $('ul[id^="empleado"]').sortable(
                 {
-
                     cursor: "move",
                     connectWith : ".sortable",
                     receive : function(e, ui) {
-
-
-                        var empleado_id = $(ui.item).parent(".sortable").data(
-                                "empleado-id");
+                        var empleado_id = $(ui.item).parent(".sortable").data("empleado-id");
                         var venta_id = $(ui.item).data("venta-id");
                        
                         //console.log(empleado_id);
                         //console.log(venta_id);
-                        
+
+                       $("#empleado0").load("{{ route('remisa0') }}"); 
+                         
                         $.ajax({
                             type: "get",
                             url: url+'/'+empleado_id+'/'+venta_id,
@@ -207,6 +185,15 @@ $(function() {
                
 
         });
+
+        $('.eliminaRemisa').on('click', function(){ 
+
+            var id = $(this).data('venta-id');
+
+            console.log(id);
+        });
+
+       
     });
  </script>
 
