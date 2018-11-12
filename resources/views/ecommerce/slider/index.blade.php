@@ -75,6 +75,7 @@ $id_usuario= $_SESSION["user"];
           <th class="text-center">Público</th>
           <th class="text-center">Posición</th>
           <th class="text-center">Fecha</th>
+          <th class="text-center">Imagen</th>
           <th class="text-center" width="20%">Acciones</th>
       </tr>
   </thead>
@@ -90,6 +91,7 @@ $id_usuario= $_SESSION["user"];
       @endif
       <td class="text-center">{{$item->posicion}}</td>
       <td class="text-center">{{$item->created_at}}</td>
+      <td class="text-center">{{$item->img}}</td>
          <td width="10%" class="text-center">
             <div class="btn-group">
               <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver/Editar" href="{{ URL::to('ecommerce/slider/' . $item->id . '/edit') }}"><i class="m-0 fa fa-lg fa-edit"></i></a>
