@@ -91,7 +91,7 @@ $id_usuario= $_SESSION["user"];
       @endif
       <td class="text-center">{{$item->posicion}}</td>
       <td class="text-center">{{$item->created_at}}</td>
-      <td class="text-center"><img src="{{$item->url}}" alt=""></td>
+      <td class="text-center"><img src="config('app.url') . 'slider/' . $slider->url" alt=""></td>
          <td width="10%" class="text-center">
             <div class="btn-group">
               <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver/Editar" href="{{ URL::to('ecommerce/slider/' . $item->id . '/edit') }}"><i class="m-0 fa fa-lg fa-edit"></i></a>
