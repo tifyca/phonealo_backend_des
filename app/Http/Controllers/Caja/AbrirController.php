@@ -125,22 +125,14 @@ class AbrirController extends Controller
     public function detalle(Request $request){
         $caja = Caja::find($request->caja);
         $detalles =  Caja::DetalleRemitoEntregado()
-                ->where('caja.id_estado',1)//CAJA ABIERTA
-                ->where('detalle_caja.id_caja',$caja->id)// CAJA ASOCIADA
-                ->groupBy('ventas.id')
+            ->where('caja.id_estado',1)//CAJA ABIERTA
+            ->where('detalle_caja.id_caja',$caja->id)// CAJA ASOCIADA
+            ->groupBy('ventas.id')
             ->select(
                 'tipo_movimiento.descripcion as tipo', 'detalle_caja.importe',
                 'detalle_caja.descripcion', 'detalle_caja.referencia_detalle as referencia'            
             )
             ->get();
-
-            // Caja::DetalleRemitoEntregado()
-            //     ->where('caja.id_estado',1)//CAJA ABIERTA
-            //     ->where('detalle_caja.id_caja',$id)// CAJA ASOCIADA
-            //     ->where('detalle_caja.id_forma_pago', 1)//FORMA PAGO EFECTIVO
-            //     ->groupBy('ventas.id')
-            //     ->select('detalle_caja.importe')            
-            //     ->get();
         return view('Caja.Abrir.detalle_caja', compact('caja', 'detalles'));
     }
 

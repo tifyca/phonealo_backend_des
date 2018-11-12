@@ -220,19 +220,19 @@ class RemitosController extends Controller
     private function modoDePago($id, $request){
         if ( $request->accion == 'modo_pago_efectivo' ) {
             $modificar_pago = $this->modificaFormaPagoVenta($id,1);
-            $this->descripcion_caja = "Venta #".$id. ",via Efectivo";
+            $this->descripcion_caja = "Venta #".$id. ", via Efectivo";
         }
         if ( $request->accion == 'modo_pago_tarjeta' ) {
             $modificar_pago = $this->modificaFormaPagoVenta($id, 3,$request->input_pos);
-            $this->descripcion_caja = "Venta #".$id. ",via Tarjeta #".$request->input_pos;
+            $this->descripcion_caja = "Venta #".$id. ", via Tarjeta #".$request->input_pos;
         }
         if ( $request->accion == 'modo_pago_debito' ) {
             $modificar_pago = $this->modificaFormaPagoVenta($id, 4,$request->input_pos);
-            $this->descripcion_caja = "Venta #".$id. ",via Tarjeda de debito #".$request->input_pos;
+            $this->descripcion_caja = "Venta #".$id. ", via Tarjeda de debito #".$request->input_pos;
         }        
         if ( $request->accion == 'modo_pago_otros' ) {
             $modificar_pago = $this->modificaFormaPagoVenta($id, 2, $request->input_otros);
-            $this->descripcion_caja = "Venta #".$id. ",via Otra forma de pago: ".$request->input_otros;
+            $this->descripcion_caja = "Venta #".$id. ", via Otra forma de pago: ".$request->input_otros;
         }
         return $modificar_pago;     
     }
