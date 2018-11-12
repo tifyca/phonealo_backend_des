@@ -314,13 +314,16 @@ Route::group(['middleware' => 'auth'], function () {
             'uses' => 'Procesar\DescompuestoController@soporte',
             'as'   => 'descompuestos.soporte'
         ]);
+    Route::post('procesar/descompuestos/create', 'Procesar\DescompuestoController@create');
     Route::get('procesar/descompuestos/add', 'Procesar\DescompuestoController@addSoporte')->name('addSoporte');
     Route::get('procesar/descompuestos/reparar', 'Procesar\DescompuestoController@getSoporte')->name('getSoporte');
 
 
     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
+    Route::post('procesar/aconfirmar', 'Procesar\AconfirmarController@index')->name('aconfirmar.submit');
+    Route::post('procesar/aconfirmar/reactivar', 'Procesar\AconfirmarController@reactivar');
+    Route::post('procesar/aconfirmar/ventacaida', 'Procesar\AconfirmarController@ventacaida');
 
-    
     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
     Route::post('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica.submit');
     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
@@ -377,6 +380,8 @@ Route::get('procesar/pedidos/{id}/cambiar_mismo', [
         'uses' => 'Procesar\PedidosController@cambiar_mismo',
         'as'   => 'pedidos.cambiarm'
     ]);
+
+Route::put('procesar/pedidos/cambiar/{id?}','Procesar\PedidosController@cambiar')->name('pedidos.cambiar');
 
 Route::get('procesar/pedidos/{id}/nota', [
         'uses' => 'Procesar\PedidosController@agregar_nota',
@@ -465,5 +470,9 @@ Route::get('procesar/pedidos/{id}/nota', [
         'uses' => 'ecommerce\sliderController@destroy',
         'as'   => 'slider.destroy'
     ]);
-    Route::get('ecommerce/slider/edit','ecommerce\sliderController@edit')->name('slider.edit');
+
+    Route::get('ecommerce/slider/{id}/edit', [
+        'uses' => 'ecommerce\sliderController@edit',
+        'as'   => 'slider.edit'
+    ]);
 });

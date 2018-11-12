@@ -18,7 +18,8 @@ $id_usuario= $_SESSION["user"];
 
 @if(Session::has('message'))
 <div class="alert alert-success">
-
+<input type="hidden" name="tipom" id="tipom" value="{{$tipo}}">
+<input type="hidden" name="mensaje" id="mensaje" value="{{$mensaje}}">  
  {{ Session::get('message') }} 
 </div>
 @php $longitud = count($notaventa); @endphp
@@ -301,7 +302,35 @@ $id_usuario= $_SESSION["user"];
 @endsection
 
 @push('scripts')
+<script type="text/javascript" language="javascript">
+window.onload = load;
+function load(){
+  var valor  = $("#tipom").val();
+  var mensaje = $("#mensaje").val();
+  
+  if(valor==1){
+
+           $("#res").html(mensaje);
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  }
+  if(valor==2){
+
+            $("#rese").html(mensaje);
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+  }
+  $("#tipom").val(" ");
+  $("#mensaje").val(" ");
+} 
+</script>
 <script type="text/javascript">
+
+
+
+
+
+
 
  $('.reset').click(function(){
    
