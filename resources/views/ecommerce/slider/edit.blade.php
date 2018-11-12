@@ -16,7 +16,7 @@
   <div class="col-12">
     <div class="tile">
       <div class="tile-body ">
-        <form name="form2" action="{{ route('slider.update', ($slider->id)) }}" accept-charset="UTF-8"  method="post">
+        <form name="form1" action="{{ route('slider.update', ($slider->id)) }}" accept-charset="UTF-8" enctype="multipart/form-data" method="post">
          {{ csrf_field() }}
          {{ method_field('PUT') }} 
             <div class="col-12">
@@ -39,17 +39,15 @@
                 <div class="form-group col-md-8">
                   <div class="form-group col-md-6">
                     <div class="form-group">
-                      <?php $url=$slider->img;
-                       if($url){
-                          $zurl = config('app.url') . '/slider/' . $url ;
-                        }
-                        else{
-                          $zurl = 'img/silueta2.png';
-                        }
-                      ?>
-                    <img id="imgSalida" src="{{asset($zurl)}}" width="100%">
+                      @if(!empty($slide->url))
+                    <img id="imgSalida" src="config('app.url') . 'slider/' . $slide->url" width="100%">
+                      @else
+                    <img id="imgSalida" src="{{asset('img/silueta2.png')}}" width="100%"> 
+                    @endif 
                       <label class="control-label">Seleccionar Imagen</label>
-                      <input class="form-control" type="file" >
+                      <div class="form-group mt-4">
+                    <input type="file" class="read-file read" id="archivo" name="archivo" accept="image/*"disabled>
+                  </div>
                     </div>
                   </div>
                   <div class="tile-footer d-flex align-items-center col-12">
