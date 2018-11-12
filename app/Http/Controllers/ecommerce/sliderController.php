@@ -67,11 +67,10 @@ class sliderController extends Controller
         }
          else{
          $slider = new Slider($request->all());
-        /**  if($request["archivo"]){
-          //dd($request->archivo);
-            $fileName = $this->saveFile($request["archivo"], "slider/");
-            $slider->img = $fileName; 
-          }**/
+          if($request["archivo"]){
+          $fileName = $this->saveFile($request["archivo"], "slider/");
+          $slider->img = $fileName;
+          }
         $slider->descripcion = $request["descripcion"];
         $slider->publico = $request["publico"];
         $slider->posicion = $request["posicion"];

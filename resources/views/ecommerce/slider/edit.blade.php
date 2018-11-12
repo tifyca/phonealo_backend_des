@@ -42,11 +42,9 @@
                       <?php $url=$slider->img;
                        if($url){
                           $zurl = config('app.url') . '/slider/' . $url ;
-                          //$zurl="img/productos/".$url;
                         }
                         else{
                           $zurl = 'img/silueta2.png';
-                          //echo $zurl;
                         }
                       ?>
                     <img id="imgSalida" src="{{asset($zurl)}}" width="100%">
