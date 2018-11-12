@@ -21,10 +21,9 @@ $id_usuario= $_SESSION["user"];
 
    {{ Session::get('message') }} 
 </div>
-
-
-@endif      
-
+@endif
+<input type="hidden" name="tipom" id="tipom" value="<?php echo $tipo ?>">
+<input type="hidden" name="mensaje" id="mensaje" value="{{$mensaje}}"> 
 
 <div class="row">
   <div class="col-12">
@@ -36,7 +35,7 @@ $id_usuario= $_SESSION["user"];
               <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
               <h4 class="tile-title text-left text-md-left">Listado de Sliders</h4> <br>
           </div>
-          <form class="row d-flex justify-content-end" action="#" method="get"> 
+          <form class="row d-flex justify-content-end" action="{{route('slider.index')}}" method="get"> 
 
               <div class="form-group col-mb-4">
                 <input class="form-control" type="text" name="titulo" id="titulo" placeholder="Buscar Título">
@@ -80,21 +79,25 @@ $id_usuario= $_SESSION["user"];
       </tr>
   </thead>
   <tbody>
+    @foreach($slider as $item)
      <tr> 
-        <th>1</th>
-         <td>Prueba Slider</td>
-
-         <td class="text-center">Si</td>
-         <td class="text-center">1</td>
-         <td class="text-center">13-10-2018</td>
+      <td>{{$item->id}}</td>
+      <td class="text-left">{{$item->descripcion}}</td>@if($item->publico == 1)
+      <td class="text-center">Sí</td>
+      @endif
+      @if($item->publico == 0)
+      <td class="text-center">No</td>
+      @endif
+      <td class="text-center">{{$item->posicion}}</td>
+      <td class="text-center">{{$item->created_at}}</td>
          <td width="10%" class="text-center">
             <div class="btn-group">
-              <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver/Editar" href="{{ URL::to('ecommerce/slider/' . auth()->user()->id . '/edit') }}"><i class="m-0 fa fa-lg fa-edit"></i></a>
+              <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver/Editar" href="{{ URL::to('ecommerce/slider/' . $item->id . '/edit') }}"><i class="m-0 fa fa-lg fa-edit"></i></a>
               <button data-toggle="tooltip" data-placement="top"  title="Eliminar" class="btn btn-primary nota"  value=""><i class="fa fa-lg fa-trash" ></i></button>   
           </div>
       </td> 
   </tr>
-
+   @endforeach
 </tbody>
 </table>
 </div>
@@ -110,3 +113,30 @@ $id_usuario= $_SESSION["user"];
 
 @endsection
 
+@push('scripts')
+
+<script type="text/javascript" language="javascript">
+    window.onload = load;
+    function load(){
+      var valor  = $("#tipom").val();
+      var mensaje = $("#mensaje").val();
+      
+      if(valor==1){
+
+               $("#res").html(mensaje);
+                $("#res, #res-content").css("display","block");
+                $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+      }
+      if(valor==2){
+
+                $("#rese").html(mensaje);
+                $("#rese, #res-content").css("display","block");
+                $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+      }
+
+    };
+    $("input#boton").bind('click', function (event) {
+      $("form").submit();
+    });
+</script>
+@endpush

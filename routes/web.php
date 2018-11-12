@@ -466,12 +466,8 @@ Route::get('procesar/pedidos/{id}/nota', [
         'as'   => 'slider.destroy'
     ]);
 
-    // REVISAR CUAL RUTA ES LA QUE DEBES USAR
     Route::get('ecommerce/slider/{id}/edit', [
         'uses' => 'ecommerce\sliderController@edit',
         'as'   => 'slider.edit'
     ]);
-
-    Route::get('ecommerce/slider/edit','ecommerce\sliderController@edit')->name('slider.edit');
-    // REVISAR CUAL RUTA ES LA QUE DEBES USAR
 });
