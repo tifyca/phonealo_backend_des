@@ -195,7 +195,6 @@ class Logistica extends Controller
   
         $notas  = new Notas_Ventas;
         $notas->id_venta   = $request->id_venta;
-        $notas->nota       = $request->nota;
         $notas->nota       = ucwords(strtolower($request->nota));
         $notas->id_usuario = $request->id_usuario;
         $notas->save();
