@@ -101,7 +101,6 @@ class sliderController extends Controller
         $slider->fill($request->all());
         if($request["archivo"]){
           $zfile = $request["archivo"];
-          $fileName = $this->saveFile($request->archivo, "slider/");
           $this->deleteFile($slider->url, "slider/");
           $fileName = $this->saveFile($request["archivo"], "slider/");
           $slider->url = $fileName;
