@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Procesar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Ventas;
-use App\Detalles_Ventas;
+use App\Detalle_Ventas;
 use App\detalle;
 use App\pedido;
 use App\Estados;
@@ -27,6 +27,8 @@ class PedidosController extends Controller
       $id_pedido = $request->id_pedido;
       $telefono  = $request->telefono;	
       $id_usuario =  $_SESSION["user"];
+      $tipo="";
+      $mensaje="";
       if($id_pedido=="" && $telefono=="")
       {
        $pedidos = DB::table('pedidos as a')->join('detalle_pedidos as b','a.id','=','b.id_pedido')->join('clientes as c','a.id_cliente','=','c.id')->join('estados as d','a.id_estado','=','d.id')->leftjoin('users as e','a.id_usuario','=','e.id')->join('ventas as f','a.id','=','f.id_pedido')->select('a.id','f.id as id_venta','a.fecha','a.id_estado','a.id_cliente','c.nombres','c.telefono','c.barrio','c.direccion',DB::raw('sum(b.precio * b.cantidad) as monto'),'a.id_usuario','d.estado','e.name')->groupBy('a.id')->orderby('a.fecha','desc')->paginate(10);
@@ -58,7 +60,7 @@ class PedidosController extends Controller
         $notaventa= Notas_Ventas::join('ventas', 'notas_ventas.id_venta', '=', 'ventas.id')
                                 ->select('notas_ventas.id_venta')->get();
 
-       return view('Procesar.Pedidos.index')->with('pedidos',$pedidos)->with('id_usuario',$id_usuario)->with('nota',$nota)->with('notaventa',$notaventa);
+       return view('Procesar.Pedidos.index')->with('pedidos',$pedidos)->with('id_usuario',$id_usuario)->with('nota',$nota)->with('notaventa',$notaventa)->with('tipo',$tipo)->with('mensaje',$mensaje);
     }
 
     public function show(Request $request)
@@ -80,7 +82,7 @@ class PedidosController extends Controller
        $pedidos=pedido::where('id',$id)->first();
        $pedidos->id_estado=2;
        $pedidos->save();
-       $detalles= Detalles_Ventas::where("id_venta",$request->id)->get();
+       $detalles= Detalle_Ventas::where("id_venta",$request->id)->get();
        foreach($detalles as $detalle){
          $id_producto = $detalles->id_producto;
          $cantidad    = $detalles->cantidad;
@@ -123,6 +125,7 @@ class PedidosController extends Controller
 
 
     public function cambiar(Request $request,$id){
+    
       $id=$request->id;
       $idusuario = $request->id_usuario;
       $ventas=Ventas::where('id',$id)->first();
@@ -144,7 +147,7 @@ class PedidosController extends Controller
         $monto = $request->monto;
         if($monto>0)
         {
-          $detalle_ventas=new Detalles_venta();
+          $detalle_ventas=new Detalle_Ventas();
           $detalle_ventas->id_venta = $id;
           $detalle_ventas->id_producto = 36;
           $detalle_ventas->precio = $monto;
@@ -152,6 +155,8 @@ class PedidosController extends Controller
           $detalle_ventas->created_at = date('Y-m-d');
           $detalle_ventas->updated_at = date('Y-m-d');
         }
+         $tipo=1;
+         $mensaje="Pedido Modificado por el mismo producto";
          $auditoria = new auditoria();
          $auditoria->id_venta   = $id;
          $auditoria->id_usuario =  $_SESSION["user"];
@@ -159,9 +164,21 @@ class PedidosController extends Controller
          $auditoria->accion     = "Cambio de Producto por el mismo".$id;
          $auditoria->save(); 
        }
+        $id_usuario=$_SESSION["user"];
+      // return redirect()->route('pedidos.index');
+       $pedidos = DB::table('pedidos as a')->join('detalle_pedidos as b','a.id','=','b.id_pedido')->join('clientes as c','a.id_cliente','=','c.id')->join('estados as d','a.id_estado','=','d.id')->leftjoin('users as e','a.id_usuario','=','e.id')->join('ventas as f','a.id','=','f.id_pedido')->select('a.id','f.id as id_venta','a.fecha','a.id_estado','a.id_cliente','c.nombres','c.telefono','c.barrio','c.direccion',DB::raw('sum(b.precio * b.cantidad) as monto'),'a.id_usuario','d.estado','e.name')->groupBy('a.id')->orderby('a.fecha','desc')->paginate(10);       
 
-       return redirect()->route('pedidos.index');
-      
+  $nota  =Notas_Ventas::join('users', 'notas_ventas.id_usuario', '=', 'users.id')
+                            ->select('nota', 'id_venta', 'name as nombre', 'notas_ventas.created_at as fecha')
+                            ->groupBy('id_venta', 'notas_ventas.id_usuario', 'notas_ventas.created_at')
+                            ->orderBy('id_venta')
+                            ->get();
+ 
+
+        $notaventa= Notas_Ventas::join('ventas', 'notas_ventas.id_venta', '=', 'ventas.id')
+                                ->select('notas_ventas.id_venta')->get();
+
+       return view('Procesar.Pedidos.index')->with('pedidos',$pedidos)->with('id_usuario',$id_usuario)->with('nota',$nota)->with('notaventa',$notaventa)->with('tipo',$tipo)->with('mensaje',$mensaje);      
     }
     public function agregar_nota($id){
       
@@ -228,6 +245,7 @@ class PedidosController extends Controller
 public function update(Request $request,$id)
 {
   $ventas=Ventas::find($id);
+  if($ventas){
   $horario = $ventas->id_horario;
   $zhorario = $request->horario_venta;
   if($horario!=$zhorario)
@@ -248,6 +266,8 @@ public function update(Request $request,$id)
     $auditoria->fecha      = date('Y-m-d');
     $auditoria->accion     = "Modificación de Pedido: Venta Nro".$id;
     $auditoria->save();  
+
+  }
     return redirect()->route('pedidos.index');
  }
 
