@@ -23,7 +23,7 @@
     <div class="tile">
         <div class="d-flex justify-content-between">
           <h5 class=" text-left">{{ auth()->user()->name }}</h5>
-          <h5 class="text-right">08/08/2018</h5>
+          <h5 class="text-right">{{ $fecha }}</h5>
         </div>
         <hr>
         <div class="tile-body ">
@@ -32,27 +32,27 @@
               <tbody>
                 <tr>
                   <th>Total ingresos efectivo</th>
-                  <td> $ 1.000.000 </td>
+                  <td>{!!number_format($total_efectivo , 0, ',', '.')!!}</td>
                 </tr>
                 <tr>
                   <th>Total ingreso POS</th>
-                  <td> $ 250.000 </td>
+                  <td>{!!number_format($total_pos , 0, ',', '.')!!}</td>
                 </tr>
                 <tr>
                   <th>Total ingreso Otros</th>
-                  <td> $ 100.000 </td>
+                  <td>{!!number_format($total_otros , 0, ',', '.')!!}</td>
                 </tr>
                 <tr>
                   <th>Total Salidas</th>
-                  <td> $ 295.000 </td>
+                  <td> PENDIENTE </td>
                 </tr>
                 <tr>
                   <th>Total Gastos</th>
-                  <td> $ 122.000 </td>
+                  <td> PENDIENTE </td>
                 </tr>
                 <tr class="table-secondary">
-                  <th class="text-right">NETO EFECTIVO EN CAJA</th>
-                  <td><b>$ 583.000</b></td>
+                  <th class="text-right">NETO EFECTIVO EN CAJA</th>                  
+                  <td><b>{!!number_format($total_neto , 0, ',', '.')!!}</b></td>
                 </tr>
               </tbody>
             </table>
@@ -81,7 +81,7 @@
         </a>
       </div>
       <div class="col-12">
-        <a href="{{ route('caja.salida') }}" title="" class="link-card">
+        <a href="{{ route('caja.salida',['caja' => $caja->id]) }}" title="" class="link-card">
           <div class="widget-small  warning"><i class="icon fa fa-file-o fa-3x"></i>
             <div class="info">
               <h4>Salidas</h4>
@@ -90,7 +90,7 @@
         </a>
       </div>
       <div class="col-6">
-        <a href="{{ route('caja.detalle') }}" title="" class="link-card">
+        <a href="{{ route('caja.detalle',['caja' => $caja->id]) }}" title="" class="link-card">
           <div class="widget-small info "><i class="icon fa fa-list fa-3x"></i>
             <div class="info">
               <h4>Detalles de Caja</h4>

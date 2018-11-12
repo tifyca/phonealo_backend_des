@@ -173,7 +173,9 @@
                     <form class="modal-body  py-5" method="post" action="{{ route('remitos.update', $venta->id_venta) }}">
                       {{ csrf_field() }}
                       {{ method_field('PUT') }}   
+                      <input type="hidden" name="caja" value="{{ $caja->id }}">
                       <input type="hidden" name="accion2" value="modificar_pago">   
+                      <input type="hidden" name="remito" value="{{ $remito->id }}">   
                       <div class="col-12 d-flex justify-content-around">
                         <button type="submit" class="btn btn-primary col-2" {{-- data-dismiss="modal" --}} value="modo_pago_efectivo" name="accion">
                           Efectivo

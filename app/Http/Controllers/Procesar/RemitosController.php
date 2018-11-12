@@ -17,12 +17,21 @@ use App\Caja;
 use App\DetalleCaja;
 use App\EstadoCaja;
 use App\TipoMovimiento;
-use App\TipoTransaccion;
 
 @session_start();
 
 class RemitosController extends Controller
 {
+    /////////////////
+    // PROPIEDADES //
+    /////////////////
+
+    private $input_confirmar;    
+    private $tipo_movimiento;
+    private $importe_venta;
+    private $forma_pago_venta;
+    private $descripcion_caja;
+
     ////////////////////////
     // METODOS PUBLICAS //
     ////////////////////////
@@ -128,10 +137,10 @@ class RemitosController extends Controller
         if ( $request->accion2 = 'modificar_pago' ) {
             // METODO QUE VALIDA EL TIPO DE PAGO Y LO MODIFICA
             $modificar_pago = $this->modoDePago($id,$request);
-            if ( $modificar_pago == true ) { 
+            if ( $modificar_pago == true ) {                 
                 $this->modificaEstadoVenta($id, 8);   
-                $this->modificaEstadoDetalleRemito($id, 2);//Estado entregado        
-                // return back()->with('mensaje', 'El modo de pago fue confirmado exitosamente');
+                $this->modificaEstadoDetalleRemito($id, 2);//Estado entregado   
+                $this->creaDetalleCaja($request->caja,$request->remito,$id);
                 return back()->with('mensaje', 'La venta fue confirmada exitosamente');
             }else{
                 return back()->with('mensaje', 'Campo del modo de pago requerido');
@@ -211,27 +220,38 @@ class RemitosController extends Controller
     private function modoDePago($id, $request){
         if ( $request->accion == 'modo_pago_efectivo' ) {
             $modificar_pago = $this->modificaFormaPagoVenta($id,1);
+            $this->descripcion_caja = "Venta #".$id. ", via Efectivo";
         }
         if ( $request->accion == 'modo_pago_tarjeta' ) {
             $modificar_pago = $this->modificaFormaPagoVenta($id, 3,$request->input_pos);
+            $this->descripcion_caja = "Venta #".$id. ", via Tarjeta #".$request->input_pos;
         }
         if ( $request->accion == 'modo_pago_debito' ) {
             $modificar_pago = $this->modificaFormaPagoVenta($id, 4,$request->input_pos);
+            $this->descripcion_caja = "Venta #".$id. ", via Tarjeda de debito #".$request->input_pos;
         }        
         if ( $request->accion == 'modo_pago_otros' ) {
             $modificar_pago = $this->modificaFormaPagoVenta($id, 2, $request->input_otros);
+            $this->descripcion_caja = "Venta #".$id. ", via Otra forma de pago: ".$request->input_otros;
         }
         return $modificar_pago;     
     }
 
     private function modificaFormaPagoVenta($id, $forma_pago, $input=""){
-        $venta = Ventas::find($id);
+        $venta = Ventas::find($id);     
         $venta->id_forma_pago = $forma_pago;
-        if ( ($forma_pago <> 1 )&&( !$input )  ) {
-            return false; //valida que el campo no este vacio
-        }elseif ( ($forma_pago <> 1 )&&( $input ) ) {
-            // campo para referencia pago
+        if ( $forma_pago == 1 ) {
+            $this->input_confirmar = "Pago en efectivo";            
         }
+        elseif ( ($forma_pago <> 1 )&&( !$input )  ) {
+            return false; //valida que el campo no este vacio
+        }
+        elseif ( ($forma_pago <> 1 )&&( $input ) ) {
+            $this->input_confirmar = $input;            
+        }
+        $this->tipoMovimientoCaja($forma_pago);
+        $this->importe_venta = $venta->importe;
+        $this->forma_pago_venta = $forma_pago;
         $venta->save();
         $venta->touch();
         return true;
@@ -248,18 +268,38 @@ class RemitosController extends Controller
      
     }
 
-    // private function creaDetalleCaja($id_caja, $id_remito, $id_venta){
-    //     $detalle_caja = new DetalleCaja;
-    //     $detalle_caja->id_caja = $id_caja;
-    //     $detalle_caja->fecha = Carbon::now();
-    //     $detalle_caja-> = 
-    //     // $detalle_caja->fecha = Carbon::now();
-    //     // $detalle_caja->fecha = Carbon::now();
-    //     // $detalle_caja->fecha = Carbon::now();
-    //     // $detalle_caja->fecha = Carbon::now();
-    //     // $detalle_caja->fecha = Carbon::now();
-    //     // $detalle_caja->fecha = Carbon::now();
+    private function tipoMovimientoCaja($forma_pago){
+        if ( $forma_pago == 1 ) {
+            $this->tipo_movimiento = 1; //ingreso efectivo
+        }
+        if ( $forma_pago == 2 ) {
+            $this->tipo_movimiento = 3;//ingreso otros
+        }
+        if ( $forma_pago == 3 ) {
+            $this->tipo_movimiento = 2; //ingreso pos
+        }
+        if ( $forma_pago == 4 ) {
+            $this->tipo_movimiento = 2; //ingreso pos
+        }
+    }
 
-        
-    // }
+    private function creaDetalleCaja($id_caja,$id_remito, $id_venta){
+        // return $this->input_confirmar." ".$this->importe_venta." ".$this->forma_pago_venta." ".$this->tipo_movimiento;
+        $detalle_caja = new DetalleCaja;
+        $detalle_caja->id_caja = $id_caja;     
+        $detalle_caja->fecha = Carbon::now();
+        $detalle_caja->descripcion = $this->descripcion_caja;
+        $detalle_caja->id_tipo_movimiento = $this->tipo_movimiento;
+        $detalle_caja->referencia_detalle = $id_remito;
+        $detalle_caja->importe = $this->importe_venta;
+        $detalle_caja->id_venta = $id_venta;
+        $detalle_caja->id_forma_pago = $this->forma_pago_venta;
+        $detalle_caja->id_remito = $id_remito;
+        $detalle_caja->id_usuario = auth()->user()->id;
+        $detalle_caja->save();
+        // return $detalle_caja;
+
+    }
+
+   
 }
