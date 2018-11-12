@@ -4,9 +4,11 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('remisanew', function () {
-    return view('Logistica.remisa');
-})->name('remisanew');
+    Route::get('remisanew', 'Logistica\RemisaController@remisa')->name('remisanew');
+    Route::get('saveRemisa/{empleado_id?}/{venta_id?}',[
+        'uses' => 'Logistica\RemisaController@saveRemisa',
+        'as'   => 'saveRemisa'
+    ]);
 
    
 

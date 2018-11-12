@@ -11,86 +11,206 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
+<style>
+body {
+    font-family: arial;
+}
+h1 {
+    font-weight: normal;
+}
+.task-board {
+    background: #2c7cbc;
+    display: inline-block;
+    padding: 12px;
+    border-radius: 3px;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: scroll;
+    min-height: 300px;
+}
+
+.status-card {
+    width: 250px;
+    margin-right: 8px;
+    background: #e2e4e6;
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0.9em;
+}
+
+.status-card:last-child {
+    margin-right: 0px;
+}
+
+.card-header {
+    width: 100%;
+    padding: 10px 10px 0px 10px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    display: block;
+    font-weight: bold;
+}
+
+.card-header-text {
+    display: block;
+}
+
+ul.sortable {
+    padding-bottom: 10px;
+}
+
+ul.sortable li:last-child {
+    margin-bottom: 0px;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0px;
+}
+
+.text-row {
+    padding: 8px 10px;
+    margin: 10px;
+    background: #fff;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 0.8em;
+    white-space: normal;
+    line-height: 20px;
+}
+
+.ui-sortable-placeholder {
+    visibility: inherit !important;
+    background: transparent;
+    border: #666 2px dashed;
+}
+</style>
+<div class="task-board">
+    <div class="status-card">
+        <div class="card-header">
+            <span class="card-header-text">Ventas</span>
+        </div>
+        
+        <ul class="sortable ui-sortable" id="empleado0" data-empleado-id="0">
+            @foreach ($ventas as $venta)
+                <li class="text-row ui-sortable-handle" data-importe='{{ $venta->importe }}' data-venta-id="{{ $venta->id }}">{{ $venta->id }} --- {{ $venta->importe }}</li>
+            @endforeach
+            
+        </ul>
+    </div>
+    
+    @foreach ($empleados as $empleado)
+        <div class="status-card">
+            <div class="card-header">
+                <span class="card-header-text">{{ $empleado->nombres }}</span>
+            </div>
+            
+            <ul class="sortable ui-sortable empleado{{ $empleado->id }}" id="empleado{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}">
+                @foreach ($remisa as $item)
+                   @if ($item->id_delivery == $empleado->id)
+
+                   @foreach ($ventas as $venta)
+
+                        @if ($venta->id == $item->id_venta)
+                            <li class="text-row ui-sortable-handle" data-importe='{{ $venta->importe }}' data-venta-id="{{ $venta->id }}">{{ $venta->id }}---{{ $venta->importe }}</li>
+                        @endif
+                       
+                   @endforeach
+                  
+                        
+
+                   @endif
+                @endforeach
 
 
-<div class="column">
-    <div class="portlet">
-        <div class="portlet-header">Feeds</div>
-        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-    </div>
-    <div class="portlet">
-        <div class="portlet-header">News</div>
-        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-    </div>
+
+                
+            </ul>
+            <div class="col-12 text-right mb-3">
+                   {{--  @foreach ($remisa as $item)
+                    @if ($item->id_delivery == $empleado->id)
+                    @foreach ($ventas as $venta)
+                    @if ($venta->id == $item->id_venta)
+                          
+                    @endforeach
+                    @endif
+                    @endforeach --}}
+
+                    <p><b>Total: <span id="total{{ $empleado->id }}"></span> Gs.</b></p>
+                    <button type="button" id="btnSaveRemito{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}" class="btn btn-primary ">Confirmar</button>
+                </div>
+        </div>
+    @endforeach
 </div>
-
-<div class="column">
-    <div class="portlet">
-        <div class="portlet-header">Shopping</div>
-        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-    </div>
-</div>
- 
-<div class="column">
-    <div class="portlet">
-        <div class="portlet-header">Links</div>
-        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-    </div>
-    <div class="portlet">
-        <div class="portlet-header">Images</div>
-        <div class="portlet-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
-    </div>
-</div>
-
-
-
 
 @endsection
 
 @push('scripts')
 
  <script>
- 	 $( ".column" ).sortable({
-    connectWith: ".column",
-    handle: ".portlet-header",
-    cancel: ".portlet-toggle",
-    start: function (event, ui) {
-        ui.item.addClass('tilt');
-        tilt_direction(ui.item);
-    },
-    stop: function (event, ui) {
-        ui.item.removeClass("tilt");
-        $("html").unbind('mousemove', ui.item.data("move_handler"));
-        ui.item.removeData("move_handler");
-    }
-});
 
-function tilt_direction(item) {
-    var left_pos = item.position().left,
-        move_handler = function (e) {
-            if (e.pageX >= left_pos) {
-                item.addClass("right");
-                item.removeClass("left");
-            } else {
-                item.addClass("left");
-                item.removeClass("right");
-            }
-            left_pos = e.pageX;
-        };
-    $("html").bind("mousemove", move_handler);
-    item.data("move_handler", move_handler);
-}  
+$(function() {
 
-$( ".portlet" )
-    .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
-    .find( ".portlet-header" )
-    .addClass( "ui-widget-header ui-corner-all" )
-    .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+        var url = '{{ route('saveRemisa') }}';
+        $('ul[id^="empleado"]').sortable(
+                {
 
-$( ".portlet-toggle" ).click(function() {
-    var icon = $( this );
-    icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
-    icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
-});
+                    cursor: "move",
+                    connectWith : ".sortable",
+                    receive : function(e, ui) {
+
+
+                        var empleado_id = $(ui.item).parent(".sortable").data(
+                                "empleado-id");
+                        var venta_id = $(ui.item).data("venta-id");
+                       
+                        //console.log(empleado_id);
+                        //console.log(venta_id);
+                        
+                        $.ajax({
+                            type: "get",
+                            url: url+'/'+empleado_id+'/'+venta_id,
+                            dataType: "json",
+                            data: { empleado_id: empleado_id, venta_id:venta_id },
+                            success : function(response) {
+
+                                var montos = [];
+                                $('.empleado'+empleado_id+' li').each(function () {
+                                    montos.push ($(this).data('importe'))
+                                });
+
+                                    var suma = 0;
+                                    for(var x = 0; x < montos.length; x++){
+                                      suma += montos[x];
+                                    } 
+                                    $('#total'+empleado_id).html('');       
+                                    $('#total'+empleado_id).html(suma);
+                            }
+                        });
+                    }
+
+                }).disableSelection();
+
+        $('button[id^="btnSaveRemito"]').on('click',function(){
+            var empleado_id = $(this).data('empleado-id');
+            var ventas = [];
+            var montos = [];
+            $('.empleado'+empleado_id+' li').each(function () {
+                ventas.push  ($(this).data('venta-id')); 
+         
+            });
+
+               
+
+        });
+    });
+ </script>
+
+ <script type="text/javascript" charset="utf-8" async defer>
+     
  </script>
 @endpush
