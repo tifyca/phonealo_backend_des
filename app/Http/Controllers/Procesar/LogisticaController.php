@@ -60,6 +60,7 @@ class LogisticaController extends Controller
         $xatender = Ventas::Activas()->where('id_horario', '=', $id_horario);
         $activas = Ventas::Activas()->where('id_horario', '=', $id_horario);
         $remisas = Ventas::Remisas()->where('id_horario', '=', $id_horario);
+        $procesadas = Ventas::Procesada()->where('id_horario', '=', $id_horario);
         $class=1;
         $busca=0;
         $mensaje="Se Realizo Busqueda con los  Filtros de Horarios";
@@ -145,6 +146,25 @@ class LogisticaController extends Controller
 
                                     })->orderby( 'ventas.id_horario', 'desc')
                                       ->get();
+          $procesadas = Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
+                            ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
+                            ->leftjoin('ciudades', 'clientes.id_ciudad', '=', 'ciudades.id')
+                            ->leftjoin('horarios', 'ventas.id_horario', '=', 'horarios.id')
+                            ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
+                            ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'ciudades.ciudad')
+                            ->where(function ($q) {
+                                    $q->where('ventas.id_estado', '=', '3')
+                                      ->orWhere('ventas.id_estado', '=', '8');
+                            })->Where(function($q ) use ($buscador) {
+                                    $q->where('ciudades.ciudad', 'like', $buscador.'%')
+                                          ->orWhere('clientes.nombres', 'like', $buscador.'%')
+                                          ->orWhere('clientes.telefono', '=', $buscador)
+                                          ->orWhere('ventas.id', '=', $buscador)
+                                          ->orWhere('ventas.fecha', '=', $buscador)
+                                          ->orWhere('horarios.horario', '=', $buscador);
+
+                                    })->orderby( 'ventas.id_horario', 'desc')
+                                      ->get();
 
        $class=1;
        $busca=$buscador;
@@ -160,6 +180,8 @@ class LogisticaController extends Controller
         }
         $activas = Ventas::Activas()->where('fecha', '=', $fecha)->whereNotIn('id_horario', $id_hora);
         $remisas = Ventas::Remisas();
+        $procesadas = Ventas::Procesada();
+
         $class=0;
         $busca=0;
         $mensaje=0;
@@ -226,7 +248,7 @@ class LogisticaController extends Controller
 
        
 
-        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario', 'karma', 'class', 'id_horario', 'busca', 'mensaje'));
+        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario', 'karma', 'class', 'id_horario', 'busca', 'mensaje', 'procesadas'));
     	
     }
     public function CrearPDF ($remito, $vista, $empleado, $id_remisa ){

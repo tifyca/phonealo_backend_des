@@ -521,13 +521,19 @@ $(document).on('click', '.delete', function (e) {
     e.preventDefault();
       $(this).closest('tr').remove();
       var id_producto = $(this).val();
-      var   id_cliente = $('#id_cliente').val();
+      var id_cliente = $('#id_cliente').val();
+      var id_usuario= $('#id_usuario').val();
+
+      if(id_cliente==""){
+        id_cliente=0;
+
+      }
            $.ajaxSetup({
              headers: {
                   'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
              }
              });
-             $.get('elimanarProdCesta/' + id_producto +'/'+ id_cliente, function(data){
+             $.get('elimanarProdCesta/' + id_producto +'/'+ id_cliente +'/'+ id_usuario, function(data){
 //console.log(data);
               resumen();
                   
@@ -546,14 +552,20 @@ $(document).on('click', '.delete2', function (e) {
    
       var id_producto = $(this).val();
       var id_cliente = $('#id_cliente').val();
+      var id_usuario= $('#id_usuario').val();
 
+      
+      if(id_cliente==""){
+        id_cliente=0;
+
+      }
   
          $.ajaxSetup({
              headers: {
                   'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
              }
              });
-             $.get('../../elimanarProdCesta/' +  id_producto +'/'+ id_cliente, function(data){
+             $.get('../../elimanarProdCesta/' +  id_producto +'/'+ id_cliente +'/'+ id_usuario, function(data){
 //console.log(data);
               
               resumen();    

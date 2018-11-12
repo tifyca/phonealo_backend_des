@@ -47,7 +47,13 @@ class AbrirController extends Controller
     	return view('Caja.Abrir.abrir', compact('caja'));
     }
     public function remitos(Request $request){
+        // dd($request->all());
         $caja = Caja::find($request->caja);
+        // return Remitos::Consulta()
+        //     ->groupBy('remitos.id')
+        //     ->orderBy('id', 'desc')
+        //     ->where('estados.id', 6)
+        //     ->get();
         $remitos = Remitos::Consulta()
             ->groupBy('remitos.id')
             ->orderBy('id', 'desc')
@@ -78,13 +84,14 @@ class AbrirController extends Controller
             ->get();        
 
         $delivery = Remitos::Consulta()->findOrfail($id)->nombre_delivery; 
-       
+
+        $habilitaConfirmacionRemito = $this->habilitaConfirmacionRemito($remito->id);
         $total_efectivo = $this->totalEfectivo($id);
         $total_pos = $this->totalPOS($id);
         $total_otros = $this->totalOtros($id);     
 
     	return view('Caja.Abrir.cobro_remito', 
-            compact('remito','remitosVentas', 'importe_venta','remitosProductos','delivery', 'total_efectivo', 'total_pos', 'total_otros', 'caja')
+            compact('remito','remitosVentas', 'importe_venta','remitosProductos','delivery', 'total_efectivo', 'total_pos', 'total_otros', 'caja', 'habilitaConfirmacionRemito')
         );
     }
     public function cerrar($id){
@@ -114,7 +121,8 @@ class AbrirController extends Controller
         $efectivo = Remitos::Ventas()
             ->where('id_remito', $id)
             ->where('id_forma_pago', 1)//Efectivo
-            ->where('ventas.id_estado', 8)
+            // ->where('ventas.id_estado', 8)
+            ->where('detalle_remito.id_estado', 2)
             ->get();
         foreach ($efectivo as $total) {
             $total_efectivo += $total->precio*$total->cantidad;
@@ -126,7 +134,8 @@ class AbrirController extends Controller
         $total_pos = 0;
         $pos = Remitos::Ventas()
             ->where('id_remito', $id)
-            ->where('ventas.id_estado', 8)
+            // ->where('ventas.id_estado', 8)
+            ->where('detalle_remito.id_estado', 2)
             ->where(function($query){
                 $query->where('id_forma_pago',3)->orWhere('id_forma_pago',4);
             })
@@ -141,7 +150,8 @@ class AbrirController extends Controller
         $total_otros = 0;
         $otros = Remitos::Ventas()
             ->where('id_remito', $id)
-            ->where('ventas.id_estado', 8)
+            // ->where('ventas.id_estado', 8)
+            ->where('detalle_remito.id_estado', 2)
             ->where('id_forma_pago', '<>', 1)
             ->where('id_forma_pago', '<>', 3)
             ->where('id_forma_pago', '<>', 4)
@@ -150,6 +160,18 @@ class AbrirController extends Controller
             $total_otros += $total->precio*$total->cantidad;
         }
         return $total_otros;
+    }
+
+    private function habilitaConfirmacionRemito($id){
+        $cantidadPendiente = Detalle_remito::where('id_remito', $id)
+            ->where('detalle_remito.id_estado', 1)
+            ->count();
+            // ->get();
+        
+        if ( $cantidadPendiente == 0 ) {
+            return true;
+        }
+        return false;
     }
 }
 

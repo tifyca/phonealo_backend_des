@@ -32,9 +32,17 @@ class Logistica extends Controller
     #jgonzalez
     public function agregar_remisa(Request $request){
     	$id = $request['id'];
-    	$venta = Ventas::find($id);
+    	  $venta = Ventas::find($id);
         $venta->id_estado = 6;
         $venta->save();
+
+         $idpedido=pedido::join('ventas', 'pedidos.id', '=', 'ventas.id_pedido')
+                          ->where('ventas.id',$id )
+                         ->select('id_pedido')->first();
+
+        $pedido= pedido::find($idpedido->id_pedido);
+        $pedido->id_estado = 6;  
+        $pedido->save();
     	return $venta;
     }
     #jgonzalez
@@ -187,7 +195,6 @@ class Logistica extends Controller
   
         $notas  = new Notas_Ventas;
         $notas->id_venta   = $request->id_venta;
-        $notas->nota       = $request->nota;
         $notas->nota       = ucwords(strtolower($request->nota));
         $notas->id_usuario = $request->id_usuario;
         $notas->save();

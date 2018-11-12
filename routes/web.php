@@ -298,8 +298,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('logistica/ventas/add', 'Procesar\VentasController@addventa');
     Route::post('procesar/ventas/create', 'Procesar\VentasController@create');
     Route::post('logistica/ventas/editar', 'Procesar\VentasController@editar_guardar');
-    Route::get('/procesar/elimanarProdCesta/{prod?}/{client?}', 'Procesar\VentasController@delventa');
-    Route::get('logistica/Ventas/editar/elimanarProdCesta/{prod?}/{client?}', 'Procesar\VentasController@delventa');
+    Route::get('/procesar/elimanarProdCesta/{prod?}/{client?}/{user?}', 'Procesar\VentasController@delventa');
+    Route::get('logistica/Ventas/editar/elimanarProdCesta/{prod?}/{client?}/{user?}', 'Procesar\VentasController@delventa');
     Route::post('procesar/Ventas/delProdCesta/', 'Procesar\VentasController@deleditventa');
     Route::post('logistica/Ventas/delProdCesta/', 'Procesar\VentasController@deleditventa');
     Route::get('procesar/ventas/detalle/{valor}', 'Procesar\VentasController@detalle_producto');
@@ -314,13 +314,16 @@ Route::group(['middleware' => 'auth'], function () {
             'uses' => 'Procesar\DescompuestoController@soporte',
             'as'   => 'descompuestos.soporte'
         ]);
+    Route::post('procesar/descompuestos/create', 'Procesar\DescompuestoController@create');
     Route::get('procesar/descompuestos/add', 'Procesar\DescompuestoController@addSoporte')->name('addSoporte');
     Route::get('procesar/descompuestos/reparar', 'Procesar\DescompuestoController@getSoporte')->name('getSoporte');
 
 
     Route::resource('procesar/aconfirmar', 'Procesar\AconfirmarController');
+    Route::post('procesar/aconfirmar', 'Procesar\AconfirmarController@index')->name('aconfirmar.submit');
+    Route::post('procesar/aconfirmar/reactivar', 'Procesar\AconfirmarController@reactivar');
+    Route::post('procesar/aconfirmar/ventacaida', 'Procesar\AconfirmarController@ventacaida');
 
-    
     Route::get('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica');
     Route::post('procesar/logistica', 'Procesar\LogisticaController@index')->name('logistica.submit');
     Route::get('procesar/logistica/edit', 'Procesar\LogisticaController@edit')->name('editar_logistica');
@@ -466,5 +469,10 @@ Route::get('procesar/pedidos/{id}/nota', [
     Route::get('ecommerce/slider/{id}/destroy', [
         'uses' => 'ecommerce\sliderController@destroy',
         'as'   => 'slider.destroy'
+    ]);
+
+    Route::get('ecommerce/slider/{id}/edit', [
+        'uses' => 'ecommerce\sliderController@edit',
+        'as'   => 'slider.edit'
     ]);
 });
