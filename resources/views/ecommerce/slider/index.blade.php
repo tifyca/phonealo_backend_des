@@ -94,7 +94,7 @@ $id_usuario= $_SESSION["user"];
       <?php 
                         $url=$item->url;
                          if(!empty($url))   
-                          $zurl = config('app.url') . 'slider/' . $url ;
+                          $zurl = config('app.url') . '/slider/' . $url ;
                         else
                           $zurl = 'img/silueta2.png';
                       ?>
