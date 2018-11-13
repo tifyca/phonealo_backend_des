@@ -26,6 +26,7 @@
             <div class="row d-flex justify-content-center">
               <div class="form-group col-12">
                 <label class="control-label">Nombre Lista</label>
+                <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
                 <input class="form-control"  type="text" placeholder="..." id="nombreLista" name="nombreLista" >
 
               </div>
@@ -38,7 +39,7 @@
                       <input class="form-control" autocomplete="off" type="text" id="descripcion" name="descripcion" >
                     </div>
                       <div class="col-3 d-flex align-items-end">
-                        <button class="btn btn-primary w-100"  id="" ><i class="fa fa-fw fa-lg fa-plus"></i>Añadir</button>
+                        <button class="btn btn-primary w-100"  id="btn-add"  ><i class="fa fa-fw fa-lg fa-plus"></i>Añadir</button>
                       </div>
                     </div>
                     
@@ -71,41 +72,20 @@
             <div class="row">
               <h4 class="tile-title text-center text-md-left col-9">Productos Agregados</h4>
               <div class="col-3">
-                <button class="btn btn-primary w-100"  id="" >Guardar</button>
+                <button class="btn btn-primary w-100"  id="btn-save" >Guardar</button>
               </div>
             </div>
             <div class="table-responsive">
-              <table class="table">
+              <table class="table"  id="list" name="list">
                 <thead>
                   <tr>
-                    <th>Descripción</th>
+                    <th width="80%">Descripción</th>
                     <th></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody>              
                   <tr>
-                    <td>Sandwichera para 2 panes/ S141</td>
-                    <td><a class="btn btn-primary" href=""><i class="m-0 fa fa-lg fa-times"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td>Sandwichera para 2 panes/ S141</td>
-                    <td><a class="btn btn-primary" href=""><i class="m-0 fa fa-lg fa-times"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td>Sandwichera para 2 panes/ S141</td>
-                    <td><a class="btn btn-primary" href=""><i class="m-0 fa fa-lg fa-times"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td>Sandwichera para 2 panes/ S141</td>
-                    <td><a class="btn btn-primary" href=""><i class="m-0 fa fa-lg fa-times"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td>Sandwichera para 2 panes/ S141</td>
-                    <td><a class="btn btn-primary" href=""><i class="m-0 fa fa-lg fa-times"></i></a></td>
-                  </tr>
-                  <tr>
-                    <td>Sandwichera para 2 panes/ S141</td>
-                    <td><a class="btn btn-primary" href=""><i class="m-0 fa fa-lg fa-times"></i></a></td>
+                    
                   </tr>
                 </tbody>
               </table>
@@ -122,6 +102,108 @@
 @push('scripts')
 
 <script  type="text/javascript" charset="utf-8" >
+
+$(document).on('click', '#btn-add', function (e) {
+   
+   e.preventDefault();
+
+    var id_producto = $('#id_producto').val();
+    var  descripcion= $('#descripcion').val();
+          
+                 // $('#d-cod_producto' + id_producto ).remove();
+
+     var cesta  = '<tr id="'+ id_producto + '"><td id="d-descripcion" width="80%">' + descripcion + '</td><td><button class="btn btn-primary" id="btn-remove" value="'+ id_producto +'" ><i class="m-0 fa fa-lg fa-times"></i></button></td></tr>';
+
+
+                
+            $('#list > tbody').append(cesta);
+                    
+            $('#descripcion').val('');
+            $('#id_producto').val('');
+            $('#img-product').addClass('d-none');
+            $('.opacity-x').css('opacity', '1');
+            $('#img-p').html('');
+            $('#eye').addClass('d-none');
+          
+        
+                 
+});  
+
+$(document).on('click', '#btn-remove', function (e) {
+   
+   e.preventDefault();
+
+      $(this).closest('tr').remove();   
+          
+});  
+
+
+$("#btn-save").click(function (e) {
+     $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+
+    e.preventDefault();
+$('#list > tbody > tr').each(function(){
+            id_producto =$(this).find("tr").val();
+            descripcion= $(this).find('td').eq(0).html();
+            });
+      
+    var formData = {
+        nombreLista :  $('#nombreLista').val(),
+        id_producto :id_producto,
+        descripcion : descripcion,
+        id_usuario  : $('#id_usuario').val()
+       }
+       console.log(formData);
+  
+    $.ajax({
+        type: "POST",
+        url: '../conversiones/create',
+        data: formData,
+        dataType: 'json',
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        success: function (data) {
+           
+            $("#res").html("Lista de Conversión Registrado con Éxito");
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+        }/*,
+       
+          error: function (data,estado,error) { 
+             var errorsHtml = '';
+           var error = jQuery.parseJSON(data.responseText);
+             errorsHtml +="<ul style='list-style:none;'>";
+             for(var k in error.message){ 
+                if(error.message.hasOwnProperty(k)){ 
+                    error.message[k].forEach(function(val){
+
+                       errorsHtml +="<li class='text-danger'>" + val +"</li>";
+                       
+                        
+                        $("#rese").html(errorsHtml);
+                        $("#rese, #res-content").css("display","block");
+                     
+                      }); 
+                }
+            }
+          errorsHtml +="</ul>"; 
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+        },*/
+    });
+});
+
+
+
+
+
+
+
+
+
+
    //CAPTURA AL SOLTAR EL TECLADO Y DESATA EL EVENTO Y BUSCA EL PRODUCTO.
     $('#descripcion').keyup(function(event) {
       
@@ -186,6 +268,8 @@
 
 
     }
+
+ 
 </script>
   
 @endpush

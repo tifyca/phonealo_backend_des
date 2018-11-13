@@ -355,6 +355,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');
     Route::get('procesar/conversiones/show', 'Procesar\ConversionesController@show')->name('procesar.conversiones.show');
+    Route::post('procesar/conversiones/create', 'Procesar\ConversionesController@create');
 
     Route::prefix('procesar')->group(function(){
         Route::resource('faltantes', 'Procesar\Faltantes\FaltantesController');
