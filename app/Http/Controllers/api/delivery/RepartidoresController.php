@@ -127,6 +127,8 @@ public function pedidos_asignados(Request $request){
   try {
             //Validaciones
     $errors = [];
+    if(isset($request["id_estado"]))
+      { $id_estado=$request["id_estado"];}
     if (!isset($request["idempleado"])) $errors[] = "El Id del Repartidor es requerido";
     if (count($errors) > 0) {
       return ["status" => "fallo", "error" => $errors];
@@ -148,6 +150,7 @@ public function pedidos_asignados(Request $request){
     $viernes=40;
     
     if ($empleados) {
+
       $pedidos= DB::table('remitos as a')
       ->join('detalle_remito as b','a.id','=','b.id_remito')
       ->join('ventas as c','b.id_venta','=','c.id')
@@ -166,7 +169,7 @@ public function pedidos_asignados(Request $request){
             "jueves"=>$jueves,
             "viernes"=>$viernes 
           ];
-        $data=[];
+        $data1=[];
 
         foreach($pedidos as $ped){
           $data1[]=[
