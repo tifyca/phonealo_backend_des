@@ -44,8 +44,6 @@ Route::group(['middleware' => 'auth'], function () {
     
     
 
-    
-
 
     ///////////
 
@@ -382,6 +380,16 @@ Route::get('procesar/pedidos/{id}/cambiar_mismo', [
     ]);
 
 Route::put('procesar/pedidos/cambiar/{id?}','Procesar\PedidosController@cambiar')->name('pedidos.cambiar');
+
+
+Route::get('procesar/pedidos/{id}/cambiar_otro', [
+        'uses' => 'Procesar\PedidosController@cambiar_otro',
+        'as'   => 'pedidos.cambiarotro'
+    ]);
+
+Route::put('procesar/pedidos/cambiaro/{id?}','Procesar\PedidosController@cambiaro')->name('pedidos.cambiaro');
+
+
 
 Route::get('procesar/pedidos/{id}/nota', [
         'uses' => 'Procesar\PedidosController@agregar_nota',
