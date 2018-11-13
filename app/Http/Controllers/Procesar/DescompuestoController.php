@@ -156,6 +156,7 @@ class DescompuestoController extends Controller
     						 ->where('status_soporte', 2)
     						 ->leftjoin('ventas', 'ventas.id_pedido', '=', 'soporte.id_pedido')
     						 ->select('soporte.id as idsoporte', 'soporte.id_producto', 'soporte.id_remito','soporte.id_pedido','soporte.nota','soporte.fecha_ing','soporte.fecha_eg','soporte.status_soporte', 'productos.id', 'productos.descripcion','productos.precio_compra')
+    						  ->orderBy('soporte.id', 'DESC')
     					     ->get();
 
 
