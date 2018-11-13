@@ -39,7 +39,7 @@
                 <div class="form-group col-md-8">
                   <div class="form-group col-md-6">
                     <div class="form-group">
-                      @if(!empty($slide->url))
+                      @if(!empty($slider->url))
                     <img id="imgSalida" src="config('app.url') . 'slider/' . $slider->url" width="100%">
                       @else
                     <img id="imgSalida" src="{{asset('img/silueta2.png')}}" width="100%"> 
