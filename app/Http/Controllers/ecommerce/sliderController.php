@@ -25,17 +25,17 @@ class sliderController extends Controller
         $slider = Slider::all();
       }
       else if ($titulo!="" && $publico!="" && $usuario!="" && $fecha!="") {
-      $slider = Slider::where('descripcion','=',$titulo)
-      ->where('publico','=',$publico)
-      ->where('id_usuario','=',$usuario)
-      ->where('created_at','=',$fecha)
+      $slider = Slider::where('descripcion','like','%' . $titulo . '%')
+      ->where('publico','like','%' . $publico . '%')
+      ->where('id_usuario','like','%' . $usuario . '%')
+      ->where('created_at','like','%' . $fecha . '%')
       ->get();
       }
       else {
-      $slider = Slider::where('descripcion','=',$titulo)
-      ->orWhere('publico','=',$publico)
-      ->orWhere('id_usuario','=',$usuario)
-      ->orWhere('created_at','=',$fecha)
+      $slider = Slider::where('descripcion','like','%' . $titulo . '%')
+      ->orWhere('publico','like','%' . $publico . '%')
+      ->orWhere('id_usuario','like','%' . $usuario . '%')
+      ->orWhere('created_at','like','%' . $fecha . '%')
       ->get();
       }
       return view('ecommerce.slider.index')->with('slider',$slider)->with('tipo',$tipo)->with('mensaje',$mensaje);
