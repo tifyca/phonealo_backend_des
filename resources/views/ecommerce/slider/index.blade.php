@@ -93,7 +93,7 @@ $id_usuario= $_SESSION["user"];
       <td class="text-center">{{$item->created_at}}</td>
       <?php 
                         $url=$item->url;
-                         if(empty($url))   
+                         if(!empty($url))   
                           $zurl = config('app.url') . 'slider/' . $url ;
                         else
                           $zurl = 'img/silueta2.png';
