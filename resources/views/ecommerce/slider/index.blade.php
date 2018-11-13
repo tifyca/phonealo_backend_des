@@ -91,7 +91,14 @@ $id_usuario= $_SESSION["user"];
       @endif
       <td class="text-center">{{$item->posicion}}</td>
       <td class="text-center">{{$item->created_at}}</td>
-      <td class="text-center"><img src="{{$item->url}}" class="img-fluid" width="100px" alt=""></td>
+      <?php 
+                        $url=$item->url;
+                         if(empty($url))   
+                          $zurl = config('app.url') . 'slider/' . $url ;
+                        else
+                          $zurl = 'img/silueta2.png';
+                      ?>
+      <td class="text-center"><img src="{{asset($zurl)}}" class="img-fluid" width="100px" alt=""></td>
          <td width="10%" class="text-center">
             <div class="btn-group">
               <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver/Editar" href="{{ URL::to('ecommerce/slider/' . $item->id . '/edit') }}"><i class="m-0 fa fa-lg fa-edit"></i></a>
