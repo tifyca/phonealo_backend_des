@@ -76,9 +76,10 @@
               </div>
             </div>
             <div class="table-responsive">
-              <table class="table"  id="list" name="list">
+              <table class="table"  id="list-def" name="list-def">
                 <thead>
                   <tr>
+                    <th style="display:none"></th>
                     <th width="80%">Descripción</th>
                     <th></th>
                   </tr>
@@ -112,11 +113,11 @@ $(document).on('click', '#btn-add', function (e) {
           
                  // $('#d-cod_producto' + id_producto ).remove();
 
-     var cesta  = '<tr id="'+ id_producto + '"><td id="d-descripcion" width="80%">' + descripcion + '</td><td><button class="btn btn-primary" id="btn-remove" value="'+ id_producto +'" ><i class="m-0 fa fa-lg fa-times"></i></button></td></tr>';
+     var cesta  = '<tr><td style="display:none" >'+ id_producto + '</td><td width="80%">' + descripcion + '</td><td><button class="btn btn-primary" id="btn-remove" value="'+ id_producto +'" ><i class="m-0 fa fa-lg fa-times"></i></button></td></tr>';
 
 
                 
-            $('#list > tbody').append(cesta);
+            $('#list-def > tbody').append(cesta);
                     
             $('#descripcion').val('');
             $('#id_producto').val('');
@@ -146,18 +147,35 @@ $("#btn-save").click(function (e) {
     });
 
     e.preventDefault();
-$('#list > tbody > tr').each(function(){
-            id_producto =$(this).find("tr").val();
-            descripcion= $(this).find('td').eq(0).html();
+  
+
+          var parametros=[];
+        
+            $("#list-def > tbody > tr").each(function(i,e){
+            
+                var tr = [];
+                $(this).find("td").each(function(index, element){
+                    if(index != 0) // ignoramos el primer indice que dice Option #
+                    {
+                    var td = {};
+                    td = $(this).find('td').html();
+                    tr.push(td);
+                    }
+                });
+                parametros.push(tr);    
             });
-      
+            
+            console.log(parametros);
+
+   /*/        
+
     var formData = {
-        nombreLista :  $('#nombreLista').val(),
-        id_producto :id_producto,
+        nombreLista : $('#nombreLista').val(),
+        id_producto : id_producto,
         descripcion : descripcion,
         id_usuario  : $('#id_usuario').val()
        }
-       console.log(formData);
+       console.log(ventas);
   
     $.ajax({
         type: "POST",
@@ -191,8 +209,8 @@ $('#list > tbody > tr').each(function(){
             }
           errorsHtml +="</ul>"; 
             $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
-        },*/
-    });
+        },
+    });*/
 });
 
 

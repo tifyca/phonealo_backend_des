@@ -21,12 +21,11 @@ class ConversionesController extends Controller
     }
 
      public function create(Request $request){
-dd($request->nombreLista);
 
 
      	$lista=New Monitoreos;
      	$lista->nombre=$request->nombreLista;
-     	$lista->fecha=CURDATE();
+     	$lista->fecha=date('Y-m-d');
      	$lista->id_usuario=$request->id_usuario;
      	$lista->save();
 
