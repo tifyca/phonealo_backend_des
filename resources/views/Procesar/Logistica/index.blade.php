@@ -272,7 +272,7 @@
         </div>
     @endforeach  
 
-</div>
+</div> 
 {{-- FIN REMISA --}}
 
 {{-- TABLA POR ATENDER --}}

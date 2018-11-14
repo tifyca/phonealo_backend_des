@@ -16,7 +16,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('saveRemito','Logistica\RemisaController@saveRemito')->name('saveRemito');
 
    
-
+ 
     // AJAX
     Route::get('paises', 'Ajax\Direcciones@paises')->name('paises_ajax');
     Route::get('departamentos', 'Ajax\Direcciones@Departamentos')->name('departamentos_ajax');

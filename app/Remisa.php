@@ -9,3 +9,4 @@ class Remisa extends Model
     protected $table = 'remisa';
     protected $filable = ['id_venta', 'id_delivery'];
 }
+ 

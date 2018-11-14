@@ -16,7 +16,7 @@ use App\Remitos;
 use App\Facturas;
 use Illuminate\Support\Facades\Validator;
 use App\Notas_Ventas;
-use App\Remisa;
+use App\Remisa; 
 
 
 class LogisticaController extends Controller

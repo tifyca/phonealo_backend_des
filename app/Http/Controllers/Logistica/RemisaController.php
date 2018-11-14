@@ -8,7 +8,7 @@ use App\Empleados;
 use App\Ventas;
 use App\Remisa;
 use App\Remitos;
-use App\Detalle_remito;
+use App\Detalle_remito; 
 
 class RemisaController extends Controller
 {
