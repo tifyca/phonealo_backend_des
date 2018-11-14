@@ -599,7 +599,6 @@ class VentasController extends Controller
             $ventas= Ventas::find($request->id_venta);
 
             if($ventas->fecha_activo!=$request->fecha_entrega){
-              dd($ventas->fecha_activo);
                $venta= Ventas::find($request->id_venta);
                $venta->fecha_activo = $request->fecha_entrega;
                $venta->save(); 

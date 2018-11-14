@@ -27,7 +27,10 @@
               <div class="form-group col-12">
                 <label class="control-label">Nombre Lista</label>
                 <input type="hidden" id="id_usuario" name="id_usuario" value="{{$id_usuario}}">
-                <input class="form-control"  type="text" placeholder="..." id="nombreLista" name="nombreLista" >
+                <input type="hidden" id="id_lista" name="id_lista" value="{{$monitoreo[0]->id}}">
+
+
+                <input class="form-control"  type="text" placeholder="..." id="nombreLista" name="nombreLista" value="{{$monitoreo[0]->nombre}}" readonly>
 
               </div>
               <div class="form-group col-md-12">
@@ -76,7 +79,7 @@
             <div class="row">
               <h4 class="tile-title text-center text-md-left col-9">Productos Agregados</h4>
               <div class="col-3">
-                <button class="btn btn-primary w-100"  id="btn-save" >Guardar</button>
+                <button class="btn btn-primary w-100"  id="btn-edit" >Guardar</button>
               </div>
             </div>
             <div class="table-responsive">
@@ -89,9 +92,13 @@
                   </tr>
                 </thead>
                 <tbody>              
-                  <tr>
-                    
-                  </tr>
+                  @foreach($monitoreo as $item)
+                     <tr> 
+                      <td width="10%" style="display:none"> {{$item->id_producto}} </td>
+                      <td width="80%">{{ $item->descripcion}}</td>
+                      <td width="10%" align="center"><button class="btn btn-primary remove" id="btn-remove" value=" {{$item->id_producto}}" ><i class="m-0 fa fa-lg fa-times"></i></button></td>
+                    </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
@@ -156,7 +163,7 @@ $(document).on('click', '#btn-remove', function (e) {
 });  
 
 
-$("#btn-save").click(function (e) {
+$("#btn-edit").click(function (e) {
      $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -173,23 +180,9 @@ $("#btn-save").click(function (e) {
                 parametros.push ($(this).find('td').eq(0).html());
               }
 
-            });
+            }); 
             
-            
-           /*   if(i!=0){
-                var tr = [];
-                $(this).find("td").each(function(index, element){         
-                    var td = {};
-                    td = $(this).text();
-                    if(td!=""){
-                    tr.push(td);
-                    }
-                });
-                parametros.push(tr);  
-
-              }  */
-
-      var formData = {
+        var formData = {
         nombreLista : $('#nombreLista').val(),
         parametros : parametros,
         id_usuario  : $('#id_usuario').val()
@@ -198,13 +191,13 @@ $("#btn-save").click(function (e) {
   
     $.ajax({
         type: "POST",
-        url: '../conversiones/create',
+        url: '../../conversiones/update',
         data: formData,
         dataType: 'json',
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         success: function (data) {
            
-            $("#res").html("Lista de Conversión Registrado con Éxito");
+            $("#res").html("Lista de Conversión Modificada con Éxito");
             $("#res, #res-content").css("display","block");
             $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
 
@@ -321,6 +314,41 @@ $("#btn-save").click(function (e) {
 
 
     }
+
+    $(document).on('click', '.remove', function (e) {
+    e.preventDefault();
+ 
+    $(this).closest('tr').remove();
+    
+       var formData = {
+                    id_lista : $('#id_lista').val(),  
+                    id_producto: $(this).val(),
+                   }
+              console.log(formData);
+ 
+           $.ajaxSetup({
+             headers: {
+                  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+             }
+             });
+               
+            $.ajax({
+                type: "POST",
+                url: "../../conversiones/delProdLista",
+                data: formData,
+                dataType: 'json',
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                success: function (data) {
+            
+            $("#res").html("Producto Eliminado de la Lista");
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+
+}
+                
+});
+
+});  
 
  
 </script>

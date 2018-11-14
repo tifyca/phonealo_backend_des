@@ -55,8 +55,6 @@ Route::group(['middleware' => 'auth'], function () {
     
     
 
-    
-
 
     ///////////
 
@@ -366,7 +364,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');
     Route::get('procesar/conversiones/show', 'Procesar\ConversionesController@show')->name('procesar.conversiones.show');
+    Route::post('procesar/conversiones/create', 'Procesar\ConversionesController@create');
+    Route::get('procesar/conversiones/editar/{id}', ['uses' => 'Procesar\ConversionesController@editar',
+        'as'   => 'procesar.conversiones.editar' ]);
+    Route::post('procesar/conversiones/delProdLista/', 'Procesar\ConversionesController@delProdLista');
+    Route::post('procesar/conversiones/update', 'Procesar\ConversionesController@update');
 
+    
     Route::prefix('procesar')->group(function(){
         Route::resource('faltantes', 'Procesar\Faltantes\FaltantesController');
         Route::resource('faltantes-consolidado', 'Procesar\Faltantes\ConsolidadoController');
@@ -393,6 +397,16 @@ Route::get('procesar/pedidos/{id}/cambiar_mismo', [
     ]);
 
 Route::put('procesar/pedidos/cambiar/{id?}','Procesar\PedidosController@cambiar')->name('pedidos.cambiar');
+
+
+Route::get('procesar/pedidos/{id}/cambiar_otro', [
+        'uses' => 'Procesar\PedidosController@cambiar_otro',
+        'as'   => 'pedidos.cambiarotro'
+    ]);
+
+Route::put('procesar/pedidos/cambiaro/{id?}','Procesar\PedidosController@cambiaro')->name('pedidos.cambiaro');
+
+
 
 Route::get('procesar/pedidos/{id}/nota', [
         'uses' => 'Procesar\PedidosController@agregar_nota',
@@ -441,6 +455,7 @@ Route::get('procesar/pedidos/{id}/nota', [
     Route::get('caja/cobro_remito/{id}', 'Caja\AbrirController@cobro_remito')
         ->name('caja.cobro_remito');
     Route::get('caja/salida', 'Caja\AbrirController@salida')->name('caja.salida');
+    Route::post('caja/salida', 'Caja\AbrirController@registrarSalida')->name('caja.registrarSalida');
     Route::get('caja/cerrar/{id}', 'Caja\AbrirController@cerrar')->name('caja.cerrar');
     Route::post('caja/cerrar', 'Caja\AbrirController@cerrarCaja')->name('caja.cerrarCaja');
     Route::get('caja/detalle', 'Caja\AbrirController@detalle')->name('caja.detalle');

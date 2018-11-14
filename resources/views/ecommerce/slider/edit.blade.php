@@ -39,11 +39,14 @@
                 <div class="form-group col-md-8">
                   <div class="form-group col-md-6">
                     <div class="form-group">
-                      @if(!empty($slide->url))
-                    <img id="imgSalida" src="config('app.url') . 'slider/' . $slider->url" width="100%">
-                      @else
-                    <img id="imgSalida" src="{{asset('img/silueta2.png')}}" width="100%"> 
-                    @endif 
+                      <?php 
+                        $url=$slider->url;
+                         if(!empty($url))   
+                          $zurl = config('app.url') . '/slider/' . $url ;
+                        else
+                          $zurl = 'img/silueta2.png';
+                      ?>
+                    <img id="imgSalida" src="{{asset($zurl)}}" width="100%"> 
                       <label class="control-label">Seleccionar Imagen</label>
                       <div class="form-group mt-4">
                     <input type="file" class="read-file read" id="archivo" name="archivo" accept="image/*"disabled>

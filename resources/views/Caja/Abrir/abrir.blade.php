@@ -44,7 +44,7 @@
                 </tr>
                 <tr>
                   <th>Total Salidas</th>
-                  <td> PENDIENTE </td>
+                  <td>{!!number_format($total_salidas , 0, ',', '.')!!}</td>
                 </tr>
                 <tr>
                   <th>Total Gastos</th>
@@ -119,24 +119,23 @@
               <thead>
                 <tr class="table-secondary">
                   <th>Descripción</th>
+                  <th>Referencia</th>
                   <th>Importe</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Pago de factura de Getec</td>
-                  <td> $ 95.000 </td>
-                </tr>
-                <tr>
-                  <td>Diferencia de pago para giro bancario</td>
-                  <td> $ 185.000 </td>
-                </tr>
-                <tr>
-                  <td>Error de facturacion</td>
-                  <td> $ 15.000 </td>
-                </tr>
+               @foreach ($salidasEfectivo as $salidaEfectivo)
+                 <tr>
+                   <td>{{ $salidaEfectivo->descripcion }}</td>    
+                   <td>{{ $salidaEfectivo->referencia_detalle }}</td>    
+                   <td>{!!number_format($salidaEfectivo->importe , 0, ',', '.')!!} </td>   
+
+                 </tr>
+               @endforeach
               </tbody>
             </table>
+            {{-- {{ $salidasEfectivo->render() }} --}}
+            {{ $salidasEfectivo->appends( Request::only(['caja']) )->links() }}
           </div>
         </div>
     </div>

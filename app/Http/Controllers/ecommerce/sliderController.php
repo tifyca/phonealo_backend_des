@@ -25,14 +25,30 @@ class sliderController extends Controller
         $slider = Slider::all();
       }
       else if ($titulo!="" && $publico!="" && $usuario!="" && $fecha!="") {
-      $slider = Slider::where('descripcion','=',$titulo)
+      $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
       ->where('publico','=',$publico)
       ->where('id_usuario','=',$usuario)
       ->where('created_at','=',$fecha)
       ->get();
       }
-      else {
-      $slider = Slider::where('descripcion','=',$titulo)
+      else if ($titulo!="" && $publico=="" && $usuario=="" && $fecha=="") {
+        $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
+      ->get();
+      }
+      else if ($titulo=="" && $publico!="" && $usuario=="" && $fecha==""){
+        $slider = Slider::where('publico','=',$publico)
+        ->get();
+      }
+      else if ($titulo=="" && $publico=="" && $usuario!="" && $fecha==""){
+        $slider = Slider::where('id_usuario','=',$usuario)
+        ->get();
+      }
+      else if ($titulo=="" && $publico=="" && $usuario=="" && $fecha!=""){
+        $slider = Slider::where('created_at','=',$fecha)
+        ->get();
+      }
+      else{
+        $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
       ->orWhere('publico','=',$publico)
       ->orWhere('id_usuario','=',$usuario)
       ->orWhere('created_at','=',$fecha)
