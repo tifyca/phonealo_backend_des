@@ -354,7 +354,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');
     Route::get('procesar/conversiones/show', 'Procesar\ConversionesController@show')->name('procesar.conversiones.show');
     Route::post('procesar/conversiones/create', 'Procesar\ConversionesController@create');
+    Route::get('procesar/conversiones/editar/{id}', ['uses' => 'Procesar\ConversionesController@editar',
+        'as'   => 'procesar.conversiones.editar' ]);
+    Route::post('procesar/conversiones/delProdLista/', 'Procesar\ConversionesController@delProdLista');
+    Route::post('procesar/conversiones/update', 'Procesar\ConversionesController@update');
 
+    
     Route::prefix('procesar')->group(function(){
         Route::resource('faltantes', 'Procesar\Faltantes\FaltantesController');
         Route::resource('faltantes-consolidado', 'Procesar\Faltantes\ConsolidadoController');
