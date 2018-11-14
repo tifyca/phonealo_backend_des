@@ -47,7 +47,7 @@ class ConversionesController extends Controller
 
 
          	$lista=New Monitoreos;
-         	$lista->nombre=$request->nombreLista;
+         	$lista->nombre=ucwords(strtolower($request->nombreLista));
          	$lista->fecha=date('Y-m-d');
          	$lista->id_usuario=$request->id_usuario;
          	$lista->save();
@@ -66,6 +66,50 @@ class ConversionesController extends Controller
 
     	return $lista;
     }
+
+        public function editar($id){
+
+
+            $monitoreo=Monitoreos::join('detalle_monitoreo', 'monitoreo.id', '=', 'detalle_monitoreo.id_monitoreo')
+                                ->join('productos', 'productos.id', '=', 'detalle_monitoreo.id_producto')
+                                ->where('monitoreo.id', $id)
+                                ->select('monitoreo.id', 'monitoreo.nombre', 'detalle_monitoreo.id_producto', 'productos.descripcion')
+                                ->get();
+
+             return view('Procesar.Conversiones.edit', compact('monitoreo'));               
+        }
+
+
+        public function delProdLista(Request $request){
+
+             $id_producto=Detalle_Monitoreos::where('id_producto',$request->id_producto)
+                                         ->where('id_monitoreo',$request->id_lista)
+                                         ->delete();
+
+                  return response()->json(['success' => true]);
+
+
+
+        }
+
+         public function update(Request $request){
+
+
+           /* foreach ($request->parametros as $key ) {
+
+            $dtlista=New Detalle_Monitoreos;
+            $dtlista->id_monitoreo=$lista->id;
+            $dtlista->id_producto=$key;
+            $dtlista->id_usuario=$request->id_usuario;
+            $dtlista->save();
+
+            }*/
+
+                  return response()->json(['success' => true]);
+
+
+
+        }
 
 
 
