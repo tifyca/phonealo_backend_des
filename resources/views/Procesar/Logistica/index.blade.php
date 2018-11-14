@@ -13,6 +13,10 @@
 @section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
+@section('btn')
+<a class="btn btn-primary " href="#collapseExample" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="m-0 fa fa-lg fa-calendar"></i></a>
+<a class="btn btn-primary " href="#collapseExample2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample2"><i class="m-0 fa fa-lg fa-search"></i></a>
+@endsection
 
 @section('content')
 @php $longitud=count($notaventa); @endphp
@@ -22,10 +26,10 @@
      <div  class="col-12  text-center alert alert-info" >{{$mensaje}} </div>  
   </div>
 @endif
-
-   <div class="row" >
-      {{--Botones Horarios--}}
-    <div class="col-md-3" >
+{{-- HORARIOS --}}
+<div class="collapse" id="collapseExample">
+<div class="row " >
+  <div class="col-md-3" >
   <form id="form1" name="form1" action="{{ route('logistica.submit') }} " method="POST">
       <input type="hidden" name="id_horario" id="id_horario" value=""/>
       {{ csrf_field() }} 
@@ -187,19 +191,22 @@
             </div>
           </div>
         </div>
-    {{--fin Botones Horarios--}}
-{{--  Buscador--}}
-    <div class="col-12">
-    <!--Formulario para filtros -->
-      <form action="{{ route('logistica.submit') }} " method="POST">
+    </div>
+</div>
+{{-- FIN HORARIOS --}}
+
+{{--  BUSCARDOR--}}
+<div class="col-12 collapse" id="collapseExample2">
+  <!--Formulario para filtros -->
+      <form class="" action="{{ route('logistica.submit') }} " method="POST" >
         {{ csrf_field() }}
         
-          <div class="row">  
+          <div class="row ">  
             <!--form class="row d-flex justify-content-end" action="{{route('cargos.index')}}" method="get"-->
             <div class="col">
               <h3 class="tile-title text-center text-md-left">Búsqueda</h3>
             </div>
-             <div class="form-group col-md-6">
+             <div class="form-group col-md-6 ">
                          @if($class==1 && $busca!==0) 
                           
                            <input  type="text"style="border-color:#3056bf"   class="form-control" name="buscador" id="buscador" value="{{ $busca}}"   maxlength="50">
@@ -224,564 +231,501 @@
         </form>
         <!---->
 </div>
+{{-- FIN BUSCADOR--}}
 
-{{-- fin  Buscador--}}
-  
- <div  id="divlogistica">
-  {{-- TABLA DE REMISAS --}}
-  {{-- ESTA LISTA SE MANTIENE OCULTA, SOLO APARECE CUANDO AÑADO UNA VENTA A REMISA --}}
-  @if(count($remisas) > 0)
-  <div class="col-12" >
-    <div class="tile ">
-      <div class="d-flex justify-content-end row">
-        <div class="col">
-          <h3 class="tile-title text-center text-md-left"> Remisa </h3>
+{{-- REMISA --}}
+<div class="task-board  ">
+    <div class="status-card">
+        <div class="card-header">
+            <span class="card-header-text">Ventas</span>
         </div>
-        <div class="col-4 text-right">
-          <a href="{{ route('logistica.remisa') }}" class="btn btn-primary"><i class="m-0 fa fa-lg fa-sign-out"></i>Remisa</a>
-        </div>
-      </div>
-      <div class="tile-body ">
-        <div class="table-responsive">
-              <table class="table table-hover table-bordered " id="remisas-list">
-                <thead>
-                  <tr>
-                    <th style="text-align: center">Venta</th>
-                    <th style="text-align: center">Cliente</th>
-                    <th style="text-align: center">Teléfono</th>
-                    <th style="text-align: center">Dirección</th>
-                    <th style="text-align: center">Fecha</th>
-                    <th style="text-align: center">Fecha Activo</th>
-                    <th style="text-align: center">Ciudad</th>
-                    <th style="text-align: center">Horario</th>
-                    <th style="text-align: center">Forma Pago</th>
-                    <th style="text-align: right;">Importe</th>
-                    <th style="text-align: center">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                     <!-- jgonzalez LISTADO DE VENTAS PARA REMISA-->
-                 @foreach($remisas as $remisa)
-                   <tr class="table-success">
-                   <td class="venta" <?php $x=0; ?>
-                                          @for($i=0; $i<$longitud; $i++)
-                                            @if($remisa->id==$notaventa[$i]->id_venta)
-                                               <?php $x=$x+1; ?>
-                                                  @if($x==1)
-                                                     data-id="{{$remisa->id}}"
-                                                  @endif
-                                            @endif
-                                          @endfor  style="text-align: center;">{{$remisa->id}}    
-                                     <?php $x=0; ?>
-                                  @for($i=0; $i<$longitud; $i++)
-                                    @if($remisa->id==$notaventa[$i]->id_venta)
-                                     <?php $x=$x+1; ?>
-                                     @if($x==1)
-                                       &spades;
-                                     @endif
-                                    @endif
-                                  @endfor
-                                  <div class="toolTip" id="{{$remisa->id}}" style="display: none;">
-                              @foreach($nota as $item)
-                                @if($item->id_venta==$remisa->id)
-                                   <table style="border:0px; width: 850px; font-size: 12px; ">
-                                    <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
-                                    <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
-                                    <td style="border:0px; text-align: left;">{{$item->nota}}</td>
-                                   </table>
-                                @endif
-                              @endforeach
-                                  </div>
-                          </td>               
-                       
-                      </td>
-                      <td style="text-align: left; width: 70px;">{{$remisa->nombres}}</td>
-                      <td style="text-align: center">{{$remisa->telefono}}</td>
-                      <td style="text-align: left;">{{$remisa->direccion}}</td>
-                      <td style="text-align: center">{{$remisa->fecha}}</td>
-                      <td style="text-align: center">{{$remisa->fecha_activo}}</td>
-                      <td style="text-align: left;">{{$remisa->ciudad}}</td>
-                      <td style="text-align: center">{{$remisa->horario}}</td>
-                      <td style="text-align: center">{{$remisa->forma_pago}}</td>
-                      <td style="text-align: right;">{!!number_format($remisa->importe, 0, ',', '.')!!}</td>
-                      <td width="10%" class="text-center">
-                        <div class="btn-group">
-                         
-                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
-                        
-                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $remisa->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>  
-
-                          <button data-toggle="tooltip" data-placement="top" title="No Remisa" class="btn btn-primary noremisa"  value="{{ $remisa->id }}"><i class="m-0 fa fa-lg fa-minus"></i></button>
-                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$remisa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$remisa->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>   
-                          </div>
-
-                      </td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
+        
+        <ul class="sortable ui-sortable "  id="empleado0" data-empleado-id="0">
+          {{--  @include('Logistica.remisa.ventas6')  --}}
+           
+        </ul>
+    </div>
+    
+    @foreach ($empleados as $empleado)
+        <div class="status-card" id="card_delivery">
+            <div class="card-header">
+                <span class="card-header-text">{{ $empleado->nombres }}</span>
             </div>
             
-      </div>
-    </div>
-  </div>
-  @endif
-
-    {{-- TABLA POR ATENDER --}}
-  {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS POR ATENDER --}}
-  @if(count($xatender) > 0)
-   <div class="col-12" >
-    <div class="tile ">
-      <h3 class="tile-title text-center text-md-left"> Ventas por Atender </h3>
-      <div class="tile-body ">
-        <div class="table-responsive">
-              <table class="table table-hover table-bordered " id="xatender-list">
-                <thead>
-                  <tr>
-                    <th style="text-align: center;">Venta</th>
-                    <th style="text-align: center">Cliente</th>
-                    <th style="text-align: center">Teléfono</th>
-                    <th style="text-align: center">Dirección</th>
-                    <th style="text-align: center">Fecha</th>
-                    <th style="text-align: center">Fecha Activo</th>
-                    <th style="text-align: center">Ciudad</th>
-                    <th style="text-align: center">Horario</th>
-                    <th style="text-align: center">Forma Pago</th>
-                    <th style="text-align: center">Importe</th>
-                    <th style="text-align: center">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  <!-- jgonzalez LISTADO DE VENTAS EN ATENDER-->
-                  
-                  @foreach($xatender as $atender)
-                   <tr
-                     @if($atender->fecha == date("Y-m-d"))
-                      class="table-danger"
-                     @elseif($atender->fecha != date("Y-m-d"))
-                      style="background-color:#f1d4fa;"
-                     @endif>
-                        <td class="venta" <?php $x=0; ?>
-                                          @for($i=0; $i<$longitud; $i++)
-                                            @if($atender->id==$notaventa[$i]->id_venta)
-                                               <?php $x=$x+1; ?>
-                                                  @if($x==1)
-                                                     data-id="{{$atender->id}}"
-                                                  @endif
-                                            @endif
-                                          @endfor  style="text-align: center;">{{$atender->id}}    
-                                     <?php $x=0; ?>
-                                  @for($i=0; $i<$longitud; $i++)
-                                    @if($atender->id==$notaventa[$i]->id_venta)
-                                     <?php $x=$x+1; ?>
-                                     @if($x==1)
-                                       &spades;
-                                     @endif
-                                    @endif
-                                  @endfor
-                                  <div class="toolTip" id="{{$atender->id}}"  style="display: none;">
-                              @foreach($nota as $item)
-                                @if($item->id_venta==$atender->id)
-                                   <table style="border:0px; width: 850px; font-size: 12px; ">
-                                    <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
-                                    <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
-                                    <td style="border:0px; text-align: left;">{{$item->nota}}</td>
-                                   </table>
-                                @endif
-                              @endforeach
-                                  </div>
-                              </td>
-                     
-                      </td>
-                      <td style="text-align: left;">{{$atender->nombres}}</td>
-                      <td style="text-align: center">{{$atender->telefono}}</td>
-                      <td style="text-align: left;">{{$atender->direccion}}</td>
-                      <td style="text-align: center">{{$atender->fecha}}</td>
-                      <td style="text-align: center">{{$atender->fecha_activo}}</td>
-                      <td style="text-align: left;">{{$atender->ciudad}}</td>
-                      <td style="text-align: center">{{$atender->horario}}</td>
-                      <td style="text-align: center">{{$atender->forma_pago}}</td>
-                      <td style="text-align: center">{!!number_format($atender->importe, 0, ',', '.')!!}</td>
-                      <td width="10%" class="text-center">
-                        <div class="btn-group">
-                         
-                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
-
-                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $atender->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
-
-                          <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$atender->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>
-                         </div>
-                      </td>
-                    </tr>
-                    
-                  @endforeach
-
-                </tbody>
-              </table>
+            <ul class="sortable ui-sortable emple empleado{{ $empleado->id }}" id="empleado{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}">
+                @foreach ($remisa as $item)
+                   @if ($item->id_delivery == $empleado->id)
+                       @foreach ($ventasAsignadas as $ventaA)
+                            @if ($ventaA->id == $item->id_venta)
+                                <li style="@if ($ventaA->id_estado == 7) background: silver; @endif" class="text-row li{{ $ventaA->id }} ui-sortable-handle" data-importe='{{ $ventaA->importe }}' data-venta-id="{{ $ventaA->id }}">{{ $ventaA->id }}---{{ $ventaA->importe }}
+                                    
+                                </li>
+                            @endif
+                       @endforeach
+                   @endif
+                @endforeach
+            </ul>
+            <div class="col-12 text-right mb-3">
+                <p><b>Total: <span class="total" id="total{{ $empleado->id }}">0</span> Gs.</b></p>
+                <button type="button" id="btnSaveRemito{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}" class="btn btn-primary ">Confirmar</button>
             </div>
-      </div>
-    </div>
-  </div>
-  @endif
-  {{--  --}}
-  {{--  --}}
-    {{--LISTADO ACTIVO  --}}
-  
-  <div class="col-12">
-    <div class="tile">
-      <div class="col mb-3 text-center">
-          <div class="row">
-            <div class="col">
-              <h3 class="tile-title text-center text-md-left">Listado</h3>
-            </div>
-          </div>
         </div>
-        <div class="tile-body ">
-          <div class="tile-body">
-            <div class="table-responsive">
-              <table class="table table-hover table-bordered " id="activas-list">
-                <thead>
-                  <tr>
-                    <th style="text-align: center">Venta</th>
-                    <th style="text-align: center">Cliente</th>
-                    <th style="text-align: center">Teléfono</th>
-                    <th style="text-align: center">Dirección</th>
-                    <th style="text-align: center">Fecha</th>
-                    <th style="text-align: center">Fecha Activo</th>
-                    <th style="text-align: center">Ciudad</th>
-                    <th style="text-align: center">Horario</th>
-                    <th style="text-align: center">Forma Pago</th>
-                    <th style="text-align: center">Importe</th>
-                    <th style="text-align: center">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody id="ventaActiva">
-                  <!-- jgonzalez LISTADO DE VENTAS ACTIVAS-->
-                  <?php 
-                    $total = 0;
-                  ?>
+    @endforeach  
 
-                  
-                  @foreach($activas as $activa)
-                   <tr 
-                   @if($activa->id_estado == '1')
-                      class="table-active"
-                    @elseif($activa->id_estado == '11')
-                      class="table-warning"
-                     @elseif($activa->id_estado == '7')
-                      style="background-color:#F5CBA7;"
-                    @endif 
-                   >
-                      <td class="venta" <?php $x=0; ?>
-                                          @for($i=0; $i<$longitud; $i++)
-                                            @if($activa->id==$notaventa[$i]->id_venta)
-                                               <?php $x=$x+1; ?>
-                                                  @if($x==1)
-                                                     data-id="{{$activa->id}}"
-                                                  @endif
-                                            @endif
-                                          @endfor  style="text-align: center;">{{$activa->id}}    
-                                     <?php $x=0; ?>
-                                  @for($i=0; $i<$longitud; $i++)
-                                    @if($activa->id==$notaventa[$i]->id_venta)
-                                     <?php $x=$x+1; ?>
-                                     @if($x==1)
-                                       &spades;
-                                     @endif
-                                    @endif
-                                  @endfor
-                                               
-                                  <div class="toolTip" id="{{$activa->id}}" style="display: none;">
-                              @foreach($nota as $item)
-                                @if($item->id_venta==$activa->id)
-                                    <table style="border:0px; width: 850px; font-size: 12px; ">
-                                        <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
-                                        <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
-                                        <td style="border:0px; text-align: left;">{{$item->nota}}</td>
-                                   </table>
+</div> 
+{{-- FIN REMISA --}}
+
+{{-- TABLA POR ATENDER --}}
+{{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS POR ATENDER --}}
+@if(count($xatender) > 0)
+<div class="col-12" >
+<div class="tile ">
+  <h3 class="tile-title text-center text-md-left"> Ventas por Atender </h3>
+  <div class="tile-body ">
+    <div class="table-responsive">
+          <table class="table table-hover table-bordered " id="xatender-list">
+            <thead>
+              <tr>
+                <th style="text-align: center;">Venta</th>
+                <th style="text-align: center">Cliente</th>
+                <th style="text-align: center">Teléfono</th>
+                <th style="text-align: center">Dirección</th>
+                <th style="text-align: center">Fecha</th>
+                <th style="text-align: center">Fecha Activo</th>
+                <th style="text-align: center">Ciudad</th>
+                <th style="text-align: center">Horario</th>
+                <th style="text-align: center">Forma Pago</th>
+                <th style="text-align: center">Importe</th>
+                <th style="text-align: center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <!-- jgonzalez LISTADO DE VENTAS EN ATENDER-->
+              
+              @foreach($xatender as $atender)
+               <tr
+                 @if($atender->fecha == date("Y-m-d"))
+                  class="table-danger"
+                 @elseif($atender->fecha != date("Y-m-d"))
+                  style="background-color:#f1d4fa;"
+                 @endif>
+                    <td class="venta" <?php $x=0; ?>
+                                      @for($i=0; $i<$longitud; $i++)
+                                        @if($atender->id==$notaventa[$i]->id_venta)
+                                           <?php $x=$x+1; ?>
+                                              @if($x==1)
+                                                 data-id="{{$atender->id}}"
+                                              @endif
+                                        @endif
+                                      @endfor  style="text-align: center;">{{$atender->id}}    
+                                 <?php $x=0; ?>
+                              @for($i=0; $i<$longitud; $i++)
+                                @if($atender->id==$notaventa[$i]->id_venta)
+                                 <?php $x=$x+1; ?>
+                                 @if($x==1)
+                                   &spades;
+                                 @endif
                                 @endif
-                              @endforeach
-                                  </div>
-                              </td>
-                      </td>
-                      <td style="text-align: left;">{{$activa->nombres}}</td>
-                      <td style="text-align: center">{{$activa->telefono}}</td>
-                      <td style="text-align: left;">{{$activa->direccion}}</td>
-                      <td style="text-align: center">{{$activa->fecha}}</td>
-                      <td style="text-align: center">{{$activa->fecha_activo}}</td>
-                      <td style="text-align: left;">{{$activa->ciudad}}</td>
-                      <td style="text-align: center">{{$activa->horario}}</td>
-                      <td style="text-align: center">{{$activa->forma_pago}}</td>
-                      <td style="text-align: center">{!!number_format($activa->importe, 0,',', '.')!!}</td>
-                      <td width="10%" class="text-center">
-                        <div class="btn-group">
-                         
-                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
-
-
-                        @if($activa->id_estado == '7')
-
-                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $activa->id }}" disabled><i class="m-0 fa fa-lg fa-print"></i></button>
-      
-                        <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}" disabled><i class="m-0 fa fa-lg fa-plus" ></i></button>
-
-                        <button data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary"  href="logistica/Ventas/editar/{{$activa->id}}"  disabled><i class="m-0 fa fa-lg fa-pencil"></i></button>
-
-                        @else
-
-                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-print"></i></button>
-                
-                        <!--<a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>-->
-                        <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-
-                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$activa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
-                        @endif
-                        <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$activa->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>
-                        </div>
-                      </td>
-                    </tr>
-                    <?php 
-                      $total += $activa->importe;
-                    ?>
-                  @endforeach
-                    <tr>
-                    <td colspan="9" class="text-right">
-                      <h4>Total:</h4>
-                    </td>
-                    <td colspan="2">
-                      <h4>
-                        {!!number_format($total, 0,',', '.')!!}
-                      </h4>
-                    </td>
-                  </tr>
+                              @endfor
+                              <div class="toolTip" id="{{$atender->id}}"  style="display: none;">
+                          @foreach($nota as $item)
+                            @if($item->id_venta==$atender->id)
+                               <table style="border:0px; width: 850px; font-size: 12px; ">
+                                <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
+                                <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
+                                <td style="border:0px; text-align: left;">{{$item->nota}}</td>
+                               </table>
+                            @endif
+                          @endforeach
+                              </div>
+                          </td>
                  
-                </tbody>
-              </table>
+                  </td>
+                  <td style="text-align: left;">{{$atender->nombres}}</td>
+                  <td style="text-align: center">{{$atender->telefono}}</td>
+                  <td style="text-align: left;">{{$atender->direccion}}</td>
+                  <td style="text-align: center">{{$atender->fecha}}</td>
+                  <td style="text-align: center">{{$atender->fecha_activo}}</td>
+                  <td style="text-align: left;">{{$atender->ciudad}}</td>
+                  <td style="text-align: center">{{$atender->horario}}</td>
+                  <td style="text-align: center">{{$atender->forma_pago}}</td>
+                  <td style="text-align: center">{!!number_format($atender->importe, 0, ',', '.')!!}</td>
+                  <td width="10%" class="text-center">
+                    <div class="btn-group">
+                     
+                    <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
 
-            </div>
-            </div>
+                     <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $atender->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
+
+                      <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $atender->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                      <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$atender->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                      <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$atender->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>
+                     </div>
+                  </td>
+                </tr>
+                
+              @endforeach
+
+            </tbody>
+          </table>
+        </div>
+  </div>
+</div>
+</div>
+@endif
+{{-- FIN TABLA POR ATENDER --}}
+
+{{--LISTADO ACTIVO  --}}
+<div class="col-12">
+<div class="tile">
+  <div class="col mb-3 text-center">
+      <div class="row">
+        <div class="col">
+          <h3 class="tile-title text-center text-md-left">Listado</h3>
+        </div>
+      </div>
+    </div>
+    <div class="tile-body ">
+      <div class="tile-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered " id="activas-list">
+            <thead>
+              <tr>
+                <th style="text-align: center">Venta</th>
+                <th style="text-align: center">Cliente</th>
+                <th style="text-align: center">Teléfono</th>
+                <th style="text-align: center">Dirección</th>
+                <th style="text-align: center">Fecha</th>
+                <th style="text-align: center">Fecha Activo</th>
+                <th style="text-align: center">Ciudad</th>
+                <th style="text-align: center">Horario</th>
+                <th style="text-align: center">Forma Pago</th>
+                <th style="text-align: center">Importe</th>
+                <th style="text-align: center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="ventaActiva">
+              <!-- jgonzalez LISTADO DE VENTAS ACTIVAS-->
+              <?php 
+                $total = 0;
+              ?>
+
+              
+              @foreach($activas as $activa)
+               <tr 
+               @if($activa->id_estado == '1')
+                  class="table-active"
+                @elseif($activa->id_estado == '11')
+                  class="table-warning"
+                 @elseif($activa->id_estado == '7')
+                  style="background-color:#F5CBA7;"
+                @endif 
+               >
+                  <td class="venta" <?php $x=0; ?>
+                                      @for($i=0; $i<$longitud; $i++)
+                                        @if($activa->id==$notaventa[$i]->id_venta)
+                                           <?php $x=$x+1; ?>
+                                              @if($x==1)
+                                                 data-id="{{$activa->id}}"
+                                              @endif
+                                        @endif
+                                      @endfor  style="text-align: center;">{{$activa->id}}    
+                                 <?php $x=0; ?>
+                              @for($i=0; $i<$longitud; $i++)
+                                @if($activa->id==$notaventa[$i]->id_venta)
+                                 <?php $x=$x+1; ?>
+                                 @if($x==1)
+                                   &spades;
+                                 @endif
+                                @endif
+                              @endfor
+                                           
+                              <div class="toolTip" id="{{$activa->id}}" style="display: none;">
+                          @foreach($nota as $item)
+                            @if($item->id_venta==$activa->id)
+                                <table style="border:0px; width: 850px; font-size: 12px; ">
+                                    <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
+                                    <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
+                                    <td style="border:0px; text-align: left;">{{$item->nota}}</td>
+                               </table>
+                            @endif
+                          @endforeach
+                              </div>
+                          </td>
+                  </td>
+                  <td style="text-align: left;">{{$activa->nombres}}</td>
+                  <td style="text-align: center">{{$activa->telefono}}</td>
+                  <td style="text-align: left;">{{$activa->direccion}}</td>
+                  <td style="text-align: center">{{$activa->fecha}}</td>
+                  <td style="text-align: center">{{$activa->fecha_activo}}</td>
+                  <td style="text-align: left;">{{$activa->ciudad}}</td>
+                  <td style="text-align: center">{{$activa->horario}}</td>
+                  <td style="text-align: center">{{$activa->forma_pago}}</td>
+                  <td style="text-align: center">{!!number_format($activa->importe, 0,',', '.')!!}</td>
+                  <td width="10%" class="text-center">
+                    <div class="btn-group">
+                     
+                    <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+
+
+                    @if($activa->id_estado == '7')
+
+                     <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $activa->id }}" disabled><i class="m-0 fa fa-lg fa-print"></i></button>
+  
+                    <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}" disabled><i class="m-0 fa fa-lg fa-plus" ></i></button>
+
+                    <button data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary"  href="logistica/Ventas/editar/{{$activa->id}}"  disabled><i class="m-0 fa fa-lg fa-pencil"></i></button>
+
+                    @else
+
+                     <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-print"></i></button>
+            
+                    <!--<a class="btn btn-primary"  href="#"><i class="m-0 fa fa-lg fa-plus"></i></a>-->
+                    <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary remisa"  value="{{ $activa->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+
+                    <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$activa->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a> 
+                    @endif
+                    <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{$activa->id}}"><i class="fa fa-lg fa-comment-o" ></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <?php 
+                  $total += $activa->importe;
+                ?>
+              @endforeach
+                <tr>
+                <td colspan="9" class="text-right">
+                  <h4>Total:</h4>
+                </td>
+                <td colspan="2">
+                  <h4>
+                    {!!number_format($total, 0,',', '.')!!}
+                  </h4>
+                </td>
+              </tr>
+             
+            </tbody>
+          </table>
+
+        </div>
         </div>
     </div>
-  </div>
+</div>
+</div>
+{{-- FIN LISTADO ACTIVO --}}
 
+{{-- TABLA EN ESPERA --}}
+{{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS EN ESPERA --}}
+@if(count($enEsperas) > 0)
+ <div class="col-12" >
+  <div class="tile ">
+    <h3 class="tile-title text-center text-md-left"> Ventas en Espera </h3> 
+     <div align="right"><button class="btn btn-primary"  id="btn-activar" ><i class="fa fa-fw fa-lg fa-check-circle"></i>Activar</button></div>
+    <div class="tile-body ">
+      <div class="table-responsive">
+            <table class="table table-hover table-bordered " id="esperas-list">
+              <thead>
+                <tr>
+                  <th style="text-align: center;">Venta</th>
+                  <th style="text-align: center;">Cliente</th>
+                  <th style="text-align: center;">Teléfono</th>
+                  <th style="text-align: center;">Dirección</th>
+                  <th style="text-align: center">Fecha</th>
+                  <th style="text-align: center;">Fecha Activo</th>
+                  <th style="text-align: center;">Ciudad</th>
+                  <th style="text-align: center;">Horario</th>
+                  <th style="text-align: center;">Forma Pago</th>
+                  <th style="text-align: center;">Importe</th>
+                  <th style="text-align: center;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
 
-  {{-- TABLA EN ESPERA --}}
-  {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS EN ESPERA --}}
-  @if(count($enEsperas) > 0)
-   <div class="col-12" >
-    <div class="tile ">
-      <h3 class="tile-title text-center text-md-left"> Ventas en Espera </h3> 
-       <div align="right"><button class="btn btn-primary"  id="btn-activar" ><i class="fa fa-fw fa-lg fa-check-circle"></i>Activar</button></div>
-      <div class="tile-body ">
-        <div class="table-responsive">
-              <table class="table table-hover table-bordered " id="esperas-list">
-                <thead>
-                  <tr>
-                    <th style="text-align: center;">Venta</th>
-                    <th style="text-align: center;">Cliente</th>
-                    <th style="text-align: center;">Teléfono</th>
-                    <th style="text-align: center;">Dirección</th>
-                    <th style="text-align: center">Fecha</th>
-                    <th style="text-align: center;">Fecha Activo</th>
-                    <th style="text-align: center;">Ciudad</th>
-                    <th style="text-align: center;">Horario</th>
-                    <th style="text-align: center;">Forma Pago</th>
-                    <th style="text-align: center;">Importe</th>
-                    <th style="text-align: center;">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  <!-- jgonzalez LISTADO DE VENTAS EN ESPERA-->
-                  
-                  @foreach($enEsperas as $enEspera)
-                   <tr 
-                    @if($enEspera->id_estado == '5')
-                      class="table-info"
-                    @elseif($enEspera->id_estado == '12')
-                      class="table-light"
-                    @endif 
-                    >
-                      <td class="venta" <?php $x=0; ?>
-                                          @for($i=0; $i<$longitud; $i++)
-                                            @if($enEspera->id==$notaventa[$i]->id_venta)
-                                               <?php $x=$x+1; ?>
-                                                  @if($x==1)
-                                                     data-id="{{$enEspera->id}}"
-                                                  @endif
-                                            @endif
-                                          @endfor  style="text-align: center; width:15%">{{$enEspera->id}}    
-                          <?php $x=0; ?>
-                            @for($i=0; $i<$longitud; $i++)
-                                   @if($enEspera->id==$notaventa[$i]->id_venta)
-                                <?php $x=$x+1; ?>
-                                 @if($x==1)
-                                   &spades;
-                                 @endif
-                                @endif
-                          @endfor
-
-                                  <div class="toolTip" id="{{$enEspera->id}}" style="display: none;">
-                            @foreach($nota as $item)
-                              @if($item->id_venta==$enEspera->id)
-                                   <table style="border:0px; width: 850px; font-size: 12px; ">
-                                    <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
-                                    <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
-                                    <td style="border:0px; text-align: left;">{{$item->nota}}</td>
-                                   </table>
+                <!-- jgonzalez LISTADO DE VENTAS EN ESPERA-->
+                
+                @foreach($enEsperas as $enEspera)
+                 <tr 
+                  @if($enEspera->id_estado == '5')
+                    class="table-info"
+                  @elseif($enEspera->id_estado == '12')
+                    class="table-light"
+                  @endif 
+                  >
+                    <td class="venta" <?php $x=0; ?>
+                                        @for($i=0; $i<$longitud; $i++)
+                                          @if($enEspera->id==$notaventa[$i]->id_venta)
+                                             <?php $x=$x+1; ?>
+                                                @if($x==1)
+                                                   data-id="{{$enEspera->id}}"
+                                                @endif
+                                          @endif
+                                        @endfor  style="text-align: center; width:15%">{{$enEspera->id}}    
+                        <?php $x=0; ?>
+                          @for($i=0; $i<$longitud; $i++)
+                                 @if($enEspera->id==$notaventa[$i]->id_venta)
+                              <?php $x=$x+1; ?>
+                               @if($x==1)
+                                 &spades;
+                               @endif
                               @endif
-                            @endforeach
-                                  </div>
-                        </td>
+                        @endfor
+
+                                <div class="toolTip" id="{{$enEspera->id}}" style="display: none;">
+                          @foreach($nota as $item)
+                            @if($item->id_venta==$enEspera->id)
+                                 <table style="border:0px; width: 850px; font-size: 12px; ">
+                                  <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
+                                  <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
+                                  <td style="border:0px; text-align: left;">{{$item->nota}}</td>
+                                 </table>
+                            @endif
+                          @endforeach
+                                </div>
                       </td>
-                      <td style="text-align: left;">{{$enEspera->nombres}}</td>
-                      <td style="text-align: center">{{$enEspera->telefono}}</td>
-                      <td style="text-align: left;">{{$enEspera->direccion}}</td>
-                      <td style="text-align: center">{{$enEspera->fecha}}</td>
-                      <td style="text-align: center">{{$enEspera->fecha_activo}}</td>
-                      <td style="text-align: left;">{{$enEspera->ciudad}}</td>
-                      <td style="text-align: center">{{$enEspera->horario}}</td>
-                      <td style="text-align: center">{{$enEspera->forma_pago}}</td>
-                      <td style="text-align: center">{!!number_format($enEspera->importe, 0,',', '.')!!}</td>
-                      <td width="10%" class="text-center">
-                        <div class="btn-group">
-                       
-                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
-                        
-                       
-                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
+                    </td>
+                    <td style="text-align: left;">{{$enEspera->nombres}}</td>
+                    <td style="text-align: center">{{$enEspera->telefono}}</td>
+                    <td style="text-align: left;">{{$enEspera->direccion}}</td>
+                    <td style="text-align: center">{{$enEspera->fecha}}</td>
+                    <td style="text-align: center">{{$enEspera->fecha_activo}}</td>
+                    <td style="text-align: left;">{{$enEspera->ciudad}}</td>
+                    <td style="text-align: center">{{$enEspera->horario}}</td>
+                    <td style="text-align: center">{{$enEspera->forma_pago}}</td>
+                    <td style="text-align: center">{!!number_format($enEspera->importe, 0,',', '.')!!}</td>
+                    <td width="10%" class="text-center">
+                      <div class="btn-group">
+                     
+                      <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+                      
+                     
+                       <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $enEspera->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
 
-                          @if($enEspera->id_estado == 12 || $enEspera->id_estado == 5) 
-                          <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary disabled-btn remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                          @else
-                          <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary  remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
-                          @endif 
+                        @if($enEspera->id_estado == 12 || $enEspera->id_estado == 5) 
+                        <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary disabled-btn remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                        @else
+                        <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary  remisa"  value="{{ $enEspera->id }}"><i class="m-0 fa fa-lg fa-plus"></i></button>
+                        @endif 
 
-                          <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                        <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="logistica/Ventas/editar/{{$enEspera->id}}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
 
-                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{ $enEspera->id }}"><i class="fa fa-lg fa-comment-o" ></i></button>
-                        </div>
-                      </td>
-                    </tr>
-                    
-                  @endforeach
+                        <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{ $enEspera->id }}"><i class="fa fa-lg fa-comment-o" ></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                @endforeach
 
-                </tbody>
-              </table>
-            </div>
-      </div>
+              </tbody>
+            </table>
+          </div>
     </div>
   </div>
-  @endif
-  {{--  --}}
+</div>
+@endif
+{{-- FIN TABLA EN ESPERA  --}}
 
+{{-- TABLA PROCESADA --}}
+{{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS ESTADO 3 Y 8 --}}
+@if(count($procesadas) > 0)
+ <div class="col-12" >
+  <div class="tile ">
+    <h3 class="tile-title text-center text-md-left"> Ventas Procesadas </h3> 
+     <div class="tile-body ">
+      <div class="table-responsive">
+            <table class="table table-hover table-bordered " id="esperas-list">
+              <thead>
+                <tr>
+                  <th style="text-align: center;">Venta</th>
+                  <th style="text-align: center;">Cliente</th>
+                  <th style="text-align: center;">Teléfono</th>
+                  <th style="text-align: center;">Dirección</th>
+                  <th style="text-align: center">Fecha</th>
+                  <th style="text-align: center;">Fecha Activo</th>
+                  <th style="text-align: center;">Ciudad</th>
+                  <th style="text-align: center;">Horario</th>
+                  <th style="text-align: center;">Forma Pago</th>
+                  <th style="text-align: center;">Importe</th>
+                  <th style="text-align: center;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
 
-  {{-- TABLA PROCESADA --}}
-  {{-- ESTA TABLA SOLO APARECE CUANDO HAY VENTAS ESTADO 3 Y 8 --}}
-  @if(count($procesadas) > 0)
-   <div class="col-12" >
-    <div class="tile ">
-      <h3 class="tile-title text-center text-md-left"> Ventas Procesadas </h3> 
-       <div class="tile-body ">
-        <div class="table-responsive">
-              <table class="table table-hover table-bordered " id="esperas-list">
-                <thead>
-                  <tr>
-                    <th style="text-align: center;">Venta</th>
-                    <th style="text-align: center;">Cliente</th>
-                    <th style="text-align: center;">Teléfono</th>
-                    <th style="text-align: center;">Dirección</th>
-                    <th style="text-align: center">Fecha</th>
-                    <th style="text-align: center;">Fecha Activo</th>
-                    <th style="text-align: center;">Ciudad</th>
-                    <th style="text-align: center;">Horario</th>
-                    <th style="text-align: center;">Forma Pago</th>
-                    <th style="text-align: center;">Importe</th>
-                    <th style="text-align: center;">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  <!-- jgonzalez LISTADO DE VENTAS EN ESPERA-->
-                  
-                  @foreach($procesadas as $procesada)
-                   <tr>
-                      <td class="venta" <?php $x=0; ?>
-                                          @for($i=0; $i<$longitud; $i++)
-                                            @if($procesada->id==$notaventa[$i]->id_venta)
-                                               <?php $x=$x+1; ?>
-                                                  @if($x==1)
-                                                     data-id="{{$procesada->id}}"
-                                                  @endif
-                                            @endif
-                                          @endfor  style="text-align: center; width:15%">{{$procesada->id}}    
-                          <?php $x=0; ?>
-                            @for($i=0; $i<$longitud; $i++)
-                                   @if($procesada->id==$notaventa[$i]->id_venta)
-                                <?php $x=$x+1; ?>
-                                 @if($x==1)
-                                   &spades;
-                                 @endif
-                                @endif
-                          @endfor
-
-                                  <div class="toolTip" id="{{$procesada->id}}" style="display: none;">
-                            @foreach($nota as $item)
-                              @if($item->id_venta==$procesada->id)
-                                   <table style="border:0px; width: 850px; font-size: 12px; ">
-                                    <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
-                                    <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
-                                    <td style="border:0px; text-align: left;">{{$item->nota}}</td>
-                                   </table>
+                <!-- jgonzalez LISTADO DE VENTAS EN ESPERA-->
+                
+                @foreach($procesadas as $procesada)
+                 <tr>
+                    <td class="venta" <?php $x=0; ?>
+                                        @for($i=0; $i<$longitud; $i++)
+                                          @if($procesada->id==$notaventa[$i]->id_venta)
+                                             <?php $x=$x+1; ?>
+                                                @if($x==1)
+                                                   data-id="{{$procesada->id}}"
+                                                @endif
+                                          @endif
+                                        @endfor  style="text-align: center; width:15%">{{$procesada->id}}    
+                        <?php $x=0; ?>
+                          @for($i=0; $i<$longitud; $i++)
+                                 @if($procesada->id==$notaventa[$i]->id_venta)
+                              <?php $x=$x+1; ?>
+                               @if($x==1)
+                                 &spades;
+                               @endif
                               @endif
-                            @endforeach
-                                  </div>
-                        </td>
+                        @endfor
+
+                                <div class="toolTip" id="{{$procesada->id}}" style="display: none;">
+                          @foreach($nota as $item)
+                            @if($item->id_venta==$procesada->id)
+                                 <table style="border:0px; width: 850px; font-size: 12px; ">
+                                  <td style="border:0px; text-align: left; width: 140px;">{{$item->fecha}}</td>
+                                  <td style="border:0px; text-align: left; width: 110px;">{{$item->nombre}}</td>
+                                  <td style="border:0px; text-align: left;">{{$item->nota}}</td>
+                                 </table>
+                            @endif
+                          @endforeach
+                                </div>
                       </td>
-                      <td style="text-align: left;">{{$procesada->nombres}}</td>
-                      <td style="text-align: center">{{$procesada->telefono}}</td>
-                      <td style="text-align: left;">{{$procesada->direccion}}</td>
-                      <td style="text-align: center">{{$procesada->fecha}}</td>
-                      <td style="text-align: center">{{$procesada->fecha_activo}}</td>
-                      <td style="text-align: left;">{{$procesada->ciudad}}</td>
-                      <td style="text-align: center">{{$procesada->horario}}</td>
-                      <td style="text-align: center">{{$procesada->forma_pago}}</td>
-                      <td style="text-align: center">{!!number_format($procesada->importe, 0,',', '.')!!}</td>
-                      <td width="10%" class="text-center">
-                        <div class="btn-group">
-                       
-                        <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $procesada->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
-                        
-                       
-                         <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $procesada->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
+                    </td>
+                    <td style="text-align: left;">{{$procesada->nombres}}</td>
+                    <td style="text-align: center">{{$procesada->telefono}}</td>
+                    <td style="text-align: left;">{{$procesada->direccion}}</td>
+                    <td style="text-align: center">{{$procesada->fecha}}</td>
+                    <td style="text-align: center">{{$procesada->fecha_activo}}</td>
+                    <td style="text-align: left;">{{$procesada->ciudad}}</td>
+                    <td style="text-align: center">{{$procesada->horario}}</td>
+                    <td style="text-align: center">{{$procesada->forma_pago}}</td>
+                    <td style="text-align: center">{!!number_format($procesada->importe, 0,',', '.')!!}</td>
+                    <td width="10%" class="text-center">
+                      <div class="btn-group">
+                     
+                      <button data-toggle="tooltip" data-placement="top" title="Ver" class="btn btn-primary detalle"  value="{{ $procesada->id }}"><i class="m-0 fa fa-lg fa-eye"></i></button>
+                      
+                     
+                       <button class="btn btn-primary factura" data-toggle="modal" title="Imprimir" data-target="#ModalFactura" id="factura" value="{{ $procesada->id }}" ><i class="m-0 fa fa-lg fa-print"></i></button>
 
-                         <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary  remisa"  value="{{ $procesada->id }}" disabled><i class="m-0 fa fa-lg fa-plus"></i></button>
-                       
-                          <button  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" disabled><i class="m-0 fa fa-lg fa-pencil"></i></button>
+                       <button data-toggle="tooltip" data-placement="top" title="A Remisa" class="btn btn-primary  remisa"  value="{{ $procesada->id }}" disabled><i class="m-0 fa fa-lg fa-plus"></i></button>
+                     
+                        <button  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" disabled><i class="m-0 fa fa-lg fa-pencil"></i></button>
 
-                          <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{ $procesada->id }}"><i class="fa fa-lg fa-comment-o" ></i></button>
-                        </div>
-                      </td>
-                    </tr>
-                    
-                  @endforeach
+                        <button data-toggle="tooltip" data-placement="top"  title="Nota" class="btn btn-primary nota"  value="{{ $procesada->id }}"><i class="fa fa-lg fa-comment-o" ></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                @endforeach
 
-                </tbody>
-              </table>
-            </div>
-      </div>
+              </tbody>
+            </table>
+          </div>
     </div>
   </div>
-  @endif
 </div>
-  {{--  --}}
+@endif
+</div>
+{{-- FIN TABLA PROCESADA --}}
 
-</div>
+{{-- MODALES --}}
 <!-- Modal -->
 <div class="modal fade" id="ModalProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -1011,14 +955,155 @@
             </div>
         </div>
    </div>
-
-
-
+{{-- FIN MODALES --}}
 @endsection
 
 @push('scripts')
 
 <script type="text/javascript">
+
+function addCommas(nStr) { 
+    nStr += ''; 
+    var x = nStr.split('.'); 
+    var x1 = x[0]; 
+    var x2 = x.length > 1 ? '.' + x[1] : ''; 
+    var rgx = /(\d+)(\d{3})/; 
+    while (rgx.test(x1)) { 
+     x1 = x1.replace(rgx, '$1' + '.' + '$2'); 
+    } 
+    return x1 + x2; 
+} 
+
+
+function ventas(){
+    $.ajax({
+        type: "get",
+        url: '{{ route('remisa0') }}',
+        dataType: "json",
+        success : function(response) {
+        var montos = [];                      
+        $.each( response.ventas, function(row, items){
+
+            $('#empleado0').append('<li class="d-flex justify-content-between text-row ui-sortable-handle" data-importe="'+items.importe+'" data-venta-id="'+items.id+'">'+items.id+'<a id="" class="eliminaRemisa" data-venta-id="'+items.id+'"><i class="fa fa-times"></i></a></li>')
+
+            // //console.log(items.id);
+            // $('.empleado'+items.id+' li').each(function () {
+            //     montos.push ($(this).data('importe'))
+            // });   
+
+        });
+            
+        }
+    });
+}
+
+$(document).ready(ventas);   
+
+$(function() {
+
+        var url = '{{ route('saveRemisa') }}';
+        $('ul[id^="empleado"]').sortable(
+                {
+        cursor: "move",
+        connectWith : ".sortable",
+        receive : function(e, ui) {
+            var empleado_id = $(ui.item).parent(".sortable").data("empleado-id");
+            var venta_id = $(ui.item).data("venta-id");
+            var sender = ui.sender.data("empleado-id");
+           
+            $.ajax({
+                type: "get",
+                url: url+'/'+empleado_id+'/'+venta_id,
+                dataType: "json",
+                data: { empleado_id: empleado_id, venta_id:venta_id },
+                success : function(response) {
+
+                    var montos = [];
+                    var montos2 = [];
+                    var suma = 0;
+                    var suma2 = 0;
+
+                    //CALCULA LOS REGISTROS EN LA TARJETA QUE RECIBE
+                    $('.empleado'+empleado_id+' li').each(function () {
+                        montos.push ($(this).data('importe'))
+                    });
+                    for(var x = 0; x < montos.length; x++){
+                      suma += montos[x];
+                    } 
+                    $('#total'+empleado_id).html('');  
+                    var total = addCommas(suma);        
+                    $('#total'+empleado_id).html(total);
+
+                    //CALCULA LOS REGISTROS DE LA TARJETA QUE ABANDONA
+                    $('.empleado'+sender+' li').each(function () {
+                        montos2.push ($(this).data('importe'))
+                    });
+                    for(var x = 0; x < montos2.length; x++){
+                      suma2 += montos2[x];
+                    } 
+                    $('#total'+sender).html('');  
+                    var total2 = addCommas(suma2);     
+                    $('#total'+sender).html(total2);
+                    
+                }
+            });
+        }
+
+    }).disableSelection();
+
+        $('button[id^="btnSaveRemito"]').on('click',function(){
+            var empleado_id = $(this).data('empleado-id');
+            var ventas = [];
+            var montos = [];
+            
+            $('.empleado'+empleado_id+' li').each(function () {
+                ventas.push  ($(this).data('venta-id')); 
+                montos.push ($(this).data('importe'));
+         
+            });
+            console.log(montos);
+
+             var suma = 0;
+            for(var x = 0; x < montos.length; x++){
+              suma += montos[x];
+            } 
+            $('#total'+empleado_id).html('');       
+            $('#total'+empleado_id).html(suma);
+
+            console.log(ventas);
+            $.ajax({
+                type: "get",
+                url: '{{ route('saveRemito') }}',
+                dataType: "json",
+                data: { id_delivery: empleado_id, suma:suma, ventas:ventas, montos:montos },
+                success : function(response) {
+                    console.log(response); 
+
+                    
+                }
+            });
+
+
+
+
+        });
+
+        $(document).on('click','.eliminaRemisa', function(){ 
+            var venta_id = $(this).data('venta-id');
+             $.ajax({
+                type: "get",
+                url: '{{ route('destroyRemisa') }}' ,
+                dataType: "json",
+                data: { venta_id:venta_id },
+                success : function(response) {
+                  if (response == 1) {
+                    $('#empleado0').html('');
+                    ventas(); 
+                  }
+                }
+            });
+        });
+    });
 
  $('.reset').click(function(){
    

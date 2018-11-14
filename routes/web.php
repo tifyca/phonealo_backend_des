@@ -4,8 +4,19 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 
-   
+    Route::get('remisanew', 'Logistica\RemisaController@remisa')->name('remisanew');
+    Route::get('saveRemisa/{empleado_id?}/{venta_id?}',[
+        'uses' => 'Logistica\RemisaController@saveRemisa',
+        'as'   => 'saveRemisa'
+    ]);
 
+    Route::get('remisa0','Logistica\RemisaController@remisa0')->name('remisa0');
+    Route::get('destroyRemisa','Logistica\RemisaController@destroyRemisa')->name('destroyRemisa');
+
+    Route::get('saveRemito','Logistica\RemisaController@saveRemito')->name('saveRemito');
+
+   
+ 
     // AJAX
     Route::get('paises', 'Ajax\Direcciones@paises')->name('paises_ajax');
     Route::get('departamentos', 'Ajax\Direcciones@Departamentos')->name('departamentos_ajax');

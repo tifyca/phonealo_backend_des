@@ -16,6 +16,7 @@ use App\Remitos;
 use App\Facturas;
 use Illuminate\Support\Facades\Validator;
 use App\Notas_Ventas;
+use App\Remisa; 
 
 
 class LogisticaController extends Controller
@@ -246,9 +247,14 @@ class LogisticaController extends Controller
                       ->where('karma', 1)
                       ->count();
 
+      $empleados = Empleados::where('id_cargo', 4)->get();
+      $ventas = Ventas::where('id_estado',6)->get();
+      $ventasAsignadas = Ventas::whereIn('id_estado', [13,7])->get();
+      $remisa = Remisa::all();
+
        
 
-        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario', 'karma', 'class', 'id_horario', 'busca', 'mensaje', 'procesadas'));
+        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario', 'karma', 'class', 'id_horario', 'busca', 'mensaje', 'procesadas','empleados', 'ventas','ventasAsignadas','remisa'));
     	
     }
     public function CrearPDF ($remito, $vista, $empleado, $id_remisa ){
