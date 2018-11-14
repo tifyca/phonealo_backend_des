@@ -11,107 +11,31 @@
 @section('display_trash','d-none')    @section('link_trash')
 
 @section('content')
-<style>
-body {
-    font-family: arial;
-}
-h1 {
-    font-weight: normal;
-}
-.task-board {
-    background: #2c7cbc;
-    display: inline-block;
-    padding: 12px;
-    border-radius: 3px;
-    width: 100%;
-    white-space: nowrap;
-    overflow-x: scroll;
-    min-height: 300px;
-}
 
-.status-card {
-    width: 250px;
-    margin-right: 8px;
-    background: #e2e4e6;
-    border-radius: 3px;
-    display: inline-block;
-    vertical-align: top;
-    font-size: 0.9em;
-}
-
-.status-card:last-child {
-    margin-right: 0px;
-}
-
-.card-header {
-    width: 100%;
-    padding: 10px 10px 0px 10px;
-    box-sizing: border-box;
-    border-radius: 3px;
-    display: block;
-    font-weight: bold;
-}
-
-.card-header-text {
-    display: block;
-}
-
-ul.sortable {
-    padding-bottom: 10px;
-}
-
-ul.sortable li:last-child {
-    margin-bottom: 0px;
-}
-
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0px;
-}
-
-.text-row {
-    padding: 8px 10px;
-    margin: 10px;
-    background: #fff;
-    box-sizing: border-box;
-    border-radius: 3px;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-    font-size: 0.8em;
-    white-space: normal;
-    line-height: 20px;
-}
-
-.ui-sortable-placeholder {
-    visibility: inherit !important;
-    background: transparent;
-    border: #666 2px dashed;
-}
-</style>
-<div class="task-board">
+<div class="task-board  ">
     <div class="status-card">
         <div class="card-header">
             <span class="card-header-text">Ventas</span>
         </div>
         
-        <ul class="sortable ui-sortable" id="empleado0" data-empleado-id="0">
-           @include('Logistica.remisa.ventas6');
+        <ul class="sortable ui-sortable "  id="empleado0" data-empleado-id="0">
+          {{--  @include('Logistica.remisa.ventas6')  --}}
+           
         </ul>
     </div>
     
     @foreach ($empleados as $empleado)
-        <div class="status-card">
+        <div class="status-card" id="card_delivery">
             <div class="card-header">
                 <span class="card-header-text">{{ $empleado->nombres }}</span>
             </div>
             
-            <ul class="sortable ui-sortable empleado{{ $empleado->id }}" id="empleado{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}">
+            <ul class="sortable ui-sortable emple empleado{{ $empleado->id }}" id="empleado{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}">
                 @foreach ($remisa as $item)
                    @if ($item->id_delivery == $empleado->id)
                        @foreach ($ventasAsignadas as $ventaA)
                             @if ($ventaA->id == $item->id_venta)
-                                <li class="text-row ui-sortable-handle" data-importe='{{ $ventaA->importe }}' data-venta-id="{{ $ventaA->id }}">{{ $ventaA->id }}---{{ $ventaA->importe }}
+                                <li style="@if ($ventaA->id_estado == 7) background: silver; @endif" class="text-row li{{ $ventaA->id }} ui-sortable-handle" data-importe='{{ $ventaA->importe }}' data-venta-id="{{ $ventaA->id }}">{{ $ventaA->id }}---{{ $ventaA->importe }}
                                     
                                 </li>
                             @endif
@@ -120,11 +44,12 @@ ul {
                 @endforeach
             </ul>
             <div class="col-12 text-right mb-3">
-                <p><b>Total: <span id="total{{ $empleado->id }}"></span> Gs.</b></p>
+                <p><b>Total: <span class="total" id="total{{ $empleado->id }}">0</span> Gs.</b></p>
                 <button type="button" id="btnSaveRemito{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}" class="btn btn-primary ">Confirmar</button>
             </div>
         </div>
-    @endforeach
+    @endforeach  
+
 </div>
 
 @endsection
@@ -133,67 +58,149 @@ ul {
 
  <script>
 
+
+function addCommas(nStr) { 
+    nStr += ''; 
+    var x = nStr.split('.'); 
+    var x1 = x[0]; 
+    var x2 = x.length > 1 ? '.' + x[1] : ''; 
+    var rgx = /(\d+)(\d{3})/; 
+    while (rgx.test(x1)) { 
+     x1 = x1.replace(rgx, '$1' + '.' + '$2'); 
+    } 
+    return x1 + x2; 
+} 
+
+
+function ventas(){
+    $.ajax({
+        type: "get",
+        url: '{{ route('remisa0') }}',
+        dataType: "json",
+        success : function(response) {
+        var montos = [];                      
+        $.each( response.ventas, function(row, items){
+
+            $('#empleado0').append('<li class="d-flex justify-content-between text-row ui-sortable-handle" data-importe="'+items.importe+'" data-venta-id="'+items.id+'">'+items.id+'<a id="" class="eliminaRemisa" data-venta-id="'+items.id+'"><i class="fa fa-times"></i></a></li>')
+
+            // //console.log(items.id);
+            // $('.empleado'+items.id+' li').each(function () {
+            //     montos.push ($(this).data('importe'))
+            // });   
+
+        });
+            
+        }
+    });
+}
+
+$(document).ready(ventas);   
+
 $(function() {
 
         var url = '{{ route('saveRemisa') }}';
         $('ul[id^="empleado"]').sortable(
                 {
-                    cursor: "move",
-                    connectWith : ".sortable",
-                    receive : function(e, ui) {
-                        var empleado_id = $(ui.item).parent(".sortable").data("empleado-id");
-                        var venta_id = $(ui.item).data("venta-id");
-                       
-                        //console.log(empleado_id);
-                        //console.log(venta_id);
+        cursor: "move",
+        scrollSensitivity: 1,
+        connectWith : ".sortable",
+        receive : function(e, ui) {
+            var empleado_id = $(ui.item).parent(".sortable").data("empleado-id");
+            var venta_id = $(ui.item).data("venta-id");
+            var sender = ui.sender.data("empleado-id");
+           
+            $.ajax({
+                type: "get",
+                url: url+'/'+empleado_id+'/'+venta_id,
+                dataType: "json",
+                data: { empleado_id: empleado_id, venta_id:venta_id },
+                success : function(response) {
 
-                       $("#empleado0").load("{{ route('remisa0') }}"); 
-                         
-                        $.ajax({
-                            type: "get",
-                            url: url+'/'+empleado_id+'/'+venta_id,
-                            dataType: "json",
-                            data: { empleado_id: empleado_id, venta_id:venta_id },
-                            success : function(response) {
+                    var montos = [];
+                    var montos2 = [];
+                    var suma = 0;
+                    var suma2 = 0;
 
-                                var montos = [];
-                                $('.empleado'+empleado_id+' li').each(function () {
-                                    montos.push ($(this).data('importe'))
-                                });
+                    //CALCULA LOS REGISTROS EN LA TARJETA QUE RECIBE
+                    $('.empleado'+empleado_id+' li').each(function () {
+                        montos.push ($(this).data('importe'))
+                    });
+                    for(var x = 0; x < montos.length; x++){
+                      suma += montos[x];
+                    } 
+                    $('#total'+empleado_id).html('');  
+                    var total = addCommas(suma);        
+                    $('#total'+empleado_id).html(total);
 
-                                    var suma = 0;
-                                    for(var x = 0; x < montos.length; x++){
-                                      suma += montos[x];
-                                    } 
-                                    $('#total'+empleado_id).html('');       
-                                    $('#total'+empleado_id).html(suma);
-                            }
-                        });
-                    }
+                    //CALCULA LOS REGISTROS DE LA TARJETA QUE ABANDONA
+                    $('.empleado'+sender+' li').each(function () {
+                        montos2.push ($(this).data('importe'))
+                    });
+                    for(var x = 0; x < montos2.length; x++){
+                      suma2 += montos2[x];
+                    } 
+                    $('#total'+sender).html('');  
+                    var total2 = addCommas(suma2);     
+                    $('#total'+sender).html(total2);
+                    
+                }
+            });
+        }
 
-                }).disableSelection();
+    }).disableSelection();
 
         $('button[id^="btnSaveRemito"]').on('click',function(){
             var empleado_id = $(this).data('empleado-id');
             var ventas = [];
             var montos = [];
+            
             $('.empleado'+empleado_id+' li').each(function () {
                 ventas.push  ($(this).data('venta-id')); 
+                montos.push ($(this).data('importe'));
          
             });
+            console.log(montos);
 
-               
+             var suma = 0;
+            for(var x = 0; x < montos.length; x++){
+              suma += montos[x];
+            } 
+            $('#total'+empleado_id).html('');       
+            $('#total'+empleado_id).html(suma);
+
+            console.log(ventas);
+            $.ajax({
+                type: "get",
+                url: '{{ route('saveRemito') }}',
+                dataType: "json",
+                data: { id_delivery: empleado_id, suma:suma, ventas:ventas, montos:montos },
+                success : function(response) {
+                    console.log(response); 
+
+                    
+                }
+            });
+
+
+
 
         });
 
-        $('.eliminaRemisa').on('click', function(){ 
-
-            var id = $(this).data('venta-id');
-
-            console.log(id);
+        $(document).on('click','.eliminaRemisa', function(){ 
+            var venta_id = $(this).data('venta-id');
+             $.ajax({
+                type: "get",
+                url: '{{ route('destroyRemisa') }}' ,
+                dataType: "json",
+                data: { venta_id:venta_id },
+                success : function(response) {
+                  if (response == 1) {
+                    $('#empleado0').html('');
+                    ventas(); 
+                  }
+                }
+            });
         });
-
-       
     });
  </script>
 

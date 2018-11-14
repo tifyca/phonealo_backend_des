@@ -121,6 +121,17 @@
 
         </ul>
 
+        <ul class="app-breadcrumb breadcrumb">
+
+          {{-- ACCIONES  --}}
+          <div class="btn-group">
+           @yield('btn')
+            
+          </div>
+          {{-- \\\\\\\\\ --}}
+
+        </ul>
+
       </div>
       @yield('content')
       <div class="row">

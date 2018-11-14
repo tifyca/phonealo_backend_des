@@ -11,6 +11,9 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 
     Route::get('remisa0','Logistica\RemisaController@remisa0')->name('remisa0');
+    Route::get('destroyRemisa','Logistica\RemisaController@destroyRemisa')->name('destroyRemisa');
+
+    Route::get('saveRemito','Logistica\RemisaController@saveRemito')->name('saveRemito');
 
    
 
