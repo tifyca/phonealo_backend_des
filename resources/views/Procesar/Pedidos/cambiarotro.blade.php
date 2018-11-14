@@ -7,12 +7,11 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Cambio por Otro Producto')
+@section('titulo', 'Cambiar por Otro Producto')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', '') @section('link_back', url('pedidos'))
-
+@section('display_back', 'd-none') @section('link_back', '')
 @section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
@@ -116,7 +115,7 @@
             </div>
             <div class="form-group col-md-4">
               <label for="">Forma de Pago</label>
-              <select class="form-control" id="forma_pago" name="forma_pago">
+              <select class="form-control" id="forma_pago" name="forma_pago" disabled>
                   <option value="{{$venta[0]->id_forma_pago}}">{{$venta[0]->forma_pago}}</option>
                 @foreach($formas as $forma)  
                     <option value="{{$forma->id}}"> {{ $forma->forma_pago }} </option>
@@ -126,19 +125,10 @@
             <div class="form-group col-md-4">
               <label for="">Factura</label>
               <select id="factura" class="form-control" id="factura" name="factura">
-               @if($venta[0]->factura==1)
+                <option value="">Seleccione</option>
                 <option value="1" selected>No</option>
-                <option value="2" >Si</option>
-                <option value="3" >Sin Nombre</option>
-               @elseif($venta[0]->factura==2)
-                <option value="1" >No</option>
-                <option value="2" selected>Si</option>
-                <option value="3" >Sin Nombre</option>
-               @else
-                <option value="1" >No</option>
-                <option value="2" >Si</option>
-                <option value="3" selected>Sin Nombre</option>
-               @endif
+                <option value="2">Si</option>
+                <option value="3">Sin Nombre</option>
               </select>
             </div>
             <div class="form-group col-md-4">
@@ -149,29 +139,18 @@
               </select>
             </div>
             {{-- ESTOS CAMPOS APARECEN CUANDO SE SELECCIONA FACTURA : SI / SIN NOMBRE   --}}
-             @if($venta[0]->factura==2)
-            <div id="nombres_factura" class="form-group col-md-4">
+            <div id="nombres_factura" class=" d-none form-group col-md-4">
               <label for="">Nombres</label>
-              <input class="form-control" type="text" id="factura_nomb" name="factura_nomb"   maxlength="50"  oncopy="return false" value="{{$venta[0]->fnombres}}" >
+              <input class="form-control" type="text" id="factura_nomb" name="factura_nomb"   maxlength="50"  oncopy="return false" >
             </div>
-            <div id="direccion_factura" class="form-group col-md-8">
+            <div id="direccion_factura" class=" d-none form-group col-md-8">
               <label for="">Direccion</label>
-              <input class="form-control" type="text" id="factura_dir" name="factura_dir" maxlength="150" value="{{$venta[0]->fdireccion}}">
+              <input class="form-control" type="text" id="factura_dir" name="factura_dir" maxlength="150" >
             </div>
-            <div id="ruc_factura" class="form-group col-md-4">
+            <div id="ruc_factura" class=" d-none form-group col-md-4">
               <label for="">RUC</label>
-              <input class="form-control" type="text" id="factura_ruc" name="factura_ruc"  onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false" value="{{$venta[0]->fruc}}">
+              <input class="form-control" type="text" id="factura_ruc" name="factura_ruc"  onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false">
             </div>
-            @elseif($venta[0]->factura==3)
-            <div id="nombres_factura" class="form-group col-md-4">
-              <label for="">Nombres</label>
-              <input class="form-control" type="text" id="factura_nomb" name="factura_nomb"   maxlength="50"  oncopy="return false" value="{{$venta[0]->fnombres}}" readonly>
-            </div>
-            <div id="ruc_factura" class="form-group col-md-4">
-              <label for="">RUC</label>
-              <input class="form-control" type="text" id="factura_ruc" name="factura_ruc"  onkeypress="return soloNumeros(event);" maxlength="15"  oncopy="return false" value="{{$venta[0]->fruc}}" readonly>
-            </div>
-            @endif
             {{-- //// --}}
             
             <div class="form-group col-md-8">
@@ -179,13 +158,13 @@
               <div class="row">
                 <div class="col-3 text-right">
                   <label class="form-check-label mt-2">
-                    <input class="form-check-input" id="delivery"  name="delivery" type="checkbox" >Gratis
+                    <input class="form-check-input" id="delivery" type="checkbox" name="monto" type="checkbox" value="1">Gratis
                   </label>
                 </div>
                 <div class="col-9">
                
-              <select class="form-control monto" id="monto" name="monto" >
-                      <option value=""> Monto </option>
+              <select class="form-control" id="monto" name="monto" >
+                <option value="">Monto</option>
                @foreach($deliverys as $delivery)  
                       <option value="{{$delivery->id}}"> {!!number_format($delivery->monto, 0, ',', '.')!!} </option>
                  @endforeach             
@@ -196,7 +175,7 @@
             </div>
             <div class="form-group col-md-12">
               <label for="">Nota</label>
-              <textarea name="nota_venta" id="nota_venta" class="form-control" cols="5">{{$venta[0]->notas}}</textarea>
+              <textarea name="nota_venta" id="nota_venta" class="form-control" cols="5"></textarea>
             </div>
               
           </div>
@@ -271,7 +250,7 @@
             <input class="form-control" type="text" id="precio" name="precio" >
           </div>
           <div class="col-sm-12 opacity-p d-flex justify-content-between mt-4">
-            <a class="btn btn-primary " onclick="add_cesta_edit();" id="btn-add" value="add"><i class=" fa fa-lg fa-plus"></i>Añadir</a>
+            <a class="btn btn-primary " onclick="add_cesta();" id="btn-add" value="add"><i class=" fa fa-lg fa-plus"></i>Añadir</a>
             <a id="refrescar" class="btn btn-secondary " ><i class=" fa fa-lg fa-refresh"></i>Refrescar</a>
           </div>
         </div>
@@ -291,7 +270,7 @@
         <h3 class="tile-title text-center text-md-left">Productos en la Cesta</h3>
           <div class="tile-body ">
             <div class="table-responsive">
-              <input type='hidden' id='total_venta' value="{{$venta[0]->importe}}">
+              <input type='hidden' id='total_venta' value="">
               <table class="table"  id="cesta-list" name="cesta-list">
                 <thead>
                   <tr>
@@ -305,33 +284,14 @@
                 </thead>
                 
                 <tbody>
-                  <?php $id=0; $subimporte=0; $mtotal=0;?>
-                  @foreach($detalles as $detalle) 
-                    @if($detalle->id_producto==36)
-                     <?php $id = $detalle->id_delivery; ?>
-                    @else
-                     
-                  <tr><td  width="15%" id="d-cod_producto">{{$detalle->codigo_producto}}</td>
-                  <td width="30%" id="d-descripcion">{{$detalle->descripcion}}</td>
-                  <td width="15%" id="d-cantidad" class="text-center">{{$detalle->cantidad}}</td>
-                  <td width="20%" id="d-precio" class="text-center">{!!number_format($detalle->precio, 0, ',', '.')!!}</td>
-                    <?php $subimporte= $detalle->cantidad * $detalle->precio;
-                    $mtotal+=$subimporte;?>
-                  <td width="20%" id="d-importe" class="text-center">{!!number_format($subimporte, 0, ',', '.')!!}</td>
-                  <td width="15%" class="text-center"><div class="btn-group">
-                  <button ata-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary deledit" value="{{$detalle->id_producto}}" ><i class="m-0 fa fa-lg fa-trash"></i></button>
-                  <button data-toggle="tooltip" data-placement="top" title="Detalle" class="btn btn-primary open_modal" value="{{$detalle->id_producto}}"><i class="m-0 fa fa-lg fa-info"></i></button></div>
-                  </td>
-                  </tr> 
-                    @endif
-                  @endforeach
+                  
                 </tbody>
 
                   
                
               </table>
-               <div class="text-right col-md-"><h3><div id='total'>Total Gs.:{!!number_format($venta[0]->importe, 0, ',', '.')!!}</div></h3>
-               <button class="btn btn-primary" type="submit" id="btn-edit" >Guardar</button></div>
+               <div class="text-right col-md-"><h3><div id='total'></div></h3>
+               <button class="btn btn-primary" type="submit" id="btn-save" disabled>Guardar</button></div>
             </div>
           </div>
       </div>
@@ -436,7 +396,7 @@
 <script type="text/javascript" charset="utf-8" async defer>
    
 
-  /*   window.onload = function(){
+     window.onload = function(){
       var fecha = new Date(); //Fecha actual
       var mes = fecha.getMonth()+1; //obteniendo mes
       var dia = fecha.getDate(); //obteniendo dia
@@ -448,16 +408,9 @@
       document.getElementById('fecha_venta').value=ano+"-"+mes+"-"+dia;
       document.getElementById('fecha_entrega').value=ano+"-"+mes+"-"+dia;
 
-    }*/ 
-  $("#btn-save").prop('disabled', false);
-  var id_delivery = '{{$id}}';
+    }
+    
 
-  if(id_delivery!=0){
-    $('select[name=monto]').val(id_delivery);
-  }else{
-    $("#delivery").prop('checked', true);
-    $('#monto').prop('disabled', true);
-  }
   var url1 = '{{ $url1 }}';
   var url2 = '{{ $url2 }}';
 
@@ -630,7 +583,7 @@
        $('#img-prod').html('');
       $('#det-carousel').html('');
 
-    $.get('../../ventas/detalle/'+ id_producto, function(data){
+    $.get('ventas/detalle/'+ id_producto, function(data){
       console.log(data);
           $.ajaxSetup({
             headers: {
@@ -805,7 +758,7 @@ console.log("Buscar: "+id_barrio_selected);
               dataType: "json",
               data: {id_departamento: id_departamento},
               success: function (data){
-                   // $(".ciudades").append('<option value=0> Seleccione </option>');
+                    $(".ciudades").append('<option value=0> Seleccione </option>');
                  $.each(data, function(l, item1) {
 
                    //$(".ciudades option:eq(1)").prop("selected", true);
@@ -828,9 +781,12 @@ console.log("Buscar: "+id_barrio_selected);
               dataType: "json",
               data: {id_ciudad: id_ciudad},
               success: function (data){
+                $(".barrios").append('<option value=0> Seleccione </option>');
 
                  $.each(data, function(l, item2) {
-                   $(".barrios").append('<option value='+item2.barrio+'>'+item2.barrio+'</option>');
+                 // $(".barrios").append('<option value=0> Seleccione </option>');
+                   //$(".ciudades option:eq(1)").prop("selected", true);
+                   $(".barrios").append('<option value="'+item2.barrio+'">'+item2.barrio+'</option>');
                   });
               }
           });
@@ -842,6 +798,17 @@ console.log("Buscar: "+id_barrio_selected);
   
   </script>
   
+
+
+
+
+
+
+
+
+
+
+
 
 
 @endpush
