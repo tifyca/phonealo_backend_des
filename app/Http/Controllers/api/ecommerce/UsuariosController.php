@@ -106,9 +106,9 @@ class UsuariosController extends Controller
 			$nombres  = $usuario->nombres;
 			$usuario->save();
 			$clientes = Clientes::where('email', $email)->where('telefono', $telefono)->first(); 
-
 			if($clientes){
 				$clientes->id_estado = 1;
+				$clientes->save();
 				$result = ["status" => "exito", "data" => ["token" => crea_token($usuario->id), "codigo" => codifica($usuario->id), "idusuario" => $usuario->id] ];
 
 			}else{
@@ -136,22 +136,25 @@ class UsuariosController extends Controller
 			}
             //fin validaciones
 			$email = $request["email"];
-			$usuario = Usuarios::where('email', $email)->where('id_estado',1)->first();
-			$pass    = $request->clave;
-
-      //dd($pass);
+			$usuario = Usuarios::where('email', $email)->first();
 			if ($usuario) {
-				$idusuario = $usuario->id;
-				$resultado= password_verify($pass, $usuario->clave);
-				if ($resultado) {
-					$nombres = $usuario->nombres;
-					$productos=Productos::join('categorias','productos.id_categoria','=','categorias.id')->select('productos.id','productos.descripcion','productos.home','productos.precio_oferta','productos.banner_oferta','categorias.categoria','productos.precio_ideal')->where('categorias.tipo','Productos')->orderby('home','desc')->orderby('precio_oferta','desc')->get();
-					return ["status" => "exito", "data" => ["token" => crea_token($idusuario), "idusuario" => $idusuario, "codigo" => codifica($idusuario),"nombres" => $nombres,"productos"=>$productos]];
-				} else {
-					return ["status" => "fallo", "error" => ["Clave es incorrecta"]];
+					$pass    = $request->clave;
+        		    $estado  = $usuario->id_estado;
+                if($estado==1){
+					$idusuario = $usuario->id;
+					$resultado= password_verify($pass, $usuario->clave);
+					if ($resultado) {
+						$nombres = $usuario->nombres;
+						$productos=Productos::join('categorias','productos.id_categoria','=','categorias.id')->select('productos.id','productos.descripcion','productos.home','productos.precio_oferta','productos.banner_oferta','categorias.categoria','productos.precio_ideal')->where('categorias.tipo','Productos')->orderby('home','desc')->orderby('precio_oferta','desc')->get();
+						return ["status" => "exito", "data" => ["token" => crea_token($idusuario), "idusuario" => $idusuario, "codigo" => codifica($idusuario),"nombres" => $nombres,"productos"=>$productos]];
+					} else {
+						return ["status" => "fallo", "error" => ["Clave es incorrecta"]];
+					}
+				}else{
+				   return ["status" => "fallo", "error" => ["Usuario no Validado"]];	
 				}
 			} else {
-				return ["status" => "fallo", "error" => ["Usario o clave incorrecta"]];
+				return ["status" => "fallo", "error" => ["Usuario No Existe"]];
 			}
 		} catch (Exception $e) {
 			return ['status' => 'fallo', 'error' => ["Ha ocurrido un error"]];
