@@ -57,42 +57,20 @@
                 </tr>
               </thead>
               <tbody>
+                @foreach($mlista as $item)
                 <tr>
-                  <td>Reloj Smart A1</td>
+                  <td>{{$item->descripcion}}</td>
                   <td>5</td>
                   <td>50000</td>
                   <td>200000</td>
                   <td>
                     <div class="btn-group">
                       <button id=""  class="verGrafica btn btn-primary" title=""><i class="m-0 fa fa-lg fa-bar-chart"></i></button>
-                      <a href="" class="btn btn-primary" title=""><i class="m-0 fa fa-lg fa-times"></i></a>
+                     
                     </div>
                   </td>
                 </tr>
-                <tr>
-                  <td>Reloj Smart A1</td>
-                  <td>5</td>
-                  <td>50000</td>
-                  <td>200000</td>
-                  <td>
-                    <div class="btn-group">
-                      <button id=""  class="verGrafica btn btn-primary" title=""><i class="m-0 fa fa-lg fa-bar-chart"></i></button>
-                      <a href="" class="btn btn-primary" title=""><i class="m-0 fa fa-lg fa-times"></i></a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Reloj Smart A1</td>
-                  <td>5</td>
-                  <td>50000</td>
-                  <td>200000</td>
-                  <td>
-                    <div class="btn-group">
-                      <button id=""  class="verGrafica btn btn-primary" title=""><i class="m-0 fa fa-lg fa-bar-chart"></i></button>
-                      <a href="" class="btn btn-primary" title=""><i class="m-0 fa fa-lg fa-times"></i></a>
-                    </div>
-                  </td>
-                </tr>
+              @endforeach
               </tbody>
             </table>
           </div>
@@ -106,8 +84,10 @@
         <div class="embed-responsive embed-responsive-16by9">
           <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
         </div>
+          <button class="btn-primary upGrafica">Cancelar</button>
       </div>
     </div>
+
     
 </div>
 
@@ -145,6 +125,12 @@
       
 
  });
+
+
+  $('.upGrafica').click(function(){
+    $('#grafica').addClass('d-none');
+
+  });
      
   var data1 = {
         labels: ["Producto1", "Producto2", "Producto3", "Producto4", "Producto5", "Producto6", "Producto7", "Producto8","Producto1", "Producto2", "Producto3", "Producto4", "Producto5", "Producto6", "Producto7", "Producto8"],
