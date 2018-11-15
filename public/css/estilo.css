@@ -154,3 +154,6 @@ ul {
     border: #666 2px dashed;
 }
 
+.ui-sortable-handle{
+    background: #F7F7F7;
+}
