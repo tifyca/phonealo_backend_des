@@ -16,8 +16,9 @@ use App\Remitos;
 use App\Facturas;
 use Illuminate\Support\Facades\Validator;
 use App\Notas_Ventas;
+use App\Remisa; 
 
-
+ 
 class LogisticaController extends Controller
 {
     public function index(Request $request){
@@ -246,9 +247,14 @@ class LogisticaController extends Controller
                       ->where('karma', 1)
                       ->count();
 
+      $empleados = Empleados::where('id_cargo', 4)->get();
+      $ventas = Ventas::where('id_estado',6)->get();
+      $ventasAsignadas = Ventas::whereIn('id_estado', [13,7])->get();
+      $remisa = Remisa::all();
+
        
 
-        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario', 'karma', 'class', 'id_horario', 'busca', 'mensaje', 'procesadas'));
+        return view('Procesar.Logistica.index', compact('activas','xatender', 'enEsperas','remisas', 'ciudades', 'horarios', 'nota', 'notaventa', 'totalhorario', 'karma', 'class', 'id_horario', 'busca', 'mensaje', 'procesadas','empleados', 'ventas','ventasAsignadas','remisa'));
     	
     }
     public function CrearPDF ($remito, $vista, $empleado, $id_remisa ){
@@ -285,6 +291,7 @@ class LogisticaController extends Controller
                     ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura',  'ventas.fecha', 'ventas.notas', 'facturas.id', 'facturas.nombres',  'facturas.ruc_ci', 'clientes.telefono', 'facturas.direccion')
                     ->where('ventas.id', '=', $request->id_ventaf)
                     ->get();
+                    
         $factura=Detalle_Ventas::leftjoin('productos', 'detalle_ventas.id_producto', '=','productos.id')
                          ->select('detalle_ventas.cantidad', 'detalle_ventas.precio', 'productos.nombre_original', 'productos.descripcion')
                          ->where('detalle_ventas.id_venta', '=', $request->id_ventaf)

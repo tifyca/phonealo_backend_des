@@ -156,11 +156,6 @@
             <div class="form-group col-md-8">
               <label for="">Delivery</label>
               <div class="row">
-                <div class="col-3 text-right">
-                  <label class="form-check-label mt-2">
-                    <input class="form-check-input" id="delivery" type="checkbox" name="monto" type="checkbox" value="1">Gratis
-                  </label>
-                </div>
                 <div class="col-9">
                
               <select class="form-control" id="monto" name="monto" >

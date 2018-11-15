@@ -22,23 +22,24 @@
   <div class="col-12">
     
     <div class="tile">
-      <div class="row d-flex justify-content-end">
-      <div class="col-3">
-       <form action="">
-          <div class="form-group">
-                <select class="form-control" id="" name="" ">
-                  <option value="">Todos los Ingresos</option>
-                  <option value="">Ingresos Efectivo</option>
-                  <option value="">Ingresos POS</option>}
-                  <option value="">Otros Ingresos</option>}
-                  <option value="">Total de Salidas</option>
-                </select>
-              </div>
-       </form>
-      </div>
-    </div>
-        
-      
+
+      <form action="{{ route('caja.detalle') }}" method="get" class="row d-flex justify-content-end">
+        {{ csrf_field() }}
+        <input type="hidden" name="caja" value="{{ $caja->id }}">
+        <div class="form-group col-md-3">
+          <select class="form-control" name="tipo">
+          {{-- <option value="10">Todos los ingresos</option> --}}
+          <option value="0">Todos los movimientos</option>
+          <option value="4">Todas las Salidas</option>
+          <option value="1">Ingresos Efectivo</option>
+          <option value="2">Ingresos POS</option>}
+          <option value="3">Otros Ingresos</option>}
+          </select>
+        </div>      
+        <div class="col-md-1 p-0">          
+          <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+      </form>      
         <div class="tile-body ">
           <div class="col-12  my-4">
             <table class="table">
@@ -50,26 +51,7 @@
                   <th>Importe</th>
                 </tr>
               </thead>
-              <tbody {{-- class="text-center" --}}>
-               {{--  <tr>                  
-                  <td>Ingresos Efectivo</td>
-                  <td>Ingreso de efectivo</td>                  
-                  <td> $ 95.000 </td>
-                </tr>
-                <tr>                  
-                  <td>Ingresos POS</td>
-                  <td>5899415407159006</td>                  
-                  <td> $ 185.000 </td>
-                </tr>
-                <tr>                  
-                  <td>Otros Ingreso</td>
-                  <td>Cheque #123456</td>                  
-                  <td> $ 15.000 </td>
-                </tr>
-                  <td>Salida efectivo</td>
-                  <td>Pago de gasolina</td>                  
-                  <td> $ 50.000 </td>
-                </tr> --}}
+              <tbody {{-- class="text-center" --}}>             
                 @foreach ($detalles as $detalle)
                   <tr>
                     <td>{{ $detalle->descripcion }}</td>
@@ -80,6 +62,7 @@
                 @endforeach
               </tbody>
             </table>
+            {{ $detalles->appends( Request::only(['caja','tipo']) )->links() }}
           </div>
         </div>
     </div>

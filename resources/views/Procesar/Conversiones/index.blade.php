@@ -69,9 +69,9 @@
                   <td>ROI</td>
                   <td>
                     <div class="btn-group">
-                      <a href="{{ route('procesar.conversiones.show') }}" class="btn btn-primary" title=""><i class="m-0 fa fa-lg fa-eye"></i></a>
-                      <a href="" class="btn btn-primary" title=""><i class="m-0 fa fa-lg fa-pencil"></i></a>
-                      <a href="" class="btn btn-primary" title=""><i class="m-0 fa fa-lg fa-trash"></i></a>
+                      <a href="{{ route('procesar.conversiones.show',4) }}" class="btn btn-primary" title="Ver"><i class="m-0 fa fa-lg fa-eye"></i></a>
+                      <a  data-toggle="tooltip" ata-placement="top" title="Editar" class="btn btn-primary" href="{{ route('procesar.conversiones.editar',4) }}"><i class="m-0 fa fa-lg fa-pencil"></i></a>
+                            <a href="" class="btn btn-primary" title=""><i class="m-0 fa fa-lg fa-trash"></i></a>
                     </div>
                   </td>
                 </tr>

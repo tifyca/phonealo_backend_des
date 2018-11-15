@@ -47,14 +47,17 @@ class AbrirController extends Controller
         $fecha = new Carbon($caja->fecha);
         $fecha = $fecha->format('d/m/Y');
 
+        $salidasEfectivo = DetalleCaja::where('id_tipo_movimiento', 4)                    
+                    ->where('id_caja',$caja->id)// CAJA ASOCIADA 
+                    ->paginate(5);
         $total_efectivo = $this->totalEfectivo($id, 'resumen_caja');
         $total_pos = $this->totalPOS($id ,'resumen_caja');
         $total_otros = $this->totalOtros($id, 'resumen_caja');
-        $total_salidas = 0;
+        $total_salidas = $this->totalSalidaEfectivo($id);
         $total_gastos = 0;             
         $total_neto = $total_efectivo+$total_pos+$total_otros-($total_salidas+$total_gastos);
     
-    	return view('Caja.Abrir.abrir', compact('caja', 'fecha','total_efectivo','total_pos','total_otros','$total_salidas','$total_gastos','total_neto'));
+    	return view('Caja.Abrir.abrir', compact('caja', 'fecha','total_efectivo','total_pos','total_otros','total_salidas','total_gastos','total_neto', 'salidasEfectivo'));
     }
     public function remitos(Request $request){
         // dd($request->all());
@@ -67,12 +70,15 @@ class AbrirController extends Controller
         $remitos = Remitos::Consulta()
             ->groupBy('remitos.id')
             ->orderBy('id', 'desc')
-            ->where('estados.id', 6) //Estado "Delivery"            
+            ->where(function($query){
+                $query->where('estados.id', 6) //Estado "Delivery"
+                     ->orWhere('estados.id', 11); //Estado "Cambiado"
+            })           
             ->paginate(6);           
        
     	return view('Caja.Abrir.remitos', compact('caja','remitos'));
     }
-    public function cobro_remito(Request $request,$id){     
+    public function cobro_remito(Request $request,$id){ 
         $caja = Caja::find($request->caja);
         $remito = Remitos::findOrFail($id);
         // Agrupa las ventas asociadas a los remitos, se muestra en modal
@@ -104,6 +110,20 @@ class AbrirController extends Controller
             compact('remito','remitosVentas', 'importe_venta','remitosProductos','delivery', 'total_efectivo', 'total_pos', 'total_otros', 'caja', 'habilitaConfirmacionRemito')
         );
     }
+    public function descompuestos(Request $request){
+        if ( $request->accion == 'si' ) {
+            dd($request->all());
+            // return Remitos::Productos()
+            //     ->where('remitos.id',$request->id_remito)
+            //     ->where('productos.id', '<>', 36)
+            //     ->get();
+            
+        }
+        if ( $request->accion == 'no' ) {
+            dd($request->all());
+        }
+    }
+
     public function cerrar($id){
         $caja = Caja::find($id);
         $fecha = new Carbon($caja->fecha);
@@ -119,20 +139,55 @@ class AbrirController extends Controller
         $caja->touch();
         return redirect()->route('caja.index');
     }
-    public function salida(){
-    	return view('Caja.Abrir.salida');
+    public function salida(Request $request){        
+        // dd($request->all());
+        $caja = Caja::find($request->caja);
+
+    	return view('Caja.Abrir.salida',compact('caja'));
+    }
+    public function registrarSalida(Request $request){
+        // dd($request->all());
+        $cantidadSalidas = DetalleCaja::where('id_tipo_movimiento',4)
+            ->where('id_caja',$request->caja)
+            ->count();
+        $fecha = Carbon::now()->format('dmy');
+        $descripcion = $request->descripcionSalida;
+        $importe = $request->importeSalida;
+
+        foreach ($descripcion as $key => $desc) {
+            $salida = new DetalleCaja;
+            $salida->id_caja = $request->caja;
+            $salida->fecha = Carbon::now();
+            $salida->id_tipo_movimiento = 4;
+            $salida->descripcion = $desc;
+            $salida->referencia_detalle = $fecha.$request->caja.($cantidadSalidas++);
+            $salida->importe = $importe[$key];
+            $salida->id_usuario = auth()->user()->id;
+            $salida->id_forma_pago = 1;
+            $salida->save();
+        }
+        return back();
+    
     }
     public function detalle(Request $request){
+        // return $request;
         $caja = Caja::find($request->caja);
-        $detalles =  Caja::DetalleRemitoEntregado()
+        $detalles = Caja::DetalleRemitoEntregado()
             ->where('caja.id_estado',1)//CAJA ABIERTA
-            ->where('detalle_caja.id_caja',$caja->id)// CAJA ASOCIADA
-            ->groupBy('ventas.id')
+            ->where('detalle_caja.id_caja',$caja->id)// CAJA ASOCIADA           
+            ->orWhere(function($query) use ($caja){
+                $query->where('id_tipo_movimiento', 4)
+                    ->where('caja.id_estado',1)//CAJA ABIERTA
+                    ->where('detalle_caja.id_caja',$caja->id);// CAJA ASOCIADA 
+            })        
+            ->FiltroTipoMovimiento($request->tipo)
+            ->groupBy('detalle_caja.id')
             ->select(
                 'tipo_movimiento.descripcion as tipo', 'detalle_caja.importe',
                 'detalle_caja.descripcion', 'detalle_caja.referencia_detalle as referencia'            
             )
-            ->get();
+            ->orderBy('detalle_caja.fecha', 'desc')
+            ->paginate(10);
         return view('Caja.Abrir.detalle_caja', compact('caja', 'detalles'));
     }
 
@@ -237,6 +292,17 @@ class AbrirController extends Controller
             return true;
         }
         return false;
+    }
+
+    private function totalSalidaEfectivo($id){
+        $salidasEfectivo = DetalleCaja::where('id_caja', $id)
+            ->where('id_tipo_movimiento', 4)
+            ->get();
+        $total = 0;
+        foreach ($salidasEfectivo as $salidaEfectivo) {
+            $total += $salidaEfectivo->importe;
+        }
+        return $total;
     }
 }
 
