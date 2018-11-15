@@ -91,11 +91,23 @@ class RemisaController extends Controller
 
         $ventas = $request['ventas'];
         $montos = $request['montos'];
-       
+
+        $estado = $request['estado'];
+        //dd($estado);
         $saveRemito = new Remitos;
         $saveRemito->id_delivery = $id_delivery;
         $saveRemito->importe = $importe;
-        $saveRemito->id_estado = 6;
+
+        foreach ($estado as $id_estado ) {
+            if ($id_estado == 11 || $id_estado == 14) {
+                $estado_id = 11;
+                 $saveRemito->id_estado = $estado_id;
+            }else{
+                $estado_id = 6;
+                 $saveRemito->id_estado = $estado_id;
+            }
+        }
+       
         $saveRemito->id_usuario = $id_usuario;
         $saveRemito->fecha = date("Y-m-d");
         $saveRemito->save();

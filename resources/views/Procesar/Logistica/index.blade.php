@@ -1065,15 +1065,17 @@ $(function() {
         $('button[id^="btnSaveRemito"]').on('click',function(){
             var empleado_id = $(this).data('empleado-id');
             var ventas = [];
+            var estado = [];
             var montos = [];
             var id_usuario = '{{ $id_usuario }}';
             
             $('.empleado'+empleado_id+' li').each(function () {
                 ventas.push  ($(this).data('venta-id')); 
+                estado.push  ($(this).data('estado')); 
                 montos.push ($(this).data('importe'));
          
             });
-            //console.log(montos);
+            console.log(estado);
 
              var suma = 0;
             for(var x = 0; x < montos.length; x++){
@@ -1087,7 +1089,7 @@ $(function() {
                 type: "get",
                 url: '{{ route('saveRemito') }}',
                 dataType: "json",
-                data: { id_delivery: empleado_id, suma:suma, ventas:ventas, montos:montos, id_usuario:id_usuario },
+                data: { id_delivery: empleado_id, suma:suma, ventas:ventas, montos:montos, id_usuario:id_usuario, estado:estado },
                 success : function(response) {
                     
                     console.log(response); 
