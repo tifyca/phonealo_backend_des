@@ -59,6 +59,7 @@ class LogisticaController extends Controller
         if( $id_horario !="" ){
         $enEsperas = Ventas::EnEspera()->where('id_horario', '=', $id_horario);
         $xatender = Ventas::Activas()->where('id_horario', '=', $id_horario);
+
         $activas = Ventas::Activas()->where('id_horario', '=', $id_horario);
         $remisas = Ventas::Remisas()->where('id_horario', '=', $id_horario);
         $procesadas = Ventas::Procesada()->where('id_horario', '=', $id_horario);
@@ -95,8 +96,8 @@ class LogisticaController extends Controller
                             ->leftjoin('forma_pago', 'ventas.id_forma_pago', '=', 'forma_pago.id')
                             ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido','ventas.id_horario', 'ventas.factura', 'forma_pago.forma_pago', 'horarios.horario', 'ventas.fecha', 'ventas.fecha_activo', 'ventas.notas', 'ventas.id_estado', 'ventas.status_v','pedidos.id_cliente', 'clientes.nombres', 'clientes.telefono', 'clientes.direccion', 'clientes.id_ciudad','ciudades.ciudad')
                             ->where(function ($q) {
-                                    $q->where('ventas.id_estado', '=', '1')
-                                      ->orWhere('ventas.id_estado', '=', '11');
+                                    $q->where('ventas.id_estado', '=', '1');
+                                      //->orWhere('ventas.id_estado', '=', '11');
                             })->Where(function($q) use ($buscador) {
                                     $q->where('ciudades.ciudad', 'like', $buscador.'%')
                                           ->orWhere('clientes.nombres', 'like', $buscador.'%')
@@ -107,6 +108,7 @@ class LogisticaController extends Controller
 
                                     })->orderby( 'ventas.id_horario', 'desc')
                                       ->get();
+
         
         $activas = Ventas::leftjoin('pedidos', 'ventas.id_pedido', '=', 'pedidos.id')
                             ->leftjoin('clientes', 'pedidos.id_cliente', '=', 'clientes.id')
@@ -173,12 +175,13 @@ class LogisticaController extends Controller
 
         }else{ 
         $enEsperas = Ventas::EnEspera();
-        $xatender = Ventas::Activas()->whereIn('id_horario', $id_hora);
+        $xatender = Ventas::Activas()->whereNotIn('id_estado', [11])->whereIn('id_horario', $id_hora);
         foreach ($xatender as $item) {
             $karma=ventas::find($item->id);
             $karma->karma=1;
             $karma->save();      
         }
+        //dd($xatender);
         $activas = Ventas::Activas()->where('fecha', '=', $fecha)->whereNotIn('id_horario', $id_hora);
         $remisas = Ventas::Remisas();
         $procesadas = Ventas::Procesada();
@@ -248,8 +251,23 @@ class LogisticaController extends Controller
                       ->count();
 
       $empleados = Empleados::where('id_cargo', 4)->get();
-      $ventas = Ventas::where('id_estado',6)->get();
-      $ventasAsignadas = Ventas::whereIn('id_estado', [13,7])->get();
+      //$empleados == Empleados::join('remitos', 'remitos.id_delivery', '=', 'empleados.id')
+                                //->where('empleados.id_cargo', 4)
+                               // ->get();
+      $remitos = Remitos::all();
+
+      // foreach ($remitos as $remi) {
+      //   $fecha = $remi->created_at->format('Y-m-d');
+      //   $hoy = date('Y-m-d');
+        
+      //   if ($hoy == $fecha) {
+      //     $remi->id_delivery;
+      //   }
+      // }
+      // dd($remi->id_delivery);
+      
+      $ventas = Ventas::whereIn('id_estado',[6,11])->get();
+      $ventasAsignadas = Ventas::whereIn('id_estado',[13,14])->get();
       $remisa = Remisa::all();
 
        

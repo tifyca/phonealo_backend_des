@@ -16,7 +16,7 @@ class RemisaController extends Controller
     public function remisa(){
     	$empleados = Empleados::where('id_cargo', 4)->get();
     	$ventas = Ventas::where('id_estado',6)->get();
-        $ventasAsignadas = Ventas::whereIn('id_estado', [13,7])->get();
+       // $ventasAsignadas = Ventas::whereIn('id_estado', [13,7])->get();
     	$remisa = Remisa::all();
 
     	return view('Logistica.remisa')->with('empleados', $empleados)->with('ventas', $ventas)->with('remisa', $remisa)->with('ventasAsignadas', $ventasAsignadas);
@@ -24,7 +24,7 @@ class RemisaController extends Controller
 
      public function remisa0(){
 
-        $data['ventas'] = Ventas::where('id_estado', 6)->get();
+        $data['ventas'] = Ventas::whereIn('id_estado',[6,11])->get();
 
         $data['empleados'] = Empleados::where('id_cargo', 4)->get();
 
@@ -35,18 +35,32 @@ class RemisaController extends Controller
     public function saveRemisa(Request $request){
     	$empleado_id=$request['empleado_id'];
     	$venta_id=$request['venta_id'];
+        $venta_estado=$request['venta_estado'];
 
+        
 
     	if ($empleado_id == 0) {
+
+            if ($venta_estado == 14) {
+               $estado_m = 11;
+            }else{
+                 $estado_m = 6;
+            }
     		
     		$guardaRemisa = Remisa::where('id_venta', $venta_id)->delete();
-            $cambiaStadoVenta = Ventas::where('id',$venta_id)->update(['id_estado'=> 6]);
+            $cambiaStadoVenta = Ventas::where('id',$venta_id)->update(['id_estado'=> $estado_m]);
 
     	}else{
 
-    		$consultaRemisa = Remisa::where('id_venta',$venta_id)->delete();
+            if ($venta_estado == 11) {
+                $estado = 14;
+            }else{
+                $estado = 13;
+            }
+    		
+            $consultaRemisa = Remisa::where('id_venta',$venta_id)->delete();
 
-            $cambiaStadoVenta = Ventas::where('id', $venta_id)->update(['id_estado'=> 13]);
+            $cambiaStadoVenta = Ventas::where('id', $venta_id)->update(['id_estado'=> $estado]);
 
 			$guardaRemisa = new Remisa();
 			$guardaRemisa->id_venta = $venta_id;
@@ -77,11 +91,23 @@ class RemisaController extends Controller
 
         $ventas = $request['ventas'];
         $montos = $request['montos'];
-       
+
+        $estado = $request['estado'];
+        //dd($estado);
         $saveRemito = new Remitos;
         $saveRemito->id_delivery = $id_delivery;
         $saveRemito->importe = $importe;
-        $saveRemito->id_estado = 6;
+
+        foreach ($estado as $id_estado ) {
+            if ($id_estado == 11 || $id_estado == 14) {
+                $estado_id = 11;
+                 $saveRemito->id_estado = $estado_id;
+            }else{
+                $estado_id = 6;
+                 $saveRemito->id_estado = $estado_id;
+            }
+        }
+       
         $saveRemito->id_usuario = $id_usuario;
         $saveRemito->fecha = date("Y-m-d");
         $saveRemito->save();
