@@ -70,12 +70,15 @@ class AbrirController extends Controller
         $remitos = Remitos::Consulta()
             ->groupBy('remitos.id')
             ->orderBy('id', 'desc')
-            ->where('estados.id', 6) //Estado "Delivery"            
+            ->where(function($query){
+                $query->where('estados.id', 6) //Estado "Delivery"
+                     ->orWhere('estados.id', 11); //Estado "Cambiado"
+            })           
             ->paginate(6);           
        
     	return view('Caja.Abrir.remitos', compact('caja','remitos'));
     }
-    public function cobro_remito(Request $request,$id){     
+    public function cobro_remito(Request $request,$id){ 
         $caja = Caja::find($request->caja);
         $remito = Remitos::findOrFail($id);
         // Agrupa las ventas asociadas a los remitos, se muestra en modal
@@ -107,6 +110,20 @@ class AbrirController extends Controller
             compact('remito','remitosVentas', 'importe_venta','remitosProductos','delivery', 'total_efectivo', 'total_pos', 'total_otros', 'caja', 'habilitaConfirmacionRemito')
         );
     }
+    public function descompuestos(Request $request){
+        if ( $request->accion == 'si' ) {
+            dd($request->all());
+            // return Remitos::Productos()
+            //     ->where('remitos.id',$request->id_remito)
+            //     ->where('productos.id', '<>', 36)
+            //     ->get();
+            
+        }
+        if ( $request->accion == 'no' ) {
+            dd($request->all());
+        }
+    }
+
     public function cerrar($id){
         $caja = Caja::find($id);
         $fecha = new Carbon($caja->fecha);

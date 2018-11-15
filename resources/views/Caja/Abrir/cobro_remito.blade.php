@@ -25,6 +25,9 @@
         <div class="col">
           <h3 class="tile-title text-center text-md-left">Ventas </h3>
         </div>
+       {{--  @if ( session('contador') )
+          <h2>{{ session('contador') }}</h2>
+        @endif --}}
        {{--  <div class="col-4 text-right">
            <a  class="btn btn-primary open_modal" href="" ><i class="fa m-0 fa-check"  ></i> Confirmar Todo</a>
         </div> --}}
@@ -110,7 +113,7 @@
                       {{ csrf_field() }}
                       {{ method_field('PUT') }} 
                       {{-- @if ( $venta->v_id_estado <> 8 && $venta->v_id_estado <> 1)                                             --}}
-                      @if ( $venta->dr_id_estado == 1)                                            
+                      @if ( $venta->dr_id_estado == 1 && $venta->estado_remito <> 11)                                                        
                       <button class="btn btn-primary" type="submit" name="accion" value="devolver_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Devolver">
                         <i class="fa fa-share-square-o"></i>
                       </button>
@@ -122,9 +125,18 @@
                       </button>
                       <button class="btn btn-primary" type="button" {{-- name="accion" value="rechazar_venta" --}} data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Rechazar" data-target="#ModalNota{{ $venta->id_venta }}" data-toggle="modal">
                         <i class="fa fa-ban"></i>
-                      </button>
-                      @endif             
+                      </button>                                                                 
+                      @endif
                     </form>
+                    @if ( $venta->estado_remito == 11 )
+                    <form action="{{ route('caja.descompuestos') }}" action="post">
+                      {{ csrf_field() }}
+                      <div id="input_descompuesto"></div>
+                      <button class="btn btn-primary" type="submit" name="accion" value="devolver_venta" data-id="{{ $venta->id_venta }}" data-title="tooltip" title="Devolver">
+                        Descompuesto
+                      </button>
+                    </form>           
+                    @endif 
                   </div>
                 </div>  
                  <table class="table ">
@@ -134,7 +146,9 @@
                       <th class="text-center ">Producto</th>
                       <th class="text-center ">Cantidad</th>
                       <th class="text-center ">Precio</th>
-                      {{-- <th class="text-center ">Acciones</th> --}}
+                      @if ( $venta->estado_remito == 11 )
+                      <th class="text-center ">¿Funciona?</th>                        
+                      @endif
                     </tr>
                   </thead>
                   <tbody>
@@ -147,15 +161,50 @@
                       <td class="text-center precio_producto">
                         {!!number_format($producto->precio, 0, ',', '.')!!}
                       </td>
-                    {{--   <td class="text-center">
+                      @if ( $venta->estado_remito == 11 && $producto->id_producto <> 36 )
+                      <td class="text-center">
                         <div class="btn-group">
-                          <a class="btn btn-primary" href="##"><i class="m-0 fa fa-lg fa-print"></i></a>
-                          <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-file"></i></a>
-                          <a class="btn btn-primary" href="#"><i class="m-0 fa fa-lg fa-times"></i></a>
+                          <form method="post" action="{{ route('caja.descompuestos') }}">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="id_producto" value="{{ $producto->id_producto }}">
+                            <input type="hidden" id="id_usuario" class="id_usuario" name="id_usuario" value="{{ Auth::user()->id }}">
+                            <input type="hidden" name="id_venta" value="{{ $venta->id_venta }}">
+                            <input type="hidden" name="id_remito" value="{{ $remito->id }}">
+                            <button type="submit" class="btn btn-primary" data-title="tooltip" title="Si" name="accion" value="si">
+                              <i class="m-0 fa fa-lg fa-check"></i>
+                            </button>
+                          </form>
+                          <button class="btn btn-primary" data-title="tooltip" title="No" data-toggle="modal" data-target="#modalProducto{{ $producto->id_producto }}">
+                            <i class="m-0 fa fa-lg fa-times"></i>
+                          </button>
                         </div>
-                      </td> --}}
+                      </td>
+                      @endif
                     </tr>
                     @endif
+                    <div class="modal fade " id="modalProducto{{ $producto->id_producto }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel{{ $producto->id_producto }}" aria-hidden="true" style="z-index: 1080 !important;">
+                      <div class="modal-dialog  modal-dialog-centered " role="document">
+                        <div style="display: none;" class="alert-top fixed-top text-center alert alert-danger remodal" id="remodal">      
+                        </div>
+                        <div class="modal-content">
+                          <form method="post" action="{{ route('caja.descompuestos') }}">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="id_producto" value="{{ $producto->id_producto }}">
+                            <input type="hidden" id="id_usuario" class="id_usuario" name="id_usuario" value="{{ Auth::user()->id }}">
+                            <input type="hidden" name="id_venta" value="{{ $venta->id_venta }}">
+                            <input type="hidden" name="id_remito" value="{{ $remito->id }}">
+                            <div class="modal-header">   
+                              <h4 class="modal-title" id="myModalLabel{{ $producto->id_producto }}">Detalle Descompuesto</h4>
+                            </div>
+                            <textarea type="text" rows="3" cols="75" class="form-control" name="detalle" required></textarea>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary {{-- btn-nota --}}" id="btn-nota" name="accion" value="no">Confirmar</button>
+                              <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>                             
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                     @endforeach      
                   </tbody>
                 </table>        

@@ -25,25 +25,23 @@
         <div class="tile-body ">
           <div class="col-12  my-4">
             <table class="table">
-              <thead>
-                <tr class="table-secondary">
-                  <th class="text-center">Remitos en Delivery</th>
-                  <th class="text-center">Delivery</th>
-                  <th class="text-center">Importe total</th>
-                  <th class="text-center">Fecha</th>
-                  <th class="text-center">Estado</th>
-                  <th class="text-center">Cobrar</th>
-                </tr>
+              <thead class="table-secondary text-center">      
+                <th># Remito</th>
+                <th>Delivery</th>
+                <th>Importe total</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Cobrar</th>
               </thead>
-              <tbody>
-                @foreach ($remitos as $remito)
-                  <tr>
-                    <td class="text-center">{{ $remito->id }}</td>
-                    <td class="text-center">{{ $remito->nombre_delivery }}</td>
-                    <td class="text-center">{!!number_format($remito->importe, 0, ',', '.')!!}</td>
-                    <td class="text-center">{{ $remito->fecha }}</td>
-                    <td class="text-center">{{ $remito->estado }}</td>
-                    <td class="text-center">
+              <tbody class="text-center">
+                @foreach ($remitos as $remito)                  
+                  <tr class="{{ ($remito->id_estado == 11) ? 'alert alert-danger' : '' }}">
+                    <td>{{ $remito->id }}</td>
+                    <td>{{ $remito->nombre_delivery }}</td>
+                    <td>{!!number_format($remito->importe, 0, ',', '.')!!}</td>
+                    <td>{{ $remito->fecha }}</td>
+                    <td>{{ $remito->estado }}</td>
+                    <td>
                       <a href="{{ route('caja.cobro_remito', [$remito->id, 'caja' => $caja->id]) }}" class="btn btn-primary confirm-delete">
                       {{-- <a href="{{ route('caja.cobro_remito', $remito->id, $caja->id) }}" class="btn btn-primary confirm-delete"> --}}
                         <i class="fa m-0 fa-money"></i>

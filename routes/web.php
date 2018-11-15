@@ -454,6 +454,8 @@ Route::get('procesar/pedidos/{id}/nota', [
     Route::get('caja/remitos', 'Caja\AbrirController@remitos')->name('caja.remitos');
     Route::get('caja/cobro_remito/{id}', 'Caja\AbrirController@cobro_remito')
         ->name('caja.cobro_remito');
+    Route::post('caja/cobro_remito', 'Caja\AbrirController@descompuestos')
+        ->name('caja.descompuestos');
     Route::get('caja/salida', 'Caja\AbrirController@salida')->name('caja.salida');
     Route::post('caja/salida', 'Caja\AbrirController@registrarSalida')->name('caja.registrarSalida');
     Route::get('caja/cerrar/{id}', 'Caja\AbrirController@cerrar')->name('caja.cerrar');
