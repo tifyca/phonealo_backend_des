@@ -131,6 +131,14 @@
     $('#grafica').addClass('d-none');
 
   });
+
+var lista='{{$lista}}';  
+
+
+lista.forEach(function(element) {
+  console.log(element.codigo_producto);
+});
+
      
   var data1 = {
         labels: ["Producto1", "Producto2", "Producto3", "Producto4", "Producto5", "Producto6", "Producto7", "Producto8","Producto1", "Producto2", "Producto3", "Producto4", "Producto5", "Producto6", "Producto7", "Producto8"],

@@ -33,6 +33,14 @@
                 <input class="form-control"  type="text" placeholder="..." id="nombreLista" name="nombreLista" value="{{$monitoreo[0]->nombre}}" readonly>
 
               </div>
+              <div class="form-group col-12 ">
+                  <label class="control-label">Estatus</label>
+                   <div class="form-check">
+                      <input class="form-check-input" value="1" type="radio" id="statusLista" name="statusLista"  <?php if($monitoreo[0]->id_estado=="1") echo 'checked="checked"';?>  >Activo 
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input class="form-check-input" value="0" type="radio" id="statusLista2" name="statusLista" <?php if($monitoreo[0]->id_estado=="0") echo 'checked="checked"';?> >Inactivo 
+                    </div>
+                  </div>
               <div class="form-group col-md-12">
                 <div class="row">
                   <div class="form-group col-12">
@@ -134,8 +142,15 @@ $(document).on('click', '#btn-add', function (e) {
 
     var id_producto = $('#id_producto').val();
     var  descripcion= $('#descripcion').val();
-          
-                 // $('#d-cod_producto' + id_producto ).remove();
+
+    if(id_producto==""){
+
+            $("#rese").html("Debe Agregar Un Producto");
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+            return false;
+    }          
+
 
      var cesta  = '<tr><td width="10%" style="display:none">'+ id_producto + '</td><td width="80%">' + descripcion + '</td><td width="10%" align="center"><button class="btn btn-primary" id="btn-remove" value="'+ id_producto +'" ><i class="m-0 fa fa-lg fa-times"></i></button></td></tr>';
 
@@ -185,7 +200,8 @@ $("#btn-edit").click(function (e) {
         var formData = {
          id_lista : $('#id_lista').val(), 
         parametros : parametros,
-        id_usuario  : $('#id_usuario').val()
+        id_estado :  $('input:radio[name=statusLista]:checked').val(),
+        id_usuario : $('#id_usuario').val()
        }
        
   
