@@ -16,6 +16,8 @@ use App\DetalleCaja;
 use App\EstadoCaja;
 use App\TipoMovimiento;
 use App\TipoTransaccion;
+use App\Productos;
+use App\Soporte;
 use Carbon\Carbon;
 
 class AbrirController extends Controller
@@ -112,15 +114,51 @@ class AbrirController extends Controller
     }
     public function descompuestos(Request $request){
         if ( $request->accion == 'si' ) {
-            dd($request->all());
-            // return Remitos::Productos()
+            // dd($request->all());
+            // return $cantidad = Remitos::Productos()
             //     ->where('remitos.id',$request->id_remito)
             //     ->where('productos.id', '<>', 36)
-            //     ->get();
+            //     ->where('detalle_remito.id_estado', 1)
+            //     ->count();
             
+            $producto = Productos::find($request->id_producto);
+            $producto->stock_activo++;
+            $producto->save();
+            $producto->touch();
+          
+            $remito = Remitos::find($request->id_remito);
+            $remito->id_estado = 7;
+            $remito->save();            
+            $remito->touch();            
+            
+            return back()->with('mensaje', 'El Producto fue confirmado exitosamente');
         }
-        if ( $request->accion == 'no' ) {
-            dd($request->all());
+        if ( $request->accion == 'no' ) {            
+            // dd($request->all());
+            $caja = Caja::find($request->caja);
+            $producto = Productos::find($request->id_producto);
+            $producto->descompuesto++;
+            $producto->save();
+            $producto->touch();
+          
+            $remito = Remitos::find($request->id_remito);
+            $remito->id_estado = 7;
+            $remito->save();            
+            $remito->touch();  
+
+            $soporte = new Soporte;
+            $soporte->id_producto = $request->id_producto;
+            $soporte->id_remito = $request->id_remito;
+            $soporte->id_pedido = Ventas::find($request->id_venta)->id_pedido;
+            $soporte->nota = $request->nota;
+            $soporte->fecha_ing = Carbon::now();
+            $soporte->status_soporte = 1;
+            $soporte->id_usuario = $request->id_usuario;
+            $soporte->save();
+
+            return redirect()->route('caja.remitos', compact('caja'));
+                // ->with('mensaje', 'El Producto descompuesto fue confirmado exitosamente');
+
         }
     }
 
@@ -135,7 +173,7 @@ class AbrirController extends Controller
         $caja = Caja::find($request->id);
         $caja->id_estado = 2;//Cerrada
         $caja->observaciones = $request->observaciones;
-        $caja->save();
+        $caja->touch();
         $caja->touch();
         return redirect()->route('caja.index');
     }
