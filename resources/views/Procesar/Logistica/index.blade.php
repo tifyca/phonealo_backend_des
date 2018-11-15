@@ -1055,13 +1055,14 @@ $(function() {
             var empleado_id = $(this).data('empleado-id');
             var ventas = [];
             var montos = [];
+            var id_usuario = '{{ $id_usuario }}';
             
             $('.empleado'+empleado_id+' li').each(function () {
                 ventas.push  ($(this).data('venta-id')); 
                 montos.push ($(this).data('importe'));
          
             });
-            console.log(montos);
+            //console.log(montos);
 
              var suma = 0;
             for(var x = 0; x < montos.length; x++){
@@ -1075,15 +1076,16 @@ $(function() {
                 type: "get",
                 url: '{{ route('saveRemito') }}',
                 dataType: "json",
-                data: { id_delivery: empleado_id, suma:suma, ventas:ventas, montos:montos },
+                data: { id_delivery: empleado_id, suma:suma, ventas:ventas, montos:montos, id_usuario:id_usuario },
                 success : function(response) {
+                    
                     console.log(response); 
 
                     
                 }
             });
 
-
+ 
 
 
         });
@@ -1283,6 +1285,7 @@ $('#btn-nota').click(function(){
           url: '{{ route('horarios_ajax') }}',
           dataType: "json",
           success: function (datas){
+
              $.each(datas, function(i, item2) {
 
             $(".horarios").append('<option value='+item2.id+'>'+item2.horario+'</option>');
