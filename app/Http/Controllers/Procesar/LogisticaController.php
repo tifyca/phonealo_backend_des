@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Notas_Ventas;
 use App\Remisa; 
 
-
+ 
 class LogisticaController extends Controller
 {
     public function index(Request $request){

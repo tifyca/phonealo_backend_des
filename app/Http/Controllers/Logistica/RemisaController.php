@@ -12,6 +12,7 @@ use App\Detalle_remito;
 
 class RemisaController extends Controller
 {
+    
     public function remisa(){
     	$empleados = Empleados::where('id_cargo', 4)->get();
     	$ventas = Ventas::where('id_estado',6)->get();
