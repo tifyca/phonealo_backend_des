@@ -234,31 +234,30 @@
 {{-- FIN BUSCADOR--}}
 
 {{-- REMISA --}}
-<div class="task-board  ">
-    <div class="status-card">
+<div class="task-board  " style="height: 500px; overflow-y: auto;">
+    <div class="status-card" >
         <div class="card-header">
             <span class="card-header-text">Ventas</span>
         </div>
         
-        <ul class="sortable ui-sortable "  id="empleado0" data-empleado-id="0">
+        <ul class="sortable ui-sortable "  id="empleado0" data-empleado-id="0" >
           {{--  @include('Logistica.remisa.ventas6')  --}}
            
         </ul>
     </div>
     
     @foreach ($empleados as $empleado)
-        <div class="status-card" id="card_delivery">
+        <div class="status-card" id="card_delivery" >
             <div class="card-header">
                 <span class="card-header-text">{{ $empleado->nombres }}</span>
             </div>
             
-            <ul class="sortable ui-sortable emple empleado{{ $empleado->id }}" id="empleado{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}">
+            <ul class="sortable ui-sortable emple empleado{{ $empleado->id }}" id="empleado{{ $empleado->id }}" data-empleado-id="{{ $empleado->id }}" >
                 @foreach ($remisa as $item)
                    @if ($item->id_delivery == $empleado->id)
                        @foreach ($ventasAsignadas as $ventaA)
                             @if ($ventaA->id == $item->id_venta)
-                                <li style="@if ($ventaA->id_estado == 7) background: silver; @endif" class="text-row li{{ $ventaA->id }} ui-sortable-handle" data-importe='{{ $ventaA->importe }}' data-venta-id="{{ $ventaA->id }}">{{ $ventaA->id }}---{{ $ventaA->importe }}
-                                    
+                                <li style="@if ($ventaA->id_estado == 14) background: #F1D4FA; @endif " class="text-row li{{ $ventaA->id }} ui-sortable-handle" data-importe='{{ $ventaA->importe }}' data-venta-id="{{ $ventaA->id }}" data-estado="{{$ventaA->id_estado}}">{{ $ventaA->id }}---{{ $ventaA->importe }}
                                 </li>
                             @endif
                        @endforeach
@@ -984,7 +983,13 @@ function ventas(){
         var montos = [];                      
         $.each( response.ventas, function(row, items){
 
-            $('#empleado0').append('<li class="d-flex justify-content-between text-row ui-sortable-handle" data-importe="'+items.importe+'" data-venta-id="'+items.id+'">'+items.id+'<a id="" class="eliminaRemisa" data-venta-id="'+items.id+'"><i class="fa fa-times"></i></a></li>')
+          if (items.id_estado == 11) {
+             $('#empleado0').append('<li style="background: #F1D4FA" class="d-flex justify-content-between text-row ui-sortable-handle" data-estado="'+items.id_estado+'" data-importe="'+items.importe+'" data-venta-id="'+items.id+'">'+items.id_estado+' '+items.id+'<a id="" class="eliminaRemisa"  data-venta-id="'+items.id+'"><i class="fa fa-times"></i></a></li>')
+          }else{
+             $('#empleado0').append('<li class="d-flex justify-content-between text-row ui-sortable-handle" data-estado="'+items.id_estado+'" data-importe="'+items.importe+'" data-venta-id="'+items.id+'">'+items.id_estado+' '+items.id+'<a id="" class="eliminaRemisa"  data-venta-id="'+items.id+'"><i class="fa fa-times"></i></a></li>')
+          }
+
+           
 
             // //console.log(items.id);
             // $('.empleado'+items.id+' li').each(function () {
@@ -992,6 +997,8 @@ function ventas(){
             // });   
 
         });
+
+
             
         }
     });
@@ -1004,19 +1011,23 @@ $(function() {
         var url = '{{ route('saveRemisa') }}';
         $('ul[id^="empleado"]').sortable(
                 {
+        scrollSensitivity: 150,
         cursor: "move",
         connectWith : ".sortable",
         receive : function(e, ui) {
             var empleado_id = $(ui.item).parent(".sortable").data("empleado-id");
             var venta_id = $(ui.item).data("venta-id");
+            var venta_estado = $(ui.item).data("estado");
             var sender = ui.sender.data("empleado-id");
-           
+
+           console.log(venta_estado)
             $.ajax({
                 type: "get",
                 url: url+'/'+empleado_id+'/'+venta_id,
                 dataType: "json",
-                data: { empleado_id: empleado_id, venta_id:venta_id },
+                data: { empleado_id: empleado_id, venta_id:venta_id, venta_estado:venta_estado},
                 success : function(response) {
+
 
                     var montos = [];
                     var montos2 = [];
@@ -1435,21 +1446,21 @@ $('#btn-nota').click(function(){
   $('.remisa').click(function(){
     
     var id = $(this).val();  //CAPTURA EL ID  
-    console.log(id);
+    
       $.ajax({
         type: "GET",
         url: '{{ url('agregar_remisa') }}',
         dataType: "json",
         data: { id:id, _token: '{{csrf_token()}}'},
         success: function (data){
-
+            console.log(data);
               $("#res").html('La Venta fue Remisada');
               $("#res, #res-content").css("display","block");          
               
         }
     });
 
-    location.reload(true);
+    //location.reload(true);
   });
 
   //<!-- Quitar de  Remisa -->
@@ -1472,7 +1483,7 @@ $('#btn-nota').click(function(){
         }
     });
 
-    location.reload(true);
+   // location.reload(true);
   });
       
 
