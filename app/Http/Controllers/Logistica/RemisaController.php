@@ -72,18 +72,20 @@ class RemisaController extends Controller
 
         $id_delivery = $request['id_delivery'];
         $importe = $request['suma'];
+        $id_usuario = $request['id_usuario'];
 
         $ventas = $request['ventas'];
         $montos = $request['montos'];
-        
+       
         $saveRemito = new Remitos;
         $saveRemito->id_delivery = $id_delivery;
         $saveRemito->importe = $importe;
         $saveRemito->id_estado = 6;
+        $saveRemito->id_usuario = $id_usuario;
         $saveRemito->fecha = date("Y-m-d");
         $saveRemito->save();
 
-        $ultimo = Remitos::pluck('id');
+        $ultimo = Remitos::orderBy('id', 'ASC')->pluck('id');
         $ultimoRegistro = $ultimo->last();
 
         foreach($ventas as $venta){
@@ -94,7 +96,7 @@ class RemisaController extends Controller
             $detremito  = new Detalle_remito;
             $detremito->id_remito = $ultimoRegistro;
             $detremito->id_venta  = $venta;
-            //$detremito->id_usuario= $id_usuario;
+            $detremito->id_usuario= $id_usuario;
             $detremito->id_estado = 1;
             $detremito->save();
         }
