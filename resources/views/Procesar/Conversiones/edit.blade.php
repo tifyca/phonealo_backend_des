@@ -6,7 +6,7 @@
 @extends ('layouts.header')
 {{-- CABECERA DE SECCION --}}
 @section('icono_titulo', 'fa-circle')
-@section('titulo', 'Nueva Lista')
+@section('titulo', 'Editar Lista')
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
@@ -183,7 +183,7 @@ $("#btn-edit").click(function (e) {
             }); 
             
         var formData = {
-        nombreLista : $('#nombreLista').val(),
+         id_lista : $('#id_lista').val(), 
         parametros : parametros,
         id_usuario  : $('#id_usuario').val()
        }

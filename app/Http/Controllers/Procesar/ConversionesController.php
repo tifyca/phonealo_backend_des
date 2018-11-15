@@ -17,8 +17,18 @@ class ConversionesController extends Controller
     public function new(){
     	return view('Procesar.Conversiones.new');
     }
-    public function show(){
-    	return view('Procesar.Conversiones.show');
+    public function show($id){
+
+      
+
+        $mlista=Detalle_Monitoreos::join('productos', 'detalle_monitoreo.id_producto', '=', 'productos.id')
+                                   ->where('id_monitoreo', $id)
+                                   ->select('productos.id', 'productos.codigo_producto', 'productos.descripcion')
+                                   ->get();
+
+
+
+    	return view('Procesar.Conversiones.show', compact('mlista'));
     }
 
      public function create(Request $request){
@@ -92,20 +102,27 @@ class ConversionesController extends Controller
 
         }
 
-         public function update(Request $request){
+        public function update(Request $request){
 
 
-           /* foreach ($request->parametros as $key ) {
 
-            $dtlista=New Detalle_Monitoreos;
-            $dtlista->id_monitoreo=$lista->id;
-            $dtlista->id_producto=$key;
-            $dtlista->id_usuario=$request->id_usuario;
-            $dtlista->save();
+           foreach ($request->parametros as $key ) {
 
-            }*/
 
-                  return response()->json(['success' => true]);
+            $dtmonitoreo=Detalle_Monitoreos::where('id_monitoreo',$request->id_lista)
+                                                ->where('id_producto', $key)
+                                                ->count();
+                if($dtmonitoreo==0){
+
+                    $dtlista=New Detalle_Monitoreos;
+                    $dtlista->id_monitoreo=$request->id_lista;
+                    $dtlista->id_producto=$key;
+                    $dtlista->id_usuario=$request->id_usuario;
+                    $dtlista->save();
+                }
+            }
+         
+            return response()->json(['success' => true]);
 
 
 
