@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Notas_Ventas;
 use App\Remisa; 
 
-
+ 
 class LogisticaController extends Controller
 {
     public function index(Request $request){
@@ -291,6 +291,7 @@ class LogisticaController extends Controller
                     ->select('ventas.id', 'ventas.importe', 'ventas.id_pedido', 'forma_pago.forma_pago', 'ventas.factura',  'ventas.fecha', 'ventas.notas', 'facturas.id', 'facturas.nombres',  'facturas.ruc_ci', 'clientes.telefono', 'facturas.direccion')
                     ->where('ventas.id', '=', $request->id_ventaf)
                     ->get();
+                    
         $factura=Detalle_Ventas::leftjoin('productos', 'detalle_ventas.id_producto', '=','productos.id')
                          ->select('detalle_ventas.cantidad', 'detalle_ventas.precio', 'productos.nombre_original', 'productos.descripcion')
                          ->where('detalle_ventas.id_venta', '=', $request->id_ventaf)

@@ -41,7 +41,8 @@ class Remitos extends Model
                 'remitos.id as id_remito', 'productos.id as id_producto',
                 'productos.descripcion', 'productos.codigo_producto',
                 'ventas.id as id_venta',
-                'detalle_ventas.cantidad', 'detalle_ventas.precio'
+                'detalle_ventas.cantidad', 'detalle_ventas.precio',
+                'detalle_remito.id_estado as dr_estado'
             );
     }
 
@@ -54,18 +55,14 @@ class Remitos extends Model
             ->join('clientes', 'pedidos.id_cliente', 'clientes.id')
             ->join('forma_pago', 'forma_pago.id', 'ventas.id_forma_pago')
             ->join('estados', 'ventas.id_estado', 'estados.id')
-            // ->select(
-            //     // 'ventas.*'
-            //     // ,
-            //     'pedidos.*'
-            // );
             ->select(
-                'remitos.id as id_remito', 'ventas.id_estado as v_id_estado', 
+                'remitos.id as id_remito', 'remitos.id_estado as estado_remito', 
                 'ventas.id as id_venta', 'estados.estado', 'estados.id as id_estado',
                 'detalle_ventas.cantidad', 'detalle_ventas.precio', 'detalle_ventas.cantidad',
                 'detalle_remito.id_remito as dr_id_remito', 'detalle_remito.id_venta as dr_id_venta',
                 'detalle_remito.id_estado as dr_id_estado','forma_pago.forma_pago',
-                'clientes.nombres as nombre_cliente', 'clientes.telefono'                
+                'clientes.nombres as nombre_cliente', 'clientes.telefono',
+                'ventas.id_estado as v_id_estado'
             );
     }
     

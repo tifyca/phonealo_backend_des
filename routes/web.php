@@ -363,7 +363,7 @@ Route::group(['middleware' => 'auth'], function () {
    
     Route::get('procesar/conversiones', 'Procesar\ConversionesController@index')->name('procesar.conversiones');
     Route::get('procesar/conversiones/new', 'Procesar\ConversionesController@new')->name('procesar.conversiones.new');
-    Route::get('procesar/conversiones/show', 'Procesar\ConversionesController@show')->name('procesar.conversiones.show');
+    Route::get('procesar/conversiones/show/{id?}', 'Procesar\ConversionesController@show')->name('procesar.conversiones.show');
     Route::post('procesar/conversiones/create', 'Procesar\ConversionesController@create');
     Route::get('procesar/conversiones/editar/{id}', ['uses' => 'Procesar\ConversionesController@editar',
         'as'   => 'procesar.conversiones.editar' ]);
@@ -454,6 +454,8 @@ Route::get('procesar/pedidos/{id}/nota', [
     Route::get('caja/remitos', 'Caja\AbrirController@remitos')->name('caja.remitos');
     Route::get('caja/cobro_remito/{id}', 'Caja\AbrirController@cobro_remito')
         ->name('caja.cobro_remito');
+    Route::post('caja/cobro_remito', 'Caja\AbrirController@descompuestos')
+        ->name('caja.descompuestos');
     Route::get('caja/salida', 'Caja\AbrirController@salida')->name('caja.salida');
     Route::post('caja/salida', 'Caja\AbrirController@registrarSalida')->name('caja.registrarSalida');
     Route::get('caja/cerrar/{id}', 'Caja\AbrirController@cerrar')->name('caja.cerrar');
