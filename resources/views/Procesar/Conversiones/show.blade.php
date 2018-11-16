@@ -49,6 +49,7 @@
             <table class="table">
               <thead>
                 <tr>
+                  <th>Código</th>
                   <th>Producto</th>
                   <th>Vendido (unit)</th>
                   <th>Total venta</th>
@@ -59,6 +60,7 @@
               <tbody>
                 @foreach($mlista as $item)
                 <tr>
+                   <td>{{$item->codigo_producto}}</td>
                   <td>{{$item->descripcion}}</td>
                   <td>5</td>
                   <td>50000</td>
@@ -135,16 +137,26 @@
 
   });
 
-var lista=JSON.parse('{{$lista}}'.replace(/&quot;/g,'"'));
+var lista=jQuery.parseJSON('{{$lista}}'.replace(/&quot;/g,'"')); 
+var lista2=jQuery.parseJSON('{{$lista2}}'.replace(/&quot;/g,'"')); 
 
-lista.forEach(function(e){
-console.log(e.codigo_producto);
-  
+ var source = [];
+            for (i in lista) {
+                for (k in lista[i]) {
+                    source.push(lista[i][k]);
+                }
+            }
 
-
+ var source2 = [];
+            for (i in lista2) {
+                for (k in lista2[i]) {
+                    source2.push(lista2[i][k]);
+                }
+            }
+            
 
  var data = {
-    labels: [e.codigo_producto], //["January", "February", "March", "April", "May", "June", "July"],
+   labels: source,
     datasets: [
         {
            label: "",
@@ -155,7 +167,7 @@ console.log(e.codigo_producto);
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(151,187,205,1)",
-            data: [20, 09] //[65, 59, 20, 81, 56, 55, 40],
+            data: source2 
         }
     ]
 };
@@ -178,8 +190,6 @@ var myBarChart = new  Chart.Bar(ctxb,{
 });
 
 
-
-})
 
      // var barChart = new Chart(ctxb).Bar(data1);
   

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Monitoreos;
 use App\Detalle_Monitoreos;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 
 class ConversionesController extends Controller
@@ -27,15 +28,22 @@ class ConversionesController extends Controller
                                    ->select('productos.id', 'productos.codigo_producto', 'productos.descripcion')
                                    ->get();
 
-            $lista=Detalle_Monitoreos::join('productos', 'detalle_monitoreo.id_producto', '=', 'productos.id')
+        $lista=Detalle_Monitoreos::join('productos', 'detalle_monitoreo.id_producto', '=', 'productos.id')
+                                    ->leftjoin('categorias', 'categorias.id', '=', 'productos.id_categoria')
                                    ->where('id_monitoreo', $id)
                                    ->select('productos.codigo_producto')
-                                   ->get()->toArray();
+                                   ->get();
 
+        $lista2=Detalle_Monitoreos::join('productos', 'detalle_monitoreo.id_producto', '=', 'productos.id')
+                                    ->leftjoin('categorias', 'categorias.id', '=', 'productos.id_categoria')
+                                   ->where('id_monitoreo', $id)
+                                   ->select( DB::raw('(SELECT SUM(detalle_ventas.cantidad) FROM detalle_ventas  left join ventas  on detalle_ventas.id_venta=ventas.id WHERE detalle_ventas.id_producto=productos.id AND ventas.id_estado <> 2 ) as cant'))
+                                   ->get();
 
 
     	return view('Procesar.Conversiones.show')->with('mlista', $mlista)
-                                                 ->with('lista',json_encode($lista));
+                                                 ->with('lista',json_encode($lista ))
+                                                 ->with('lista2',json_encode($lista2));
 
     }
 
