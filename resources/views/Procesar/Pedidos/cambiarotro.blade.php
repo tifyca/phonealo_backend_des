@@ -11,7 +11,7 @@
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', 'd-none') @section('link_back', '')
+@section('display_back', '') @section('link_back', url('procesar/pedidos'))
 @section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
@@ -23,6 +23,7 @@
   <div class="col-12">
     <div class="tile">
     <h3 class="tile-title text-center text-md-left">Detalles del Cliente</h3>
+    <h3 class="tile-title text-center text-md-left">Credito: {{$monto}}</h3>
       <div class="tile-body ">
         <div class="row">
           <input type="hidden" name="id_cliente" id="id_cliente" value="{{$venta[0]->idcliente}}">
@@ -658,26 +659,6 @@ $("#telefono_cliente").blur(function(){
     });
 
 
-function cargarComboCiudad(id_departamento, id_ciudad_selected){
-         console.log(id_ciudad_selected);
-          $("#ciudad_cliente").children('option:not(:first)').remove();
-
-         $.ajax({
-          type: "get",
-          url: '{{ route('ciudadesCombo') }}',
-          dataType: "json",
-          data: {id_departamento: id_departamento},
-          success: function (data){
-            console.log(data);
-          // $(".ciudades").append('<option value=0> Seleccione </option>');
-          $.each(data, function(l, item1) {
-            var selected = (item1.id == id_ciudad_selected)?"selected":"";
-          //$(".ciudades option:eq(1)").prop("selected", true);
-          $("#ciudad_cliente").append('<option value='+item1.id+' '+selected+'>'+item1.ciudad+'</option>');
-          });
-          }
-  });
-};
 
 function cargarComboBarrio(id_ciudad, id_barrio_selected){
        //   var id_ciudad = $(this).val();
