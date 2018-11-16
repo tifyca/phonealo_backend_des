@@ -128,7 +128,7 @@
                       </button>                                                                 
                       @endif
                     </form>
-                    @if ( $venta->estado_remito == 11 )
+                    {{-- @if ( $venta->estado_remito == 11 )
                     <form action="{{ route('caja.descompuestos') }}" action="post">
                       {{ csrf_field() }}
                       <div id="input_descompuesto"></div>
@@ -136,7 +136,7 @@
                         Descompuesto
                       </button>
                     </form>           
-                    @endif 
+                    @endif  --}}
                   </div>
                 </div>  
                  <table class="table ">
