@@ -99,7 +99,7 @@
         </a>
       </div>
       <div class="col-6">
-        <a href="{{ route('caja.cerrar', $caja->id) }}" title="" class="link-card">
+        <a href="{{ route('caja.cerrar', [$caja->id, 'vistaAbrir' => true]) }}" title="" class="link-card">
           <div class="widget-small danger "><i class="icon fa fa-close fa-3x"></i>
             <div class="info">
               <h4>Cerrar Caja</h4>
