@@ -102,7 +102,7 @@ $id_usuario= $_SESSION["user"];
          <td width="10%" class="text-center">
             <div class="btn-group">
               <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver/Editar" href="{{ URL::to('ecommerce/slider/' . $item->id . '/edit') }}"><i class="m-0 fa fa-lg fa-edit"></i></a>
-              <button data-toggle="tooltip" data-placement="top"  title="Eliminar" class="btn btn-primary nota"  value=""><i class="fa fa-lg fa-trash" ></i></button>   
+              <button data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn btn-primary btn-sm confirm-delete" value="{{$item->id}}"><i class="fa fa-lg fa-trash"></i></button>    
           </div>
       </td> 
   </tr>
@@ -118,6 +118,28 @@ $id_usuario= $_SESSION["user"];
 </div>
 </div>
 
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h4 class="modal-title" id="myModalLabel">Eliminar Slider</h4>
+      </div>
+      <form id="frmdel" name="frmdel" class="form-horizontal" novalidate="">
+        <div class="modal-body">
+          <p>Está seguro que desea eliminar este Slider?</p>
+          <p class="debug-url"></p>
+        </div>
+      </form> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"></span>No</button>
+        <button type="button" class="btn btn-danger delete-slider" >Si</button>
+        <input type="hidden" id="item-id" name="item-id" value="0">
+      </div>
+    </div>
+  </div>
+</div>
 
 
 @endsection
@@ -147,5 +169,63 @@ $id_usuario= $_SESSION["user"];
     $("input#boton").bind('click', function (event) {
       $("form").submit();
     });
+
+////////////
+$(document).ready(function(){
+  // For A Delete Record Popup
+  $('.remove-record').click(function() {
+    var id = $(this).attr('data-id');
+    var url = $(this).attr('data-url');
+    var token = CSRF_TOKEN;
+    $(".remove-record-model").attr("action",url);
+    $('body').find('.remove-record-model').append('<input name="_token" type="hidden" value="'+ token +'">');
+    $('body').find('.remove-record-model').append('<input name="_method" type="hidden" value="DELETE">');
+    $('body').find('.remove-record-model').append('<input name="id" type="hidden" value="'+ id +'">');
+  });
+
+  $('.remove-data-from-delete-form').click(function() {
+    $('body').find('.remove-record-model').find( "input" ).remove();
+  });
+  $('.modal').click(function() {
+    // $('body').find('.remove-record-model').find( "input" ).remove();
+  });
+});
+/////Modales
+
+$(document).on('click', '.confirm-delete', function () {
+    var slider_id = $(this).val();
+    $('#confirm-delete').modal('show');
+    $('#item-id').val(slider_id);
+});
+
+$(document).on('click', '.delete-slider', function () {
+    var url = "slider";
+    var slider_id = $('#item-id').val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        }
+    });
+    $.ajax({
+        type: "DELETE",
+        url: url + '/' + slider_id,
+         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        success: function (data) {
+            console.log(data);
+            $("#item" + slider_id).remove();
+            $('#confirm-delete').modal('hide');
+            $("#res").html("Slider eliminado con Éxito");
+            $("#res, #res-content").css("display","block");
+            $("#res, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+        },
+        error: function (data) {
+            console.log('Error:', data);
+            $('#confirm-delete').modal('hide');
+            $("#rese").html("No se pudo eliminar el Slider");
+            $("#rese, #res-content").css("display","block");
+            $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
+        }
+    });
+});
 </script>
 @endpush

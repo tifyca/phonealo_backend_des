@@ -461,10 +461,7 @@ Route::get('procesar/pedidos/{id}/nota', [
     //Ecommerce
     Route::resource('ecommerce/slider', 'ecommerce\sliderController');
     Route::get('ecommerce/slider/create','ecommerce\sliderController@create')->name('slider.create');
-    Route::get('ecommerce/slider/{id}/destroy', [
-        'uses' => 'ecommerce\sliderController@destroy',
-        'as'   => 'slider.destroy'
-    ]);
+    Route::delete('ecommerce/slider/{slider_id}','ecommerce\sliderController@destroy')->name('slider.destroy');
 
     Route::get('ecommerce/slider/{id}/edit', [
         'uses' => 'ecommerce\sliderController@edit',
