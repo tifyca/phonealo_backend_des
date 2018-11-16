@@ -124,7 +124,8 @@ class PedidosController extends Controller
 
 
 
-    public function cambiar(Request $request,$id){
+    public function cambiar(Request $request,$id)
+    {
     
       $id=$request->id;
       $idusuario = $request->id_usuario;
@@ -226,17 +227,17 @@ class PedidosController extends Controller
       // return redirect()->route('pedidos.index');
        $pedidos = DB::table('pedidos as a')->join('detalle_pedidos as b','a.id','=','b.id_pedido')->join('clientes as c','a.id_cliente','=','c.id')->join('estados as d','a.id_estado','=','d.id')->leftjoin('users as e','a.id_usuario','=','e.id')->join('ventas as f','a.id','=','f.id_pedido')->select('a.id','f.id as id_venta','a.fecha','a.id_estado','a.id_cliente','c.nombres','c.telefono','c.barrio','c.direccion',DB::raw('sum(b.precio * b.cantidad) as monto'),'a.id_usuario','d.estado','e.name')->groupBy('a.id')->orderby('a.fecha','desc')->paginate(10);       
 
-  $nota  =Notas_Ventas::join('users', 'notas_ventas.id_usuario', '=', 'users.id')
+         $nota  =Notas_Ventas::join('users', 'notas_ventas.id_usuario', '=', 'users.id')
                             ->select('nota', 'id_venta', 'name as nombre', 'notas_ventas.created_at as fecha')
                             ->groupBy('id_venta', 'notas_ventas.id_usuario', 'notas_ventas.created_at')
                             ->orderBy('id_venta')
                             ->get();
  
 
-        $notaventa= Notas_Ventas::join('ventas', 'notas_ventas.id_venta', '=', 'ventas.id')
+         $notaventa= Notas_Ventas::join('ventas', 'notas_ventas.id_venta', '=', 'ventas.id')
                                 ->select('notas_ventas.id_venta')->get();
 
-       return view('Procesar.Pedidos.index')->with('pedidos',$pedidos)->with('id_usuario',$id_usuario)->with('nota',$nota)->with('notaventa',$notaventa)->with('tipo',$tipo)->with('mensaje',$mensaje);      
+         return view('Procesar.Pedidos.index')->with('pedidos',$pedidos)->with('id_usuario',$id_usuario)->with('nota',$nota)->with('notaventa',$notaventa)->with('tipo',$tipo)->with('mensaje',$mensaje);      
     }
 
 
@@ -298,7 +299,8 @@ class PedidosController extends Controller
 
     public function cambiar_otro($id){
         
-      
+         $ventas=Ventas::find($id);
+         $monto = $ventas->importe; 
          $horarios  = Horarios::all();
            $deliverys = Monto_delivery::all();
           $formas    = Forma_pago::all();
@@ -318,9 +320,9 @@ class PedidosController extends Controller
                          ->select('detalle_ventas.cantidad', 'detalle_ventas.precio', 'detalle_ventas.id_producto','montos_delivery.id as id_delivery', 'productos.codigo_producto', 'productos.nombre_original', 'productos.descripcion')
                          ->where('ventas.id', '=', $id)
                          ->get();
-          
+         
+         return view('Procesar.Pedidos.cambiarotro')->with('venta',$venta)->with('horarios',$horarios)->with('deliverys',$deliverys)->with('formas',$formas)->with('detalles',$detalles)->with('monto',$monto);
         
-         return view('Procesar.Pedidos.cambiarotro', compact('venta','horarios','deliverys', 'formas', 'detalles'));
     }
 
 public function update(Request $request,$id)

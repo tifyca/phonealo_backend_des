@@ -98,13 +98,24 @@ class GastosController extends Controller
    return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('proveedores',$proveedores);
  }
  public function show(){
-
+  
   $categorias=categorias::where('tipo','Gastos')->get();
   $fuentes= fuente::orderby('id')->get();
   $divisas = DB::table('divisa')->orderby('id_divisa')->get();
   $proveedores= proveedores::where('id_estado',1)->orderby('id')->get();
   return view('Registro.Gastos.show')->with('categorias',$categorias)->with('fuentes',$fuentes)->with('proveedores',$proveedores)->with('divisas',$divisas);
 }
+
+ public function create(){
+  
+  $categorias=categorias::where('tipo','Gastos')->get();
+  $fuentes= fuente::where('id','2')->get();
+  $divisas = DB::table('divisa')->orderby('id_divisa')->get();
+  $proveedores= proveedores::where('id_estado',1)->orderby('id')->get();
+  return view('Registro.Gastos.create')->with('categorias',$categorias)->with('fuentes',$fuentes)->with('proveedores',$proveedores)->with('divisas',$divisas);
+
+}
+
 
 public function edit($id){
   $gastos     =gastos::find($id);
