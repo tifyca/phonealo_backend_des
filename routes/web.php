@@ -284,6 +284,14 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
     Route::get('registro/inventario', 'Registro\InventarioController@index')->name('inventario');
     Route::resource('registro/gastos', 'Registro\GastosController');
+    
+    
+    Route::get('registro/gastos/create', [
+            'uses' => 'Registro\gastosController@create',
+            'as'   => 'gastos.create'
+        ]);
+
+
     Route::get('registro/gastos/update/{valor}', [
             'uses' => 'Registro\gastosController@update',
             'as'   => 'gastos.update'

@@ -5,6 +5,7 @@
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
+
 @section('display_back', 'd-none') @section('link_back', '')
 @section('display_new','')  @section('link_new', url('registro/gastos/show')) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
