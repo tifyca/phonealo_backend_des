@@ -30,11 +30,13 @@ class ConversionesController extends Controller
             $lista=Detalle_Monitoreos::join('productos', 'detalle_monitoreo.id_producto', '=', 'productos.id')
                                    ->where('id_monitoreo', $id)
                                    ->select('productos.codigo_producto')
-                                   ->get();
+                                   ->get()->toArray();
 
 
 
-    	return view('Procesar.Conversiones.show', compact('mlista', 'lista'));
+    	return view('Procesar.Conversiones.show')->with('mlista', $mlista)
+                                                 ->with('lista',json_encode($lista));
+
     }
 
      public function getdata(Request $request){

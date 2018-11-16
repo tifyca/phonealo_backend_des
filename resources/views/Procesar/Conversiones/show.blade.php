@@ -96,6 +96,7 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script type="text/javascript">
 
   $('.verGrafica').click(function(event){
@@ -120,7 +121,9 @@
       
 
       var ctxl = $("#lineChartDemo").get(0).getContext("2d");
-      var lineChart = new Chart(ctxl).Line(data);
+      var lineChart = new Chart.Line(ctxl,{
+  data:data
+});
 
       
 
@@ -132,32 +135,53 @@
 
   });
 
-var lista='{{$lista}}';  
+var lista=JSON.parse('{{$lista}}'.replace(/&quot;/g,'"'));
+
+lista.forEach(function(e){
+console.log(e.codigo_producto);
+  
 
 
-lista.forEach(function(element) {
-  console.log(element.codigo_producto);
-});
 
-     
-  var data1 = {
-        labels: ["Producto1", "Producto2", "Producto3", "Producto4", "Producto5", "Producto6", "Producto7", "Producto8","Producto1", "Producto2", "Producto3", "Producto4", "Producto5", "Producto6", "Producto7", "Producto8"],
-        datasets: [
-          
-          {
-            label: "My Second dataset",
+ var data = {
+    labels: [e.codigo_producto], //["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+           label: "",
             fillColor: "rgba(151,187,205,0.2)",
             strokeColor: "rgba(151,187,205,1)",
             pointColor: "rgba(151,187,205,1)",
+             borderWidth: 2,
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(151,187,205,1)",
-            data: [28, 48, 40, 19, 86 , 40, 19, 86,28, 48, 40, 19, 86 , 40, 19, 86]
-          }
-        ]
-      };
+            data: [20, 09] //[65, 59, 20, 81, 56, 55, 40],
+        }
+    ]
+};
+var option = {
+  scales: {
+  
+       
+   
+    xAxes:[{
+     barPercentage: 0.1
+       
+    }]
+  }
+};
+
          var ctxb = $("#barChartDemo").get(0).getContext("2d");
-      var barChart = new Chart(ctxb).Bar(data1);
+var myBarChart = new  Chart.Bar(ctxb,{
+  data:data,
+  options:option
+});
+
+
+
+})
+
+     // var barChart = new Chart(ctxb).Bar(data1);
   
     </script>
   
