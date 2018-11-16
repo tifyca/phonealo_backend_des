@@ -16,6 +16,8 @@ use App\DetalleCaja;
 use App\EstadoCaja;
 use App\TipoMovimiento;
 use App\TipoTransaccion;
+use App\Productos;
+use App\Soporte;
 use Carbon\Carbon;
 
 class AbrirController extends Controller
@@ -50,7 +52,8 @@ class AbrirController extends Controller
         $salidasEfectivo = DetalleCaja::where('id_tipo_movimiento', 4)                    
                     ->where('id_caja',$caja->id)// CAJA ASOCIADA 
                     ->paginate(5);
-        $total_efectivo = $this->totalEfectivo($id, 'resumen_caja');
+
+        $total_efectivo = $this->totalEfectivo($id, 'resumen_caja') + $caja->monto_apertura;
         $total_pos = $this->totalPOS($id ,'resumen_caja');
         $total_otros = $this->totalOtros($id, 'resumen_caja');
         $total_salidas = $this->totalSalidaEfectivo($id);
@@ -112,32 +115,89 @@ class AbrirController extends Controller
     }
     public function descompuestos(Request $request){
         if ( $request->accion == 'si' ) {
-            dd($request->all());
-            // return Remitos::Productos()
+            // dd($request->all());
+            // return $cantidad = Remitos::Productos()
             //     ->where('remitos.id',$request->id_remito)
             //     ->where('productos.id', '<>', 36)
-            //     ->get();
+            //     ->where('detalle_remito.id_estado', 1)
+            //     ->count();
             
+            $producto = Productos::find($request->id_producto);
+            $producto->stock_activo++;
+            $producto->save();
+            $producto->touch();
+          
+            $remito = Remitos::find($request->id_remito);
+            $remito->id_estado = 7;
+            $remito->save();            
+            $remito->touch();            
+            
+            return back()->with('mensaje', 'El Producto fue confirmado exitosamente');
         }
-        if ( $request->accion == 'no' ) {
-            dd($request->all());
+        if ( $request->accion == 'no' ) {            
+            // dd($request->all());
+            $caja = Caja::find($request->caja);
+            $producto = Productos::find($request->id_producto);
+            $producto->descompuesto++;
+            $producto->save();
+            $producto->touch();
+          
+            $remito = Remitos::find($request->id_remito);
+            $remito->id_estado = 7;
+            $remito->save();            
+            $remito->touch();  
+
+            $soporte = new Soporte;
+            $soporte->id_producto = $request->id_producto;
+            $soporte->id_remito = $request->id_remito;
+            $soporte->id_pedido = Ventas::find($request->id_venta)->id_pedido;
+            $soporte->nota = $request->nota;
+            $soporte->fecha_ing = Carbon::now();
+            $soporte->status_soporte = 1;
+            $soporte->id_usuario = $request->id_usuario;
+            $soporte->save();
+
+            return redirect()->route('caja.remitos', compact('caja'));
+                // ->with('mensaje', 'El Producto descompuesto fue confirmado exitosamente');
+
         }
     }
 
-    public function cerrar($id){
+    public function cerrar(Request $request, $id){
+        // dd($request->all());
+        $vistaAbrir = $request->vistaAbrir;
         $caja = Caja::find($id);
         $fecha = new Carbon($caja->fecha);
         $fecha = $fecha->format('d/m/Y');
-    	return view('Caja.Abrir.cerrar', compact('caja','fecha'));
+
+        $total_efectivo = $this->totalEfectivo($id, 'resumen_caja') + $caja->monto_apertura;
+        $total_pos = $this->totalPOS($id ,'resumen_caja');
+        $total_otros = $this->totalOtros($id, 'resumen_caja');
+        $total_salidas = $this->totalSalidaEfectivo($id);
+        $total_gastos = 0;             
+        $total_neto = $total_efectivo+$total_pos+$total_otros-($total_salidas+$total_gastos);
+
+    	return view('Caja.Abrir.cerrar', compact('caja','fecha', 'vistaAbrir','total_efectivo','total_pos','total_otros','total_salidas','total_gastos','total_neto'));
     }
     public function cerrarCaja(Request $request){
-        // dd( $request->all() );
+        // dd( $request->all() );       
+
         $caja = Caja::find($request->id);
+
+        $total_efectivo = $this->totalEfectivo($caja->id, 'resumen_caja') + $caja->monto_apertura;
+        $total_pos = $this->totalPOS($caja->id ,'resumen_caja');
+        $total_otros = $this->totalOtros($caja->id, 'resumen_caja');
+        $total_salidas = $this->totalSalidaEfectivo($caja->id);
+        $total_gastos = 0;             
+        $total_neto = $total_efectivo+$total_pos+$total_otros-($total_salidas+$total_gastos);
+
         $caja->id_estado = 2;//Cerrada
         $caja->observaciones = $request->observaciones;
+        $caja->monto_cierre = $total_neto;
         $caja->save();
         $caja->touch();
-        return redirect()->route('caja.index');
+        return redirect()->route('caja.index')
+            ->with('mensaje', "Caja #$caja->id Cerrada");
     }
     public function salida(Request $request){        
         // dd($request->all());

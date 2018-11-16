@@ -49,6 +49,7 @@
             <table class="table">
               <thead>
                 <tr>
+                  <th>Código</th>
                   <th>Producto</th>
                   <th>Vendido (unit)</th>
                   <th>Total venta</th>
@@ -59,6 +60,7 @@
               <tbody>
                 @foreach($mlista as $item)
                 <tr>
+                   <td>{{$item->codigo_producto}}</td>
                   <td>{{$item->descripcion}}</td>
                   <td>5</td>
                   <td>50000</td>
@@ -96,6 +98,7 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script type="text/javascript">
 
   $('.verGrafica').click(function(event){
@@ -120,7 +123,9 @@
       
 
       var ctxl = $("#lineChartDemo").get(0).getContext("2d");
-      var lineChart = new Chart(ctxl).Line(data);
+      var lineChart = new Chart.Line(ctxl,{
+  data:data
+});
 
       
 
@@ -131,25 +136,62 @@
     $('#grafica').addClass('d-none');
 
   });
-     
-  var data1 = {
-        labels: ["Producto1", "Producto2", "Producto3", "Producto4", "Producto5", "Producto6", "Producto7", "Producto8","Producto1", "Producto2", "Producto3", "Producto4", "Producto5", "Producto6", "Producto7", "Producto8"],
-        datasets: [
-          
-          {
-            label: "My Second dataset",
+
+var lista=jQuery.parseJSON('{{$lista}}'.replace(/&quot;/g,'"')); 
+var lista2=jQuery.parseJSON('{{$lista2}}'.replace(/&quot;/g,'"')); 
+
+ var source = [];
+            for (i in lista) {
+                for (k in lista[i]) {
+                    source.push(lista[i][k]);
+                }
+            }
+
+ var source2 = [];
+            for (i in lista2) {
+                for (k in lista2[i]) {
+                    source2.push(lista2[i][k]);
+                }
+            }
+            
+
+ var data = {
+   labels: source,
+    datasets: [
+        {
+           label: "",
             fillColor: "rgba(151,187,205,0.2)",
             strokeColor: "rgba(151,187,205,1)",
             pointColor: "rgba(151,187,205,1)",
+             borderWidth: 2,
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(151,187,205,1)",
-            data: [28, 48, 40, 19, 86 , 40, 19, 86,28, 48, 40, 19, 86 , 40, 19, 86]
-          }
-        ]
-      };
+            data: source2 
+        }
+    ]
+};
+var option = {
+  scales: {
+  
+       
+   
+    xAxes:[{
+     barPercentage: 0.1
+       
+    }]
+  }
+};
+
          var ctxb = $("#barChartDemo").get(0).getContext("2d");
-      var barChart = new Chart(ctxb).Bar(data1);
+var myBarChart = new  Chart.Bar(ctxb,{
+  data:data,
+  options:option
+});
+
+
+
+     // var barChart = new Chart(ctxb).Bar(data1);
   
     </script>
   

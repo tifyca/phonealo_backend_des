@@ -128,7 +128,7 @@
                       </button>                                                                 
                       @endif
                     </form>
-                    @if ( $venta->estado_remito == 11 )
+                    {{-- @if ( $venta->estado_remito == 11 )
                     <form action="{{ route('caja.descompuestos') }}" action="post">
                       {{ csrf_field() }}
                       <div id="input_descompuesto"></div>
@@ -136,7 +136,7 @@
                         Descompuesto
                       </button>
                     </form>           
-                    @endif 
+                    @endif  --}}
                   </div>
                 </div>  
                  <table class="table ">
@@ -193,10 +193,11 @@
                             <input type="hidden" id="id_usuario" class="id_usuario" name="id_usuario" value="{{ Auth::user()->id }}">
                             <input type="hidden" name="id_venta" value="{{ $venta->id_venta }}">
                             <input type="hidden" name="id_remito" value="{{ $remito->id }}">
+                            <input type="hidden" name="caja" value="{{ $caja->id }}">
                             <div class="modal-header">   
                               <h4 class="modal-title" id="myModalLabel{{ $producto->id_producto }}">Detalle Descompuesto</h4>
                             </div>
-                            <textarea type="text" rows="3" cols="75" class="form-control" name="detalle" required></textarea>
+                            <textarea type="text" rows="3" cols="75" class="form-control" name="nota" required></textarea>
                             <div class="modal-footer">
                               <button type="submit" class="btn btn-primary {{-- btn-nota --}}" id="btn-nota" name="accion" value="no">Confirmar</button>
                               <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>                             
