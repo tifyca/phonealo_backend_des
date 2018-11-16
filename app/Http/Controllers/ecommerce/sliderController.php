@@ -64,8 +64,21 @@ class sliderController extends Controller
         $slider = Slider::findOrFail($id);
         return view('ecommerce.slider.edit')->with('slider',$slider);
     }
-     public function destroy($id)
+     public function destroy($slider_id)
     {
+       try
+        {
+            $slider = Slider::destroy($slider_id);
+            return response()->json($slider);
+
+         }catch(\Illuminate\Database\QueryException $e)
+          {
+           
+              if($e->getCode() === '23000') {
+           
+                    return response()->json([ 'success' => false ], 400);
+              } 
+          }
     }
     public function show($id)
     {
