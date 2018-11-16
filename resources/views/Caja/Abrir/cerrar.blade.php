@@ -10,7 +10,8 @@
 @section('descripcion', '')
 
 {{-- ACCIONES --}}
-@section('display_back', '') @section('link_back', route('caja.index'))
+@section('display_back', '')
+@section('link_back',($vistaAbrir) ? route('caja.abrir', $caja->id) : route('caja.index'))
 @section('display_new','d-none')  @section('link_new', '' ) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
@@ -30,29 +31,29 @@
           <div class="col-12  my-4">
             <table class="table">
               <tbody>
-                <tr>
+               <tr>
                   <th>Total ingresos efectivo</th>
-                  <td> $ 1.000.000 </td>
+                  <td>{!!number_format($total_efectivo , 0, ',', '.')!!}</td>
                 </tr>
                 <tr>
                   <th>Total ingreso POS</th>
-                  <td> $ 250.000 </td>
+                  <td>{!!number_format($total_pos , 0, ',', '.')!!}</td>
                 </tr>
                 <tr>
                   <th>Total ingreso Otros</th>
-                  <td> $ 100.000 </td>
+                  <td>{!!number_format($total_otros , 0, ',', '.')!!}</td>
                 </tr>
                 <tr>
                   <th>Total Salidas</th>
-                  <td> $ 295.000 </td>
+                  <td>{!!number_format($total_salidas , 0, ',', '.')!!}</td>
                 </tr>
                 <tr>
                   <th>Total Gastos</th>
-                  <td> $ 122.000 </td>
+                  <td> PENDIENTE </td>
                 </tr>
                 <tr class="table-secondary">
-                  <th class="text-right">NETO EFECTIVO EN CAJA</th>
-                  <td><b>$ 583.000</b></td>
+                  <th class="text-right">NETO EFECTIVO EN CAJA</th>                  
+                  <td><b>{!!number_format($total_neto , 0, ',', '.')!!}</b></td>
                 </tr>
               </tbody>
             </table>
