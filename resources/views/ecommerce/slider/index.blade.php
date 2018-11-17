@@ -205,7 +205,9 @@ $(document).on('click', '.delete-slider', function () {
             $("#rese, #res-content").css("display","block");
             $("#rese, #res-content").fadeIn( 300 ).delay( 1500 ).fadeOut( 1500 );
         }
+
     });
+    location.reload();
 });
 </script>
 @endpush
