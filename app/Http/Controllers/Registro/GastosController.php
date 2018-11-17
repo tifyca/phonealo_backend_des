@@ -16,6 +16,9 @@ use DB;
 use App\detallesolped;
 use App\Productos;
 use App\Estados;
+use App\Caja;
+use App\DetalleCaja;
+use Carbon\Carbon;
 use File;
 @session_start();
 
@@ -98,7 +101,7 @@ class GastosController extends Controller
    return view('Registro.Gastos.index')->with('gastos',$gastos)->with('categorias',$categorias)->with('usuarios',$usuarios)->with('divisas',$divisas)->with('fuentes',$fuentes)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('proveedores',$proveedores);
  }
  public function show(){
-  
+  // dd($request->all());
   $categorias=categorias::where('tipo','Gastos')->get();
   $fuentes= fuente::orderby('id')->get();
   $divisas = DB::table('divisa')->orderby('id_divisa')->get();
@@ -106,8 +109,8 @@ class GastosController extends Controller
   return view('Registro.Gastos.show')->with('categorias',$categorias)->with('fuentes',$fuentes)->with('proveedores',$proveedores)->with('divisas',$divisas);
 }
 
- public function create(){
-  
+ public function create(Request $request){
+  // dd($request->all());
   $categorias=categorias::where('tipo','Gastos')->get();
   $fuentes= fuente::where('id','2')->get();
   $divisas = DB::table('divisa')->orderby('id_divisa')->get();
@@ -132,14 +135,17 @@ public function edit($id){
 
 public function store(Request $request)
 {
+  // dd($request->all()); 
+
   try{
     $descripcion          = $request->descripcion;
     $id_categoria    = $request->id_categoria;
       //$id_subcategoria = $request->id_subcategoria;
-    if(gastos::where('descripcion',$descripcion)->where('id_categoria',$request["categoria_gasto"])->where('comprobante',$request["comprobante"])->first()){
+    if( gastos::where('descripcion',$descripcion)->where('id_categoria',$request["categoria_gasto"])->where('comprobante',$request["comprobante"])->first() )
+    {
      $mensaje="Ya se encuentra Registrado";
      $tipo=2;
-   }
+    }
    else{
      $gastos = new gastos($request->all());
      $gastos->descripcion          = $request["descripcion_gasto"];
@@ -159,6 +165,10 @@ public function store(Request $request)
     {
       $gastos->id_fuente            = $request["id_fuente"];
       $gastos->comprobante          = $request["comprobante_gasto"];
+      if ( $gastos->id_fuente == 2) {
+        $this->registrarDetalleCaja($request);
+              
+      }
     }
 
     $gastos->id_divisa            = $request["divisa_gasto"];
@@ -257,4 +267,23 @@ public function anular(Request $request){
 
 
   }
+
+  private function registrarDetalleCaja($request){
+     $caja = Caja::orderBy('fecha','desc')
+      ->where('id_estado', 1)
+      ->where('id_usuario', auth()->user()->id)
+      ->first();
+
+    $detalle = new DetalleCaja;
+    $detalle->id_caja = $caja->id;
+    $detalle->fecha = Carbon::now();
+    $detalle->id_tipo_movimiento = 5;//movimiento "gastos"
+    $detalle->descripcion = $request->descripcion_gasto;
+    $detalle->referencia_detalle = $request->comprobante_gasto;
+    $detalle->importe = $request->importe_gasto;
+    $detalle->id_usuario = auth()->user()->id;
+    $detalle->id_forma_pago = 1;
+    $detalle->save();
+  }
+
 }

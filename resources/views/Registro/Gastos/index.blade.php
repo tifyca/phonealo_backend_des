@@ -7,7 +7,7 @@
 {{-- ACCIONES --}}
 
 @section('display_back', 'd-none') @section('link_back', '')
-@section('display_new','')  @section('link_new', url('registro/gastos/show')) 
+@section('display_new','')  @section('link_new', route('gastos.create')) 
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
 

@@ -27,7 +27,7 @@
             <div class="form-group col-md-2">
               <label for="categoria_gasto">Categoría de Gastos</label>
               <select class="form-control" id="categoria_gasto" name="categoria_gasto" required="">
-                <option value="">Seleccione</option>}
+                <option value="" disabled selected>Seleccione</option>}
                 @foreach($categorias as $fuen)
                 <option value="{{$fuen->id}}">{{$fuen->categoria}}</option>
                 @endforeach
@@ -37,12 +37,17 @@
               <label for="descripcion_gasto">Descripción</label>
               <input class="form-control" type="text" id="descripcion_gasto" name="descripcion_gasto" placeholder="..." required="" maxlength="50">
             </div>
-            <div class="form-group col-md-2">
+             <div class="form-group col-md-2">
               <label for="proveedor_gasto">Fuente</label>
-              <select class="form-control" id="id_fuente" name="id_fuente" required="">
-                <option value="">Seleccione</option>
-                @foreach($fuentes as $fuen)
-                <option value="{{$fuen->id}}">{{$fuen->fuente}}</option>
+              <select class="form-control" id="id_fuente" name="id_fuente" required="" 
+                {{ ( Request::has('desde_caja') ) ? 'disabled' : '' }}>
+                <option value="" disabled selected>Seleccione</option>
+                @foreach($fuentes as $fuen)                
+                @if ( Request::has('desde_caja') && $fuen->id == 2)
+                  <option value="{{$fuen->id}}" selected>{{$fuen->fuente}}</option>
+                @else
+                  <option value="{{$fuen->id}}">{{$fuen->fuente}}</option>
+                @endif
                 @endforeach
               </select>
             </div>
@@ -50,7 +55,7 @@
             <div class="form-group col-md-2">
               <label for="divisa_gasto">Divisa</label>
               <select class="form-control" id="divisa_gasto" name="divisa_gasto" required="">
-                <option value="">Seleccione</option>
+                <option value="" disabled selected>Seleccione</option>
                 @foreach($divisas as $fuen)
                 <option value="{{$fuen->id_divisa}}">{{$fuen->divisa}}</option>
                 @endforeach
@@ -64,7 +69,7 @@
             <div class="form-group col-md-4">
               <label for="proveedor">Proveedor</label>
               <select class="form-control" id="id_proveedor" name="id_proveedor" disabled="">
-                <option value="">Seleccione</option>}
+                <option value="" disabled selected>Seleccione</option>}
                 @foreach($proveedores as $fuen)
                 <option value="{{$fuen->id}}">{{$fuen->nombres}}</option>
                 @endforeach
@@ -74,7 +79,7 @@
             <div class="form-group col-md-4">
               <label for="comprobante_gasto">Nro.Solicitud</label>
               <select class="form-control" id="id_solped" name="id_solped" disabled="">
-                <option value="">Seleccione</option>}
+                <option value="" disabled selected>Seleccione</option>}
               </select>
             </div>
             <div class="form-group col-md-4">
@@ -93,7 +98,7 @@
             </div>
              <div id="comprobante2" style="display:none;">
               <select class="form-control" id="comprobante_gasto2" name="comprobante_gasto2">
-                <option value="">Seleccione</option>}
+                <option value="" disabled selected>Seleccione</option>}
               </select>              
             </div>
             </div>       

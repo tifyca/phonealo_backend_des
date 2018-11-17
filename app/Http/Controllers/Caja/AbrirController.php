@@ -57,7 +57,7 @@ class AbrirController extends Controller
         $total_pos = $this->totalPOS($id ,'resumen_caja');
         $total_otros = $this->totalOtros($id, 'resumen_caja');
         $total_salidas = $this->totalSalidaEfectivo($id);
-        $total_gastos = 0;             
+        $total_gastos = $this->totalGastos($id);             
         $total_neto = $total_efectivo+$total_pos+$total_otros-($total_salidas+$total_gastos);
     
     	return view('Caja.Abrir.abrir', compact('caja', 'fecha','total_efectivo','total_pos','total_otros','total_salidas','total_gastos','total_neto', 'salidasEfectivo'));
@@ -174,7 +174,7 @@ class AbrirController extends Controller
         $total_pos = $this->totalPOS($id ,'resumen_caja');
         $total_otros = $this->totalOtros($id, 'resumen_caja');
         $total_salidas = $this->totalSalidaEfectivo($id);
-        $total_gastos = 0;             
+        $total_gastos =  $this->totalGastos($id);             
         $total_neto = $total_efectivo+$total_pos+$total_otros-($total_salidas+$total_gastos);
 
     	return view('Caja.Abrir.cerrar', compact('caja','fecha', 'vistaAbrir','total_efectivo','total_pos','total_otros','total_salidas','total_gastos','total_neto'));
@@ -188,7 +188,7 @@ class AbrirController extends Controller
         $total_pos = $this->totalPOS($caja->id ,'resumen_caja');
         $total_otros = $this->totalOtros($caja->id, 'resumen_caja');
         $total_salidas = $this->totalSalidaEfectivo($caja->id);
-        $total_gastos = 0;             
+        $total_gastos = $this->totalGastos($caja->id);            
         $total_neto = $total_efectivo+$total_pos+$total_otros-($total_salidas+$total_gastos);
 
         $caja->id_estado = 2;//Cerrada
@@ -239,7 +239,12 @@ class AbrirController extends Controller
                 $query->where('id_tipo_movimiento', 4)
                     ->where('caja.id_estado',1)//CAJA ABIERTA
                     ->where('detalle_caja.id_caja',$caja->id);// CAJA ASOCIADA 
-            })        
+            }) 
+            ->orWhere(function($query) use ($caja){
+                $query->where('id_tipo_movimiento', 5)
+                    ->where('caja.id_estado',1)//CAJA ABIERTA
+                    ->where('detalle_caja.id_caja',$caja->id);// CAJA ASOCIADA 
+            })       
             ->FiltroTipoMovimiento($request->tipo)
             ->groupBy('detalle_caja.id')
             ->select(
@@ -364,5 +369,17 @@ class AbrirController extends Controller
         }
         return $total;
     }
+
+    private function totalGastos($id){
+        $gastos = DetalleCaja::where('id_caja', $id)
+            ->where('id_tipo_movimiento', 5)
+            ->get();
+        $total = 0;
+        foreach ($gastos as $gasto) {
+            $total += $gasto->importe;
+        }
+        return $total;
+    }
 }
+
 
