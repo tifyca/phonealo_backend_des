@@ -32,6 +32,54 @@ class sliderController extends Controller
       ->where('created_at','=',$fecha)
       ->get();
       }
+      else if ($titulo!="" && $publico!="" && $usuario=="" && $fecha=="") {
+        $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
+        ->where('publico','=',$publico)
+      ->get();
+      }
+      else if ($titulo!="" && $publico!="" && $usuario!="" && $fecha==""){
+        $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
+      ->where('publico','=',$publico)
+      ->where('id_usuario','=',$usuario)
+        ->get();
+      }
+      else if ($titulo!="" && $publico!="" && $usuario=="" && $fecha!=""){
+        $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
+      ->where('publico','=',$publico)
+      ->where('created_at','=',$fecha)
+        ->get();
+      }
+      else if ($titulo!="" && $publico=="" && $usuario!="" && $fecha!=""){
+        $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
+      ->where('id_usuario','=',$usuario)
+      ->where('created_at','=',$fecha)
+        ->get();
+      }
+      else if ($titulo!="" && $publico=="" && $usuario!="" && $fecha==""){
+        $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
+      ->where('id_usuario','=',$usuario)
+        ->get();
+      }
+      else if ($titulo=="" && $publico!="" && $usuario!="" && $fecha=="") {
+        $slider = Slider::where('publico','=',$publico)
+      ->where('id_usuario','=',$usuario)
+      ->get();
+      }
+      else if ($titulo=="" && $publico!="" && $usuario!="" && $fecha!=""){
+        $slider = Slider::where('publico','=',$publico)
+      ->where('id_usuario','=',$usuario)
+      ->where('created_at','=',$fecha)
+        ->get();
+      }
+      else if ($titulo=="" && $publico=="" && $usuario!="" && $fecha!=""){
+        $slider = Slider::where('id_usuario','=',$usuario)
+      ->where('created_at','=',$fecha)
+        ->get();
+      }
+      else if ($titulo=="" && $publico=="" && $usuario=="" && $fecha!=""){
+        $slider = Slider::where('created_at','=',$fecha)
+        ->get();
+      }
       else if ($titulo!="" && $publico=="" && $usuario=="" && $fecha=="") {
         $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
       ->get();
@@ -88,6 +136,7 @@ class sliderController extends Controller
     }
     public function store(Request $request)
     {
+      $usuarios = User::all(); 
       try{
         $titulo = $request->descripcion;
         $publico = $request->publico;
@@ -120,13 +169,14 @@ class sliderController extends Controller
         $mensaje="Slider Creado Satisfactoriamente";
       }    
       $slider=Slider::orderby('id','asc')->paginate(10);
-      return view('ecommerce.slider.index')->with('slider',$slider)->with('tipo',$tipo)->with('mensaje',$mensaje);
+      return view('ecommerce.slider.index')->with('slider',$slider)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('usuarios',$usuarios);
     }catch (Exception $e) {
       \Log::info('Error creating item: '.$e);
       return \Response::json(['created' => false], 500);
     }
   }
     public function update(Request $request,$id){
+      $usuarios = User::all(); 
       try {
         $slider = Slider::find($id);
         $slider->fill($request->all());
@@ -154,7 +204,7 @@ class sliderController extends Controller
        $tipo="1";
        $mensaje="Slider Actualizado Satisfactoriamente";
        $slider=slider::orderby('id','asc')->paginate(10);
-       return view('ecommerce.slider.index')->with('slider',$slider)->with('tipo',$tipo)->with('mensaje',$mensaje);
+       return view('ecommerce.slider.index')->with('slider',$slider)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('usuarios',$usuarios);
       } catch (Exception $e) {
       \Log::info('Error creating item: '.$e);
       return \Response::json(['created' => false], 500);
