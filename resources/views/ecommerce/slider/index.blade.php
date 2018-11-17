@@ -46,8 +46,11 @@ $id_usuario= $_SESSION["user"];
             </div>
 
             <div class="form-group col-mb-3">
-                <select name="usuario" id="usuario" class="form-control" placeholder="usuario">
-                    <option value="">Usuario</option>
+                <select name="usuario" id="usuario" class="form-control">
+                  <option value="">Usuarios</option> 
+                  @foreach($usuarios as $usuario)  
+                  <option value="{{$usuario->id}}"> {{ $usuario->name }} </option>
+                 @endforeach
                 </select>
             </div>
             <div class="form-group col-mb-3">
