@@ -21,6 +21,7 @@ class sliderController extends Controller
       $publico = $request["publico"];
       $usuario = $request["usuario"];
       $fecha = $request["fecha"];
+      $usuarios = User::all(); 
       if ($titulo=="" && $publico=="" && $usuario=="" && $fecha=="") {
         $slider = Slider::all();
       }
@@ -54,7 +55,8 @@ class sliderController extends Controller
       ->orWhere('created_at','=',$fecha)
       ->get();
       }
-      return view('ecommerce.slider.index')->with('slider',$slider)->with('tipo',$tipo)->with('mensaje',$mensaje);
+
+      return view('ecommerce.slider.index')->with('slider',$slider)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('usuarios',$usuarios);
     }
     public function create()
     {
