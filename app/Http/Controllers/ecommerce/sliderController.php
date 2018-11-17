@@ -76,8 +76,14 @@ class sliderController extends Controller
       ->where('created_at','=',$fecha)
         ->get();
       }
-      else if ($titulo=="" && $publico=="" && $usuario=="" && $fecha!=""){
+      else if ($titulo!="" && $publico=="" && $usuario=="" && $fecha!=""){
         $slider = Slider::where('created_at','=',$fecha)
+        ->where('descripcion','like', '%' . $titulo . '%')
+        ->get();
+      }
+      else if ($titulo=="" && $publico!="" && $usuario=="" && $fecha!=""){
+        $slider = Slider::where('created_at','=',$fecha)
+        ->where('publico','=',$publico)
         ->get();
       }
       else if ($titulo!="" && $publico=="" && $usuario=="" && $fecha=="") {
