@@ -31,9 +31,10 @@
           {{-- <option value="10">Todos los ingresos</option> --}}
           <option value="0">Todos los movimientos</option>
           <option value="4">Todas las Salidas</option>
+          <option value="5">Todos los Gastos</option>
           <option value="1">Ingresos Efectivo</option>
-          <option value="2">Ingresos POS</option>}
-          <option value="3">Otros Ingresos</option>}
+          <option value="2">Ingresos POS</option>
+          <option value="3">Otros Ingresos</option>
           </select>
         </div>      
         <div class="col-md-1 p-0">          

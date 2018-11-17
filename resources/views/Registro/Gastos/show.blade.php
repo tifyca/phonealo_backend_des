@@ -39,10 +39,15 @@
             </div>
             <div class="form-group col-md-2">
               <label for="proveedor_gasto">Fuente</label>
-              <select class="form-control" id="id_fuente" name="id_fuente" required="">
+              <select class="form-control" id="id_fuente" name="id_fuente" required="" 
+                {{ ( Request::has('desde_caja') ) ? 'disabled' : '' }}>
                 <option value="">Seleccione</option>
-                @foreach($fuentes as $fuen)
-                <option value="{{$fuen->id}}">{{$fuen->fuente}}</option>
+                @foreach($fuentes as $fuen)                
+                @if ( Request::has('desde_caja') && $fuen->id == 2)
+                  <option value="{{$fuen->id}}" selected>{{$fuen->fuente}}</option>
+                @else
+                  <option value="{{$fuen->id}}">{{$fuen->fuente}}</option>
+                @endif
                 @endforeach
               </select>
             </div>

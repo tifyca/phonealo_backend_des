@@ -15,8 +15,7 @@
 @section('display_edit', 'd-none')    @section('link_edit', '')
 @section('display_trash','d-none')    @section('link_trash')
 
-@section('content')
-              
+@section('content')       
 
 <div class="row">
   <div class="col-12 col-md-7">
@@ -48,7 +47,7 @@
                 </tr>
                 <tr>
                   <th>Total Gastos</th>
-                  <td> PENDIENTE </td>
+                  <td>{!!number_format($total_gastos , 0, ',', '.')!!}</td>                  
                 </tr>
                 <tr class="table-secondary">
                   <th class="text-right">NETO EFECTIVO EN CAJA</th>                  
@@ -72,7 +71,8 @@
         </a>
       </div>
       <div class="col-12"> 
-        <a href="{{ url('registro/gastos/show') }}" title="" class="link-card">
+        {{-- <a href="{{ url('registro/gastos/show?desde_caja=true') }}" title="" class="link-card"> --}}
+        <a href="{{ route('gastos.create', ['desde_caja' => true]) }}" title="" class="link-card">
           <div class="widget-small info "><i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
               <h4>Registrar Gastos</h4>
