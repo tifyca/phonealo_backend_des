@@ -508,4 +508,8 @@ Route::get('procesar/pedidos/{id}/nota', [
         'uses' => 'ecommerce\sliderController@edit',
         'as'   => 'slider.edit'
     ]);
+
+    //Ofertas ecommerce
+    Route::resource('ecommerce/ofertas', 'ecommerce\OfertasController');
+    Route::delete('ecommerce/ofertas/{producto_id}','ecommerce\OfertasController@destroy')->name('ofertas.destroy');
 });
