@@ -19,9 +19,12 @@ use App\TipoTransaccion;
 use App\Productos;
 use App\Soporte;
 use Carbon\Carbon;
+use App\Http\Traits\Caja\TotalCaja;
 
 class AbrirController extends Controller
 {
+    use TotalCaja;
+
     public function index(){
         $caja = Caja::orderBy('fecha', 'desc')
             ->where('id_usuario', auth()->user()->id)
@@ -57,7 +60,7 @@ class AbrirController extends Controller
         $total_pos = $this->totalPOS($id ,'resumen_caja');
         $total_otros = $this->totalOtros($id, 'resumen_caja');
         $total_salidas = $this->totalSalidaEfectivo($id);
-        $total_gastos = 0;             
+        $total_gastos = $this->totalGastos($id);             
         $total_neto = $total_efectivo+$total_pos+$total_otros-($total_salidas+$total_gastos);
     
     	return view('Caja.Abrir.abrir', compact('caja', 'fecha','total_efectivo','total_pos','total_otros','total_salidas','total_gastos','total_neto', 'salidasEfectivo'));
@@ -174,7 +177,7 @@ class AbrirController extends Controller
         $total_pos = $this->totalPOS($id ,'resumen_caja');
         $total_otros = $this->totalOtros($id, 'resumen_caja');
         $total_salidas = $this->totalSalidaEfectivo($id);
-        $total_gastos = 0;             
+        $total_gastos =  $this->totalGastos($id);             
         $total_neto = $total_efectivo+$total_pos+$total_otros-($total_salidas+$total_gastos);
 
     	return view('Caja.Abrir.cerrar', compact('caja','fecha', 'vistaAbrir','total_efectivo','total_pos','total_otros','total_salidas','total_gastos','total_neto'));
@@ -188,7 +191,7 @@ class AbrirController extends Controller
         $total_pos = $this->totalPOS($caja->id ,'resumen_caja');
         $total_otros = $this->totalOtros($caja->id, 'resumen_caja');
         $total_salidas = $this->totalSalidaEfectivo($caja->id);
-        $total_gastos = 0;             
+        $total_gastos = $this->totalGastos($caja->id);            
         $total_neto = $total_efectivo+$total_pos+$total_otros-($total_salidas+$total_gastos);
 
         $caja->id_estado = 2;//Cerrada
@@ -239,7 +242,12 @@ class AbrirController extends Controller
                 $query->where('id_tipo_movimiento', 4)
                     ->where('caja.id_estado',1)//CAJA ABIERTA
                     ->where('detalle_caja.id_caja',$caja->id);// CAJA ASOCIADA 
-            })        
+            }) 
+            ->orWhere(function($query) use ($caja){
+                $query->where('id_tipo_movimiento', 5)
+                    ->where('caja.id_estado',1)//CAJA ABIERTA
+                    ->where('detalle_caja.id_caja',$caja->id);// CAJA ASOCIADA 
+            })       
             ->FiltroTipoMovimiento($request->tipo)
             ->groupBy('detalle_caja.id')
             ->select(
@@ -249,97 +257,6 @@ class AbrirController extends Controller
             ->orderBy('detalle_caja.fecha', 'desc')
             ->paginate(10);
         return view('Caja.Abrir.detalle_caja', compact('caja', 'detalles'));
-    }
-
-    private function totalEfectivo($id, $opcion){
-        $total_efectivo = 0;
-        if ( $opcion == "resumen_remito" ) {
-            $efectivo = Remitos::Ventas()
-                ->where('id_remito', $id)
-                ->where('id_forma_pago', 1)//Efectivo
-                // ->where('ventas.id_estado', 8)
-                ->where('detalle_remito.id_estado', 2)
-                ->groupBy('ventas.id')          
-                ->get();
-            foreach ($efectivo as $total) {
-                $total_efectivo += $total->precio*$total->cantidad;
-            }       
-        }elseif ( $opcion == 'resumen_caja' ) {
-            $efectivo = Caja::DetalleRemitoEntregado()
-                ->where('caja.id_estado',1)//CAJA ABIERTA
-                ->where('detalle_caja.id_caja',$id)// CAJA ASOCIADA
-                ->where('detalle_caja.id_forma_pago', 1)//FORMA PAGO EFECTIVO
-                ->groupBy('ventas.id')
-                ->select('detalle_caja.importe')            
-                ->get();
-            foreach ($efectivo as $total) {
-                $total_efectivo += $total->importe;
-            }
-        }   
-        return $total_efectivo;
-    }
-
-    private function totalPOS($id, $opcion){
-        $total_pos = 0;
-        if ( $opcion == 'resumen_remito' ) {
-            $pos = Remitos::Ventas()
-                ->where('id_remito', $id)
-                // ->where('ventas.id_estado', 8)
-                ->where('detalle_remito.id_estado', 2)
-                ->where(function($query){
-                    $query->where('id_forma_pago',3)->orWhere('id_forma_pago',4);
-                })
-                ->groupBy('ventas.id')          
-                ->get();            
-            foreach ($pos as $total) {
-                $total_pos += $total->precio*$total->cantidad;
-            }
-        }elseif ( $opcion == 'resumen_caja' ) {
-           $pos = Caja::DetalleRemitoEntregado()
-                ->where('caja.id_estado',1)//CAJA ABIERTA
-                ->where('detalle_caja.id_caja',$id)// CAJA ASOCIADA
-                ->where(function($query){//FORMA DE PAGO TARJETA/DEBIDO
-                    $query->where('detalle_caja.id_forma_pago',3)
-                        ->orWhere('detalle_caja.id_forma_pago',4);
-                })
-                ->groupBy('ventas.id')
-                ->select('detalle_caja.importe')            
-                ->get();
-            foreach ($pos as $total) {
-                $total_pos += $total->importe;
-            }
-        }
-        return $total_pos;
-    }
-
-    private function totalOtros($id, $opcion){
-        $total_otros = 0;
-        if ( $opcion == 'resumen_remito' ) {
-            $otros = Remitos::Ventas()
-                ->where('id_remito', $id)
-                // ->where('ventas.id_estado', 8)
-                ->where('detalle_remito.id_estado', 2)
-                ->where('id_forma_pago', '<>', 1)
-                ->where('id_forma_pago', '<>', 3)
-                ->where('id_forma_pago', '<>', 4)
-                ->groupBy('ventas.id')          
-                ->get();
-            foreach ($otros as $total) {
-                $total_otros += $total->precio*$total->cantidad;
-            }
-        }elseif ( $opcion == 'resumen_caja' ) {
-            $efectivo = Caja::DetalleRemitoEntregado()
-                ->where('caja.id_estado',1)//CAJA ABIERTA
-                ->where('detalle_caja.id_caja',$id)// CAJA ASOCIADA
-                ->where('detalle_caja.id_forma_pago', 2)//FORMA PAGO OTROS
-                ->select('detalle_caja.importe') 
-                ->groupBy('ventas.id')          
-                ->get();
-            foreach ($efectivo as $total) {
-                $total_otros += $total->importe;
-            }
-        }
-        return $total_otros;
     }
 
     private function habilitaConfirmacionRemito($id){
@@ -352,17 +269,8 @@ class AbrirController extends Controller
             return true;
         }
         return false;
-    }
+    }    
 
-    private function totalSalidaEfectivo($id){
-        $salidasEfectivo = DetalleCaja::where('id_caja', $id)
-            ->where('id_tipo_movimiento', 4)
-            ->get();
-        $total = 0;
-        foreach ($salidasEfectivo as $salidaEfectivo) {
-            $total += $salidaEfectivo->importe;
-        }
-        return $total;
-    }
 }
+
 

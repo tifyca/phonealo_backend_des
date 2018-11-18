@@ -39,7 +39,7 @@
             
                <div class="form-group col-md-2">
                 <label for="posicion" class="uk-form-label"><b>Posición</b></label>
-                  <input type="text" name="posicion" id="posicion" class="form-control" placeholder="Posición">
+                  <input type="text" name="posicion" id="posicion" class="form-control" placeholder="Posición" required>
              </div>
            
         <div class="form-group col-md-8">

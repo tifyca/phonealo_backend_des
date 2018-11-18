@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                   <th>Total Gastos</th>
-                  <td> PENDIENTE </td>
+                  <td>{!!number_format($total_gastos , 0, ',', '.')!!}</td>
                 </tr>
                 <tr class="table-secondary">
                   <th class="text-right">NETO EFECTIVO EN CAJA</th>                  
