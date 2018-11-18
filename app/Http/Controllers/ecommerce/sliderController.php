@@ -23,91 +23,91 @@ class sliderController extends Controller
       $fecha = $request["fecha"];
       $usuarios = User::all(); 
       if ($titulo=="" && $publico=="" && $usuario=="" && $fecha=="") {
-        $slider = Slider::all();
+        $slider = Slider::paginate(10);
       }
       else if ($titulo!="" && $publico!="" && $usuario!="" && $fecha!="") {
       $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
       ->where('publico','=',$publico)
       ->where('id_usuario','=',$usuario)
       ->where('created_at','=',$fecha)
-      ->get();
+      ->paginate(10);
       }
       else if ($titulo!="" && $publico!="" && $usuario=="" && $fecha=="") {
         $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
         ->where('publico','=',$publico)
-      ->get();
+      ->paginate(10);
       }
       else if ($titulo!="" && $publico!="" && $usuario!="" && $fecha==""){
         $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
       ->where('publico','=',$publico)
       ->where('id_usuario','=',$usuario)
-        ->get();
+        ->paginate(10);
       }
       else if ($titulo!="" && $publico!="" && $usuario=="" && $fecha!=""){
         $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
       ->where('publico','=',$publico)
       ->where('created_at','=',$fecha)
-        ->get();
+        ->paginate(10);
       }
       else if ($titulo!="" && $publico=="" && $usuario!="" && $fecha!=""){
         $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
       ->where('id_usuario','=',$usuario)
       ->where('created_at','=',$fecha)
-        ->get();
+        ->paginate(10);
       }
       else if ($titulo!="" && $publico=="" && $usuario!="" && $fecha==""){
         $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
       ->where('id_usuario','=',$usuario)
-        ->get();
+        ->paginate(10);
       }
       else if ($titulo=="" && $publico!="" && $usuario!="" && $fecha=="") {
         $slider = Slider::where('publico','=',$publico)
       ->where('id_usuario','=',$usuario)
-      ->get();
+      ->paginate(10);
       }
       else if ($titulo=="" && $publico!="" && $usuario!="" && $fecha!=""){
         $slider = Slider::where('publico','=',$publico)
       ->where('id_usuario','=',$usuario)
       ->where('created_at','=',$fecha)
-        ->get();
+        ->paginate(10);
       }
       else if ($titulo=="" && $publico=="" && $usuario!="" && $fecha!=""){
         $slider = Slider::where('id_usuario','=',$usuario)
       ->where('created_at','=',$fecha)
-        ->get();
+        ->paginate(10);
       }
       else if ($titulo!="" && $publico=="" && $usuario=="" && $fecha!=""){
         $slider = Slider::where('created_at','=',$fecha)
         ->where('descripcion','like', '%' . $titulo . '%')
-        ->get();
+        ->paginate(10);
       }
       else if ($titulo=="" && $publico!="" && $usuario=="" && $fecha!=""){
         $slider = Slider::where('created_at','=',$fecha)
         ->where('publico','=',$publico)
-        ->get();
+        ->paginate(10);
       }
       else if ($titulo!="" && $publico=="" && $usuario=="" && $fecha=="") {
         $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
-      ->get();
+      ->paginate(10);
       }
       else if ($titulo=="" && $publico!="" && $usuario=="" && $fecha==""){
         $slider = Slider::where('publico','=',$publico)
-        ->get();
+        ->paginate(10);
       }
       else if ($titulo=="" && $publico=="" && $usuario!="" && $fecha==""){
         $slider = Slider::where('id_usuario','=',$usuario)
-        ->get();
+        ->paginate(10);
       }
       else if ($titulo=="" && $publico=="" && $usuario=="" && $fecha!=""){
         $slider = Slider::where('created_at','=',$fecha)
-        ->get();
+        ->paginate(10);
       }
       else{
         $slider = Slider::where('descripcion','like', '%' . $titulo . '%')
       ->orWhere('publico','=',$publico)
       ->orWhere('id_usuario','=',$usuario)
       ->orWhere('created_at','=',$fecha)
-      ->get();
+      ->paginate(10);
       }
 
       return view('ecommerce.slider.index')->with('slider',$slider)->with('tipo',$tipo)->with('mensaje',$mensaje)->with('usuarios',$usuarios);

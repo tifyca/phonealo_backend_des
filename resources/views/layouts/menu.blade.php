@@ -121,7 +121,7 @@
   <ul class="treeview-menu">
 
      <li><a class="treeview-item" href="{{url('ecommerce/slider')}}"><i class="icon fa fa-circle-o"></i>Sliders</a></li>
-      <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i>Ofertas</a></li>
+      <li><a class="treeview-item" href="{{url('ecommerce/ofertas')}}"><i class="icon fa fa-circle-o"></i>Ofertas</a></li>
   </ul>
 </li>
 
