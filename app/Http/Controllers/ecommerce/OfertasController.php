@@ -25,49 +25,93 @@ class OfertasController extends Controller
         $productos = $request["producto"];
         $precio = $request["precio"];
         $home = $request["home"];
-        if ($productos=="" && $precio=="" && $home=="") {
+        $publico = $request["publico"];
+        if ($productos=="" && $precio=="" && $home=="" && $publico=="") {
         $productos = Productos::where('precio_oferta','>',"")
         ->paginate(10);
       }
-      else if ($productos!="" && $precio=="" && $home=="") {
+      else if ($productos!="" && $precio=="" && $home=="" && $publico=="") {
       $productos = Productos::where('descripcion','like', '%' . $productos . '%')
       ->where('precio_oferta','>',"")
       ->paginate(10);
       }
-       else if ($productos=="" && $precio!="" && $home=="") {
+       else if ($productos=="" && $precio!="" && $home=="" && $publico=="") {
       $productos = Productos::where('precio_oferta','=',$precio)
       ->paginate(10);
       }
-      else if ($productos=="" && $precio=="" && $home!="") {
+      else if ($productos=="" && $precio=="" && $home!="" && $publico=="") {
       $productos = Productos::where('precio_oferta','>',"")
       ->where('home','=',$home)
       ->paginate(10);
       }
-      else if ($productos!="" && $precio!="" && $home!="") {
+      else if ($productos=="" && $precio=="" && $home=="" && $publico!="") {
+      $productos = Productos::where('precio_oferta','>',"")
+      ->where('publico','=',$publico)
+      ->paginate(10);
+      }
+      else if ($productos!="" && $precio!="" && $home!="" && $publico!="") {
       $productos = Productos::where('descripcion','like', '%' . $productos . '%')
       ->where('precio_oferta','=',$precio)
       ->where('home','=',$home)
+      ->where('publico','=',$publico)
       ->paginate(10);
       }
-      else if ($productos!="" && $precio!="" && $home=="") {
+      else if ($productos!="" && $precio!="" && $home=="" && $publico=="") {
         $productos = Productos::where('descripcion','like', '%' . $productos . '%')
         ->where('precio_oferta','=',$precio)
       ->paginate(10);
       }
-      else if ($productos!="" && $precio=="" && $home!=""){
+      else if ($productos!="" && $precio=="" && $home!="" && $publico==""){
         $productos = Productos::where('descripcion','like', '%' . $productos . '%')
       ->where('precio_oferta','>',"")
       ->where('home','=',$home)
         ->paginate(10);
       }
-      else if ($productos=="" && $precio!="" && $home!=""){
+      else if ($productos!="" && $precio=="" && $home=="" && $publico!=""){
+        $productos = Productos::where('descripcion','like', '%' . $productos . '%')
+      ->where('precio_oferta','>',"")
+      ->where('publico','=',$publico)
+        ->paginate(10);
+      }
+      else if ($productos=="" && $precio!="" && $home=="" && $publico!=""){
+        $productos = Productos::where('precio_oferta','=',$precio)
+      ->where('publico','=',$publico)
+        ->paginate(10);
+      }
+      else if ($productos=="" && $precio=="" && $home!="" && $publico!=""){
+        $productos = Productos::where('home','=',$home)
+      ->where('precio_oferta','>',"")
+      ->where('publico','=',$publico)
+        ->paginate(10);
+      }
+      else if ($productos!="" && $precio!="" && $home=="" && $publico!=""){
+        $productos = Productos::where('descripcion','like', '%' . $productos . '%')
+      ->where('precio_oferta','=',$precio)
+      ->where('publico','=',$publico)
+        ->paginate(10);
+      }
+      else if ($productos!="" && $precio!="" && $home!="" && $publico==""){
         $productos = productos::where('precio_oferta','=',$precio)
         ->where('home','=',$home)
+        ->where('descripcion','like', '%' . $productos . '%')
+        ->paginate(10);
+      }
+      else if ($productos!="" && $precio=="" && $home!="" && $publico!=""){
+        $productos = productos::where('publico','=',$publico)
+        ->where('home','=',$home)
+        ->where('descripcion','like', '%' . $productos . '%')
+        ->where('precio_oferta','>',"")
+        ->paginate(10);
+      }
+      else if ($productos=="" && $precio!="" && $home!="" && $publico!=""){
+        $productos = productos::where('precio_oferta','=',$precio)
+        ->where('home','=',$home)
+        ->where('publico','=',$publico)
         ->paginate(10);
       }
       else{
         $productos = productos::where('descripcion','like', '%' . $productos . '%')
-      ->orWhere('precio_oferta','=',$precio)
+      ->orWhere('precio_oferta','>',"")
       ->orWhere('home','=',$home)
       ->paginate(10);
       }
@@ -104,6 +148,7 @@ class OfertasController extends Controller
             }
             $productos->home = $request["home"];
             $productos->precio_oferta = $request["precio_oferta"];
+            $productos->publico = $request["publico"];
             $productos->updated_at = date('Y-m-d');
             $productos->id_usuario = $_SESSION["user"];
             $productos->save();
@@ -170,6 +215,7 @@ class OfertasController extends Controller
             }
             $productos->home = $request["home"];
             $productos->precio_oferta = $request["precio_oferta"];
+            $productos->publico = $request["publico"];
             $productos->updated_at = date('Y-m-d');
             $productos->id_usuario = $_SESSION["user"];
             $productos->save();
@@ -207,6 +253,7 @@ class OfertasController extends Controller
             $productos->home = NULL;
             $productos->precio_oferta = NULL;
             $productos->banner_oferta = NULL;
+            $productos->publico = NULL;
             $productos->updated_at = date('Y-m-d');
             $productos->id_usuario = $_SESSION["user"];
             $productos->save();
