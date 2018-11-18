@@ -22,7 +22,7 @@ trait TotalCaja{
             }       
         }elseif ( $opcion == 'resumen_caja' ) {
             $efectivo = Caja::DetalleRemitoEntregado()
-                ->where('caja.id_estado',1)//CAJA ABIERTA
+                // ->where('caja.id_estado',1)//CAJA ABIERTA
                 ->where('detalle_caja.id_caja',$id)// CAJA ASOCIADA
                 ->where('detalle_caja.id_forma_pago', 1)//FORMA PAGO EFECTIVO
                 ->groupBy('ventas.id')
@@ -52,7 +52,7 @@ trait TotalCaja{
             }
         }elseif ( $opcion == 'resumen_caja' ) {
            $pos = Caja::DetalleRemitoEntregado()
-                ->where('caja.id_estado',1)//CAJA ABIERTA
+                // ->where('caja.id_estado',1)//CAJA ABIERTA
                 ->where('detalle_caja.id_caja',$id)// CAJA ASOCIADA
                 ->where(function($query){//FORMA DE PAGO TARJETA/DEBIDO
                     $query->where('detalle_caja.id_forma_pago',3)
@@ -85,7 +85,7 @@ trait TotalCaja{
             }
         }elseif ( $opcion == 'resumen_caja' ) {
             $efectivo = Caja::DetalleRemitoEntregado()
-                ->where('caja.id_estado',1)//CAJA ABIERTA
+                // ->where('caja.id_estado',1)//CAJA ABIERTA
                 ->where('detalle_caja.id_caja',$id)// CAJA ASOCIADA
                 ->where('detalle_caja.id_forma_pago', 2)//FORMA PAGO OTROS
                 ->select('detalle_caja.importe') 
