@@ -22,8 +22,8 @@
   <div class="col-12 col-md-7">
     <div class="tile">
         <div class="d-flex justify-content-between">
-          <h5 class=" text-left">Nombre Usuario</h5>
-          <h5 class="text-right">08/08/2018</h5>
+          <h5 class=" text-left">{{ $user }}</h5>
+          <h5 class="text-right">{{ $fecha }}</h5>
         </div>
         <hr>
         <div class="tile-body ">

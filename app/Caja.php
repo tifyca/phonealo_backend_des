@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Caja extends Model
 {
@@ -10,6 +11,9 @@ class Caja extends Model
 
     protected $fillable = [ 'monto_apertura', 'observaciones' ]; 
 
+    ////////////
+    // SCOPEs //
+    ////////////
     public function scopeEstado($query){
     	return $query->join('estado_caja', 'estado.caja.id', 'caja.id_estado');
     }
@@ -24,10 +28,34 @@ class Caja extends Model
     		;
     }
 
+    //////////////////////
+    // FILTROS BUSQUEDA //
+    //////////////////////
+
     public function scopeFiltroTipoMovimiento($query, $tipo){
 
         if ( $tipo && $tipo <> 0) {            
                 return $query->where('detalle_caja.id_tipo_movimiento', $tipo);           
         }
+    }
+
+    public function scopeFiltroUsuario($query,$user){
+        if ( $user && $user <> 0 ) {            
+                return $query->where('caja.id_usuario', $user);           
+        }
+    }
+
+    public function scopeFiltroFecha($query,$fecha){
+        if ( $fecha ) {            
+            return $query->where('caja.fecha', 'like', "%".$fecha."%");           
+        }
+    }
+    
+
+    //////////////////////////
+    // ASESORES Y MUTADORES //
+    //////////////////////////
+    public function getFechaAttribute($fecha){
+        return Carbon::parse($fecha)->format('d-m-Y');
     }
 }

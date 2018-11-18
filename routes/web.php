@@ -472,7 +472,8 @@ Route::get('procesar/pedidos/{id}/nota', [
 
 
     Route::get('caja/cierres', 'Caja\CierresController@index')->name('caja.cierres');
-    Route::get('caja/cierres/resumen', 'Caja\CierresController@resumen')->name('caja.cierre.resumen');
+    Route::get('caja/cierres/resumen/{id}', 'Caja\CierresController@resumen')
+        ->name('caja.cierre.resumen');
     Route::get('caja/cierres/informe', 'Caja\CierresController@informe')->name('caja.cierre.informe');
     Route::get('caja/cierres/informe/modificado', 'Caja\CierresController@modificado')->name('caja.cierre.informe.modificado');
 
