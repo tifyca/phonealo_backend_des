@@ -260,7 +260,7 @@ class AbrirController extends Controller
     }
 
     private function habilitaConfirmacionRemito($id){
-        return $cantidadPendiente = Detalle_remito::where('id_remito', $id)
+        $cantidadPendiente = Detalle_remito::where('id_remito', $id)
             ->where('detalle_remito.id_estado', 1)
             ->count();
             // ->get();
