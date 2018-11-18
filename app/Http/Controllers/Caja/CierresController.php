@@ -53,7 +53,7 @@ class CierresController extends Controller
         $total_salidas = $this->totalSalidaEfectivo($id);
         $total_gastos = $this->totalGastos($id);             
         $total_neto = $total_efectivo+$total_pos+$total_otros-($total_salidas+$total_gastos);
-    	return view('Caja.Cierres.resumen', compact('user','fecha'));
+    	return view('Caja.Cierres.resumen', compact('user','fecha','total_efectivo','total_pos','total_otros','total_salidas','total_gastos','total_neto', 'salidasEfectivo'));
     }
     public function informe(){
     	return view('Caja.Cierres.informe');
