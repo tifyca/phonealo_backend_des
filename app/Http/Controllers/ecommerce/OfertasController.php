@@ -118,7 +118,8 @@ class OfertasController extends Controller
 
            $tipo="1";
            $mensaje="Oferta Creada Satisfactoriamente";
-           $productos=Productos::orderby('id','asc')->paginate(10);
+           $productos = Productos::where('precio_oferta','>',"")
+            ->orderby('id','asc')->paginate(10);
            return view('ecommerce.ofertas.index')->with('productos',$productos)->with('tipo',$tipo)->with('mensaje',$mensaje);
           } catch (Exception $e) {
           \Log::info('Error creating item: '.$e);
@@ -183,7 +184,8 @@ class OfertasController extends Controller
 
            $tipo="1";
            $mensaje="Se edito la Oferta Satisfactoriamente";
-           $productos=Productos::orderby('id','asc')->paginate(10);
+           $productos = Productos::where('precio_oferta','>',"")
+            ->orderby('id','asc')->paginate(10);
            return view('ecommerce.ofertas.index')->with('productos',$productos)->with('tipo',$tipo)->with('mensaje',$mensaje);
           } catch (Exception $e) {
           \Log::info('Error creating item: '.$e);
