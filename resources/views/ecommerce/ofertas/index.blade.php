@@ -49,6 +49,13 @@ $id_usuario= $_SESSION["user"];
                 </select>
             </div>
             <div class="form-group col-mb-3">
+                <select name="publico" id="publico" class="form-control">
+                    <option value="">Publico</option>
+                    <option value="1">Si</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group col-mb-3">
                 <input type="submit" name="boton" class="btn btn-primary" value="Filtrar">
             </div>
         </form>
@@ -64,6 +71,7 @@ $id_usuario= $_SESSION["user"];
           <th class="text-left">Producto</th>
           <th class="text-center">Precio</th>
           <th class="text-center">Home</th>
+          <th class="text-center">Publico</th>
           <th class="text-center">Banner</th>
           <th class="text-center" width="20%">Acciones</th>
       </tr>
@@ -78,8 +86,12 @@ $id_usuario= $_SESSION["user"];
         echo $precio;?></td>
       @if($producto->home == 1)
       <td class="text-center">Sí</td>
+      @else
+      <td class="text-center">No</td>
       @endif
-      @if($producto->home != 1)
+      @if($producto->publico == 1)
+      <td class="text-center">Sí</td>
+      @else
       <td class="text-center">No</td>
       @endif
       <?php 
@@ -102,7 +114,7 @@ $id_usuario= $_SESSION["user"];
 </table>
 </div>
 <div id="sampleTable_paginate" class="dataTables_paginate paging_simple_numbers">
-  {{$productos->appends(Request::only(['producto' , 'precio', 'home']))->links()}}
+  {{$productos->appends(Request::only(['producto' , 'precio', 'home','publico']))->links()}}
               </div>
 </div>
 </div>

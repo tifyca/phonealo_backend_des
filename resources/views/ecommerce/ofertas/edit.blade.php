@@ -37,9 +37,25 @@
              <div class="form-group col-md-4">
                 <label class="uk-form-label"><b>Home</b></label>
                  <div class="animated-radio-button">
-                  <label><input class="form-group" type="radio" name="home" id="home1" checked value="1" required><span class="label-text"> Si</span></label>
-                
+                  @if($producto->home == 1)
+                  <label><input class="form-group" type="radio" name="home" id="home1" value="1" checked required><span class="label-text"> Si</span></label>
                   <label><input class="form-group" type="radio" name="home" id="home2" value="0" required><span class="label-text"> No</span></label>
+                  @else
+                  <label><input class="form-group" type="radio" name="home" id="home1" value="1"  required><span class="label-text"> Si</span></label>
+                  <label><input class="form-group" type="radio" name="home" id="home2" value="0" checked required><span class="label-text"> No</span></label>
+                  @endif
+               </div>
+             </div>
+             <div class="form-group col-md-4">
+                <label class="uk-form-label"><b>Publico</b></label>
+                 <div class="animated-radio-button">
+                  @if($producto->publico == 1)
+                  <label><input class="form-group" type="radio" name="publico" id="publico1" checked value="1" required><span class="label-text"> Si</span></label>
+                  <label><input class="form-group" type="radio" name="publico" id="publico2" value="0" required><span class="label-text"> No</span></label>
+                  @else
+                  <label><input class="form-group" type="radio" name="publico" id="publico1"  value="1" required><span class="label-text"> Si</span></label>
+                  <label><input class="form-group" type="radio" name="publico" id="publico2" checked value="0" required><span class="label-text"> No</span></label>
+                  @endif
                </div>
              </div>
           <div class="form-group col-md-8">

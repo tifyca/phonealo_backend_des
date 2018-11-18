@@ -47,6 +47,14 @@
                   <label><input class="form-group" type="radio" name="home" id="home2" value="0" required><span class="label-text"> No</span></label>
                </div>
              </div>
+             <div class="form-group col-md-4">
+                <label class="uk-form-label"><b>Publico</b></label>
+                 <div class="animated-radio-button">
+                  <label><input class="form-group" type="radio" name="publico" id="publico1" checked value="1" required><span class="label-text"> Si</span></label>
+                
+                  <label><input class="form-group" type="radio" name="publico" id="publico2" value="0" required><span class="label-text"> No</span></label>
+               </div>
+             </div>
           <div class="form-group col-md-8">
             <div class="form-group col-md-6">
               <img id="imgSalida" src="{{asset('img/silueta2.png')}}" width="100%">
