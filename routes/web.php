@@ -477,7 +477,7 @@ Route::get('procesar/pedidos/{id}/nota', [
     Route::get('caja/cierres/informe', 'Caja\CierresController@informe')->name('caja.cierre.informe');
     Route::get('caja/cierres/informe/modificado', 'Caja\CierresController@modificado')->name('caja.cierre.informe.modificado');
 
-    Route::get('caja/historial', 'Caja\historialController@index')->name('caja.historial');
+    Route::get('caja/historial', 'Caja\HistorialController@index')->name('caja.historial');
     
 
 //////////////////////
